@@ -1,0 +1,62 @@
+BasePage()
+
+iniExcel()   初始化Excel工作表, 返回sheetname
+check_contain_chinese  判断字符串中是否包含中文符合
+
+=====================================
+BasePO()
+
+self.driver
+find_element()
+find_elements()
+send_keys()
+input
+click
+get
+print
+checkbox
+select
+iframe
+js
+color
+exist
+assertTrue 
+assertEqual
+assertContain
+errorTips
+
+========================================
+WebPO()
+
+openURL
+closeURL
+getScreenWidthHeight 获取当前屏幕分辨率
+getFullScreen 截取全屏
+getBrowserScreen 截取浏览器内屏幕(因此要打开浏览器后才能截图)
+scrollLeft
+scrollTop
+scrollDown
+scrollIntoView
+scrollTopById
+getCode  获取验证码
+populAlert()  弹出框操作
+
+========================================
+
+NetPO
+
+sendEmail
+getURLCode
+getHeaders
+getHtml
+getJsonPath
+downloadFile
+downloadHtml
+downloadImage
+
+
+
+
+
+
+
