@@ -25,7 +25,7 @@
 # *********************************************************************
 
 from datetime import date
-import xlrd,xlwt
+import xlrd, xlwt
 from xlutils.copy import copy
 from openpyxl  import load_workbook
 # import pandas as pd
@@ -36,40 +36,64 @@ class ExcelPO():
     def __init__(self):
         pass
 
-    # 获取工作表名列表
-    def getAllSheetName(self, varFileName):
-        # 获取excel的工作表名，以列表形式返回，如 ['Sheet1', 'Sheet2', 'Sheet3']
-        wb = xlrd.open_workbook(filename=varFileName)
-        return wb.sheet_names()
+    # 所有工作表名
+    def getSheetName(self, varFileName):
+        # 获取所有工作表名
+        # print(Excel_PO.getSheetName("excel3.xlsx"))  # ['Sheet1', 'Sheet2', 'Sheet3']
+        try:
+            wb = xlrd.open_workbook(filename=varFileName)
+            return wb.sheet_names()
+        except:
+            None
 
-    # 获取单个工作表名
+    # 单个工作表名
     def getSheetNameByIndex(self, varFileName, varIndex):
-        # 通过index方式获取 excel的工作表名，以字符串形式返回，如 'Sheet1'
-        wb = xlrd.open_workbook(filename=varFileName)
-        return wb.sheet_by_index(varIndex).name
+        # 通过 index 获取工作表名，0=第一个Sheet，1=第二个Sheet，以此类推
+        # print(Excel_PO.getSheetNameByIndex("excel1.xls", 0))  # Sheet1
+        # print(Excel_PO.getSheetNameByIndex("excel1.xls", 1))  # Sheet2
+        try:
+            wb = xlrd.open_workbook(filename=varFileName)
+            return wb.sheet_by_index(varIndex).name
+        except:
+            None
 
-    # 获取总行数
+    # 总行数
     def getAllRows(self, varFileName, varSheet=0):
         # 获取总行数
-        wb = xlrd.open_workbook(filename=varFileName)
-        sh = wb.sheet_by_index(varSheet)
-        return sh.nrows
+        # print(Excel_PO.getAllRows("excel1.xls"))  # 10  //默认定位第一张工作表，10行数据
+        # print(Excel_PO.getAllRows("excel1.xls", "Sheet1"))  # 10  //同上
+        # print(Excel_PO.getAllRows("excel1.xls", 1))  # 11  //定位第二张工作表的行数
+        try:
+            wb = xlrd.open_workbook(varFileName)
+            if isinstance(varSheet, int):
+                sh = wb.sheet_by_index(varSheet)
+            else:
+                sh = wb.sheet_by_name(varSheet)
+            return sh.nrows
+        except:
+            None
 
-    # 获取行列数，如[4,3]
+    # 行列数
     def getRowCol(self, varFileName, varSheet=0):
-        # 获取行数和列数，以列表形式返回，如 [4,3]，表示 4行3列。可通过index或name方式定位工作表名
+        # 获取行数和列数，如 [4,3]，表示4行3列
+        # print(Excel_PO.getRowCol("excel1.xls"))  # [10, 4]  // 默认定位第一张工作表，10行4列
+        # print(Excel_PO.getRowCol("excel1.xls", "Sheet1"))  # [10, 4] // 同上
+        # print(Excel_PO.getRowCol("excel1.xls", 1))  # [11, 12]  // 定位第二张工作表的行列数
         list1 = []
-        wb = xlrd.open_workbook(varFileName)
-        if isinstance(varSheet, int):  # 判断变量的类型，int list tuple dict str 参考 https://www.cnblogs.com/fmgao-technology/p/9065753.html
-            sh = wb.sheet_by_index(varSheet)
-        else:
-            sh = wb.sheet_by_name(varSheet)
-        if wb.sheet_loaded(varSheet) == True:  # 检查 sheet是否导入完毕，返回True 或 False
-            cols = sh.ncols
-            rows = sh.nrows
-            list1.append(rows)
-            list1.append(cols)
-        return (list1)
+        try:
+            wb = xlrd.open_workbook(varFileName)
+            if isinstance(varSheet, int):
+                sh = wb.sheet_by_index(varSheet)
+            else:
+                sh = wb.sheet_by_name(varSheet)
+            if wb.sheet_loaded(varSheet) == True:  # 检查 sheet是否导入完毕，返回True 或 False
+                cols = sh.ncols
+                rows = sh.nrows
+                list1.append(rows)
+                list1.append(cols)
+            return (list1)
+        except:
+            None
 
     # 获取行值
     def getRowValue(self, varFileName, varRow, varSheet=0):
@@ -232,18 +256,31 @@ class ExcelPO():
 
 
 if __name__ == "__main__":
+
     Excel_PO = ExcelPO()
-    # print(Excel_PO.getAllSheetName("excel3.xlsx"))  # ['Sheet1', 'Sheet2', 'Sheet3']
+
+    # print(Excel_PO.getSheetName("excel3.xlsx"))  # ['Sheet1', 'Sheet2', 'Sheet3']
     # print(Excel_PO.getSheetNameByIndex("excel1.xls", 0))  # Sheet1
     # print(Excel_PO.getSheetNameByIndex("excel1.xls", 1))  # Sheet2
-    # print(Excel_PO.getAllRows("excel1.xls"))  # 10  //10行数据
-    # print(Excel_PO.getRowCol("excel1.xls", 0))  # [10, 4]  // Sheet1，10行4列
-    print(Excel_PO.getRowCol("excel3.xlsx", "Sheet2"))  # [0, 0]  // Sheet2中没有数据
-    print(Excel_PO.getRowValue("excel1.xls", 1, 0))  # [0.0, 0.0, 'yoyo', 43909.0]   //Sheet1,第二行数据，注意日期变成了43909.9
-    print(Excel_PO.getRowValue("excel1.xls", 2, "Sheet1"))  # [1.0, 1.0, '', '2020.3.19']   //Sheet1,第三行数据，注意数字是浮点数，如1.0
-    print(Excel_PO.getRowValue("excel1.xls", 0)[3])  # 3123213.0  //Sheet1,第一行第三列
+    # print(Excel_PO.getSheetNameByIndex("excel1.xls", -1))  # Sheet3
+
+    # print(Excel_PO.getAllRows("excel1.xls"))  # 10  //默认定位第一张工作表，10行数据
+    # print(Excel_PO.getAllRows("excel1.xls", "Sheet1"))  # 10  //同上
+    # print(Excel_PO.getAllRows("excel1.xls", 1))  # 11  //定位第二张工作表的行数
+
+    # print(Excel_PO.getRowCol("excel1.xls"))  # [10, 4]  // 默认定位第一张工作表，10行4列
+    # print(Excel_PO.getRowCol("excel1.xls", "Sheet1"))  # [10, 4] // 同上
+    # print(Excel_PO.getRowCol("excel1.xls", 1))  # [11, 12]  // 定位第二张工作表的行列数
+
+    print(Excel_PO.getRowValue("excel1.xls", 1))  # [0.0, 0.0, 'yoyo', 43909.0]   //默认定位第一张工作表，返回第二行数据，注意日期变成了43909.0
+    print(Excel_PO.getRowValue("excel1.xls", 2, "Sheet1"))  # [1.0, 1.0, '', '2020.3.19']   //定位Sheet1，返回第三行数据，注意数字是浮点数，如1.0
+    print(Excel_PO.getRowValue("excel1.xls", 1)[3])  # 43909.0  //定位第一张工作表，返回第一行第三列
+
     print(Excel_PO.getColValue("excel1.xls", 0, "Sheet1"))  # ['', 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]  // Sheet1的第一列
     print(Excel_PO.getColValue("excel1.xls", 0, 1))  # []
+
+    # print(Excel_PO.getRowCol("excel3.xlsx", "Sheet2"))  # [0, 0]  // Sheet2中没有数据
+
 
     # Excel_PO.writeXls("excel1.xls", "Sheet2", 2, 5, "令狐冲")  # 对Sheet2的第3行第6列写入令狐冲
     # Excel_PO.writeXls("excel1.xls", "Sheet2", "*", 5, "")  # 对Sheet2的第6列写入空白（清除） (保留第一行，一般第一行是标题)

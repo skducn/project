@@ -1,0 +1,76 @@
+    # 设置行列值
+    def setRowsColsValue(self, varData, varSheet=0, varMode='w'):
+        # 设置行列值, 对某一行写入值,对某一列写入值.
+        # writeExcel('test11.xlsx', d, 'a')  //a 表示追加，将字典内容写入表格，如果文件不存在，自动创建新文件。
+        # writeExcel('test11.xlsx', d, 'w')  //a 表示重写，删除原先内容，将字典内容写入表格，如果文件不存在，自动创建新文件。
+
+        tmp = 0
+
+        if varMode == 'a':
+        if os.path.exists(varFileName):
+            wb = openpyxl.load_workbook(varFileName)
+            # 打开工作表
+            try:
+                for k in varDictData:
+                    if k not in wb.sheetnames:  # 比较字典中工作表名是否在原有表格中，如果没有则新建工作表名。
+                        ws2 = wb.create_sheet(index=0, title=k)   # index=0表示在最前端插入， ws3 = wb.create_sheet("Mysheet", -1) 表示插入倒数第二个位置
+                        ws2 = wb.active
+
+                        for row in range(len(varDictData[k])):
+                            ws2.append(varDictData[k][row])
+                    else:
+                        ws1 = wb[k]
+                        for row in range(len(varDictData[k])):
+                            ws1.append(varDictData[k][row])
+            except:
+                print("error, varDictData数据格式有误，字典value应该是[[]],如{'Sheet1',[[1,2,3]]}")
+        else:
+            wb = Workbook()
+            if len(varDictData) > 1:
+                for k in varDictData:
+                    if tmp == 0:
+                        # 新建第1个工作表，初始化数据
+                        ws1 = wb.active
+                        ws1.title = k
+                        for row in range(len(varDictData[k])):
+                            ws1.append(varDictData[k][row])
+                    else:
+                        # 新建第2个工作表，初始化数据
+                        ws2 = wb.create_sheet(title=k)
+                        for row in range(len(varDictData[k])):
+                            ws2.append(varDictData[k][row])
+                    tmp = tmp + 1
+            else:
+                # 新建第1个工作表，初始化数据
+                for k in varDictData:
+                    ws1 = wb.active
+                    ws1.title = k
+                    for row in range(len(varDictData[k])):
+                        ws1.append(varDictData[k][row])
+        # else:
+        #     wb = Workbook()
+        #     if len(varDictData) > 1 :
+        #         for k in varDictData:
+        #             if tmp == 0 :
+        #                 # 新建第1个工作表，初始化数据
+        #                 ws1 = wb.active
+        #                 ws1.title = k
+        #                 ws1.sheet_properties.tabColor = "1072BA"
+        #                 for row in range(len(varDictData[k])):
+        #                     ws1.append(varDictData[k][row])
+        #             else:
+        #                 # 新建第2个工作表，初始化数据
+        #                 ws2 = wb.create_sheet(title=k)
+        #                 for row in range(len(varDictData[k])):
+        #                     ws2.append(varDictData[k][row])
+        #             tmp = tmp + 1
+        #     else:
+        #         # 新建第1个工作表，初始化数据
+        #         for k in varDictData:
+        #             ws1 = wb.active
+        #             ws1.title = k
+        #             for row in range(len(varDictData[k])):
+        #                 ws1.append(varDictData[k][row])
+
+        wb.save(self.file)
+        return True
