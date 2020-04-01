@@ -1,6 +1,7 @@
 ﻿# PO封装包
 
 ### BasePO()
+---
 
 find_element() # 重写元素定位方法
 
@@ -150,6 +151,7 @@ isElementVisibleXpath
 
 
 ### WebPO
+---
 
 openURL
 
@@ -176,6 +178,7 @@ getCode  获取验证码
 populAlert()  弹出框操作
 
 ###  NetPO
+---
 
 sendEmail
 
@@ -195,6 +198,7 @@ downloadImage
 
 
 ### FilePO
+---
 
 #### 1，环境变量
 
@@ -254,7 +258,7 @@ downloadImage
 3.15 os.path.isfile  判断路径是否是文件
 
 
-#####4，操作目录文件
+#### 4，操作目录文件
 
 4.1 newFolder  新建目录
 
