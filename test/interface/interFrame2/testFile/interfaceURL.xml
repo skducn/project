@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<interface>
+    <url name="register">
+        <group>User</group>
+        <module>Member</module>
+        <action>registerCommon</action>
+    </url>
+
+    <url name="login">
+        <group>User</group>
+        <module>Member</module>
+        <action>loginCommon</action>
+    </url>
+
+    <url name="registerQuick">
+        <group>User</group>
+        <module>Member</module>
+        <action>registerQuick</action>
+    </url>
+
+    <url name="generate">
+        <group>User</group>
+        <module>Token</module>
+        <action>generate</action>
+    </url>
+
+    <url name="loginFb">
+        <group>User</group>
+        <module>Member</module>
+        <action>loginFb</action>
+    </url>
+
+    <url name="logout">
+        <group>User</group>
+        <module>Member</module>
+        <action>logout</action>
+    </url>
+
+    <url name="accountSetting">
+        <group>User</group>
+        <module>Member</module>
+        <action>accountSetting</action>
+    </url>
+
+    <url name="updatePassword">
+        <group>User</group>
+        <module>Member</module>
+        <action>updatePassword</action>
+    </url>
+
+    <url name="uploadImg">
+        <group>User</group>
+        <module>Member</module>
+        <action>uploadImg</action>
+    </url>
+
+    <url name="addAddress">
+        <group>User</group>
+        <module>Address</module>
+        <action>add</action>
+    </url>
+
+    <url name="getAddressList">
+        <group>User</group>
+        <module>Address</module>
+        <action>getList</action>
+    </url>
+
+    <url name="getAddress">
+        <group>User</group>
+        <module>Address</module>
+        <action>get</action>
+    </url>
+
+    <url name="deleteAddress">
+        <group>User</group>
+        <module>Address</module>
+        <action>delete</action>
+    </url>
+
+    <url name="productInfo">
+        <group>product</group>
+        <module>product</module>
+        <action>info</action>
+    </url>
+</interface>

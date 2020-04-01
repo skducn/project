@@ -1,0 +1,765 @@
+1511150859200	geckodriver	INFO	Listening on 127.0.0.1:51472
+1511150859523	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.jD6blUbzzi1N
+1511150859528	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511150859542	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51476
+1511150860314	Marionette	INFO	Listening on port 51476
+1511150860636	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:07:41.992 plugin-container[1512:140345] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1511150982159	geckodriver	INFO	Listening on 127.0.0.1:51521
+1511150982270	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.Yr0D6MOJsG0C
+1511150982275	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511150982284	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51525
+1511150982987	Marionette	INFO	Listening on port 51525
+1511150983279	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:09:44.553 plugin-container[1528:143561] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9937, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1511151009192	geckodriver	INFO	Listening on 127.0.0.1:51562
+1511151009335	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.vKTJTcF6oyA7
+1511151009339	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151009345	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51566
+1511151010047	Marionette	INFO	Listening on port 51566
+1511151010324	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:10:11.647 plugin-container[1537:144409] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511151165915	geckodriver	INFO	Listening on 127.0.0.1:51623
+1511151166026	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.MLQ7pnh8xKPO
+1511151166031	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151166039	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51627
+1511151166755	Marionette	INFO	Listening on port 51627
+1511151167048	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:12:48.284 plugin-container[1589:147956] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+[Child 1589] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1589] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+1511151275899	geckodriver	INFO	Listening on 127.0.0.1:51675
+1511151276016	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.cvd2LZMovP52
+1511151276021	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151276028	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51679
+1511151276736	Marionette	INFO	Listening on port 51679
+1511151277012	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:14:38.237 plugin-container[1622:150031] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9b3b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+console.error: 
+Object
+  - prototype Object
+    - columnNumber = 0
+    - data = null
+    - filename = resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js
+    - lineNumber = 448
+    - location = {"name":"mainThreadFetch/onResponse","language":2,"languageName":"JavaScript","filename":"resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js","lineNumber":448,"columnNumber":23,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":{"language":2,"languageName":"JavaScript","filename":"resource://gre/modules/NetUtil.jsm","name":"NetUtil_asyncFetch/<.onStopRequest","lineNumber":128,"columnNumber":17,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":null,"formattedStack":"NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}},"formattedStack":"mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23\nNetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}}
+    - message = Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+    - name = NS_BASE_STREAM_CLOSED
+    - result = 2152136706
+    - stack = mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23|NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17|
+  - prototype Object
+mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23
+NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17
+console.error: 
+  Protocol error (unknownError): Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+1511151411344	geckodriver	INFO	Listening on 127.0.0.1:51761
+1511151411461	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.tN0KNJ7src1n
+1511151411465	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151411470	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51765
+1511151412189	Marionette	INFO	Listening on port 51765
+1511151412479	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:16:53.723 plugin-container[1645:152715] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+console.error: 
+Object
+  - prototype Object
+    - columnNumber = 0
+    - data = null
+    - filename = resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js
+    - lineNumber = 448
+    - location = {"name":"mainThreadFetch/onResponse","language":2,"languageName":"JavaScript","filename":"resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js","lineNumber":448,"columnNumber":23,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":{"language":2,"languageName":"JavaScript","filename":"resource://gre/modules/NetUtil.jsm","name":"NetUtil_asyncFetch/<.onStopRequest","lineNumber":128,"columnNumber":17,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":null,"formattedStack":"NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}},"formattedStack":"mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23\nNetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}}
+    - message = Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+    - name = NS_BASE_STREAM_CLOSED
+    - result = 2152136706
+    - stack = mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23|NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17|
+  - prototype Object
+mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23
+NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17
+console.error: 
+  Protocol error (unknownError): Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+1511151482738	geckodriver	INFO	Listening on 127.0.0.1:51841
+1511151482854	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.I3sb1Yj0IKAK
+1511151482858	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151482864	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51845
+1511151483598	Marionette	INFO	Listening on port 51845
+1511151483890	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:18:05.131 plugin-container[1658:154721] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+console.error: 
+Object
+  - prototype Object
+    - columnNumber = 0
+    - data = null
+    - filename = resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js
+    - lineNumber = 448
+    - location = {"name":"mainThreadFetch/onResponse","language":2,"languageName":"JavaScript","filename":"resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js","lineNumber":448,"columnNumber":23,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":{"language":2,"languageName":"JavaScript","filename":"resource://gre/modules/NetUtil.jsm","name":"NetUtil_asyncFetch/<.onStopRequest","lineNumber":128,"columnNumber":17,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":null,"formattedStack":"NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}},"formattedStack":"mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23\nNetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}}
+    - message = Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+    - name = NS_BASE_STREAM_CLOSED
+    - result = 2152136706
+    - stack = mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23|NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17|
+  - prototype Object
+mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23
+NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17
+console.error: 
+  Protocol error (unknownError): Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+console.error: 
+Object
+  - prototype Object
+    - columnNumber = 0
+    - data = null
+    - filename = resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js
+    - lineNumber = 448
+    - location = {"name":"mainThreadFetch/onResponse","language":2,"languageName":"JavaScript","filename":"resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js","lineNumber":448,"columnNumber":23,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":{"language":2,"languageName":"JavaScript","filename":"resource://gre/modules/NetUtil.jsm","name":"NetUtil_asyncFetch/<.onStopRequest","lineNumber":128,"columnNumber":17,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":null,"formattedStack":"NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}},"formattedStack":"mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23\nNetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}}
+    - message = Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+    - name = NS_BASE_STREAM_CLOSED
+    - result = 2152136706
+    - stack = mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23|NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17|
+  - prototype Object
+mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23
+NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17
+console.error: 
+  Protocol error (unknownError): Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+1511151537476	geckodriver	INFO	Listening on 127.0.0.1:51920
+1511151537595	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.so55OJYrGkWW
+1511151537599	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151537605	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51924
+1511151538329	Marionette	INFO	Listening on port 51924
+1511151538598	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:18:59.858 plugin-container[1672:155844] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9937, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511151624292	geckodriver	INFO	Listening on 127.0.0.1:52011
+1511151624413	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.rnkGe5IhqpfA
+1511151624417	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151624422	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52015
+1511151625157	Marionette	INFO	Listening on port 52015
+1511151625452	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:20:26.750 plugin-container[1694:157203] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9a3b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511151749828	geckodriver	INFO	Listening on 127.0.0.1:52094
+1511151749940	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.nWob9FRthNTT
+1511151749944	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151749949	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52098
+1511151750707	Marionette	INFO	Listening on port 52098
+1511151751012	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:22:32.493 plugin-container[1708:158634] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+console.error: 
+Object
+  - prototype Object
+    - columnNumber = 0
+    - data = null
+    - filename = resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js
+    - lineNumber = 448
+    - location = {"name":"mainThreadFetch/onResponse","language":2,"languageName":"JavaScript","filename":"resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js","lineNumber":448,"columnNumber":23,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":{"language":2,"languageName":"JavaScript","filename":"resource://gre/modules/NetUtil.jsm","name":"NetUtil_asyncFetch/<.onStopRequest","lineNumber":128,"columnNumber":17,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":null,"formattedStack":"NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}},"formattedStack":"mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23\nNetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}}
+    - message = Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+    - name = NS_BASE_STREAM_CLOSED
+    - result = 2152136706
+    - stack = mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23|NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17|
+  - prototype Object
+mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23
+NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17
+console.error: 
+  Protocol error (unknownError): Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+console.error: 
+Object
+  - prototype Object
+    - columnNumber = 0
+    - data = null
+    - filename = resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js
+    - lineNumber = 448
+    - location = {"name":"mainThreadFetch/onResponse","language":2,"languageName":"JavaScript","filename":"resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js","lineNumber":448,"columnNumber":23,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":{"language":2,"languageName":"JavaScript","filename":"resource://gre/modules/NetUtil.jsm","name":"NetUtil_asyncFetch/<.onStopRequest","lineNumber":128,"columnNumber":17,"sourceLine":"","asyncCause":null,"asyncCaller":null,"caller":null,"formattedStack":"NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}},"formattedStack":"mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23\nNetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17\n","nativeSavedFrame":{}}
+    - message = Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+    - name = NS_BASE_STREAM_CLOSED
+    - result = 2152136706
+    - stack = mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23|NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17|
+  - prototype Object
+mainThreadFetch/onResponse@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/DevToolsUtils.js:448:23
+NetUtil_asyncFetch/<.onStopRequest@resource://gre/modules/NetUtil.jsm:128:17
+console.error: 
+  Protocol error (unknownError): Component returned failure code: 0x80470002 (NS_BASE_STREAM_CLOSED) [nsIInputStream.available]
+1511151872595	geckodriver	INFO	Listening on 127.0.0.1:52181
+1511151872711	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.dWIYzPp6WWnp
+1511151872716	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151872721	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52185
+1511151873514	Marionette	INFO	Listening on port 52185
+1511151873797	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:24:35.444 plugin-container[1734:161359] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511151909895	geckodriver	INFO	Listening on 127.0.0.1:52255
+1511151910013	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.2mnMHUwPFGLa
+1511151910017	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151910024	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52259
+1511151910761	Marionette	INFO	Listening on port 52259
+1511151911049	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:25:12.369 plugin-container[1746:162417] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511151956111	geckodriver	INFO	Listening on 127.0.0.1:52334
+1511151956223	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.WsTgc2oGUvoc
+1511151956228	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511151956234	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52338
+1511151956999	Marionette	INFO	Listening on port 52338
+1511151957305	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:25:58.650 plugin-container[1759:163862] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+[Child 1759] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1759] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511153428532	geckodriver	INFO	Listening on 127.0.0.1:52440
+1511153428661	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.9a1aPmrn3qI7
+1511153428666	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511153428671	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52444
+1511153429407	Marionette	INFO	Listening on port 52444
+1511153429696	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:50:31.080 plugin-container[1804:169599] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511153473161	geckodriver	INFO	Listening on 127.0.0.1:52514
+1511153473280	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.rGvPh5TL75Yy
+1511153473284	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511153473290	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52518
+1511153474027	Marionette	INFO	Listening on port 52518
+1511153474300	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:51:15.683 plugin-container[1818:170519] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511153505688	geckodriver	INFO	Listening on 127.0.0.1:52594
+1511153505804	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.m9cFf09ZPPKg
+1511153505809	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511153505815	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52598
+1511153506527	Marionette	INFO	Listening on port 52598
+1511153506815	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:51:48.139 plugin-container[1830:171231] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511153593157	geckodriver	INFO	Listening on 127.0.0.1:52699
+1511153593275	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.ie5QCaRcn1VR
+1511153593279	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511153593285	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52703
+1511153594003	Marionette	INFO	Listening on port 52703
+1511153594283	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:53:15.575 plugin-container[1848:172791] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511153706170	geckodriver	INFO	Listening on 127.0.0.1:52801
+1511153706283	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.De3A5nXIa2n0
+1511153706287	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511153706292	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52805
+1511153707020	Marionette	INFO	Listening on port 52805
+1511153707312	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:55:08.622 plugin-container[1875:174669] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511153912545	geckodriver	INFO	Listening on 127.0.0.1:52919
+1511153912660	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.rEyR6WTOdsiC
+1511153912665	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511153912671	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52923
+1511153913407	Marionette	INFO	Listening on port 52923
+1511153913692	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:58:34.983 plugin-container[1912:177416] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511153954043	geckodriver	INFO	Listening on 127.0.0.1:52995
+1511153954154	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.i3UriivvrMTA
+1511153954158	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511153954165	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52999
+1511153954909	Marionette	INFO	Listening on port 52999
+1511153955190	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 12:59:16.472 plugin-container[1919:178182] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511154041422	addons.productaddons	WARN	Failed downloading XML, status: 0, reason: timeout
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511154088673	geckodriver	INFO	Listening on 127.0.0.1:53074
+1511154088787	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.KxtXm7OTL4KE
+1511154088791	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511154088796	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53078
+1511154089510	Marionette	INFO	Listening on port 53078
+1511154089799	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:01:31.058 plugin-container[1941:180031] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511154161121	geckodriver	INFO	Listening on 127.0.0.1:53181
+1511154161239	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.jS0BjtKXRj1u
+1511154161243	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511154161250	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53185
+1511154162004	Marionette	INFO	Listening on port 53185
+1511154162284	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:02:43.599 plugin-container[1956:181206] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511154223029	geckodriver	INFO	Listening on 127.0.0.1:53261
+1511154223137	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.x3erCsyvO9uj
+1511154223141	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511154223147	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53265
+1511154223865	Marionette	INFO	Listening on port 53265
+1511154224165	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:03:45.488 plugin-container[1968:182361] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9a37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511154491181	geckodriver	INFO	Listening on 127.0.0.1:53372
+1511154491303	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.kSazOzMFjOt5
+1511154491308	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511154491314	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53376
+1511154492132	Marionette	INFO	Listening on port 53376
+1511154492421	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:08:13.783 plugin-container[2015:186919] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511154764639	geckodriver	INFO	Listening on 127.0.0.1:53477
+1511154764751	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.ES0ZtFempOql
+1511154764756	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511154764762	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53481
+1511154765497	Marionette	INFO	Listening on port 53481
+1511154765779	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:12:47.148 plugin-container[2068:192235] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9b37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+[Child 2068] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2068] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511155009459	geckodriver	INFO	Listening on 127.0.0.1:53569
+1511155009579	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.N72pQYBcCOEb
+1511155009584	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511155009590	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53573
+1511155010325	Marionette	INFO	Listening on port 53573
+1511155010611	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:16:51.895 plugin-container[2103:196609] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511155539965	geckodriver	INFO	Listening on 127.0.0.1:53751
+1511155540092	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.OuvH3uiSSCM8
+1511155540097	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511155540104	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53755
+1511155540845	Marionette	INFO	Listening on port 53755
+1511155541263	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:25:42.594 plugin-container[2169:204035] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511155713447	geckodriver	INFO	Listening on 127.0.0.1:53889
+1511155713578	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.z10C8rUn5HRV
+1511155713582	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511155713588	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53893
+1511155714317	Marionette	INFO	Listening on port 53893
+1511155714601	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:28:35.867 plugin-container[2189:207682] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511155842636	geckodriver	INFO	Listening on 127.0.0.1:53974
+1511155842744	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.9MjAGj0yZ2x5
+1511155842749	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511155842755	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53978
+1511155843540	Marionette	INFO	Listening on port 53978
+1511155843829	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:30:45.277 plugin-container[2213:210026] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9a37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511155949428	geckodriver	INFO	Listening on 127.0.0.1:54103
+1511155949563	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.lINJCC1YG4c4
+1511155949568	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511155949573	geckodriver::marionette	INFO	Connecting to Marionette on localhost:54107
+1511155950339	Marionette	INFO	Listening on port 54107
+1511155950653	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:32:32.021 plugin-container[2230:213015] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511156137221	geckodriver	INFO	Listening on 127.0.0.1:54238
+1511156137335	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.tUA4oyB2lBZJ
+1511156137340	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511156137345	geckodriver::marionette	INFO	Connecting to Marionette on localhost:54242
+1511156138073	Marionette	INFO	Listening on port 54242
+1511156138360	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:35:39.620 plugin-container[2246:215330] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511156215960	geckodriver	INFO	Listening on 127.0.0.1:54361
+1511156216091	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.y0eFLV18OVjm
+1511156216096	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511156216101	geckodriver::marionette	INFO	Connecting to Marionette on localhost:54365
+1511156216922	Marionette	INFO	Listening on port 54365
+1511156217225	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:36:58.682 plugin-container[2262:217531] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9837, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511156286183	geckodriver	INFO	Listening on 127.0.0.1:54491
+1511156286316	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.nQATrTLI0Cqf
+1511156286322	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511156286328	geckodriver::marionette	INFO	Connecting to Marionette on localhost:54495
+1511156287073	Marionette	INFO	Listening on port 54495
+1511156287381	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:38:08.940 plugin-container[2276:219584] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511156634901	geckodriver	INFO	Listening on 127.0.0.1:54648
+1511156635039	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.LvaKNLI12eAe
+1511156635044	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511156635050	geckodriver::marionette	INFO	Connecting to Marionette on localhost:54652
+1511156635763	Marionette	INFO	Listening on port 54652
+1511156636045	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:43:57.386 plugin-container[2308:223978] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x993b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1511156806998	geckodriver	INFO	Listening on 127.0.0.1:54790
+1511156807134	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.FnNummWvxBGU
+1511156807138	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511156807147	geckodriver::marionette	INFO	Connecting to Marionette on localhost:54794
+1511156807916	Marionette	INFO	Listening on port 54794
+1511156808256	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:46:49.632 plugin-container[2331:227020] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9a37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+1511156845591	geckodriver	INFO	Listening on 127.0.0.1:54899
+1511156845726	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.wwQ3IKBJk5S8
+1511156845732	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1511156845739	geckodriver::marionette	INFO	Connecting to Marionette on localhost:54903
+1511156846493	Marionette	INFO	Listening on port 54903
+1511156846775	Marionette	WARN	TLS certificate errors will be ignored for this session
+2017-11-20 13:47:28.072 plugin-container[2342:228223] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x983b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 29: TypeError: parent.Layout is undefined
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+JavaScript warning: http://cetc.iotcetc.com:8094/his/framework/g_login_bg.do, line 442: unreachable code after return statement
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+[Child 1512] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1512] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1537] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1537] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1694] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1694] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1672] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1672] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1658] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1658] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1645] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1645] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1622] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1622] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1734] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1734] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1746] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1746] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1708] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1708] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1804] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1804] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 1818] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1818] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1875] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1875] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1848] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1848] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1912] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1912] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 1919] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1919] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1941] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1941] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1956] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1956] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2015] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2015] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2103] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2103] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1968] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 1968] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2189] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2189] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2169] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2169] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2213] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2213] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2230] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2230] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2262] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2262] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2246] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2246] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2276] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2276] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2331] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2331] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2308] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2308] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2342] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+[Child 2342] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+1521093674069	geckodriver	INFO	Listening on 127.0.0.1:50017
+1521093675091	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.mGenoXC2hVX5
+1521093675095	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1521093675104	geckodriver::marionette	INFO	Connecting to Marionette on localhost:50022
+1521093675778	Marionette	INFO	Listening on port 50022
+1521093676071	Marionette	WARN	TLS certificate errors will be ignored for this session
+2018-03-15 14:01:17.361 plugin-container[1349:64180] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x8b3b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1521093751303	geckodriver	INFO	Listening on 127.0.0.1:50056
+1521093752328	mozprofile::profile	INFO	Using profile path /var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile.LrUZmPcQxBgq
+1521093752332	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin with args []
+1521093752341	geckodriver::marionette	INFO	Connecting to Marionette on localhost:50061
+1521093753007	Marionette	INFO	Listening on port 50061
+1521093753306	Marionette	WARN	TLS certificate errors will be ignored for this session
+2018-03-15 14:02:34.623 plugin-container[1364:65205] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x7a3b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************

@@ -1,0 +1,6 @@
+{
+  "html1.py::Html1::test_baidu_set": true,
+  "htmlTestRunner2.py::HtmlTestRunner2": true,
+  "pytest1.py::test4": true,
+  "pytest1.py::test_strings_a_3": true
+}

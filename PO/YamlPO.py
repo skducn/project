@@ -59,8 +59,10 @@ if __name__ == '__main__':
     Yaml_PO.writeYaml("YamlPO.yaml", desired_caps)
     
     print(Yaml_PO.readYaml("YamlPO.yaml", "deviceName"))  # A5RNW18316011440
+
     Yaml_PO.editYaml("YamlPO.yaml", "deviceName", {'androidProcess': 'com.tencent.mm:tools'})  # ordereddict([('androidProcess', 'com.tencent.mm:tools')])
     print(Yaml_PO.readYaml("YamlPO.yaml", "deviceName"))
+
     Yaml_PO.editYaml("YamlPO.yaml", "deviceName", "A5RNW18316011449")  # A5RNW18316011449
     print(Yaml_PO.readYaml("YamlPO.yaml", "deviceName"))
 

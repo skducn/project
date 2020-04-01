@@ -5,38 +5,63 @@
 # Description: 电脑设备对象层（获取本机mac、本机IP、本机电脑名，调用本机摄像头（笔记本））
 # 调用笔记本摄像头，需安装opencv包，pip install opencv-python
 # ***************************************************************
-import socket, uuid,  subprocess, os
-import cv2
+import socket, uuid,  subprocess, os, cv2
+from PO.TimePO import *
+Time_PO = TimePO()
+from PO.FilePO import *
+File_PO = FilePO()
 
 class DevicePO():
 
-    def getPlatform(self):
-        '''获取当前使用平台 (Windows返回'nt'，Linux/Unix返回'posix')'''
-        return (os.name)  # nt
+    # 获取当前系统平台
+    def getLocalPlatform(self):
+        # 获取当前系统平台
+        # Windows系统返回 nt
+        # Linux/Unix/Mac系统返回 posix
+        return os.name
 
-    def getMAC(self):
-        ''' 获取本机硬件 mac 地址'''
+    # 获取本机硬件mac地址
+    def getLocalMac(self):
+        # 获取本机硬件mac地址
         mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
         return ":".join([mac[e:e + 2] for e in range(0, 11, 2)])
 
-    def getLocalIP(self):
-        ''' 获取本机ip'''
+    # 获取当前IP地址
+    def getLocalIp(self):
+        # 获取当前IP地址
         varLocalName = socket.getfqdn(socket.gethostname())
         return socket.gethostbyname(varLocalName)
 
+    # 获取本机电脑名
     def getLocalName(self):
-        ''' 获取本机电脑名'''
+        # 获取本机电脑名
         return socket.getfqdn(socket.gethostname())
 
-    def callCamera(self, varSaveFile):
-        ''' 调用笔记本摄像头进行拍摄，并将图片进行保存.(暂不支持中文文件名)'''
-        cap = cv2.VideoCapture(0)
-        ret, frame = cap.read()
-        cv2.imwrite(varSaveFile, frame)
-        cap.release()
+    # 调用当前笔记本摄像头拍照
+    def callCamera(self, varFilePath=0):
+        # 调用当前笔记本摄像头拍照
+        # 将拍照照片保存到本地.(不支持中文文件名)
+        try:
+            if varFilePath == 0:
+                tmp = Time_PO.getDatetime()
+                varSaveFile = os.getcwd() + "\callCamera" + str(tmp) + ".jpg"
+                cap = cv2.VideoCapture(0)
+                ret, frame = cap.read()
+                cv2.imwrite(varSaveFile, frame)
+                cap.release()
+            else:
+                varPath, varSaveFile = os.path.split(varFilePath)
+                File_PO.newLayerFolder(varPath)
+                cap = cv2.VideoCapture(0)
+                ret, frame = cap.read()
+                cv2.imwrite(varFilePath, frame)
+                cap.release()
+        except:
+            return None
 
+    # 安装apk
     def installAPK(self, varPath):
-        ''' 使用 adb、aapt 安装与查看apk '''
+        ''' ？ 使用 adb、aapt 安装与查看apk '''
         list1 = []
         l = os.listdir(varPath)
         for i in l:
@@ -68,6 +93,7 @@ class DevicePO():
         else:
             print("error，设备未找到！")
 
+    # 卸载apk
     def uninstallAPK(self, varPath):
         ''' 使用 adb、aapt 卸载与查看apk '''
         list1 = []
@@ -98,14 +124,23 @@ class DevicePO():
             print("error，设备未找到！")
 
 if __name__ == '__main__':
+
     Device_PO = DevicePO()
-    # print(Device_PO.getMAC())
-    # print(Device_PO.getLocalIP())
-    # print(Device_PO.getLocalName())
-    # Device_PO.callCamera("d:\\51\\123.jpg")
+
+    # print(Device_PO.getLocalPlatform())  # nt  //获取当前系统平台，当前windows系统
+    #
+    # print(Device_PO.getLocalMac())  #  50:5b:c2:b6:37:ea   //获取本机硬件mac地址
+    #
+    # print(Device_PO.getLocalIp())  # 172.21.200.150   //获取当前IP地址
+    #
+    # print(Device_PO.getLocalName())  # DESKTOP-EOCO1V0  //获取本机电脑名
+    #
+    # Device_PO.callCamera()   # 无参数，则默认保存在当前路径，文件名为 callCamera当前日期时间，如 callCamera20200312121012.jpp
+    # Device_PO.callCamera("d:/filepo/filepo3/h3/h4/123.jpg")  # 如果目录不存在则自动新建，如果文件名重复则覆盖。
+
     # Device_PO.installAPK(u"c:\\1")  # 自动安装目录里日期最新的包。
     # Device_PO.uninstallAPK(u"c:\\1")  # 自动卸载目录里日期最新的包。
 
-    print(Device_PO.getPlatform())
+
 
 

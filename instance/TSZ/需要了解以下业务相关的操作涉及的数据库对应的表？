@@ -1,0 +1,32 @@
+需要了解以下业务相关的操作涉及的数据库对应的表？
+
+比如：场景1、新用户第一次登录。
+相关表：ta_message , t_user ,t_redgroup_baseinfo ,t_redgroup_countinfo
+
+场景2、第三方账户授权。
+相关表：t_user_thirdInfo 
+头像绑定优先级 高到低，微信、QQ、微博 ，优先绑定高的 
+修改相关的表 t_user ,t_redgroup_baseinfo 
+如果用户修改了头像或昵称，则再绑定时 不修改 头像或昵称
+
+
+场景3、发红包发广告，点击“塞钱进红包”，微信支付成功后。
+相关表：
+t_extension_channel_redPool
+t_extension_channel_redPic
+t_extension_channel
+t_extension_channel_fee
+t_redgroup_baseinfo
+t_redgroup_countinfo
+t_user_withdraw
+
+
+t_redgroup_baseinfo => [userId = 1]
+t_redgroup_countinfo => [userId = 1]
+t_user => [username , 13816109050]
+t_user_thirdInfo => [userId = 3]
+ta_message => [phone , 13816109050]
+
+
+
+

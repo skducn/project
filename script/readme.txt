@@ -1,0 +1,1 @@
+调用笔记本摄像头进行拍照，并发送邮件  getHeadToEmail.py

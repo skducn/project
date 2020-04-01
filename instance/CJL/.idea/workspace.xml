@@ -1,0 +1,1711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fd04172c-ec70-4d23-9a68-38328dad3935" name="Default" comment="" />
+    <ignored path="CJL.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/CJL$CJLinterfaceParam.coverage" NAME="CJLinterfaceParam Coverage Results" MODIFIED="1481695383510" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_cjl__5_.coverage" NAME="Unittests in cjl (5) Coverage Results" MODIFIED="1491460609083" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$server1.coverage" NAME="server1 Coverage Results" MODIFIED="1480662248967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_CJL1_0.coverage" NAME="Unittests in CJL1_0 Coverage Results" MODIFIED="1491454342742" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittest_PressureTest_testSend.coverage" NAME="Unittest PressureTest.testSend Coverage Results" MODIFIED="1478850594016" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_cjl__4_.coverage" NAME="Unittests in cjl (4) Coverage Results" MODIFIED="1491460738173" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$client.coverage" NAME="client Coverage Results" MODIFIED="1480666895636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_PressureTest.coverage" NAME="Unittests in PressureTest Coverage Results" MODIFIED="1479110541952" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$help.coverage" NAME="help Coverage Results" MODIFIED="1481772008654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$tszFieldsComment.coverage" NAME="tszFieldsComment Coverage Results" MODIFIED="1478761250844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../mySVN/Test/Backup" />
+    <SUITE FILE_PATH="coverage/CJL$cliend2.coverage" NAME="cliend2 Coverage Results" MODIFIED="1480671076078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$longlink.coverage" NAME="longlink Coverage Results" MODIFIED="1480569309864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_cjl__1_.coverage" NAME="Unittests in cjl (1) Coverage Results" MODIFIED="1491460645534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$CJLinterfaceDriver.coverage" NAME="CJLinterfaceDriver Coverage Results" MODIFIED="1481773442251" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$source.coverage" NAME="source Coverage Results" MODIFIED="1480390322231" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resource" />
+    <SUITE FILE_PATH="coverage/CJL$server.coverage" NAME="server Coverage Results" MODIFIED="1480666847606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_cjl__2_.coverage" NAME="Unittests in cjl (2) Coverage Results" MODIFIED="1491460659608" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$cliend1.coverage" NAME="cliend1 Coverage Results" MODIFIED="1481530373759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_cjl.coverage" NAME="Unittests in cjl Coverage Results" MODIFIED="1491460629895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_CJLtable.coverage" NAME="Unittests in CJLtable Coverage Results" MODIFIED="1476949117287" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$CJLinterface1_0.coverage" NAME="CJLinterface1_0 Coverage Results" MODIFIED="1481779518054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+    <SUITE FILE_PATH="coverage/CJL$Unittests_in_cjl__3_.coverage" NAME="Unittests in cjl (3) Coverage Results" MODIFIED="1491460687769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/code" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="CJL" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="CJL1_0.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/CJL1_0.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="554" column="17" selection-start-line="554" selection-start-column="12" selection-end-line="554" selection-end-column="17" />
+              <folding>
+                <marker date="1491460645000" expanded="true" signature="13665:13739" placeholder="select verif... ta_message" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CJLinterfaceDriver.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="355" column="0" selection-start-line="355" selection-start-column="0" selection-end-line="355" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="longlink.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/longlink.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CJLfieldsComment.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/CJLfieldsComment.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="184" column="36" selection-start-line="184" selection-start-column="36" selection-end-line="184" selection-end-column="36" />
+              <folding>
+                <element signature="e#611#6251#0" expanded="false" />
+                <element signature="e#7563#9168#0" expanded="false" />
+                <element signature="e#9419#10463#0" expanded="false" />
+                <marker date="1481792548000" expanded="true" signature="950:1049" placeholder="select table... TABLES" />
+                <marker date="1481792548000" expanded="true" signature="1298:1395" placeholder="select table... TABLES" />
+                <marker date="1481792548000" expanded="true" signature="1573:1696" placeholder="select colum... COLUMNS" />
+                <marker date="1481792548000" expanded="true" signature="2834:2931" placeholder="select table... TABLES" />
+                <marker date="1481792548000" expanded="true" signature="3079:3202" placeholder="select colum... COLUMNS" />
+                <marker date="1481792548000" expanded="true" signature="5198:5286" placeholder="select TABLE... TABLES" />
+                <marker date="1481792548000" expanded="true" signature="5398:5521" placeholder="select colum... COLUMNS" />
+                <marker date="1481792548000" expanded="true" signature="7815:7910" placeholder="select creat... TABLES" />
+                <marker date="1481792548000" expanded="true" signature="8161:8268" placeholder="select table... TABLES" />
+                <marker date="1481792548000" expanded="true" signature="8613:8720" placeholder="select table... TABLES" />
+                <marker date="1481792548000" expanded="true" signature="9531:9628" placeholder="select table... TABLES" />
+                <marker date="1481792548000" expanded="true" signature="9759:9870" placeholder="select colum... COLUMNS" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/help.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+              <folding>
+                <element signature="e#25#174#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CJLinterface1_0.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.28004667">
+              <caret line="231" column="0" selection-start-line="231" selection-start-column="0" selection-end-line="237" selection-end-column="17" />
+              <folding>
+                <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+                <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+                <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+                <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+                <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+                <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CJLinterfaceParam.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/code/CJLinterfaceParam.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="16" column="58" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="58" />
+              <folding>
+                <element signature="e#1139#1368#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/code/CJLtable.py" />
+        <option value="$PROJECT_DIR$/../mySVN/Test/Backup/tszFieldsComment.py" />
+        <option value="$PROJECT_DIR$/resource/source.py" />
+        <option value="$PROJECT_DIR$/code/longlink.py" />
+        <option value="$PROJECT_DIR$/code/server1.py" />
+        <option value="$PROJECT_DIR$/code/server.py" />
+        <option value="$PROJECT_DIR$/code/client.py" />
+        <option value="$PROJECT_DIR$/code/cliend2.py" />
+        <option value="$PROJECT_DIR$/code/cliend1.py" />
+        <option value="$PROJECT_DIR$/code/help.py" />
+        <option value="$PROJECT_DIR$/code/CJLinterfaceParam.py" />
+        <option value="$PROJECT_DIR$/code/CJLinterfaceDriver.py" />
+        <option value="$PROJECT_DIR$/code/CJLinterface1_0.py" />
+        <option value="$PROJECT_DIR$/code/CJL1_0.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsBuildToolPackageJson" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="46" />
+    <option name="y" value="22" />
+    <option name="width" value="1634" />
+    <option name="height" value="1028" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CJL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CJL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CJL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CJL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CJL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="code" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../mySVN/Test/Backup/tszFieldsComment.py" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
+  </component>
+  <component name="RunManager" selected="Python tests.Unittests in cjl (4)">
+    <configuration default="false" name="Unittests in cjl" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/CJL1_0.py" />
+      <option name="CLASS_NAME" value="cjl" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_CLASS" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Unittests in cjl (1)" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/CJL1_0.py" />
+      <option name="CLASS_NAME" value="cjl" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_CLASS" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Unittests in cjl (2)" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/CJL1_0.py" />
+      <option name="CLASS_NAME" value="cjl" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_CLASS" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Unittests in cjl (3)" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/CJL1_0.py" />
+      <option name="CLASS_NAME" value="cjl" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_CLASS" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Unittests in cjl (4)" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/code/CJL1_0.py" />
+      <option name="CLASS_NAME" value="cjl" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_CLASS" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CJL" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <list size="5">
+      <item index="0" class="java.lang.String" itemvalue="Python tests.Unittests in cjl" />
+      <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in cjl (1)" />
+      <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in cjl (2)" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in cjl (3)" />
+      <item index="4" class="java.lang.String" itemvalue="Python tests.Unittests in cjl (4)" />
+    </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python tests.Unittests in cjl (4)" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in cjl (3)" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in cjl (2)" />
+        <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in cjl (1)" />
+        <item index="4" class="java.lang.String" itemvalue="Python tests.Unittests in cjl" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fd04172c-ec70-4d23-9a68-38328dad3935" name="Default" comment="" />
+      <created>1476937941296</created>
+      <option name="number" value="Default" />
+      <updated>1476937941296</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_in_cjl - 2017.04.06 at 14h 37m 10s.xml">
+      <configuration name="Unittests in cjl" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(1) - 2017.04.06 at 12h 56m 22s.xml">
+      <configuration name="Unittests in cjl (1)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(1) - 2017.04.06 at 14h 37m 26s.xml">
+      <configuration name="Unittests in cjl (1)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(2) - 2017.04.06 at 14h 22m 45s.xml">
+      <configuration name="Unittests in cjl (2)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(2) - 2017.04.06 at 14h 37m 40s.xml">
+      <configuration name="Unittests in cjl (2)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(3) - 2017.04.06 at 14h 24m 55s.xml">
+      <configuration name="Unittests in cjl (3)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(3) - 2017.04.06 at 14h 38m 18s.xml">
+      <configuration name="Unittests in cjl (3)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(4) - 2017.04.06 at 14h 25m 54s.xml">
+      <configuration name="Unittests in cjl (4)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(4) - 2017.04.06 at 14h 39m 08s.xml">
+      <configuration name="Unittests in cjl (4)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_cjl_(5) - 2017.04.06 at 14h 36m 49s.xml">
+      <configuration name="Unittests in cjl (5)" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="46" y="22" width="1634" height="1028" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2255025" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939634" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939634" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16801174" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939634" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35657895" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32999372" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37007874" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16360968" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/code/CJLtable.py</url>
+          <line>8</line>
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="7" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/code/CJLtable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
+          <folding>
+            <element signature="e#238#348#0" expanded="true" />
+            <element signature="e#1570#6358#0" expanded="false" />
+            <element signature="e#6414#6951#0" expanded="false" />
+            <element signature="e#6985#7656#0" expanded="false" />
+            <element signature="e#7696#10210#0" expanded="false" />
+            <element signature="e#10572#24018#0" expanded="false" />
+            <element signature="e#24139#36583#0" expanded="false" />
+            <marker date="1476949163000" expanded="true" signature="3972:4073" placeholder="select oper_... ta_message" />
+            <marker date="1476949163000" expanded="true" signature="4389:4588" placeholder="select id,us... t_user" />
+            <marker date="1476949163000" expanded="true" signature="10725:10739" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="10940:10962" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11187:11245" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11612:11673" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11966:12026" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12325:12380" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12678:12737" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13038:13097" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13399:13459" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14145:14205" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14652:14734" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="15601:15660" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="16106:16187" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17052:17111" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17557:17638" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="18506:18566" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19012:19094" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19959:20014" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="20458:20535" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21371:21429" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21837:21917" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="22746:22807" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="23218:23301" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24675:24689" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24935:24957" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25183:25242" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25533:25600" placeholder="select nickn... t_user" />
+            <marker date="1476949163000" expanded="true" signature="25848:25935" placeholder="select brand... t_redgroup_baseinfo" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/help.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="e#25#174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceParam.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="8" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="8" />
+          <folding>
+            <element signature="e#1139#1368#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/source.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="121" column="35" selection-start-line="121" selection-start-column="35" selection-end-line="121" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="32" selection-start-line="25" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLtable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+          <folding>
+            <element signature="e#238#348#0" expanded="true" />
+            <element signature="e#1570#6358#0" expanded="false" />
+            <element signature="e#6414#6951#0" expanded="false" />
+            <element signature="e#6985#7656#0" expanded="false" />
+            <element signature="e#7696#10210#0" expanded="false" />
+            <element signature="e#10572#24018#0" expanded="false" />
+            <element signature="e#24139#36583#0" expanded="false" />
+            <marker date="1476949163000" expanded="true" signature="3972:4073" placeholder="select oper_... ta_message" />
+            <marker date="1476949163000" expanded="true" signature="4389:4588" placeholder="select id,us... t_user" />
+            <marker date="1476949163000" expanded="true" signature="10725:10739" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="10940:10962" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11187:11245" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11612:11673" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11966:12026" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12325:12380" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12678:12737" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13038:13097" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13399:13459" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14145:14205" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14652:14734" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="15601:15660" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="16106:16187" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17052:17111" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17557:17638" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="18506:18566" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19012:19094" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19959:20014" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="20458:20535" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21371:21429" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21837:21917" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="22746:22807" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="23218:23301" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24675:24689" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24935:24957" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25183:25242" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25533:25600" placeholder="select nickn... t_user" />
+            <marker date="1476949163000" expanded="true" signature="25848:25935" placeholder="select brand... t_redgroup_baseinfo" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/longlink.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="18" selection-start-line="96" selection-start-column="18" selection-end-line="96" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/source.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="121" column="35" selection-start-line="121" selection-start-column="35" selection-end-line="121" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLtable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+          <folding>
+            <element signature="e#238#348#0" expanded="true" />
+            <element signature="e#1570#6358#0" expanded="false" />
+            <element signature="e#6414#6951#0" expanded="false" />
+            <element signature="e#6985#7656#0" expanded="false" />
+            <element signature="e#7696#10210#0" expanded="false" />
+            <element signature="e#10572#24018#0" expanded="false" />
+            <element signature="e#24139#36583#0" expanded="false" />
+            <marker date="1476949163000" expanded="true" signature="3972:4073" placeholder="select oper_... ta_message" />
+            <marker date="1476949163000" expanded="true" signature="4389:4588" placeholder="select id,us... t_user" />
+            <marker date="1476949163000" expanded="true" signature="10725:10739" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="10940:10962" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11187:11245" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11612:11673" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11966:12026" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12325:12380" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12678:12737" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13038:13097" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13399:13459" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14145:14205" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14652:14734" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="15601:15660" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="16106:16187" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17052:17111" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17557:17638" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="18506:18566" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19012:19094" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19959:20014" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="20458:20535" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21371:21429" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21837:21917" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="22746:22807" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="23218:23301" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24675:24689" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24935:24957" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25183:25242" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25533:25600" placeholder="select nickn... t_user" />
+            <marker date="1476949163000" expanded="true" signature="25848:25935" placeholder="select brand... t_redgroup_baseinfo" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/longlink.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="18" selection-start-line="96" selection-start-column="18" selection-end-line="96" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/source.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="149" column="0" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="193" column="31" selection-start-line="193" selection-start-column="31" selection-end-line="193" selection-end-column="31" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLtable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="19" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+          <folding>
+            <element signature="e#238#348#0" expanded="true" />
+            <element signature="e#1570#6358#0" expanded="false" />
+            <element signature="e#6414#6951#0" expanded="false" />
+            <element signature="e#6985#7656#0" expanded="false" />
+            <element signature="e#7696#10210#0" expanded="false" />
+            <element signature="e#10572#24018#0" expanded="false" />
+            <element signature="e#24139#36583#0" expanded="false" />
+            <marker date="1476949163000" expanded="true" signature="3972:4073" placeholder="select oper_... ta_message" />
+            <marker date="1476949163000" expanded="true" signature="4389:4588" placeholder="select id,us... t_user" />
+            <marker date="1476949163000" expanded="true" signature="10725:10739" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="10940:10962" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11187:11245" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11612:11673" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11966:12026" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12325:12380" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12678:12737" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13038:13097" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13399:13459" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14145:14205" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14652:14734" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="15601:15660" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="16106:16187" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17052:17111" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17557:17638" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="18506:18566" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19012:19094" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19959:20014" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="20458:20535" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21371:21429" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21837:21917" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="22746:22807" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="23218:23301" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24675:24689" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24935:24957" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25183:25242" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25533:25600" placeholder="select nickn... t_user" />
+            <marker date="1476949163000" expanded="true" signature="25848:25935" placeholder="select brand... t_redgroup_baseinfo" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/longlink.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/source.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/source.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="145" column="61" selection-start-line="145" selection-start-column="55" selection-end-line="145" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/source.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="174" column="118" selection-start-line="174" selection-start-column="118" selection-end-line="174" selection-end-column="118" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/source.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="164" column="74" selection-start-line="164" selection-start-column="74" selection-end-line="164" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJL1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLtable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#238#348#0" expanded="true" />
+            <element signature="e#1570#6358#0" expanded="false" />
+            <element signature="e#6414#6951#0" expanded="false" />
+            <element signature="e#6985#7656#0" expanded="false" />
+            <element signature="e#7696#10210#0" expanded="false" />
+            <element signature="e#10572#24018#0" expanded="false" />
+            <element signature="e#24139#36583#0" expanded="false" />
+            <marker date="1476949163000" expanded="true" signature="3972:4073" placeholder="select oper_... ta_message" />
+            <marker date="1476949163000" expanded="true" signature="4389:4588" placeholder="select id,us... t_user" />
+            <marker date="1476949163000" expanded="true" signature="10725:10739" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="10940:10962" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11187:11245" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11612:11673" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11966:12026" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12325:12380" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12678:12737" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13038:13097" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13399:13459" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14145:14205" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14652:14734" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="15601:15660" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="16106:16187" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17052:17111" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17557:17638" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="18506:18566" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19012:19094" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19959:20014" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="20458:20535" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21371:21429" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21837:21917" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="22746:22807" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="23218:23301" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24675:24689" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24935:24957" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25183:25242" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25533:25600" placeholder="select nickn... t_user" />
+            <marker date="1476949163000" expanded="true" signature="25848:25935" placeholder="select brand... t_redgroup_baseinfo" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource/source.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm50/python_stubs/-2125986627/_socket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="617" column="23" selection-start-line="617" selection-start-column="23" selection-end-line="617" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/server1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="5" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="162" column="11" selection-start-line="162" selection-start-column="11" selection-end-line="162" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/cliend2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.037593983">
+          <caret line="61" column="10" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/help.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="e#25#174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLtable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+          <folding>
+            <element signature="e#238#348#0" expanded="true" />
+            <element signature="e#1570#6358#0" expanded="false" />
+            <element signature="e#6414#6951#0" expanded="false" />
+            <element signature="e#6985#7656#0" expanded="false" />
+            <element signature="e#7696#10210#0" expanded="false" />
+            <element signature="e#10572#24018#0" expanded="false" />
+            <element signature="e#24139#36583#0" expanded="false" />
+            <marker date="1476949163000" expanded="true" signature="3972:4073" placeholder="select oper_... ta_message" />
+            <marker date="1476949163000" expanded="true" signature="4389:4588" placeholder="select id,us... t_user" />
+            <marker date="1476949163000" expanded="true" signature="10725:10739" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="10940:10962" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11187:11245" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11612:11673" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="11966:12026" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12325:12380" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="12678:12737" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13038:13097" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="13399:13459" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14145:14205" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="14652:14734" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="15601:15660" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="16106:16187" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17052:17111" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="17557:17638" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="18506:18566" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19012:19094" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="19959:20014" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="20458:20535" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21371:21429" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="21837:21917" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="22746:22807" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="23218:23301" placeholder="select missi... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24675:24689" placeholder="select * fro... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="24935:24957" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25183:25242" placeholder="select count... missing_value" />
+            <marker date="1476949163000" expanded="true" signature="25533:25600" placeholder="select nickn... t_user" />
+            <marker date="1476949163000" expanded="true" signature="25848:25935" placeholder="select brand... t_redgroup_baseinfo" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/longlink.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLfieldsComment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="184" column="36" selection-start-line="184" selection-start-column="36" selection-end-line="184" selection-end-column="36" />
+          <folding>
+            <element signature="e#611#6251#0" expanded="false" />
+            <element signature="e#7563#9168#0" expanded="false" />
+            <element signature="e#9419#10463#0" expanded="false" />
+            <marker date="1481792548000" expanded="true" signature="950:1049" placeholder="select table... TABLES" />
+            <marker date="1481792548000" expanded="true" signature="1298:1395" placeholder="select table... TABLES" />
+            <marker date="1481792548000" expanded="true" signature="1573:1696" placeholder="select colum... COLUMNS" />
+            <marker date="1481792548000" expanded="true" signature="2834:2931" placeholder="select table... TABLES" />
+            <marker date="1481792548000" expanded="true" signature="3079:3202" placeholder="select colum... COLUMNS" />
+            <marker date="1481792548000" expanded="true" signature="5198:5286" placeholder="select TABLE... TABLES" />
+            <marker date="1481792548000" expanded="true" signature="5398:5521" placeholder="select colum... COLUMNS" />
+            <marker date="1481792548000" expanded="true" signature="7815:7910" placeholder="select creat... TABLES" />
+            <marker date="1481792548000" expanded="true" signature="8161:8268" placeholder="select table... TABLES" />
+            <marker date="1481792548000" expanded="true" signature="8613:8720" placeholder="select table... TABLES" />
+            <marker date="1481792548000" expanded="true" signature="9531:9628" placeholder="select table... TABLES" />
+            <marker date="1481792548000" expanded="true" signature="9759:9870" placeholder="select colum... COLUMNS" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceParam.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="58" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="58" />
+          <folding>
+            <element signature="e#1139#1368#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/cliend1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.020435967">
+          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJL1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="554" column="17" selection-start-line="554" selection-start-column="12" selection-end-line="554" selection-end-column="17" />
+          <folding>
+            <marker date="1491460645000" expanded="true" signature="13665:13739" placeholder="select verif... ta_message" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterfaceDriver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="355" column="0" selection-start-line="355" selection-start-column="0" selection-end-line="355" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code/CJLinterface1_0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28004667">
+          <caret line="231" column="0" selection-start-line="231" selection-start-column="0" selection-end-line="237" selection-end-column="17" />
+          <folding>
+            <marker date="1490855495000" expanded="true" signature="2220:2377" placeholder="select isAdd... t_user_setting" />
+            <marker date="1490855495000" expanded="true" signature="3689:3824" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="3892:4027" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="4584:4738" placeholder="select id,us... t_user_friends_apply" />
+            <marker date="1490855495000" expanded="true" signature="5457:5608" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="5676:5827" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6513:6664" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="6732:6883" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7569:7720" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="7788:7939" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8616:8767" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="8835:8986" placeholder="select id fr... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="9882:10012" placeholder="select id,us... t_user_friends" />
+            <marker date="1490855495000" expanded="true" signature="10971:11066" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="11395:11509" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="12537:12626" placeholder="select userI... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="13132:13280" placeholder="select id,us... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="14600:14672" placeholder="select userN... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="15081:15201" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="15287:15407" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="16289:16367" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="16642:16736" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="17630:17738" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18144:18252" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="18691:18809" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="19248:19366" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="20075:20183" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="20995:21115" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="21554:21674" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="22499:22619" placeholder="select id fr... t_user_label_memberinfo" />
+            <marker date="1490855495000" expanded="true" signature="36470:36565" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37108:37203" placeholder="select id fr... t_user_label" />
+            <marker date="1490855495000" expanded="true" signature="37790:37856" placeholder="select id fr... t_user_label" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -25,6 +25,7 @@ class ColorPO():
 if __name__ == '__main__':
 
     Color_PO = ColorPO()
+
     Color_PO.consoleColor("31", "36", "ok", "[1,2,3,4,5]error")
     Color_PO.consoleColor("31", "36", "error", "[1,2,3,4,5]error")
     Color_PO.consoleColor("31", "39", "123", "[1,2,3,4,5]error")

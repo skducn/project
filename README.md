@@ -150,51 +150,72 @@ isElementXpath
 isElementVisibleXpath
 
 
-### WebPO
+
+### CharPO
 ---
+isContainChinese  判断字符串中是否包含中文
 
-openURL
+isChinese 判断字符串是否全部是中文
 
-closeURL
 
-getScreenWidthHeight 获取当前屏幕分辨率
 
-getFullScreen 截取全屏
-
-getBrowserScreen 截取浏览器内屏幕(因此要打开浏览器后才能截图)
-
-scrollLeft
-
-scrollTop
-
-scrollDown
-
-scrollIntoView
-
-scrollTopById
-
-getCode  获取验证码
-
-populAlert()  弹出框操作
-
-###  NetPO
+### ColorPO
 ---
+consoleColor  控制台输出各种颜色字体，多个参数颜色间隔开。
 
-sendEmail
 
-getURLCode
 
-getHeaders
+### DataPO
+---
+getRandomName  随机生成中文用户名
 
-getHtml
+getRandomPhone  随机生成手机号码
 
-getJsonPath
+getRandomIdcard  随机生成身份证号
 
-downloadFile
+getRandomNum  随机生成n个数字
 
-downloadHtml
+getRandomIp  随机生成一个有效IP
 
-downloadImage
+getRandomIp2  随机生成一个有效IP2
+
+getRandomContent  从列表中随机获取n个元素
+
+isIdcard  判断是否是有效身份证
+
+getBirthday  从身份证中获取出生年月
+
+getAge  从身份证中获取年龄
+
+getSex  从身份证中获取性别
+
+getSeriesIp  从当前IP地址开始连续生成N个IP
+
+getJsonPath  解析json
+
+md5  用MD5  加密内容
+
+md5Segment  MD5分段加密
+
+
+
+### DevicePO
+---
+getLocalPlatform  获取当前系统平台
+
+getLocalMac  获取本机硬件mac地址
+
+getLocalIp  获取当前IP地址
+
+getLocalName  获取本机电脑名
+
+callCamera   调用当前笔记本摄像头拍照
+
+？installAPK  安装apk
+
+？uninstallAPK  卸载apk
+
+
 
 
 ### FilePO
@@ -286,7 +307,150 @@ downloadImage
 
 
 
+### ListPO
+---
 
+listSplitArray  一个列表拆分成N个数组
+
+listSplitSubList  一个列表拆分成N个子列表
+
+listJointChar 列表合并字符串元素
+
+listReplace  替换列表内容
+
+listAlignKey  键值对齐
+
+listKeyValueDict  列表转字典(列表形式符合字典要求key:value)
+
+listBorderDict  列表合并成字典(列表中相邻两元素组成键值对队)
+
+list2MergeDict  两列表合成一个字典
+
+
+
+### WebPO
+---
+dbDesc  查看数据库表结构
+
+dbRecord  搜索表记录
+
+dbCreateDate  查表的创建时间及区间
+
+
+
+
+###  NetPO
+---
+
+sendEmail  发邮件
+
+getURLCode  获取网站statuscode
+
+getHeaders  获取网站的header
+
+getHtml  # 获取网站内容
+
+downloadProgram  下载程序
+
+downloadFile 下载html，图片, css 等单个文件
+
+
+
+###  TimePO
+---
+
+getDate())  # 20190919
+
+getDate_minus())  # 2019-09-19
+
+getDate_divide())  # 2019/03/19
+
+getDatetime())  # 20200319151928
+
+getDatetime_divide())  # 2020/03/19 15:19:28
+
+getDatetimeEditHour(0))  # 2020-03-19 15:35:55
+
+getDatetimeEditHour(0.5))  # 2020-03-19 15:49:28  //晚30分钟
+
+getDatetimeEditHour(-1))  # 2020-03-19 14:19:28   //早1小时
+
+getNow())  # 2019-09-19 17:50:10.470652
+
+getNowEditHour(0.5))  # 2019-09-19 18:20:10.470652  //晚半小时
+
+getNowEditHour(-0.5))  # 2019-09-19 17:20:10.470652  //早半小时
+
+getYear())  # 2019
+
+getMonth())  # 09
+
+getDay())  # 19
+
+getYearMonth())  # 200919
+
+getMonthDay())  # 0919
+
+getWeekday())  # 星期日
+
+now2timestamp())  # 1584603355.0
+
+datetime2timestamp(Time_PO.getDatetimeEditHour(0)))  # 1584603355   //日期时间转时间戳
+
+timestamp2datetime(Time_PO.now2timestamp()))  # 2020-03-19 15:35:55  //时间戳转日期时间
+
+get_day_of_day(20))  # 2019-10-09  //20天后
+
+get_day_of_day(-3))  # 2019-09-16  //3天前
+
+get_days_of_month(2019, 2))  # 28   //2019年2月的天数
+
+get_firstday_of_month(2019, 7))  # 2019-07-01  //返回某年某月的第一天
+
+get_lastday_of_month(2019, 7))  # 2019-07-31  //返回某年某月的最后一天
+
+get_firstday_month(-2))  # 2020-01-01  //返回n月前/后的第一天。
+
+get_lastday_month(-1))   # 2020-02-29  //返回n月前/后的最后一天。
+
+get_lastday_month(2))   # 2020-05-31   //返回n月前/月后的最后一天。
+
+getDate_tuple(1))  # ('2020', '04', '30')    //列表形式返回下个月及最后一天
+
+addzero(9))  # 09    //自动在 1 - 9 前加上0
+
+get_today_month(-1))  # 2020-02-19   //返回上个月的今天
+
+get_today_month(3))  # 2020-06-19   //返回3个月后的今天
+
+
+
+
+### WebPO
+---
+openURL
+
+closeURL
+
+getScreenWidthHeight  获取当前屏幕分辨率
+
+getFullScreen  截取全屏
+
+getBrowserScreen  截取浏览器内屏幕(因此要打开浏览器后才能截图)
+
+scrollLeft
+
+scrollTop
+
+scrollDown
+
+scrollIntoView
+
+scrollTopById
+
+getCode  获取验证码
+
+populAlert()  弹出框操作
 
 
 

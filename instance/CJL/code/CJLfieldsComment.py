@@ -1,0 +1,208 @@
+# -*- coding: utf-8 -*-
+# *******************************************************************************************************************************
+# Author     : John   # coding: utf-8
+# Date       : 2016-12-15
+# Description: CJL数据库中所有的表,获取字段\类型\注释
+# *******************************************************************************************************************************
+from CJLinterfaceParam import *
+# *******************************************************************************************************************************
+
+
+def getTblNameTypeDDL(varDatabase, varTable, varFields):
+    # 获取数据库表字段、类型、DDL
+    # 参数1 = 数据库
+    # 参数2 = 表(如为空表示所有表，可遍历带指定前缀名的表)
+    # 参数3 = 字段(多个字段用逗号分割，为空表示所有字段)
+    cur = curPersonal
+    list0 = []; list1 = []; list2 = []; x = y = tblFieldcount = 0
+    if varTable != "":
+        if "*" in varTable:
+            varTable2 = varTable.split("*")[0] + "%"  # t_store_%
+            m = cur.execute('select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (varDatabase,varTable2))
+            if m != 0:
+                t0=cur.fetchall()
+                for p in range(len(t0)):  #  共有len(t0)张表
+                    varTable = t0[p][0]
+                    # 遍历指定的表
+                    n = cur.execute('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (varDatabase,varTable))
+                    if n != 0:
+                        t1=cur.fetchone()
+                        tblDDL = t1[0]
+                        cur.execute('select column_name,column_type,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (varDatabase,varTable))
+                        t2=cur.fetchall()
+                        print "\n[" + varDatabase + " > " + varTable + "(" + tblDDL + ") > " + str(len(t2)) + "]"
+                        print "-" * 70
+                        for i in t2:
+                            if len(i[0]) > x: x = len(i[0])
+                            if len(i[1]) > y: y = len(i[1])
+                            tblFieldcount = tblFieldcount + 1
+                        for i in t2:
+                            list0.append(i[0] + " "*(x-len(i[0])+1))
+                            list1.append(i[1] + " "*(y-len(i[1])+1))
+                            ii=i[2].replace("\r\n", ",")
+                            list2.append(ii.replace("  ", ""))
+                        for i in range(tblFieldcount):
+                            print list0[i], list1[i], list2[i]
+                    list0 = []; list1 = []; list2 = []
+                    tblFieldcount = 0
+            else: print "[errorrrrrrr , 数据库("+varDatabase+")中没有找到 " + varTable.split("*")[0] + " 前缀的表!]"
+        elif "*" not in varTable:
+            # 遍历指定的表
+            n = cur.execute('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (varDatabase,varTable))
+            if n != 0:
+                t1 = cur.fetchone()
+                tblDDL = t1[0]
+                cur.execute('select column_name,column_type,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (varDatabase,varTable))
+                t2 = cur.fetchall()
+                if varFields == "":
+                    print "\n[" + varDatabase + " > " + varTable + "(" + tblDDL + ") > " + str(len(t2)) + "]"
+                    print "-" * 70
+                    for i in t2:
+                        if len(i[0]) > x: x = len(i[0])
+                        if len(i[1]) > y: y = len(i[1])
+                        tblFieldcount = tblFieldcount + 1
+                    for i in t2:
+                        list0.append(i[0] + " "*(x-len(i[0])+1))
+                        list1.append(i[1] + " "*(y-len(i[1])+1))
+                        ii=i[2].replace("\r\n", ",")
+                        list2.append(ii.replace("  ", ""))
+                    for i in range(tblFieldcount):
+                        print list0[i], list1[i], list2[i]
+                else:
+                    print "\n[" + varDatabase + " > " + varTable + "(" + tblDDL + ") > " + str(len(varFields.split(","))) + "]"
+                    print "-" * 70
+                    for i in t2:
+                        if len(i[0]) > x: x = len(i[0])
+                        if len(i[1]) > y: y = len(i[1])
+                    for i in t2:
+                        for j in range(len(varFields.split(","))):
+                            if i[0] == varFields.split(",")[j]:
+                                list0.append(i[0] + " "*(x-len(i[0])+1))
+                                list1.append(i[1] + " "*(y-len(i[1])+1))
+                                ii=i[2].replace("\r\n", ",")
+                                list2.append(ii.replace("  ", ""))
+                    for i in range(len(varFields.split(","))):
+                        try:
+                            print list0[i], list1[i], list2[i]
+                        except:
+                            print "[??? Errorrrrrrr , 参数3中部分字段不存在!]"
+            else:
+                print "[errorrrrrrr , 数据库(" + varDatabase + ")中没有找到 " + varTable + "表!]"
+    else:
+        cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % varDatabase)
+        tblname=cur.fetchall()
+        for k in range(len(tblname)):
+            cur.execute('select column_name,column_type,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (varDatabase,tblname[k][0]))
+            t2 = cur.fetchall()
+            print "\n[" + varDatabase + " > " + tblname[k][0] + "(" + tblname[k][1] + ") > " + str(len(t2)) + "fields]"
+            print "-" * 70
+            for i in t2:
+                if len(i[0]) > x: x = len(i[0])
+                if len(i[1]) > y: y = len(i[1])
+                tblFieldcount = tblFieldcount + 1
+            for i in t2:
+                list0.append(i[0] + " "*(x-len(i[0])+1))
+                list1.append(i[1] + " "*(y-len(i[1])+1))
+                list2.append(i[2])
+            for i in range(tblFieldcount):
+                print list0[i], list1[i], list2[i]
+            list0 = []; list1 = []; list2 = []
+            tblFieldcount = 0
+
+# 用法1：获取 数据库中所有表的字段、类型、DDL
+# getTblNameTypeDDL('personal', '', '')
+# getTblNameTypeDDL('scenemsg', '', '')
+# getTblNameTypeDDL('sysparam', '', '')
+# getTblNameTypeDDL('upload', '', '')
+
+# 用法2：获取 数据库某表中所有字段、类型、DDL
+# getTblNameTypeDDL('personal', 't_scene_footPoint', '')
+# getTblNameTypeDDL('personal', 't_share', '')
+# getTblNameTypeDDL('personal', 't_user', '')
+# getTblNameTypeDDL('personal', 't_user_complaint', '')
+# getTblNameTypeDDL('personal', 't_user_friends', '')
+# getTblNameTypeDDL('personal', 't_user_friends_apply', '')
+# getTblNameTypeDDL('personal', 't_user_label', '')
+# getTblNameTypeDDL('personal', 't_user_label_memberinfo', '')
+# getTblNameTypeDDL('personal', 't_user_private_info', '')
+# getTblNameTypeDDL('personal', 't_user_setting', '')
+# getTblNameTypeDDL('scenemsg', 't_scene_msg', '')
+# getTblNameTypeDDL('sysparam', 't_dict_circle', '')
+# getTblNameTypeDDL('sysparam', 't_dict_industry', '')
+# getTblNameTypeDDL('sysparam', 't_dict_region', '')
+# getTblNameTypeDDL('upload', 'uploadfile', '')
+
+# 用法3：获取 数据库某表中个部分字段、类型、DDL，如只需要获取2个字段 (字段名与数据库表中名字需大小写一致)
+# getTblNameTypeDDL('personal', 't_user', 'id,sex,nickName')
+
+# 用法4：获取 数据库带"t_user"前缀表的所有字段、类型、DDL （注意：前缀*）
+# getTblNameTypeDDL('personal', 't_user_label*', '')
+
+
+def getTblTime(varDatabase, varTable, varStatus, varAfterTime):
+    # 获取 表的创建时间
+    # 参数1 = 数据库
+    # 参数2 = 表
+    # 参数3 = 指定日期前或后 （before表示指定日期之前创建、after表示指定日期之后创建）
+    # 参数4 = 日期
+    cur = curPersonal
+    print "-" * 70
+    if varDatabase != "":
+        try:
+            if varTable != "":
+                cur.execute('select create_time from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (varDatabase, varTable))
+                t3 = cur.fetchone()
+                print "[表(" + varDatabase+"." + varTable + ")的创建时间为 " + str(t3[0]) + "]"
+            else:
+                if varStatus == "after":
+                    x = cur.execute('select table_name,create_time from information_schema.`TABLES` where table_schema="%s" and create_time>"%s"' % (varDatabase, varAfterTime))
+                    t4 = cur.fetchall()
+                    print "[共有 " + str(x) + " 张表在 "+ str(varAfterTime)+ " 之后被创建]"
+                    for p in range(len(t4)):
+                        print str(t4[p][1]) + " => " + t4[p][0]
+                elif varStatus == "before":
+                    x = cur.execute('select table_name,create_time from information_schema.`TABLES` where table_schema="%s" and create_time<"%s"' % (varDatabase, varAfterTime))
+                    t4 = cur.fetchall()
+                    print "[共有 " + str(x) + " 张表在 " + str(varAfterTime) + " 之前被创建]"
+                    for p in range(len(t4)):
+                        print str(t4[p][1]) + " => " + (t4[p][0])
+                else: print "[errorrrrrrr , 参数3错误!]"
+        except:
+            print "[errorrrrrrr , 数据库(" + varDatabase + ")不存在!]"
+    else:
+        print "[warning , 数据库为空!]"
+
+# # 获取 某表的创建时间
+# getTblTime("personal", "t_user", "", "")
+#
+# # 获取 指定日期之后创建的表
+# getTblTime("personal", "", "after", "2016-11-24")
+#
+# # 获取 指定日期之前创建的表
+# getTblTime("personal", "", "before", "2016-12-08")
+
+
+def getTblNameDDL(varDatabase, varTable):
+    # 获取数据库表的字段、DDL （非列表排列）
+    list0 = []; list2 = [] ; tblFieldcount = 0 ; sum1 = ""
+    n = curPersonal.execute('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (varDatabase, varTable))
+    if n != 0:
+        t1 = curPersonal.fetchone()  # t1[0] = 字段comment
+        curPersonal.execute('select column_name,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (varDatabase, varTable))
+        t2 = curPersonal.fetchall()
+        print "\n[" + varDatabase + " > " + varTable + "(" + t1[0] + ") > " + str(len(t2)) + "fields]"
+        print "-" * 150
+        for i in t2:
+            tblFieldcount = tblFieldcount + 1
+            list0.append(i[0])
+            ii = i[1].replace("\r\n", ",")
+            list2.append(ii.replace("  ", ""))
+        for i in range(tblFieldcount):
+            sum1 = sum1 + " , " + list0[i] + "(" + list2[i] + ")"
+        print sum1[2:]
+    else:
+        print "[errorrrrrrr,数据库("+varDatabase+")中没有找到 "+ varTable +"表!]"
+
+# getTblNameDDL("personal", "t_user")
+# getTblNameDDL("upload", "uploadfile")
+# getTblNameDDL("scenemsg", "t_scene_msg")

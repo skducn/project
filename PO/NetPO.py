@@ -13,11 +13,14 @@ from email.mime.image import MIMEImage
 from email.header import Header
 from urllib.request import urlretrieve
 import json, jsonpath
+from PO.FilePO import *
+File_PO = FilePO()
 
 class NetPO():
 
+    # 发邮件
     def sendEmail(self, varFrom, varTo, varSubject, varConent, varPic, varFile, varHtmlFileName, varHtmlContent):
-        ''' 发送163邮件 '''
+        # 发163邮件
         # 注意：邮件主题为‘test’时，会出现错误。
         # 163邮箱需要设置 客户端授权密码为开启，并且脚本中设置的登录密码是授权码
         # 参数：发送者邮箱，接收者邮箱，主题，邮件正文，附件图片，附件文档，附件html名，附件html正文。
@@ -48,100 +51,159 @@ class NetPO():
         #           </html>
         #           """
         #           )
-        msg = email.mime.multipart.MIMEMultipart()
-        msg['From'] = varFrom
-        if "," in varTo:
-            # 收件人为多个收件人
-            varTo = [varTo.split(",")[0], varTo.split(",")[1]]
 
-        '''主题'''
-        msg['Subject'] = Header(varSubject, 'utf-8').encode()
-        txt = MIMEText(varConent, 'plain', 'utf-8')
-        msg.attach(txt)
+        try:
+            msg = email.mime.multipart.MIMEMultipart()
+            msg['From'] = varFrom
+            if "," in varTo:
+                # 收件人为多个收件人
+                varTo = [varTo.split(",")[0], varTo.split(",")[1]]
 
-        '''附件图片'''
-        if varPic != "":
-            sendimagefile = open(varPic, 'rb').read()
-            image = MIMEImage(sendimagefile)
-            # image.add_header('Content-ID', '<image1>')  # 默认文件名
-            image.add_header("Content-Disposition", "attachment", filename=("utf-8", "", os.path.basename(varPic)))
-            msg.attach(image)
+            '''主题'''
+            msg['Subject'] = Header(varSubject, 'utf-8').encode()
+            txt = MIMEText(varConent, 'plain', 'utf-8')
+            msg.attach(txt)
 
-        ''' 附件文件 '''
-        if varFile != "":
-            sendfile = open(varFile, 'rb').read()
-            text_att = MIMEText(sendfile, 'base64', 'utf-8')
-            text_att["Content-Type"] = 'application/octet-stream'
-            # text_att.add_header('Content-Disposition', 'attachment', filename='interface.xls')   # 不支持中文格式文件名
-            text_att.add_header("Content-Disposition", "attachment",
-                                filename=("utf-8", "", os.path.basename(varFile)))  # 支持中文格式文件名
-            msg.attach(text_att)
+            '''附件图片'''
+            if varPic != "":
+                sendimagefile = open(varPic, 'rb').read()
+                image = MIMEImage(sendimagefile)
+                # image.add_header('Content-ID', '<image1>')  # 默认文件名
+                image.add_header("Content-Disposition", "attachment", filename=("utf-8", "", os.path.basename(varPic)))
+                msg.attach(image)
 
-        '''附件HTML'''
-        if varHtmlFileName != "" and varHtmlContent != "":
-            text_html = MIMEText(varHtmlContent, 'html', 'utf-8')
-            text_html.add_header("Content-Disposition", "attachment", filename=("utf-8", "", varHtmlFileName))
-            msg.attach(text_html)
+            ''' 附件文件 '''
+            if varFile != "":
+                sendfile = open(varFile, 'rb').read()
+                text_att = MIMEText(sendfile, 'base64', 'utf-8')
+                text_att["Content-Type"] = 'application/octet-stream'
+                # text_att.add_header('Content-Disposition', 'attachment', filename='interface.xls')   # 不支持中文格式文件名
+                text_att.add_header("Content-Disposition", "attachment",
+                                    filename=("utf-8", "", os.path.basename(varFile)))  # 支持中文格式文件名
+                msg.attach(text_att)
 
-        smtp = smtplib.SMTP()
-        smtp.connect('smtp.163.com', '25')
-        smtp.login(varFrom, str(base64.b64decode("amluaGFvMTIz"), encoding="utf-8"))  # byte转str
-        smtp.sendmail(varFrom, varTo, msg.as_string())
-        smtp.quit()
-        print(u"邮件成功发送给：" + str(varTo))
+            '''附件HTML'''
+            if varHtmlFileName != "" and varHtmlContent != "":
+                text_html = MIMEText(varHtmlContent, 'html', 'utf-8')
+                text_html.add_header("Content-Disposition", "attachment", filename=("utf-8", "", varHtmlFileName))
+                msg.attach(text_html)
 
+            smtp = smtplib.SMTP()
+            smtp.connect('smtp.163.com', '25')
+            smtp.login(varFrom, str(base64.b64decode("amluaGFvMTIz"), encoding="utf-8"))  # byte转str
+            smtp.sendmail(varFrom, varTo, msg.as_string())
+            smtp.quit()
+            print(u"邮件成功发送给：" + str(varTo))
+        except:
+            return None
+
+    # 获取网站statuscode
     def getURLCode(self, varURL):
-        # 获取网站的statuscode，如 200 404 500'''
-        response = requests.get(varURL)
-        return response.status_code
+        # 获取网站的 statuscode，如 200 404 500'''
+        try:
+            response = requests.get(varURL)
+            return response.status_code
+        except:
+            return None
 
+    # 获取网站的header
     def getHeaders(self, varURL):
         # 获取网站的header，如:
         # {'Cache-Control': 'private, no-cache, no-store, proxy-revalidate, no-transform', 'Connection': 'Keep-Alive',
         #  'Content-Encoding': 'gzip', 'Content-Type': 'text/html', 'Date': 'Fri, 20 Sep 2019 07:12:16 GMT',
         #  'Last-Modified': 'Mon, 23 Jan 2017 13:23:55 GMT', 'Pragma': 'no-cache', 'Server': 'bfe/1.0.8.18',
         #  'Set-Cookie': 'BDORZ=27315; max-age=86400; domain=.baidu.com; path=/', 'Transfer-Encoding': 'chunked'}'''
-        response = requests.get(varURL)
-        return response.headers
+        try:
+            response = requests.get(varURL)
+            return response.headers
+        except:
+            return None
 
+    # 获取网站内容
     def getHtml(self, varURL):
         # 获取网站内容
-        response = requests.get(varURL)
-        return response.text
+        try:
+            response = requests.get(varURL)
+            return response.text
+        except:
+            return None
 
-
-    def downloadFile(self, varURLFile, savepath='./'):
+    # 下载程序
+    def downloadProgram(self, varUrlFile, varFilePath='./'):
         # 下载文件（显示下载进度，数据块大小，文件大小）
         # Net_PO.downloadFile("https://www.7-zip.org/a/7z1900-x64.exe", "")
-        def reporthook(a, b, c):
-            print("\r下载进度: %5.1f%%" % (a * b * 100.0 / c), end="")
-        filename = os.path.basename(varURLFile)
-        # 判断文件是否存在，如果不存在则下载
-        if not os.path.isfile(os.path.join(savepath, filename)):
-            print('下载数据: %s' % varURLFile)
-            print("保存路径：%s" % savepath)
-            urlretrieve(varURLFile, os.path.join(savepath, filename), reporthook=reporthook)
-            print('\nDownload finished!')
-        else:
-            print('File already exsits!')
-        # 获取文件大小
-        filesize = os.path.getsize(os.path.join(savepath, filename))
-        # 文件大小默认以Bytes计， 转换为Mb
-        print('File size = %.2f Mb' % (filesize / 1024 / 1024))
+        try:
+            def reporthook(a, b, c):
+                print("\r下载进度: %5.1f%%" % (a * b * 100.0 / c), end="")
+            filename = os.path.basename(varUrlFile)
+            File_PO.newLayerFolder(varFilePath)  # 强制新增文件夹
+            # 判断文件是否存在，如果不存在则下载
+            if not os.path.isfile(os.path.join(varFilePath, filename)):
+                print('下载数据: %s' % varUrlFile)
+                print("保存路径：%s" % varFilePath)
+                urlretrieve(varUrlFile, os.path.join(varFilePath, filename), reporthook=reporthook)
+                print('\nDownload finished!')
+            else:
+                print('File already exsits!')
+            # 获取文件大小
+            filesize = os.path.getsize(os.path.join(varFilePath, filename))
+            # 文件大小默认以Bytes计， 转换为Mb
+            print('File size = %.2f Mb' % (filesize / 1024 / 1024))
+        except:
+            return None
 
-    def downloadHtml(self, varURL, varLocalHtmlFile):
+    # 下载网页/图片
+    def downloadFile(self, varUrlHtml, varFilePath='./'):
         # 下载页面，将页面保存到本地。
         # Net_PO.downloadHtml(u"http://www.jb51.net/Special/636.htm", "1234.html")
-        urllib.request.urlretrieve(varURL, varLocalHtmlFile)
+        # File_PO.newLayerFolder(savepath)  # 强制新增文件夹
+        try:
+            if varFilePath == './':
+                varPath, varFile = os.path.split(varUrlHtml)
+                urllib.request.urlretrieve(varUrlHtml, varFile)
+            else:
+                varPath, varFile = os.path.split(varFilePath)
+                if varPath == "":
+                    urllib.request.urlretrieve(varUrlHtml, varFile)
+                else:
+                    File_PO.newLayerFolder(varPath)  # 强制新增文件夹
+                    urllib.request.urlretrieve(varUrlHtml, varPath + "/" + varFile)
+        except:
+            return None
 
-    def downloadImage(self, varURLImageFile, varLocalImageFile):
+    # 下载图片（暂停）
+    def downloadImage(self, varUrlImage, varFilePath='./'):
         # 下载图片，将网上图片保存到本地。
-        # Net_PO.downloadPIC("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg","john.jpg")  
-        sess = requests.Session()
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36","Connection": "keep-alive"}
-        image = sess.get(varURLImageFile, headers=headers).content
-        with open(varLocalImageFile, "wb") as f:
-            f.write(image)
+        # Net_PO.downloadPIC("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg","john.jpg")
+        try:
+            if varFilePath == './':
+                varPath, varFile = os.path.split(varUrlImage)
+                sess = requests.Session()
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36",
+                    "Connection": "keep-alive"}
+                image = sess.get(varUrlImage, headers=headers).content
+                with open(varFile, "wb") as f:
+                    f.write(image)
+            else:
+                varPath, varFile = os.path.split(varFilePath)
+                if varPath == "":
+                    sess = requests.Session()
+                    headers = {
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36",
+                        "Connection": "keep-alive"}
+                    image = sess.get(varUrlImage, headers=headers).content
+                    with open(varFile, "wb") as f:
+                        f.write(image)
+                else:
+                    File_PO.newLayerFolder(varPath)  # 强制新增文件夹
+                    sess = requests.Session()
+                    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36","Connection": "keep-alive"}
+                    image = sess.get(varUrlImage, headers=headers).content
+                    with open(varPath + "/" + varFile, "wb") as f:
+                        f.write(image)
+        except:
+            return None
 
     
 if __name__ == '__main__':
@@ -156,11 +218,18 @@ if __name__ == '__main__':
     # print(Net_PO.getHeaders("https://www.baidu.com"))
     # print(Net_PO.getHtml("https://www.baidu.com"))
 
-    # print(Net_PO.getJsonPath('{"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}', '$.token'))  # ['e351b73b1c6145ceab2a02d7bc8395e7']
+    # Net_PO.downloadProgram("https://www.7-zip.org/a/7z1900-x64.exe")  # 默认将文件保存在当前路径，如果当前目录下已存在此文件则不下载。
+    # Net_PO.downloadProgram("https://www.7-zip.org/a/7z1900-x64.exe", "d:/1/2/3")  # 下载 d:/1/2/3到指定目录，如果目录不存在则自动新建。
+    # Net_PO.downloadProgram("https://www.7-zip.org/a/7z1900-x64.exe", "/1/2/3")  # 同上，/1/2/3 默认定位当前程序盘符，如 d:/1/2/3
 
-    # Net_PO.downloadFile("https://www.7-zip.org/a/7z1900-x64.exe", "")
-    # Net_PO.downloadHtml(u"http://www.jb51.net/Special/636.htm", "1234.html")
+    # Net_PO.downloadFile(u"http://www.jb51.net/Special/636.htm")  # 默认将html网页保存在当前路径。
+    # Net_PO.downloadFile(u"https://images.cnblogs.com/cnblogs_com/longronglang/1061549/o_QQ%E6%88%AA%E5%9B%BE20190727112700.png")  # 默认将图片保存在当前路径。
+    # Net_PO.downloadFile(u"http://www.jb51.net/Special/636.htm", "1234.html")  # 默认保存到当前路径，另存为1234.html
+    # Net_PO.downloadFile(u"http://www.jb51.net/Special/636.htm", "d:/1/2/3/1234.html")  # 将文件保存在/1/2/3/1234.html下，如果目录不存在则自动新建。
+
+    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg")  # # 默认将图片保存在当前路径。
     # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "test.jpg")
+    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "/1/2/test.jpg")
 
 
 

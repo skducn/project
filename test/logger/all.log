@@ -1,0 +1,5 @@
+2019-12-26 11:19:49,756 - D:/51/python/project/test/logger/logger1.py[line:33] - DEBUG: debug
+2019-12-26 11:19:49,757 - D:/51/python/project/test/logger/logger1.py[line:34] - INFO: info
+2019-12-26 11:19:49,757 - D:/51/python/project/test/logger/logger1.py[line:35] - WARNING: 警告
+2019-12-26 11:19:49,757 - D:/51/python/project/test/logger/logger1.py[line:36] - ERROR: 报错
+2019-12-26 11:19:49,757 - D:/51/python/project/test/logger/logger1.py[line:37] - CRITICAL: 严重

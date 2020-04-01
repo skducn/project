@@ -1,0 +1,49 @@
+1563442866034	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\JP\\AppData\\Local\\Temp\\rust_mozprofile.may2Fl9z0LIB"
+1563442867197	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1563442867197	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1563442867197	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1563442867198	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1563442869358	Marionette	INFO	Listening on port 56152
+1563442869387	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: resource:///modules/UrlbarView.jsm, line 123: Array.reduce is deprecated; use Array.prototype.reduce instead
+JavaScript error: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/jquery/jquery-1.10.2.min_65682a2.js, line 52: Error: Syntax error, unrecognized expression: .c-container /deep/ .c-container
+JavaScript error: https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/jquery/jquery-1.10.2.min_65682a2.js, line 52: Error: Syntax error, unrecognized expression: .c-container /deep/ .c-container
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221563408074637%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:201:13
+
+[Parent 10844, Gecko_IOThread] WARNING: pipe error: 109: file z:/task_1562361253/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 341
+[Child 17988, Chrome_ChildThread] WARNING: pipe error: 109: file z:/task_1562361253/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 341
+[Parent 10844, Gecko_IOThread] WARNING: pipe error: 109: file z:/task_1562361253/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 341
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x1E0074,name=PBrowser::Msg_StopIMEStateManagement) Closed channel: cannot send/recv
+
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x1E00A0,name=PBrowser::Msg_UpdateNativeWindowHandle) Closed channel: cannot send/recv
+
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x1E008F,name=PBrowser::Msg_Destroy) Closed channel: cannot send/recv
+
+[Parent 10844, Gecko_IOThread] WARNING: pipe error: 109: file z:/task_1562361253/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 341
+[Child 7052, Chrome_ChildThread] WARNING: pipe error: 109: file z:/task_1562361253/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 341
+[Child 7052, Chrome_ChildThread] WARNING: pipe error: 109: file z:/task_1562361253/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 341
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x1E0001,name=PBrowser::Msg_AsyncMessage) Closed channel: cannot send/recv
+
+JavaScript error: resource:///actors/AboutReaderChild.jsm, line 80: NS_ERROR_UNEXPECTED: 
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x1E002B,name=PBrowser::Msg_EnableDisableCommands) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x1E002E,name=PBrowser::Msg_SetInputContext) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x1E002E,name=PBrowser::Msg_SetInputContext) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x35011D,name=PContent::Msg_DetachBrowsingContext) Closed channel: cannot send/recv
+

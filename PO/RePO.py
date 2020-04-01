@@ -75,7 +75,9 @@ class RePO():
         re.purge()
 
 if __name__ == "__main__":
+
     Re_PO = RePO()
+
     print(Re_PO.subBlank("JGood is a handsome boy, he is cool, clever, and so on...", ""))   # 去掉字符串中的空格 JGoodisahandsomeboy,heiscool,clever,andsoon...
     print(Re_PO.split_list("JGood is a handsome boy, he is cool, clever, and so on...", r'\W+', 0)) # ['JGood', 'is', 'a', 'handsome', 'boy', 'he', 'is', 'cool', 'clever', 'and', 'so', 'on', '']
     print(Re_PO.split_list("JGood is a handsome boy, he is cool, clever, and so on...", r'(\W+)', 0))

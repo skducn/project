@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><title>tszTable</title>
+<link href="myStylesheet1.css" type="text/css" rel="stylesheet" />
+<link href="myStylesheet2.css" type="text/css" rel="stylesheet" />
+</head>
+<body><p>>>>>>>> [ukardweb , phone = 13816109050 , userId = 10001679 , groupID = 1392 , 2016-10-28 00:00:01 ~ 2016-10-28 23:59:59]</p>
+<p><font color=blue>ukardweb > t_explosion_product(爆款表) > userId</font></p>
+<p><font color=purple> id(爆款ID) , groupId(群ID) , userId(用户ID) , productName(商品名称) , productContent(商品内容) , productPic(商品图片) , videoUrl(视频连接) , productAmount(商品金额) , isFree(是否包邮(0:包邮,1:不包邮)) , postageAmount(邮费) , isPraiseRed(是否有好评红包(0:没有,1:有)) , praiseRedType(好评红包类型(0:按比例,1:自己定义)) , praiseRedAmount(好评红包金额(比例或金额)) , industry(所属行业) , cityName(城市名称) , city(城市) , status(状态(0:上架,1:下架,2:删除)) , createTime(创建时间) , updateTime(修改时间) , saleNum(已销售数量) , browseNum(浏览数) , praiseNum(好评数) , 10salesAmount(10分钟销售金额)</font></p>
+<p><font color=green>1), (id)190, (groupId)213, (userId)10001679, (productName)商品名称, (productContent)不好好, (productPic)http://sit2.88uka.com/000/000/007/581.jpg, (videoUrl)www.163.com, (productAmount)100, (isFree)0, (postageAmount)0, (isPraiseRed)1, (praiseRedType)0, (praiseRedAmount)1.0, (industry)0, (cityName)上海, (city)3101000000, (status)0, (createTime)2016-10-28 14:03:30, (updateTime)2016-10-28 14:03:30, (saleNum)0, (browseNum)0, (praiseNum)0, (10salesAmount)0</font></p>
+<p><font color=green>2), (id)494, (groupId)213, (userId)10001679, (productName)商品名称, (productContent)Nih, (productPic)http://sit2.88uka.com/000/000/007/946.jpg,http://sit2.88uka.com/000/000/007/947.jpg,http://sit2.88uka.com/000/000/007/948.jpg,http://sit2.88uka.com/000/000/007/949.jpg, (videoUrl)Www, (productAmount)188, (isFree)0, (postageAmount)0, (isPraiseRed)1, (praiseRedType)0, (praiseRedAmount)1.0, (industry)0, (cityName)上海, (city)3101000000, (status)0, (createTime)2016-10-28 14:03:26, (updateTime)2016-10-28 14:03:26, (saleNum)0, (browseNum)0, (praiseNum)0, (10salesAmount)0</font></p>
+<p><font color=blue>ukardweb > t_lottery_red(抽奖红包表) > userId</font></p>
+<p><font color=purple> id(抽奖ID) , userId(用户ID) , groupId(群ID) , groupName(群名称) , productName(商品名称) , productSub(商品描述) , productAmount(商品价格) , productPic(商品图片) , videoUrl(商品链接) , industry(所属行业) , winNum(获奖人数) , lotteryTime(开奖时间) , partakeNum(参与人数) , complainNum(投诉次数) , status(状态(0:进行中,1:开奖中,2:已结束)) , createTime(创建时间) , updateTime(修改时间) , shopLink(店铺链接) , partake10Num(最近10分钟参与人数)</font></p>
+<p><font color=green>1), (id)301, (userId)10001679, (groupId)213, (groupName)霹雳空间123, (productName)好衣服, (productSub)哈哈哈哈, (productAmount)0, (productPic)http://sit2.88uka.com/000/000/009/733.jpg,, (videoUrl), (industry)0, (winNum)1, (lotteryTime)2016-10-28 13:50:11, (partakeNum)0, (complainNum)0, (status)0, (createTime)2016-10-27 13:50:27, (updateTime)2016-10-27 13:50:27, (shopLink)None, (partake10Num)0</font></p>
+<p><font color=blue>ukardweb > t_redgroup_baseinfo(红包群基本信息表) > userId</font></p>
+<p><font color=purple> id(ID) , userId(用户ID) , brandContent(品牌名称) , logoURl(群头像) , bgURL(群背景图) , countNumber(总人数) , createTime(创建时间) , isRed(是否有红包) , groupState(红包群状态) , isSendRed(是否发过红包到，0 未发过红包，1 已发过红包) , isUpdateLogo(是否修改过群头像(0:没有，1：修改改过)) , grabRedNumber(领红包人数) , redCountNumber(发到红包群的个数) , industryId(所属分类,0其他，-1全部) , lastSendRedTime(最近发红包时间) , shopLink(店铺链接) , isBlack(黑名单(0:不是,1:是)) , updateTime(修改时间) , newMemberNumber(新成员数量) , reportNumber(被举报次数) , lastLookUpMessageTime(最后查看消息时间) , groupAccount(群账户) , isWaiter(是否启用店小二：0关闭，1开启) , isAuth(是否认证：0不是，1是) , authType(认证类型(1:个人，2：实体,3:网店)) , busiId(商户ID) , likeNumber(赞总数) , rewardNumber(打赏数) , cityName(城市名称) , city(城市ID) , newMemberLastTime(最后查看新成员时间) , isAddAuth(加群是否要认证(0:不需要,1:需要)) , richRemark(土豪语录) , alertFlag(图文提醒标记,0未提醒，1:<50人,2:50-500人,3:500-1000人;4:1000-2000人,5:>2000人)</font></p>
+<p><font color=green>1), (id)1392, (userId)10001679, (brandContent)末日控, (logoURl)http://sit2.88uka.com/000/000/009/803.jpg, (bgURL)http://sit2.88uka.com/000/000/009/802.jpg, (countNumber)0, (createTime)2016-10-28 14:55:12, (isRed)0, (groupState)0, (isSendRed)0, (isUpdateLogo)1, (grabRedNumber)0, (redCountNumber)0, (industryId)140000, (lastSendRedTime)None, (shopLink), (isBlack)0, (updateTime)2016-10-28 14:55:12, (newMemberNumber)0, (reportNumber)0, (lastLookUpMessageTime)None, (groupAccount)0, (isWaiter)1, (isAuth)0, (authType)None, (busiId)None, (likeNumber)0, (rewardNumber)0, (cityName)上海, (city)3101000000, (newMemberLastTime)None, (isAddAuth)0, (richRemark)None, (alertFlag)0</font></p>
+<p><font color=green>2), (id)1387, (userId)10001679, (brandContent)哦哦啦啦, (logoURl)http://sit2.88uka.com/000/000/009/790.jpg, (bgURL)http://sit2.88uka.com/000/000/009/789.jpg, (countNumber)0, (createTime)2016-10-28 14:06:55, (isRed)0, (groupState)0, (isSendRed)0, (isUpdateLogo)1, (grabRedNumber)0, (redCountNumber)0, (industryId)160000, (lastSendRedTime)None, (shopLink), (isBlack)0, (updateTime)2016-10-28 14:06:55, (newMemberNumber)0, (reportNumber)0, (lastLookUpMessageTime)None, (groupAccount)0, (isWaiter)1, (isAuth)0, (authType)None, (busiId)None, (likeNumber)0, (rewardNumber)0, (cityName)上海, (city)3101000000, (newMemberLastTime)2016-10-28 14:18:27, (isAddAuth)1, (richRemark)None, (alertFlag)0</font></p>
+<p><font color=blue>ukardweb > t_redgroup_countinfo(群红包汇总信息表) > userId</font></p>
+<p><font color=purple> id(id) , groupId(群ID) , countAmount(总金额) , countNumber(总个数) , batchNumber(发出批次数) , browseNumber(浏览次数) , createTime(创建时间) , updateTime(更新时间) , advertPicURL(广告图片(用户最新一批次的第一张)) , userId(用户Id)</font></p>
+<p><font color=green>1), (id)1392, (groupId)1392, (countAmount)0, (countNumber)0, (batchNumber)0, (browseNumber)0, (createTime)2016-10-28 14:55:12, (updateTime)2016-10-28 14:55:12, (advertPicURL)None, (userId)10001679</font></p>
+<p><font color=green>2), (id)1387, (groupId)1387, (countAmount)0, (countNumber)0, (batchNumber)0, (browseNumber)0, (createTime)2016-10-28 14:06:55, (updateTime)2016-10-28 14:06:55, (advertPicURL)None, (userId)10001679</font></p>
+<p><font color=green>1), (id)1392, (groupId)1392, (countAmount)0, (countNumber)0, (batchNumber)0, (browseNumber)0, (createTime)2016-10-28 14:55:12, (updateTime)2016-10-28 14:55:12, (advertPicURL)None, (userId)10001679</font></p>
+<p><font color=blue>ukardweb > t_redgroup_label(群分组) > groupId</font></p>
+<p><font color=purple> id() , groupId(群Id) , labelName(标签名称) , userNumber(标签人数) , createTime(创建时间)</font></p>
+<p><font color=green>1), (id)3872, (groupId)1392, (labelName)朋友, (userNumber)0, (createTime)2016-10-28 14:55:12</font></p>
+<p><font color=green>2), (id)3873, (groupId)1392, (labelName)同事, (userNumber)0, (createTime)2016-10-28 14:55:12</font></p>
+<p><font color=blue>ukardweb > t_redgroup_memberinfo(群成员信息表) > userId</font></p>
+<p><font color=purple> id(id) , groupId(群ID) , userId(用户ID) , remarks(用户备注) , batchId(批次ID(推广主ID)) , createTime(创建时间) , memberState(状态(0:有效，1:无效)) , receiveAmount(领取金额) , isRed(是否有未领红包) , groupUserId() , leadRedNumber(领取红包数) , linkOperNumber(进入店铺数) , browseNumber(浏览广告数) , shareNumber(分享次数) , newUserNumber(新成员数) , isCheck(群主是否查看(0:已查看,1:未查看)) , channelType(渠道类型(1:微信,2:QQ,3:新浪微博,4:三藏红包平台,5:主动加入)) , lastLookUpMessageTime(最后查看消息时间) , isMessage(是否有未读图文消息) , groupRemark(群名称备注) , isBlack(是否为黑名单成员(0:不是，1:是)) , isWaiter(是否店小二：0不是，1是) , isEnabled(是否启用：0未启用，1启用) , likeNumber(赞总数) , rewardNumber(打赏数) , headPic(头像地址) , isAuth(是否通过认证(0:通过,1:未通过)) , isTop(是否置顶(null:否,不为空:是))</font></p>
+<p><font color=green>1), (id)2605, (groupId)1245, (userId)10001679, (remarks)令狐冲, (batchId)-1, (createTime)2016-10-28 11:02:19, (memberState)0, (receiveAmount)0, (isRed)0, (groupUserId)10002563, (leadRedNumber)0, (linkOperNumber)0, (browseNumber)0, (shareNumber)0, (newUserNumber)0, (isCheck)1, (channelType)5, (lastLookUpMessageTime)2016-10-28 10:57:33, (isMessage)0, (groupRemark)1路他说, (isBlack)0, (isWaiter)0, (isEnabled)0, (likeNumber)0, (rewardNumber)0, (headPic)http://sit2.88uka.com/000/000/006/767.jpg, (isAuth)0, (isTop)None</font></p>
+<p><font color=blue>ukardweb > t_user_private_info(用户私信表) > user_id</font></p>
+<p><font color=purple> id(编号) , user_id(发信人编号) , accept_id(收信方编号) , created_time(创建时间) , content(私信内容) , is_valid(1.有效2.无效) , info_state(消息发出状态(0.群主1.用户)) , isread(是否已读(0:已读,1:未读)) , groupId(群ID) , type(消息类型0普通消息/1红包消息/2转帐消息) , redId(关联转帐/红包ID) , isLead(是否领取0未领,1已领)</font></p>
+<p><font color=green>1), (id)8353, (user_id)10001679, (accept_id)10001472, (created_time)2016-10-28 10:36:15, (content)空间里, (is_valid)1, (info_state)0, (isread)1, (groupId)13, (type)5, (redId)1040, (isLead)0</font></p>
+<p><font color=green>2), (id)8352, (user_id)10001679, (accept_id)10002370, (created_time)2016-10-28 10:30:18, (content)111, (is_valid)1, (info_state)0, (isread)1, (groupId)13, (type)0, (redId)None, (isLead)0</font></p>
+<p><font color=blue>ukardweb > t_user_private_red(用户私信红包表) > userId</font></p>
+<p><font color=purple> id(业务ID) , userId(发送人ID) , belongId(领取人ID) , redState(红包状态 0新建记录 1正常、2过期、3领取、4退回) , amount(金额) , redType(29私信红包/30转帐) , payType(1 微信，2 支付宝，3 余额 ,4,群账户, 5三藏卡) , content(红包内容) , picUrls(图片地址，多个逗号分割) , videoUrl(视频链接) , createTime(创建时间) , updateTime(修改时间) , isValid(是否可用 0不可用/1可用) , groupId(Ⱥid) , orderId(订单ID)</font></p>
+<p><font color=green>1), (id)1040, (userId)10001679, (belongId)10001472, (redState)1, (amount)300, (redType)38, (payType)3, (content)空间里, (picUrls)None, (videoUrl)None, (createTime)2016-10-28 10:36:15, (updateTime)2016-10-28 10:36:15, (isValid)1, (groupId)13, (orderId)None</font></p>
+<p><font color=blue>ukardweb > t_user_withdraw(用户管理-提现表) > user_id</font></p>
+<p><font color=purple> id(编号) , user_id(用户id) , amount(提现金额) , charge(手续费) , w_state(0 提现中 1 提现成功 2提现失败 3 付款中) , check_state(0 提交审核 1 审核成功 2审核失败 ) , bank_num(银行卡号) , card_id(我的默认银行卡id) , bank_name(银行名称) , account_name(银行卡账户名) , is_valid(是否有效) , create_time(创建时间) , audit_remark(审核备注) , audit_name(审核人姓名) , audit_time(审核时间) , audit(审核人id) , payer_name(付款人名字) , pay_time(付款时间) , payer(付款人id) , pay_remark(付款失败原因) , moneyType() , pay_type(交易类型（0.pos 1.微信 2.支付宝）) , pay_order_id(app支付订单号) , pay_id(第三方支付id) , time_end(支付完成时间) , object_id(业务主键) , groupId(群id)</font></p>
+<p><font color=green>1), (id)12556, (user_id)10001679, (amount)300, (charge)0, (w_state)1, (check_state)0, (bank_num)None, (card_id)None, (bank_name)None, (account_name)None, (is_valid)1, (create_time)2016-10-28 10:36:15, (audit_remark)None, (audit_name)None, (audit_time)None, (audit)None, (payer_name)None, (pay_time)None, (payer)None, (pay_remark)None, (moneyType)70, (pay_type)3, (pay_order_id)None, (pay_id)None, (time_end)None, (object_id)1040, (groupId)None</font></p>
+<p><font color=red> [affected 9 tables]</font> </p>
+<p>>>>>>>> [ukardapp , phone = 13816109050 , userId = 10001679 , groupID = 1392 , 2016-10-28 00:00:01 ~ 2016-10-28 23:59:59]</p>
+<p><font color=blue>ukardapp > t_app_exception_log(APP异常日志表) > userId</font></p>
+<p><font color=purple> id(编号) , mobileType(手机型号) , appVersion(app版本) , model(设备型号) , systemVersion(系统版本) , userId(用户编号) , exceptionContent(错误信息) , isValid(是否可用0/不可用/1可用) , createTime(创建时间) , package()</font></p>
+<p><font color=green>1), (id)1169, (mobileType)1, (appVersion)2503, (model)HONOR ATH-AL00, (systemVersion)23, (userId)10001679, (exceptionContent)java.lang.NoSuchFieldError: No static field PARAM_IS_SELECT_MODEL_BOOLEAN of type Ljava/lang/String; in class Lcom/mowin/tsz/redpacketgroup/my/ChooseGroupMemberActivity; or its superclasses (declaration of 'com.mowin.tsz.redpacketgroup.my.ChooseGroupMemberActivity' appears in /data/app/com.mowin.tsz-1/base.apk)
+	at com.mowin.tsz.redpacketgroup.my.MyRedPacketGroupInfoActivity.onActivityResult(MyRedPacketGroupInfoActivity.kt:386)
+	at android.app.Activity.dispatchActivityResult(Activity.java:6597)
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:3726)
+	at android.app.ActivityThread.handleSendResult(ActivityThread.java:3773)
+	at android.app.ActivityThread.access$1400(ActivityThread.java:165)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1418)
+	at android.os.Handler.dispatchMessage(Handler.java:102)
+	at android.os.Looper.loop(Looper.java:150)
+	at android.app.ActivityThread.main(ActivityThread.java:5546)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:794)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:684)
+, (isValid)1, (createTime)2016-10-28 14:56:06, (package)com.mowin.tsz</font></p>
+<p><font color=green>2), (id)1168, (mobileType)1, (appVersion)2503, (model)HONOR ATH-AL00, (systemVersion)23, (userId)10001679, (exceptionContent)java.lang.NoSuchFieldError: No static field PARAM_IS_SELECT_MODEL_BOOLEAN of type Ljava/lang/String; in class Lcom/mowin/tsz/redpacketgroup/my/ChooseGroupMemberActivity; or its superclasses (declaration of 'com.mowin.tsz.redpacketgroup.my.ChooseGroupMemberActivity' appears in /data/app/com.mowin.tsz-1/base.apk)
+	at com.mowin.tsz.redpacketgroup.my.MyRedPacketGroupInfoActivity.onActivityResult(MyRedPacketGroupInfoActivity.kt:386)
+	at android.app.Activity.dispatchActivityResult(Activity.java:6597)
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:3726)
+	at android.app.ActivityThread.handleSendResult(ActivityThread.java:3773)
+	at android.app.ActivityThread.access$1400(ActivityThread.java:165)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1418)
+	at android.os.Handler.dispatchMessage(Handler.java:102)
+	at android.os.Looper.loop(Looper.java:150)
+	at android.app.ActivityThread.main(ActivityThread.java:5546)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:794)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:684)
+, (isValid)1, (createTime)2016-10-28 14:54:40, (package)com.mowin.tsz</font></p>
+<p><font color=green>3), (id)1167, (mobileType)1, (appVersion)2503, (model)HONOR ATH-AL00, (systemVersion)23, (userId)10001679, (exceptionContent)java.lang.NoSuchFieldError: No static field PARAM_IS_SELECT_MODEL_BOOLEAN of type Ljava/lang/String; in class Lcom/mowin/tsz/redpacketgroup/my/ChooseGroupMemberActivity; or its superclasses (declaration of 'com.mowin.tsz.redpacketgroup.my.ChooseGroupMemberActivity' appears in /data/app/com.mowin.tsz-1/base.apk)
+	at com.mowin.tsz.redpacketgroup.my.MyRedPacketGroupInfoActivity.onActivityResult(MyRedPacketGroupInfoActivity.kt:386)
+	at android.app.Activity.dispatchActivityResult(Activity.java:6597)
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:3726)
+	at android.app.ActivityThread.handleSendResult(ActivityThread.java:3773)
+	at android.app.ActivityThread.access$1400(ActivityThread.java:165)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1418)
+	at android.os.Handler.dispatchMessage(Handler.java:102)
+	at android.os.Looper.loop(Looper.java:150)
+	at android.app.ActivityThread.main(ActivityThread.java:5546)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:794)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:684)
+, (isValid)1, (createTime)2016-10-28 14:14:19, (package)com.mowin.tsz</font></p>
+<p><font color=green>4), (id)1166, (mobileType)1, (appVersion)2503, (model)HONOR ATH-AL00, (systemVersion)23, (userId)10001679, (exceptionContent)java.lang.NoSuchFieldError: No static field PARAM_IS_SELECT_MODEL_BOOLEAN of type Ljava/lang/String; in class Lcom/mowin/tsz/redpacketgroup/my/ChooseGroupMemberActivity; or its superclasses (declaration of 'com.mowin.tsz.redpacketgroup.my.ChooseGroupMemberActivity' appears in /data/app/com.mowin.tsz-1/base.apk)
+	at com.mowin.tsz.redpacketgroup.my.MyRedPacketGroupInfoActivity.onActivityResult(MyRedPacketGroupInfoActivity.kt:386)
+	at android.app.Activity.dispatchActivityResult(Activity.java:6597)
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:3726)
+	at android.app.ActivityThread.handleSendResult(ActivityThread.java:3773)
+	at android.app.ActivityThread.access$1400(ActivityThread.java:165)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1418)
+	at android.os.Handler.dispatchMessage(Handler.java:102)
+	at android.os.Looper.loop(Looper.java:150)
+	at android.app.ActivityThread.main(ActivityThread.java:5546)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:794)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:684)
+, (isValid)1, (createTime)2016-10-28 14:13:51, (package)com.mowin.tsz</font></p>
+<p><font color=green>5), (id)1165, (mobileType)1, (appVersion)2503, (model)HONOR ATH-AL00, (systemVersion)23, (userId)10001679, (exceptionContent)java.lang.NullPointerException: Attempt to read from field 'android.widget.ImageView com.mowin.tsz.redpacketgroup.my.MyTszHotListAdapter$ViewHolder.logoView' on a null object reference
+	at com.mowin.tsz.redpacketgroup.my.MyTszHotListAdapter.getView(MyTszHotListAdapter.java:67)
+	at android.widget.HeaderViewListAdapter.getView(HeaderViewListAdapter.java:230)
+	at android.widget.AbsListView.obtainView(AbsListView.java:2363)
+	at android.widget.ListView.makeAndAddView(ListView.java:1883)
+	at android.widget.ListView.fillDown(ListView.java:706)
+	at android.widget.ListView.fillSpecific(ListView.java:1370)
+	at android.widget.ListView.layoutChildren(ListView.java:1666)
+	at android.widget.AbsListView.onLayout(AbsListView.java:2161)
+	at android.view.View.layout(View.java:16754)
+	at android.view.ViewGroup.layout(ViewGroup.java:5462)
+	at android.widget.RelativeLayout.onLayout(RelativeLayout.java:1079)
+	at android.view.View.layout(View.java:16754)
+	at android.view.ViewGroup.layout(ViewGroup.java:5462)
+	at android.widget.FrameLayout.layoutChildren(FrameLayout.java:338)
+	at android.widget.FrameLayout.onLayout(FrameLayout.java:273)
+	at android.view.View.layout(View.java:16754)
+	at android.view.ViewGroup.layout(ViewGroup.java:5462)
+	at android.widget.RelativeLayout.onLayout(RelativeLayout.java:1079)
+	at android.view.View.layout(View.java:16754)
+	at android.view.ViewGroup.layout(ViewGroup.java:5462)
+	at android.widget.FrameLayout.layoutChildren(FrameLayout.java:338)
+	at android.widget.FrameLayout.onLayout(FrameLayout.java:273)
+	at android.view.View.layout(View.java:16754)
+	at android.view.ViewGroup.layout(ViewGroup.java:5462)
+	at android.widget.LinearLayout.setChildFrame(LinearLayout.java:1764)
+	at android.widget.LinearLayout.layoutVertical(LinearLayout.java:1607)
+	at android.widget.LinearLayout.onLayout(LinearLayout.java:1516)
+	at android.view.View.layout(View.java:16754)
+	at android.view.ViewGroup.layout(ViewGroup.java:5462)
+	at android.widget.FrameLayout.layoutChildren(FrameLayout.java:338)
+	at android.widget.FrameLayout.onLayout(FrameLayout.java:273)
+	at com.android.internal.policy.PhoneWindow$DecorView.onLayout(PhoneWindow.java:2748)
+	at android.view.View.layout(View.java:16754)
+	at android.view.ViewGroup.layout(ViewGroup.java:5462)
+	at android.view.ViewRootImpl.performLayout(ViewRootImpl.java:2225)
+	at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:1982)
+	at android.view.ViewRootImpl.doTraversal(ViewRootImpl.java:1138)
+	at android.view.ViewRootImpl$TraversalRunnable.run(ViewRootImpl.java:6227)
+	at android.view.Choreographer$CallbackRecord.run(Choreographer.java:884)
+	at android.view.Choreographer.doCallbacks(Choreographer.java:696)
+	at android.view.Choreographer.doFrame(Choreographer.java:631)
+	at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.java:870)
+	at android.os.Handler.handleCallback(Handler.java:743)
+	at android.os.Handler.dispatchMessage(Handler.java:95)
+	at android.os.Looper.loop(Looper.java:150)
+	at android.app.ActivityThread.main(ActivityThread.java:5546)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:794)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:684)
+, (isValid)1, (createTime)2016-10-28 13:58:40, (package)com.mowin.tsz</font></p>
+<p><font color=red> [affected 1 tables]</font> </p>
+<p>>>>>>>> [game , phone = 13816109050 , userId = 10001679 , groupID = 1392 , 2016-10-28 00:00:01 ~ 2016-10-28 23:59:59]</p>
+<p><font color=red> [affected 0 tables]</font> </p>
+</body>
+</html>

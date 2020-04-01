@@ -229,10 +229,11 @@ class TimePO():
     # print('耗时%s秒' % time)
 
 if __name__ == "__main__":
+
     Time_PO = TimePO()
 
     print(Time_PO.getDate())  # 20190919
-    print(Time_PO.getDate_minus())  # 2019-09-19`
+    print(Time_PO.getDate_minus())  # 2019-09-19
     print(Time_PO.getDate_divide())  # 2019/03/19
     print(Time_PO.getDatetime())  # 20200319151928
     print(Time_PO.getDatetime_divide())  # 2020/03/19 15:19:28
