@@ -1,7 +1,6 @@
-﻿# project - PO封装包
+﻿# PO封装包
 
-=====================================
-BasePO()
+### BasePO()
 
 find_element() # 重写元素定位方法
 find_elements()
@@ -72,7 +71,6 @@ iframeXpath  # 定位iframe的Xpath
 iframeSwitch # 多个iframe之间切换
 iframeQuit  # 退出 iframe
 
-
 jsExecute # 执行js
 jsIdReadonly  # 定位id ，去掉js控件只读属性，一般第三方控件日期
 jsNameReadonly  # 定位Name，去掉js控件只读属性，一般第三方控件日期
@@ -89,8 +87,8 @@ isElementText
 isElementXpath
 isElementVisibleXpath
 
-========================================
-WebPO
+
+### WebPO
 
 openURL
 closeURL
@@ -105,8 +103,8 @@ scrollTopById
 getCode  获取验证码
 populAlert()  弹出框操作
 
-========================================
-NetPO
+
+###  NetPO
 
 sendEmail
 getURLCode
@@ -117,16 +115,16 @@ downloadFile
 downloadHtml
 downloadImage
 
-========================================
-FilePO
 
-# 1，环境变量
+### FilePO
+
+### 1，环境变量
 1.1 os.environ.keys() 获取环境变量信息
 1.2 os.getenv("JAVA_HOME") 获取环境变量的值
 1.3 sys.path.append() 添加路径到系统环境变量
 1.4 os.path.expandvars(path)用法
 
-# 2，路径
+#### 2，路径
 2.1 os.getcwd() 获取当前路径（反斜线）
 2.2 os.path.dirname(__file__) 获取当前路径
 2.3 File_PO.getUpPath() 获取上层目录路径（反斜线）
@@ -134,7 +132,7 @@ FilePO
 2.5 File_PO.getLayerPath("../../") 获取自定义上层目录路径
 2.6 File_PO.getChdirPath() 切换路径，影响os.getcwd()
 
- # 3，目录与文件
+##### 3，目录与文件
 3.1 getListDir  获取路径下目录及文件清单（排列顺序按照数字、字符、中文输出）
 3.2 getWalk  获取路径下目录及文件清单（包括路径）
 3.3 getListFile 获取文件清单
@@ -151,28 +149,30 @@ FilePO
 3.14 os.path.isdir  判断路径是否是目录
 3.15 os.path.isfile  判断路径是否是文件
 
-# 4，操作目录文件
+###### 4，操作目录文件
 4.1 newFolder  新建目录
+
 4.2 newLayerFolder  新建多级目录
+
 4.3 copyFolder  复制目录
+
 4.4 renameFolder  目录改名/移动（先移动，在改名，如重名则原路返回）
+
 4.5 newFile  新建文件
+
 4.6 copyFile  复制文件
+
 4.7 renameFile  文件改名/移动
+
 4.8 delEmptyFolder  删除空目录
+
 4.9 newFolder  递归删除目录
+
 4.10 delFile  删除文件（支持通配符）
+
 4.11 deltreeFolder  强制删除目录
+
 4.12  delCascadeFiles  级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）
-
-
-
-
-
-
-
-
-
 
 
 
