@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bcee6349-2fbc-4bf8-a1c8-de4b5c1bba36" name="Default" comment="2020.4.1 add readme.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/httprunner/httprunner" beforeDir="false" afterPath="$PROJECT_DIR$/instance/httprunner/httprunner" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PO/ApkPO.py" beforeDir="false" afterPath="$PROJECT_DIR$/PO/ApkPO.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -520,11 +519,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PO/YamlPO.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
+            <state relative-caret-position="890">
+              <caret line="60" column="58" selection-start-line="60" selection-start-column="58" selection-end-line="60" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/PO/ApkPO.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -626,7 +634,6 @@
         <option value="$PROJECT_DIR$/PO/sqlserverPO.py" />
         <option value="$PROJECT_DIR$/PO/DatabasePO.py" />
         <option value="$PROJECT_DIR$/test/apk.py" />
-        <option value="$PROJECT_DIR$/PO/ApkPO.py" />
         <option value="$PROJECT_DIR$/test/capture1.py" />
         <option value="$PROJECT_DIR$/PO/WebPO.py" />
         <option value="$PROJECT_DIR$/test/draganddrop.py" />
@@ -662,10 +669,11 @@
         <option value="$PROJECT_DIR$/PO/RePO.py" />
         <option value="$PROJECT_DIR$/PO/TimePO.py" />
         <option value="$PROJECT_DIR$/PO/YamlPO.py" />
+        <option value="$PROJECT_DIR$/PO/ApkPO.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-45" />
     <option name="width" value="2000" />
     <option name="height" value="1105" />
@@ -685,6 +693,11 @@
             <path>
               <item name="project" type="b2602c69:ProjectViewProjectNode" />
               <item name="project" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
+              <item name="PO" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1113,7 +1126,7 @@
       <workItem from="1585620626446" duration="20916000" />
       <workItem from="1585701221555" duration="26043000" />
       <workItem from="1585734908207" duration="1355000" />
-      <workItem from="1585789274017" duration="779000" />
+      <workItem from="1585789274017" duration="1499000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1550313403632</created>
@@ -1199,7 +1212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585735012619</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="2020.4.2 test APKPO.py">
+      <created>1585793607880</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1585793607880</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1235,7 +1255,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1300480000" />
+    <option name="totallyTimeSpent" value="1301200000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1247,12 +1267,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.40162602" side_tool="true" visible="true" weight="0.1997319" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.40162602" side_tool="true" visible="true" weight="0.1997319" />
       <window_info id="Favorites" order="1" side_tool="true" weight="0.32993445" />
       <window_info id="Structure" order="2" sideWeight="0.598374" weight="0.14209116" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49932975" weight="0.17280453" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6668901" weight="0.296034" />
@@ -1262,7 +1283,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3264642" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.33310992" side_tool="true" weight="0.41442716" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.36117136" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.23796034" />
+      <window_info anchor="bottom" id="Version Control" order="9" visible="true" weight="0.23796034" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.19040698" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="11" weight="0.3292683" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
@@ -1321,7 +1342,8 @@
     <MESSAGE value="2020.3.31" />
     <MESSAGE value="2020.4.1" />
     <MESSAGE value="2020.4.1 add readme.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020.4.1 add readme.md" />
+    <MESSAGE value="2020.4.2 test APKPO.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020.4.2 test APKPO.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1350,13 +1372,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/pywinrm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-874">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/python1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -1634,8 +1649,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PO/YamlPO.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
+        <state relative-caret-position="890">
+          <caret line="60" column="58" selection-start-line="60" selection-start-column="58" selection-end-line="60" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PO/ApkPO.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
         </state>
       </provider>
     </entry>
