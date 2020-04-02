@@ -1,6 +1,0 @@
-yum install glibc*
-
-nmon: /lib64/libc.so.6: version `GLIBC_2.14' not found (required by nmon)
-
-
-192.168.2.176:9999/payment/gameOrder/1.0/gamePreOrder.do?userId="10001679"&payType=3&amount=1
