@@ -1,5 +1,0 @@
-MySQLdb
-https://sourceforge.net/projects/mysql-python/
-
-Microsoft Visual C++ Compiler for Python 2.7 
-https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266
