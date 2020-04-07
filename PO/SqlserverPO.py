@@ -57,6 +57,25 @@ class SqlServerPO():
         # Sqlserver_PO.dbDesc('b*', 'id,page')  # 查看所有b开头的表中id字段的结构（通配符*）
         self.cur = self.__GetConnect()
 
+        dict1 ={}
+        tblComment = "SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0"
+        self.cur.execute(tblComment)
+        tblComment = self.cur.fetchall()
+        for t in tblComment:
+            if t[1] != None:
+                dict1[t[0]] = t[1].decode('utf8')
+            else:
+                dict1[t[0]] = t[1]
+        print(dict1)
+
+        x = dict1.get("CommonDictionary", "error,没有找到!")
+        # x = b'\xe6\x95\xb0\xe6\x8d\xae\xe5\xad\x97\xe5\x85\xb8\xe5\x80\xbc\xe8\xa1\xa8'
+        # print(x.decode('utf8'))
+        # print(x)
+        # for i in range(len(dict1)):
+        #     if dict1[i] == "CommonDictionary":
+        #         print(dict)
+
         if len(args) == 0:
             # 查看所有表结构，获取数据库下有多少张表
             allTable = "select * from sysobjects where xtype = 'u' and name != 'sysdiagrams'"
@@ -77,7 +96,11 @@ class SqlServerPO():
                         if len(i[1]) > x: x = len(i[1])
                         if len(i[2]) > y: y = len(i[2])
                         if len(str(i[3])) > z: z = len(str(i[3]))
-                    print("*" * 100 + "\n" + str(tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (x - 3),"类型" + " " * (y - 3), "大小" + " " * (z+2), "可空" + " " * 6, "注释")
+                    varComment = dict1.get(tblName, "error,没有找到!")
+                    print("*" * 100 + "\n" + str(
+                        tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
+                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 7, "注释")
+                    # print("*" * 100 + "\n" + str(tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (x - 3),"类型" + " " * (y - 3), "大小" + " " * (z+2), "可空" + " " * 6, "注释")
                     for row in results:
                         # 遍历字段、类型、大小、可空、注释
                         if row[5] != None:
@@ -127,7 +150,8 @@ class SqlServerPO():
                                 if len(i[1]) > x: x = len(i[1])
                                 if len(i[2]) > y: y = len(i[2])
                                 if len(str(i[3])) > z: z = len(str(i[3]))
-                            print("*" * 100 + "\n" + str(tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (
+                            varComment = dict1.get(tblName, "error,没有找到!")
+                            print("*" * 100 + "\n" + str(tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
                                         x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
                             for row in results:
                                 # 遍历字段、类型、大小、可空、注释
@@ -170,8 +194,11 @@ class SqlServerPO():
                         if len(i[1]) > x: x = len(i[1])
                         if len(i[2]) > y: y = len(i[2])
                         if len(str(i[3])) > z: z = len(str(i[3]))
-                    print("*" * 100 + "\n" + str(tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (x - 3),
-                          "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
+
+                    varComment = dict1.get(tblName, "error,没有找到!")
+                    print("*" * 100 + "\n" + str(
+                        tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
+                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 7, "注释")
                     for row in results:
                         # 遍历字段、类型、大小、可空、注释
                         if row[5] != None:
@@ -236,10 +263,15 @@ class SqlServerPO():
                                 if len(str(i[3])) > z: z = len(str(i[3]))
                             for row in results:
                                 if row[1] in varFields:
-                                    print("*" * 100 + "\n" + str(
-                                        tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                                                  x - 3),
-                                          "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
+                                    varComment = dict1.get(tblName, "error,没有找到!")
+                                    print("*" * 100 + "\n" + str(tblName + "(" + str(varComment) + ") - " + str(
+                                        len(results)) + "个字段") + "\n字段" + " " * (
+                                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6,
+                                          "注释")
+                                    # print("*" * 100 + "\n" + str(
+                                    #     tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (
+                                    #               x - 3),
+                                    #       "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
                             for row in results:
                                 # 遍历字段、类型、大小、可空、注释
                                 if row[1] in varFields:
@@ -283,10 +315,15 @@ class SqlServerPO():
                         if len(i[2]) > y: y = len(i[2])
                         if len(str(i[3])) > z: z = len(str(i[3]))
 
+                    varComment = dict1.get(tblName, "error,没有找到!")
                     print("*" * 100 + "\n" + str(
-                        tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                                  x - 3),
-                          "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
+                        tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
+                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
+
+                    # print("*" * 100 + "\n" + str(
+                    #     tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (
+                    #               x - 3),
+                    #       "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
                     for row in results:
                         # 遍历字段、类型、大小、可空、注释
                         if row[1] in varFields:
@@ -595,23 +632,23 @@ class SqlServerPO():
 
 if __name__ == '__main__':
 
-    Sqlserver_PO = SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "bmlpimpro")  # PIM 测试环境
-    l_result = Sqlserver_PO.ExecQuery('select receiptNo from t_ph_outin_info where receiptType=%s ' % (15))
-    print(len(l_result))
-    print(l_result)
-    print(l_result[1])
-    for (Value) in l_result:
-        print(Value)
+    # Sqlserver_PO = SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "bmlpimpro")  # PIM 测试环境
+    # l_result = Sqlserver_PO.ExecQuery('select receiptNo from t_ph_outin_info where receiptType=%s ' % (15))
+    # print(len(l_result))
+    # print(l_result)
+    # print(l_result[1])
+    # for (Value) in l_result:
+    #     print(Value)
 
 
-    Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR 测试环境
-    Sqlserver_PO.dbDesc()  # 所有表结构
-    # Sqlserver_PO.dbDesc('HrPersonBasicInfo')   # 某个表结构
+    Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境
+    # Sqlserver_PO.dbDesc()  # 所有表结构
+    # Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
     # Sqlserver_PO.dbDesc('Upms*')  # 查看所有b开头的表结构（通配符*） ??? 错误函数
     # Sqlserver_PO.dbDesc('HrPersonBasicInfo', 'personid,Id,Name')   # 某表的部分字段
     # Sqlserver_PO.dbDesc('b*', 'id,page')  # 查看所有b开头的表中id字段的结构（通配符*）
 
-    # Sqlserver_PO.dbRecord('HrCover_20200306115223', 'varchar', '%居委会%')  # 搜索指定表符合条件的记录.
+    # Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'varchar', '%居委会%')  # 搜索所有表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
