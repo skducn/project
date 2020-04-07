@@ -6,7 +6,7 @@
 # sql server 查询数据库所有的表名 + 字段  https://www.cnblogs.com/TF12138/p/4064752.html
 # pymssql托管在Github上：https://github.com/pymssql
 # python连接sql server数据库实现增删改查 https://www.cnblogs.com/malcolmfeng/p/6909293.html
-
+# /usr/local/pip3.7 install pymssql
 # 问题：查询后中文正确显示，但在数据库中却显示乱码
 # 解决方法：添加 charset='utf8' , 确保 charset 与数据库编码一致，如数据库是gb2312 , 则charset='gb2312'。
 # conn = pymssql.Connect(host='localhost', user='root', passwd='root', db='python',charset='utf8')
@@ -66,15 +66,7 @@ class SqlServerPO():
                 dict1[t[0]] = t[1].decode('utf8')
             else:
                 dict1[t[0]] = t[1]
-        print(dict1)
-
-        x = dict1.get("CommonDictionary", "error,没有找到!")
-        # x = b'\xe6\x95\xb0\xe6\x8d\xae\xe5\xad\x97\xe5\x85\xb8\xe5\x80\xbc\xe8\xa1\xa8'
-        # print(x.decode('utf8'))
-        # print(x)
-        # for i in range(len(dict1)):
-        #     if dict1[i] == "CommonDictionary":
-        #         print(dict)
+        # print(dict1)
 
         if len(args) == 0:
             # 查看所有表结构，获取数据库下有多少张表
@@ -643,7 +635,7 @@ if __name__ == '__main__':
 
     Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境
     # Sqlserver_PO.dbDesc()  # 所有表结构
-    # Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
+    Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
     # Sqlserver_PO.dbDesc('Upms*')  # 查看所有b开头的表结构（通配符*） ??? 错误函数
     # Sqlserver_PO.dbDesc('HrPersonBasicInfo', 'personid,Id,Name')   # 某表的部分字段
     # Sqlserver_PO.dbDesc('b*', 'id,page')  # 查看所有b开头的表中id字段的结构（通配符*）
