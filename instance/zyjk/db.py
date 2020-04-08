@@ -26,13 +26,14 @@
 # join INFORMATION_SCHEMA.COLUMNS c on b.name=c.COLUMN_NAME and a.name=c.TABLE_NAME
 # where a.name='COMMONATTACHMENT'
 
-import os,sys
+import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
-from PO import sqlserverPO, mysqlPO
+from PO import SqlserverPO, MysqlPO
 
-# **********************************************************************************************************************************
+
+
 # 系统用户中心(sqlserver)
-# sqlserver_PO = sqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "usertest")  # 测试环境
+# sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "usertest")  # 测试环境
 # sqlserver_PO.dbDesc()   # 查看所有表结构
 # sqlserver_PO.dbDesc('sys_user')   # 查看myclass表结构
 # sqlserver_PO.dbDesc('b*')  # 查看所有b开头的表结构（通配符*） ???
@@ -46,12 +47,12 @@ from PO import sqlserverPO, mysqlPO
 
 
 # 白茅岭 (sqlserver)
-# sqlserver_PO = sqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "bmlpimpro")  # 测试环境
+# sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "bmlpimpro")  # 测试环境
 # sqlserver_PO.dbRecord('*', 'varchar', '%王维强%')
 
 
 # PIM 基层健康管理平台(sqlserver)
-# sqlserver_PO = sqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "bmlpimpro")  # 测试环境
+# sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "bmlpimpro")  # 测试环境
 # sqlserver_PO.dbDesc()   # 查看所有表结构
 # sqlserver_PO.dbDesc('t_system_patient_basic_info')   # 查看myclass表结构
 # sqlserver_PO.dbDesc('b*')  # 查看所有b开头的表结构（通配符*） ???
@@ -65,7 +66,7 @@ from PO import sqlserverPO, mysqlPO
 
 
 # fsms 家床(sqlserver)
-# sqlserver_PO = sqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "fsms")  # 测试环境
+# sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "fsms")  # 测试环境
 # sqlserver_PO.dbRecord('*', 'varchar', '%测试1%')  # 模糊搜索所有表中带yoy的char类型。
 # sqlserver_PO.dbRecord('t_upms_user', 'varchar', '%e10adc3949ba59abbe56e057f20f883e')  # 搜索 t_upms_user 表中内容包含 admin 的 varchar 类型记录。
 # sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
@@ -73,8 +74,8 @@ from PO import sqlserverPO, mysqlPO
 
 
 # EHR 电子健康档案(sqlserver)
-sqlserver_PO = sqlserverPO.SqlServerPO("192.168.0.35", "test", "123456", "healthrecord_test")  # 测试环境
-sqlserver_PO.dbDesc()   # 所有表结构
+# sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.35", "test", "123456", "healthrecord_test")  # 测试环境
+# sqlserver_PO.dbDesc()   # 所有表结构
 # sqlserver_PO.dbDesc('UpmsUser')   # UpmsUser表结构
 # sqlserver_PO.dbDesc('mmon*')  # 表名中带有mmon字符的表结构
 # sqlserver_PO.dbDesc('UpmsUser*', 'Birthday')  # 表名中带有UpmsUser字符的表中Birthday字段的结构
@@ -85,8 +86,10 @@ sqlserver_PO.dbDesc()   # 所有表结构
 # sqlserver_PO.dbRecord('*', 'datetime', '2018-10-15 18:21%')  # 模糊搜索所有表中带2018-10-15 18:21%的datetime类型。
 
 
+# **********************************************************************************************************************************
+
 # 盛蕴CRM小程序(mysql)
-# mysql_PO = mysqlPO.MysqlPO("192.168.0.39", "ceshi", "123456", "TD_APP")  # 测试环境
+# mysql_PO = MysqlPO.MysqlPO("192.168.0.39", "ceshi", "123456", "TD_APP", 3336)  # 测试环境
 # mysql_PO.dbDesc()   # 所有表结构
 # mysql_PO.dbDesc('fact*')  # 查看所有b开头的表结构（通配符*）
 # mysql_PO.dbDesc('app_info')   # app_info表结构
@@ -105,5 +108,9 @@ sqlserver_PO.dbDesc()   # 所有表结构
 # mysql_PO.dbCreateDate('<', "2019-02-18")  # 显示所有在2019-12-08之前创建的表
 
 
+# BI集成平台(mysql)
+mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "bidev", 3306)  # 测试环境
 
+mysql_PO.dbRecord('*', 'char', u'%耳、鼻、咽喉科%')
+# mysql_PO.dbRecord('*', 'float', u'%295.54%')
 
