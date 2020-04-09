@@ -90,6 +90,19 @@ class BasePO(object):
         else:
             print(errMsg)
 
+    def assertEqualgetValue(self, expected, actual):
+        if expected == actual:
+            return 1
+        else:
+            return 0
+
+    def assertEqualNotNone(self, expected, actual):
+        if (expected and actual) and (expected != None and actual != None) :
+            return 1, expected
+        else:
+            return 0,0
+
+
     '''[ERROR TIPS]'''
 
     def getError(self, varStatus, varErrorInfo, varErrorRow):
