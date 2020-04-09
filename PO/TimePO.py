@@ -277,8 +277,8 @@ if __name__ == "__main__":
     print(Time_PO.addzero(9))  # 09    //自动在 1 - 9 前加上0
     print(Time_PO.get_today_month(-1))  # 2020-02-19   //返回上个月的今天
     print(Time_PO.get_today_month(3))  # 2020-06-19   //返回3个月后的今天
-    print(Time_PO.getBeforeAfterDate("2019-12-15", -1))   # 2019-12-14  ，注意第一个参数日期是字符串
-    print(Time_PO.getBeforeAfterDate("2019-12-15", 2))   # 2019-12-17
+    print(Time_PO.getBeforeAfterDate("2019-12-15", -1))   # 2019-12-14  ，注意第一个参数日期是字符串  //返回指定日期的前一天
+    print(Time_PO.getBeforeAfterDate("2019-12-15", 2))   # 2019-12-17  //返回指定日期的后2天
 
 
 
