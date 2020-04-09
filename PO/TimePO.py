@@ -221,6 +221,19 @@ class TimePO():
         ''' 时间戳 转 时间'''
         return datetime.datetime.fromtimestamp(intTimestamp)
 
+    def getBeforeAfterDate(self, varDate, varDays):
+        ''' 获取某个日期的前后日期
+        如获取某一个日期的上一天   print(Time_PO.getBeforeAfterDate("2019-12-15", -1))
+        如获取某一个日期的后二天   print(Time_PO.getBeforeAfterDate("2019-12-15", 2))
+        注意，先将字符串转换成日期格式，
+        '''
+        from datetime import datetime
+        varDate = datetime.strptime(varDate, '%Y-%m-%d').date()
+        import datetime
+        return (varDate + datetime.timedelta(days=varDays))
+
+
+
     # # 计算耗时功能
     # time_start = time.time()
     # # ----这里是程序执行部分----
@@ -264,5 +277,11 @@ if __name__ == "__main__":
     print(Time_PO.addzero(9))  # 09    //自动在 1 - 9 前加上0
     print(Time_PO.get_today_month(-1))  # 2020-02-19   //返回上个月的今天
     print(Time_PO.get_today_month(3))  # 2020-06-19   //返回3个月后的今天
+    print(Time_PO.getBeforeAfterDate("2019-12-15", -1))   # 2019-12-14  ，注意第一个参数日期是字符串
+    print(Time_PO.getBeforeAfterDate("2019-12-15", 2))   # 2019-12-17
+
+
+
+
 
 

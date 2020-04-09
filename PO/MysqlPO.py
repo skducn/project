@@ -12,9 +12,9 @@ import MySQLdb
 
 class MysqlPO():
 
-    def __init__(self, varHost, varUser, varPassword, varDB):
+    def __init__(self, varHost, varUser, varPassword, varDB, varPort):
         self.varDB = varDB
-        conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=3336, use_unicode=True)
+        conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=varPort, use_unicode=True)
         self.cur = conn.cursor()
         self.cur.execute('SET NAMES utf8;')
         conn.set_character_set('utf8')
@@ -264,8 +264,10 @@ class MysqlPO():
                                 list1.append(j[1])
                         for i in range(0, len(list0)):
                             # print(list0[i]) 过滤系统关键字
-                            if list0[i] not in 'desc,limit,key,group':
-                                self.cur.execute('select * from %s where %s LIKE "%s"' % (varTable, list0[i], str(varValue)))
+                            if list0[i] not in 'desc,limit,key,group,usage':
+                                # print(varTable)
+                                # print(list0[i])
+                                self.cur.execute('select * from %s where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
                                 t4 = self.cur.fetchall()
                                 if len(t4) != 0:
                                     print("*" * 100)
@@ -374,15 +376,28 @@ class MysqlPO():
 
 if __name__ == '__main__':
 
-    Mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA")  # 盛蕴CRM小程序 测试环境
+    Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # BI 开发数据库
+    varUpdateDate = '2019-09-15'
+    Mysql_PO.cur.execute('select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ' % (varUpdateDate))
+    tmpTuple = Mysql_PO.cur.fetchall()
+    print(tmpTuple[0][0])
 
-    Mysql_PO.cur.execute('select USER_NAME from user where USER_PRIV_NO=%s ' % (999))
-    l_result = Mysql_PO.cur.fetchall()
-    print(len(l_result))
-    print(l_result)
-    print(l_result[0][0])
-    for (Value) in l_result:
-        print(Value)
+
+    # Mysql_PO.cur.execute('select id,anaesthesiaId from bi_anaesthesia_dept where deptIdName="%s" ' % ("骨科"))
+    # tmpTuple = Mysql_PO.cur.fetchall()
+    # print(tmpTuple)
+    # for i in tmpTuple:
+    #     print(str(i[0]) + " , " + str(i[1]))
+
+    # Mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)  # 盛蕴CRM小程序 测试环境
+    #
+    # Mysql_PO.cur.execute('select USER_NAME from user where USER_PRIV_NO=%s ' % (999))
+    # l_result = Mysql_PO.cur.fetchall()
+    # print(len(l_result))
+    # print(l_result)
+    # print(l_result[0][0])
+    # for (Value) in l_result:
+    #     print(Value)
 
     # Mysql_PO.dbDesc()  # 所有表结构
     # Mysql_PO.dbDesc('user')   # 指定表结构
