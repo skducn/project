@@ -163,18 +163,18 @@ class BasePO(object):
         except:
             return None
 
-    def inputXpathEnter(self, varPaths, varContent):
+    def inputXpathEnter(self, varPath, varContent):
         try:
-            self.find_element(*(By.XPATH, varPaths)).send_keys(varContent)
-            self.find_element(*(By.XPATH, varPaths)).send_keys(Keys.ENTER)
+            self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
+            self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
         except:
             return None
 
-    def inputXpathEnterClear(self, varPaths, varContent):
+    def inputXpathEnterClear(self, varPath, varContent):
         try:
-            self.find_element(*(By.XPATH, varPaths)).clear()
-            self.find_element(*(By.XPATH, varPaths)).send_keys(varContent)
-            self.find_element(*(By.XPATH, varPaths)).send_keys(Keys.ENTER)
+            self.find_element(*(By.XPATH, varPath)).clear()
+            self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
+            self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
             sleep(2)
         except:
             return None
