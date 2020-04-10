@@ -13,11 +13,12 @@ import MySQLdb
 class MysqlPO():
 
     def __init__(self, varHost, varUser, varPassword, varDB, varPort):
+
         self.varDB = varDB
-        conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=varPort, use_unicode=True)
-        self.cur = conn.cursor()
+        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=varPort, use_unicode=True)
+        self.cur = self.conn.cursor()
         self.cur.execute('SET NAMES utf8;')
-        conn.set_character_set('utf8')
+        self.conn.set_character_set('utf8')
         self.cur.execute('show tables')
 
     def dbDesc(self, *args):
@@ -378,9 +379,14 @@ if __name__ == '__main__':
 
     Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # BI 开发数据库
     varUpdateDate = '2019-09-15'
-    Mysql_PO.cur.execute('select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ' % (varUpdateDate))
+
+    # Mysql_PO.conn.cursor(MySQLdb.cursors.DictCursor)
+    Mysql_PO.cur.execute('select * from bi_outpatient_yard ')
     tmpTuple = Mysql_PO.cur.fetchall()
-    print(tmpTuple[0][0])
+    desc = Mysql_PO.cur.description     # 获取单表的字段名信息
+    print(desc)
+    print(Mysql_PO.cur.rowcount)   # 获取结果集的条数/
+    # print(tmpTuple[0][0])
 
 
     # Mysql_PO.cur.execute('select id,anaesthesiaId from bi_anaesthesia_dept where deptIdName="%s" ' % ("骨科"))
