@@ -23,46 +23,46 @@ Bi_PO.login()
 
 # # ===============================================================================================
 
-# Bi_PO.menu1("实时监控指标")
-# #
-# print("[1.1 今日运营分析]" + " -" * 100)
-# Bi_PO.menu2ByHref("/bi/realTimeMonitoringIndicator/todayOperationalAnalysis")
+Bi_PO.menu1("实时监控指标")
+#
+print("[1.1 今日运营分析]" + " -" * 100)
+Bi_PO.menu2ByHref("/bi/realTimeMonitoringIndicator/todayOperationalAnalysis")
 #
 # # 1，遍历并分成多个列表（医院总收入，药品收入，今日门急诊量，今日门诊量，今日急诊量，今日门急诊收入，今日出院人数，今日在院，当前危重人数，今日住院实收入）
 # # Bi_PO.winByP()
 # # # 2，当前住院欠费明细
 # # print(Bi_PO.getContent("//tr"))
 #
-# # c1,医院总收入 = 门急诊收入+住院收入
-# Bi_PO.checkValue("医院总收入(万元)", 'select a.sum+b.sum from(SELECT sum(totalaccount) sum  from bi_inpatient_yard where statisticsDate ="%s")a,(SELECT sum(outPAccount) sum from bi_outpatient_yard where statisticsDate ="%s")b ', varUpdateDate, varUpdateDate)
-#
-# # c2,药品收入 = 当日急诊费用中药品类收入+住院药品类收入
-# Bi_PO.checkValue("药品收入(万元)", 'select a.sum +b.sum from(SELECT sum(outPMedicateAccount) sum  from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT sum(inPMedicateAccount) sum FROM bi_inpatient_yard WHERE statisticsDate ="%s")b', varUpdateDate, varUpdateDate)
-#
-# # c3,今日门急诊量 = 今日挂号为门诊和急诊的人次和
-# Bi_PO.checkValue("今日门急诊量", 'select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c4,今日门诊量 = 今日挂号为门诊的人次和
-# Bi_PO.checkValue("今日门诊量", 'select sum(outpatientCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c5,今日急诊量 = 今日挂号为急诊的人次和
-# Bi_PO.checkValue("今日急诊量", 'select sum(emergencyCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c6,今日门急诊收入 = 今日门急诊收费总和
-# Bi_PO.checkValue("今日门急诊收入(万元)", 'select sum(outpaccount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c7,今日出院人数 = 今日做出院登记的患者人数之和
-# Bi_PO.checkValue("今日出院人数", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c8,今日在院人数 = 住院状态为在院的患者人数之和
-# Bi_PO.checkValue("今日在院", 'select sum(inPCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c9,当前危重人数 = 当前危重人数和
-# Bi_PO.checkValue("当前危重人数", 'select sum(criticalCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c10,今日住院实收入 = 出入院财务中，记录在当日的费用之和
-# Bi_PO.checkValue("今日住院实收入(万元)", 'select sum(inPAccount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
+# c1,医院总收入 = 门急诊收入+ 住院收入
+Bi_PO.monitor("医院总收入(万元)", 'select a.sum +b.sum from(SELECT sum(inPAccount) sum  from bi_inpatient_yard where statisticsDate ="%s")a,(SELECT sum(outPAccount) sum FROM bi_outpatient_yard WHERE statisticsDate ="%s")b ', varUpdateDate, varUpdateDate)
+
+# c2,药品收入 = 当日急诊费用中药品类收入+住院药品类收入
+Bi_PO.monitor("药品收入(万元)", 'select a.sum +b.sum from(SELECT sum(outPMedicateAccount) sum  from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT sum(inPMedicateAccount) sum FROM bi_inpatient_yard WHERE statisticsDate ="%s")b', varUpdateDate, varUpdateDate)
+
+# c3,今日门急诊量 = 今日挂号为门诊和急诊的人次和
+Bi_PO.monitor("今日门急诊量(例)", 'select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c4,今日门诊量 = 今日挂号为门诊的人次和
+Bi_PO.monitor("今日门诊量(例)", 'select sum(outpatientCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c5,今日急诊量 = 今日挂号为急诊的人次和
+Bi_PO.monitor("今日急诊量(例)", 'select sum(emergencyCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c6,今日门急诊收入 = 今日门急诊收费总和
+Bi_PO.monitor("今日门急诊收入(万元)", 'select sum(outpaccount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c7,今日出院人数 = 今日做出院登记的患者人数之和
+Bi_PO.monitor("今日出院人数(例)", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c8,今日在院人数 = 住院状态为在院的患者人数之和
+Bi_PO.monitor("今日在院(例)", 'select sum(inPCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c9,当前危重人数 = 当前危重人数和
+Bi_PO.monitor("当前危重人数(例)", 'select sum(criticalCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c10,今日住院实收入 = 出入院财务中，记录在当日的费用之和
+Bi_PO.monitor("今日住院实收入(万元)", 'select sum(inPAccount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,28 +113,28 @@ Bi_PO.login()
 
 # # ===============================================================================================
 # #
-Bi_PO.menu1("门诊分析")
+# Bi_PO.menu1("门诊分析")
 
 # 同期，同比，未处理？？
 
-print("\n[2.1 门诊业务]" + " -" * 100)
-Bi_PO.menu2ByHref("/bi/outpatientAnalysis/outpatientService")
-
-# 自定义日期
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
-sleep(2)
-# c1,门急诊人次 = 统计期内挂号为门诊和急诊的人次和
-Bi_PO.checkValue("门急诊人次(万人)", 'SELECT sum(outPCount) from bi_outpatient_yard where statisticsDate="%s"', varUpdateDate)
-
-# c2,门诊人次 = 门诊挂号人次
-Bi_PO.checkValue("门诊人次(万人)", 'SELECT sum(registerCount) from bi_outpatient_yard where statisticsDate="%s"', varUpdateDate)
-
-# c3,急诊人次 = 急诊+留观人次
-Bi_PO.checkValue("急诊人次(万人)", 'SELECT sum(emergencyCount) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
-
-# c4,门急诊退号率 = 统计期内门急诊退号人次/门急诊总挂号人次
-Bi_PO.checkValue("门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
+# print("\n[2.1 门诊业务]" + " -" * 100)
+# Bi_PO.menu2ByHref("/bi/outpatientAnalysis/outpatientService")
+#
+# # 自定义日期
+# Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
+# Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
+# sleep(2)
+# # c1,门急诊人次 = 统计期内挂号为门诊和急诊的人次和
+# Bi_PO.monitor("门急诊人次(万人)", 'SELECT sum(outPCount) from bi_outpatient_yard where statisticsDate="%s"', varUpdateDate)
+#
+# # c2,门诊人次 = 门诊挂号人次
+# Bi_PO.monitor("门诊人次(万人)", 'SELECT sum(registerCount) from bi_outpatient_yard where statisticsDate="%s"', varUpdateDate)
+#
+# # c3,急诊人次 = 急诊+留观人次
+# Bi_PO.monitor("急诊人次(万人)", 'SELECT sum(emergencyCount) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
+#
+# # c4,门急诊退号率 = 统计期内门急诊退号人次/门急诊总挂号人次
+# Bi_PO.monitor("门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
 
 #
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
