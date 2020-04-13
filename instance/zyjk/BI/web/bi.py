@@ -17,22 +17,22 @@ Bi_PO = BiPO()
 List_PO = ListPO()
 Time_PO = TimePO()
 
-
 # 登录 运营决策系统
 Bi_PO.login()
+
+# 获取当前数据更新时间
+x = Bi_PO.Web_PO.getXpathText('//*[@id="app"]/section/section/section/main/div[1]/span')
+varUpdateDate = str(x).split("数据更新时间：")[1].split(" ")[0]
+# print(varUpdateDate)
 
 # # ===============================================================================================
 
 Bi_PO.menu1("实时监控指标")
-#
-print("[1.1 今日运营分析]" + " -" * 100)
-Bi_PO.menu2ByHref("/bi/realTimeMonitoringIndicator/todayOperationalAnalysis")
-#
-# # 1，遍历并分成多个列表（医院总收入，药品收入，今日门急诊量，今日门诊量，今日急诊量，今日门急诊收入，今日出院人数，今日在院，当前危重人数，今日住院实收入）
-# # Bi_PO.winByP()
-# # # 2，当前住院欠费明细
-# # print(Bi_PO.getContent("//tr"))
-#
+
+
+# # 1，检查值（医院总收入，药品收入，今日门急诊量，今日门诊量，今日急诊量，今日门急诊收入，今日出院人数，今日在院，当前危重人数，今日住院实收入）
+Bi_PO.menu2ByHref("\n1.1 今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis")
+
 # c1,医院总收入 = 门急诊收入+ 住院收入
 Bi_PO.monitor("医院总收入(万元)", 'select a.sum +b.sum from(SELECT sum(inPAccount) sum  from bi_inpatient_yard where statisticsDate ="%s")a,(SELECT sum(outPAccount) sum FROM bi_outpatient_yard WHERE statisticsDate ="%s")b ', varUpdateDate, varUpdateDate)
 
@@ -63,7 +63,10 @@ Bi_PO.monitor("当前危重人数(例)", 'select sum(criticalCount) from bi_inpa
 # c10,今日住院实收入 = 出入院财务中，记录在当日的费用之和
 Bi_PO.monitor("今日住院实收入(万元)", 'select sum(inPAccount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 
+# # 2，当前住院欠费明细
+# print(Bi_PO.getContent("//tr"))
 
+Bi_PO.menu1("实时监控指标")
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
@@ -113,28 +116,29 @@ Bi_PO.monitor("今日住院实收入(万元)", 'select sum(inPAccount) from bi_i
 
 # # ===============================================================================================
 # #
-# Bi_PO.menu1("门诊分析")
-
+Bi_PO.menu1("门诊分析")
 # 同期，同比，未处理？？
 
-# print("\n[2.1 门诊业务]" + " -" * 100)
-# Bi_PO.menu2ByHref("/bi/outpatientAnalysis/outpatientService")
-#
-# # 自定义日期
-# Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
-# Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
-# sleep(2)
-# # c1,门急诊人次 = 统计期内挂号为门诊和急诊的人次和
-# Bi_PO.monitor("门急诊人次(万人)", 'SELECT sum(outPCount) from bi_outpatient_yard where statisticsDate="%s"', varUpdateDate)
-#
-# # c2,门诊人次 = 门诊挂号人次
-# Bi_PO.monitor("门诊人次(万人)", 'SELECT sum(registerCount) from bi_outpatient_yard where statisticsDate="%s"', varUpdateDate)
-#
-# # c3,急诊人次 = 急诊+留观人次
-# Bi_PO.monitor("急诊人次(万人)", 'SELECT sum(emergencyCount) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
-#
-# # c4,门急诊退号率 = 统计期内门急诊退号人次/门急诊总挂号人次
-# Bi_PO.monitor("门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
+
+Bi_PO.menu2ByHref("\n2.1 门诊业务", "/bi/outpatientAnalysis/outpatientService")
+# 自定义日期
+Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
+Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
+sleep(2)
+
+# c1,门急诊人次 = 统计期内挂号为门诊和急诊的人次和
+Bi_PO.tongqi("门急诊人次(万人)", 'select round((SELECT sum(outPCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
+
+# c2,门诊人次 = 门诊挂号人次
+Bi_PO.tongqi("门诊人次(万人)", 'select round((SELECT sum(outpatientCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
+
+# c3,急诊人次 = 急诊+留观人次
+Bi_PO.tongqi("急诊人次(万人)", 'select round((SELECT sum(emergencyCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
+
+# c4,门急诊退号率 = 统计期内门急诊退号人次/门急诊总挂号人次
+Bi_PO.tongqi("门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
+
+Bi_PO.menu1("门诊分析")
 
 #
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -208,14 +212,25 @@ Bi_PO.monitor("今日住院实收入(万元)", 'select sum(inPAccount) from bi_i
 
 # # # ===============================================================================================
 # #
-# Bi_PO.menu1("住院分析")
-#
-# print("\n3.1 住院业务" + " -" * 100)
-# Bi_PO.menu2ByHref("/bi/hospitalizationAnnlysis/inpatientService")
-#
-# #  # 1，遍历并分成多个列表（入院人次，出院人次，出院平均住院日）
-# Bi_PO.winByP()
-#
+Bi_PO.menu1("住院分析")
+
+
+# 1，获取值（入院人次，出院人次，出院平均住院日）
+Bi_PO.menu2ByHref("\n3.1 住院业务", "/bi/hospitalizationAnnlysis/inpatientService")
+# 自定义日期
+Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
+Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
+sleep(2)
+# 1，入院人次	=统计期内患者进行入院登记的人次数和
+Bi_PO.tongqi("入院人次", 'select sum(admissionCount) from bi_inpatient_yard where statisticsDate ="%s"', varUpdateDate)
+
+# 2，出院人次	=统计期内进行出院登记的人次和
+Bi_PO.tongqi("出院人次", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s"', varUpdateDate)
+
+# 3，出院平均住院日 = 统计期内出院患者平均住院日，患者状态为出院的住院天数之和/出院患者总人次
+Bi_PO.tongqi("出院平均住院日(日)", 'select round((select sum(leaveInPDayAvg) from bi_inpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
+
+
 # # 2，门急诊收入科室排名
 # Bi_PO.winByDiv("平均住院日科室情况\n", "出院人次科室情况", "")
 #
@@ -224,20 +239,68 @@ Bi_PO.monitor("今日住院实收入(万元)", 'select sum(inPAccount) from bi_i
 # print(Bi_PO.winByDiv("出院人次科室情况\n", "", "骨科"))
 #
 # # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# 1，遍历并分成多个列表（实际开放总床日数，实际占用总床日数，出院者占用总床日数，平均开放床位数，病床周转次数，床位使用率，平均每张床位工作日，病床工作日，出院患者平均住院日）
+Bi_PO.menu2ByHref("\n3.2 床位分析", "/bi/hospitalizationAnnlysis/bedAnalysis")
+# 自定义日期
+Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
+Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
+sleep(2)
+
+# 1,实际开放总床日数=统计期内医院开放的床日数之和
+Bi_PO.tongqi("实际开放总床日数", 'select sum(realBedCount) from bi_inpatient_yard_bed where statisticsDate ="%s"', varUpdateDate)
+
+# 2,实际占用总床日数=	统计期内患者占用总床日数和
+Bi_PO.tongqi("实际占用总床日数", 'select sum(realOccupyBedCount) from bi_inpatient_yard_bed where statisticsDate ="%s"', varUpdateDate)
+
+# 3,出院者占用总床日数=统计期内所有出院人数的住院床日之总和
+Bi_PO.tongqi("出院者占用总床日数", 'SELECT round((SELECT a.sum*b.sum from (select sum(leaveInPDayAvg) sum from bi_inpatient_yard where statisticsDate ="%s")a,(select sum(leaveCount) sum  from bi_inpatient_yard where statisticsDate ="%s")b),2)', varUpdateDate,varUpdateDate)
+
+# 4, 平均开放床位数=统计期内实际开放总床日数／统计日数
+Bi_PO.tongqi("平均开放床位数", 'select sum(realBedCount) from bi_inpatient_yard_bed where statisticsDate ="%s"', varUpdateDate)
+
+# 5, 病床周转次数 = 统计期内出院人数／平均开放床位数
+Bi_PO.tongqi("病床周转次数", 'SELECT round((SELECT a.sum/b.sum from(select sum(leaveCount) sum from bi_inpatient_yard where statisticsDate ="%s")a,(select sum(realBedCount) sum  from bi_inpatient_yard_bed where statisticsDate ="%s")b),2)', varUpdateDate,varUpdateDate)
+
+# 6, 床位使用率=统计期内实际占用总床日数／实际开放总床日数
+Bi_PO.tongqi("床位使用率", 'SELECT round((select 100*(a.sum/b.sum) from(select sum(realOccupyBedCount) sum from bi_inpatient_yard_bed where statisticsDate ="%s")a,(select sum(realBedCount) sum  from bi_inpatient_yard_bed where statisticsDate ="%s")b),2)', varUpdateDate,varUpdateDate)
+
+
+
+
+
 #
-# print("\n3.2 床位分析" + " -" * 100)
-# Bi_PO.menu2ByHref("/bi/hospitalizationAnnlysis/bedAnalysis")
-#
-# # #  # 1，遍历并分成多个列表（实际开放总床日数，实际占用总床日数，出院者占用总床日数，平均开放床位数，病床周转次数，床位使用率，平均每张床位工作日，病床工作日，出院患者平均住院日）
-# Bi_PO.winByP()
-# #
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# #
-# print("\n3.3 住院收入" + " -" * 100)
-# Bi_PO.menu2ByHref("/bi/hospitalizationAnnlysis/hospitalizationIncome")
-#
-# # 1，遍历并分成多个列表（医院总收入，住院总收入，住院均次费用，住院药品收入，住院均次药品费用，住院药占比）
-# Bi_PO.winByP()
+
+# 一，遍历并分成多个列表（医院总收入，住院总收入，住院均次费用，住院药品收入，住院均次药品费用，住院药占比）
+Bi_PO.menu2ByHref("\n3.3 住院收入", "/bi/hospitalizationAnnlysis/hospitalizationIncome")
+varUpdateDate = "2020-03-18"
+# 自定义日期
+Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
+Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
+sleep(2)
+
+# 1,医院总收入(万元)?
+
+# 2，住院总收入(万元)=统计期内所有在院和出院的患者总收入和
+Bi_PO.tongqi("住院总收入(万元)", 'SELECT round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2)', varUpdateDate)
+
+# 3，住院均次费用=统计期内住院患者总收入和/患者总人次
+Bi_PO.tongqi("住院均次费用(元)", 'select round((SELECT sum(inPCountFee)/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
+
+# 4，住院药品收入(万元)=统计期内住院药品收入之和
+Bi_PO.tongqi("住院药品收入(万元)", 'SELECT round((SELECT inPMedicateAccount/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
+
+# 5，住院均次药品费用=统计期内住院患者药品总收入和/患者总人次
+Bi_PO.tongqi("住院均次药品费用(元)", 'SELECT round((SELECT inPCountMedicateFee/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
+
+# 6，住院药占比=统计期内住院药品收入/住院总收入
+Bi_PO.tongqi("住院药占比", 'SELECT round((SELECT inPMedicateRatio from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
+
+
+
+
+
 #
 # # 2，门急诊收入科室排名
 # Bi_PO.winByDiv("住院收入科室情况\n", "\n住院医疗收入构成分析", "")

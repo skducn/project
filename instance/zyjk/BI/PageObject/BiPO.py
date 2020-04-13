@@ -30,10 +30,11 @@ class BiPO(object):
 
         self.Web_PO.inputXpath("//input[@placeholder='用户名']", varUser)
         self.Web_PO.inputXpath("//input[@placeholder='密码']", varPass)
-        self.Web_PO.clickXpath("//button[@type='button']", 3)
+        self.Web_PO.clickXpath("//button[@type='button']", 2)
 
         # 运营决策系统
-        self.Web_PO.clickXpath("//*[@id='app']/section/section/aside/div[1]/div[2]/div[2]/div[2]/div[1]", 4)
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/aside/div[2]/div[2]/div/div[2]/div/div[1]/div[1]', 4)
+
         n = self.Web_PO.driver.window_handles
         # print(n)
         self.Web_PO.driver.switch_to_window(n[1])
@@ -43,7 +44,8 @@ class BiPO(object):
         self.Web_PO.clickXpathsTextContain("//li[@role='menuitem']/div/span", varMenuName, 2)
 
     # 二级菜单
-    def menu2ByHref(self, varHref):
+    def menu2ByHref(self, varTitle,varHref):
+        print(varTitle + " -" * 100)
         self.Web_PO.clickXpaths("//a[contains(@href,'" + varHref +"')]", 2)
 
     def getContent(self, varPath):
@@ -91,21 +93,24 @@ class BiPO(object):
 
     def monitor(self, varName, varSql, *varDate):
 
-        # 检查 今日运营分析各名称的值与库值是否一致，如 更新日期值，昨日值，同比值
+        # 获取模块4个值（当前值，模块名，昨日，同比），并检查与库值是否一致
+        # 如：今日运营分析 ，医院总收入的当前值，昨日，同比。
+        # 备注：同比未处理？
         # checkValue("今日门急诊量", 'select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ', varDate)
 
         a, b, c = self.winByP(varName)
         if "昨日" in b:
-            bb = str(b).split("昨日：")[1]
+            varY = str(b).split("昨日：")[1]
         varCount1 = 0
         varCount2 = 0
 
-        # 如：今日门急诊量（更新日值）
+
         if len(varDate) == 2:
             Mysql_PO.cur.execute(varSql % (varDate[0], varDate[1]))
         else:
             Mysql_PO.cur.execute(varSql % (varDate))
         tmpTuple1 = Mysql_PO.cur.fetchall()
+
         if "(万" in varName:
             if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0:
                 varDatabase = 0
@@ -118,7 +123,8 @@ class BiPO(object):
             else:
                 varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(tmpTuple1[0][0]))
 
-        # 今日门急诊量（昨日值）
+
+        # 昨日
         varLastDate = (self.Time_PO.getBeforeAfterDate(varDate[0], -1))
         if len(varDate) == 2:
             Mysql_PO.cur.execute(varSql % (varLastDate, varLastDate))
@@ -130,13 +136,12 @@ class BiPO(object):
                 varDatabase = 0
             else:
                 varDatabase = ('%.2f' % (float(tmpTuple2[0][0]) / 10000))
-            varCount2 = self.Web_PO.assertEqualgetValue(str(bb), str(varDatabase))
+            varCount2 = self.Web_PO.assertEqualgetValue(str(varY), str(varDatabase))
         else:
             if tmpTuple2[0][0] == None or tmpTuple2[0][0] == 0:
                 varCount2 = self.Web_PO.assertEqualgetValue(str(a), str(0))
             else:
-                varCount2 = self.Web_PO.assertEqualgetValue(str(bb), str(tmpTuple2[0][0]))
-
+                varCount2 = self.Web_PO.assertEqualgetValue(str(varY), str(tmpTuple2[0][0]))
 
         # 合并后输出结果
         if varCount1 == 1 and varCount2 == 1:
@@ -153,8 +158,6 @@ class BiPO(object):
         # checkValue("今日门急诊量", 'select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ', varDate)
 
         a, b, c = self.winByP(varName)
-        if "昨日" in b:
-            bb = str(b).split("昨日：")[1]
         if "同期" in b:
             bb = str(b).split("同期：")[1]
         varCount1 = 0
@@ -166,50 +169,45 @@ class BiPO(object):
         else:
             Mysql_PO.cur.execute(varSql % (varDate))
         tmpTuple1 = Mysql_PO.cur.fetchall()
-        if "(万" in varName:
-            # 0 不做处理
-            if tmpTuple1[0][0] != 0 :
-                print(tmpTuple1[0][0])
-                varDatabase = ('%.2f' % (float(tmpTuple1[0][0]) / 10000))
-            else:
+        if "(万" in varName or "(日" in varName:
+            if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0 or tmpTuple1[0][0] == 0.00:
                 varDatabase = 0
+            else:
+                varDatabase = tmpTuple1[0][0]
             varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
         else:
-            if "%" in str(a):
-                varDatabase = ('%.2f' % (float(tmpTuple1[0][0])))
-                varDatabase = str(varDatabase) + "%"
+            if "%" in str(a):  # 门急诊退号率
+                if tmpTuple1[0][0] == 0:
+                    varDatabase = "0%"
+                else:
+                    varDatabase = ('%.2f' % (float(tmpTuple1[0][0]))) + "%"
                 varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
             else:
-                varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(tmpTuple1[0][0]))
-
-        # 今日门急诊量（昨日值）
-        varLastDate = (self.Time_PO.getBeforeAfterDate(varDate[0], -1))
-        if len(varDate) == 2:
-            Mysql_PO.cur.execute(varSql % (varLastDate, varLastDate))
-        else:
-            Mysql_PO.cur.execute(varSql % (varLastDate))
-        tmpTuple2 = Mysql_PO.cur.fetchall()
-        if "(万" in varName:
-            if tmpTuple2[0][0] != 0 :
-                print(tmpTuple2[0][0])
-                varDatabase = ('%.2f' % (float(tmpTuple2[0][0]) / 10000))
-            else:
-                varCount2 = self.Web_PO.assertEqualgetValue(str(bb), str(varDatabase))
-        else:
-            if "%" in str(b):
-                varDatabase = ('%.2f' % (float(tmpTuple2[0][0])))
-                varCount2 = self.Web_PO.assertEqualgetValue(str(bb), str(varDatabase))
-            else:
-                varCount2 = self.Web_PO.assertEqualgetValue(str(bb), str(tmpTuple2[0][0]))
+                if "." in str(tmpTuple1[0][0]):
+                    x = str(tmpTuple1[0][0]).split(".")[1]
+                    if x == "0":
+                        varDatabase = str(tmpTuple1[0][0]).split(".")[0]
+                    else:
+                        if str(tmpTuple1[0][0])  =="0.00":
+                            varDatabase = 0
+                        else:
+                            varDatabase = tmpTuple1[0][0]
+                else:
+                    varDatabase = tmpTuple1[0][0]
+                varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
 
 
-        # 合并后输出结果
-        if varCount1 == 1 and varCount2 == 1:
-            self.Web_PO.assertEqual(varCount1, varCount2, "[ok], " + varName + "（" + str(a) + "）,（" + str(b) + "）", "")
-        else:
-            if varCount1 == 0:
-                self.Web_PO.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]))
-            if varCount2 == 0:
-                self.Web_PO.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]))
+        self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase))
+
+        # 同期，没有逻辑？
+
+        # # 合并后输出结果
+        # if varCount1 == 1 and varCount2 == 1:
+        #     self.Web_PO.assertEqual(varCount1, varCount2, "[ok], " + varName + "（" + str(a) + "）,（" + str(b) + "）", "")
+        # else:
+        #     if varCount1 == 0:
+        #         self.Web_PO.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]))
+        #     if varCount2 == 0:
+        #         self.Web_PO.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]))
 
 
