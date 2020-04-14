@@ -4,9 +4,14 @@
 # Date       : 2018-7-2
 # Description: webdriverPO 对象层
 # geckodriver 0.14.0 for selenium3.0   https://github.com/mozilla/geckodriver/releases
-# WebDriverException:Message:'geckodriver'executable needs to be in Path
-# geckodriver是一原生态的第三方浏览器，对于selenium3.x版本使用geckodriver来驱动firefox，所以需要下载geckodriver.exe,下载地址：https://github.com/mozilla/geckodriver/releases
-# C:\Python38\Scripts  geckodriver https://github.com/mozilla/geckodriver/releases
+# 下载chromedriver驱动，https://npm.taobao.org/mirrors/chromedriver
+# 查看Chrome浏览器版本，chrome://version/
+# Q1：WebDriverException:Message:'geckodriver'executable needs to be in Path
+# A1：geckodriver是原生态的第三方浏览器，对于selenium3.x版本使用geckodriver来驱动firefox，
+# 所以需要下载geckodriver.exe,下载地址：https://github.com/mozilla/geckodriver/releases
+# 将 geckodriver 放在 C:\Python38\Scripts
+# Q2：MAC 安装chromedriver是报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
+# A2: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable  ,重启电脑
 # *******************************************************************************************************************************
 
 from PO.BasePO import *
@@ -37,22 +42,20 @@ class WebPO(BasePO):
                 self.driver.implicitly_wait(10)  # 隐性等待
                 self.driver.get(varURL)
             elif platform.system() == 'Darwin':
-                self.driver = webdriver.Firefox(firefox_profile=None, firefox_binary=None, timeout=30, capabilities=None, proxy=None, executable_path='/usr/local/bin/geckodriver', firefox_options=None, log_path='config/geckodriver.log')
+                self.driver = webdriver.Firefox(firefox_profile=None, firefox_binary=None, timeout=30, capabilities=None, proxy=None, executable_path='/usr/local/bin/geckodriver', firefox_options=None, log_path='geckodriver.log')
                 self.driver._is_remote = False  # 解决mac电脑上传图片问题
                 self.driver.implicitly_wait(10)   # 隐性等待
                 self.driver.get(varURL)
             return self.driver
 
         if self.driver == "chrome" :
-            if platform.system() == 'Windows':
-                option = webdriver.ChromeOptions()
-                option.add_argument('disable-infobars')
-                # option.add_argument("user-data-dir = C:\Python37\profile")
-                self.driver = webdriver.Chrome(chrome_options=option)
-                self.driver.get(varURL)
-            elif platform.system() == 'Darwin':
-                pass
-            return self.driver
+            option = webdriver.ChromeOptions()
+            option.add_argument('disable-infobars')
+            # option.add_argument("user-data-dir = C:\Python37\profile")
+            self.driver = webdriver.Chrome(chrome_options=option)
+            self.driver.get(varURL)
+
+        return self.driver
 
     def openURL(self, varURL):
         self._openURL(varURL)
@@ -187,8 +190,8 @@ class WebPO(BasePO):
 
 if __name__ == '__main__':
 
-    # Web_PO = WebPO("chrome")
-    Web_PO = WebPO("firefox")
+    Web_PO = WebPO("chrome")
+    # Web_PO = WebPO("firefox")
     Web_PO.openURL('https://www.baidu.com/')
     Web_PO.driver.maximize_window()  # 全屏
     # sleep(2)

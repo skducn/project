@@ -15,8 +15,9 @@ class BiPO(object):
 
     def __init__(self):
         self.Web_PO = WebPO("chrome")
+        # self.Web_PO = WebPO("firefox")
         self.Web_PO.openURL(varURL)
-        self.Web_PO.driver.maximize_window()  # 全屏
+        # self.Web_PO.driver.maximize_window()  # 全屏
         self.List_PO = ListPO()
         self.Time_PO = TimePO()
 
