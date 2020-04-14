@@ -3,15 +3,16 @@
 # Author     : John
 # Date       : 2018-7-2
 # Description: webdriverPO 对象层
-# geckodriver 0.14.0 for selenium3.0   https://github.com/mozilla/geckodriver/releases
-# 下载chromedriver驱动，https://npm.taobao.org/mirrors/chromedriver
+# geckodriver 0.14.0 for selenium3.0 下载地址：https://github.com/mozilla/geckodriver/releases
+# chromedriver驱动，下载地址：https://npm.taobao.org/mirrors/chromedriver
 # 查看Chrome浏览器版本，chrome://version/
+# chrome浏览器的options参数，https://blog.csdn.net/xc_zhou/article/details/82415870
 # Q1：WebDriverException:Message:'geckodriver'executable needs to be in Path
-# A1：geckodriver是原生态的第三方浏览器，对于selenium3.x版本使用geckodriver来驱动firefox，
-# 所以需要下载geckodriver.exe,下载地址：https://github.com/mozilla/geckodriver/releases
+# A1：geckodriver是原生态的第三方浏览器，对于selenium3.x版本使用geckodriver来驱动firefox，需下载geckodriver.exe,下载地址：https://github.com/mozilla/geckodriver/releases
 # 将 geckodriver 放在 C:\Python38\Scripts
-# Q2：MAC 安装chromedriver是报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
-# A2: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable  ,重启电脑
+
+# Q2：MAC 移动chromedriver时报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
+# A2: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable , 重启电脑。
 # *******************************************************************************************************************************
 
 from PO.BasePO import *
