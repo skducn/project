@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # *******************************************************************************************************************************
-# Author     : John12121212
+# Author     : John12121212,2222222
 # Date       : 2018-7-2
 # Description: webdriverPO 对象层
 # geckodriver 0.14.0 for selenium3.0 下载地址：https://github.com/mozilla/geckodriver/releases
