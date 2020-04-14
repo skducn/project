@@ -104,7 +104,6 @@ class BiPO(object):
         varCount1 = 0
         varCount2 = 0
 
-
         if len(varDate) == 2:
             Mysql_PO.cur.execute(varSql % (varDate[0], varDate[1]))
         else:
@@ -211,3 +210,27 @@ class BiPO(object):
         #         self.Web_PO.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]))
 
 
+   # 搜索 - 选择年
+    def searchYear(self, varYear):
+        # 选择月
+        self.Web_PO.inputXpathEnter("//input[@placeholder='选择年']", varYear)
+        sleep(2)
+
+    # 搜索 - 选择季度
+    def searchSeason(self, varSeason):
+        # 选择季度
+        self.Web_PO.inputXpathEnter("//input[@placeholder='请选择季度']", varSeason)
+        sleep(2)
+
+    # 搜索 - 选择月
+    def searchMonth(self, varMonth):
+        # 选择月
+        self.Web_PO.inputXpathEnter("//input[@placeholder='选择月']", varMonth)
+        sleep(2)
+
+    # 搜索 - 自定义日期
+    def searchCustom(self, varStartDate, varEndDate):
+        # 自定义日期
+        self.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varStartDate)
+        self.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varEndDate)
+        sleep(2)
