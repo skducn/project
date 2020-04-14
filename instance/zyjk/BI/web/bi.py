@@ -3,11 +3,11 @@
 # Author     : John
 # Created on : 2020-4-8
 # Description: BI集成平台
-# https://blog.csdn.net/xc_zhou/article/details/82415870 chrome浏览器的options参数
-# varURL = https://192.168.0.183/admin/login?return=https%3A%2F%2F192.168.0.183%2Fbi%2FrealTimeMonitoringIndicator%2FtodayOperationalAnalysis&system=bi
-# 016，123456
 # *****************************************************************
 # from time import sleep
+
+# sleep(1212)
+
 
 
 # # ===============================================================================================
@@ -21,9 +21,9 @@ Time_PO = TimePO()
 Bi_PO.login()
 
 # 获取当前数据更新时间
-x = Bi_PO.Web_PO.getXpathText('//*[@id="app"]/section/section/section/main/div[1]/span')
-varUpdateDate = str(x).split("数据更新时间：")[1].split(" ")[0]
-# print(varUpdateDate)
+varDataUpdateDate = Bi_PO.Web_PO.getXpathText('//*[@id="app"]/section/section/section/main/div[1]/span')
+varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split(" ")[0]
+print(varDataUpdateDate)
 
 # # ===============================================================================================
 
@@ -121,10 +121,9 @@ Bi_PO.menu1("门诊分析")
 
 
 Bi_PO.menu2ByHref("\n2.1 门诊业务", "/bi/outpatientAnalysis/outpatientService")
+
 # 自定义日期
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
-sleep(2)
+Bi_PO.searchCustom(varUpdateDate, varUpdateDate)
 
 # c1,门急诊人次 = 统计期内挂号为门诊和急诊的人次和
 Bi_PO.tongqi("门急诊人次(万人)", 'select round((SELECT sum(outPCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
@@ -217,10 +216,10 @@ Bi_PO.menu1("住院分析")
 
 # 1，获取值（入院人次，出院人次，出院平均住院日）
 Bi_PO.menu2ByHref("\n3.1 住院业务", "/bi/hospitalizationAnnlysis/inpatientService")
+
 # 自定义日期
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
-sleep(2)
+Bi_PO.searchCustom(varUpdateDate, varUpdateDate)
+
 # 1，入院人次	=统计期内患者进行入院登记的人次数和
 Bi_PO.tongqi("入院人次", 'select sum(admissionCount) from bi_inpatient_yard where statisticsDate ="%s"', varUpdateDate)
 
@@ -242,10 +241,9 @@ Bi_PO.tongqi("出院平均住院日(日)", 'select round((select sum(leaveInPDay
 
 # 1，遍历并分成多个列表（实际开放总床日数，实际占用总床日数，出院者占用总床日数，平均开放床位数，病床周转次数，床位使用率，平均每张床位工作日，病床工作日，出院患者平均住院日）
 Bi_PO.menu2ByHref("\n3.2 床位分析", "/bi/hospitalizationAnnlysis/bedAnalysis")
+
 # 自定义日期
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
-sleep(2)
+Bi_PO.searchCustom(varUpdateDate, varUpdateDate)
 
 # 1,实际开放总床日数=统计期内医院开放的床日数之和
 Bi_PO.tongqi("实际开放总床日数", 'select sum(realBedCount) from bi_inpatient_yard_bed where statisticsDate ="%s"', varUpdateDate)
@@ -267,18 +265,13 @@ Bi_PO.tongqi("床位使用率", 'SELECT round((select 100*(a.sum/b.sum) from(sel
 
 
 
-
-
-#
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # 一，遍历并分成多个列表（医院总收入，住院总收入，住院均次费用，住院药品收入，住院均次药品费用，住院药占比）
 Bi_PO.menu2ByHref("\n3.3 住院收入", "/bi/hospitalizationAnnlysis/hospitalizationIncome")
-varUpdateDate = "2020-03-18"
+
 # 自定义日期
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varUpdateDate)
-Bi_PO.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varUpdateDate)
-sleep(2)
+Bi_PO.searchCustom(varUpdateDate, varUpdateDate)
 
 # 1,医院总收入(万元)?
 
