@@ -38,7 +38,6 @@ class BiPO(object):
         self.Web_PO.clickXpath('//*[@id="app"]/section/section/aside/div[2]/div[2]/div/div[2]/div/div[1]/div[1]', 4)
 
         n = self.Web_PO.driver.window_handles
-        # print(n)
         self.Web_PO.driver.switch_to_window(n[1])
 
     # 一级菜单

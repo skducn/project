@@ -70,10 +70,8 @@ class WebPO(BasePO):
         line = self.driver.switch_to.alert.text
         self.driver.switch_to.alert.accept()
         size = line.split(',')
-        Screen = {}
-        Screen['width'] = int(size[0])
-        Screen['height'] = int(size[1])
-        return Screen
+        return int(size[0]), int(size[1])
+
 
     def getFullScreen(self, varImageFile):
         # 截取全屏
@@ -190,13 +188,35 @@ class WebPO(BasePO):
 
 if __name__ == '__main__':
 
+
     Web_PO = WebPO("chrome")
     # Web_PO = WebPO("firefox")
-    Web_PO.openURL('https://www.baidu.com/')
-    Web_PO.driver.maximize_window()  # 全屏
-    # sleep(2)
+
     # print(Web_PO.getScreenWidthHeight())
     # Web_PO.getFullScreen('d:\\allscreen.png')
     # Web_PO.getBrowserScreen("d:\\screenshot.jpg")
+
+
+    Web_PO.openURL('https://www.baidu.com/')
+    Web_PO.driver.maximize_window()  # 全屏
+    # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
+
+    
+    # 通过执行js来新开一个窗口
+    Web_PO.jsExecute('window.open("https://www.163.com");', 2)
+    print(Web_PO.driver.current_window_handle)  # 输出当前窗口句柄（百度）
+    handles = Web_PO.driver.window_handles  # 获取当前窗口句柄集合（列表类型）
+    print(handles)  # 输出句柄集合
+    for handle in handles:  # 切换窗口（切换到搜狗）
+        if handle != Web_PO.driver.current_window_handle:
+            print('switch to ', handle)
+            Web_PO.driver.switch_to.window(handle)
+            print(Web_PO.driver.current_window_handle)  # 输出当前窗口句柄（163）
+            break
+    Web_PO.driver.close()  # 关闭当前窗口（163）
+    Web_PO.driver.switch_to.window(handles[0])  # 切换回百度窗口
+    sleep(5)
+    Web_PO.driver.quit()
+
 
 
