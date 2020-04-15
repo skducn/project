@@ -201,7 +201,7 @@ if __name__ == '__main__':
     Web_PO.driver.maximize_window()  # 全屏
     # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
 
-    
+
     # 通过执行js来新开一个窗口
     Web_PO.jsExecute('window.open("https://www.163.com");', 2)
     print(Web_PO.driver.current_window_handle)  # 输出当前窗口句柄（百度）
