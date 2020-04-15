@@ -67,9 +67,10 @@ class BiPO(object):
                 for i in range(len(tmpList1)):
                     if varName == tmpList1[i][1]:
                         return tmpList1[i][0], tmpList1[i][2], tmpList1[i][3]
-                return None
+                print(varName + "不存在，请检查！")
+                exit()
         except:
-            return None
+            exit()
 
     def winByDiv(self, varListName1, varListName2, varName):
 
@@ -115,7 +116,8 @@ class BiPO(object):
             if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0:
                 varDatabase = 0
             else:
-                varDatabase = ('%.2f' % (float(tmpTuple1[0][0]) / 10000))
+                # varDatabase = ('%.2f' % (float(tmpTuple1[0][0]) / 10000))
+                varDatabase = tmpTuple1[0][0]
             varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
         else:
             if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0:
@@ -135,7 +137,8 @@ class BiPO(object):
             if tmpTuple2[0][0] == None or tmpTuple2[0][0] == 0:
                 varDatabase = 0
             else:
-                varDatabase = ('%.2f' % (float(tmpTuple2[0][0]) / 10000))
+                # varDatabase = ('%.2f' % (float(tmpTuple2[0][0]) / 10000))
+                varDatabase = tmpTuple2[0][0]
             varCount2 = self.Web_PO.assertEqualgetValue(str(varY), str(varDatabase))
         else:
             if tmpTuple2[0][0] == None or tmpTuple2[0][0] == 0:
@@ -177,10 +180,14 @@ class BiPO(object):
             varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
         else:
             if "%" in str(a):  # 门急诊退号率
-                if tmpTuple1[0][0] == 0:
+                if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0 or tmpTuple1[0][0] == 0.00:
                     varDatabase = "0%"
                 else:
                     varDatabase = ('%.2f' % (float(tmpTuple1[0][0]))) + "%"
+                    if "." in a :
+                        x = str(a).split(".")[1].split("%")[0]
+                        if len(x) < 2:
+                            a = str(a).split("%")[0] + "0%"
                 varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
             else:
                 if "." in str(tmpTuple1[0][0]):
