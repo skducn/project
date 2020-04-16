@@ -43,11 +43,17 @@ class BiPO(object):
     # 一级菜单
     def menu1(self, varMenuName):
         self.Web_PO.clickXpathsTextContain("//li[@role='menuitem']/div/span", varMenuName, 2)
+        print("\n[" + varMenuName + "] " + "-" * 100)
+
+    def menu1Close(self, varMenuName):
+        self.Web_PO.clickXpathsTextContain("//li[@role='menuitem']/div/span", varMenuName, 2)
 
     # 二级菜单
-    def menu2ByHref(self, varTitle,varHref):
-        print(varTitle + " -" * 100)
+    def menu2ByHref(self, varTitle, varHref, varUpdateDate):
+        print(varTitle + "（" + varUpdateDate + ")" + " -" * 30)
         self.Web_PO.clickXpaths("//a[contains(@href,'" + varHref +"')]", 2)
+        # 选择日期或自定义日期
+        self.searchCustom(varUpdateDate, varUpdateDate)
 
     def getContent(self, varPath):
         return self.Web_PO.getXpathsText(varPath)
