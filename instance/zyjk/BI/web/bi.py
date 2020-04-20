@@ -5,6 +5,16 @@
 # Description: BI集成平台
 # *****************************************************************
 # from time import sleep
+#
+# a = "使用率"
+# b = "频率"
+# c = "率312频3使用率用2"
+#
+# if a in c or b in c:
+#     print("11111111111")
+# else:
+#     print("22222222")
+#
 # sleep(1212)
 
 
@@ -36,16 +46,16 @@ Bi_PO.monitor("医疗业务收入(万元)", 'SELECT round((select (a.sum+b.sum)/
 Bi_PO.monitor("药品收入(万元)", 'select round((select (a.sum +b.sum)/10000 from(SELECT ifnull(sum(outPMedicateAccount),0) sum  from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(inPMedicateAccount),0) sum FROM bi_inpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
 
 # c3,今日门急诊量 = 今日挂号为门诊和急诊的人次和
-Bi_PO.monitor("今日门急诊量(例)", 'select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+Bi_PO.monitor("今日门急诊量(例)", 'select ifnull(sum(outPCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 
 # c4,今日门诊量 = 今日挂号为门诊的人次和
-Bi_PO.monitor("今日门诊量(例)", 'select sum(outpatientCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+Bi_PO.monitor("今日门诊量(例)", 'select ifnull(sum(outpatientCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 
 # c5,今日急诊量 = 今日挂号为急诊的人次和
 Bi_PO.monitor("今日急诊量(例)", 'select sum(emergencyCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 
 # c6,今日门急诊收入 = 今日门急诊收费总和
-Bi_PO.monitor("今日门急诊收入(万元)", 'select sum(outpaccount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+Bi_PO.monitor("今日门急诊收入(万元)", 'select round(sum(outpaccount)/10000,2) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 
 # c7,今日出院人数 = 今日做出院登记的患者人数之和
 Bi_PO.monitor("今日出院人数(例)", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
@@ -57,7 +67,7 @@ Bi_PO.monitor("今日在院(例)", 'select sum(inPCount) from bi_inpatient_yard 
 Bi_PO.monitor("当前危重人数(例)", 'select sum(criticalCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 
 # c10,今日住院实收入 = 出入院财务中，记录在当日的费用之和
-Bi_PO.monitor("今日住院实收入(万元)", 'select sum(inPAccount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+Bi_PO.monitor("今日住院实收入(万元)", 'select round(sum(inPAccount)/10000,2) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 
 # # 2，当前住院欠费明细
 # print(Bi_PO.getContent("//tr"))
@@ -331,7 +341,7 @@ Bi_PO.menu2ByHref("\n4.2 抗菌药物用药分析", "/bi/medicationAnalysis/anti
 Bi_PO.tongqi("抗菌药物药占比", 'SELECT b.sum/a.sum from (SELECT sum(pmcost+wmcost+hmcost) sum FROM bi_hospital_drugcosts_day WHERE statisticsDate ="%s")a,(select sum(antibacterialCost) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type in(1,3))b',varUpdateDate,varUpdateDate)
 
 # 2，门急诊抗菌药物均次费=门急诊抗菌药物费用/门急诊使用抗菌药物人次
-Bi_PO.tongqi("门急诊抗菌药物均次费(元)", 'SELECT round((SELECT b.sum/a.sum from (SELECT sum(antibacterialPeople) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type in (1,2))a,(SELECT sum(antibacterialCost) sum  from bi_hospital_drugcosts_day WHERE statisticsDate ="%s")b),2)',varUpdateDate,varUpdateDate)
+Bi_PO.tongqi("门急诊抗菌药物均次费(元)", 'SELECT ifnull(round((SELECT b.sum/a.sum from (SELECT sum(antibacterialPeople) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type in (1,2))a,(SELECT sum(antibacterialCost) sum  from bi_hospital_drugcosts_day WHERE statisticsDate ="%s")b),2),0)',varUpdateDate,varUpdateDate)
 
 # 3，门诊患者抗菌药物使用率=统计期内门诊患者使用抗菌药物人次/同期门诊总人次
 Bi_PO.tongqi("门诊患者抗菌药物使用率", 'SELECT round((SELECT b.sum/a.sum from((SELECT sum(outpatientCount) sum from bi_outpatient_yard WHERE statisticsDate ="%s")a,(SELECT sum(antibacterialPeople) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=1)b)),2)',varUpdateDate,varUpdateDate)
@@ -352,22 +362,22 @@ Bi_PO.tongqi("住院患者抗菌药物使用率", 'SELECT round((SELECT b.sum/a.
 Bi_PO.menu2ByHref("\n4.3 注射输液用药分析", "/bi/medicationAnalysis/injectionMedication","2020-03-22")
 
 # 1，门急诊使用注射药物的百分比	=用法为注射（肌肉、静脉）的门急诊人次/门急诊总人次
-Bi_PO.tongqi("门急诊使用注射药物的百分比", 'SELECT round((SELECT a.sum/b.sum from(SELECT sum(injection+vein) sumfrom bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type in(1,2))a,(SELECT sum(outPCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2)',varUpdateDate,varUpdateDate)
+Bi_PO.tongqi("门急诊使用注射药物的百分比", 'SELECT round((SELECT a.sum/b.sum from (SELECT sum(injection+vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type in(1,2))a,(SELECT sum(outPCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
 
 # 2，门诊患者静脉输液使用率=门诊患者静脉输液使用人次/同期门诊患者总人次
-Bi_PO.tongqi("门诊患者静脉输液使用率", 'SELECT round((SELECT a.sum/b.sum from(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=1)a,(SELECT sum(outpatientCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2)',varUpdateDate,varUpdateDate)
+Bi_PO.tongqi("门诊患者静脉输液使用率", 'SELECT round((SELECT a.sum/b.sum from(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=1)a,(SELECT sum(outpatientCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2)' ,varUpdateDate, varUpdateDate)
 
 # 3，住院患者抗菌药物使用率=统计期内住院患者使用抗菌药物人次/同期住院总人次
-Bi_PO.tongqi("住院患者抗菌药物使用率", 'SELECT round((SELECT b.sum/a.sum from((SELECT sum(inpCount) sum from bi_inpatient_yard WHERE statisticsDate ="%s")a,(SELECT sum(antibacterialPeople) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)b)),2)',varUpdateDate,varUpdateDate)
+Bi_PO.tongqi("住院患者抗菌药物使用率", 'SELECT round((SELECT b.sum/a.sum from((SELECT sum(inpCount) sum from bi_inpatient_yard WHERE statisticsDate ="%s")a,(SELECT sum(antibacterialPeople) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)b)),2)', varUpdateDate, varUpdateDate)
 
 # ？4，住院患者静脉输液平均每床日使用袋（瓶）数=住院患者静脉输液总袋（瓶）数/同期住院患者实际开放总床日数
-Bi_PO.tongqi("住院患者静脉输液平均每床日使用袋（瓶）数", 'SELECT round((SELECT  a.sum/b.sum from (SELECT sum(arrAntibacterialVeinNumber) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)a,(select sum(realBedCount) sum  from bi_inpatient_yard_bed  where statisticsDate ="%s")b),2)',varUpdateDate,varUpdateDate)
+Bi_PO.tongqi("住院患者静脉输液平均每床日使用袋（瓶）数", 'SELECT ifnull(round((SELECT  a.sum/b.sum from (SELECT sum(arrAntibacterialVeinNumber) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)a,(select sum(realBedCount) sum  from bi_inpatient_yard_bed  where statisticsDate ="%s")b),2),0)', varUpdateDate, varUpdateDate)
 
 # 5，住院患者抗菌药物静脉输液占比=住院患者抗菌药物静脉输液例数/同期住院患者静脉输液总例数
-Bi_PO.tongqi("住院患者抗菌药物静脉输液占比", 'SELECT a.sum/b.sum from(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)a,(SELECT sum(arrAntibacterialVein) sum from bi_hospital_drugcosts_day where statisticsDate ="%s")b',varUpdateDate,varUpdateDate)
+Bi_PO.tongqi("住院患者抗菌药物静脉输液占比", 'SELECT a.sum/b.sum from(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)a,(SELECT sum(arrAntibacterialVein) sum from bi_hospital_drugcosts_day where statisticsDate ="%s")b', varUpdateDate, varUpdateDate)
 
 # 6，急诊患者静脉输液使用率=急诊患者静脉输液使用人次/同期急诊患者总人次
-Bi_PO.tongqi("急诊患者静脉输液使用率", 'SELECT round((SELECT a.sum/b.sumfrom(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=2)a,(SELECT sum(emergencyCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2)',varUpdateDate,varUpdateDate)
+Bi_PO.tongqi("急诊患者静脉输液使用率", 'SELECT ifnull(round((SELECT a.sum/b.sum from(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=2)a,(SELECT sum(emergencyCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2),0)', varUpdateDate, varUpdateDate)
 
 
 # # # ===============================================================================================
