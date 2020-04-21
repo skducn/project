@@ -9,7 +9,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-from PO.excelPO import *
+from PO.ExcelPO.ExcelPO import *
 excel_PO = ExcelPO()
 from instance.zyjk.EHR.PageObject.DataMonitorPO import *
 DataMonitor_PO = DataMonitorPO()
@@ -20,17 +20,23 @@ varNewPhone = "13816109050"
 
 # 登录
 DataMonitor_PO.login("admin", "admin@123456")
-DataMonitor_PO.clickMenu("系统管理")
+
+# 系统管理
+DataMonitor_PO.clickMenu()
+
 # 用户管理
-Level_PO.clickXpathsContain("//a", "href", '#/system/user', 2)
+DataMonitor_PO.Web_PO.clickXpathsContain("//a", "href", '#/system/user', 2)
 
-varStatus = DataMonitor_PO.user_searchUser("用户名", "n")
+varStatus = DataMonitor_PO.user_searchUser("*", "")
 print(varStatus)
 
-varStatus = DataMonitor_PO.user_searchUser("用户名", "test")
+varStatus = DataMonitor_PO.user_searchUser("用户名", "shu")
 print(varStatus)
 
-varStatus = DataMonitor_PO.user_searchUser("用户名", "user")
+varStatus = DataMonitor_PO.user_searchUser("昵称", "张")
+print(varStatus)
+
+varStatus = DataMonitor_PO.user_searchUser("手机", "13828333232")
 print(varStatus)
 
 

@@ -4,6 +4,9 @@
 # Date          : 2019-12-23
 # Description   : 列表对象层
 # http://172.21.200.150/article-2123-3.html
+# 关于列表复制，如 将a列表复制成b列表，应该是 a = list(b)
+# 而 a = b 则是引用，只是创建了一个新的标签b，然后将其指向a所指向的列表。
+# 因为 list()是列表构造函数。它会在传入的数列基础上新建一个列表。数列不一定是列表，它可以是任何类型的数列。
 # *********************************************************************
 
 import numpy
@@ -35,7 +38,7 @@ class ListPO():
         except:
             return None
 
-    # 3,列表合并字符串元素
+    # 3,列表元素合并
     def listJointChar(self, varList, varMergeNums):
         # print(list_PO.list2MergeChar(["a", "b", "c", "d", "e", "f"], 4))  # ['abcd', 'ef']
         list1 = []
@@ -58,15 +61,44 @@ class ListPO():
         except:
             return None
 
-    # 4,替换列表内容（自动去掉特殊符号如 \t \r \n）
+    # 4,列表内容替换
     def listReplace(self, varList, varSource, varDest):
         try:
-            return ([''.join([i.strip() for i in a.strip().replace(varSource, varDest)]) for a in varList])
+            return ([''.join([i for i in str(a).replace(varSource, varDest)]) for a in varList])
+        except:
+            return None
+
+    # 5,列表内容替换（自动去掉特殊符号如 \t \r \n）
+    def listReplaceSmart(self, varList, varSource, varDest):
+        # 注意：只适用于字符串内容，如列表中元素是数字类型的，则转换成字符串，如 123 转为 “123”
+        try:
+            return ([''.join([i.strip() for i in str(a).strip().replace(varSource, varDest)]) for a in varList])
             # return ([' '.join([i.strip() for i in a.strip().split(varSplit)]) for a in varList])
         except:
             return None
 
-    # 5，键值对齐
+    # 6,列表内容替换并删除
+    def listReplaceDel(self,varList,varSource,varDest,varDelContent):
+        # 如：listReplaceDel([1,2,3,":"],":","","")   //将 ：替换成空，再删除空列表元素。
+        try:
+            tmplist1 = ([''.join([i for i in str(a).replace(varSource, varDest)]) for a in varList])
+            tmplist2 = []
+            for i in range(len(tmplist1)):
+                if tmplist1[i] != varDelContent:
+                    tmplist2.append(tmplist1[i])
+            return tmplist2
+        except:
+            return None
+
+    # 7,列表内容删除
+    def listDel(self, varList, varPartElement):
+        tmpList = []
+        for i in range(len(varList)):
+            if varPartElement not in varList[i]:
+                tmpList.append(varList[i])
+        return tmpList
+
+    # 8，键值对齐
     def listAlignKey  (self, l_src, varSplit):
         # 1234567890: john
         # 123456    : 测试
@@ -116,7 +148,7 @@ class ListPO():
         except:
             return None
 
-    # 6，列表转字典 (列表形式符合字典要求key:value)
+    # 9，列表转字典 (列表形式符合字典要求key:value)
     def listKeyValueDict(self, varList):
         # 注意：元素如不包含冒号，则忽略此元素
         dict3 = {}
@@ -129,7 +161,7 @@ class ListPO():
         except:
             return None
 
-    # 7，列表合并成字典 (列表中相邻两元素组成键值对队)
+    # 10，列表合并成字典 (列表中相邻两元素组成键值对队)
     def listBorderDict(self, varList):
         # 列表中相邻两元素组成键值对队， 转字典
         # 注意：列表元素如遇奇数，则忽略最后1个元素 ， 元素必须大于2个。
@@ -146,17 +178,29 @@ class ListPO():
                 dict4.update({varList[i]: varList[i + 1]})
             return dict4
 
-    # 8，两列表合成一个字典
+    # 11，两列表合成一个字典
     def list2MergeDict(self, varList1, varList2):
         # py3.x中
         return (dict(map(lambda x, y: [x, y], varList1, varList2)))  # {{1: 'haha', 2: 'skducn', 3: 'yoyo'}
         # # py2.x中
         # return (dict(zip(l1, l2)))
 
+    # 将列表中部分字符串转数字
+    def list2Digit(self, varList):
+        new_numbers = []
+        for i in range(len(varList)):
+            if str(varList[i]).isdigit():
+                new_numbers.append(int(varList[i]))
+            else:
+                new_numbers.append(varList[i])
+        return new_numbers
+
+
 
 if __name__ == "__main__":
 
     list_PO = ListPO()
+
 
     # # 1,一个列表拆分成3个数组
     # varArr = list_PO.listSplitArray([1, 2, 3, 4, 5, 6, 7, 8, 9], 3)
@@ -178,23 +222,39 @@ if __name__ == "__main__":
     # print(list_PO.listJointChar(["a", "b", "c", "d", "e", "f"], 4))  # ['abcd', 'ef']  //列表必须是字符串
     # print(list_PO.listJointChar(["www.", "baidu.", "com"], len(["www.", "baidu.", "com"])))  # ['www.baidu.com']
     #
-    # # 4,替换列表内容（自动去掉特殊符号如 \t \r \n）
+    # # 4,替换列表内容
+    # print(list_PO.listReplace(["1", 2, "3", ":"], ":", ""))
     # print(list_PO.listReplace(['0\n编号 规则', '1\n既往史记录 逻辑 错误', '2\n既往史\t\n逻辑错误'], "\n", ":"))   #  ['0:编号规则', '1:既往史记录逻辑错误', '2:既往史:逻辑错误']
     # print(list_PO.listReplace(['\n\t\t\tCHF\xa0\r\n\r\n  \t64.90', '\n\t\tCHF\xa0\r\n\t58.40','\n\t\tCHF\xa0\r\t48.70'], "\t", ""))  # ['CHF64.90', 'CHF58.40', 'CHF48.70']
-    #
-    # # 5,键值对齐
+
+    # # 5,替换列表内容（自动去掉特殊符号如 \t \r \n）
+    # print(list_PO.listReplaceSmart(['0\n编号 规则', '1\n既往史记录 逻辑 错误', 444, '2\n既往史\t\n逻辑错误','abc'], "abc", ":"))   #  ['0:编号规则', '1:既往史记录逻辑错误', '2:既往史:逻辑错误']
+    # print(list_PO.listReplaceSmart(['0\n编号 规则', '1\n既往史记录 逻辑 错误', '2\n既往史\t\n逻辑错误','abc'], "abc", ":"))   #  ['0:编号规则', '1:既往史记录逻辑错误', '2:既往史:逻辑错误']
+
+    # # 6,列表内容替换并删除
+    x = list_PO.listReplaceDel(["1",2,"3",":"], ":", "", "")   #//将 ：替换成空，再删除空列表元素。
+    print(x)
+
+    # 7,列表内容删除
+    # list1 = ['0\n编号 规则', '1\n既往史记录 逻辑 错误', '2\n既往史\t\n逻辑错误', 'abc']
+    # print(list_PO.listDel(list1, "错误"))
+    # print(list1)
+
+    # # 8,键值对齐
     # list1 = list_PO.listAlignKey(['1234567890:john', '123456:测试', '123:baibai', '600065:', '600064:234j2po4j2oi34'], ":")
     # for i in range(len(list1)):
     #     print(list1[i])
     #
-    # # 6,列表转字典（["key:value", "key2:valur"]格式）
+    # # 9,列表转字典（["key:value", "key2:valur"]格式）
     # print(list_PO.listKeyValueDict(['a:123', 'b:456', 'c:789']))  # {'a': '123', 'b': '456', 'c': '789'}
     # print(list_PO.listKeyValueDict(['a:123', '123b456', 'c:555']))  # {'a': '123', 'c': '555'}   //不符合条件的列表值被过滤。
     #
-    # # 7，列表合并成字典 (列表中相邻两元素组成键值对队)
+    # # 10，列表合并成字典 (列表中相邻两元素组成键值对队)
     # print(list_PO.listBorderDict(["a", "123", "b", "345", "c", "777"]))  # {'a': '123', 'b': '345', 'c': '777'}
     # print(list_PO.listBorderDict(["a", "123", "b", "345", "c", "777", "d"]))  # {'a': '123', 'b': '345', 'c': '777'}  //最后多余的列表值被忽略
     # print(list_PO.listBorderDict(["a"]))  # None
     #
-    # # # 8，两列表合成一个字典
+    # # # 11，两列表合成一个字典
     # print(list_PO.list2MergeDict([1, 2, 3], ['haha', 'skducn', 'yoyo']))
+
+    print(list_PO.list2Digit(["a","123","b","555"]))    # ['a', 123, 'b', 555]
