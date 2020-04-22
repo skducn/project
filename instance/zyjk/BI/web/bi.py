@@ -32,7 +32,7 @@ print(varDataUpdateDate)
 varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split(" ")[0]
 
 # # ===============================================================================================
-
+#
 # Bi_PO.menu1("实时监控指标")
 #
 # # 1，检查值（医疗业务收入，药品收入，今日门急诊量，今日门诊量，今日急诊量，今日门急诊收入，今日出院人数，今日在院，当前危重人数，今日住院实收入）
@@ -134,12 +134,12 @@ varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split("
 
 
 # # ===============================================================================================
-
+#
 Bi_PO.menu1("门诊分析")
-# 同期，同比，逻辑未处理？？
-
-varUpdateDate = "2020-03-22"
-
+# # 同期，同比，逻辑未处理？？
+#
+# varUpdateDate = "2020-03-22"
+#
 # # 1，检查值（门急诊人次，门诊人次，急诊人次，门急诊退号率）
 # Bi_PO.menu2ByHref("\n2.1 门诊业务", "/bi/outpatientAnalysis/outpatientService", varUpdateDate)
 #
@@ -287,7 +287,7 @@ print("?")
 top10Dict6 = Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "", "")  # 获取检查收入的值，如：235157
 # print(Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "", "检查收入"))  # 获取检查收入的值，如：235157
 
-
+sleep(1212)
 
 
 Bi_PO.menu1Close("门诊分析")
@@ -348,20 +348,23 @@ Bi_PO.tongqi("床位使用率", 'SELECT round((select 100*(a.sum/b.sum) from(sel
 # 一，遍历并分成多个列表（医院总收入，住院总收入，住院均次费用，住院药品收入，住院均次药品费用，住院药占比）
 Bi_PO.menu2ByHref("\n3.3 住院收入", "/bi/hospitalizationAnnlysis/hospitalizationIncome", varUpdateDate)
 
+varUpdateDate = "2020-03-22"
 
 # 1,医院总收入(万元)?
 
 # 2，住院总收入(万元)=统计期内所有在院和出院的患者总收入和
-Bi_PO.tongqi("住院总收入(万元)", 'SELECT round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2)', varUpdateDate)
+Bi_PO.tongqi("住院总收入(万元)", 'SELECT ifnull(round((SELECT inPAccount/10000 FROM bi_inpatient_yard where statisticsDate = "%s"),2),0)', varUpdateDate)
 
 # 3，住院均次费用=统计期内住院患者总收入和/患者总人次
-Bi_PO.tongqi("住院均次费用(元)", 'select round((SELECT sum(inPCountFee)/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
+# Bi_PO.tongqi("住院均次费用(元)", 'select round((SELECT sum(inPCountFee)/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
+Bi_PO.tongqi("住院均次费用(元)", 'SELECT  round(sum(inpaccount)/sum(inpcount),2) from bi_inpatient_yard WHERE statisticsDate ="%s"', varUpdateDate)
 
 # 4，住院药品收入(万元)=统计期内住院药品收入之和
 Bi_PO.tongqi("住院药品收入(万元)", 'SELECT round((SELECT inPMedicateAccount/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
 
 # 5，住院均次药品费用=统计期内住院患者药品总收入和/患者总人次
-Bi_PO.tongqi("住院均次药品费用(元)", 'SELECT round((SELECT inPCountMedicateFee/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
+# Bi_PO.tongqi("住院均次药品费用(元)", 'SELECT round((SELECT inPCountMedicateFee/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
+Bi_PO.tongqi("住院均次药品费用(元)", 'SELECT round(sum(inPMedicateAccount)/sum(inpcount),2) from bi_inpatient_yard where statisticsDate = "%s"', varUpdateDate)
 
 # 6，住院药占比=统计期内住院药品收入/住院总收入
 Bi_PO.tongqi("住院药占比", 'SELECT round((SELECT inPMedicateRatio from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
@@ -398,8 +401,11 @@ Bi_PO.tongqi("西医收入(万元)", 'SELECT round((select sum(wmCost)/10000 fro
 # 5，医保目录外药品收入=统计期内门急诊非医保药品处方收入+住院非医保药品医嘱收入
 Bi_PO.tongqi("医保目录外药品收入(万元)", 'SELECT round((select sum(insuranceCost)/10000 from bi_hospital_drugcosts_day where statisticsDate ="%s"),2)', varUpdateDate)
 
-# 6,药占比=统计期内（门急诊药品收入+住院药品收入）/（门急诊收入+住院收入）
-Bi_PO.tongqi("医保目录外药品收入(万元)", 'SELECT round((SELECT (SUM(drug.hmCost+drug.pmCost+drug.wmCost)/(`out`.outPAccount+inp.inPAccount)) FROM bi_hospital_drugcosts_day AS drug LEFT JOIN(SELECT outPAccount,statisticsDate FROM bi_outpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s" ) AS `out` ON `out`.statisticsDate = drug.statisticsDate LEFT JOIN (SELECT inPAccount,statisticsDate FROM bi_inpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s") AS inp ON inp.statisticsDate = drug.statisticsDate WHERE drug.statisticsDate BETWEEN "%s" AND "%s"),2)' , varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate)
+
+# # 6,药占比=统计期内（门急诊药品收入+住院药品收入）/（门急诊收入+住院收入）
+# Bi_PO.tongqi("药占比", 'SELECT round((SELECT (SUM(drug.hmCost+drug.pmCost+drug.wmCost)/(`out`.outPAccount+inp.inPAccount)) FROM bi_hospital_drugcosts_day AS drug LEFT JOIN(SELECT outPAccount,statisticsDate FROM bi_outpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s" ) AS `out` ON `out`.statisticsDate = drug.statisticsDate LEFT JOIN (SELECT inPAccount,statisticsDate FROM bi_inpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s") AS inp ON inp.statisticsDate = drug.statisticsDate WHERE drug.statisticsDate BETWEEN "%s" AND "%s"),2)' , varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate)
+Bi_PO.tongqi("药占比", 'SELECT round((SELECT (SUM(drug.hmCost+drug.pmCost+drug.wmCost)/(`out`.outPAccount+inp.inPAccount))*100 FROM bi_hospital_drugcosts_day AS drug LEFT JOIN(SELECT outPAccount,statisticsDate FROM bi_outpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s" ) AS `out` ON `out`.statisticsDate = drug.statisticsDate LEFT JOIN (SELECT inPAccount,statisticsDate FROM bi_inpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s") AS inp ON inp.statisticsDate = drug.statisticsDate WHERE drug.statisticsDate BETWEEN "%s" AND "%s"),2)', varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate)
+
 
 #
 # # 2，门急诊收入科室排名
