@@ -87,15 +87,13 @@ class BiPO(object):
             tmpList = self.getContent("//div")
             if varListName2 != "":
                 if varName == "":
-                    print(self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n")))
-                    return None
+                    return (self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n")))
                 else:
                     tmpDict = self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n"))
                     return (tmpDict[varName])
             else:
                 if varName == "":
-                    print(self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split("\n")))
-                    return None
+                    return (self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split("\n")))
                 else:
                     tmpDict = self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split("\n"))
                     return (tmpDict[varName])
@@ -115,13 +113,14 @@ class BiPO(object):
         varCount1 = 0
         varCount2 = 0
 
-
         if "(万" in varName:
             # 当前金额a与库存对比
             if len(varDate) == 2:
                 Mysql_PO.cur.execute(varSql % (varDate[0], varDate[1]))
+                errorSql1 = str(varSql).replace("%s", varDate[0])
             else:
                 Mysql_PO.cur.execute(varSql % (varDate))
+                errorSql1 = str(varSql).replace("%s", varDate[0])
             tmpTuple1 = Mysql_PO.cur.fetchall()
 
             if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0:
@@ -135,8 +134,11 @@ class BiPO(object):
             varLastDate = (self.Time_PO.getBeforeAfterDate(varDate[0], -1))
             if len(varDate) == 2:
                 Mysql_PO.cur.execute(varSql % (varLastDate, varLastDate))
+                errorSql2 = str(varSql).replace("%s", str(varLastDate))
             else:
                 Mysql_PO.cur.execute(varSql % (varLastDate))
+                errorSql2 = str(varSql).replace("%s", str(varLastDate))
+
             tmpTuple2 = Mysql_PO.cur.fetchall()
 
             if tmpTuple2[0][0] == None or tmpTuple2[0][0] == 0:
@@ -177,9 +179,9 @@ class BiPO(object):
             self.Web_PO.assertEqual(varCount1, varCount2, "[ok], " + varName + "（" + str(a) + "）,（" + str(b) + "）", "")
         else:
             if varCount1 == 0:
-                self.Web_PO.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]))
+                self.Web_PO.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql1) + "\n")
             if varCount2 == 0:
-                self.Web_PO.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]))
+                self.Web_PO.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]) + "\n" + str(errorSql2) + "\n")
 
     def tongqi(self, varName, varSql, *varDate):
 
@@ -282,3 +284,44 @@ class BiPO(object):
         self.Web_PO.inputXpathEnter("//input[@placeholder='开始日期']", varStartDate)
         self.Web_PO.inputXpathEnter("//input[@placeholder='结束日期']", varEndDate)
         sleep(2)
+
+    def singleSQL(self, varPageDict, varName, varSql, *varDate):
+
+        pageDict = ""
+        for k in varPageDict:
+            if k == varName:
+                pageDict = varPageDict[k]
+
+        if len(varDate) == 2:
+            Mysql_PO.cur.execute(varSql % (varDate[0], varDate[1]))
+        else:
+            Mysql_PO.cur.execute(varSql % (varDate))
+        errorSql = str(varSql).replace("%s", varDate[0])
+
+        tmpTuple1 = Mysql_PO.cur.fetchall()
+
+        self.Web_PO.assertEqual(str(pageDict), str(tmpTuple1[0][0]), "[ok], " + varName + "（" + str(pageDict) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(pageDict) + "）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql) + "\n")
+
+
+    def top10(self, varTop10Dict, varName, varSql, *varDate):
+
+        if len(varDate) == 2:
+            Mysql_PO.cur.execute(varSql % (varDate[0], varDate[1]))
+        else:
+            Mysql_PO.cur.execute(varSql % (varDate))
+        errorSql = str(varSql).replace("%s", varDate[0])
+        tmpTuple = Mysql_PO.cur.fetchall()
+
+        tmpdict1 = {}
+        for k, v in tmpTuple:
+            if ".00" in str(v):
+                v = int(v)
+            tmpdict1[k] = str(v)
+
+        # print(varTop10Dict)
+        # print(tmpdict1)
+        self.Web_PO.assertEqual(varTop10Dict, tmpdict1, "[ok], " + varName + "（" + str(tmpdict1) + "）", "[errorrrrrrrrrr], " + varName + "\n页面：" + str(varTop10Dict) + "\n库值：" + str(tmpdict1) + "\n" + str(errorSql) + "\n")
+
+
+
+
