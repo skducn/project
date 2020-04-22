@@ -314,7 +314,9 @@ class BiPO(object):
 
         tmpdict1 = {}
         for k, v in tmpTuple:
-            tmpdict1[k] = v
+            if ".00" in str(v):
+                v = int(v)
+            tmpdict1[k] = str(v)
 
         # print(varTop10Dict)
         # print(tmpdict1)

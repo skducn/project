@@ -378,14 +378,19 @@ class MysqlPO():
 if __name__ == '__main__':
 
     Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # BI 开发数据库
-    varUpdateDate = '2019-09-15'
+    varUpdateDate = '2020-03-22'
 
     # Mysql_PO.conn.cursor(MySQLdb.cursors.DictCursor)
-    Mysql_PO.cur.execute('select * from bi_outpatient_yard ')
+    # Mysql_PO.cur.execute('SELECT ifnull(round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2),0)' % varUpdateDate)
+    # Mysql_PO.cur.execute('SELECT ifnull(round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2),0)' % varUpdateDate)
+    Mysql_PO.cur.execute('SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10' % varUpdateDate)
     tmpTuple = Mysql_PO.cur.fetchall()
-    desc = Mysql_PO.cur.description     # 获取单表的字段名信息
-    print(desc)
-    print(Mysql_PO.cur.rowcount)   # 获取结果集的条数/
+    print(tmpTuple)
+    print(tmpTuple[0][1])
+
+    # desc = Mysql_PO.cur.description     # 获取单表的字段名信息
+    # print(desc)
+    # print(Mysql_PO.cur.rowcount)   # 获取结果集的条数/
     # print(tmpTuple[0][0])
 
 
