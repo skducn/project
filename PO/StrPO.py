@@ -30,7 +30,7 @@ class StrPO():
         pass
 
 
-    # 字符串 转 列表
+    # 1，字符串转列表
     def str2list(self, varStr=None, varMode='digit'):
         # print(Str_PO.str2list("1,2,3"))  # [1, 2, 3]    //列表元素是数字， 默认字符串是数字，转换后仍然是数字作为列表元素。
         # print(Str_PO.str2list("a1,2,3"))  # ['a1', '2', '3']
@@ -53,12 +53,30 @@ class StrPO():
             except:
                 return None
 
+    # 2，判断字符串是否为数字
+    def is_number(self, s):
+        try:
+            float(s)
+            return True
+        except ValueError:
+            pass
+
+        try:
+            import unicodedata
+            unicodedata.numeric(s)
+            return True
+        except (TypeError, ValueError):
+            pass
+
+        return False
+
 
 
 if __name__ == "__main__":
 
     Str_PO = StrPO()
 
+    print("1，字符串转列表".center(100, "-"))
     print(Str_PO.str2list("1,2,3"))  # [1, 2, 3]    //列表元素是数字， 默认字符串是数字，转换后仍然是数字作为列表元素。
     print(Str_PO.str2list("a1,2,3"))  # ['a1', '2', '3']
     print(Str_PO.str2list("1,2,3", ""))  # ['1', '2', '3']   //列表元素是字符，第二个空参数表示转换后列表元素是字符。
@@ -70,8 +88,17 @@ if __name__ == "__main__":
     print(Str_PO.str2list())  # None   //无参数返回None
 
 
+    print("2，判断字符串是否为数字".center(100, "-"))
+    print(Str_PO.is_number('foo'))  # False
+    print(Str_PO.is_number('1'))  # True
+    print(Str_PO.is_number('1.3'))  # True
+    print(Str_PO.is_number('-1.37'))  # True
+    print(Str_PO.is_number('1e3'))  # True
+    print(Str_PO.is_number('٥'))  # True   //# 阿拉伯语 5
+    print(Str_PO.is_number('๒'))  # True  //# 泰语 2
+    print(Str_PO.is_number('四'))  # True  /# 中文数字
+    print(Str_PO.is_number('©'))  # False  /# 版权号
 
-    print("---------------------------")
 
     # # 1, str.capitalize(), 将字符串第一个首字母转为大写，其他字母转为小写。
     # x = "my naMe Is John"

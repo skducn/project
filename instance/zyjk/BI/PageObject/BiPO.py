@@ -87,15 +87,15 @@ class BiPO(object):
             tmpList = self.getContent("//div")
             if varListName2 != "":
                 if varName == "":
-                    return (self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n")))
+                    return (self.List_PO.list2dict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n")))
                 else:
-                    tmpDict = self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n"))
+                    tmpDict = self.List_PO.list2dict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n"))
                     return (tmpDict[varName])
             else:
                 if varName == "":
-                    return (self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split("\n")))
+                    return (self.List_PO.list2dict(tmpList[0].split(varListName1)[1].split("\n")))
                 else:
-                    tmpDict = self.List_PO.listBorderDict(tmpList[0].split(varListName1)[1].split("\n"))
+                    tmpDict = self.List_PO.list2dict(tmpList[0].split(varListName1)[1].split("\n"))
                     return (tmpDict[varName])
         except:
             return None
