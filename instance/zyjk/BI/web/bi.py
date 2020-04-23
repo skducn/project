@@ -33,45 +33,45 @@ varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split("
 
 # # ===============================================================================================
 #
-# Bi_PO.menu1("实时监控指标")
-#
-# # 1，检查值（医疗业务收入，药品收入，今日门急诊量，今日门诊量，今日急诊量，今日门急诊收入，今日出院人数，今日在院，当前危重人数，今日住院实收入）
-# Bi_PO.menu2ByHref("\n1.1 今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis", varUpdateDate)
-#
-# # c1,医疗业务收入 = 门急诊收入+ 住院收入
-# Bi_PO.monitor("医疗业务收入(万元)", 'SELECT round((select (a.sum+b.sum)/10000 from(SELECT IFNULL(sum(inPAccount),0) sum  from bi_inpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(outPAccount),0) sum FROM bi_outpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
-#
-# # c2,药品收入 = 当日急诊费用中药品类收入+住院药品类收入
-# Bi_PO.monitor("药品收入(万元)", 'select round((select (a.sum +b.sum)/10000 from(SELECT ifnull(sum(outPMedicateAccount),0) sum  from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(inPMedicateAccount),0) sum FROM bi_inpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
-#
-# # c3,今日门急诊量 = 今日挂号为门诊和急诊的人次和
-# Bi_PO.monitor("今日门急诊量(例)", 'select ifnull(sum(outPCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c4,今日门诊量 = 今日挂号为门诊的人次和
-# Bi_PO.monitor("今日门诊量(例)", 'select ifnull(sum(outpatientCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c5,今日急诊量 = 今日挂号为急诊的人次和
-# Bi_PO.monitor("今日急诊量(例)", 'select sum(emergencyCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c6,今日门急诊收入 = 今日门急诊收费总和
-# Bi_PO.monitor("今日门急诊收入(万元)", 'select round(sum(outpaccount)/10000,2) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c7,今日出院人数 = 今日做出院登记的患者人数之和
-# Bi_PO.monitor("今日出院人数(例)", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c8,今日在院人数 = 住院状态为在院的患者人数之和
-# Bi_PO.monitor("今日在院(例)", 'select sum(inPCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c9,当前危重人数 = 当前危重人数和
-# Bi_PO.monitor("当前危重人数(例)", 'select sum(criticalCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # c10,今日住院实收入 = 出入院财务中，记录在当日的费用之和
-# Bi_PO.monitor("今日住院实收入(万元)", 'select round(sum(inPAccount)/10000,2) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-#
-# # # 2，当前住院欠费明细
-# # print(Bi_PO.getContent("//tr"))
-#
-# Bi_PO.menu1Close("实时监控指标")
+Bi_PO.menu1("实时监控指标")
+
+# 1，检查值（医疗业务收入，药品收入，今日门急诊量，今日门诊量，今日急诊量，今日门急诊收入，今日出院人数，今日在院，当前危重人数，今日住院实收入）
+Bi_PO.menu2ByHref("\n1.1 今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis", varUpdateDate)
+
+# c1,医疗业务收入 = 门急诊收入+ 住院收入
+Bi_PO.monitor("医疗业务收入(万元)", 'SELECT round((select (a.sum+b.sum)/10000 from(SELECT IFNULL(sum(inPAccount),0) sum  from bi_inpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(outPAccount),0) sum FROM bi_outpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
+
+# c2,药品收入 = 当日急诊费用中药品类收入+住院药品类收入
+Bi_PO.monitor("药品收入(万元)", 'select round((select (a.sum +b.sum)/10000 from(SELECT ifnull(sum(outPMedicateAccount),0) sum  from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(inPMedicateAccount),0) sum FROM bi_inpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
+
+# c3,今日门急诊量 = 今日挂号为门诊和急诊的人次和
+Bi_PO.monitor("今日门急诊量(例)", 'select ifnull(sum(outPCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c4,今日门诊量 = 今日挂号为门诊的人次和
+Bi_PO.monitor("今日门诊量(例)", 'select ifnull(sum(outpatientCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c5,今日急诊量 = 今日挂号为急诊的人次和
+Bi_PO.monitor("今日急诊量(例)", 'select sum(emergencyCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c6,今日门急诊收入 = 今日门急诊收费总和
+Bi_PO.monitor("今日门急诊收入(万元)", 'select round(sum(outpaccount)/10000,2) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c7,今日出院人数 = 今日做出院登记的患者人数之和
+Bi_PO.monitor("今日出院人数(例)", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c8,今日在院人数 = 住院状态为在院的患者人数之和
+Bi_PO.monitor("今日在院(例)", 'select sum(inPCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c9,当前危重人数 = 当前危重人数和
+Bi_PO.monitor("当前危重人数(例)", 'select sum(criticalCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# c10,今日住院实收入 = 出入院财务中，记录在当日的费用之和
+Bi_PO.monitor("今日住院实收入(万元)", 'select round(sum(inPAccount)/10000,2) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
+# # 2，当前住院欠费明细
+# print(Bi_PO.getContent("//tr"))
+
+Bi_PO.menu1Close("实时监控指标")
 
 
 
@@ -217,20 +217,20 @@ prescriptionList.append(tmpList2[-1])
 
 # 2，科室门急诊抗生素处方数分析
 tmpList2 = tmpList1[0].split("科室门急诊抗生素处方数分析\n")[1].split("%")[0].split("\n")
-tmpList2 = List_PO.list2Digit(tmpList2)
-top10Dict2 = List_PO.listBorderDict(tmpList2)
+tmpList2 = List_PO.list2partValue(tmpList2)
+top10Dict2 = List_PO.list2dict(tmpList2)
 Bi_PO.top10(top10Dict2, "科室门急诊抗生素处方数分析", 'SELECT deptName,antibioticRecipe from bi_dept_recipe_day WHERE statisticsDate = "%s" ORDER BY antibioticRecipe DESC limit 10', varUpdateDate)
 
 # 3，科室门急诊药品处方数分析
 tmpList3 = tmpList1[0].split("科室门急诊药品处方数分析\n")[1].split("%")[0].split("\n")
-tmpList3 = List_PO.list2Digit(tmpList3)
-top10Dict3 = List_PO.listBorderDict(tmpList3)
+tmpList3 = List_PO.list2partValue(tmpList3)
+top10Dict3 = List_PO.list2dict(tmpList3)
 Bi_PO.top10(top10Dict3, "科室门急诊药品处方数分析", 'SELECT deptName,drugRecipe from bi_dept_recipe_day WHERE statisticsDate ="%s" ORDER BY antibioticRecipe DESC limit 10', varUpdateDate)
 
 # 4，科室门急诊大额处方数分析
 tmpList4 = tmpList1[0].split("科室门急诊大额处方数分析\n")[1].split("\n")
-tmpList4 = List_PO.list2Digit(tmpList4)
-top10Dict4 = List_PO.listBorderDict(tmpList4)
+tmpList4 = List_PO.list2partValue(tmpList4)
+top10Dict4 = List_PO.list2dict(tmpList4)
 Bi_PO.top10(top10Dict4, "科室门急诊大额处方数分析", 'SELECT deptName,largeRecipe from bi_dept_recipe_day WHERE statisticsDate ="%s" order by largerecipe desc limit 10', varUpdateDate)
 
 
@@ -239,7 +239,7 @@ prescriptionList.append("门急诊药品处方率")
 prescriptionList.append(tmpList2[-1])
 prescriptionList.append("门急诊大额处方率")
 prescriptionList.append(tmpList3[-1])
-pageList = List_PO.listBorderDict(prescriptionList)
+pageList = List_PO.list2dict(prescriptionList)
 
 Bi_PO.singleSQL(pageList, "门急诊抗生素处方率", 'SELECT round((SELECT a.sum/b.sum*100 from (SELECT sum(antibioticRecipe) sum from bi_hospital_recipe_day WHERE statisticsDate ="%s")a,(SELECT sum(quantity) sum from bi_hospital_recipe_day WHERE statisticsDate ="%s")b),2) ', varUpdateDate, varUpdateDate)
 
@@ -281,13 +281,10 @@ Bi_PO.tongqi("门急诊均次药品费用(元)", 'SELECT round((SELECT a.sum/b.s
 top10Dict5 = Bi_PO.winByDiv("门急诊收入科室排名\n", "门急诊均次费月趋势", "")  # 获取门急诊收入科室排名列表中所有的值
 Bi_PO.top10(top10Dict5, "门急诊收入科室排名", 'SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10', varUpdateDate)
 
-
 # # 3，门急诊医疗收入构成分析
 print("?")
 top10Dict6 = Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "", "")  # 获取检查收入的值，如：235157
 # print(Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "", "检查收入"))  # 获取检查收入的值，如：235157
-
-sleep(1212)
 
 
 Bi_PO.menu1Close("门诊分析")
