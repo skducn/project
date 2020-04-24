@@ -3,10 +3,8 @@
 # Author     : John
 # Date       : 2019-1-29
 # Description: 列表内置属性及使用方法 list1.py
-# list，实际上是列表类型的构造函数，列表可变且序可迭代。
-# class list([iterable])
+# list，实际上是列表类型的构造函数，列表可变且序可迭代。class list([iterable])
 # Rather than being a function, list is actually a mutable sequence type, as documented in Lists and Sequence Types — list, tuple, range
-# http://172.21.200.153/searchResult-2122.html  ？
 # *******************************************************************
 
 '''
@@ -22,14 +20,20 @@
 9、list.remove(object) 删除值的第一次出现。如果该值不存在，将引发ValueError。
 10、list.reverse() 翻转列表
 11、list.sort(key[,reverse=True]) 升序排序 ，如果reverse=True则是降序排列
+12、列表操作符，组合、重复、判断、截取"
 '''
 
 print("1，list.append(object)".center(100, "-"))
 # 功能：向列表中添加成员，每次只能在列表尾添加一个成员，在使用前列表必须存在，如预先定义一个空列表。
+# 原地修改列表，且没有返回值，不能赋值给某个变量
+# append 将参数视为 element，作为追加一个元素拼接（整体追加）
 list1 = []
 list1.append('1')
+print(id(list1))
 list1.append(55)
+print(id(list1))
 list1.append(['john', '1', 1])
+print(id(list1))
 print(list1)  # ['1', 55, ['john', '1', 1]]
 
 
@@ -61,14 +65,20 @@ list4 = [1, 1, 1, 2, 2, 2, 2, 3, 4, 5, 6, 7, 8]
 print(list4.count(2))  # 4  //统计列表中2出现的次数。
 
 
-print("5，list.extend()".center(100, "-"))
+print("5，list.extend(iterable)".center(100, "-"))
 # 功能：该方法也是向列表中添加成员，并且也是一个参数，但是它将拆分成员（如列表则拆分单个列表成员，字符串则拆分成字符）
+# iterable 不支持int类型的对象
+# 原地修改列表，且没有返回值，不能赋值给某个变量
+# extend 将参数视为 list，拼接两个列表（个体化扩编追加）
 list5 = [1, 2, 3]
+print(id(list5))
 list5.extend(['john', '1', 1])
+print(id(list5))  # 经过extend()方法进行扩容后，还是原来的ID地址，这就是列表的原地修改。
 print(list5)  # [1, 2, 3, 'john', '1', 1]
-list5.extend('love')
+list5.extend('love')    # list5.extend('love') 等效于 list[len(list5):]= 'love'
+# list5[len(list5):] = 'love'   # [1, 2, 3, 'john', '1', 1, 'l', 'o', 'v', 'e']
 print(list5)  # [1, 2, 3, 'john', '1', 1, 'l', 'o', 'v', 'e']
-# list5.extend(555) # 报错，TypeError: 'int' object is not iterable
+# list5.extend(555) # TypeError: 'int' object is not iterable  //报错，不支持int类型的对象
 
 
 print("6，list.index()".center(100, "-"))
@@ -137,33 +147,7 @@ print(list11)  # [77, 8, 5, 4, 2]
 
 
 
-
-
-
-# 字符串 转 列表
-print(type(list('abcd')),list('abcd'))  # <class 'list'> ['a', 'b', 'c', 'd']
-
-# 字节数组 转 列表
-print(type(list(bytes('abcd','utf-8'))),list(bytes('abcd','utf-8')))  # <class 'list'> [97, 98, 99, 100]
-
-# 元组 转 列表
-print(type(list(('a','b','c',7,['b',55]))),list(('a','b','c',7,['b',55]))) # <class 'list'> ['a', 'b', 'c', 7, ['b', 55]]
-
-# range对象 转 列表
-print(type(list(range(1,5))),list(range(1,5)))  # <class 'list'> [1, 2, 3, 4]
-
-dict7 = {'name': 'Zara', 'age': 7, 'class': 'First'}
-# 字典 转 列表keys (返回列表内容是keys的集合)
-print(list(dict7))  # ['age', 'name', 'class']
-
-# 字典 转 列表values (返回列表内容是values的集合)
-print(list(dict7.values()))  # ['Zara', 7, 'First']
-
-
-
-
-# 18，列表操作符，组合、重复、判断、截取"
-# list[start:end:sort]
+print("12，列表操作符，组合、重复、判断、截取".center(100, "-"))
 print([1, 2, 3] + [4, 5, 6])  # [1, 2, 3, 4, 5, 6]
 print(['Hi'] * 4)  # ['Hi', 'Hi', 'Hi', 'Hi']
 print(3 in [1, 2, 3]) # True

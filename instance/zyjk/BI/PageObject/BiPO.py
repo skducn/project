@@ -9,6 +9,7 @@ from instance.zyjk.BI.config.config import *
 from PO.WebPO import *
 from PO.ListPO import *
 from PO.TimePO import *
+from PO.ColorPO import *
 
 
 class BiPO(object):
@@ -21,6 +22,7 @@ class BiPO(object):
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
         self.List_PO = ListPO()
         self.Time_PO = TimePO()
+        self.Color_PO = ColorPO()
 
     # 登录 运营决策系统
     def login(self):
@@ -76,10 +78,9 @@ class BiPO(object):
                 for i in range(len(tmpList1)):
                     if varName == tmpList1[i][1]:
                         return tmpList1[i][0], tmpList1[i][2], tmpList1[i][3]
-                print(varName + "不存在，请检查！")
-                exit()
+                return (varName + "不存在，请检查！")
         except:
-            exit()
+            return None
 
     def winByDiv(self, varListName1, varListName2, varName):
 
@@ -87,15 +88,15 @@ class BiPO(object):
             tmpList = self.getContent("//div")
             if varListName2 != "":
                 if varName == "":
-                    return (self.List_PO.list2dict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n")))
+                    return (self.List_PO.list2dictBySerial(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n")))
                 else:
-                    tmpDict = self.List_PO.list2dict(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n"))
+                    tmpDict = self.List_PO.list2dictBySerial(tmpList[0].split(varListName1)[1].split(varListName2)[0].split("\n"))
                     return (tmpDict[varName])
             else:
                 if varName == "":
-                    return (self.List_PO.list2dict(tmpList[0].split(varListName1)[1].split("\n")))
+                    return (self.List_PO.list2dictBySerial(tmpList[0].split(varListName1)[1].split("\n")))
                 else:
-                    tmpDict = self.List_PO.list2dict(tmpList[0].split(varListName1)[1].split("\n"))
+                    tmpDict = self.List_PO.list2dictBySerial(tmpList[0].split(varListName1)[1].split("\n"))
                     return (tmpDict[varName])
         except:
             return None
@@ -112,6 +113,9 @@ class BiPO(object):
             varY = str(b).split("昨日：")[1]
         varCount1 = 0
         varCount2 = 0
+        errorSql1 = ""
+        errorSql2 = ""
+
 
         if "(万" in varName:
             # 当前金额a与库存对比
@@ -208,9 +212,11 @@ class BiPO(object):
             else:
                 varDatabase = tmpTuple1[0][0]
             varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
-            self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）",
-                                "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(
-                                    varDatabase) + "\n" + str(errorSql) + "\n")
+            self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
+            # self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", self.Color_PO.consoleColor("31", "38", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n", ""))
+
+
+
         else:
             if "使用率" in varName or "退号率" in varName or "占比" in varName or "百分比" in varName:
                 if "%" in str(a):  # 页面上是否有 % 符号
@@ -223,12 +229,12 @@ class BiPO(object):
                             if len(x) < 2:
                                 a = str(a).split("%")[0] + "0%"
                     varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
-                    self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）",
-                                        "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(
-                                            varDatabase) + "\n" + str(errorSql) + "\n")
-                else:
-                    self.Web_PO.assertEqual(0, 1, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 页面上缺少%")
+                    self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
 
+                    # self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", self.Color_PO.consoleColor("31", "38","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n", ""))
+                else:
+                    # self.Web_PO.assertEqual(0, 1, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 页面上缺少%")
+                    self.Web_PO.assertEqual(0, 1, "", self.Color_PO.consoleColor("31", "38", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 页面上缺少%", ""))
             else:
                 if "." in str(tmpTuple1[0][0]):
                     x = str(tmpTuple1[0][0]).split(".")[1]
@@ -242,11 +248,8 @@ class BiPO(object):
                 else:
                     varDatabase = tmpTuple1[0][0]
                 varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
-                self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）",
-                                "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(
-                                    varDatabase) + "\n" + str(errorSql) + "\n")
-
-
+                self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
+                # self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", self.Color_PO.consoleColor("31", "38","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n",""))
 
         # 同期，没有逻辑？
 
@@ -300,11 +303,11 @@ class BiPO(object):
 
         tmpTuple1 = Mysql_PO.cur.fetchall()
 
-        self.Web_PO.assertEqual(str(pageDict), str(tmpTuple1[0][0]), "[ok], " + varName + "（" + str(pageDict) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(pageDict) + "）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql) + "\n")
+        self.Web_PO.assertEqual(str(pageDict), str(tmpTuple1[0][0]), "[ok], " + varName + "（" + str(pageDict) + "%）", "[errorrrrrrrrrr], " + varName + "（" + str(pageDict) + "%）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql) + "\n")
 
 
-    def top10(self, varTop10Dict, varName, varSql, *varDate):
-
+    def top10(self, varMode, varTop10Dict, varName, varSql, *varDate):
+        # varMode = 0， 如：小数点后是00，则去掉.00, 如 12.00则转换成12
         if len(varDate) == 2:
             Mysql_PO.cur.execute(varSql % (varDate[0], varDate[1]))
         else:
@@ -314,12 +317,19 @@ class BiPO(object):
 
         tmpdict1 = {}
         for k, v in tmpTuple:
-            if ".00" in str(v):
-                v = int(v)
+            if varMode == "0":
+                if ".00" in str(v):
+                    v = int(v)
+            elif varMode == "0.00":
+                if "." in str(v):
+                    dotLen = str(v).split(".")[1]   # 小数点后一个0
+                    if dotLen == "0":
+                        v = str(v) + "0"    # 补0
+                else:   # 整数
+                    v = str(v) + ".00"  # 补.00
+
             tmpdict1[k] = str(v)
 
-        # print(varTop10Dict)
-        # print(tmpdict1)
         self.Web_PO.assertEqual(varTop10Dict, tmpdict1, "[ok], " + varName + "（" + str(tmpdict1) + "）", "[errorrrrrrrrrr], " + varName + "\n页面：" + str(varTop10Dict) + "\n库值：" + str(tmpdict1) + "\n" + str(errorSql) + "\n")
 
 
