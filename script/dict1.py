@@ -232,3 +232,15 @@ print(dict8.__contains__('sex'))  # False
 # print( "Value : %s" %  dict.has_key('name')  )# Value : True
 # print( "Value : %s" %  dict8.has_key('Sex') ) # Value : False
 
+
+dict7 = {'name': 'Zara', 'age': 7, 'class': 'First'}
+# 字典 转 列表keys (返回列表内容是keys的集合)
+print(list(dict7))  # ['age', 'name', 'class']
+
+# 字典 转 列表values (返回列表内容是values的集合)
+print(list(dict7.values()))  # ['Zara', 7, 'First']
+
+
+# 字典 转 字符串
+dict1 = {'name': 'Zara', 'age': 7, 'class': 'First'}
+print(type(str(dict1)), str(dict1))  # <class 'str'> {'name': 'Zara', 'age': 7, 'class': 'First'}
