@@ -12,7 +12,7 @@ from PO.MysqlPO import *
 
 # 测试环境及账号
 varURL = "https://192.168.0.183/admin/login?return=https%3A%2F%2F192.168.0.183%2Fportal_hosp%3Fcode%3D5749894d0d424f508d8139779150113b&system=portal&system=portal"
-varUser = "016"
+varUser = "0166"
 varPass = "123456"
 
 
