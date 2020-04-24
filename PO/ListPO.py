@@ -29,15 +29,20 @@
 5.2，列表删除元素（包含模糊元素），且原列表不变。
 
 6，键值对齐
-7，判断字符串中元素类型
+7，随机获取list中的值
+
+
 '''
 
 import numpy
+from random import choice
+
 from PO.CharPO import *
 Char_PO = CharPO()
 from PO.StrPO import *
 Str_PO = StrPO()
-
+from PO.CharPO import *
+Char_PO = CharPO()
 
 class ListPO():
 
@@ -124,17 +129,17 @@ class ListPO():
 
     # 2.1，列表之字符与数字互转
     def listConvertElement(self, varList, varMode="str"):
-        # print(List_PO.list2partValue([123], "str"))  # ['123']
-        # print(List_PO.list2partValue(["a", 123.56, 0.12], "str"))  # ['a', '123.56', '0.12']
-        # print(List_PO.list2partValue([1, 3, '13', "一二", 20], "str"))  # ['1', '3', '13', '一二', '20']
-        # print(List_PO.list2partValue(['123'], "digit"))  # [123]
-        # print(List_PO.list2partValue(["a", "123", "555"], "digit"))  # ['a', 123, 555]
-        # print(List_PO.list2partValue([1, 3, '13', "一二", 20], "digit"))  # [1, 3, 13, '一二', 20]
-        # print(List_PO.list2partValue(["a", "0.123", "123.00", "56.0", "555.455678"], "digit"))  # ['a', 0.123, 123.0, 56.0, 555.455678]
+        # print(List_PO.listConvertElement([123], "str"))  # ['123']
+        # print(List_PO.listConvertElement(["a", 123.56, 0.12], "str"))  # ['a', '123.56', '0.12']
+        # print(List_PO.listConvertElement([1, 3, '13', "一二", 20], "str"))  # ['1', '3', '13', '一二', '20']
+        # print(List_PO.listConvertElement(['123'], "digit"))  # [123]
+        # print(List_PO.listConvertElement(["a", "123", "555"], "digit"))  # ['a', 123, 555]
+        # print(List_PO.listConvertElement([1, 3, '13', "一二", 20], "digit"))  # [1, 3, 13, '一二', 20]
+        # print(List_PO.listConvertElement(["a", "0.123", "123.00", "56.0", "555.455678"], "digit"))  # ['a', 0.123, 123.0, 56.0, 555.455678]
         new_numbers = []
         if varMode == "digit":
             for i in range(len(varList)):
-                if self.isNumberByStrFromListPO((varList[i])):
+                if Char_PO.isNumbersType((varList[i])):
                     if str(varList[i]).isdigit():
                          new_numbers.append(int(varList[i]))
                     else:
@@ -287,35 +292,19 @@ class ListPO():
         except:
             return None
 
-
-
     # 6，键值对齐
     def listKeyValueAlign(self, varList, varSplit):
-        # list1 = List_PO.listKeyValueAlign(
-        #     ['1234567890:john', '123456:测试', '123:baibai', '600065:', '600064:234j2po4j2oi34'], ":")
-        # for i in range(len(list1)):
-        #     print(list1[i])
-        #
-        # list1 = List_PO.listKeyValueAlign(
-        #     ['1234567890,john', '123456,测试', '123,baibai', '600065', '600064,234j2po4j2oi34'], ",")
-        # for i in range(len(list1)):
-        #     print(list1[i])
 
-        # 1234567890: john
-        # 123456    : 测试
-        # 123       : baibai
-        # 600065    :
-        # 600064    : 234j
         l1 = []
         l2 = []
         try:
             for i in range(len(varList)):
                 varCount = varList[i].count(varSplit)
-                if varCount == 1 :
+                if varCount == 1:
                     l1.append(str(varList[i]).split(varSplit)[0])  # key
                     l2.append(str(varList[i]).split(varSplit)[1])  # value
                 elif varCount > 1:
-                    for j in range(0, len(str(varList[i]).split(varSplit))-1, 2):
+                    for j in range(0, len(str(varList[i]).split(varSplit)) - 1, 2):
                         l1.append(str(varList[i]).split(varSplit)[j].replace(":", ""))  # key
                         l2.append(str(varList[i]).split(varSplit)[j + 1].replace(":", ""))  # value
                 else:
@@ -330,13 +319,13 @@ class ListPO():
                 if len(l1[i]) > count:
                     count = len(l1[i])
             for i in range(len(l1)):
-                if Char_PO.isChinese(l1[i]):
+                if Str_PO.isChinese(l1[i]):
                     # 全部是汉字
                     if count != len(l1[i]):
                         l1[i] = l1[i] + "  " * (count - len(l1[i])) + ":"
                     else:
                         l1[i] = l1[i] + ":"
-                elif Char_PO.isContainChinese(l1[i]):
+                elif Str_PO.isContainChinese(l1[i]):
                     # 部分是汉字 ? 未处理 同上
                     l1[i] = l1[i] + "  " * (count - len(l1[i])) + ":"
                 else:
@@ -345,24 +334,17 @@ class ListPO():
             # print(l1)
             # print(l2)
             c = [i + j for i, j in zip(l1, l2)]
-            return(c)
+            return (c)
         except:
             return None
 
-
-
-    # 7，判断字符串中元素类型
-    def isNumberByStrFromListPO(self, varValue):
-        # 字符串中元素是数字（浮点数），long类型 或 complex的 则返回True，否则返回False
-        # 注意：python2中有long类型， python3中没有long类型，只有int类型
-        # print(List_PO.isNumberByStrFromListPO("100"))  # True
-        # print(List_PO.isNumberByStrFromListPO("12.3456"))  # True
-        # print(List_PO.isNumberByStrFromListPO("abd123"))  # False
+    # 7，随机获取list中的值
+    def listRandomValue(self, varList):
         try:
-            complex(varValue)
-        except ValueError:
-            return False
-        return True
+            return (choice(varList))
+        except:
+            return None
+
 
 
 
@@ -489,10 +471,11 @@ if __name__ == "__main__":
 
 
     print("6，键值对齐".center(100, "-"))
-    list1 = List_PO.listKeyValueAlign(['1234567890:john', '123456:测试', '123:baibai', '600065:', '600064:234j2po4j2oi34'],":")
-    for i in range(len(list1)):
-        print(list1[i])
+    list11 = List_PO.listKeyValueAlign(['1234567890:john', '123456:666', '123:baibai', '600065:', '600064:234j2po4j2oi34'], ":")
+    for i in range(len(list11)):
+        print(list11[i])
 
-    list1 = List_PO.listKeyValueAlign(['1234567890,john', '123456,测试', '123,baibai', '600065', '600064,234j2po4j2oi34'],",")
-    for i in range(len(list1)):
-        print(list1[i])
+
+
+    print("7，随机获取list中的值".center(100, "-"))
+    print(List_PO.listRandomValue(['111',222,[5,6,'888'],{"a":1, 2:"test"}]))
