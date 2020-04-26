@@ -1,0 +1,10 @@
+2020-04-26 18:02:55,633 - D:/51/python/project/PO/LogPO.py[line:45] - DEBUG: debug
+2020-04-26 18:02:55,633 - D:/51/python/project/PO/LogPO.py[line:46] - INFO: info
+2020-04-26 18:02:55,634 - D:/51/python/project/PO/LogPO.py[line:47] - WARNING: 警告
+2020-04-26 18:02:55,634 - D:/51/python/project/PO/LogPO.py[line:48] - ERROR: 报错
+2020-04-26 18:02:55,634 - D:/51/python/project/PO/LogPO.py[line:49] - CRITICAL: 严重
+2020-04-26 18:02:57,167 - D:/51/python/project/PO/LogPO.py[line:45] - DEBUG: debug
+2020-04-26 18:02:57,167 - D:/51/python/project/PO/LogPO.py[line:46] - INFO: info
+2020-04-26 18:02:57,168 - D:/51/python/project/PO/LogPO.py[line:47] - WARNING: 警告
+2020-04-26 18:02:57,168 - D:/51/python/project/PO/LogPO.py[line:48] - ERROR: 报错
+2020-04-26 18:02:57,169 - D:/51/python/project/PO/LogPO.py[line:49] - CRITICAL: 严重
