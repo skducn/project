@@ -71,7 +71,7 @@ class CharPO():
             return False
         return True
 
-    # 4，补 / 去掉0
+    # 4，Numbers类型小数点后补0或去掉0（规则)
     def zeroByDot(self, varNum, varPatchNum):
         # 功能：补/去掉0，支持Numbers类型（int，float，bool，complex）及str字符型
         # 判断varNum是否是数字，并判断小数点后是补0还是去掉0
@@ -135,6 +135,44 @@ class CharPO():
         except:
             return None
 
+    # 5，浮点数尾部无效0去掉和无效的‘.’号（非规则）
+    def zeroByDotSmart(self, varList, varPatchNum=2):
+        # 将列表中所有元素的格式变成.00，如： [11, 22.0, 33.00] => [11.00, 22.0, 33.00]
+        # 非规则，支持 数字或字符串，0.00，0.0等
+        list4 = []
+        list3 = []
+        try:
+            for i in varList:
+               if self.isNumbersType(i) == True:
+                   if isinstance(i, str):
+                       if "." in i:
+                           list3.append(float(i))
+                       else:
+                           list3.append(int(i))
+                   else:
+                       list3.append(i)
+
+            if varPatchNum == 0:
+                for i in list3:
+                    list4.append('{:g}'.format(i))
+                return list4
+            elif varPatchNum < 0:
+                return None
+
+            for i in list3:
+                list4.append('{:g}'.format(i))
+
+            for i in range(len(list4)):
+                if "." not in list4[i]:  # //整数，在数位后补N个0
+                    if list4[i] != "0":
+                        list4[i] = list4[i] + "." + "0" * varPatchNum
+                    else:
+                        list4[i] = "0"
+                else:
+                    list4[i] = list4[i] + "0" * (varPatchNum - len(list4[i].split(".")[1]))
+            return (list4)
+        except:
+            return None
 
 
 if __name__ == "__main__":
@@ -150,8 +188,6 @@ if __name__ == "__main__":
     print(Char_PO.byte2str(b'\xe9\x87\x91\xe6\xb5\xa9', "utf-8"))  # 金浩
     print(Char_PO.byte2str(b'\xbd\xf0\xba\xc6', "gbk"))  # 金浩
     print(Char_PO.byte2str("123123123", "gbk"))  # None
-
-
 
     print("3，判断元素是不是数字（不支持中文数字）".center(100, "-"))
     print(Char_PO.isNumbersType(123))  # True
@@ -170,8 +206,7 @@ if __name__ == "__main__":
     print(Char_PO.isNumbersType("二"))  # False
     print(Char_PO.isNumbersType("123Abc"))  # False
 
-
-    print("4，补 / 去掉0".center(100, "-"))
+    print("4，Numbers类型小数点后补0或去掉0".center(100, "-"))
     print(Char_PO.zeroByDot(123.56, 2))  # 123.5600
     print(Char_PO.zeroByDot("11.00000", -4))  # 11.0    //去掉小数后4位
     print(Char_PO.zeroByDot("22.00000", -5))  # 22      //去掉小数后5位（自动去掉.）,也就是返回整数
@@ -197,7 +232,22 @@ if __name__ == "__main__":
     print(Char_PO.zeroByDot([1, 2, 3], 2))  # None   //不支持列表
 
 
+    print("5，浮点数尾部无效0去掉和无效的‘.’号（非规则）".center(100, "-"))
+    list1 = [0, 1.0, 2.00, 3.000, 4.4400, 5.5000, 6.0006, 0.0007, 0.00008, 8.123456789]
+    # print(Char_PO.zeroByDotSmart([12.12300, 12.00, 200.12000, 200.0, 88.0009, 5.000, 0.001], ""))  # None
+    print(Char_PO.zeroByDotSmart(list1, 0))  # ['0', '1', '2', '3', '4.44', '5.5', '6.0006', '0.007']
+    print(Char_PO.zeroByDotSmart(list1, 1))  # ['0.0', '1.0', '2.0', '3.0', '4.44', '5.5', '6.0006', '0.007']
+    print(Char_PO.zeroByDotSmart(list1, 2))  # ['12.123', '12.00', '200.12', '200.00', '88.0009', '5.00', '0.001']
+    print(Char_PO.zeroByDotSmart(list1))  # ['12.123', '12.00', '200.12', '200.00', '88.0009', '5.00', '0.001']
+    print(Char_PO.zeroByDotSmart(list1, 4))  # ['12.123', '12.00', '200.12', '200.00', '88.0009', '5.00', '0.001']
 
+    list2 = [1.0, 2.0, 3.0, 4.0, 5.0]
+    print(Char_PO.zeroByDotSmart(list2))  # ['1.00', '2.00', '3.00', '4.00', '5.00']
+
+    list3 = [11.00, 22.00, 3.00, '4.0', '5.00000','6']
+    print(Char_PO.zeroByDotSmart(list3))  # ['11.00', '22.00', '3.00', '4.00', '5.00', '6.00']
+    print(Char_PO.zeroByDotSmart(list3, 0))  # ['11', '22', '3', '4', '5', '6']
+    print(Char_PO.zeroByDotSmart(list3, 1))  # ['11.0', '22.0', '3.0', '4.0', '5.0', '6.0']
 
 
 
