@@ -10,13 +10,12 @@
 
 import sys,inspect
 # sys.path.append('E:\51\\Python\\09project\\common\\interface\\interFrame1')  # 如果要在cmd中执行python，需要加上路径，否则 public.PageObject.DatabasePO无法找到这个模块。
-# from common.interface.interFrame1.httpkeys import HTTP
 
-from iDriven import HTTP
+from instance.zyjk.EHR.frame1.iDriven import *
 http = HTTP()
 
-
 def run(line):
+
     global http
     func = getattr(http, line[1])  # line[1]=method
     args = inspect.getfullargspec(func).__str__()

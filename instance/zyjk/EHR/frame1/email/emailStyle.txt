@@ -18,7 +18,7 @@
   <br style="margin: 0px; padding: 0px; font-family: arial; font-size: 14px;" />
   <br />Hello:
   <br />
-  <br />&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;interfaceYOYO&nbsp;test&nbsp;has&nbsp;been&nbsp;complited.
+  <br />&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;本次测试内容结果interfaceYOYO&nbsp;test&nbsp;has&nbsp;been&nbsp;complited.
   <br />Please&nbsp;read&nbsp;the&nbsp;report&nbsp;file&nbsp;about&nbsp;the&nbsp;detile&nbsp;of&nbsp;result&nbsp;in&nbsp;the&nbsp;attachment.
   <br />
   <br />
