@@ -12,21 +12,29 @@
 
 import os, sys, json, jsonpath, unittest, platform,time
 from datetime import datetime
+from time import sleep
 from parameterized import parameterized
 from BeautifulReport import BeautifulReport as bf
-from time import sleep
-import reflection
-import readConfig as readConfig
+
+from instance.zyjk.EHR.frame1.configEmail import *
+email = Email()
+
+import instance.zyjk.EHR.frame1.reflection
+
+import instance.zyjk.EHR.frame1.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 on_off = localReadConfig.get_email("on_off")
-from iDriven import HTTP
+
+from instance.zyjk.EHR.frame1.iDriven import *
 http = HTTP()
-from configEmail import Email
-from xls import XLS
+
+from instance.zyjk.EHR.frame1.xls import *
 xls = XLS()
+
 from PO.DataPO import *
 data_PO = DataPO()
 l_interIsRun = (xls.getInterIsRun())  # 获取inter中isRun执行筛选列表 ，[[], [], 3]
+
 # 获取接口文档中接口名与属性名，生成字典
 # print(xls.d_inter)
 # {'/inter/HTTP/auth': 'none', '/inter/HTTP/login': 'username,password', '/inter/HTTP/logout': 'test,userid,id'}
@@ -144,7 +152,7 @@ if __name__ == '__main__':
         os.system("start .\\report\\report.html")
         os.system("start .\\config\\interface.xls")
     if on_off == 'on':
-        email = Email()
+
         email.send_email()
 
 

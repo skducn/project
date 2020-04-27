@@ -2,7 +2,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Author     : John
 # Created on : 2020-4-8
-# Description: BI集成平台
+# Description: BI集成平台（打印结果，输出日志到log）
 # *****************************************************************
 # from time import sleep
 #
@@ -34,8 +34,6 @@ varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split("
 
 
 # ===============================================================================================
-print("\n")
-sleep(2)
 Bi_PO.menu1("实时监控指标")
 Bi_PO.menu2ByHref("1.1 今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis", varUpdateDate)
 
@@ -135,8 +133,6 @@ Bi_PO.menu1Close("实时监控指标")
 
 
 # ===============================================================================================
-print("\n")
-sleep(2)
 Bi_PO.menu1("门诊分析")  # 同期，同比，逻辑未处理？？
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("2.1 门诊业务", "/bi/outpatientAnalysis/outpatientService", varUpdateDate)
@@ -179,8 +175,6 @@ Bi_PO.tongqi("门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpat
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-print("\n")
-sleep(2)
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("2.3 门诊处方", "/bi/outpatientAnalysis/outpatientPrescriptions", varUpdateDate)  # 门诊处方
 
@@ -235,8 +229,6 @@ Bi_PO.singleSQL(pageList, "门急诊大额处方率", 'SELECT round((SELECT a.su
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-print("\n")
-sleep(2)
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("2.4 门诊收入", "/bi/outpatientAnalysis/outpatientIncome", varUpdateDate)
 
@@ -277,8 +269,6 @@ Bi_PO.menu1Close("门诊分析")
 
 
 # # # ===============================================================================================
-print("\n")
-sleep(2)
 Bi_PO.menu1("住院分析")
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("3.1 住院业务", "/bi/hospitalizationAnnlysis/inpatientService", varUpdateDate)
@@ -311,8 +301,6 @@ Bi_PO.top10("0", top10Dict5, "出院人次科室情况", 'SELECT deptname,sum(in
 
 
 # # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-print("\n")
-sleep(2)
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("3.2 床位分析", "/bi/hospitalizationAnnlysis/bedAnalysis", varUpdateDate)
 
@@ -347,8 +335,6 @@ Bi_PO.tongqi("出院患者平均住院日", 'SELECT round(a.sum/b.sum,2) from (S
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-print("\n")
-sleep(2)
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("3.3 住院收入", "/bi/hospitalizationAnnlysis/hospitalizationIncome", varUpdateDate)
 
@@ -380,9 +366,7 @@ Bi_PO.menu1Close("住院分析")
 
 
 
-# # # ===============================================================================================
-print("\n")
-sleep(2)
+# ===============================================================================================
 Bi_PO.menu1("药品分析")
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("4.1 基本用药分析", "/bi/medicationAnalysis/essentialDrugsMedicare", varUpdateDate)
@@ -415,8 +399,6 @@ Bi_PO.tongqi("药占比", 'SELECT round((SELECT (SUM(drug.hmCost+drug.pmCost+dru
 
 
 # # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-print("\n")
-sleep(2)
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("4.2 抗菌药物用药分析", "/bi/medicationAnalysis/antimicrobialAgent", varUpdateDate)
 
@@ -442,8 +424,6 @@ Bi_PO.Log_PO.logger.warning("4.2.6 Ⅰ类切口手术患者预防使用抗菌药
 
 
 # # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-print("\n")
-sleep(2)
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("4.3 注射输液用药分析", "/bi/medicationAnalysis/injectionMedication", varUpdateDate)
 

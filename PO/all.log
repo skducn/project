@@ -1,5 +1,0 @@
-2020-04-26 15:33:41,936 - LogPO.py[line:47] - DEBUG: debug
-2020-04-26 15:33:41,936 - LogPO.py[line:48] - INFO: info
-2020-04-26 15:33:41,936 - LogPO.py[line:49] - WARNING: 警告
-2020-04-26 15:33:41,936 - LogPO.py[line:50] - ERROR: 报错
-2020-04-26 15:33:41,936 - LogPO.py[line:51] - CRITICAL: 严重
