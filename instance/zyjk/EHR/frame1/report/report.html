@@ -7159,64 +7159,97 @@ body.skin-3 {
 
 
     var resultData = {
-    "testPass": 4,
+    "testPass": 0,
     "testResult": [
         {
             "className": "runAllEHR",
             "methodName": "test11_0",
             "description": "[with excelNo=1, caseName='登录账号错误1', method='post', interName='/app/login', param=\"{'imei': '123123','userName': 'j', 'password': 'Qa@123456'}\", jsonpathKey='$.msg', expected='用户名不存在', checkDB='', execDB='']",
-            "spendTime": "0.183 s",
-            "status": "成功",
+            "spendTime": "0.189 s",
+            "status": "错误",
             "log": [
-                "{'imei': '123123', 'userName': 'j', 'password': 'Qa@123456'}",
-                "{\"msg\":\"用户名不存在\",\"code\":10001,\"token\":\"\"}",
-                "{'User-Agent': 'python-requests/2.22.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}",
-                ""
+                "{'imei': '123123', 'userName': 'j', 'password': 'Qa@123456'}\n{\"msg\":\"用户名不存在\",\"code\":10001,\"token\":\"\"}\n{'User-Agent': 'python-requests/2.22.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}\n",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 60, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 633, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\parameterized\\parameterized.py\", line 518, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\runAllEHR.py\", line 105, in test11\n    d_jsonres = xls.result(excelNo, caseName, method, interName, dict(eval(param)), jsonpathKey, expected)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\xls.py\", line 261, in result\n    self.setCaseParam(excelNo, \"\", \"OK\", str(d_jsonres), \"\", \"\")\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\xls.py\", line 245, in setCaseParam\n    self.wbk.save(self.varExcel)\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\xlwt\\Workbook.py\", line 710, in save\n    doc.save(filename_or_stream, self.get_biff_data())\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\xlwt\\CompoundDoc.py\", line 262, in save\n    f = open(file_name_or_filelike_obj, 'w+b')\n",
+                "PermissionError: [Errno 13] Permission denied: 'D:\\\\51\\\\python\\\\project\\\\instance\\\\zyjk\\\\EHR\\\\frame1\\\\config\\\\interface.xls'\n"
             ]
         },
         {
             "className": "runAllEHR",
             "methodName": "test11_1",
             "description": "[with excelNo=2, caseName='登录密码错误2', method='post', interName='/app/login', param=\"{'imei': '123123','userName': 'shuyang', 'password': 'error'}\", jsonpathKey='$.msg', expected='密码错误', checkDB='', execDB='']",
-            "spendTime": "0.0453 s",
-            "status": "成功",
+            "spendTime": "0.0674 s",
+            "status": "错误",
             "log": [
-                "{'imei': '123123', 'userName': 'shuyang', 'password': 'error'}",
-                "{\"msg\":\"密码错误\",\"code\":10002,\"releaseCount\":4,\"token\":\"\"}",
-                "{'User-Agent': 'python-requests/2.22.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}",
-                ""
+                "{'imei': '123123', 'userName': 'shuyang', 'password': 'error'}\n{\"msg\":\"密码错误\",\"code\":10002,\"releaseCount\":4,\"token\":\"\"}\n{'User-Agent': 'python-requests/2.22.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}\n",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 60, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 633, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\parameterized\\parameterized.py\", line 518, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\runAllEHR.py\", line 105, in test11\n    d_jsonres = xls.result(excelNo, caseName, method, interName, dict(eval(param)), jsonpathKey, expected)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\xls.py\", line 261, in result\n    self.setCaseParam(excelNo, \"\", \"OK\", str(d_jsonres), \"\", \"\")\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\xls.py\", line 245, in setCaseParam\n    self.wbk.save(self.varExcel)\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\xlwt\\Workbook.py\", line 710, in save\n    doc.save(filename_or_stream, self.get_biff_data())\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\xlwt\\CompoundDoc.py\", line 262, in save\n    f = open(file_name_or_filelike_obj, 'w+b')\n",
+                "PermissionError: [Errno 13] Permission denied: 'D:\\\\51\\\\python\\\\project\\\\instance\\\\zyjk\\\\EHR\\\\frame1\\\\config\\\\interface.xls'\n"
             ]
         },
         {
             "className": "runAllEHR",
             "methodName": "test11_2",
             "description": "[with excelNo=3, caseName='登录账号密码为空11', method='post', interName='/app/login', param=\"{'imei': '123123','userName': None, 'password': None}\", jsonpathKey='$.code', expected='10004', checkDB='', execDB='update UpmsEncrypted set ErrorCount=3 where Id=20']",
-            "spendTime": "0.027 s",
-            "status": "成功",
+            "spendTime": "0.024 s",
+            "status": "错误",
             "log": [
-                "{'imei': '123123', 'userName': None, 'password': None}",
-                "{\"msg\":\"空指针异常\",\"code\":10004,\"token\":\"\"}",
-                "{'User-Agent': 'python-requests/2.22.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}",
-                ""
+                "{'imei': '123123', 'userName': None, 'password': None}\n{\"msg\":\"空指针异常\",\"code\":10004,\"token\":\"\"}\n{'User-Agent': 'python-requests/2.22.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}\n",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 60, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 633, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\parameterized\\parameterized.py\", line 518, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\runAllEHR.py\", line 105, in test11\n    d_jsonres = xls.result(excelNo, caseName, method, interName, dict(eval(param)), jsonpathKey, expected)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\xls.py\", line 261, in result\n    self.setCaseParam(excelNo, \"\", \"OK\", str(d_jsonres), \"\", \"\")\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\xls.py\", line 245, in setCaseParam\n    self.wbk.save(self.varExcel)\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\xlwt\\Workbook.py\", line 710, in save\n    doc.save(filename_or_stream, self.get_biff_data())\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\xlwt\\CompoundDoc.py\", line 262, in save\n    f = open(file_name_or_filelike_obj, 'w+b')\n",
+                "PermissionError: [Errno 13] Permission denied: 'D:\\\\51\\\\python\\\\project\\\\instance\\\\zyjk\\\\EHR\\\\frame1\\\\config\\\\interface.xls'\n"
             ]
         },
         {
             "className": "runAllEHR",
             "methodName": "test11_3",
             "description": "[with excelNo=4, caseName='登录11', method='postLogin', interName='/app/login', param=\"{'imei': '123123','userName': '...97ba923378ceada4a7f6428be9956'}\", jsonpathKey='$.msg', expected='成功', checkDB=\"select * from UpmsEncrypted where CreateName='赵云'\", execDB='']",
-            "spendTime": "0.0879 s",
-            "status": "成功",
+            "spendTime": "0.0468 s",
+            "status": "错误",
             "log": [
-                "{'imei': '123123', 'userName': 'shuyang', 'password': '07497ba923378ceada4a7f6428be9956'}",
-                "{\"msg\":\"成功\",\"existenceTime\":6,\"userInfo\":{\"userName\":\"shuyang\",\"uid\":2,\"role\":\"aiAdmin,recordLookAdmin,orgAdmin\",\"name\":\"舒阳\"},\"code\":200,\"isQcloud\":true,\"permission\":[{\"name\":\"待办任务\"},{\"name\":\"档案查阅\"},{\"name\":\"档案更新\"},{\"name\":\"档案录入\"},{\"name\":\"个人中心\"},{\"name\":\"健康账户\"},{\"name\":\"离线管理\"},{\"name\":\"录音文件管理\"},{\"name\":\"统计分析\"},{\"name\":\"预检待办任务\"},{\"name\":\"诊前待办任务\"},{\"name\":\"智能核对\"}],\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLoiJLpmLNcIixcInJvbGVcIjpcImFpQWRtaW4scmVjb3JkTG9va0FkbWluLG9yZ0FkbWluXCIsXCJ1aWRcIjoyLFwidXNlck5hbWVcIjpcInNodXlhbmdcIn0iLCJpYXQiOjE1ODQ5NDg1NzEsImV4cCI6MTU4NDk1NTc3MX0.H5_6wlafODS2YQSb9b6d73ApzZlHOnOG-Xl_RVUNZvkoTodgNX2WgOVbWx-timY313tT--5J-E1KOkHd23P1ug\"}",
-                ""
+                "{'imei': '123123', 'userName': 'shuyang', 'password': '07497ba923378ceada4a7f6428be9956'}\n{\"msg\":\"成功\",\"existenceTime\":11,\"userInfo\":{\"userName\":\"shuyang\",\"uid\":2,\"role\":\"aiAdmin,recordLookAdmin,orgAdmin\",\"name\":\"舒阳\"},\"code\":200,\"isQcloud\":false,\"permission\":[{\"name\":\"待办任务\"},{\"name\":\"档案查阅\"},{\"name\":\"档案更新\"},{\"name\":\"档案录入\"},{\"name\":\"个人中心\"},{\"name\":\"健康账户\"},{\"name\":\"离线管理\"},{\"name\":\"录音文件管理\"},{\"name\":\"统计分析\"},{\"name\":\"预检待办任务\"},{\"name\":\"诊前待办任务\"},{\"name\":\"智能核对\"}],\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLoiJLpmLNcIixcInJvbGVcIjpcImFpQWRtaW4scmVjb3JkTG9va0FkbWluLG9yZ0FkbWluXCIsXCJ1aWRcIjoyLFwidXNlck5hbWVcIjpcInNodXlhbmdcIn0iLCJpYXQiOjE1ODc5NzU1NDAsImV4cCI6MTU4Nzk4Mjc0MH0.kF9Bl1hGb0SqXMSh1y25JE9wmr8vmxSSh5wJ-yudyTF9X--vTE3kZ3dDQwMB-om9PY7c_digy863NZd0h8HXJw\"}\n",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 60, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 633, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\parameterized\\parameterized.py\", line 518, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\runAllEHR.py\", line 107, in test11\n    d_jsonres = xls.result(excelNo, caseName, method, interName, dict(eval(param)), jsonpathKey, expected)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\xls.py\", line 261, in result\n    self.setCaseParam(excelNo, \"\", \"OK\", str(d_jsonres), \"\", \"\")\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\EHR\\frame1\\xls.py\", line 245, in setCaseParam\n    self.wbk.save(self.varExcel)\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\xlwt\\Workbook.py\", line 710, in save\n    doc.save(filename_or_stream, self.get_biff_data())\n",
+                "  File \"C:\\Python38\\lib\\site-packages\\xlwt\\CompoundDoc.py\", line 262, in save\n    f = open(file_name_or_filelike_obj, 'w+b')\n",
+                "PermissionError: [Errno 13] Permission denied: 'D:\\\\51\\\\python\\\\project\\\\instance\\\\zyjk\\\\EHR\\\\frame1\\\\config\\\\interface.xls'\n"
             ]
         }
     ],
     "testName": "EHR测试报告",
     "testAll": 4,
-    "testFail": 0,
-    "beginTime": "2020-03-23 15:29:31",
+    "testFail": 4,
+    "beginTime": "2020-04-27 16:18:59",
     "totalTime": "1s",
     "testSkip": 0,
     "testError": 0

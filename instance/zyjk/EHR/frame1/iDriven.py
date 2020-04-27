@@ -4,24 +4,27 @@
 # Date          : 2019-1-19
 # Description   : EHR 接口自动化框架之 驱动
 # *****************************************************************
-import json, jsonpath, os, xlrd, xlwt, requests, inspect, smtplib, email, mimetypes, base64
+import json, jsonpath, os, xlrd, xlwt, requests, inspect, smtplib, email, mimetypes, base64,urllib3
 from time import sleep
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
-import readConfig as readConfig
+
+import instance.zyjk.EHR.frame1.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
-#代码页加入以下这个
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+# 解决Python3 控制台输出InsecureRequestWarning的问题,https://www.cnblogs.com/ernana/p/8601789.html
+# 代码页加入以下这个
+# from requests.packages.urllib3.exceptions import InsecureRequestWarning
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # 禁用安全请求警告
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+# requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 from xlutils.copy import copy
 from xlrd import open_workbook
 
-'''http接口请求的关键字类'''
 class HTTP:
     def __init__(self):
         # 构造函数，实例化实例变量

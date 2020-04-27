@@ -16,15 +16,16 @@ class ColorPO():
     def consoleColor(self, varBackColor , varForeColor, *args):
         # 控制台输出各种颜色字体，多个参数颜色间隔开。
         if args[0] == "ok":
-            print('\033[1;31;36m', '' + str(args[0]) + '', '\033[0m' + str(args[1]))
+            print('\033[1;31;36m', str(args[0]), '\033[0m' + str(args[1]))
         elif args[0] == "error":
-            print('\033[1;31;38m', '' + str(args[0]) + '', '\033[0m' + str(args[1]))
+            print('\033[1;31;38m', str(args[0]), '\033[0m' + str(args[1]))
         else:
             print('\033[1;' + varBackColor + ';' + varForeColor + 'm', '' + str(args[0]) + '', '\033[0m' + str(args[1]))
 
 if __name__ == '__main__':
 
     Color_PO = ColorPO()
+
 
     Color_PO.consoleColor("31", "36", "ok", "[1,2,3,4,5]error")
     Color_PO.consoleColor("31", "38", "error", "")
