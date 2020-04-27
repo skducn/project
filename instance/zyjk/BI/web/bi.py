@@ -28,14 +28,16 @@ Bi_PO.login()
 
 # 获取当前数据更新时间
 varDataUpdateDate = Bi_PO.Web_PO.getXpathText('//*[@id="app"]/section/section/section/main/div[1]/span')
-print(varDataUpdateDate)
+Bi_PO.Log_PO.logger.info(varDataUpdateDate)
 varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split(" ")[0]
 
 
 
-# # ===============================================================================================
+# ===============================================================================================
+print("\n")
+sleep(2)
 Bi_PO.menu1("实时监控指标")
-Bi_PO.menu2ByHref("\n1.1 今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis", varUpdateDate)
+Bi_PO.menu2ByHref("1.1 今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis", varUpdateDate)
 
 
 # 1.1.1 医疗业务收入 = 门急诊收入+ 住院收入
@@ -132,39 +134,33 @@ Bi_PO.menu1Close("实时监控指标")
 
 
 
-
-# # ===============================================================================================
-#
-Bi_PO.menu1("门诊分析")
-# # 同期，同比，逻辑未处理？？
-#
-# varUpdateDate = "2020-03-22"
-#
-# # 1，检查值（门急诊人次，门诊人次，急诊人次，门急诊退号率）
-# Bi_PO.menu2ByHref("\n2.1 门诊业务", "/bi/outpatientAnalysis/outpatientService", varUpdateDate)
-#
-# # c1,门急诊人次 = 统计期内挂号为门诊和急诊的人次和
-# Bi_PO.tongqi("门急诊人次(万人)", 'select round((SELECT sum(outPCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-#
-# # c2,门诊人次 = 门诊挂号人次
-# Bi_PO.tongqi("门诊人次(万人)", 'select round((SELECT sum(outpatientCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-#
-# # c3,急诊人次 = 急诊+留观人次
-# Bi_PO.tongqi("急诊人次(万人)", 'select round((SELECT sum(emergencyCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-#
-# # c4,门急诊退号率 = 统计期内门急诊退号人次/门急诊总挂号人次
-# Bi_PO.tongqi("门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
+# ===============================================================================================
+print("\n")
+sleep(2)
+Bi_PO.menu1("门诊分析")  # 同期，同比，逻辑未处理？？
+varUpdateDate = "2020-03-22"
+Bi_PO.menu2ByHref("2.1 门诊业务", "/bi/outpatientAnalysis/outpatientService", varUpdateDate)
 
 
-#
+# c1,门急诊人次 = 统计期内挂号为门诊和急诊的人次和
+Bi_PO.tongqi("门急诊人次(万人)", 'select round((SELECT sum(outPCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
+
+# c2,门诊人次 = 门诊挂号人次
+Bi_PO.tongqi("门诊人次(万人)", 'select round((SELECT sum(outpatientCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
+
+# c3,急诊人次 = 急诊+留观人次
+Bi_PO.tongqi("急诊人次(万人)", 'select round((SELECT sum(emergencyCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
+
+# c4,门急诊退号率 = 统计期内门急诊退号人次/门急诊总挂号人次
+Bi_PO.tongqi("门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
+
+
+
+
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# varUpdateDate = "2020-03-22"
+# Bi_PO.menu2ByHref("2.2 门诊预约", "/bi/outpatientAnalysis/outpatientAppointment",varUpdateDate)
 #
-
-
-
-
-# print("\n[2.2 门诊预约]" + " -" * 100)
-# Bi_PO.menu2ByHref("/bi/outpatientAnalysis/outpatientAppointment",varUpdateDate)
 #
 # # 1，遍历并分成多个列表（门诊预约人次，院内窗口预约）
 # # 门诊预约人次 = 统计期内门诊预约人次和
@@ -173,21 +169,20 @@ Bi_PO.menu1("门诊分析")
 # # 院内窗口预约人次=统计期使用院内自助机预约和窗口预约人次和
 # SELECT sum(windowSubscribeCount) from bi_outpatient_yard where statisticsDate ='2019-09-15'
 
-
-#
 # # 2，门诊预约率
 # reserveList = []
 # tmpList2 = Bi_PO.getContent("//div")
 # reserveList.append("门诊预约率")
 # reserveList.append(tmpList2[0].split("门急预约人次月趋势\n")[1].split("\n门诊预约率")[0])
 # print(List_PO.listBorderDict(reserveList))
-#
 
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+print("\n")
+sleep(2)
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("\n2.3 门诊处方", "/bi/outpatientAnalysis/outpatientPrescriptions", varUpdateDate)  # 门诊处方
+Bi_PO.menu2ByHref("2.3 门诊处方", "/bi/outpatientAnalysis/outpatientPrescriptions", varUpdateDate)  # 门诊处方
 
 
 # 2.3.1 门急诊处方数(张) = 统计期内门急诊处方数量之和
@@ -240,8 +235,10 @@ Bi_PO.singleSQL(pageList, "门急诊大额处方率", 'SELECT round((SELECT a.su
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+print("\n")
+sleep(2)
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("\n2.4 门诊收入", "/bi/outpatientAnalysis/outpatientIncome", varUpdateDate)
+Bi_PO.menu2ByHref("2.4 门诊收入", "/bi/outpatientAnalysis/outpatientIncome", varUpdateDate)
 
 
 # 2.4.1 门急诊收入(万元) = 统计期内门急诊收入之和
@@ -266,12 +263,13 @@ Bi_PO.tongqi("门急诊药占比", 'SELECT round((SELECT sum(outPMedicateRatio) 
 Bi_PO.tongqi("门急诊均次药品费用(元)", 'SELECT round((SELECT a.sum/b.sum from((SELECT sum(outPMedicateAccount) sum from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT sum(outPCount) sum  from bi_outpatient_yard where statisticsDate ="%s")b)),2)', varUpdateDate,varUpdateDate)
 
 # 2.4.8 门急诊收入科室排名
-top10Dict5 = Bi_PO.winByDiv("门急诊收入科室排名\n", "门急诊均次费月趋势", "")  # 获取门急诊收入科室排名列表中所有的值
-Bi_PO.top10("0", top10Dict5, "门急诊收入科室排名", 'SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10', varUpdateDate)
+top10Dict248 = Bi_PO.winByDiv("门急诊收入科室排名\n", "门急诊均次费月趋势", "")  # 获取门急诊收入科室排名列表中所有的值
+Bi_PO.top10("0", top10Dict248, "门急诊收入科室排名", 'SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10', varUpdateDate)
 
 # 2.4.9 门急诊医疗收入构成分析
-print("[warning], 2.4.9 门急诊医疗收入构成分析, 搁置未处理")
-top10Dict6 = Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "", "")  # 获取检查收入的值，如：235157
+Bi_PO.Color_PO.consoleColor("31", "33", "[warning], 2.4.9 门急诊医疗收入构成分析, 未提供sql", "")
+Bi_PO.Log_PO.logger.warning("2.4.9 门急诊医疗收入构成分析, 未提供sql")
+top10Dict249 = Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "", "")
 # print(Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "", "检查收入"))  # 获取检查收入的值，如：235157
 
 Bi_PO.menu1Close("门诊分析")
@@ -279,9 +277,11 @@ Bi_PO.menu1Close("门诊分析")
 
 
 # # # ===============================================================================================
+print("\n")
+sleep(2)
 Bi_PO.menu1("住院分析")
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("\n3.1 住院业务", "/bi/hospitalizationAnnlysis/inpatientService", varUpdateDate)
+Bi_PO.menu2ByHref("3.1 住院业务", "/bi/hospitalizationAnnlysis/inpatientService", varUpdateDate)
 
 
 # 3.1.1 入院人次 = 统计期内患者进行入院登记的人次数和
@@ -295,12 +295,11 @@ Bi_PO.tongqi("出院平均住院日(日)", 'select round((select sum(leaveInPDay
 
 # 3.1.4 平均住院日科室情况 = 统计期内各科室患者平均住院日排名，科室患者状态为科室出院的住院天数之和/科室出院患者总人次【前N（10）个科室平均住院日排名】
 top10Dict5 = Bi_PO.winByDiv("平均住院日科室情况\n", "出院人次科室情况", "")  # 获取门急诊收入科室排名列表中所有的值
-Bi_PO.top10("0.00", top10Dict5, "平均住院日科室情况", 'select deptname,format(AVG(avgInPDay),2)t from bi_inpatient_dept where statisticsDate="%s" GROUP BY deptname ORDER BY t DESC LIMIT 10', varUpdateDate)
+Bi_PO.top10("0.00", top10Dict5, "平均住院日科室情况", 'select deptname,round(AVG(avgInPDay),2)t from bi_inpatient_dept where statisticsDate="%s" GROUP BY deptname ORDER BY t DESC LIMIT 10', varUpdateDate)
 
 # 3.1.5 出院人次科室情况
 top10Dict5 = Bi_PO.winByDiv("出院人次科室情况\n", "出院平均住院日月趋势", "")  # 获取门急诊收入科室排名列表中所有的值
 Bi_PO.top10("0", top10Dict5, "出院人次科室情况", 'SELECT deptname,sum(inPCount) as t from bi_inpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY t DESC LIMIT 10', varUpdateDate)
-
 
 # # 2，门急诊收入科室排名
 # Bi_PO.winByDiv("平均住院日科室情况\n", "出院人次科室情况", "")
@@ -312,8 +311,10 @@ Bi_PO.top10("0", top10Dict5, "出院人次科室情况", 'SELECT deptname,sum(in
 
 
 # # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+print("\n")
+sleep(2)
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("\n3.2 床位分析", "/bi/hospitalizationAnnlysis/bedAnalysis", varUpdateDate)
+Bi_PO.menu2ByHref("3.2 床位分析", "/bi/hospitalizationAnnlysis/bedAnalysis", varUpdateDate)
 
 
 # 3.2.1 实际开放总床日数 = 统计期内医院开放的床日数之和
@@ -334,7 +335,6 @@ Bi_PO.tongqi("病床周转次数", 'SELECT round((SELECT a.sum/b.sum from(select
 # 3.2.6 床位使用率 = 统计期内实际占用总床日数／实际开放总床日数
 Bi_PO.tongqi("床位使用率", 'SELECT round((select 100*(a.sum/b.sum) from(select sum(realOccupyBedCount) sum from bi_inpatient_yard_bed where statisticsDate ="%s")a,(select sum(realBedCount) sum  from bi_inpatient_yard_bed where statisticsDate ="%s")b),2)', varUpdateDate,varUpdateDate)
 
-
 # 3.2.7 平均每张床位工作日 = 统计期内出院者占用总床日数/床位数
 Bi_PO.tongqi("平均每张床位工作日", 'SELECT round(a.sum/b.sum,2)from (SELECT sum(leaveInPDayAvg*leaveCount) sum from bi_inpatient_yard where statisticsDate ="%s")a,(select sum(realBedCount) sum from bi_inpatient_yard_bed   where statisticsDate ="%s")b', varUpdateDate,varUpdateDate)
 
@@ -346,11 +346,11 @@ Bi_PO.tongqi("出院患者平均住院日", 'SELECT round(a.sum/b.sum,2) from (S
 
 
 
-
-
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+print("\n")
+sleep(2)
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("\n3.3 住院收入", "/bi/hospitalizationAnnlysis/hospitalizationIncome", varUpdateDate)
+Bi_PO.menu2ByHref("3.3 住院收入", "/bi/hospitalizationAnnlysis/hospitalizationIncome", varUpdateDate)
 
 
 # 3.3.1医院总收入(万元) = 统计期内住院患者总收入+门诊患者总收入
@@ -376,16 +376,17 @@ Bi_PO.tongqi("住院药占比", 'SELECT round((SELECT inPMedicateRatio from bi_i
 top10Dict5 = Bi_PO.winByDiv("住院收入科室情况\n", "\n住院医疗收入构成分析", "")
 Bi_PO.top10("0", top10Dict5, "住院收入科室情况", 'SELECT deptname,round(sum(inPAccount),2) from bi_inpatient_dept WHERE statisticsDate ="%s" GROUP BY deptname ORDER BY sum(inPAccount) DESC LIMIT 10', varUpdateDate)
 
-
 Bi_PO.menu1Close("住院分析")
 
 
 
 # # # ===============================================================================================
+print("\n")
+sleep(2)
 Bi_PO.menu1("药品分析")
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("\n4.1 基本用药分析", "/bi/medicationAnalysis/essentialDrugsMedicare", varUpdateDate)
-
+Bi_PO.menu2ByHref("4.1 基本用药分析", "/bi/medicationAnalysis/essentialDrugsMedicare", varUpdateDate)
+sleep(2)
 
 # 4.1.1 药品收入(万元) = 中成药费用+中草药费用+西药费用
 Bi_PO.tongqi("药品收入(万元)", 'SELECT round((SELECT sum(pmcost+wmcost+hmcost)/10000 FROM bi_hospital_drugcosts_day WHERE statisticsDate ="%s"),2)', varUpdateDate)
@@ -405,8 +406,6 @@ Bi_PO.tongqi("医保目录外药品收入(万元)", 'SELECT round((select sum(in
 # 4.1.6 药占比 = 统计期内（门急诊药品收入+住院药品收入）/（门急诊收入+住院收入）
 Bi_PO.tongqi("药占比", 'SELECT round((SELECT (SUM(drug.hmCost+drug.pmCost+drug.wmCost)/(`out`.outPAccount+inp.inPAccount))*100 FROM bi_hospital_drugcosts_day AS drug LEFT JOIN(SELECT outPAccount,statisticsDate FROM bi_outpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s" ) AS `out` ON `out`.statisticsDate = drug.statisticsDate LEFT JOIN (SELECT inPAccount,statisticsDate FROM bi_inpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s") AS inp ON inp.statisticsDate = drug.statisticsDate WHERE drug.statisticsDate BETWEEN "%s" AND "%s"),2)', varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate)
 
-
-#
 # # 2，门急诊收入科室排名
 # Bi_PO.winByDiv("药占比科室情况\n", "各类药品收入月趋势", "")
 #
@@ -415,10 +414,11 @@ Bi_PO.tongqi("药占比", 'SELECT round((SELECT (SUM(drug.hmCost+drug.pmCost+dru
 
 
 
-
 # # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+print("\n")
+sleep(2)
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("\n4.2 抗菌药物用药分析", "/bi/medicationAnalysis/antimicrobialAgent", varUpdateDate)
+Bi_PO.menu2ByHref("4.2 抗菌药物用药分析", "/bi/medicationAnalysis/antimicrobialAgent", varUpdateDate)
 
 
 # 4.2.1 抗菌药物药占比 = 统计期内（门诊抗菌药品费用+住院抗菌药品费用）/（门诊药品总费用+住院有药品总费用）
@@ -437,13 +437,15 @@ Bi_PO.tongqi("急诊患者抗菌药物使用率", 'SELECT b.sum/a.sum from((SELE
 Bi_PO.tongqi("住院患者抗菌药物使用率", 'SELECT round((SELECT b.sum/a.sum from((SELECT sum(inpCount) sum from bi_inpatient_yard WHERE statisticsDate ="%s")a,(SELECT sum(antibacterialPeople) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)b)),2)',varUpdateDate,varUpdateDate)
 
 # 4.2.6 Ⅰ类切口手术患者预防使用抗菌药物使用率
-print("[warning], Ⅰ类切口手术患者预防使用抗菌药物使用率, 未提供SQL")
-
+Bi_PO.Color_PO.consoleColor("31", "33", "[warning], 4.2.6 Ⅰ类切口手术患者预防使用抗菌药物使用率, 未提供SQL", "")
+Bi_PO.Log_PO.logger.warning("4.2.6 Ⅰ类切口手术患者预防使用抗菌药物使用率, 未提供SQL")
 
 
 # # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+print("\n")
+sleep(2)
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("\n4.3 注射输液用药分析", "/bi/medicationAnalysis/injectionMedication", varUpdateDate)
+Bi_PO.menu2ByHref("4.3 注射输液用药分析", "/bi/medicationAnalysis/injectionMedication", varUpdateDate)
 
 
 # 4.3.1 门急诊使用注射药物的百分比 = 用法为注射（肌肉、静脉）的门急诊人次/门急诊总人次
