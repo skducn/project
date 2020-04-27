@@ -10,7 +10,7 @@ from PO.WebPO import *
 from PO.ListPO import *
 from PO.TimePO import *
 from PO.ColorPO import *
-
+from PO.LogPO import *
 
 class BiPO(object):
 
@@ -23,6 +23,16 @@ class BiPO(object):
         self.List_PO = ListPO()
         self.Time_PO = TimePO()
         self.Color_PO = ColorPO()
+        self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')
+
+    def assertEqual(self, expected, actual, okMsg, errMsg):
+        if expected == actual:
+            # print(okMsg)
+            self.Log_PO.logger.info(okMsg)
+        else:
+            # print(errMsg)
+            # self.Color_PO.consoleColor("31", "38", errMsg, "")
+            self.Log_PO.logger.error(errMsg)
 
     # 登录 运营决策系统
     def login(self):
@@ -45,14 +55,17 @@ class BiPO(object):
     # 一级菜单
     def menu1(self, varMenuName):
         self.Web_PO.clickXpathsTextContain("//li[@role='menuitem']/div/span", varMenuName, 2)
-        print("\n[" + varMenuName + "] " + "-" * 100)
+        # print("\n[" + varMenuName + "] " + "-" * 100)
+        self.Log_PO.logger.info("[" + varMenuName + "] " + "-" * 100)
 
     def menu1Close(self, varMenuName):
         self.Web_PO.clickXpathsTextContain("//li[@role='menuitem']/div/span", varMenuName, 2)
 
     # 二级菜单
     def menu2ByHref(self, varTitle, varHref, varUpdateDate):
-        print(varTitle + "（" + varUpdateDate + ")" + " -" * 30)
+        # print(varTitle + "（" + varUpdateDate + ")" + " -" * 30)
+        self.Log_PO.logger.info(varTitle + "（" + varUpdateDate + ")" + " -" * 30)
+
         self.Web_PO.clickXpaths("//a[contains(@href,'" + varHref +"')]", 2)
         # 选择日期或自定义日期
         self.searchCustom(varUpdateDate, varUpdateDate)
@@ -180,12 +193,14 @@ class BiPO(object):
 
         # 合并后输出结果
         if varCount1 == 1 and varCount2 == 1:
-            self.Web_PO.assertEqual(varCount1, varCount2, "[ok], " + varName + "（" + str(a) + "）,（" + str(b) + "）", "")
+            self.assertEqual(varCount1, varCount2, varName + "（" + str(a) + "）,（" + str(b) + "）", "")
+            # self.assertEqual(varCount1, varCount2, "[ok], " + varName + "（" + str(a) + "）,（" + str(b) + "）", "")
         else:
             if varCount1 == 0:
-                self.Web_PO.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql1) + "\n")
+                self.assertEqual(1, 0, "", varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql1) + "\n")
+                # self.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql1) + "\n")
             if varCount2 == 0:
-                self.Web_PO.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]) + "\n" + str(errorSql2) + "\n")
+                self.assertEqual(1, 2, "", varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]) + "\n" + str(errorSql2) + "\n")
 
     def tongqi(self, varName, varSql, *varDate):
 
@@ -212,11 +227,8 @@ class BiPO(object):
             else:
                 varDatabase = tmpTuple1[0][0]
             varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
-            self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
-            # self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", self.Color_PO.consoleColor("31", "38", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n", ""))
-
-
-
+            self.assertEqual(varCount1, 1, varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
+            # self.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
         else:
             if "使用率" in varName or "退号率" in varName or "占比" in varName or "百分比" in varName:
                 if "%" in str(a):  # 页面上是否有 % 符号
@@ -229,12 +241,11 @@ class BiPO(object):
                             if len(x) < 2:
                                 a = str(a).split("%")[0] + "0%"
                     varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
-                    self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
-
-                    # self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", self.Color_PO.consoleColor("31", "38","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n", ""))
+                    self.assertEqual(varCount1, 1, varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
+                    # self.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
                 else:
-                    # self.Web_PO.assertEqual(0, 1, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 页面上缺少%")
-                    self.Web_PO.assertEqual(0, 1, "", self.Color_PO.consoleColor("31", "38", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 页面上缺少%", ""))
+                    self.assertEqual(0, 1, "", varName + "（" + str(a) + "）, 页面上缺少%")
+                    # self.assertEqual(0, 1, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 页面上缺少%")
             else:
                 if "." in str(tmpTuple1[0][0]):
                     x = str(tmpTuple1[0][0]).split(".")[1]
@@ -248,19 +259,19 @@ class BiPO(object):
                 else:
                     varDatabase = tmpTuple1[0][0]
                 varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
-                self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
-                # self.Web_PO.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", self.Color_PO.consoleColor("31", "38","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n",""))
+                self.assertEqual(varCount1, 1, varName + "（" + str(a) + "）","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
+                # self.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
 
         # 同期，没有逻辑？
 
         # # 合并后输出结果
         # if varCount1 == 1 and varCount2 == 1:
-        #     self.Web_PO.assertEqual(varCount1, varCount2, "[ok], " + varName + "（" + str(a) + "）,（" + str(b) + "）", "")
+        #     self.assertEqual(varCount1, varCount2, "[ok], " + varName + "（" + str(a) + "）,（" + str(b) + "）", "")
         # else:
         #     if varCount1 == 0:
-        #         self.Web_PO.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]))
+        #         self.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]))
         #     if varCount2 == 0:
-        #         self.Web_PO.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]))
+        #         self.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]))
 
 
    # 搜索 - 选择年
@@ -303,7 +314,8 @@ class BiPO(object):
 
         tmpTuple1 = Mysql_PO.cur.fetchall()
 
-        self.Web_PO.assertEqual(str(pageDict), str(tmpTuple1[0][0]), "[ok], " + varName + "（" + str(pageDict) + "%）", "[errorrrrrrrrrr], " + varName + "（" + str(pageDict) + "%）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql) + "\n")
+        self.assertEqual(str(pageDict), str(tmpTuple1[0][0]), varName + "（" + str(pageDict) + "%）", varName + "（" + str(pageDict) + "%）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql) + "\n")
+        # self.assertEqual(str(pageDict), str(tmpTuple1[0][0]), "[ok], " + varName + "（" + str(pageDict) + "%）", "[errorrrrrrrrrr], " + varName + "（" + str(pageDict) + "%）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql) + "\n")
 
 
     def top10(self, varMode, varTop10Dict, varName, varSql, *varDate):
@@ -317,20 +329,22 @@ class BiPO(object):
 
         tmpdict1 = {}
         for k, v in tmpTuple:
-            if varMode == "0":
-                if ".00" in str(v):
-                    v = int(v)
-            elif varMode == "0.00":
+            if varMode == "0.00":
                 if "." in str(v):
                     dotLen = str(v).split(".")[1]   # 小数点后一个0
-                    if dotLen == "0":
+                    if len(dotLen) == 1:
                         v = str(v) + "0"    # 补0
                 else:   # 整数
                     v = str(v) + ".00"  # 补.00
-
+            elif varMode == "0":
+                if "." in str(v):
+                    dotLen = str(v).split(".")[1]
+                    if dotLen == "00":
+                        v = str(v).split(".")[0]
             tmpdict1[k] = str(v)
 
-        self.Web_PO.assertEqual(varTop10Dict, tmpdict1, "[ok], " + varName + "（" + str(tmpdict1) + "）", "[errorrrrrrrrrr], " + varName + "\n页面：" + str(varTop10Dict) + "\n库值：" + str(tmpdict1) + "\n" + str(errorSql) + "\n")
+        self.assertEqual(varTop10Dict, tmpdict1, varName + "（" + str(tmpdict1) + "）", varName + "\n页面：" + str(varTop10Dict) + "\n库值：" + str(tmpdict1) + "\n" + str(errorSql) + "\n")
+        # self.assertEqual(varTop10Dict, tmpdict1, "[ok], " + varName + "（" + str(tmpdict1) + "）", "[errorrrrrrrrrr], " + varName + "\n页面：" + str(varTop10Dict) + "\n库值：" + str(tmpdict1) + "\n" + str(errorSql) + "\n")
 
 
 

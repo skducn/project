@@ -17,12 +17,16 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.abstract_event_listener	import *
 from selenium.webdriver.support.event_firing_webdriver import *
 from selenium.webdriver.support.expected_conditions	import *
+from PO.ColorPO import *
+
 
 class BasePO(object):
 
     def __init__(self, driver):
         # driver 是BasePage类的入参。
         self.driver = driver
+        self.Color_PO = ColorPO()
+
 
     def find_element(self, *loc):
         # 重写元素定位方法
@@ -82,7 +86,9 @@ class BasePO(object):
         if expected == actual:
             print(okMsg)
         else:
-            print(errMsg)
+            # print(errMsg)
+            self.Color_PO.consoleColor("31", "38", errMsg, "")
+
 
     def assertContain(self, one, allcontain, okMsg, errMsg):
         if one in allcontain:

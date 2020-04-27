@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     Color_PO.consoleColor("31", "36", "ok", "[1,2,3,4,5]error")
     Color_PO.consoleColor("31", "38", "error", "")
-    Color_PO.consoleColor("31", "33", "123", "[1,2,3,4,5]error")
+    Color_PO.consoleColor("31", "33", "warning", "[1,2,3,4,5]error")
 
         # print('\033[1;31;41m', '[1], 红底红字', '\033[0m')
         # print('\033[1;31;42m', '[2], 草绿底红字', '\033[0m')
