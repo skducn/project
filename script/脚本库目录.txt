@@ -65,8 +65,7 @@ https://blog.csdn.net/winter199/article/details/82425689
 9.9。operator - 标准操作员作为功能
 10.文件和目录访问
 10.1。os.path - 通用路径名操作
-10.2。fileinput - 迭代来自多个输入流的行
-10.3。stat- 解释stat()结果
+10.2。fileinput - 迭代来自多个输入流的行10.3。stat- 解释stat()结果
 10.4。statvfs - 常量使用os.statvfs()
 10.5。filecmp - 文件和目录比较
 10.6。tempfile - 生成临时文件和目录
