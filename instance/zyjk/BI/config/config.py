@@ -24,4 +24,11 @@ Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测�
 
 logFile = './log/bi_' + Time_PO.getDate() + '.log'
 
-# bi_outpatient_yard  //全院门诊就诊统计
+email_nickNameByFrom = u'令狐冲'
+email_sender = 'skducn@163.com'
+email_receiver = "h.jin@zy-healthtech.com"
+email_subject = "bi自动化测试结果"
+email_content = "你好！\n\n\n    这是本次bi集成平台自动化测试结果，请查看附件。\n\n\n\n\n\n\n\n这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards"
+email_attachment = logFile
+
+

@@ -12,26 +12,35 @@ from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.header import Header
 from urllib.request import urlretrieve
+from email.mime.multipart import MIMEMultipart
+from email.utils import parseaddr,formataddr
 import json, jsonpath
 from PO.FilePO import *
 File_PO = FilePO()
 
 class NetPO():
 
+
+    # 自定义处理邮件收发地址的显示内容，如： 令狐冲<skducn@163.com>
+    def _format_addr(self, s):
+        name, addr = parseaddr(s)
+        # 将邮件的name转换成utf-8格式，addr如果是unicode，则转换utf-8输出，否则直接输出addr
+        return formataddr((Header(name, 'utf-8').encode(), addr))
+
     # 发邮件
-    def sendEmail(self, varFrom, varTo, varSubject, varConent, varPic, varFile, varHtmlFileName, varHtmlContent):
+    def sendEmail(self, varNickNameByFrom, varFrom, varTo, varSubject, varConent, varFile="", varPic="", varHtmlFileName="", varHtmlContent=""):
         # 发163邮件
         # 注意：邮件主题为‘test’时，会出现错误。
         # 163邮箱需要设置 客户端授权密码为开启，并且脚本中设置的登录密码是授权码
         # 参数：发送者邮箱，接收者邮箱，主题，邮件正文，附件图片，附件文档，附件html名，附件html正文。
-        # sendEmail('skducn@163.com',"skducn@163.com",
+        # sendEmail("昵称",'skducn@163.com',"skducn@163.com",
         #           "屏幕劫持",
         #           "开发同学，您好！\n\n\n 以下是本次接口测试报错信息，请检查。\n\n" + "tesst" + "\n\n 如果这不是您的邮件请忽略，很抱歉打扰您，请原谅。\n\n" \
         #           "(这是一封自动产生的email，请勿回复) \n\nCETC测试组 \n\nBest Regards",
         #           "","","",""
         #           )
 
-        # sendEmail('skducn@163.com',
+        # sendEmail("昵称",'skducn@163.com',
         #           "skducn@163.com",
         #           "屏幕劫持",
         #           "开发同学，您好！\n\n\n 以下是本次接口测试报错信息，请检查。\n\n" + "tesst" + "\n\n 如果这不是您的邮件请忽略，很抱歉打扰您，请原谅。\n\n" \
@@ -54,7 +63,9 @@ class NetPO():
 
         try:
             msg = email.mime.multipart.MIMEMultipart()
-            msg['From'] = varFrom
+            # msg['From'] = varFrom
+            msg['From'] = self._format_addr(varNickNameByFrom + u' <%s>' % varFrom)  # 发件人： 令狐冲<skducn@163.com>
+
             if "," in varTo:
                 # 收件人为多个收件人
                 varTo = [varTo.split(",")[0], varTo.split(",")[1]]
@@ -207,12 +218,12 @@ class NetPO():
 
     
 if __name__ == '__main__':
+
     Net_PO = NetPO()
 
-    # Net_PO.sendEmail('skducn@163.com', "skducn@163.com", "今天的测试",
-    #           "开发同学，您好！\n\n\n 以下是本次接口测试报错信息，请检查。\n\n" + "tesst" + "\n\n 如果这不是您的邮件请忽略，很抱歉打扰您，请原谅。\n\n" \
-    #           "(这是一封自动产生的email，请勿回复) \n\nCETC测试组 \n\nBest Regards",
-    #           "","","","")
+    # Net_PO.sendEmail(u'令狐冲','skducn@163.com', "h.jin@zy-healthtech.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n" + "tesst" + "\n\n 这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","","","","")
+    Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com,skducn@163.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n\n\n\n\n\n\n这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","NetPO.py")
+
 
     # print(Net_PO.getURLCode("https://www.baidu.com"))
     # print(Net_PO.getHeaders("https://www.baidu.com"))
