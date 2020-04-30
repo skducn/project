@@ -6,12 +6,6 @@
 # *****************************************************************
 
 from instance.zyjk.BI.config.config import *
-from PO.WebPO import *
-from PO.ListPO import *
-from PO.TimePO import *
-from PO.ColorPO import *
-from PO.LogPO import *
-from PO.NetPO import *
 
 class BiPO(object):
 

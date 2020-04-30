@@ -5,7 +5,7 @@
 # Description: 链表推导式
 # 链表表达式在for语句前面，for后面就是对参数的限定。[XXX for yyy](必须要有方括号表示是链表），XXX表示链表，yyy限定XXX中参数。
 # ********************************************************************************************************************
-
+from functools import reduce
 
 print("1，列表元素翻倍".center(100, "-"))
 num = [1, 2, 3, 4, 5]
@@ -76,3 +76,6 @@ print([n for n in range(1, 100) if n % 3 == 0])  # [3, 6, 9, 12, 15, 18, 21, 24,
 print("11，range对象转列表".center(100, "-"))
 print(list(range(1, 5)))  # <class 'list'> [1, 2, 3, 4]
 
+
+print("12，10阶乘".center(100, "-"))
+print(reduce(lambda x, y: x * y, range(1, 11)))  # 3628800
