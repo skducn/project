@@ -104,7 +104,7 @@ class NetPO():
             smtp.login(varFrom, str(base64.b64decode("amluaGFvMTIz"), encoding="utf-8"))  # byte转str
             smtp.sendmail(varFrom, varTo, msg.as_string())
             smtp.quit()
-            print(u"邮件成功发送给：" + str(varTo))
+            print(u"邮件已发送给：" + str(varTo))
         except:
             return None
 

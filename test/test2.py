@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+
+
+
 import os,shutil,datetime
 # from time import sleep
 # import paramiko
@@ -7,10 +10,6 @@ import os,shutil,datetime
 # import subprocess
 # import time
 
-from functools import reduce
-
-# 一行代码解决10阶乘(10!=1*2*3....*10)
-print(reduce(lambda x, y: x * y, range(1, 11)))  # 3628800
 
 import operator
 class People :
@@ -22,17 +21,17 @@ class People :
          self.gender = gender
      def toString ( self ):
          return 'Age:' + str( self.age ) + ' /t Gender:' + self.gender
-
-List = [ People ( 21 , 'male' ), People ( 20 , 'famale' ), People ( 34 , 'male' ), People ( 19 , 'famale' )]
-print ('Befor sort:')
-for p in List :
-    print(p.toString())
-
-# key=lambda p1,p2: operator.eq(p1.age,p2.age)
-# List.sort(key(1,1))
-
-L = [('b',6),('a',1),('c',3),('d',4)]
-print(L.sort(key=lambda x,y:operator.eq(x[1],y[1])))
+#
+# List = [ People ( 21 , 'male' ), People ( 20 , 'famale' ), People ( 34 , 'male' ), People ( 19 , 'famale' )]
+# print ('Befor sort:')
+# for p in List :
+#     print(p.toString())
+#
+# # key=lambda p1,p2: operator.eq(p1.age,p2.age)
+# # List.sort(key(1,1))
+#
+# L = [('b',6),('a',1),('c',3),('d',4)]
+# print(L.sort(key=lambda x,y:operator.eq(x[1],y[1])))
 
 # List.sort(key=lambda p1,p2 : operator.eq(p1.age,p2.age))
 # # List.sort(lambda p1,p2:operator.eq(p1.age, p2.age))
@@ -47,14 +46,7 @@ print(L.sort(key=lambda x,y:operator.eq(x[1],y[1])))
 #
 # #
 #
-# # 88888888881 - 88888883225
-# # x= 1
-# # for i in range(0,3000):
-# #     y = 88888881000 + i
-# #     print '"' + str(y) + '"'
-# #     # print y
-# # sleep(1212)
-#
+
 # logFile1 = "/dkvlm/tomcat_yygdoctor/logs/catalina.out"
 # logFile2 = 'test2.log'
 #
@@ -193,118 +185,14 @@ print(L.sort(key=lambda x,y:operator.eq(x[1],y[1])))
 # sleep(1212)
 #
 #
-# print os.getcwd()
-#
-# # varTimeYMDHSM = datetime.datetime.now().strftime('%Y%m%d%H%M%S');  #20160623183734
-# varTimeYMD = datetime.datetime.now().strftime('%Y-%m-%d')  # 20160628
-# print varTimeYMD
-# # varTimeY_M_D = datetime.datetime.now().strftime('%Y-%m-%d'); # 2016-06-28 00:00:01
-# # varTimeFrom = varTimeY_M_D +" 00:00:01"
-# # varTimeEnd = varTimeY_M_D+" 23:59:59"
-#
-# varTimeYMDHSM = datetime.datetime.now().strftime('%Y%m%d%H%M%S');  #20160623183734
-# print "自动" + varTimeYMDHSM
-# sleep(1212)
+
 #
 #
 #
+
 #
-# # ============= 判断一个list是否为空
-# mylist=[]
-# # 方法1
-# if len(mylist):
-#     pass
-# else:
-#     print "empty"
-# # 方法2
-# if mylist:
-#     pass
-# else:
-#     print "empty2"
-#
-# # ============= 遍历list同时获取索引
-# mylist = [['abc'],['cde\n']]
-# i=0
-# for element in mylist:
-#     i+=1
-#     print i     #结果1 2 ,表示有2个元素
-#     print element
-#     print element[0]
-# # 结果:
-# # 1
-# # ['abc']
-# # abc
-# # 2
-# # ['cde\n']
-# # cde
-#
-# for i,element in enumerate(mylist):
-#     i+=1
-#     print i
-#     print element
-#     print element[0]
-# # 结果: 同上
-#
-# # ============= list解析,输出1-9 的2次方值
-# squares = [x**2 for x in range(1,10)]
-# print squares
-# # 结果:[1, 4, 9, 16, 25, 36, 49, 64, 81]
-#
-# # ============= list解析,找出100以内的能够被3整除的正整数
-# aliquot = [n for n in range(1,100) if n%3==0]
-# print aliquot
-# # 结果:[3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99]
-# # 传统做法:
-# aliquot = []  # 必须先初始化列表
-# for n in range(1,100):
-#   if n%3 == 0:
-#     aliquot.append(n)
-# print aliquot
-# # 结果:[3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99]
-#
-# # ============= list解析,去掉列表中元素前后空格
-# mybag = [' glass',' apple','green leaf ']  #有的前面有空格，有的后面有空格
-# xx= [one.strip() for one in mybag]
-# print xx
-# # 结果:['glass', 'apple', 'green leaf']
-#
-# # ============= list解析,enumerate获取列表的编号和元素
-#
-# week=['Sun.','Mon.','Tues.','Wed.','Thur.','Fri.','Sat.']
-# for (i,day) in enumerate(week):
-#     print day+' is '+str(i)
-# # 结果:
-# # Sun. is 0
-# # Mon. is 1
-# # Tues. is 2
-# # Wed. is 3
-# # Thur. is 4
-# # Fri. is 5
-# # Sat. is 6
-#
-# seasons = ['Spring', 'Summer', 'Fall', 'Winter']
-# print list(enumerate(seasons))
-# print list(enumerate(seasons, start=1))
-# for i,j in enumerate(seasons, start=1):
-#     print i,j
-# # 结果:
-# # [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'), (3, 'Winter')]
-# # [(1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter')]
-# # 1 Spring
-# # 2 Summer
-# # 3 Fall
-# # 4 Winter
-#
-# # ============= 字典, 使用clear方法清除字典全部数据
-# d = {}
-# d['name'] = 'Gumby'
-# d['age'] = 42
-# print d
-# returned_value = d.clear()
-# print d
-# print returned_value
-#
-#
+
+
 # # json与python中dict互相转换，把dict转换成json-使用json.dumps()，将json转换为dict-使用json.loads()
 # eth = {}
 # eth['eth0'] = "192.168.2.12"

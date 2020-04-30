@@ -476,6 +476,5 @@ if __name__ == "__main__":
         print(list11[i])
 
 
-
     print("7，随机获取list中的值".center(100, "-"))
     print(List_PO.listRandomValue(['111',222,[5,6,'888'],{"a":1, 2:"test"}]))
