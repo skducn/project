@@ -2,11 +2,7 @@
 # ***************************************************************
 # Author     : John
 # Created on : 2019-9-19
-# Description: 数据对象层()
-# 1,随机生成中文用户名、手机号、身份证、随机N个数、IP地址、从列表中随机获取n的元素，
-# 2,从身份证中获取年月日、年龄、性别，获取连续IP地址，从json中返回指定值
-# 3，MD5加密内容
-# 注意："DataPO.txt" 用于生成身份证号码,不能删除。
+# Description: 数据对象层
 # jsonpath官网 https://goessner.net/articles/JsonPath/
 # 线上的一个json文档用于测试，https://www.lagou.com/lbs/getAllCitySearchLabels.json
 # Description: md5(python2),hashlib(python3)
@@ -19,16 +15,39 @@
 # m.update('6'.encode('utf-8'))
 # print(m.hexdigest())  # e10adc3949ba59abbe56e057f20f883e
 # ***************************************************************
-import random,json, jsonpath,hashlib
+'''
+1，随机生成中文用户名
+2，随机生成手机号码
+
+3.1，随机生成身份证号 （依赖于 getRandomIdcard.txt ）
+3.2，判断是否是有效身份证
+3.3，获取身份证的出生年月(只限大陆身份证)
+3.4，获取身份证的年龄
+3.5，获取身份证的性别
+
+4，随机生成n个数字
+
+5.1，随机生成一个有效IP
+5.2，随机生成一个有效IP2
+5.3，从当前IP地址开始连续生成N个IP
+
+6，从列表中随机获取n个元素
+7，解析json
+
+8.1，用MD5加密内容
+8.2，MD5分段加密
+
+9，获取文档里某个单词出现的数量
+'''
+
+import random,json, jsonpath, hashlib,socket, struct, re,datetime
 from datetime import date
 from datetime import timedelta
-import socket, random, struct, uuid, re
-from random import choice
-import datetime
+
 
 class DataPO():
 
-    # 随机生成中文用户名
+    # 1，随机生成中文用户名
     def getRandomName(self):
         # 随机生成中文用户名
         a1 = ['赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张']
@@ -37,20 +56,20 @@ class DataPO():
         return random.choice(a1) + random.choice(a2) + random.choice(a3)
         # return unicode(name, "utf-8")
 
-    # 随机生成手机号码
+    # 2，随机生成手机号码
     def getRandomPhone(self):
         # 随机生成手机号码
         prelist = ["130", "131", "132", "133", "134", "135", "136", "137", "138", "139", "147", "150", "151", "152", "153", "155", "156", "157", "158", "159", "186", "187", "188","199"]
         return random.choice(prelist) + "".join(random.choice("0123456789") for i in range(8))
 
-    # 随机生成身份证号
+    # 3.1，随机生成身份证号
     def getRandomIdcard(self):
         # 随机生成身份证号
         # 如 Data_PO.rdIdcard()
         global codelist
         codelist = []
         if not codelist:
-            with open("DataPO.txt") as file:
+            with open("getRandomIdcard.txt") as file:
                 data = file.read()
                 districtlist = data.split('\n')
             for node in districtlist:
@@ -78,109 +97,7 @@ class DataPO():
         id = id + checkcode[count % 11]  # 算出校验码
         return id
 
-    # 随机生成n个数字
-    def getRandomNum(self, n):
-        # 随机生成n个数字
-        # 如 Data_PO.rdNum(8)
-        ret = []
-        try:
-            for i in range(n):
-                while 1:
-                    number = random.randrange(0, 10)
-                    if number not in ret:
-                        ret.append(str(number))
-                        break
-            x = "".join(ret)
-            return x
-        except:
-            return None
-
-    # 随机生成一个有效IP
-    def getRandomIp(self, varPartIP):
-        # 随机生成一个有效IP
-        # print(Data_PO.getRandomIp(""))
-        # print(Data_PO.getRandomIp("111.222.333.444"))
-        # print(Data_PO.getRandomIp("999.?.?.?"))
-        # print(Data_PO.getRandomIp("?.999.?.?"))
-        # print(Data_PO.getRandomIp("?.?.999.?"))
-        # print(Data_PO.getRandomIp("?.?.?.999"))
-        # print(Data_PO.getRandomIp("999.888.?.?"))
-        # print(Data_PO.getRandomIp("?.999.888.?"))
-        # print(Data_PO.getRandomIp("?.?.999.888"))
-        # print(Data_PO.getRandomIp("?.777.888.999"))
-        # print(Data_PO.getRandomIp("777.?.555.666"))
-        # print(Data_PO.getRandomIp("111.222.?.444"))
-        # print(Data_PO.getRandomIp("111.222.333.?"))
-        varIP = socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))
-        list1 = varPartIP.split(".")[:]
-        if varPartIP == "":
-            return varIP
-        elif varPartIP.count(".") == 3:
-
-            if "?" not in varPartIP:
-                return varPartIP
-
-            # 11.?.?.?
-            if list1[1] == "?" and list1[2] == "?" and list1[3] == "?":
-                return varPartIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varIP.split(".")[3]
-
-            # ?.11.?.?
-            if list1[0] == "?" and list1[1] == "?" and list1[3] == "?":
-                return varIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varIP.split(".")[3]
-
-            # ?.?.11.?
-            if list1[0] == "?" and list1[2] == "?" and list1[3] == "?":
-                return varIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varIP.split(".")[3]
-
-            # ?.?.?.11
-            if list1[0] == "?" and list1[1] == "?" and list1[2] == "?":
-                return varIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varPartIP.split(".")[3]
-
-            # 11.12.?.?
-            if list1[2] == "?" and list1[3] == "?" :
-                return varPartIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varIP.split(".")[3]
-
-            # ?.11.22.?
-            if list1[0] == "?" and list1[3] == "?":
-                return varIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varIP.split(".")[3]
-
-            # ?.?.11.12
-            if list1[0] == "?" and list1[1] == "?":
-                return varIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varPartIP.split(".")[3]
-
-            # ?.11.11.11
-            if list1[0] == "?":
-                return varIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varPartIP.split(".")[3]
-
-            # 11.?.11.11
-            if list1[1] == "?":
-                return varPartIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varPartIP.split(".")[3]
-
-            # 11.11.?.11
-            if list1[2] == "?" :
-                return varPartIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varPartIP.split(".")[3]
-
-            # 11.11.11.?
-            if list1[3] == "?" :
-                return varPartIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varIP.split(".")[3]
-        else:
-            return None
-
-    # 随机生成一个有效IP2
-    def getRandomIp2(self):
-        # 随机生成一个有效IP2
-        return (socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff))))
-
-    # 从列表中随机获取n个元素
-    def getRandomContent(self, l_Content, varNum):
-        # 从列表中随机获取n个元素
-        # 如：rdContent(['411', '1023', '0906', '0225'],'2')
-        try:
-            return random.sample(l_Content, varNum)
-        except:
-            return None
-
-    # 判断是否是有效身份证
+    # 3.2，判断是否是有效身份证
     def isIdcard(self, id_card):
         # 判断是否是有效身份证
         # errors = ['验证通过!', '身份证号码位数不对!', '身份证号码出生日期超出范围或含有非法字符!', '身份证号码校验错误!', '身份证地区非法!']
@@ -254,7 +171,7 @@ class DataPO():
         else:
             return(errors[1])
 
-    # 获取身份证的出生年月(只限大陆身份证)
+    # 3.3，获取身份证的出生年月(只限大陆身份证)
     def getBirthday(self, varIdcard):
         # 获取身份证的出生年月(只限大陆身份证)
         # 先判断身份证是否有效，再获取身份证的出生年月(只限大陆身份证)
@@ -267,7 +184,7 @@ class DataPO():
         except:
             return None
 
-    # 获取身份证的年龄
+    # 3.4，获取身份证的年龄
     def getAge(self, varIdcard):
         # 获取身份证的年龄
         # 先判断身份证是否有效，再获取身份证的年龄(只限大陆身份证)
@@ -302,7 +219,7 @@ class DataPO():
             # return u'errorrrrrrrrrr, 错误的身份证号码！'
             return None
 
-    # 获取身份证的性别
+    # 3.5，获取身份证的性别
     def getSex(self, varIdcard):
         # 获取身份证的性别
         # 先判断身份证是否有效，再获取身份证的性别(只限大陆身份证)
@@ -321,7 +238,100 @@ class DataPO():
             return
 
 
-    # 从当前IP地址开始连续生成N个IP
+    # 4，随机生成n个数字
+    def getRandomNum(self, n):
+        # 随机生成n个数字
+        # 如 Data_PO.rdNum(8)
+        ret = []
+        try:
+            for i in range(n):
+                while 1:
+                    number = random.randrange(0, 10)
+                    if number not in ret:
+                        ret.append(str(number))
+                        break
+            x = "".join(ret)
+            return x
+        except:
+            return None
+
+    # 5.1，随机生成一个有效IP
+    def getRandomIp(self, varPartIP):
+        # 随机生成一个有效IP
+        # print(Data_PO.getRandomIp(""))
+        # print(Data_PO.getRandomIp("111.222.333.444"))
+        # print(Data_PO.getRandomIp("999.?.?.?"))
+        # print(Data_PO.getRandomIp("?.999.?.?"))
+        # print(Data_PO.getRandomIp("?.?.999.?"))
+        # print(Data_PO.getRandomIp("?.?.?.999"))
+        # print(Data_PO.getRandomIp("999.888.?.?"))
+        # print(Data_PO.getRandomIp("?.999.888.?"))
+        # print(Data_PO.getRandomIp("?.?.999.888"))
+        # print(Data_PO.getRandomIp("?.777.888.999"))
+        # print(Data_PO.getRandomIp("777.?.555.666"))
+        # print(Data_PO.getRandomIp("111.222.?.444"))
+        # print(Data_PO.getRandomIp("111.222.333.?"))
+        varIP = socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))
+        list1 = varPartIP.split(".")[:]
+        if varPartIP == "":
+            return varIP
+        elif varPartIP.count(".") == 3:
+
+            if "?" not in varPartIP:
+                return varPartIP
+
+            # 11.?.?.?
+            if list1[1] == "?" and list1[2] == "?" and list1[3] == "?":
+                return varPartIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varIP.split(".")[3]
+
+            # ?.11.?.?
+            if list1[0] == "?" and list1[1] == "?" and list1[3] == "?":
+                return varIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varIP.split(".")[3]
+
+            # ?.?.11.?
+            if list1[0] == "?" and list1[2] == "?" and list1[3] == "?":
+                return varIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varIP.split(".")[3]
+
+            # ?.?.?.11
+            if list1[0] == "?" and list1[1] == "?" and list1[2] == "?":
+                return varIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varPartIP.split(".")[3]
+
+            # 11.12.?.?
+            if list1[2] == "?" and list1[3] == "?" :
+                return varPartIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varIP.split(".")[3]
+
+            # ?.11.22.?
+            if list1[0] == "?" and list1[3] == "?":
+                return varIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varIP.split(".")[3]
+
+            # ?.?.11.12
+            if list1[0] == "?" and list1[1] == "?":
+                return varIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varPartIP.split(".")[3]
+
+            # ?.11.11.11
+            if list1[0] == "?":
+                return varIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varPartIP.split(".")[3]
+
+            # 11.?.11.11
+            if list1[1] == "?":
+                return varPartIP.split(".")[0] + "." + varIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varPartIP.split(".")[3]
+
+            # 11.11.?.11
+            if list1[2] == "?" :
+                return varPartIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varIP.split(".")[2] + "." + varPartIP.split(".")[3]
+
+            # 11.11.11.?
+            if list1[3] == "?" :
+                return varPartIP.split(".")[0] + "." + varPartIP.split(".")[1] + "." + varPartIP.split(".")[2] + "." + varIP.split(".")[3]
+        else:
+            return None
+
+    # 5.2，随机生成一个有效IP2
+    def getRandomIp2(self):
+        # 随机生成一个有效IP2
+        return (socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff))))
+
+    # 5.3，从当前IP地址开始连续生成N个IP
     def getSeriesIp(self, varFirstIP, varNum):
         # 从当前IP地址开始连续生成N个IP
         # 如 getSeriesIP('101.23.228.253', 5)
@@ -337,8 +347,8 @@ class DataPO():
                     for D in range(D, 256):
                         ip = "%d.%d.%d.%d" % (A, B, C, D)
                         if varNum > 1:
-                             varNum -= 1
-                             l_ip.append(ip)
+                            varNum -= 1
+                            l_ip.append(ip)
                         elif varNum == 1:  # 解决最后多一行回车问题
                             varNum -= 1
                             l_ip.append(ip)
@@ -348,7 +358,18 @@ class DataPO():
                 C = 0
             B = 0
 
-    # 解析json
+
+    # 6，从列表中随机获取某个元素
+    def getRandomContent(self, l_Content, varNum):
+        # 从列表中随机获取n个元素
+        # 如：rdContent(['411', '1023', '0906', '0225'],'2')
+        try:
+            return random.sample(l_Content, varNum)
+        except:
+            return None
+
+
+    # 7，解析json
     def getJsonPath(self, varJson, varKey):
         # 解析json
         # 如：{"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}' 获取 token的值
@@ -358,7 +379,7 @@ class DataPO():
         except:
             return None
 
-    # 用MD5加密内容
+    # 8.1，MD5整段加密
     def md5(self, varContent):
         # MD5字符串加密
         # 分析：加密输出是16进制的md5值，这里传入的字符串前加个b将其转为二进制，或者声明为utf-8, 否则回报错误TypeError: Unicode-objects must be encoded before hashing
@@ -368,7 +389,7 @@ class DataPO():
         except:
             return None
 
-    # MD5分段加密
+    # 8.2，MD5分段加密
     def md5Segment(self, *varContent):
         # MD5分段加密
         # 主要用在数据太长时，可分段加密，结果一样。
@@ -380,35 +401,72 @@ class DataPO():
         except:
             return None
 
+    # 9，获取文档里某个单词出现的数量
+    def getNumByText(self, varPathFile, varWord):
+        # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "INFO"))
+        try:
+            f = open(varPathFile, encoding="utf-8")
+            ms = f.read().split()
+            count = {}
+            for m in ms:
+                if m in count:
+                    count[m] += 1
+                else:
+                    count[m] = 1
+            for m in count:
+                if m == varWord:
+                    return (count[m])
+        except:
+            return None
 
 if __name__ == '__main__':
 
     Data_PO = DataPO()
-    #
-    # print(Data_PO.getRandomName())  # 陈恋柏    //随机生成中文用户名
-    #
-    # print(Data_PO.getRandomPhone())  # 14790178656  //随机生成有效手机号码
-    #
-    # print(Data_PO.getRandomIdcard())   # 441427196909022802   // 随机生成身份证号
-    #
-    # print(Data_PO.getRandomNum(4))  # 6408  //随机生成4个数字
-    #
-    # print(Data_PO.getRandomIp(""))  # 116.210.48.8  //随机生成一个IP地址
-    # print(Data_PO.getRandomIp2())  # 36.93.19.190  //随机生成一个IP地址2
-    #
-    # print(Data_PO.getRandomContent(['411', '1023', '0906', '0225'], 2))  # ['1023', '0906']   //从列表中随机获取n个元素
-    #
-    # print(Data_PO.getBirthday(Data_PO.getRandomIdcard()))  # ('1965', '04', '16')   //随机生成一个身份证，并返回出生年月
-    # print(Data_PO.getBirthday("31ceshi141212"))  # None  //错误的身份证则返回None
-    # print(Data_PO.getAge(Data_PO.getRandomIdcard()))  # 33 //随机生成一个身份证，并返回年龄
-    # print(Data_PO.getAge("310101198004110014"))   # 40
-    # print(Data_PO.getSex(Data_PO.getRandomIdcard()))  # 女  //随机生成一个身份证，并返回性别
-    # print(Data_PO.getSex("310101198004110014"))  # 男
-    #
-    # print(Data_PO.getSeriesIp('101.23.228.254', 4))   # ['101.23.228.254', '101.23.228.255', '101.23.229.0', '101.23.229.1']  // 从当前IP地址开始连续生成N个IP
-    #
-    # print(Data_PO.getJsonPath('{"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}', '$.token'))  # ['e351b73b1c6145ceab2a02d7bc8395e7']  //解析json
-    #
-    # print(Data_PO.md5('123456'))  # e10adc3949ba59abbe56e057f20f883e  //# MD5字符串加密
-    # print(Data_PO.md5Segment('123', '45', "6"))  # e10adc3949ba59abbe56e057f20f883e  // # MD5分段加密
 
+    print("1，随机生成中文用户名".center(100, "-"))
+    print(Data_PO.getRandomName())  # 陈恋柏
+
+    print("2，随机生成有效手机号码".center(100, "-"))
+    print(Data_PO.getRandomPhone())  # 14790178656
+
+    print("3.1，随机生成身份证号".center(100, "-"))
+    print(Data_PO.getRandomIdcard())   # 441427196909022802   // 随机生成身份证号
+
+    print("3.2，判断是否是有效身份证".center(100, "-"))
+    print(Data_PO.isIdcard(Data_PO.getRandomIdcard()))
+    print(Data_PO.isIdcard("31012547854125"))
+
+    print("3.3，获取身份证的出生年月(只限大陆身份证)".center(100, "-"))
+    print(Data_PO.getBirthday(Data_PO.getRandomIdcard()))  # ('1965', '04', '16')
+    print(Data_PO.getBirthday("31ceshi141212"))  # None  //错误的身份证则返回None
+
+    print("3.4，获取身份证的年龄".center(100, "-"))
+    print(Data_PO.getAge("310101198004110014"))  # 40
+
+    print("3.5，获取身份证的性别".center(100, "-"))
+    print(Data_PO.getSex("310101198004110014"))  # 男
+
+    print("4，随机生成n个数字".center(100, "-"))
+    print(Data_PO.getRandomNum(4))  # 6408  //随机生成4个数字
+
+    print("5.1，随机生成一个有效IP".center(100, "-"))
+    print(Data_PO.getRandomIp(""))  # 116.210.48.8  //随机生成一个IP地址
+    print("5.2，随机生成一个有效IP2".center(100, "-"))
+    print(Data_PO.getRandomIp2())  # 36.93.19.190  //随机生成一个IP地址2
+    print("5.3，从当前IP地址开始连续生成N个IP".center(100, "-"))
+    print(Data_PO.getSeriesIp('101.23.228.254', 4))   # ['101.23.228.254', '101.23.228.255', '101.23.229.0', '101.23.229.1']
+
+    print("6，从列表中随机获取某个元素".center(100, "-"))
+    print(Data_PO.getRandomContent(['411', '1023', '0906', '0225'], 2))  # ['1023', '0906']
+
+    print("7，解析json".center(100, "-"))
+    print(Data_PO.getJsonPath('{"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}', '$.token'))  # ['e351b73b1c6145ceab2a02d7bc8395e7']
+
+    print("8.1，MD5整段加密".center(100, "-"))
+    print(Data_PO.md5('123456'))  # e10adc3949ba59abbe56e057f20f883e
+    print("8.2，MD5分段加密".center(100, "-"))
+    print(Data_PO.md5Segment('123', '45', "6"))  # e10adc3949ba59abbe56e057f20f883e
+
+    print("9，获取文档里某个单词出现的数量".center(100, "-"))
+    # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "INFO"))
+    # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "ERROR"))

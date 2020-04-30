@@ -2,19 +2,17 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Author     : John
 # Created on : 2020-4-8
-# Description: BI集成平台自动化脚本 by pycharm（打印结果，输出日志到log）
+# Description: BI集成平台自动化脚本 by cmd（打印结果，输出日志到log）
 # *****************************************************************
-# from time import sleep
-# sleep(1212)
 
+import os, sys
+sys.path.append("../../../../")
 from instance.zyjk.BI.PageObject.BiPO import *
 Bi_PO = BiPO()
 List_PO = ListPO()
 Time_PO = TimePO()
 Net_PO = NetPO()
 Data_PO = DataPO()
-
-
 
 
 # 登录 运营决策系统
@@ -327,6 +325,7 @@ Bi_PO.top10("5.1.9", "0", Bi_PO.winByDiv("手术排名\n", "", ""), "手术排�
 #
 # # 诊断质量
 # Bi_PO.menu2ByHref("/bi/medicalQuality/diagnosticQuality", varUpdateDate)
+
 
 
 # # ===============================================================================================

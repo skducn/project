@@ -51,6 +51,8 @@ class WebPO(BasePO):
         if self.driver == "chrome" :
             option = webdriver.ChromeOptions()
             option.add_argument('disable-infobars')
+            # option.add_argument('--ignore-certificate-errors')
+            option.add_experimental_option('excludeSwitches', ['enable-logging'])
             # option.add_argument("user-data-dir = C:\Python37\profile")
             self.driver = webdriver.Chrome(chrome_options=option)
             self.driver.get(varURL)
