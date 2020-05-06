@@ -5,7 +5,7 @@
 # Description: 网络对象（发邮件，获取网页状态码，网页header，网页内容，下载文件,下载网页，下载图片
 # ***************************************************************
 
-import smtplib, os, base64, requests,urllib
+import smtplib, os, base64, requests, urllib,json, jsonpath, logging, time
 import email.mime.multipart
 import email.mime.text
 from email.mime.text import MIMEText
@@ -14,20 +14,16 @@ from email.header import Header
 from urllib.request import urlretrieve
 from email.mime.multipart import MIMEMultipart
 from email.utils import parseaddr,formataddr
-import json, jsonpath
+from multiprocessing import Pool, cpu_count
+
 from PO.FilePO import *
 File_PO = FilePO()
+
 
 class NetPO():
 
 
-    # 自定义处理邮件收发地址的显示内容，如： 令狐冲<skducn@163.com>
-    def _format_addr(self, s):
-        name, addr = parseaddr(s)
-        # 将邮件的name转换成utf-8格式，addr如果是unicode，则转换utf-8输出，否则直接输出addr
-        return formataddr((Header(name, 'utf-8').encode(), addr))
-
-    # 发邮件
+    # 1，发送邮件
     def sendEmail(self, varNickNameByFrom, varFrom, varTo, varSubject, varConent, varFile="", varPic="", varHtmlFileName="", varHtmlContent=""):
         # 发163邮件
         # 注意：邮件主题为‘test’时，会出现错误。
@@ -63,8 +59,11 @@ class NetPO():
 
         try:
             msg = email.mime.multipart.MIMEMultipart()
-            # msg['From'] = varFrom
-            msg['From'] = self._format_addr(varNickNameByFrom + u' <%s>' % varFrom)  # 发件人： 令狐冲<skducn@163.com>
+            # msg['From'] = varFrom   # 发件人：skducn@163.com
+            # 自定义处理邮件收发地址的显示内容，如： 令狐冲<skducn@163.com>
+            # 将邮件的name转换成utf-8格式，addr如果是unicode，则转换utf-8输出，否则直接输出addr，如：令狐冲<skducn@163.com>
+            name, addr = parseaddr(varNickNameByFrom + u' <%s>' % varFrom)
+            msg['From'] =formataddr((Header(name, 'utf-8').encode(), addr))  # 发件人： 令狐冲<skducn@163.com>
 
             if "," in varTo:
                 # 收件人为多个收件人
@@ -108,7 +107,7 @@ class NetPO():
         except:
             return None
 
-    # 获取网站statuscode
+    # 2.1，获取网站状态码
     def getURLCode(self, varURL):
         # 获取网站的 statuscode，如 200 404 500'''
         try:
@@ -117,7 +116,7 @@ class NetPO():
         except:
             return None
 
-    # 获取网站的header
+    # 2.2，获取网站的header
     def getHeaders(self, varURL):
         # 获取网站的header，如:
         # {'Cache-Control': 'private, no-cache, no-store, proxy-revalidate, no-transform', 'Connection': 'Keep-Alive',
@@ -130,7 +129,7 @@ class NetPO():
         except:
             return None
 
-    # 获取网站内容
+    # 2.3，获取网站内容
     def getHtml(self, varURL):
         # 获取网站内容
         try:
@@ -139,7 +138,7 @@ class NetPO():
         except:
             return None
 
-    # 下载程序
+    # 3.1，下载程序
     def downloadProgram(self, varUrlFile, varFilePath='./'):
         # 下载文件（显示下载进度，数据块大小，文件大小）
         # Net_PO.downloadFile("https://www.7-zip.org/a/7z1900-x64.exe", "")
@@ -163,7 +162,7 @@ class NetPO():
         except:
             return None
 
-    # 下载网页/图片
+    # 3.2，下载网页/图片
     def downloadFile(self, varUrlHtml, varFilePath='./'):
         # 下载页面，将页面保存到本地。
         # Net_PO.downloadHtml(u"http://www.jb51.net/Special/636.htm", "1234.html")
@@ -182,7 +181,7 @@ class NetPO():
         except:
             return None
 
-    # 下载图片（暂停）
+    # 3.3，下载图片
     def downloadImage(self, varUrlImage, varFilePath='./'):
         # 下载图片，将网上图片保存到本地。
         # Net_PO.downloadPIC("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg","john.jpg")
@@ -198,6 +197,10 @@ class NetPO():
                     f.write(image)
             else:
                 varPath, varFile = os.path.split(varFilePath)
+
+                if varFile == "":
+                    varPath1, varFile = os.path.split(varUrlImage)
+
                 if varPath == "":
                     sess = requests.Session()
                     headers = {
@@ -216,31 +219,63 @@ class NetPO():
         except:
             return None
 
-    
+
+    # 3.4，异步多线程下载图片
+    def downloadImageAsync(self, varPathList):
+        # http://www.51testing.com/html/73/n-4471673.html  使用 Selenium 实现谷歌以图搜图爬虫（爬取大图）
+        # https://blog.csdn.net/S_o_l_o_n/article/details/86066704 python多进程任务拆分之apply_async()和map_async()
+        # 通过异步多线程方式将列表中文件下载到当前路径
+        # 如：varPathList = ["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"]
+        logging.basicConfig(level=logging.INFO, format="%(asctime)s [*] %(processName)s %(message)s")
+        start = time.time()
+        logging.info("-----main before")
+        pool = Pool(cpu_count())  # 建立一个进程池，cpu_count() 表示cpu核心数，将进程数设置为cpu核心数
+        pool.map_async(Net_PO.downloadImage, varPathList)
+
+        pool.close()
+        pool.join()
+        logging.info(f"-----main after {time.time() - start} s")
+
+
 if __name__ == '__main__':
 
     Net_PO = NetPO()
 
-    # Net_PO.sendEmail(u'令狐冲','skducn@163.com', "h.jin@zy-healthtech.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n" + "tesst" + "\n\n 这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","","","","")
-    Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com,skducn@163.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n\n\n\n\n\n\n这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","NetPO.py")
+    # print("1，发送邮件".center(100, "-"))
+    # Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n" + "tesst" + "\n\n 这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","","","","")
+    # Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com,skducn@163.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n\n\n\n\n\n\n这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","NetPO.py")
 
 
+    # print("2.1，获取网站状态码".center(100, "-"))
     # print(Net_PO.getURLCode("https://www.baidu.com"))
+
+    # print("2.2，获取网站的header".center(100, "-"))
     # print(Net_PO.getHeaders("https://www.baidu.com"))
+
+    # print("2.3，获取网站内容".center(100, "-"))
     # print(Net_PO.getHtml("https://www.baidu.com"))
 
+
+    # print("3.1，下载程序".center(100, "-"))
     # Net_PO.downloadProgram("https://www.7-zip.org/a/7z1900-x64.exe")  # 默认将文件保存在当前路径，如果当前目录下已存在此文件则不下载。
     # Net_PO.downloadProgram("https://www.7-zip.org/a/7z1900-x64.exe", "d:/1/2/3")  # 下载 d:/1/2/3到指定目录，如果目录不存在则自动新建。
     # Net_PO.downloadProgram("https://www.7-zip.org/a/7z1900-x64.exe", "/1/2/3")  # 同上，/1/2/3 默认定位当前程序盘符，如 d:/1/2/3
 
+    # print("3.2，下载网页/图片".center(100, "-"))
     # Net_PO.downloadFile(u"http://www.jb51.net/Special/636.htm")  # 默认将html网页保存在当前路径。
     # Net_PO.downloadFile(u"https://images.cnblogs.com/cnblogs_com/longronglang/1061549/o_QQ%E6%88%AA%E5%9B%BE20190727112700.png")  # 默认将图片保存在当前路径。
     # Net_PO.downloadFile(u"http://www.jb51.net/Special/636.htm", "1234.html")  # 默认保存到当前路径，另存为1234.html
     # Net_PO.downloadFile(u"http://www.jb51.net/Special/636.htm", "d:/1/2/3/1234.html")  # 将文件保存在/1/2/3/1234.html下，如果目录不存在则自动新建。
 
-    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg")  # # 默认将图片保存在当前路径。
-    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "test.jpg")
-    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "/1/2/test.jpg")
+    # print("3.3，下载图片".center(100, "-"))
+    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg")  # 将 kaptcha.jpg 下载保存在当前路径。
+    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "test.jpg")  # 将 kaptcha.jpg 下载改名为 test.jpg，保存在当前路径。
+    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "d:\\11\\")   # 将 kaptcha.jpg 下载保存在 d:\11目录下，如目录不存在则自动创建
+    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "d:\\11\\123.jpg")  # 将 kaptcha.jpg 下载改名为123.jpg 保存在 d:\11目录下，如目录不存在则自动创建
+    # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "/11/123.jpg")  # 同上
 
+    print("3.4，异步多线程下载图片".center(100, "-"))
+    Net_PO.downloadImageAsync(["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"])
+    # Net_PO.downloadImageAsync([["http://img.sccnn.com/bimg/341/08062.jpg"], ["http://img.sccnn.com/bimg/339/21311.jpg"],["http://img.sccnn.com/bimg/341/23281.jpg"], ["http://img.sccnn.com/bimg/341/21281.jpg"]])
 
 
