@@ -9,7 +9,7 @@
 
 from instance.zyjk.EHR.PageObject.DataMonitorPO import *
 DataMonitor_PO = DataMonitorPO()
-from PO.timePO import *
+from PO.TimePO import *
 time_PO = TimePO()
 
 
