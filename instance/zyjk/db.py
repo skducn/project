@@ -108,9 +108,12 @@ from PO import SqlserverPO, MysqlPO
 # mysql_PO.dbCreateDate('<', "2019-02-18")  # 显示所有在2019-12-08之前创建的表
 
 
-# BI集成平台(mysql)
-mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "bidev", 3306)  # 测试环境
+# # BI集成平台(mysql)
+# mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "bidev", 3306)  # 测试环境
+# mysql_PO.dbRecord('*', 'char', u'%耳、鼻、咽喉科%')
+# # mysql_PO.dbRecord('*', 'float', u'%295.54%')
 
-mysql_PO.dbRecord('*', 'char', u'%耳、鼻、咽喉科%')
+# 患者360(mysql)
+mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)  # 测试环境
+mysql_PO.dbRecord('*', 'char', u'%郑和成%')
 # mysql_PO.dbRecord('*', 'float', u'%295.54%')
-
