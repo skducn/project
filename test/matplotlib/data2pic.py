@@ -31,7 +31,7 @@ def data2pic(varTitle, varY, varXnums, varX, dimURL):
     rects2 = ax.bar(ind + width, (25, 32, 34, 20), width, color='y', yerr=(0, 0, 0, 0))
     rects3 = ax.bar(ind + width + width, (25, 32, 34, 20), width, color='b', yerr=(0, 0, 0, 0))
     rects4 = ax.bar(ind + width + width + width, (25, 32, 34, 21), width, color='g', yerr=(0, 0, 0, 0))
-    ax.legend((rects1[0], rects2[0], rects3[0], rects4[0]), ('serious', 'high', 'normal', 'low'))
+    ax.legend((rects1[0], rects2[0], rects3[0], rects4[0]), (u'serious', 'high', 'normal', 'low'))
 
     def autolabel(rects):
         for rect in rects:
@@ -49,4 +49,4 @@ def data2pic(varTitle, varY, varXnums, varX, dimURL):
     # 直接屏幕输出
     # plt.show()
 
-data2pic(u"Dangjian Project bug", u'nums', 4, u'android,iOs,PHP,Server','test.png')
+data2pic(u"bug", u'num', 4, u'android,iOs,PHP,Server','test123.png')
