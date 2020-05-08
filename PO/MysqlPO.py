@@ -9,6 +9,8 @@
 #***************************************************************
 
 import MySQLdb
+from PO.ExcelPO.ExcelPO import *
+Excel_PO = ExcelPO()
 
 class MysqlPO():
 
@@ -375,23 +377,86 @@ class MysqlPO():
         else:
             print("[errorrrrrrr , 参数溢出！]")
 
+    def dbDesc2excel(self, varFileName, varSheetName):
+        ''' 将数据库表结构（字段、类型、DDL）导出到excel'''
+
+        l_name = []
+        l_type = []
+        l_isnull = []
+        l_comment = []
+        l_isKey = []
+        l_extra = []
+        listSub = []
+        listMain = []
+        sum = 1
+
+        self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
+        tblName = self.cur.fetchall()
+        for k in range(len(tblName)):
+            self.cur.execute('select column_name,column_type,is_nullable,column_comment,column_key,extra from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+            tblFields = self.cur.fetchall()
+            listSub.append(1)
+            listSub.append("表名")
+            listSub.append("表说明")
+            listSub.append("字段名")
+            listSub.append("字段说明")
+            listSub.append("字段类型")
+            listSub.append("主键")
+            listSub.append("是否为空")
+            listSub.append("默认值")
+            listMain.append(listSub)
+            listSub=[]
+            for i in tblFields:
+                l_name.append(i[0])
+                l_type.append(i[1])
+                l_isnull.append(i[2])
+                l_comment.append(i[3])
+                l_isKey.append(i[4])
+                l_extra.append(i[5])
+            for i in range(len(tblFields)):
+                listSub.append(sum+1)
+                listSub.append(tblName[k][0])
+                listSub.append(tblName[k][1])
+                listSub.append(l_name[i])
+                listSub.append(l_comment[i])
+                listSub.append(l_type[i])
+                listSub.append(l_isKey[i])
+                listSub.append(l_isnull[i])
+                listSub.append(l_extra[i])
+                listMain.append(listSub)
+                listSub = []
+                sum = sum + 1
+            l_name = []
+            l_type = []
+            l_isnull = []
+            l_comment = []
+        Excel_PO.writeXlsxByMore(varFileName, varSheetName, listMain)
+
 if __name__ == '__main__':
 
-    Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # BI 开发数据库
-    varUpdateDate = '2020-03-22'
+    # 患者360(mysql)
+    mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)  # 测试环境
+    # mysql_PO.dbRecord('*', 'char', u'%郑和成%')
+    # mysql_PO.dbRecord('*', 'float', u'%295.54%')
+    # mysql_PO.dbDesc()   # 所有表结构
+    mysql_PO.dbDesc2excel("d:\\test3.xlsx", "mySheet1")  # UpmsUser表结构
 
-    # Mysql_PO.conn.cursor(MySQLdb.cursors.DictCursor)
-    # Mysql_PO.cur.execute('SELECT ifnull(round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2),0)' % varUpdateDate)
-    # Mysql_PO.cur.execute('SELECT ifnull(round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2),0)' % varUpdateDate)
-    Mysql_PO.cur.execute('SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10' % varUpdateDate)
-    tmpTuple = Mysql_PO.cur.fetchall()
-    print(tmpTuple)
-    print(tmpTuple[0][1])
 
-    # desc = Mysql_PO.cur.description     # 获取单表的字段名信息
-    # print(desc)
-    # print(Mysql_PO.cur.rowcount)   # 获取结果集的条数/
-    # print(tmpTuple[0][0])
+    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # BI 开发数据库
+    # varUpdateDate = '2020-03-22'
+    #
+    # # Mysql_PO.conn.cursor(MySQLdb.cursors.DictCursor)
+    # # Mysql_PO.cur.execute('SELECT ifnull(round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2),0)' % varUpdateDate)
+    # # Mysql_PO.cur.execute('SELECT ifnull(round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2),0)' % varUpdateDate)
+    # Mysql_PO.cur.execute('SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10' % varUpdateDate)
+    # tmpTuple = Mysql_PO.cur.fetchall()
+    # print(tmpTuple)
+    # print(tmpTuple[0][1])
+    #
+    # # desc = Mysql_PO.cur.description     # 获取单表的字段名信息
+    # # print(desc)
+    # # print(Mysql_PO.cur.rowcount)   # 获取结果集的条数/
+    # # print(tmpTuple[0][0])
 
 
     # Mysql_PO.cur.execute('select id,anaesthesiaId from bi_anaesthesia_dept where deptIdName="%s" ' % ("骨科"))
