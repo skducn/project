@@ -33,33 +33,53 @@ class MysqlPO():
         l_type = []
         l_isnull = []
         l_comment = []
-        x = y = z = 0
+        l_isKey = []
+        l_extra = []
+        a=b=c=d=e= 0
 
         if len(args) == 0:
             # 查看所有表结构
             self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
             tblName = self.cur.fetchall()
             for k in range(len(tblName)):
-                self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+                self.cur.execute('select column_name,column_comment,column_type,column_key,is_nullable from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+
+                # self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
                 tblFields = self.cur.fetchall()
                 # print(u"\033[1;34;40m", 'printGreen', "\n" + "*" * 50 + " " + tblName[k][0] + "(" + tblName[k][1] + " ) > " + str(len(tblFields)) + "个字段 " + "*" * 50 )
+                a = b = c = d = e = 0
                 for i in tblFields:
                     # 字段与类型对齐
-                    if len(i[0]) > x: x = len(i[0])
-                    if len(i[1]) > y: y = len(i[1])
-                    if len(i[2]) > z: z = len(i[2])
-                print("*" * 100 + "\n" + tblName[k][0] + "(" + tblName[k][1] + " ) - " + str(len(tblFields)) + "个字段 " + "\n字段" + " " * (x - 3),"类型" + " " * (y - 3),  "可空" + " " * 4, "注释")
+                    if len(i[0]) > a: a = len(i[0])
+
+                    if len(i[2]) > c: c = len(i[2])
+                    if len(i[3]) > d: d = len(i[3])
+                    if len(i[4]) > e: e = len(i[4])
+                    if len(i[1].replace("\r\n", ",").replace("  ", "")) > b: b = len(i[1])
+
+                print("*" * 100 + "\n" + tblName[k][0] + " ( " + tblName[k][1] + " ) - " + str(len(tblFields)) + "个字段 " +
+                      "\n字段名" + " " * (a - 5),
+                      "类型" + " " * (c-3),
+                      "主键" + " " * (d-3),
+                      "是否为空"+ " " * (e),
+                      "字段说明")
                 for i in tblFields:
-                    l_name.append(i[0] + " " * (x - len(i[0]) + 1))
-                    l_type.append(i[1] + " " * (y - len(i[1]) + 1))
-                    l_isnull.append(i[2] + " " * (z - len(i[2]) + 5))
-                    l_comment.append(i[3].replace("\r\n", ",").replace("  ", ""))
+                    l_name.append(i[0] + " " * (a - len(i[0]) + 1))
+                    l_type.append(i[2] + " " * (c - len(i[2]) + 1))
+                    l_isKey.append(i[3] + " " * (d - len(i[3]) + 1))
+                    l_isnull.append(i[4] + " " * (e - len(i[4]) + 8))
+                    l_comment.append(i[1] + " " * (b - len(i[1])))
+
                 for i in range(len(tblFields)):
-                    print(l_name[i], l_type[i], l_isnull[i], l_comment[i])
+                    print(l_name[i], l_type[i], l_isKey[i], l_isnull[i], l_comment[i])
                 l_name = []
-                l_type = []
-                l_isnull = []
                 l_comment = []
+                l_type = []
+                l_isKey = []
+                l_isnull = []
+
+
+
         elif len(args) == 1:
             # 查看单表或多表的所有表结构
             varTable = args[0]
@@ -385,7 +405,6 @@ class MysqlPO():
         l_isnull = []
         l_comment = []
         l_isKey = []
-        l_extra = []
         listSub = []
         listMain = []
         sum = 1
@@ -393,7 +412,7 @@ class MysqlPO():
         self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
         tblName = self.cur.fetchall()
         for k in range(len(tblName)):
-            self.cur.execute('select column_name,column_type,is_nullable,column_comment,column_key,extra from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+            self.cur.execute('select column_name,column_type,is_nullable,column_comment,column_key from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
             tblFields = self.cur.fetchall()
             listSub.append(1)
             listSub.append("表名")
@@ -403,16 +422,14 @@ class MysqlPO():
             listSub.append("字段类型")
             listSub.append("主键")
             listSub.append("是否为空")
-            listSub.append("默认值")
             listMain.append(listSub)
-            listSub=[]
+            listSub = []
             for i in tblFields:
                 l_name.append(i[0])
                 l_type.append(i[1])
                 l_isnull.append(i[2])
                 l_comment.append(i[3])
                 l_isKey.append(i[4])
-                l_extra.append(i[5])
             for i in range(len(tblFields)):
                 listSub.append(sum+1)
                 listSub.append(tblName[k][0])
@@ -422,27 +439,29 @@ class MysqlPO():
                 listSub.append(l_type[i])
                 listSub.append(l_isKey[i])
                 listSub.append(l_isnull[i])
-                listSub.append(l_extra[i])
                 listMain.append(listSub)
                 listSub = []
                 sum = sum + 1
             l_name = []
-            l_type = []
-            l_isnull = []
             l_comment = []
+            l_type = []
+            l_isKey = []
+            l_isnull = []
+
         Excel_PO.writeXlsxByMore(varFileName, varSheetName, listMain)
 
 if __name__ == '__main__':
 
-    # 患者360(mysql)
-    mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)  # 测试环境
+    # 患者360 开发环境
+    mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)
     # mysql_PO.dbRecord('*', 'char', u'%郑和成%')
     # mysql_PO.dbRecord('*', 'float', u'%295.54%')
-    # mysql_PO.dbDesc()   # 所有表结构
-    mysql_PO.dbDesc2excel("d:\\test3.xlsx", "mySheet1")  # UpmsUser表结构
+    # mysql_PO.dbDesc()   # 打印所有表结构
+    mysql_PO.dbDesc2excel("d:\\test5.xlsx", "mySheet1")  # 将所有表结构导出到excel
 
 
-    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # BI 开发数据库
+    # BI 测试环境
+    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)
     # varUpdateDate = '2020-03-22'
     #
     # # Mysql_PO.conn.cursor(MySQLdb.cursors.DictCursor)
