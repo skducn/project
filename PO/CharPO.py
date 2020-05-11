@@ -10,6 +10,7 @@
 # 4，字节码通过解码转换为字符串，bytes--->(decode)--->str ，如：bytes.decode(encoding="utf-8", errors="strict")
 
 # *********************************************************************
+import sys
 
 class CharPO():
 
@@ -23,7 +24,7 @@ class CharPO():
             byte1 = varStr.encode(varCoding)
             return byte1
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
         # 要点：
         # byte1 = name.decode('utf-8')  # AttributeError: 'str' object has no attribute 'decode'
@@ -36,7 +37,7 @@ class CharPO():
             str1 = varByte.decode(varCoding, 'strict')
             return str1
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
         # 说明
         # bytes.decode(encoding="utf-8", errors="strict")
@@ -107,13 +108,13 @@ class CharPO():
                 if "." not in str(varNum):
                     if isinstance(varPatchNum, int):
                         if varPatchNum < 0 :
-                            return None
+                            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
                         elif varPatchNum == 0 :
                             return varNum
                         else:
                             varStr = str(varNum) + "." + "0" * varPatchNum  # 整数小数位补1个0
                     else:
-                        return None
+                        print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
                 else:
                     if isinstance(varPatchNum, int):
                         if varPatchNum < 0 :
@@ -127,13 +128,13 @@ class CharPO():
                             if len(dotLen) > 0:
                                 varStr = str(varNum) + "0" * varPatchNum  # 整数小数位补1个0
                     else:
-                        return None
+                        print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
                 return varStr
             else:
-                return None
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 5，浮点数尾部无效0去掉和无效的‘.’号（非规则）
     def zeroByDotSmart(self, varList, varPatchNum=2):
@@ -157,7 +158,7 @@ class CharPO():
                     list4.append('{:g}'.format(i))
                 return list4
             elif varPatchNum < 0:
-                return None
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
             for i in list3:
                 list4.append('{:g}'.format(i))
@@ -172,7 +173,7 @@ class CharPO():
                     list4[i] = list4[i] + "0" * (varPatchNum - len(list4[i].split(".")[1]))
             return (list4)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
 if __name__ == "__main__":

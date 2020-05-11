@@ -115,7 +115,7 @@ class FilePO():
         try:
             return(os.listdir(varPath))
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 3.2，获取路径下目录及文件清单（包括路径）
     def getWalk(self, varPath):
@@ -185,7 +185,7 @@ class FilePO():
         try:
             os.mkdir(varFolderPath)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 新建多级目录
     def newLayerFolder(self, varLayerFolderPath):
@@ -195,7 +195,7 @@ class FilePO():
             if not os.path.exists(varLayerFolderPath):
                 os.makedirs(varLayerFolderPath)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 复制目录
     def copyFolder(self, srcFolderPath, tgtFolderPath, varMode='i'):
@@ -212,7 +212,7 @@ class FilePO():
                     shutil.rmtree(tgtFolderPath)  # 强制删除目录
                     shutil.copytree(srcFolderPath, tgtFolderPath)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 目录改名
     def renameFolder(self, srcFolder, tgtFolder):
@@ -221,7 +221,7 @@ class FilePO():
         try:
             os.rename(srcFolder, tgtFolder)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 新建文件
     def newFile(self, varPath, name, text=None):
@@ -254,7 +254,7 @@ class FilePO():
             else:
                 shutil.copyfile(srcFilePath, tgtFilePath)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 文件改名
     def renameFile(self, srcFile, tgtFile):
@@ -264,7 +264,7 @@ class FilePO():
         try:
             os.rename(srcFile, tgtFile)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 删除空目录
     def delEmptyFolder(self, varFolderPath):
@@ -273,7 +273,7 @@ class FilePO():
         try:
             os.rmdir(varFolderPath)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 删除递归目录
     def delLayerFolder(self, varFolderPath):
@@ -286,7 +286,7 @@ class FilePO():
         try:
             os.removedirs(varFolderPath)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 强制删除目录
     def deltreeFolder(self, varFolder):
@@ -295,7 +295,7 @@ class FilePO():
         try:
             shutil.rmtree(varFolder)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 删除文件
     def delFile(self, varFilePath):
@@ -310,7 +310,7 @@ class FilePO():
             else:
                 os.remove(varFilePath)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）
     def delCascadeFiles(self, varPath):
@@ -323,7 +323,7 @@ class FilePO():
                 else:
                     os.remove(c_path)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 if __name__ == "__main__":
 

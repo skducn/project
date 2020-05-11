@@ -5,7 +5,8 @@
 # Description: 电脑设备对象层（获取本机mac、本机IP、本机电脑名，调用本机摄像头（笔记本））
 # 调用笔记本摄像头，需安装opencv包，pip install opencv-python
 # ***************************************************************
-import socket, uuid,  subprocess, os, cv2
+import socket, uuid,  subprocess, os, cv2,sys
+
 from PO.TimePO import *
 Time_PO = TimePO()
 from PO.FilePO import *
@@ -57,7 +58,7 @@ class DevicePO():
                 cv2.imwrite(varFilePath, frame)
                 cap.release()
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 安装apk
     def installAPK(self, varPath):

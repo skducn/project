@@ -5,7 +5,7 @@
 # Description: 网络对象（发邮件，获取网页状态码，网页header，网页内容，下载文件,下载网页，下载图片
 # ***************************************************************
 
-import smtplib, os, base64, requests, urllib,json, jsonpath, logging, time
+import sys, smtplib, os, base64, requests, urllib,json, jsonpath, logging, time
 import email.mime.multipart
 import email.mime.text
 from email.mime.text import MIMEText
@@ -105,7 +105,7 @@ class NetPO():
             smtp.quit()
             print(u"邮件已发送给：" + str(varTo))
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 2.1，获取网站状态码
     def getURLCode(self, varURL):
@@ -114,7 +114,7 @@ class NetPO():
             response = requests.get(varURL)
             return response.status_code
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 2.2，获取网站的header
     def getHeaders(self, varURL):
@@ -127,7 +127,7 @@ class NetPO():
             response = requests.get(varURL)
             return response.headers
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 2.3，获取网站内容
     def getHtml(self, varURL):
@@ -136,7 +136,7 @@ class NetPO():
             response = requests.get(varURL)
             return response.text
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 3.1，下载程序
     def downloadProgram(self, varUrlFile, varFilePath='./'):
@@ -160,7 +160,7 @@ class NetPO():
             # 文件大小默认以Bytes计， 转换为Mb
             print('File size = %.2f Mb' % (filesize / 1024 / 1024))
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 3.2，下载网页/图片
     def downloadFile(self, varUrlHtml, varFilePath='./'):
@@ -179,7 +179,7 @@ class NetPO():
                     File_PO.newLayerFolder(varPath)  # 强制新增文件夹
                     urllib.request.urlretrieve(varUrlHtml, varPath + "/" + varFile)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 3.3，下载图片
     def downloadImage(self, varUrlImage, varFilePath='./'):
@@ -217,7 +217,7 @@ class NetPO():
                     with open(varPath + "/" + varFile, "wb") as f:
                         f.write(image)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     # 3.4，异步多线程下载图片
@@ -274,8 +274,8 @@ if __name__ == '__main__':
     # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "d:\\11\\123.jpg")  # 将 kaptcha.jpg 下载改名为123.jpg 保存在 d:\11目录下，如目录不存在则自动创建
     # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "/11/123.jpg")  # 同上
 
-    print("3.4，异步多线程下载图片".center(100, "-"))
-    Net_PO.downloadImageAsync(["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"])
+    # print("3.4，异步多线程下载图片".center(100, "-"))
+    # Net_PO.downloadImageAsync(["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"])
     # Net_PO.downloadImageAsync([["http://img.sccnn.com/bimg/341/08062.jpg"], ["http://img.sccnn.com/bimg/339/21311.jpg"],["http://img.sccnn.com/bimg/341/23281.jpg"], ["http://img.sccnn.com/bimg/341/21281.jpg"]])
 
 
