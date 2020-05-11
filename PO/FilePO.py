@@ -60,6 +60,23 @@
 4.10 删除文件（支持通配符）
 4.11强制删除目录
 4.12 级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）
+
+5.1 文件是否存在  os.path.isfile("test-data")
+5.2 目录是否存在  os.path.exists(test_dir)
+5.3 路径是否存在
+import pathlib
+path = pathlib.Path("path/file")
+path.exist()
+5.4 文件是否存在
+path = pathlib.Path("path/file")
+path.is_file()
+
+6 判断文件是否可做读写操作 os.access("/file/path/foo.txt", os.F_OK)
+os.F_OK: 检查文件是否存在
+os.R_OK: 检查文件是否可读
+os.W_OK: 检查文件是否可以写入
+os.X_OK: 检查文件是否可以执行
+
 '''
 
 import os, shutil, glob, sys
@@ -432,9 +449,9 @@ if __name__ == "__main__":
     # print(os.path.isfile("D:\\51\\python\\project\\PO\\FilePO\\test.txt"))  # True
     #
     # print("3.16 遍历目录中指定扩展名文件".center(100, "-"))
-    # filelist = []
-    # File_PO.getfilelist(filelist, "../test/upload", [".png", ".jpg"])
-    # print(filelist)
+    filelist = []
+    File_PO.getfilelist(filelist, "../test/upload", [".png", ".jpg"])
+    print(filelist)
     #
     #
     #

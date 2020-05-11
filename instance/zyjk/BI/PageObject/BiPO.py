@@ -2,7 +2,7 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2019-7-18
-# Description: 白茅岭对象库
+# Description: Bi 对象库
 # *****************************************************************
 
 from instance.zyjk.BI.config.config import *
@@ -11,18 +11,16 @@ class BiPO(object):
 
     def __init__(self):
         self.Web_PO = WebPO("chrome")
-        # self.Web_PO = WebPO("firefox")
         self.Web_PO.openURL(varURL)
         self.Web_PO.driver.maximize_window()  # 全屏
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
         self.List_PO = ListPO()
         self.Time_PO = TimePO()
         self.Color_PO = ColorPO()
-        self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')
+        self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
 
     def assertEqual(self, expected, actual, okMsg="[ok]", errMsg="[errorrrrrrrrrr]"):
-        if expected == actual:
-            # print(okMsg)
+        if expected == actual:            
             print("[ok]，" + okMsg)
             self.Log_PO.logger.info(okMsg)  # 输出到日志
         else:
@@ -90,7 +88,7 @@ class BiPO(object):
                         return tmpList1[i][0], tmpList1[i][2], tmpList1[i][3]
                 return (varName + "不存在，请检查！")
         except:
-            return None
+            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
 
     def winByDiv(self, varCurrentTitle, varRightTitle, varKey=""):
 
@@ -109,7 +107,7 @@ class BiPO(object):
                     tmpDict = self.List_PO.list2dictBySerial(tmpList[0].split(varCurrentTitle)[1].split("\n"))
                     return (tmpDict[varKey])
         except:
-            return None
+            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
 
     def monitor(self, varNo, varName, varSql, *varDate):
 
@@ -344,7 +342,5 @@ class BiPO(object):
 
         self.assertEqual(varDict, tmpdict1, varNo + " " + varName + "，" + str(tmpdict1),  varNo + " " + varName + "\n页面：" + str(varDict) + "\n库值：" + str(tmpdict1) + "\n" + str(errorSql) + "\n")
         # self.assertEqual(varDict, tmpdict1, "[ok], " + varName + "（" + str(tmpdict1) + "）", "[errorrrrrrrrrr], " + varName + "\n页面：" + str(varDict) + "\n库值：" + str(tmpdict1) + "\n" + str(errorSql) + "\n")
-
-
 
 

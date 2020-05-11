@@ -115,5 +115,7 @@ from PO import SqlserverPO, MysqlPO
 
 # 患者360(mysql)
 mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)  # 测试环境
-mysql_PO.dbRecord('*', 'char', u'%郑和成%')
+# mysql_PO.dbRecord('*', 'char', u'%郑和成%')
 # mysql_PO.dbRecord('*', 'float', u'%295.54%')
+# mysql_PO.dbDesc()   # 所有表结构
+mysql_PO.dbDesc('upv_blood_match_report')   # UpmsUser表结构

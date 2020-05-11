@@ -29,8 +29,12 @@
 5.2，列表删除元素（包含模糊元素），且原列表不变。
 
 6，键值对齐
+
 7，随机获取list中的值
 
+8.1，比较两列表，返回两列表中不同元素
+8.2，比较两列表，返回两列表中相同元素
+8.3，比较两列表，返回包含在一个列表内而不在另一个列表中的元素
 
 '''
 
@@ -346,6 +350,35 @@ class ListPO():
             return None
 
 
+    # 8.1，比较两列表，返回两列表中不同元素
+    def getDiffElementByCmp(self,varList1, varList2):
+        a = [x for x in varList1 if x in varList2]  # 两个列表中都存在
+        return [y for y in (varList1) if y not in a], [y for y in (varList2) if y not in a]  # 两个列表中的不同元素
+
+
+    # 8.2，比较两列表，返回两列表中相同元素
+    def getSameElementByCmp(self,varList1, varList2):
+        return [x for x in varList1 if x in varList2]  # 两个列表中都存在
+
+    # 8.3，比较两列表，返回包含在一个列表内而不在另一个列表中的元素
+    def getContainElementByCmp(self, varList1, varList2, varContainList):
+        if varList1 == varContainList:
+            return [x for x in varContainList if x not in varList2]
+        else:
+            return [x for x in varContainList if x not in varList1]
+
+
+    # 10
+    # print('b的值为:', b)
+    # 11
+    # 12
+    # c = [x for x in list1 if x not in list2]  # 在list1列表中而不在list2列表中
+    # 13
+    # d = [y for y in list2 if y not in list1]  # 在list2列表中而不在list1列表中
+    # 14
+    # print('c的值为:', c)
+    # 15
+    # print('d的值为:', d)
 
 
 if __name__ == "__main__":
@@ -478,3 +511,20 @@ if __name__ == "__main__":
 
     print("7，随机获取list中的值".center(100, "-"))
     print(List_PO.listRandomValue(['111',222,[5,6,'888'],{"a":1, 2:"test"}]))
+
+
+    print("8.1，比较两列表，返回两列表中不同元素".center(100, "-"))
+    list1 = ['张三', '李四', '王五', '老二', 6, [1, 2, 3], {1:"a", 2:"b"}]
+    list2 = ['张三', '李四', '老二', '王七', 6, [1, 2, 3], {1:"a", 2:"b"}]
+    print(List_PO.getDiffElementByCmp(list1, list2))  # (['王五'], ['王七'])
+
+    print("8.2，比较两列表，返回两列表中相同元素".center(100, "-"))
+    list1 = ['张三', '李四', '王五', '老二']
+    list2 = ['张三', '李四', '老二', '王七']
+    print(List_PO.getSameElementByCmp(list1, list2))  # ['张三', '李四', '老二']
+
+    print("8.3，比较两列表，返回包含在一个列表内而不在另一个列表中的元素".center(100, "-"))
+    list1 = ['张三', '李四', '王五', '老二']
+    list2 = ['张三', '李四', '老二', '王七']
+    print(List_PO.getContainElementByCmp(list1, list2, list1))  # ['王五']  //最后一个参数表示包含的列表，如在list1列表中而不在list2列表中
+    print(List_PO.getContainElementByCmp(list1, list2, list2))  # ['王七']  //最后一个参数表示包含的列表，如在list2列表中而不在list1列表中

@@ -21,8 +21,31 @@ import cv2
 from pytesseract import *
 from PIL import Image, ImageDraw, ImageGrab
 
+'''
+1.1，打开网站
+1.2，关闭网站
+
+2，获取当前全屏浏览器分辨率
+
+3.1，截取全屏
+3.2，截取浏览器内屏幕
+3.3，截屏指定图片中某一区域
+
+4.1，屏幕左移
+4.2，屏幕上移
+4.3，屏幕下移
+4.4，元素拖动到可见的元素
+4.5，内嵌窗口中滚动条操作
+
+5，获取验证码
+
+6，弹出框(未测试)
+
+7，切换窗口'''
+
 class WebPO(BasePO):
 
+    # 1.1，打开网站
     def _openURL(self, varURL):
         if self.driver == "firefox" :
             if platform.system() == 'Windows':
@@ -54,19 +77,25 @@ class WebPO(BasePO):
             # option.add_argument('--ignore-certificate-errors')
             option.add_experimental_option('excludeSwitches', ['enable-logging'])
             # option.add_argument("user-data-dir = C:\Python37\profile")
-            self.driver = webdriver.Chrome(chrome_options=option)
+            self.driver = webdriver.Chrome(options=option)
             self.driver.get(varURL)
 
         return self.driver
-
     def openURL(self, varURL):
         self._openURL(varURL)
 
+    # 1.2，关闭网站
     def closeURL(self):
         self.driver.quit()
 
+    # 获取当前全屏浏览器宽高
+    def getBrowserSize(self):
+        self.driver.maximize_window()  # 全屏
+        size_Dict = self.driver.get_window_size()
+        return(size_Dict['width']-16, size_Dict['height']-16)
+
+    # 2，获取当前屏幕分辨率
     def getScreenWidthHeight(self):
-        # 获取当前屏幕分辨率
         js = 'var winW = window.screen.width;var winH = window.screen.height;alert(winW+","+winH)'
         self.driver.execute_script(js)
         line = self.driver.switch_to.alert.text
@@ -74,54 +103,60 @@ class WebPO(BasePO):
         size = line.split(',')
         return int(size[0]), int(size[1])
 
-
-    def getFullScreen(self, varImageFile):
+    # 3.1，截取全屏
+    def captureScreen(self, varImageFile):
         # 截取全屏
-        # self.Web_PO.getFullScreen('d:\\allscreen.png')
+        # self.Web_PO.captureScreen('d:\\allscreen.png')
         im = ImageGrab.grab()
         im.save(varImageFile)
 
-    def getBrowserScreen(self, varImageFile):
-        # # 截取浏览器内屏幕(因此要打开浏览器后才能截图)
-        # self.Web_PO.getBrowserScreen("d:\\screenshot.jpg")
+    # 3.2，截取浏览器内屏幕
+    def captureBrowser(self, varImageFile):
+        # #截取浏览器内屏幕(因此要打开浏览器后才能截图)
+        # self.Web_PO.captureBrowser("d:\\screenshot.jpg")
         try:
             self.driver.get_screenshot_as_file(varImageFile)
         except:
             pass
 
-    def getPartScreen(self, varSourceImageFile, varTargetImageFile):
-        # 截屏指定图片中某一区域，并另存为。？测试未通过
-        # self.Web_PO.getPartScreen("d://123", "d:/444", 452, 40, 1480, 130)
-        img = cv2.imread(varSourceImageFile)
-        # h、w为想要截取的图片大小
-        h = 40
-        w = 130
-        cropImg = img[(452):(452 + h), (1480):(1480 + w)]
-        cv2.imwrite(varTargetImageFile, cropImg)
+    # 3.3，截屏指定图片中某一区域
+    def capturePicturePart(self, varSourceImageFile, varTargetImageFile, varHighStart, varHighEnd, varWidthStart, varWidthEnd):
+        # 截指定图片中某一区域
+        # img = cv2.imread(varSourceImageFile, 0)  # 截图后灰色
+        img = cv2.imread(varSourceImageFile)  # 截图后原色
+        crop_img = img[varHighStart:varHighEnd, varWidthStart:varWidthEnd]
+        cv2.imwrite(varTargetImageFile, crop_img)
+        # cv2.imshow("image", crop_img)
+        # cv2.waitKey(0)
 
+
+    # 4.1，屏幕左移
     def scrollLeft(self, location, t):
-        # 屏幕左移
         # 如：Web_PO.scrollLeft('1000', 2)  # 屏幕向左移动1000个像素
         self.driver.execute_script("var q=document.documentElement.scrollLeft=" + location)
         sleep(t)
 
+    # 4.2，屏幕上移
     def scrollTop(self, t):
         # 屏幕上移 screenTop("10000",2)
         # js = "var q=document.body.scrollTop=" + location
         self.driver.execute_script("var q=document.documentElement.scrollTop=100000")
         sleep(t)
 
+    # 4.3，屏幕下移
     def scrollDown(self, location, t):
         # 屏幕下移
         self.driver.execute_script("var q=document.documentElement.scrollDown=" + location)
         sleep(t)
 
+    # 4.4，元素拖动到可见的元素
     def scrollIntoView(self, varXpath, t):
-        # 元素取悦拖动到可见的元素
+        # 元素拖动到可见的元素
         element = self.driver.find_element_by_xpath(varXpath)
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
         sleep(t)
 
+    # 4.5，内嵌窗口中滚动条操作
     def scrollTopById(self, varId, t):
         # 若要对页面中的内嵌窗口中的滚动条进行操作，要先定位到该内嵌窗口，在进行滚动条操作
         # self.screenTopId("zy.android.healthstatisticssystem:id/vp_content",2)
@@ -129,8 +164,8 @@ class WebPO(BasePO):
         self.driver.execute_script(js)
         sleep(t)
 
+    # 5，获取验证码
     def getCode(self, capScrnPic, xStart, yStart, xEnd, yEnd):
-        # 获取验证码
         # Level_PO.getCode(u"test.jpg",2060, 850, 2187, 900）
         # 注：地址是图片元素中的位置。
         self.driver.save_screenshot(capScrnPic)
@@ -172,6 +207,7 @@ class WebPO(BasePO):
 
         return image_to_string(imgry)
 
+    # 6，弹出框(未测试)
     def popupAlert(self, operate, t):
         # 弹出框 (未测试)
         # self.Level_PO.popupAlert("accept", 2)
@@ -188,37 +224,55 @@ class WebPO(BasePO):
         if operate == "text":
             return self.driver.switch_to_alert().text
 
-if __name__ == '__main__':
+    # 7，多窗口切换
+    def switchWindow(self, varURL1, varURL2):
+        # 多窗口切换，打开url1，再打开url2，切回url1
 
+        # 打开url1
+        self.openURL(varURL1)
+        # 打开url2
+        self.driver.execute_script('window.open("' + varURL2 + '");')  # 2147483656
+
+        all_handles = self.driver.window_handles
+        # 切回url1
+        sleep(5)
+        self.driver.switch_to.window(all_handles[0])
+
+        # 切回url2
+        # sleep(5)
+        # self.driver.switch_to.window(all_handles[1])
+
+        Web_PO.driver.close()  # 关闭当前窗口（163）
+        Web_PO.driver.switch_to.window(all_handles[1])  # 切换回url2
+        sleep(5)
+        Web_PO.driver.quit() # 关闭所有窗口
+
+
+
+
+if __name__ == '__main__':
 
     Web_PO = WebPO("chrome")
     # Web_PO = WebPO("firefox")
 
-    # print(Web_PO.getScreenWidthHeight())
-    # Web_PO.getFullScreen('d:\\allscreen.png')
-    # Web_PO.getBrowserScreen("d:\\screenshot.jpg")
+    # Web_PO.driver.set_window_size(1366, 768)  # 按分辨率1366*768打开浏览器
 
 
-    Web_PO.openURL('https://www.baidu.com/')
-    Web_PO.driver.maximize_window()  # 全屏
-    # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
+    # print("1.1，打开网站".center(100, "-"))
+    # Web_PO.openURL('https://www.baidu.com/')
+    #
+    # print("2，获取当前全屏浏览器分辨率".center(100, "-"))
+    # print(Web_PO.getBrowserSize())  # (1920, 1040)
+    #
+    # print("3.1，截取全屏".center(100, "-"))
+    # Web_PO.captureScreen('d:\\fullScreen.jpg')  # 1920,1080
+    #
+    # print("3.2，截取浏览器内屏幕".center(100, "-"))
+    # Web_PO.captureBrowser("d:\\browserScreen.jpg")  # 1920,926
+
+    # print("3.3，截屏指定图片中某一区域".center(100, "-"))
+    # Web_PO.capturePicturePart("d:\\allscreen.png", "d:\\allscreenPart.png", 500, 700, 750, 1050)
 
 
-    # 通过执行js来新开一个窗口
-    Web_PO.jsExecute('window.open("https://www.163.com");', 2)
-    print(Web_PO.driver.current_window_handle)  # 输出当前窗口句柄（百度）
-    handles = Web_PO.driver.window_handles  # 获取当前窗口句柄集合（列表类型）
-    print(handles)  # 输出句柄集合
-    for handle in handles:  # 切换窗口（切换到搜狗）
-        if handle != Web_PO.driver.current_window_handle:
-            print('switch to ', handle)
-            Web_PO.driver.switch_to.window(handle)
-            print(Web_PO.driver.current_window_handle)  # 输出当前窗口句柄（163）
-            break
-    Web_PO.driver.close()  # 关闭当前窗口（163）
-    Web_PO.driver.switch_to.window(handles[0])  # 切换回百度窗口
-    sleep(5)
-    Web_PO.driver.quit()
-
-
-
+    print("7，多窗口切换".center(100, "-"))
+    Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com")
