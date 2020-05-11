@@ -79,8 +79,8 @@ class WebPO(BasePO):
             # option.add_argument("user-data-dir = C:\Python37\profile")
             self.driver = webdriver.Chrome(options=option)
             self.driver.get(varURL)
-
         return self.driver
+
     def openURL(self, varURL):
         self._openURL(varURL)
 
@@ -117,7 +117,7 @@ class WebPO(BasePO):
         try:
             self.driver.get_screenshot_as_file(varImageFile)
         except:
-            pass
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 3.3，截屏指定图片中某一区域
     def capturePicturePart(self, varSourceImageFile, varTargetImageFile, varHighStart, varHighEnd, varWidthStart, varWidthEnd):

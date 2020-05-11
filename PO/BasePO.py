@@ -133,33 +133,33 @@ class BasePO(object):
         try:
             self.find_element(*(By.ID, varId)).send_keys(vatContent)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def inputIdClear(self, varId, varContent):
         try:
             self.find_element(*(By.ID, varId)).clear()
             self.find_element(*(By.ID, varId)).send_keys(varContent)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def inputName(self, varName, varContent):
         try:
             self.find_element(*(By.NAME, varName)).send_keys(varContent)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def inputNameClear(self, varName, varContent):
         try:
             self.find_element(*(By.NAME, varName)).clear()
             self.find_element(*(By.NAME, varName)).send_keys(varContent)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def inputXpath(self, varPath, varContent):
         try:
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     def inputXpathClear(self, varPath, varContent):
@@ -167,14 +167,14 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).clear()
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def inputXpathEnter(self, varPath, varContent):
         try:
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def inputXpathEnterClear(self, varPath, varContent):
         try:
@@ -183,7 +183,7 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
             sleep(2)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
 
@@ -195,14 +195,14 @@ class BasePO(object):
             self.find_element(*(By.ID, varId)).click()
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickLinktext(self, varContent, t):
         try:
             self.find_element(*(By.LINK_TEXT, varContent)).click()
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickLinkstext(self, varContent, t):
         try:
@@ -210,7 +210,7 @@ class BasePO(object):
                 a.click()
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickTagname(self, varContent, t):
         # clickTagname(u"test", 2)
@@ -218,7 +218,7 @@ class BasePO(object):
             self.find_element(*(By.TAG_NAME, varContent)).click()
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickXpath(self, varPath, t):
         # clickXpath(u"//button[@ng-click='action.callback()']", 2)
@@ -226,14 +226,14 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).click()
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickXpathEnter(self, varPath, t):
         try:
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     def clickXpaths(self, varPaths, t):
@@ -244,7 +244,7 @@ class BasePO(object):
                 a.click()
                 sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickXpathsNum(self, varPaths, varNum, t):
         # 遍历同一属性的多个click，点击第N个。
@@ -258,7 +258,7 @@ class BasePO(object):
                     break
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickXpathsTextContain(self, varPaths, varContain, t):
         # 遍历路径，点击text中包含某内容的连接。
@@ -270,7 +270,7 @@ class BasePO(object):
                     break
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickXpathsContain(self, varPaths, varAttr, varContain, t):
         # 遍历路径，点击属性varAttr中包含某内容的连接。
@@ -283,7 +283,7 @@ class BasePO(object):
                     break
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickXpathsXpathTextContain(self, varPaths, varPaths2, varContain, t):
         # ? 遍历路径之路径，点击text中包含某内容的连接。
@@ -294,7 +294,7 @@ class BasePO(object):
                     break
                 sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickXpathsXpath(self, varPaths, varPaths2, t):
         # 遍历路径之路径
@@ -306,7 +306,7 @@ class BasePO(object):
                 self.find_element(*(By.XPATH, varPaths2)).click()
                 sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def floatXpath(self, varPath, varPath2, t):
         # ?
@@ -318,7 +318,7 @@ class BasePO(object):
             yy.click()
             sleep(t)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def clickXpathRight(self, varPath, varId):
         # ?
@@ -333,7 +333,7 @@ class BasePO(object):
             # ActionChains(self.driver).click
             ActionChains(self.driver).move_to_element(self.find_element(*(By.ID, varId)))
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
 
@@ -345,7 +345,7 @@ class BasePO(object):
         try:
             return self.find_element(*(By.XPATH, varPath)).text
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def getXpathsText(self, varPaths):
         # 获取遍历路径的文本
@@ -356,7 +356,7 @@ class BasePO(object):
                 l.append(a.text)
             return l
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def getXpathsTextPlace(self, varPaths, varContent):
         # 获取遍历路径，定位内容在第几个
@@ -367,9 +367,9 @@ class BasePO(object):
                 r = r + 1
                 if a.text == varContent:
                     return r
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def getXpathsPartTextPlace(self, varPaths, dimPartContent):
         # 获取遍历路径，定位内容模糊在第几个
@@ -380,9 +380,9 @@ class BasePO(object):
                 r = r + 1
                 if dimPartContent in a.text:
                     return r
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def getXpathAttr(self, varPath, varAttr):
         # 获取路径属性
@@ -390,7 +390,7 @@ class BasePO(object):
         try:
             return self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def getXpathsQty(self, varPaths):
         # 获取遍历路径数量
@@ -401,7 +401,7 @@ class BasePO(object):
                 s = s + 1
             return s
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def getXpathsAttr(self, varPaths, varAttr):
         # 获取遍历路径属性
@@ -412,7 +412,7 @@ class BasePO(object):
                 l.append(a.get_attribute(varAttr))
             return l
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def getXpathsDictTextAttr(self, varPaths, varAttr):
         # 获取遍历路径字典{文本：属性值}
@@ -427,7 +427,7 @@ class BasePO(object):
             dict1 = dict(zip(list1, list2))
             return dict1
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def getLinktextAttr(self, varContent, varAttr):
         # 获取连接文本的属性
@@ -435,7 +435,7 @@ class BasePO(object):
         try:
             return self.find_element(*(By.LINK_TEXT, varContent)).get_attribute(varAttr)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     '''[ 4print ]'''
@@ -445,14 +445,14 @@ class BasePO(object):
         try:
             return self.find_element(*(By.LINK_TEXT, varContent)).get_attribute(varAttr)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def printIdTagnameText(self, varId, dimTagname):
         # Level_PO.printIdTagnameText('navbar', "button")
         try:
             print(self.find_element(*(By.ID, varId)).a.find_element_by_tag_name(dimTagname).text)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def printIdTagnamesText(self, varId, dimTagname):
         # Level_PO.printIdTagnamesText('navbar', "dl")
@@ -462,14 +462,14 @@ class BasePO(object):
             for i in varContents:
                 print(i.text)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def printXpathText(self, varPath):
         # Level_PO.printXpathText("//h5")
         try:
             print(self.find_element(*(By.XPATH, varPath)).text)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def printXpathsText(self, varPaths):
         # Level_PO.printXpathsText("//tr")
@@ -477,14 +477,14 @@ class BasePO(object):
             for a in self.find_elements(*(By.XPATH, varPaths)):
                 print(a.text)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def printXpathAttr(self, varPath, varAttr):
         # Level_PO.printXpathAttr(u"//input[@class="123"]",u"value")
         try:
             print(self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr))
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def printXpathsAttr(self, varPaths, varAttr):
         # Level_PO.printXpathsAttr(u"//tr",u"value")
@@ -492,7 +492,7 @@ class BasePO(object):
             for a in self.find_elements(*(By.XPATH, varPaths)):
                 print(a.get_attribute(varAttr))
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
 
@@ -524,7 +524,7 @@ class BasePO(object):
         try:
             Select(self.driver.find_element_by_id(varId)).select_by_value(dimValue)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def selectIdText(self, varId, varText):
         # 通过Id属性选择文本
@@ -532,7 +532,7 @@ class BasePO(object):
         try:
             Select(self.driver.find_element_by_id(varId)).select_by_visible_text(varText)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def selectNameText(self, varName, varText):
         # 通过Name属性选择文本
@@ -540,7 +540,7 @@ class BasePO(object):
         try:
             Select(self.driver.find_element_by_name(varName)).select_by_visible_text(varText)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def selectNameValue(self, varName, dimValue):
         # 通过Name属性选择值
@@ -548,7 +548,7 @@ class BasePO(object):
         try:
             Select(self.driver.find_element_by_name(varName)).select_by_value(dimValue)
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def selectXpathText(self, varPath, varText):
          # 遍历Xpath下的Option,
@@ -588,7 +588,7 @@ class BasePO(object):
                     Select(s1).select_by_value(sorted(d_total1.items())[i][1])
                     break
         else:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def selectXpathsMenu1Menu2(self, varPaths1, varMenu, varPaths2, varMenu2, t):
         # 遍历级联菜单（选择一级菜单后再选择二级菜单）
@@ -605,7 +605,7 @@ class BasePO(object):
                             break
                     break
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def get_selectNAMEvalue(self, varByname, varContent):
         # 获取某select下text的value值。（下拉框，定位ByName，选择内容，text != value ）

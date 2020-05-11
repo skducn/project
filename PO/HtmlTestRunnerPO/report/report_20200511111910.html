@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>math测试报告名称123</title>
+    <title>功能测试报告 - Func123</title>
     <meta name="generator" content="HTMLTestRunner 0.8.2"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     
@@ -188,12 +188,12 @@ function showOutput(id, name) {
 --></script>
 
 <div class='heading'>
-<h1>math测试报告名称123</h1>
-<p class='attribute'><strong>Start Time:</strong> 2019-09-24 17:55:44</p>
-<p class='attribute'><strong>Duration:</strong> 0:00:23.752768</p>
-<p class='attribute'><strong>Status:</strong> Pass 8</p>
+<h1>功能测试报告 - Func123</h1>
+<p class='attribute'><strong>Start Time:</strong> 2020-05-11 11:19:10</p>
+<p class='attribute'><strong>Duration:</strong> 0:00:00.002946</p>
+<p class='attribute'><strong>Status:</strong> Pass 6 Failure 1</p>
 
-<p class='description'>用例执行详细信息</p>
+<p class='description'>副标题用例执行详细信息</p>
 </div>
 
 
@@ -221,31 +221,47 @@ function showOutput(id, name) {
     <td>View</td>
 </tr>
 
-<tr class='passClass'>
-    <td>testadd.TestEnglish</td>
+<tr class='failClass'>
+    <td>test1.Test1</td>
     <td>2</td>
-    <td>2</td>
-    <td>0</td>
+    <td>1</td>
+    <td>1</td>
     <td>0</td>
     <td><a href="javascript:showClassDetail('c1',2)">Detail</a></td>
 </tr>
 
-<tr id='pt1.1' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_English1: 测试加法用例，数字为3,2</div></td>
+<tr id='ft1.1' class='none'>
+    <td class='failCase'><div class='testcase'>test123</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.1')" >
-        pass</a>
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.1')" >
+        fail</a>
 
-    <div id='div_pt1.1' class="popup_window">
+    <div id='div_ft1.1' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.1').style.display = 'none' " >
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.1').style.display = 'none' " >
            [x]</a>
         </div>
         <pre>
         
-pt1.1: 
+ft1.1: Traceback (most recent call last):
+  File "D:\51\python\project\PO\HtmlTestRunnerPO\test1.py", line 22, in test123
+    self.assertEqual("12323", u"123")
+AssertionError: '12323' != '123'
+- 12323
+?    --
++ 123
+
+Traceback (most recent call last):
+  File "D:\51\python\project\PO\HtmlTestRunnerPO\test1.py", line 22, in test123
+    self.assertEqual("12323", u"123")
+AssertionError: '12323' != '123'
+- 12323
+?    --
++ 123
+
+
 
         </pre>
     </div>
@@ -255,7 +271,7 @@ pt1.1:
 </tr>
 
 <tr id='pt1.2' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_english2: 测试加法用例，数字为1,1</div></td>
+    <td class='none'><div class='testcase'>testbaidu: 百度搜索</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
@@ -279,16 +295,16 @@ pt1.2:
 </tr>
 
 <tr class='passClass'>
-    <td>testadd.TestMath</td>
-    <td>2</td>
-    <td>2</td>
+    <td>test1.Web</td>
+    <td>1</td>
+    <td>1</td>
     <td>0</td>
     <td>0</td>
-    <td><a href="javascript:showClassDetail('c2',2)">Detail</a></td>
+    <td><a href="javascript:showClassDetail('c2',1)">Detail</a></td>
 </tr>
 
 <tr id='pt2.1' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_add1: 测试加法用例，数字为3,2</div></td>
+    <td class='none'><div class='testcase'>testtaobao</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
@@ -311,22 +327,31 @@ pt2.1:
     </td>
 </tr>
 
-<tr id='pt2.2' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_add2: 测试加法用例，数字为1,1</div></td>
+<tr class='passClass'>
+    <td>test3.功能</td>
+    <td>1</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td><a href="javascript:showClassDetail('c3',1)">Detail</a></td>
+</tr>
+
+<tr id='pt3.1' class='hiddenRow'>
+    <td class='none'><div class='testcase'>testtaobao</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt2.2')" >
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt3.1')" >
         pass</a>
 
-    <div id='div_pt2.2' class="popup_window">
+    <div id='div_pt3.1' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_pt2.2').style.display = 'none' " >
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt3.1').style.display = 'none' " >
            [x]</a>
         </div>
         <pre>
         
-pt2.2: 
+pt3.1: 
 
         </pre>
     </div>
@@ -336,35 +361,16 @@ pt2.2:
 </tr>
 
 <tr class='passClass'>
-    <td>testbaidu.Baidu</td>
-    <td>2</td>
-    <td>2</td>
+    <td>test3.测试</td>
+    <td>3</td>
+    <td>3</td>
     <td>0</td>
     <td>0</td>
-    <td><a href="javascript:showClassDetail('c3',2)">Detail</a></td>
-</tr>
-
-<tr id='pt3.1' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_baidu_search: 百度搜索</div></td>
-    <td colspan='5' align='center'>pass</td>
-</tr>
-
-<tr id='pt3.2' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_baidu_set: 百度设置</div></td>
-    <td colspan='5' align='center'>pass</td>
-</tr>
-
-<tr class='passClass'>
-    <td>testminus.TestMath</td>
-    <td>2</td>
-    <td>2</td>
-    <td>0</td>
-    <td>0</td>
-    <td><a href="javascript:showClassDetail('c4',2)">Detail</a></td>
+    <td><a href="javascript:showClassDetail('c4',3)">Detail</a></td>
 </tr>
 
 <tr id='pt4.1' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_minus: 测试减法用例，数字为3,2</div></td>
+    <td class='none'><div class='testcase'>test_00: test函数执行顺序按照 数字，字母</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
@@ -388,7 +394,7 @@ pt4.1:
 </tr>
 
 <tr id='pt4.2' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_minus2: 测试减法用例，数字为1,1</div></td>
+    <td class='none'><div class='testcase'>test_123: 函数第一行注释可作为标题</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
@@ -411,11 +417,35 @@ pt4.2:
     </td>
 </tr>
 
+<tr id='pt4.3' class='hiddenRow'>
+    <td class='none'><div class='testcase'>test_baidu: 百度</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt4.3')" >
+        pass</a>
+
+    <div id='div_pt4.3' class="popup_window">
+        <div style='text-align: right; color:red;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_pt4.3').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+pt4.3: 
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
 <tr id='total_row'>
     <td>Total</td>
-    <td>8</td>
-    <td>8</td>
-    <td>0</td>
+    <td>7</td>
+    <td>6</td>
+    <td>1</td>
     <td>0</td>
     <td>&nbsp;</td>
 </tr>

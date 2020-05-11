@@ -33,14 +33,14 @@ class StrPO():
             try:
                 return (varStr.split(","))  # ['1', '2', '3']
             except:
-                return None
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 1.2，字符串转元组
     def str2tuple(self, varStr):
         try:
             return tuple(eval(varStr))
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 1.3，字符串转字典
     def str2dict(self, varStr):
@@ -49,7 +49,7 @@ class StrPO():
         try:
             return dict(eval(varStr))
         except:
-            return None
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     # 2，判断字符串是否为数字

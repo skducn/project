@@ -7,7 +7,7 @@
 
 from instance.zyjk.BI.config.config import *
 
-class BiPO(object):
+class BiPOCMD(object):
 
     def __init__(self):
         self.Web_PO = WebPO("chrome")
@@ -24,8 +24,7 @@ class BiPO(object):
             print("[ok]，" + okMsg)
             self.Log_PO.logger.info(okMsg)  # 输出到日志
         else:
-            # print("[errorrrrrrrrrr]，" + errMsg)
-            self.Color_PO.consoleColor("31", "38", "[errorrrrrrrrrr]，" + errMsg, "")
+            print("[errorrrrrrrrrr]，" + errMsg)
             self.Log_PO.logger.error(errMsg)  # 输出到日志
 
     # 登录 运营决策系统
