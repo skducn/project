@@ -15,8 +15,6 @@ Net_PO = NetPO()
 Data_PO = DataPO()
 
 
-
-
 # 登录 运营决策系统
 Bi_PO.login()
 
@@ -28,7 +26,7 @@ Bi_PO.Log_PO.logger.info(varDataUpdateDate)
 # ===============================================================================================
 Bi_PO.menu1("1", "实时监控指标")
 varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split(" ")[0]
-Bi_PO.menu2ByHref("1.1 今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis", varUpdateDate)
+Bi_PO.menu2ByHref("1.1 今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis")
 Bi_PO.monitor("1.1.1", "医疗业务收入(万元)", 'SELECT round((select (a.sum+b.sum)/10000 from(SELECT IFNULL(sum(inPAccount),0) sum  from bi_inpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(outPAccount),0) sum FROM bi_outpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
 Bi_PO.monitor("1.1.2", "药品收入(万元)", 'select round((select (a.sum +b.sum)/10000 from(SELECT ifnull(sum(outPMedicateAccount),0) sum  from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(inPMedicateAccount),0) sum FROM bi_inpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
 Bi_PO.monitor("1.1.3", "今日门急诊量(例)", 'select ifnull(sum(outPCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
@@ -39,9 +37,10 @@ Bi_PO.monitor("1.1.7", "今日出院人数(例)", 'select sum(leaveCount) from b
 Bi_PO.monitor("1.1.8", "今日在院(例)", 'select sum(inPCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 Bi_PO.monitor("1.1.9", "当前危重人数(例)", 'select sum(criticalCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 Bi_PO.monitor("1.1.10", "今日住院实收入(万元)", 'select round(sum(inPAccount)/10000,2) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+
 # # 2，当前住院欠费明细
-print(Bi_PO.getContent("//tr"))
-Bi_PO.menu1Close("实时监控指标")
+# print(Bi_PO.getContent("//tr"))
+# Bi_PO.menu1Close("实时监控指标")
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -266,7 +265,7 @@ Bi_PO.Log_PO.logger.warning("4.2.6 Ⅰ类切口手术患者预防使用抗菌药
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("4.3 注射输液用药分析", "/bi/medicationAnalysis/injectionMedication", varUpdateDate)
 Bi_PO.tongqi("4.3.1", "门急诊使用注射药物的百分比", 'SELECT round((SELECT a.sum/b.sum from (SELECT sum(injection+vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type in(1,2))a,(SELECT sum(outPCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
-Bi_PO.tongqi("4.3.2", "门诊患者静脉输液使用率", 'SELECT round((SELECT a.sum/b.sum from(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=1)a,(SELECT sum(outpatientCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2)' ,varUpdateDate, varUpdateDate)
+Bi_PO.tongqi("4.3.2", "门诊患者静脉输液使用率", 'SELECT round((SELECT a.sum/b.sum*100 from(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=1)a,(SELECT sum(outpatientCount) sum from bi_outpatient_yard where statisticsDate ="%s")b),2)' ,varUpdateDate, varUpdateDate)
 Bi_PO.tongqi("4.3.3", "住院患者抗菌药物使用率", 'SELECT round((SELECT b.sum/a.sum from((SELECT sum(inpCount) sum from bi_inpatient_yard WHERE statisticsDate ="%s")a,(SELECT sum(antibacterialPeople) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)b)),2)', varUpdateDate, varUpdateDate)
 Bi_PO.tongqi("4.3.4", "住院患者静脉输液平均每床日使用袋（瓶）数", 'SELECT ifnull(round((SELECT  a.sum/b.sum from (SELECT sum(arrAntibacterialVeinNumber) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)a,(select sum(realBedCount) sum  from bi_inpatient_yard_bed  where statisticsDate ="%s")b),2),0)', varUpdateDate, varUpdateDate)
 Bi_PO.tongqi("4.3.5", "住院患者抗菌药物静脉输液占比", 'SELECT a.sum/b.sum from(SELECT sum(vein) sum from bi_hospital_drugcosts_day WHERE statisticsDate ="%s" and type=3)a,(SELECT sum(arrAntibacterialVein) sum from bi_hospital_drugcosts_day where statisticsDate ="%s")b', varUpdateDate, varUpdateDate)
