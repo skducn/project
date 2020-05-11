@@ -88,7 +88,7 @@ class BiPO(object):
                         return tmpList1[i][0], tmpList1[i][2], tmpList1[i][3]
                 return (varName + "不存在，请检查！")
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def winByDiv(self, varCurrentTitle, varRightTitle, varKey=""):
 

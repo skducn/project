@@ -77,7 +77,7 @@ class ExcelPO():
                 wb.create_sheet(varSheetName[i])
             wb.save(varFileName)
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     # 2.1，单个元素写操作（by openpyxl）
@@ -96,11 +96,11 @@ class ExcelPO():
             elif isinstance(varSheet, str):
                 wk_sheet = wb[varSheet]
             else:
-                print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             wk_sheet.cell(row=varRow, column=varCol, value=varContent)
             wb.save(varFileName)
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 2.2，多个元素写操作（by openpyxl）
     def writeXlsxByMore(self, varFileName, varSheet, varList_Row_Col_Content):
@@ -120,13 +120,13 @@ class ExcelPO():
             elif isinstance(varSheet, str):
                 wk_sheet = wb[varSheet]
             else:
-                print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             for i in range(len(varList_Row_Col_Content)):
                 for j in range(1, len(varList_Row_Col_Content[i])):
                     wk_sheet.cell(row=varList_Row_Col_Content[i][0], column=j, value=varList_Row_Col_Content[i][j])
             wb.save(varFileName)
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 2.3，单个元素及批量行列写操作（by xlrd）
     def writeXls(self, varFileName, varSheet, varRow, varCol, varContent, varIgnore=""):
@@ -141,7 +141,7 @@ class ExcelPO():
             elif isinstance(varSheet, str):
                 sh = wb.sheet_by_name(varSheet)
             else:
-                print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             wbk = copy(wb)
             sheet = wbk.get_sheet(varSheet)
             if varRow == "*":
@@ -154,7 +154,7 @@ class ExcelPO():
                 sheet.write(varRow-1, varCol-1, varContent)
             wbk.save(varFileName)
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     # 3.1，获取所有工作表名
@@ -163,7 +163,7 @@ class ExcelPO():
             wb = xlrd.open_workbook(filename=varFileName)
             return wb.sheet_names()
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 3.2，获取单个工作表名
     def getSheetNameByIndex(self, varFileName, varIndex):
@@ -175,7 +175,7 @@ class ExcelPO():
             wb = xlrd.open_workbook(filename=varFileName)
             return wb.sheet_by_index(varIndex).name
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 3.3，获取行列数
     def getRowCol(self, varFileName, varSheet=0):
@@ -199,7 +199,7 @@ class ExcelPO():
                 list1.append(cols)
             return (list1)
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 3.4，获取行值
     def getRowValue(self, varFileName, varRow, varSheet=0):
@@ -226,7 +226,7 @@ class ExcelPO():
                     value = sh.cell_value(rowx=varRow-1, colx=r)
                 list1.append(value)
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
         return list1
 
     # 3.5，获取列值
@@ -250,10 +250,10 @@ class ExcelPO():
                         value = sh.cell_value(r, varCol-1)
                     list1.append(value)
             except:
-                print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             return list1
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     # 4，设置表格样式
@@ -287,14 +287,14 @@ class ExcelPO():
             elif isinstance(varSheet, str):
                 wk_sheet = wb[varSheet]
             else:
-                print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             if varType == "row":
                 wk_sheet.delete_rows(varFrom, varTo)  # 删除从第一行开始算的2行内容
             elif varType == "col":
                 wk_sheet.delete_cols(varFrom, varTo)  # 删除从第一列开始算的2列内容
             wb.save(varFileName)
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 5.2，清空单元格 for xlsx
     def clearRowColForXlsx(self, varFileName, varSheet, varType, varNums):
@@ -310,7 +310,7 @@ class ExcelPO():
             elif isinstance(varSheet, str):
                 wk_sheet = wb[varSheet]
             else:
-                print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             if varType == "col":
                 for i in range(wk_sheet.max_row):
                     wk_sheet.cell(row=i+1, column=varNums, value="")  # 清除第row行的第col列
@@ -319,7 +319,7 @@ class ExcelPO():
                     wk_sheet.cell(row=varNums, column=i+1, value="")  # 清除第row行的第col列
             wb.save(varFileName)
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     # 6，两表比较，输出差异
@@ -364,7 +364,7 @@ class ExcelPO():
                 print(varFileName2 + " => " + str(c))
 
         except:
-            print("errorrrrrrrrrr," + sys._getframe().f_code.co_name + "()")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
 
@@ -373,7 +373,6 @@ if __name__ == "__main__":
 
     Excel_PO = ExcelPO()
 
-    Excel_PO.cmpExcel("d:\\file2.xlsx","mySheet1","d:\\file3.xlsx","mySheet1")
 
     # print("1，新建excel（by openpyxl）".center(100, "-"))
     # Excel_PO.createExcel("d:\\test1.xlsx")  # 新建excel，默认生成一个工作表Sheet1
@@ -441,5 +440,6 @@ if __name__ == "__main__":
     # Excel_PO.clearRowColForXlsx("d:\\test3.xlsx", 0, "col", 1)  # 清空表mySheet1的第1列
 
 
-
+    # print("6，两表比较，输出差异".center(100, "-"))
+    # Excel_PO.cmpExcel("d:\\file2.xlsx", "mySheet1", "d:\\file3.xlsx", "mySheet1")
 
