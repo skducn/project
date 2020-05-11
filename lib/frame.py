@@ -4,71 +4,74 @@
 # Date          : 2019-1-31
 # Description   : __init__，__new__，__call__
 # https://www.jb51.net/article/49375.htm
+
+# 对象生命周期的基础是创建、初始化和销毁。
+
 # *****************************************************************
 # 1.__new__(cls, *args, **kwargs)  创建对象时调用，返回当前对象的一个实例;注意：这里的第一个参数是cls即class本身
-# 2.__init__(self, *args, **kwargs) 创建完对象后调用，对当前对象的实例的一些初始化，无返回值,即在调用__new__之后，根据返回的实例初始化；注意，这里的第一个参数是self即对象本身【注意和new的区别】
+# 2.__init__(self, *args, **kwargs) 创建完对象后调用，对当前对象的实例的一些初始化，无返回值,即在调用__new__之后，根据返回的实例初始化；注意，这里的第一个参数是self即对象本身
 # 3.__call__(self,  *args, **kwargs) 如果类实现了这个方法，相当于把这个类型的对象当作函数来使用，相当于 重载了括号运算符
 
-# class O(object):
-#     def __init__(self, *args, **kwargs):
-#         print("init")
-#         super(O, self).__init__(*args, **kwargs)
-#
-#     def __new__(cls, *args, **kwargs):
-#         print("new")
-#         return super(O, cls).__new__(cls, *args, **kwargs)
-#
-#     def __call__(self, *args, **kwargs):
-#         print('call')
-#
-#
-# oo = O()
-# # new <class '__main__.O'>
-# # init
-# print("________")
-# print(oo())
-# # call
-# # None
+class A(object):
+
+    def __new__(cls, *args, **kwargs):
+        print("new")
+        return super(A, cls).__new__(cls, *args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        print("init")
+        super(A, self).__init__(*args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+        print('call')
+
+
+a = A()
+# new
+# init
+print(a())
+# call
+# None
 
 
 
-# class Person(object):
-#     """Silly Person"""
-#
-#     def __init__(self, name, age):
-#         self.name = name
-#         self.age = age
-#
-#     def __str__(self):
-#         return '<Person: %s(%s)>' % (self.name, self.age)
-#
-# if __name__ == '__main__':
-#     piglei = Person('piglei', 24)
-#     print(piglei)
+class Person(object):
+    """Silly Person"""
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__(self):
+        return '<Person: %s(%s)>' % (self.name, self.age)
+
+if __name__ == '__main__':
+    piglei = Person('piglei', 24)
+    print(piglei) # <Person: piglei(24)>
 
 
 
 
-# class PositiveInteger(int):
-#     def __new__(cls, value):
-#         return super(PositiveInteger, cls).__new__(cls, abs(value))
-#
-# i = PositiveInteger(-3)
-# print(i)
+class PositiveInteger(int):
+    def __new__(cls, value):
+        return super(PositiveInteger, cls).__new__(cls, abs(value))
+
+i = PositiveInteger(-3)
+print(i)  # 3
 
 
-# class Singleton(object):
-#     def __new__(cls):
-#         # 关键在于这，每一次实例化的时候，我们都只会返回这同一个instance对象
-#         if not hasattr(cls, 'instance'):
-#             cls.instance = super(Singleton, cls).__new__(cls)
-#         return cls.instance
-# obj1 = Singleton()
-# obj2 = Singleton()
-#
-# obj1.attr1 = 'value1'
-# print(obj1.attr1, obj2.attr1)
-# print(obj1 is obj2)
+class Singleton(object):
+    def __new__(cls):
+        # 关键在于这，每一次实例化的时候，我们都只会返回这同一个instance对象
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Singleton, cls).__new__(cls)
+        return cls.instance
+obj1 = Singleton()
+obj2 = Singleton()
+
+obj1.attr1 = 'value1'
+print(obj1.attr1, obj2.attr1)  # value1 value1
+print(obj1 is obj2)
 
 
 # class Foo():
@@ -135,11 +138,6 @@
 # if s is None:
 #     raise Exception("Invalid level!", s) # 触发异常后，后面的代码就不会再执行
 # print('is here?')  # 如果不使用try..except，不会执行到这里
-
-
-
-
-
 
 
 
