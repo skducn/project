@@ -22,10 +22,15 @@ Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测�
 # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bidev", 3306)  # 开发数据库
 
 
+# 开发环境及账号
+# varURL = "https://192.168.0.183/admin/login?return=https%3A%2F%2F192.168.0.183%2Fportal_hosp%3Fcode%3D5749894d0d424f508d8139779150113b&system=portal&system=portal"
+# varUser = "0166"
+# varPass = "123456"
+
 # 测试环境及账号
-varURL = "https://192.168.0.183/admin/login?return=https%3A%2F%2F192.168.0.183%2Fportal_hosp%3Fcode%3D5749894d0d424f508d8139779150113b&system=portal&system=portal"
-varUser = "0166"
-varPass = "123456"
+varURL = "https://192.168.0.86/login"
+varUser = "016"
+varPass = "123"
 
 
 # 日志文件
