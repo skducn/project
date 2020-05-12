@@ -12,7 +12,7 @@
 # conn = pymssql.Connect(host='localhost', user='root', passwd='root', db='python',charset='utf8')
 #***************************************************************
 
-import pymssql
+import pymssql,uuid
 
 class SqlServerPO():
 
@@ -43,10 +43,29 @@ class SqlServerPO():
         cur = self.__GetConnect()
         self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
         cur.execute(sql)  # 执行查询语句
-        result = cur.fetchall()  # fetchall()获取查询结果
+
+        try:
+            result = cur.fetchall()  # fetchall()获取查询结果
+        except:
+            self.conn.commit()
+            cur.close()  # 关闭游标
+            self.conn.close()  # 关闭连接
+            return
         cur.close()  # 关闭游标
         self.conn.close()  # 关闭连接
         return result
+
+    def ExecQueryBySQL(self, varPathSqlFile):
+
+        '''执行sql文件语句'''
+
+        cur = self.__GetConnect()
+        with open(varPathSqlFile) as f:
+        # with open('D:\\51\\python\\project\\instance\\zyjk\\EHR\\controlRule\\mm.sql') as f:
+            sql = f.read()
+            cur.execute(sql)
+            self.conn.commit()
+            self.conn.close()
 
     def dbDesc(self, *args):
         ''' 搜索表结构，表名区分大小写 '''
@@ -634,6 +653,7 @@ if __name__ == '__main__':
 
 
     Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境
+
     # Sqlserver_PO.dbDesc()  # 所有表结构
     Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
     # Sqlserver_PO.dbDesc('Upms*')  # 查看所有b开头的表结构（通配符*） ??? 错误函数
