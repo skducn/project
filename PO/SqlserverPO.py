@@ -4,7 +4,7 @@
 # Revise on : 2019-04-16
 # Description: SqlServerPO对象层
 # sql server 查询数据库所有的表名 + 字段  https://www.cnblogs.com/TF12138/p/4064752.html
-# pymssql托管在Github上：https://github.com/pymssql
+# pymssql 托管在Github上：https://github.com/pymssql
 # python连接sql server数据库实现增删改查 https://www.cnblogs.com/malcolmfeng/p/6909293.html
 # /usr/local/pip3.7 install pymssql
 # 问题：查询后中文正确显示，但在数据库中却显示乱码
@@ -13,6 +13,8 @@
 #***************************************************************
 
 import pymssql,uuid
+# print(pymssql.__version__)
+from adodbapi import connect
 
 class SqlServerPO():
 
@@ -22,6 +24,19 @@ class SqlServerPO():
         self.varUser = varUser
         self.varPassword = varPassword
         self.varDB = varDB
+
+    def __GetConnect123(self):
+        # 得到数据库连接信息，返回conn.cursor()
+        if not self.varDB:
+            raise (NameError, "没有设置数据库信息")
+        # self.conn = connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB)
+        self.conn = connect('Provider=SQLOLEDB.1;Data Source=%s;Initial Catalog=%s;UserID = %s;Password = %s;'%(self.varHost, self.varDB, self.varUser, self.varPassword))
+
+        cur = self.conn.cursor()  # 创建一个游标对象
+        if not cur:
+            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
+        else:
+            return cur
 
     def __GetConnect(self):
         # 得到数据库连接信息，返回conn.cursor()
@@ -51,9 +66,30 @@ class SqlServerPO():
             cur.close()  # 关闭游标
             self.conn.close()  # 关闭连接
             return
+        self.conn.commit()
         cur.close()  # 关闭游标
         self.conn.close()  # 关闭连接
         return result
+
+    def ExecProcedure(self, varProcedureName):
+        '''
+        执行存储过程
+        '''
+
+        cur = self.__GetConnect()
+        # sql =[]
+        # sql.append("exec procontrol")
+        # cur.callproc(varProcedureName)
+
+        cur.execute(varProcedureName)
+        # result = cur.fetchall()
+        # for rec in result:
+        #     print(rec)
+        self.conn.commit()
+        cur.close()  # 关闭游标
+        self.conn.close()  # 关闭连接
+
+
 
     def ExecQueryBySQL(self, varPathSqlFile):
 
@@ -66,6 +102,20 @@ class SqlServerPO():
             cur.execute(sql)
             self.conn.commit()
             self.conn.close()
+
+    def ExecQueryBySQL1(self, varPathSqlFile):
+
+        '''执行sql文件语句'''
+
+        cur = self.__GetConnect()
+        with open(varPathSqlFile) as f:
+            sql = f.read()
+            cur.execute(sql)
+            cur.nextset()
+            # cur.callproc(sql,(1,2))
+            # self.conn.commit()
+            self.conn.close()
+
 
     def dbDesc(self, *args):
         ''' 搜索表结构，表名区分大小写 '''

@@ -25,6 +25,15 @@ class RulePO(object):
         x = Sqlserver_PO.ExecQuery(varSQL)
         return x
 
+    # 3，执行存储过程
+    def execProcedure(self, varProcedureName):
+        Sqlserver_PO.ExecProcedure(varProcedureName)
+
+    # 1，执行sql文件
+    def execSqlFile1(self, varSqlFile):
+        Sqlserver_PO.ExecQueryBySQL1(File_PO.getLayerPath("./config") + "\\" + varSqlFile)
+
+
 
 
 

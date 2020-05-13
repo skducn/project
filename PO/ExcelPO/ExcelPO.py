@@ -240,8 +240,7 @@ class ExcelPO():
         try:
             list1 = []
             wb = xlrd.open_workbook(varFileName)
-            if isinstance(varSheet,
-                          int):  # 判断变量的类型，int list tuple dict str 参考 https://www.cnblogs.com/fmgao-technology/p/9065753.html
+            if isinstance(varSheet, int):  # 判断变量的类型，int list tuple dict str 参考 https://www.cnblogs.com/fmgao-technology/p/9065753.html
                 sh = wb.sheet_by_index(varSheet)
             else:
                 sh = wb.sheet_by_name(varSheet)
