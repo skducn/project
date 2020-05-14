@@ -4,15 +4,20 @@
 # Revise on : 2019-04-16
 # Description: SqlServerPO对象层
 # sql server 查询数据库所有的表名 + 字段  https://www.cnblogs.com/TF12138/p/4064752.html
-# pymssql托管在Github上：https://github.com/pymssql
+# pymssql 托管在Github上：https://github.com/pymssql
 # python连接sql server数据库实现增删改查 https://www.cnblogs.com/malcolmfeng/p/6909293.html
 # /usr/local/pip3.7 install pymssql
 # 问题：查询后中文正确显示，但在数据库中却显示乱码
 # 解决方法：添加 charset='utf8' , 确保 charset 与数据库编码一致，如数据库是gb2312 , 则charset='gb2312'。
 # conn = pymssql.Connect(host='localhost', user='root', passwd='root', db='python',charset='utf8')
+
+# https://www.cnblogs.com/kerrycode/p/11391832.html  pymssql默认关闭自动模式开启事务行为浅析
+# https://docs.microsoft.com/zh-cn/previous-versions/sql/sql-server-2008-r2/ms179296(v=sql.105)?redirectedfrom=MSDN   微软官网transact-SQL使用TRy...catch
 #***************************************************************
 
-import pymssql
+import pymssql,uuid
+# print(pymssql.__version__)
+from adodbapi import connect
 
 class SqlServerPO():
 
@@ -23,11 +28,24 @@ class SqlServerPO():
         self.varPassword = varPassword
         self.varDB = varDB
 
+    def __GetConnect123(self):
+        # 得到数据库连接信息，返回conn.cursor()
+        if not self.varDB:
+            raise (NameError, "没有设置数据库信息")
+        # self.conn = connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB)
+        self.conn = connect('Provider=SQLOLEDB.1;Data Source=%s;Initial Catalog=%s;UserID = %s;Password = %s;'%(self.varHost, self.varDB, self.varUser, self.varPassword))
+
+        cur = self.conn.cursor()  # 创建一个游标对象
+        if not cur:
+            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
+        else:
+            return cur
+
     def __GetConnect(self):
         # 得到数据库连接信息，返回conn.cursor()
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
-        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB)
+        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, autocommit=True)
         cur = self.conn.cursor()  # 创建一个游标对象
         if not cur:
             raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
@@ -43,10 +61,64 @@ class SqlServerPO():
         cur = self.__GetConnect()
         self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
         cur.execute(sql)  # 执行查询语句
-        result = cur.fetchall()  # fetchall()获取查询结果
+
+        try:
+            result = cur.fetchall()  # fetchall()获取查询结果
+        except:
+            self.conn.commit()
+            cur.close()  # 关闭游标
+            self.conn.close()  # 关闭连接
+            return
+        self.conn.commit()
         cur.close()  # 关闭游标
         self.conn.close()  # 关闭连接
         return result
+
+    def ExecProcedure(self, varProcedureName):
+        '''
+        执行存储过程
+        '''
+
+        cur = self.__GetConnect()
+        # sql =[]
+        # sql.append("exec procontrol")
+
+        # cur.callproc(varProcedureName)
+
+        cur.execute(varProcedureName)
+        self.conn.commit()
+
+
+        cur.close()  # 关闭游标
+        self.conn.close()  # 关闭连接
+
+
+
+    def ExecQueryBySQL(self, varPathSqlFile):
+
+        '''执行sql文件语句'''
+
+        cur = self.__GetConnect()
+        with open(varPathSqlFile) as f:
+        # with open('D:\\51\\python\\project\\instance\\zyjk\\EHR\\controlRule\\mm.sql') as f:
+            sql = f.read()
+            cur.execute(sql)
+            self.conn.commit()
+            self.conn.close()
+
+    def ExecQueryBySQL1(self, varPathSqlFile):
+
+        '''执行sql文件语句'''
+
+        cur = self.__GetConnect()
+        with open(varPathSqlFile) as f:
+            sql = f.read()
+            cur.execute(sql)
+            cur.nextset()
+            # cur.callproc(sql,(1,2))
+            # self.conn.commit()
+            self.conn.close()
+
 
     def dbDesc(self, *args):
         ''' 搜索表结构，表名区分大小写 '''
@@ -634,6 +706,7 @@ if __name__ == '__main__':
 
 
     Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境
+
     # Sqlserver_PO.dbDesc()  # 所有表结构
     Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
     # Sqlserver_PO.dbDesc('Upms*')  # 查看所有b开头的表结构（通配符*） ??? 错误函数

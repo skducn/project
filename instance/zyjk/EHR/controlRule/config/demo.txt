@@ -1,0 +1,347 @@
+封面表sql
+
+set identity_insert HrCover ON
+insert into HrCover(
+Id
+,ArchiveNum
+,Name
+,PresentAddress
+,PermanentAddress
+,Phone
+,Province
+,ProvinceCode
+,City
+,CityCode
+,District
+,DistrictCode
+,Neighborhood
+,NeighborhoodCode
+,VillageName
+,VillageCode
+,ArchiveUnit
+,ArchiveUnitCode
+,ArchiverId
+,Archiver
+,ResponsibleDoctorId
+,ResponsibleDoctor
+,DateOfCreateArchive
+,CreateId
+,CreateName
+,CreateTime
+,UpdateId
+,UpdateName
+,UpdateTime
+,DataSources
+,Status
+,Version
+,IsDeleted
+,FieldSources
+,DownloadStatus
+,NoNumberProvided
+) select 
+Id
+,ArchiveNum
+,Name
+,PresentAddress
+,PermanentAddress
+,Phone
+,Province
+,ProvinceCode
+,City
+,CityCode
+,District
+,DistrictCode
+,Neighborhood
+,NeighborhoodCode
+,VillageName
+,VillageCode
+,ArchiveUnit
+,ArchiveUnitCode
+,ArchiverId
+,Archiver
+,ResponsibleDoctorId
+,ResponsibleDoctor
+,DateOfCreateArchive
+,CreateId
+,CreateName
+,CreateTime
+,UpdateId
+,UpdateName
+,UpdateTime
+,DataSources
+,Status
+,Version
+,IsDeleted
+,FieldSources
+,DownloadStatus
+,NoNumberProvided
+ from healthrecord_test.dbo.HrCover
+where id=1211883 order by ArchiveNum desc 
+
+--------------------------------------------------------
+基本信息表sql
+
+set identity_insert HrPersonBasicInfo ON
+insert into HrPersonBasicInfo(ArchiveNum
+,Name
+,Sex
+,DateOfBirth
+,IdCard
+,WorkUnit
+,Phone
+,ContactsName
+,ContactsPhone
+,ResidenceType
+,NationCode
+,BloodType
+,RhBloodType
+,Degree
+,Occupation
+,MaritalStatus
+,HeredityHistoryFlag
+,HeredityHistoryCode
+,EnvironmentKitchenAeration
+,EnvironmentFuelType
+,EnvironmentWater
+,EnvironmentToilet
+,EnvironmentCorral
+,DataSources
+,CreateId
+,CreateName
+,CreateTime
+,UpdateId
+,UpdateName
+,UpdateTime
+,Status
+,IsDeleted
+,Version
+,WorkStatus
+,Telephone
+,OccupationalDiseasesFlag
+,OccupationalDiseasesWorkType
+,OccupationalDiseasesWorkingYears
+,DustName
+,DustFlag
+,RadioactiveMaterialName
+,RadioactiveMaterialFlag
+,ChemicalMaterialName
+,ChemicalMaterialFlag
+,OtherName
+,OtherFlag
+,PhysicsMaterialName
+,PhysicsMaterialFlag
+,DownloadStatus
+,NoNumberProvided
+,Id
+) select ArchiveNum
+,Name
+,Sex
+,DateOfBirth
+,IdCard
+,WorkUnit
+,Phone
+,ContactsName
+,ContactsPhone
+,ResidenceType
+,NationCode
+,BloodType
+,RhBloodType
+,Degree
+,Occupation
+,MaritalStatus
+,HeredityHistoryFlag
+,HeredityHistoryCode
+,EnvironmentKitchenAeration
+,EnvironmentFuelType
+,EnvironmentWater
+,EnvironmentToilet
+,EnvironmentCorral
+,DataSources
+,CreateId
+,CreateName
+,CreateTime
+,UpdateId
+,UpdateName
+,UpdateTime
+,Status
+,IsDeleted
+,Version
+,WorkStatus
+,Telephone
+,OccupationalDiseasesFlag
+,OccupationalDiseasesWorkType
+,OccupationalDiseasesWorkingYears
+,DustName
+,DustFlag
+,RadioactiveMaterialName
+,RadioactiveMaterialFlag
+,ChemicalMaterialName
+,ChemicalMaterialFlag
+,OtherName
+,OtherFlag
+,PhysicsMaterialName
+,PhysicsMaterialFlag
+,DownloadStatus
+,NoNumberProvided
+,Id
+ from healthrecord_test.dbo.HrPersonBasicInfo
+where id=1231432 order by idcard desc 
+
+------------------------------------------------------
+一对多表sql
+
+set identity_insert HrAssociationInfo ON
+insert into HrAssociationInfo(Id
+,TableSource
+,Pid
+,AssociationType
+,Code
+,Msg
+,OccurDate
+,Orders
+,sourceType
+) select Id
+,TableSource
+,Pid
+,AssociationType
+,Code
+,Msg
+,OccurDate
+,Orders
+,sourceType
+ from healthrecord_test.dbo.HrAssociationInfo
+where pid=1231432 
+
+---------------------------------------
+UPDATE HrCover SET name=null
+
+-------------------------------------
+
+declare @beginData varchar(50)  --开始时间
+declare @endData varchar(50)    --结束时间
+set @beginData ='1990-10-10'
+set @endData ='2020-01-01'
+
+declare @t11 table
+(
+    archiveNum varchar(2000),
+  result varchar(100),
+  ruleld varchar(100),
+  examinationDate datetime NULL,
+  TargetTable varchar(50)
+)
+declare @ruleCount int --规则的总数
+
+begin
+--1:先创建一张临时表,用于存储相关查询出来的规则内容
+--创建临时表
+declare @t table
+(
+num int,
+RuleId nvarchar(50),
+RuleSql varchar(1000),
+IsInsert int,
+TargetTable varchar(50)
+)
+
+insert @t 
+SELECT Row_number() over(order by r.RuleId) num,r.RuleId,r.RuleSql,case when r.ContactTable='HrHealthCheckup' then 1
+when r.TargetTable='HrHealthCheckup'then 1
+else 0 end as 'IsInsert',r.TargetTable FROM HrRule r
+left join HrRuleProps p
+on r.RuleId = p.RuleId
+where p.Enable =1 
+
+declare @sqlFilter varchar(200)  
+---'''+@para+'''
+set @sqlFilter =''
+--set @sqlFilter = ' and t1.CreateTime>='+''''+@beginData+''''+'and t1.UpdateTime<='+''''+@endData+''''
+--print @sqlFilter
+--print  't1.CreateTime>='+'"'+@beginData+ '"'+' and t1.UpdateTime<='+'"'+@endData+'"'
+
+--2:将规则相关内容进行变更
+update @t set RuleSql =Replace(Cast([RuleSql] as nvarchar(4000)),'%w',@sqlFilter)
+
+--print @RuleSql
+--select * from @t
+
+--3:对相关内容进行查找(创建临时表将相关数据插入)
+--创建临时表
+declare @t1 table
+(
+num int,
+RuleId nvarchar(50),
+RuleSql varchar(1000)
+)
+declare @sqlTable table
+(
+RuleSql varchar(1000)
+)
+
+declare @i int  
+set @i=1
+declare @ruleSql varchar(2000)
+DECLARE @number varchar(10)
+DECLARE @ruleId varchar(100)
+DECLARE @TargetTable varchar(100)
+
+
+while @i<=(select count(*) from @t)
+--while @i<50
+begin 
+   
+  begin try
+  select @ruleSql=RuleSql,@ruleId=RuleId,@number=IsInsert,@TargetTable=TargetTable  from @t where num = @i
+  
+  select @number=IsInsert from @t where num=@i
+  
+  if (@number=0)
+  begin
+  
+    Insert into @t11(archiveNum,result) EXECUTE(@ruleSql)
+    --UPDATE @t11 set TargetTable=@TargetTable where TargetTable is null
+ 
+    END
+     else
+      begin
+    Insert into @t11(archiveNum,examinationDate,result)  EXECUTE(@ruleSql)
+   --UPDATE @t11 set TargetTable=@TargetTable where TargetTable is null
+    
+    end
+    UPDATE @t11 set ruleld=@ruleId where ruleld is null
+    
+  
+  end try
+  begin catch
+  --异常捕获内容放入异常日志表
+  
+  insert into dbo.HrCheckoutExceptionLog(ExceptionRemark,ExceptionMethod,CreateTime) 
+  select ERROR_MESSAGE() as ErrorMessage,@ruleSql as sql语句,@beginData as CreateTime
+  
+  
+  
+  end catch
+  
+  set @i=@i +1 
+end
+
+
+
+insert into HrRuleRecord(RecordId,RecordTime,RuleId,examinationDate,ArchiveNum,ispass)
+select newid() as RecordId,getdate() as RecordTime,T.ruleld, T.examinationDate, T.ArchiveNum,T.result from @t11 T 
+WHERE T.result =1
+
+BEGIN
+with a1 as (
+select a.archiveNum,a.result,b.TargetTable
+from @t11 a, @t b  where a.ruleld=b.RuleId)
+insert into dbo.HrArchivesResult(archiveNum,TargetTable,ispass,createtime)
+select archiveNum,TargetTable,case when SUM(cast(result as int))=0 then 1 else 0 end as 'ispass',GETDATE() as createtime from a1 
+group by archiveNum,TargetTable
+--SELECT * FROM @t11
+END
+end
+
+-----------------------------------------------
+SELECT t2.Comment,t2.Categories FROM HrRuleRecord t1 JOIN HrRule t2 ON t1.RuleId=t2.RuleId
+------------------------------------------------
