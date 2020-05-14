@@ -40,8 +40,8 @@ class BiPO(object):
         self.Web_PO.inputXpath("//input[@placeholder='密码']", varPass)
         self.Web_PO.clickXpath("//button[@type='button']", 2)
 
-        # 运营决策系统
-        self.Web_PO.clickXpath('//*[@id="app"]/section/section/aside/div[2]/div[2]/div/div[2]/div/div[1]/div[1]', 4)
+        # 移动决策系统
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/aside/div[2]/div[2]/div/div[5]/div/div[1]/div[1]', 4)
 
         n = self.Web_PO.driver.window_handles
         self.Web_PO.driver.switch_to_window(n[1])
@@ -57,9 +57,9 @@ class BiPO(object):
         self.Web_PO.clickXpathsTextContain("//li[@role='menuitem']/div/span", varMenuName, 2)
 
     # 二级菜单
-    def menu2ByHref(self, varTitle, varHref, varUpdateDate=""):
-        print(varTitle + "（" + varUpdateDate + ")" + " -" * 30)
-        self.Log_PO.logger.info(varTitle + "（" + varUpdateDate + ")" + " -" * 30)  # # 输出到日志
+    def menu2ByHref(self, varNo2, varModel2, varHref, varUpdateDate=""):
+        print(str(varNo2) + varModel2 + "（" + varUpdateDate + ")" + " -" * 30)
+        self.Log_PO.logger.info(str(varNo2) + varModel2 + "（" + varUpdateDate + ")" + " -" * 30)  # # 输出到日志
         self.Web_PO.clickXpaths("//a[contains(@href,'" + varHref + "')]", 2)
         if varUpdateDate != "":
             # 选择日期或自定义日期
@@ -90,6 +90,8 @@ class BiPO(object):
                 return (varName + "不存在，请检查！")
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+
 
     def winByDiv(self, varCurrentTitle, varRightTitle, varKey=""):
 
@@ -198,16 +200,16 @@ class BiPO(object):
             if varCount2 == 0:
                 self.assertEqual(1, 2, "", varNo + " " + varName + "，页面值（" + str(b) + "），库值（" + str(tmpTuple2[0][0]) + "）\n" + str(errorSql2) + "\n")
 
-    def tongqi(self, varNo, varName, varSql, *varDate):
 
-        # 检查 今日运营分析各名称的值与库值是否一致，如 更新日期值，昨日值，同比值
-        # checkValue("今日门急诊量", 'select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ', varDate)
+    def currentValue(self, varNo, varName, varSql, *varDate):
 
+        # 针对同期，同比模块，检查各模块当前值与库值是否一致，如 当前值，同期，同比值
+        # a = 当前值，b = 同期值，c = 同比值
         a, b, c = self.winByP(varName)
-        if "同期" in b:
-            bb = str(b).split("同期：")[1]
+
         varCount1 = 0
         varCount2 = 0
+
 
         # 如：今日门急诊量（更新日值）
         if len(varDate) == 2:
@@ -217,6 +219,7 @@ class BiPO(object):
             Mysql_PO.cur.execute(varSql % (varDate))
             errorSql = str(varSql).replace("%s", varDate[0])
         tmpTuple1 = Mysql_PO.cur.fetchall()
+
         if "(万" in varName or "(日" in varName:
             if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0 or tmpTuple1[0][0] == 0.00:
                 varDatabase = 0
@@ -224,7 +227,11 @@ class BiPO(object):
                 varDatabase = tmpTuple1[0][0]
             varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
             self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + str(a), varNo + " " + varName + "页面值（" + str(a) + "），库值（" + str(varDatabase) + "）\n" + str(errorSql) + "\n")
-            # self.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
+            if varCount1 == 1:
+                return "ok",""
+            else:
+                return "error","页面值（" + str(a) + "），库值（" + str(varDatabase) + "）"
+
         else:
             if "使用率" in varName or "退号率" in varName or "占比" in varName or "百分比" in varName:
                 if "%" in str(a):  # 页面上是否有 % 符号
@@ -258,16 +265,120 @@ class BiPO(object):
                 self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + str(a), varNo + " " + varName + "，页面值（" + str(a) + "），库值（" + str(varDatabase) + "）\n" + str(errorSql) + "\n")
                 # self.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
 
-        # 同期，没有逻辑？
+    def tongqi(self, varNo, varName, varSql, *varDate):
 
-        # # 合并后输出结果
-        # if varCount1 == 1 and varCount2 == 1:
-        #     self.assertEqual(varCount1, varCount2, "[ok], " + varName + "（" + str(a) + "）,（" + str(b) + "）", "")
-        # else:
-        #     if varCount1 == 0:
-        #         self.assertEqual(1, 0, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(tmpTuple1[0][0]))
-        #     if varCount2 == 0:
-        #         self.assertEqual(1, 2, "", "[errorrrrrrrrrr], " + varName + "（" + str(b) + "）, 库值：" + str(tmpTuple2[0][0]))
+        # 检查 今日运营分析各名称的值与库值是否一致，如 更新日期值，昨日值，同比值
+        # checkValue("今日门急诊量", 'select sum(outPCount) from bi_outpatient_yard where statisticsDate ="%s" ', varDate)
+
+        # a = 当前值，b = 同期值，c = 同比值
+        a, b, c = self.winByP(varName)
+        # print(a)
+        # print(b)
+        # print(c)
+
+        varCount1 = 0
+        varCount2 = 0
+
+        # 同期，同比
+        if "同期" in b:
+            bb = str(b).split("同期：")[1]
+            # print(bb)
+
+            # 如：今日门急诊量（更新日值）
+            if len(varDate) == 2:
+                Mysql_PO.cur.execute(varSql % (varDate[0], varDate[1]))
+                errorSql = str(varSql).replace("%s", varDate[0])
+            else:
+                Mysql_PO.cur.execute(varSql % (varDate))
+                errorSql = str(varSql).replace("%s", varDate[0])
+            tmpTuple1 = Mysql_PO.cur.fetchall()
+
+            if "(万" in varName or "(日" in varName:
+
+                if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0 or tmpTuple1[0][0] == 0.00:
+                    varDatabase = 0
+                else:
+                    varDatabase = tmpTuple1[0][0]
+                varCount1 = self.Web_PO.assertEqualgetValue(str(bb), str(varDatabase))
+
+                self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同期：" + str(bb), varNo + " " + varName + "页面值（" + str(bb) + "），库值（" + str(varDatabase) + "）\n" + str(errorSql) + "\n")
+
+            else:
+                if "使用率" in varName or "退号率" in varName or "占比" in varName or "百分比" in varName:
+                    if "%" in str(bb):  # 页面上是否有 % 符号
+                        if tmpTuple1[0][0] == None or tmpTuple1[0][0] == 0 or tmpTuple1[0][0] == 0.00:
+                            varDatabase = "0%"
+                        else:
+                            varDatabase = ('%.2f' % (float(tmpTuple1[0][0]))) + "%"
+                            if "." in bb:
+                                x = str(bb).split(".")[1].split("%")[0]
+                                if len(x) < 2:
+                                    bb = str(bb).split("%")[0] + "0%"
+                        varCount1 = self.Web_PO.assertEqualgetValue(str(bb), str(varDatabase))
+                        self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同期：" + str(bb),
+                                         varNo + " " + varName + "，页面值（" + str(bb) + "），库值（" + str(
+                                             varDatabase) + "）\n" + str(errorSql) + "\n")
+                        # self.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
+                    else:
+                        self.assertEqual(0, 1, "", varNo + " " + varName + "（" + str(bb) + "）, 页面上缺少%")
+                        # self.assertEqual(0, 1, "", "[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 页面上缺少%")
+                else:
+                    if "." in str(tmpTuple1[0][0]):
+                        x = str(tmpTuple1[0][0]).split(".")[1]
+                        if x == "0" or x == "00":
+                            varDatabase = str(tmpTuple1[0][0]).split(".")[0]
+                        else:
+                            if str(tmpTuple1[0][0]) == "0.00":
+                                varDatabase = 0
+                            else:
+                                varDatabase = tmpTuple1[0][0]
+                    else:
+                        varDatabase = tmpTuple1[0][0]
+                    varCount1 = self.Web_PO.assertEqualgetValue(str(bb), str(varDatabase))
+                    self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + str(bb),
+                                     varNo + " " + varName + "，页面值（" + str(bb) + "），库值（" + str(
+                                         varDatabase) + "）\n" + str(errorSql) + "\n")
+                    # self.assertEqual(varCount1, 1, "[ok], " + varName + "（" + str(a) + "）","[errorrrrrrrrrr], " + varName + "（" + str(a) + "）, 库值：" + str(varDatabase) + "\n" + str(errorSql) + "\n")
+
+    def tongbi(self, varNo, varName, varSql, *varDate):
+
+        # a = 当前值，b = 同期值，c = 同比值
+        a, b, tongbi = self.winByP(varName)
+
+        varCount1 = 0
+        varCount2 = 0
+
+        # 同比 138.60% ↑
+        if "同比" in tongbi:
+            tongbi = str(tongbi).split("同比： ")[1]
+            # print(tongbi)
+
+            if len(varDate) == 2:
+                Mysql_PO.cur.execute(varSql % (varDate[0], varDate[1]))
+                errorSql = str(varSql).replace("%s", varDate[0])
+            else:
+                Mysql_PO.cur.execute(varSql % (varDate))
+                errorSql = str(varSql).replace("%s", varDate[0])
+            tmpTuple1 = Mysql_PO.cur.fetchall()
+
+            if "%" in str(tongbi):  # 页面上是否有 % 符号
+                varDatabase = str(tmpTuple1[0][0])
+                # print(varDatabase)
+                # print(tongbi)
+
+                tongbiBefore = tongbi.split("%")[0]
+
+                # if tongbiBefore == "0.00":
+                #
+                # elif tongbiBefore < 0 :
+                #
+                # else:
+                #     tongbiBefore = tongbi.split("% ↑")[0]
+                varCount1 = self.Web_PO.assertEqualgetValue(tongbiBefore, varDatabase)
+                self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同比：" + str(tongbi), varNo + " " + varName + "，同比，页面值（" + str(tongbi) + "），库值（" + str(tmpTuple1[0][0]) + "）\n" + str(errorSql) + "\n")
+            else:
+                self.assertEqual(0, 1, "", varNo + " " + varName + "（" + str(tongbi) + "）, 页面上缺少%")
+
 
 
    # 搜索 - 选择年
