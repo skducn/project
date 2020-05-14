@@ -84,11 +84,15 @@ class ExcelPO():
     def writeXlsx(self, varFileName, varSheet, varRow, varCol, varContent):
         # 对单元格进行写操作（只支持.xlsx）
         # Excel_PO.writeXlsx("excel3.xlsx", "Sheet1", 5, 3, "测试一下")  # 第五行第三列写入内容
+        list1 =[]
         if os.path.isfile(varFileName) == False:
             self.createExcel(varFileName, varSheet)
         try:
             wb = load_workbook(varFileName)
             xl_sheet_names = wb.sheetnames  # 获取所有sheet页名字
+
+
+
             # 判断 varSheet 是数字还是字符
             if isinstance(varSheet, int):  # 判断是int类型
                 # 定位到sheet页,[0]为sheet页索引
@@ -99,6 +103,7 @@ class ExcelPO():
                 print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             wk_sheet.cell(row=varRow, column=varCol, value=varContent)
             wb.save(varFileName)
+
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
@@ -235,8 +240,7 @@ class ExcelPO():
         try:
             list1 = []
             wb = xlrd.open_workbook(varFileName)
-            if isinstance(varSheet,
-                          int):  # 判断变量的类型，int list tuple dict str 参考 https://www.cnblogs.com/fmgao-technology/p/9065753.html
+            if isinstance(varSheet, int):  # 判断变量的类型，int list tuple dict str 参考 https://www.cnblogs.com/fmgao-technology/p/9065753.html
                 sh = wb.sheet_by_index(varSheet)
             else:
                 sh = wb.sheet_by_name(varSheet)
