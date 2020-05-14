@@ -10,6 +10,9 @@
 # 问题：查询后中文正确显示，但在数据库中却显示乱码
 # 解决方法：添加 charset='utf8' , 确保 charset 与数据库编码一致，如数据库是gb2312 , 则charset='gb2312'。
 # conn = pymssql.Connect(host='localhost', user='root', passwd='root', db='python',charset='utf8')
+
+# https://www.cnblogs.com/kerrycode/p/11391832.html  pymssql默认关闭自动模式开启事务行为浅析
+# https://docs.microsoft.com/zh-cn/previous-versions/sql/sql-server-2008-r2/ms179296(v=sql.105)?redirectedfrom=MSDN   微软官网transact-SQL使用TRy...catch
 #***************************************************************
 
 import pymssql,uuid
@@ -42,7 +45,7 @@ class SqlServerPO():
         # 得到数据库连接信息，返回conn.cursor()
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
-        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB)
+        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, autocommit=True)
         cur = self.conn.cursor()  # 创建一个游标对象
         if not cur:
             raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
@@ -79,13 +82,13 @@ class SqlServerPO():
         cur = self.__GetConnect()
         # sql =[]
         # sql.append("exec procontrol")
+
         # cur.callproc(varProcedureName)
 
         cur.execute(varProcedureName)
-        # result = cur.fetchall()
-        # for rec in result:
-        #     print(rec)
         self.conn.commit()
+
+
         cur.close()  # 关闭游标
         self.conn.close()  # 关闭连接
 

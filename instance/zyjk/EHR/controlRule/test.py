@@ -14,8 +14,8 @@ Excel_PO = ExcelPO()
 # Rule_PO.execSqlFile1("controlRule.sql")
 # Rule_PO.execQuery("exec proControl")
 
-# Rule_PO.execProcedure('proControl')
-Rule_PO.execProcedure(f'exec testjohn')
+Rule_PO.execProcedure('proControl')
+# Rule_PO.execProcedure('testJohn')
 
 
 
