@@ -4,7 +4,7 @@
 # Date       : 2018-5-21
 # Description: console 中，输出颜色
 # color.py cmd 下输出带颜色的文字， for win
-# python for win 输出带颜色的文字方法 https://www.jianshu.com/p/626f5305186b
+# python for win 输出带颜色的文字方法 https://www.jianshu.com/p/626f5305186b , https://www.cnblogs.com/easypython/p/9084426.html
 # python for mac 输出带颜色的文字方法 https://www.cnblogs.com/yinjia/p/5559702.html
 # *******************************************************************************************************************************
 
@@ -15,21 +15,16 @@ class ColorPO():
 
     def consoleColor(self, varBackColor , varForeColor, *args):
         # 控制台输出各种颜色字体，多个参数颜色间隔开。
-        if args[0] == "ok":
-            print('\033[1;31;36m', str(args[0]), '\033[0m' + str(args[1]))
-        elif args[0] == "error":
-            print('\033[1;31;38m', str(args[0]), '\033[0m' + str(args[1]))
-        else:
-            print('\033[1;' + varBackColor + ';' + varForeColor + 'm', '' + str(args[0]) + '', '\033[0m' + str(args[1]))
+        print('\033[' + varBackColor + ';' + varForeColor + 'm' + str(args[0]) + '', '\033[0m' + str(args[1]))
 
 if __name__ == '__main__':
 
     Color_PO = ColorPO()
 
 
-    Color_PO.consoleColor("31", "36", "ok", "[1,2,3,4,5]error")
-    Color_PO.consoleColor("31", "38", "error", "")
-    Color_PO.consoleColor("31", "33", "warning", "[1,2,3,4,5]error")
+    Color_PO.consoleColor("31", "36", "[OK]", "[1,2,3,4,5]error")
+    Color_PO.consoleColor("31", "31", "[ERROR]", "123123123123")
+    Color_PO.consoleColor("31", "33", "[WARNING]", "[1,2,3,4,5]error")
 
         # print('\033[1;31;41m', '[1], 红底红字', '\033[0m')
         # print('\033[1;31;42m', '[2], 草绿底红字', '\033[0m')
