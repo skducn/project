@@ -211,9 +211,9 @@ class ExcelPO():
         # 获取行值，以列表形式返回，如 ['小寒1', '女', 58665985.0, datetime.date(2013, 3, 20), 134.0] , 异常返回 None，默认sheetNO=0定位第一个工作簿。
         # 对日期时间进行了处理，可正常返回 2013-03-20
         # 可使用切片获取某行某个单元值
-        # print(Excel_PO.readRowValue("excel1.xlsx", 2, 1))  # ['小寒1', '女', 58665985.0, datetime.date(2013, 3, 20), 134.0]
-        # print(Excel_PO.readRowValue("excel1.xlsx", 2, "Sheet2"))  # ['小寒1', '女', 58665985.0, datetime.date(2013, 3, 20), 134.0]
-        # print(Excel_PO.readRowValue("excel1.xls", 1)[3])  # 希缇缇  使用切片获取某行某个单元值
+        # print(Excel_PO.getRowValue("excel1.xlsx", 2, 1))  # ['小寒1', '女', 58665985.0, datetime.date(2013, 3, 20), 134.0]
+        # print(Excel_PO.getRowValue("excel1.xlsx", 2, "Sheet2"))  # ['小寒1', '女', 58665985.0, datetime.date(2013, 3, 20), 134.0]
+        # print(Excel_PO.getRowValue("excel1.xls", 1)[3])  # 希缇缇  使用切片获取某行某个单元值
         list1 = []
         wb = xlrd.open_workbook(varFileName)
         if isinstance(varSheet, int):  # 判断变量的类型，int list tuple dict str 参考 https://www.cnblogs.com/fmgao-technology/p/9065753.html
@@ -424,7 +424,7 @@ if __name__ == "__main__":
     # print(Excel_PO.getRowCol("d:\\test3.xlsx", 1))  # [11, 12]  // 定位第二张工作表，返回行列列表
     #
     # print("3.4，获取行值".center(100, "-"))
-    # print(Excel_PO.getRowValue("d:\\test3.xlsx", 1))  # [0.0, 0.0, 'yoyo', 43909.0]   //默认第一个工作表，获取第一行数据，注意日期变成了43909.0
+    print(Excel_PO.getRowValue("d:\\test3.xlsx", 1))  # [0.0, 0.0, 'yoyo', 43909.0]   //默认第一个工作表，获取第一行数据，注意日期变成了43909.0
     # print(Excel_PO.getRowValue("d:\\test3.xlsx", 2, "mySheet1"))  # [1.0, 1.0, '', '2020.3.19']   //打开mySheet1，获取第二行数据，注意数字是浮点数，如1.0
     # # print(Excel_PO.getRowValue("d:\\test3.xlsx", 1)[3])  # 43909.0  //定位第一张工作表，获取第一行第四列
     #
