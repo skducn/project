@@ -23,22 +23,23 @@ Bi_PO.login()
 # 获取当前数据更新时间
 varDataUpdateDate = Bi_PO.Web_PO.getXpathText('//*[@id="app"]/section/section/section/main/div[1]/span')
 Bi_PO.Log_PO.logger.info(varDataUpdateDate)
+varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split(" ")[0]
 
 
 # ===============================================================================================
-Bi_PO.menu1("1", "实时监控指标")
-varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split(" ")[0]
-Bi_PO.menu2ByHref("1.1", "今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis")
-Bi_PO.monitor("1.1.1", "医疗业务收入(万元)", 'SELECT round((select (a.sum+b.sum)/10000 from(SELECT IFNULL(sum(inPAccount),0) sum  from bi_inpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(outPAccount),0) sum FROM bi_outpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
-Bi_PO.monitor("1.1.2", "药品收入(万元)", 'select round((select (a.sum +b.sum)/10000 from(SELECT ifnull(sum(outPMedicateAccount),0) sum  from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(inPMedicateAccount),0) sum FROM bi_inpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
-Bi_PO.monitor("1.1.3", "今日门急诊量(例)", 'select ifnull(sum(outPCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.monitor("1.1.4", "今日门诊量(例)", 'select ifnull(sum(outpatientCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.monitor("1.1.5", "今日急诊量(例)", 'select sum(emergencyCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.monitor("1.1.6", "今日门急诊收入(万元)", 'select round(sum(outpaccount)/10000,2) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.monitor("1.1.7", "今日出院人数(例)", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.monitor("1.1.8", "今日在院(例)", 'select sum(inPCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.monitor("1.1.9", "当前危重人数(例)", 'select sum(criticalCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.monitor("1.1.10", "今日住院实收入(万元)", 'select round(sum(inPAccount)/10000,2) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+# Bi_PO.menu1("1", "实时监控指标")
+# varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split(" ")[0]
+# Bi_PO.menu2ByHref("1.1", "今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis")
+# Bi_PO.monitor("1.1.1", "医疗业务收入(万元)", 'SELECT round((select (a.sum+b.sum)/10000 from(SELECT IFNULL(sum(inPAccount),0) sum  from bi_inpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(outPAccount),0) sum FROM bi_outpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
+# Bi_PO.monitor("1.1.2", "药品收入(万元)", 'select round((select (a.sum +b.sum)/10000 from(SELECT ifnull(sum(outPMedicateAccount),0) sum  from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT IFNULL(sum(inPMedicateAccount),0) sum FROM bi_inpatient_yard WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
+# Bi_PO.monitor("1.1.3", "今日门急诊量(例)", 'select ifnull(sum(outPCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+# Bi_PO.monitor("1.1.4", "今日门诊量(例)", 'select ifnull(sum(outpatientCount),0) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+# Bi_PO.monitor("1.1.5", "今日急诊量(例)", 'select sum(emergencyCount) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+# Bi_PO.monitor("1.1.6", "今日门急诊收入(万元)", 'select round(sum(outpaccount)/10000,2) from bi_outpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+# Bi_PO.monitor("1.1.7", "今日出院人数(例)", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+# Bi_PO.monitor("1.1.8", "今日在院(例)", 'select sum(inPCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+# Bi_PO.monitor("1.1.9", "当前危重人数(例)", 'select sum(criticalCount) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
+# Bi_PO.monitor("1.1.10", "今日住院实收入(万元)", 'select round(sum(inPAccount)/10000,2) from bi_inpatient_yard where statisticsDate ="%s" ', varUpdateDate)
 
 # # 2，当前住院欠费明细
 # print(Bi_PO.getContent("//tr"))
@@ -94,71 +95,73 @@ Bi_PO.monitor("1.1.10", "今日住院实收入(万元)", 'select round(sum(inPAc
 
 # ===============================================================================================
 
-
 excelFile = File_PO.getLayerPath("../config") + "\\bi.xlsx"
-print(excelFile)
 row, col = Excel_PO.getRowCol(excelFile, "bi")
-print(row,col)
 recordList = []
 
-for i in range(2, 3):
+# for i in range(2, 13):
+for i in range(2, row+1):
     recordList = Excel_PO.getRowValue(excelFile, i, "bi")
-    if recordList[0] != "ok":
-        print(i, recordList)
 
-    if recordList[2] != "":
+    if recordList[2] != "":  # 一级编号
         Bi_PO.menu1(str(recordList[2]), recordList[3])
-        Bi_PO.menu2ByHref(str(recordList[4]), recordList[5], recordList[6], recordList[10])
 
-    if recordList[10] != "":  # 统计日期
-        print(recordList[10])
-        result,info = Bi_PO.currentValue(str(recordList[7]), recordList[8], recordList[9], recordList[10])
-        print(result, info)
+    if "1.1." in str(recordList[7]) and recordList[4] != "":  # 二级编号
+        Bi_PO.menu2ByHref(str(recordList[4]), recordList[5], recordList[6])
+    elif recordList[4] != "":
+        Bi_PO.menu2ByHref(str(recordList[4]), recordList[5], recordList[6], recordList[10])
+    # else:
+    #     print("[ERROR], " + sys._getframe().f_code.co_filename + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe().f_code.co_name)
+
+    if "1.1." in str(recordList[7]) :  # 将当前数据更新时间写入统计日期
+        tmpList = Excel_PO.getRowValue(excelFile, i, "bi")
+        x = tmpList[9].count("%")
+        # print(x)
+        if x == 2:
+            Excel_PO.writeXlsx(excelFile, "bi", i, 11, str(varUpdateDate)+"," + str(varUpdateDate))
+        else:
+            Excel_PO.writeXlsx(excelFile, "bi", i, 11, str(varUpdateDate))
+        recordList = Excel_PO.getRowValue(excelFile, i, "bi")
+        # print(recordList)
+        result, info = Bi_PO.monitor(str(recordList[7]), recordList[8], recordList[9], recordList[10])
         Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
         Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
 
+    elif "1.1." not in str(recordList[7]) and recordList[10] != "":  # 统计日期
+        result, info = Bi_PO.currentValue(str(recordList[7]), recordList[8], recordList[9], recordList[10])
+        Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
+        Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
     elif recordList[11] != "":  # 统计前一日
         Bi_PO.currentValue(str(recordList[7]), recordList[8], recordList[9], recordList[11])
     elif recordList[12] != "":  # 同期
-        Bi_PO.currentValue(str(recordList[7]), recordList[8], recordList[9], recordList[12])
+        result, info = Bi_PO.tongqi(str(recordList[7]), recordList[8], recordList[9], recordList[12])
+        Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
+        Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
     elif recordList[13] != "":   # 同比
-        Bi_PO.currentValue(str(recordList[7]), recordList[8], recordList[9], recordList[13])
+        result, info = Bi_PO.tongbi(str(recordList[7]), recordList[8], recordList[9], recordList[13])
+        Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
+        Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
+    elif recordList[14] != "":   # top10
+        result, info = Bi_PO.top10(str(recordList[7]), "0", recordList[8], recordList[9], recordList[14])
+        Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
+        Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
+    elif recordList[15] != "":   # 处方率
+        result, info = Bi_PO.prescriptionRate(str(recordList[7]), recordList[8], recordList[9], recordList[15])
+        Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
+        Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
+    elif recordList[16] != "":   # top10right
+        result, info = Bi_PO.top10right(str(recordList[7]), "0.00", recordList[8], recordList[9], recordList[16])
+        Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
+        Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
 
     recordList = []
 
 
 print("end")
 sleep(1212)
-
-Bi_PO.menu1("2", "门诊分析")
-varUpdateDate = "2020-03-22"
-varUpdateDate2 = "2019-03-22"
-Bi_PO.menu2ByHref("2.1 门诊业务", "/bi/outpatientAnalysis/outpatientService", varUpdateDate)
-
-
-Bi_PO.currentValue("2.1.1", "门急诊人次(万人)", 'select round((SELECT sum(outPCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.tongqi("2.1.1", "门急诊人次(万人)", 'select round((SELECT sum(outPCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate2)
-Bi_PO.tongbi("2.1.1", "门急诊人次(万人)", 'SELECT round((a.sum-b.sum)/b.sum*100,2) from (SELECT sum(outPCount) sum from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT sum(outPCount) sum from bi_outpatient_yard where statisticsDate ="%s")b', varUpdateDate,varUpdateDate2)
-
-
-Bi_PO.currentValue("2.1.2", "门诊人次(万人)", 'select round((SELECT sum(outpatientCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.tongqi("2.1.2", "门诊人次(万人)", 'select round((SELECT sum(outpatientCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate2)
-Bi_PO.tongbi("2.1.2", "门诊人次(万人)", 'SELECT round((a.sum-b.sum)/b.sum*100,2)from (SELECT sum(outpatientCount)sum from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT sum(outpatientCount) sum from bi_outpatient_yard where statisticsDate ="%s")b', varUpdateDate,varUpdateDate2)
-
-
-
-Bi_PO.currentValue("2.1.3", "急诊人次(万人)", 'select round((SELECT sum(emergencyCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.tongqi("2.1.3", "急诊人次(万人)", 'select round((SELECT sum(emergencyCount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate2)
-Bi_PO.tongbi("2.1.3", "急诊人次(万人)", 'SELECT round((a.sum-b.sum)/b.sum*100,2) from (SELECT sum(emergencyCount)sum from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT sum(emergencyCount)sum from bi_outpatient_yard where statisticsDate ="%s")b', varUpdateDate,varUpdateDate2)
-
-
-Bi_PO.currentValue("2.1.4", "门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate)
-Bi_PO.tongqi("2.1.4", "门急诊退号率", 'SELECT sum(backRegisterRatio) from bi_outpatient_yard where statisticsDate="%s" ', varUpdateDate2)
-Bi_PO.tongbi("2.1.4", "门急诊退号率", 'SELECT round((a.sum-b.sum)/b.sum*100,2) from (SELECT round(sum(backRegisterRatio),2)sum from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT round(sum(backRegisterRatio),2) sum from bi_outpatient_yard where statisticsDate ="%s")b', varUpdateDate,varUpdateDate2)
-
-
-sleep(1212)
-
+#
+# Bi_PO.menu1("2", "门诊分析")
+# sleep(2)
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # varUpdateDate = "2020-03-22"
@@ -181,110 +184,52 @@ sleep(1212)
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("2.3 门诊处方", "/bi/outpatientAnalysis/outpatientPrescriptions", varUpdateDate)  # 门诊处方
-Bi_PO.currentValue("2.3.1", "门急诊处方数(张)", 'SELECT quantity from bi_hospital_recipe_day WHERE statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.currentValue("2.3.2", "门急诊抗生素处方数(张)", 'SELECT antibioticRecipe from bi_hospital_recipe_day WHERE statisticsDate="%s" ', varUpdateDate)
-Bi_PO.currentValue("2.3.3", "门急诊药品处方数(张)", 'SELECT drugRecipe from bi_hospital_recipe_day WHERE statisticsDate ="%s" ', varUpdateDate)
-Bi_PO.currentValue("2.3.4", "门急诊大额处方数(张)", 'SELECT largeRecipe from bi_hospital_recipe_day WHERE statisticsDate="%s" ', varUpdateDate)
-
-prescriptionList = []
-tmpList1 = Bi_PO.getContent("//div")
-tmpList2 = tmpList1[0].split("%\n门急诊抗生素处方率")[0].split("\n")
-prescriptionList.append("门急诊抗生素处方率")
-prescriptionList.append(tmpList2[-1])
-
-# 2.3.5 科室门急诊抗生素处方数分析
-tmpList2 = tmpList1[0].split("科室门急诊抗生素处方数分析\n")[1].split("%")[0].split("\n")
-tmpList2 = List_PO.listConvertElement(tmpList2)
-top10Dict2 = List_PO.list2dictBySerial(tmpList2)
-Bi_PO.top10("2.3.5", "0", top10Dict2, "科室门急诊抗生素处方数分析", 'SELECT deptName,antibioticRecipe from bi_dept_recipe_day WHERE statisticsDate = "%s" ORDER BY antibioticRecipe DESC limit 10', varUpdateDate)
-
-# 2.3.6 科室门急诊药品处方数分析
-tmpList3 = tmpList1[0].split("科室门急诊药品处方数分析\n")[1].split("%")[0].split("\n")
-tmpList3 = List_PO.listConvertElement(tmpList3)
-top10Dict3 = List_PO.list2dictBySerial(tmpList3)
-Bi_PO.top10("2.3.6", "0", top10Dict3, "科室门急诊药品处方数分析", 'SELECT deptName,drugRecipe from bi_dept_recipe_day WHERE statisticsDate ="%s" ORDER BY antibioticRecipe DESC limit 10', varUpdateDate)
-
-# 2.3.7 科室门急诊大额处方数分析
-tmpList4 = tmpList1[0].split("科室门急诊大额处方数分析\n")[1].split("\n")
-tmpList4 = List_PO.listConvertElement(tmpList4)
-top10Dict4 = List_PO.list2dictBySerial(tmpList4)
-Bi_PO.top10("2.3.7", "0", top10Dict4, "科室门急诊大额处方数分析", 'SELECT deptName,largeRecipe from bi_dept_recipe_day WHERE statisticsDate ="%s" order by largerecipe desc limit 10', varUpdateDate)
-
-# 2.3.8 门急诊抗生素处方率，门急诊药品处方率，门急诊大额处方率
-prescriptionList.append("门急诊药品处方率")
-prescriptionList.append(tmpList2[-1])
-prescriptionList.append("门急诊大额处方率")
-prescriptionList.append(tmpList3[-1])
-pageList = List_PO.list2dictBySerial(prescriptionList)
-Bi_PO.singleSQL(pageList, "门急诊抗生素处方率", 'SELECT round((SELECT a.sum/b.sum*100 from (SELECT sum(antibioticRecipe) sum from bi_hospital_recipe_day WHERE statisticsDate ="%s")a,(SELECT sum(quantity) sum from bi_hospital_recipe_day WHERE statisticsDate ="%s")b),2) ', varUpdateDate, varUpdateDate)
-Bi_PO.singleSQL(pageList, "门急诊药品处方率", 'SELECT round((SELECT a.sum/b.sum*100 from (SELECT sum(drugRecipe) sum from bi_hospital_recipe_day WHERE statisticsDate ="%s")a,(SELECT sum(quantity) sum from bi_hospital_recipe_day WHERE statisticsDate ="%s")b),2)', varUpdateDate, varUpdateDate)
-Bi_PO.singleSQL(pageList, "门急诊大额处方率", 'SELECT round((SELECT a.sum/b.sum*100 from (SELECT sum(largeRecipe) sum from bi_hospital_recipe_day WHERE statisticsDate ="%s")a,(SELECT sum(quantity) sum from bi_hospital_recipe_day WHERE statisticsDate ="%s")b),2) ', varUpdateDate, varUpdateDate)
 
 
 #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("2.4 门诊收入", "/bi/outpatientAnalysis/outpatientIncome", varUpdateDate)
-Bi_PO.currentValue("2.4.1", "门急诊收入(万元)", 'SELECT ROUND((SELECT sum(outPAccount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("2.4.2", "门诊收入(万元)", 'SELECT ROUND((SELECT sum(outpatientAccount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("2.4.3", "急诊收入(万元)", 'SELECT ROUND((SELECT sum(emergencyAccount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("2.4.4", "门急诊均次费(元)", 'select round((SELECT sum(outPCountFee) from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("2.4.5", "门急诊药品收入(万元)", 'SELECT round((SELECT sum(outPMedicateAccount)/10000 from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("2.4.6", "门急诊药占比", 'SELECT round((SELECT sum(outPMedicateRatio) from bi_outpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("2.4.7", "门急诊均次药品费用(元)", 'SELECT round((SELECT a.sum/b.sum from((SELECT sum(outPMedicateAccount) sum from bi_outpatient_yard where statisticsDate ="%s")a,(SELECT sum(outPCount) sum  from bi_outpatient_yard where statisticsDate ="%s")b)),2)', varUpdateDate,varUpdateDate)
-Bi_PO.top10("2.4.8", "0", Bi_PO.winByDiv("门急诊收入科室排名\n", "门急诊均次费月趋势"), "门急诊收入科室排名", 'SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10', varUpdateDate)
+# Bi_PO.menu1("2", "门诊分析")
+#
+# varUpdateDate = "2020-03-22"
+# Bi_PO.menu2ByHref("2.4","门诊收入", "/bi/outpatientAnalysis/outpatientIncome", varUpdateDate)
+#
+# tmpList = Bi_PO.getContent(u"//div[@class='el-card__header']")
+#
+# # tmpList = Bi_PO.getContent(u"//div[contains(@class,'el-card__body')]")
+# print(tmpList)
+#
+# # print("__________________________")
+# # tmpList = Bi_PO.getContent(u"//div")
+# # print(tmpList)
+# print("end")
+# sleep(1212)
+# Bi_PO.winByDiv("门急诊收入科室排名\n", "门急诊均次费月趋势")
 
-# 2.4.9 门急诊医疗收入构成分析
-Bi_PO.Color_PO.consoleColor("31", "33", "[warning], 2.4.9 门急诊医疗收入构成分析, 未提供sql", "")
-Bi_PO.Log_PO.logger.warning("2.4.9 门急诊医疗收入构成分析, 未提供sql")
-top10Dict249 = Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "")
-
-Bi_PO.menu1Close("门诊分析")
+# # 这里有问题？
+# Bi_PO.top10("2.4.8", "0", Bi_PO.winByDiv("门急诊收入科室排名\n", "门急诊均次费月趋势"), "门急诊收入科室排名", 'SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10', varUpdateDate)
+#
+# # 2.4.9 门急诊医疗收入构成分析
+# Bi_PO.Color_PO.consoleColor("31", "33", "[warning], 2.4.9 门急诊医疗收入构成分析, 未提供sql", "")
+# Bi_PO.Log_PO.logger.warning("2.4.9 门急诊医疗收入构成分析, 未提供sql")
+# top10Dict249 = Bi_PO.winByDiv("门急诊医疗收入构成分析\n", "")
+#
+# Bi_PO.menu1Close("门诊分析")
 
 
 # ===============================================================================================
 Bi_PO.menu1("3", "住院分析")
 varUpdateDate = "2020-03-22"
-Bi_PO.menu2ByHref("3.1 住院业务", "/bi/hospitalizationAnnlysis/inpatientService", varUpdateDate)
-Bi_PO.currentValue("3.1.1", "入院人次", 'select sum(admissionCount) from bi_inpatient_yard where statisticsDate ="%s"', varUpdateDate)
-Bi_PO.currentValue("3.1.2", "出院人次", 'select sum(leaveCount) from bi_inpatient_yard where statisticsDate ="%s"', varUpdateDate)
-Bi_PO.currentValue("3.1.3", "出院平均住院日(日)", 'select round((select sum(leaveInPDayAvg) from bi_inpatient_yard where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.top10("3.1.4", "0.00", Bi_PO.winByDiv("平均住院日科室情况\n", "出院人次科室情况"), "平均住院日科室情况", 'select deptname,round(AVG(avgInPDay),2)t from bi_inpatient_dept where statisticsDate="%s" GROUP BY deptname ORDER BY t DESC LIMIT 10', varUpdateDate)
-Bi_PO.top10("3.1.5", "0", Bi_PO.winByDiv("出院人次科室情况\n", "出院平均住院日月趋势"), "出院人次科室情况", 'SELECT deptname,sum(inPCount) as t from bi_inpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY t DESC LIMIT 10', varUpdateDate)
+# Bi_PO.menu2ByHref("3.1","住院业务", "/bi/hospitalizationAnnlysis/inpatientService", varUpdateDate)
 
-# # 2，门急诊收入科室排名
-# Bi_PO.winByDiv("平均住院日科室情况\n", "出院人次科室情况", "")
-#
-# # 3，门急诊医疗收入构成分析
-# Bi_PO.winByDiv("出院人次科室情况\n", "", "")
-# print(Bi_PO.winByDiv("出院人次科室情况\n", "", "骨科"))
 
 
 # # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("3.2 床位分析", "/bi/hospitalizationAnnlysis/bedAnalysis", varUpdateDate)
-Bi_PO.currentValue("3.2.1", "实际开放总床日数", 'select sum(realBedCount) from bi_inpatient_yard_bed where statisticsDate ="%s"', varUpdateDate)
-Bi_PO.currentValue("3.2.2", "实际占用总床日数", 'select sum(realOccupyBedCount) from bi_inpatient_yard_bed where statisticsDate ="%s"', varUpdateDate)
-Bi_PO.currentValue("3.2.3", "出院者占用总床日数", 'SELECT floor(a.sum*b.sum)from (select sum(leaveInPDayAvg) sum from bi_inpatient_yard where statisticsDate ="%s")a,(select sum(leaveCount) sum  from bi_inpatient_yard where statisticsDate ="%s")b', varUpdateDate,varUpdateDate)
-Bi_PO.currentValue("3.2.4", "平均开放床位数", 'select sum(realBedCount) from bi_inpatient_yard_bed where statisticsDate ="%s"', varUpdateDate)
-Bi_PO.currentValue("3.2.5", "病床周转次数", 'SELECT round((SELECT a.sum/b.sum from(select sum(leaveCount) sum from bi_inpatient_yard where statisticsDate ="%s")a,(select sum(realBedCount) sum  from bi_inpatient_yard_bed where statisticsDate ="%s")b),2)', varUpdateDate,varUpdateDate)
-Bi_PO.currentValue("3.2.6", "床位使用率", 'SELECT round((select 100*(a.sum/b.sum) from(select sum(realOccupyBedCount) sum from bi_inpatient_yard_bed where statisticsDate ="%s")a,(select sum(realBedCount) sum  from bi_inpatient_yard_bed where statisticsDate ="%s")b),2)', varUpdateDate,varUpdateDate)
-Bi_PO.currentValue("3.2.7", "平均每张床位工作日", 'SELECT round(a.sum/b.sum,2)from (SELECT sum(leaveInPDayAvg*leaveCount) sum from bi_inpatient_yard where statisticsDate ="%s")a,(select sum(realBedCount) sum from bi_inpatient_yard_bed   where statisticsDate ="%s")b', varUpdateDate,varUpdateDate)
-Bi_PO.currentValue("3.2.8", "病床工作日", 'SELECT round(a.sum/b.sum,2) from (select sum(realOccupyBedCount) sum from bi_inpatient_yard_bed where statisticsDate ="%s")a,(select sum(realBedCount) sum from bi_inpatient_yard_bed   where statisticsDate ="%s")b', varUpdateDate,varUpdateDate)
-Bi_PO.currentValue("3.2.9", "出院患者平均住院日", 'SELECT round(a.sum/b.sum,2) from (SELECT sum(leaveInPDayAvg*leaveCount) sum from bi_inpatient_yard where statisticsDate ="%s")a,(select sum(leaveCount) sum from bi_inpatient_yard where statisticsDate ="%s")b', varUpdateDate,varUpdateDate)
 
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("3.3 住院收入", "/bi/hospitalizationAnnlysis/hospitalizationIncome", varUpdateDate)
-Bi_PO.currentValue("3.3.1", "医院总收入(万元)", 'select round((a.sum+b.sum)/10000,2) from((SELECT sum(inPAccount) sum from bi_inpatient_yard WHERE statisticsDate ="%s")a,(SELECT sum(outPAccount) sum  from bi_outpatient_yard where statisticsDate ="%s")b)', varUpdateDate,varUpdateDate)
-Bi_PO.currentValue("3.3.2", "住院总收入(万元)", 'SELECT ifnull(round((SELECT inPAccount/10000 FROM bi_inpatient_yard where statisticsDate = "%s"),2),0)', varUpdateDate)
-Bi_PO.currentValue("3.3.3", "住院均次费用(元)", 'SELECT  round(sum(inpaccount)/sum(inpcount),2) from bi_inpatient_yard WHERE statisticsDate ="%s"', varUpdateDate)
-Bi_PO.currentValue("3.3.4", "住院药品收入(万元)", 'SELECT round((SELECT inPMedicateAccount/10000 from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
-Bi_PO.currentValue("3.3.5", "住院均次药品费用(元)", 'SELECT round(sum(inPMedicateAccount)/sum(inpcount),2) from bi_inpatient_yard where statisticsDate = "%s"', varUpdateDate)
-Bi_PO.currentValue("3.3.6", "住院药占比", 'SELECT round((SELECT inPMedicateRatio from bi_inpatient_yard where statisticsDate = "%s"),2)', varUpdateDate)
-Bi_PO.top10("3.3.7", "0", Bi_PO.winByDiv("住院收入科室情况\n", "\n住院医疗收入构成分析"), "住院收入科室情况", 'SELECT deptname,round(sum(inPAccount),2) from bi_inpatient_dept WHERE statisticsDate ="%s" GROUP BY deptname ORDER BY sum(inPAccount) DESC LIMIT 10', varUpdateDate)
 
 Bi_PO.menu1Close("住院分析")
 
@@ -293,12 +238,6 @@ Bi_PO.menu1Close("住院分析")
 Bi_PO.menu1("4", "药品分析")
 varUpdateDate = "2020-03-22"
 Bi_PO.menu2ByHref("4.1 基本用药分析", "/bi/medicationAnalysis/essentialDrugsMedicare", varUpdateDate)
-Bi_PO.currentValue("4.1.1", "药品收入(万元)", 'SELECT round((SELECT sum(pmcost+wmcost+hmcost)/10000 FROM bi_hospital_drugcosts_day WHERE statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("4.1.2", "中成药收入(万元)", 'SELECT round((select sum(pmcost)/10000 from bi_hospital_drugcosts_day where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("4.1.3", "中药饮片(万元)", 'SELECT round((select sum(hmCost)/10000 from bi_hospital_drugcosts_day where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("4.1.4", "西医收入(万元)", 'SELECT round((select sum(wmCost)/10000 from bi_hospital_drugcosts_day where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("4.1.5", "医保目录外药品收入(万元)", 'SELECT round((select sum(insuranceCost)/10000 from bi_hospital_drugcosts_day where statisticsDate ="%s"),2)', varUpdateDate)
-Bi_PO.currentValue("4.1.6", "药占比", 'SELECT round((SELECT (SUM(drug.hmCost+drug.pmCost+drug.wmCost)/(`out`.outPAccount+inp.inPAccount))*100 FROM bi_hospital_drugcosts_day AS drug LEFT JOIN(SELECT outPAccount,statisticsDate FROM bi_outpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s" ) AS `out` ON `out`.statisticsDate = drug.statisticsDate LEFT JOIN (SELECT inPAccount,statisticsDate FROM bi_inpatient_yard WHERE statisticsDate BETWEEN "%s" AND "%s") AS inp ON inp.statisticsDate = drug.statisticsDate WHERE drug.statisticsDate BETWEEN "%s" AND "%s"),2)', varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate, varUpdateDate)
 
 # # 2，门急诊收入科室排名
 # Bi_PO.winByDiv("药占比科室情况\n", "各类药品收入月趋势", "")
@@ -369,7 +308,7 @@ Bi_PO.top10("5.1.9", "0", Bi_PO.winByDiv("手术排名\n", "", ""), "手术排�
 #
 # # ===============================================================================================
 #
-# Bi_PO.menu1("医技分析")
+# Bi_PO.l("医技分析")
 #
 # # 检验分析
 # Bi_PO.menu2ByHref("/bi/medicalTechnologyAnalysis/InspectionAnalysis", varUpdateDate)

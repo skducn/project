@@ -5,7 +5,7 @@
 # Description   : 字符串对象层
 # *********************************************************************
 
-
+import sys
 class StrPO():
 
     def __init__(self):
@@ -33,14 +33,14 @@ class StrPO():
             try:
                 return (varStr.split(","))  # ['1', '2', '3']
             except:
-                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+                print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 1.2，字符串转元组
     def str2tuple(self, varStr):
         try:
             return tuple(eval(varStr))
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 1.3，字符串转字典
     def str2dict(self, varStr):
@@ -49,7 +49,7 @@ class StrPO():
         try:
             return dict(eval(varStr))
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
     # 2，判断字符串是否为数字
@@ -146,3 +146,7 @@ if __name__ == "__main__":
     print(Str_PO.isChinese("测试"))  # True //字符串全部是中文
     print(Str_PO.isChinese("测123试"))  # False //字符串有非中文字符
 
+
+    print("5，判断字符串某字符串出现的个数".center(100, "-"))
+    x = "123%123234%"
+    print(x.count("%"))
