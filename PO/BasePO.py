@@ -77,37 +77,51 @@ class BasePO(object):
     '''[ASSERT]'''
 
     def assertTrue(self, expected, okMsg, errMsg):
-        if expected == True :
-            print(okMsg)
-        else:
-            print(errMsg)
+        try:
+            if expected == True :
+                print(okMsg)
+            else:
+                print(errMsg)
+        except:
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     def assertEqual(self, expected, actual, okMsg, errMsg):
-        if expected == actual:
-            print(okMsg)
-        else:
-            # print(errMsg)
-            self.Color_PO.consoleColor("31", "38", errMsg, "")
+        try:
+            if expected == actual:
+                print(okMsg)
+            else:
+                # print(errMsg)
+                self.Color_PO.consoleColor("31", "38", errMsg, "")
+        except:
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
     def assertContain(self, one, allcontain, okMsg, errMsg):
-        if one in allcontain:
-            print(okMsg)
-        else:
-            print(errMsg)
+        try:
+            if one in allcontain:
+                print(okMsg)
+            else:
+                print(errMsg)
+        except:
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     def assertEqualgetValue(self, expected, actual):
-        if expected == actual:
-            return 1
-        else:
-            return 0
+        try:
+            if expected == actual:
+                return 1
+            else:
+                return 0
+        except:
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     def assertEqualNotNone(self, expected, actual):
-        if (expected and actual) and (expected != None and actual != None) :
-            return 1, expected
-        else:
-            return 0,0
-
+        try:
+            if (expected and actual) and (expected != None and actual != None) :
+                return 1, expected
+            else:
+                return 0,0
+        except:
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     '''[ERROR TIPS]'''
 

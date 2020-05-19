@@ -24,7 +24,7 @@ class CharPO():
             byte1 = varStr.encode(varCoding)
             return byte1
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
         # 要点：
         # byte1 = name.decode('utf-8')  # AttributeError: 'str' object has no attribute 'decode'
@@ -37,7 +37,7 @@ class CharPO():
             str1 = varByte.decode(varCoding, 'strict')
             return str1
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
         # 说明
         # bytes.decode(encoding="utf-8", errors="strict")
@@ -108,13 +108,13 @@ class CharPO():
                 if "." not in str(varNum):
                     if isinstance(varPatchNum, int):
                         if varPatchNum < 0 :
-                            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+                            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
                         elif varPatchNum == 0 :
                             return varNum
                         else:
                             varStr = str(varNum) + "." + "0" * varPatchNum  # 整数小数位补1个0
                     else:
-                        print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+                        print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
                 else:
                     if isinstance(varPatchNum, int):
                         if varPatchNum < 0 :
@@ -128,15 +128,15 @@ class CharPO():
                             if len(dotLen) > 0:
                                 varStr = str(varNum) + "0" * varPatchNum  # 整数小数位补1个0
                     else:
-                        print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+                        print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
                 return varStr
             else:
-                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+                print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    # 5，浮点数尾部无效0去掉和无效的‘.’号（非规则）
+    # 5，列表中浮点数或字符串，小数点后0优化方法
     def zeroByDotSmart(self, varList, varPatchNum=2):
         # 将列表中所有元素的格式变成.00，如： [11, 22.0, 33.00] => [11.00, 22.0, 33.00]
         # 非规则，支持 数字或字符串，0.00，0.0等
@@ -158,7 +158,7 @@ class CharPO():
                     list4.append('{:g}'.format(i))
                 return list4
             elif varPatchNum < 0:
-                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+                print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
             for i in list3:
                 list4.append('{:g}'.format(i))
@@ -173,7 +173,17 @@ class CharPO():
                     list4[i] = list4[i] + "0" * (varPatchNum - len(list4[i].split(".")[1]))
             return (list4)
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+
+    # 6，单个浮点数或字符串，小数点后0优化方法
+    def zeroByDotSmartStr(self, varValue):
+        try:
+            return ('{:g}'.format(float(varValue)))
+        except:
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+
+            
+
 
 
 if __name__ == "__main__":
@@ -234,21 +244,44 @@ if __name__ == "__main__":
 
 
     print("5，浮点数尾部无效0去掉和无效的‘.’号（非规则）".center(100, "-"))
-    list1 = [0, 1.0, 2.00, 3.000, 4.4400, 5.5000, 6.0006, 0.0007, 0.00008, 8.123456789]
+    list1 = [0, 1.0, 2.00, 3.000, 4.4400, 5.5000, 6.0006, 0.0007, 0.00008, 8.123456789, 9.90]
     # print(Char_PO.zeroByDotSmart([12.12300, 12.00, 200.12000, 200.0, 88.0009, 5.000, 0.001], ""))  # None
-    print(Char_PO.zeroByDotSmart(list1, 0))  # ['0', '1', '2', '3', '4.44', '5.5', '6.0006', '0.007']
-    print(Char_PO.zeroByDotSmart(list1, 1))  # ['0.0', '1.0', '2.0', '3.0', '4.44', '5.5', '6.0006', '0.007']
-    print(Char_PO.zeroByDotSmart(list1, 2))  # ['12.123', '12.00', '200.12', '200.00', '88.0009', '5.00', '0.001']
-    print(Char_PO.zeroByDotSmart(list1))  # ['12.123', '12.00', '200.12', '200.00', '88.0009', '5.00', '0.001']
-    print(Char_PO.zeroByDotSmart(list1, 4))  # ['12.123', '12.00', '200.12', '200.00', '88.0009', '5.00', '0.001']
+    print(Char_PO.zeroByDotSmart(list1, 0))  # ['0', '1', '2', '3', '4.44', '5.5', '6.0006', '0.0007', '8e-05', '8.12346', '9.9']
+    print(Char_PO.zeroByDotSmart(list1, 1))  # ['0', '1.0', '2.0', '3.0', '4.44', '5.5', '6.0006', '0.0007', '8e-05.0', '8.12346', '9.9']
+    print(Char_PO.zeroByDotSmart(list1, 2))  # ['0', '1.00', '2.00', '3.00', '4.44', '5.50', '6.0006', '0.0007', '8e-05.00', '8.12346', '9.90']
+    print(Char_PO.zeroByDotSmart(list1))  # ['0', '1.00', '2.00', '3.00', '4.44', '5.50', '6.0006', '0.0007', '8e-05.00', '8.12346', '9.90']
+    print(Char_PO.zeroByDotSmart(list1, 4))  # ['0', '1.0000', '2.0000', '3.0000', '4.4400', '5.5000', '6.0006', '0.0007', '8e-05.0000', '8.12346', '9.9000']
 
     list2 = [1.0, 2.0, 3.0, 4.0, 5.0]
     print(Char_PO.zeroByDotSmart(list2))  # ['1.00', '2.00', '3.00', '4.00', '5.00']
 
-    list3 = [11.00, 22.00, 3.00, '4.0', '5.00000','6']
+    list3 = [11.00, 22.00, 3.00, '4.0', '5.00000','6.60']
     print(Char_PO.zeroByDotSmart(list3))  # ['11.00', '22.00', '3.00', '4.00', '5.00', '6.00']
-    print(Char_PO.zeroByDotSmart(list3, 0))  # ['11', '22', '3', '4', '5', '6']
+    print(Char_PO.zeroByDotSmart(list3, 0))  # ['11', '22', '3', '4', '5', '6.6']
     print(Char_PO.zeroByDotSmart(list3, 1))  # ['11.0', '22.0', '3.0', '4.0', '5.0', '6.0']
 
+    print("6，单个浮点数或字符串，小数点后0优化方法".center(100, "-"))
+    print(Char_PO.zeroByDotSmartStr("1.00"))
+    print(Char_PO.zeroByDotSmartStr("1.10"))
+    print(Char_PO.zeroByDotSmartStr("1"))
+    print(Char_PO.zeroByDotSmartStr("0"))
+    print(Char_PO.zeroByDotSmartStr("0.00"))
+    print(Char_PO.zeroByDotSmartStr("27457.67"))
+    print(Char_PO.zeroByDotSmartStr("3457.67"))
 
+    print(Char_PO.zeroByDotSmartStr(1.00))
+    print(Char_PO.zeroByDotSmartStr(1.10))
+    print(Char_PO.zeroByDotSmartStr(1))
+    print(Char_PO.zeroByDotSmartStr(0))
+    print(Char_PO.zeroByDotSmartStr(0.00))
 
+    tmpdict1 = {"abc":"100.00", "ddd":"7.08", "ccc":"5.80"}
+    for k, v in tmpdict1.items():
+        tmpdict1[k] = str(Char_PO.zeroByDotSmartStr(v))
+    print(tmpdict1)
+
+    tmpdict2 = {}
+    tuple1 = (('门诊药房(新院)', 1565.00), ('发热门诊药房', 11.10), ('外科', '1545.00'))
+    for k, v in tuple1:
+        tmpdict2[k] = str(Char_PO.zeroByDotSmartStr(v))
+    print(tmpdict2)
