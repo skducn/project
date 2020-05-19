@@ -105,7 +105,7 @@ class NetPO():
             smtp.quit()
             print(u"邮件已发送给：" + str(varTo))
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 2.1，获取网站状态码
     def getURLCode(self, varURL):
@@ -114,7 +114,7 @@ class NetPO():
             response = requests.get(varURL)
             return response.status_code
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 2.2，获取网站的header
     def getHeaders(self, varURL):
@@ -127,7 +127,7 @@ class NetPO():
             response = requests.get(varURL)
             return response.headers
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 2.3，获取网站内容
     def getHtml(self, varURL):
@@ -136,7 +136,7 @@ class NetPO():
             response = requests.get(varURL)
             return response.text
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 3.1，下载程序
     def downloadProgram(self, varUrlFile, varFilePath='./'):
@@ -160,7 +160,7 @@ class NetPO():
             # 文件大小默认以Bytes计， 转换为Mb
             print('File size = %.2f Mb' % (filesize / 1024 / 1024))
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 3.2，下载网页/图片
     def downloadFile(self, varUrlHtml, varFilePath='./'):
@@ -179,7 +179,7 @@ class NetPO():
                     File_PO.newLayerFolder(varPath)  # 强制新增文件夹
                     urllib.request.urlretrieve(varUrlHtml, varPath + "/" + varFile)
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 3.3，下载图片
     def downloadImage(self, varUrlImage, varFilePath='./'):
@@ -217,7 +217,7 @@ class NetPO():
                     with open(varPath + "/" + varFile, "wb") as f:
                         f.write(image)
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
     # 3.4，异步多线程下载图片

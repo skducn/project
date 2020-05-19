@@ -58,7 +58,7 @@ class DevicePO():
                 cv2.imwrite(varFilePath, frame)
                 cap.release()
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 安装apk
     def installAPK(self, varPath):
