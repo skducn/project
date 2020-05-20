@@ -49,4 +49,3 @@ if __name__ == '__main__':
     log.logger.critical('严重')
     logError = LogPO('./log/bi/bi_error' + Time_PO.getDate() + '.log', level='error')
     logError.logger.error('error213123123')
-    logError.logger.error('怎么办')
