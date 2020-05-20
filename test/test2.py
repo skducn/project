@@ -1,26 +1,42 @@
 # -*- coding: utf-8 -*-
 
+from collections import ChainMap
+baseline = {'music': 'bach', 'art': 'rembrandt'}
+adjustments = {'art': 'van gogh', 'opera': 'carmen'}
+print(ChainMap(adjustments, baseline))
+print(list(ChainMap(adjustments, baseline)))
+
+a = {'x': 1, 'z': 3 }
+b = {'y': 2, 'z': 4 }
+c = ChainMap(a,b)
+print(c['x']) # Outputs 1 (from a)
+print(c['y']) # Outputs 2 (from b)
+print(c['z']) # Outputs 3 (from a)
+c['z'] = 5
+c['g'] = 2
+print(a)
+print(b)
 
 
-
-import os,shutil,datetime
-# from time import sleep
-# import paramiko
-# import signal
-# import subprocess
-# import time
-
-
-import operator
-class People :
-     age = 0
-     gender = 'male'
-
-     def __init__(self, age, gender ):
-         self.age = age
-         self.gender = gender
-     def toString ( self ):
-         return 'Age:' + str( self.age ) + ' /t Gender:' + self.gender
+#
+# import os,shutil,datetime
+# # from time import sleep
+# # import paramiko
+# # import signal
+# # import subprocess
+# # import time
+#
+#
+# import operator
+# class People :
+#      age = 0
+#      gender = 'male'
+#
+#      def __init__(self, age, gender ):
+#          self.age = age
+#          self.gender = gender
+#      def toString ( self ):
+#          return 'Age:' + str( self.age ) + ' /t Gender:' + self.gender
 #
 # List = [ People ( 21 , 'male' ), People ( 20 , 'famale' ), People ( 34 , 'male' ), People ( 19 , 'famale' )]
 # print ('Befor sort:')
