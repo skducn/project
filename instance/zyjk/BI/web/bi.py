@@ -4,8 +4,7 @@
 # Created on : 2020-4-8
 # Description: BI集成平台自动化脚本 by pycharm（打印结果，输出日志到log）
 # *****************************************************************
-# from time import sleep
-# sleep(1212)
+
 
 from instance.zyjk.BI.PageObject.BiPO import *
 Bi_PO = BiPO()
@@ -29,7 +28,7 @@ excelFile = File_PO.getLayerPath("../config") + "\\bi.xlsx"
 row, col = Excel_PO.getRowCol(excelFile, "bi")
 recordList = []
 
-# for i in range(2, 13):
+# for i in range(102,111 ):
 for i in range(2, row+1):
     recordList = Excel_PO.getRowValue(excelFile, i, "bi")
 
@@ -56,7 +55,6 @@ for i in range(2, row+1):
         result, info = Bi_PO.monitor(str(recordList[7]), recordList[8], recordList[9], recordList[10])
         Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
         Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
-
     elif "1.1." not in str(recordList[7]) and recordList[10] != "":  # 统计日期
         result, info = Bi_PO.currentValue(str(recordList[7]), recordList[8], recordList[9], recordList[10])
         Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
