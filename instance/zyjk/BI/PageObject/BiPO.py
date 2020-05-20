@@ -20,13 +20,13 @@ class BiPO(object):
         self.List_PO = ListPO()
         self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
 
-    def assertEqual(self, expected, actual, okMsg="[ok]", errMsg="[errorrrrrrrrrr]"):
+    def assertEqual(self, expected, actual, okMsg="[ok]", errMsg="[ERROR]"):
         if expected == actual:            
             print("[ok]，" + okMsg)
             self.Log_PO.logger.info(okMsg)  # 输出到日志
         else:
             # print("[errorrrrrrrrrr]，" + errMsg)
-            self.Color_PO.consoleColor("31", "38", "[errorrrrrrrrrr]，" + errMsg, "")
+            self.Color_PO.consoleColor("31", "38", "[ERROR]，" + errMsg, "")
             self.Log_PO.logger.error(errMsg)  # 输出到日志
 
     # 登录 运营决策系统
@@ -296,11 +296,11 @@ class BiPO(object):
                 varDatabase = tmpTuple1[0][0]
             # varCount1 = self.Web_PO.assertEqualgetValue(str(a), str(varDatabase))
             varCount1 = self.Web_PO.assertEqualgetValue(Char_PO.zeroByDotSmartStr(a), Char_PO.zeroByDotSmartStr(varDatabase))
-            self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + str(a), varNo + " " + varName + "\n页面值（" + str(a) + "）\n库值（" + str(varDatabase) + "）\n" + str(errorSql) + "\n")
+            self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + str(a), varNo + " " + varName + "\nclient(" + str(a) + ")\nserver(" + str(varDatabase) + ")\n" + str(errorSql) + "\n")
             if varCount1 == 1:
                 return "ok", ""
             else:
-                return "error", "页面值（" + str(a) + "），库值（" + str(varDatabase) + "）"
+                return "error", str(Time_PO.getDate_minus()) + "，" + str(varNo) + "，client(" + str(a) + ")，server(" + str(varDatabase) + ")"
 
         else:
             if "使用率" in varName or "退号率" in varName or "占比" in varName or "百分比" in varName:
@@ -398,11 +398,11 @@ class BiPO(object):
                 else:
                     varDatabase = tmpTuple1[0][0]
                 varCount1 = self.Web_PO.assertEqualgetValue(Char_PO.zeroByDotSmartStr(bb), Char_PO.zeroByDotSmartStr(varDatabase))
-                self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同期，" + str(bb), varNo + " " + varName + "，同期 \n页面值（" + str(bb) + "）\n库值（" + str(varDatabase) + "）\n" + str(errorSql) + "\n")
+                self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同期，" + str(bb), varNo + " " + varName + "，同期 \nclient(" + str(bb) + ")\nserver（" + str(varDatabase) + "）\n" + str(errorSql) + "\n")
                 if varCount1 == 1:
                     return "ok", ""
                 else:
-                    return "error", "页面值（" + str(bb) + "），库值（" + str(varDatabase) + "）"
+                    return "error", str(Time_PO.getDate_minus()) + "，" + str(varNo) + "，client(" + str(bb) + ")，server(" + str(varDatabase) + ")"
             else:
                 if "使用率" in varName or "退号率" in varName or "占比" in varName or "百分比" in varName:
                     if "%" in str(bb):  # 页面上是否有 % 符号
@@ -417,11 +417,11 @@ class BiPO(object):
                             #         bb = str(bb).split("%")[0] + "0%"
                         # varCount1 = self.Web_PO.assertEqualgetValue(str(bb), str(varDatabase))
                         varCount1 = self.Web_PO.assertEqualgetValue(Char_PO.zeroByDotSmartStr(bb), Char_PO.zeroByDotSmartStr(varDatabase))
-                        self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同期，" + str(bb),varNo + " " + varName + "，同期\n页面值（" + str(bb) + "）\n库值（" + str(varDatabase) + "）\n" + str(errorSql) + "\n")
+                        self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同期，" + str(bb),varNo + " " + varName + "，同期\nclient(" + str(bb) + ")\nserver(" + str(varDatabase) + ")\n" + str(errorSql) + "\n")
                         if varCount1 == 1:
                             return "ok", ""
                         else:
-                            return "error", "页面值（" + str(bb) + "），库值（" + str(varDatabase) + "）"
+                            return "error", str(Time_PO.getDate_minus()) + "，" + str(varNo) + "，client(" + str(bb) + ")，server(" + str(varDatabase) + ")"
                     else:
                         self.assertEqual(0, 1, "", varNo + " " + varName + "（" + str(bb) + "）, 页面上缺少%")
                         if varCount1 == 1:
@@ -442,11 +442,11 @@ class BiPO(object):
                         varDatabase = tmpTuple1[0][0]
                     # varCount1 = self.Web_PO.assertEqualgetValue(str(bb), str(varDatabase))
                     varCount1 = self.Web_PO.assertEqualgetValue(Char_PO.zeroByDotSmartStr(bb), Char_PO.zeroByDotSmartStr(varDatabase))
-                    self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同期，" + str(bb), varNo + " " + varName + "，同期\n页面值（" + str(bb) + "）\n库值（" + str(varDatabase) + "）\n" + str(errorSql) + "\n")
+                    self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同期，" + str(bb), varNo + " " + varName + "，同期\nclient(" + str(bb) + ")\nserver(" + str(varDatabase) + ")\n" + str(errorSql) + "\n")
                     if varCount1 == 1:
                         return "ok", ""
                     else:
-                        return "error", "页面值（" + str(bb) + "），库值（" + str(varDatabase) + "）"
+                        return "error", str(Time_PO.getDate_minus()) + "，" + str(varNo) + "，client(" + str(bb) + ")，server(" + str(varDatabase) + ")"
 
     def tongbi(self, varNo, varName, varSql, varDate):
 
@@ -487,17 +487,18 @@ class BiPO(object):
                 tongbiBefore = tongbi.split("%")[0]
                 # varCount1 = self.Web_PO.assertEqualgetValue(tongbiBefore, varDatabase)
                 varCount1 = self.Web_PO.assertEqualgetValue(Char_PO.zeroByDotSmartStr(tongbiBefore), Char_PO.zeroByDotSmartStr(varDatabase))
-                self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同比，" + str(tongbi), varNo + " " + varName + "，同比\n页面值（" + str(tongbi) + "）\n库值（" + str(tmpTuple1[0][0]) + "）\n" + str(errorSql) + "\n")
+                self.assertEqual(varCount1, 1, varNo + " " + varName + "，" + "同比，" + str(tongbi), varNo + " " + varName + "，同比\nclient(" + str(tongbi) + ")\nserver(" + str(tmpTuple1[0][0]) + ")\n" + str(errorSql) + "\n")
                 if varCount1 == 1:
                     return "ok", ""
                 else:
-                    return "error", "同比，页面值（" + str(tongbi) + "），库值（" + str(tmpTuple1[0][0]) + "）"
+                    return "error", str(Time_PO.getDate_minus()) + "，" + str(varNo) + "，client(" + str(tongbi) + ")，server(" + str(tmpTuple1[0][0]) + ")"
+
             else:
-                self.assertEqual(0, 1, "", varNo + " " + varName + "（" + str(tongbi) + "）, 页面上缺少%")
+                self.assertEqual(0, 1, "", varNo + " " + varName + "，页面上缺少%")
                 if varCount1 == 1:
                     return "ok", ""
                 else:
-                    return "error", str(tongbi) + " 页面上缺少%"
+                    return "error",  str(Time_PO.getDate_minus()) + "，" + str(varNo) + " 页面上缺少%"
 
 
    # 搜索 - 选择年
@@ -561,11 +562,12 @@ class BiPO(object):
 
         tmpTuple1 = Mysql_PO.cur.fetchall()
 
-        self.assertEqual(Char_PO.zeroByDotSmartStr(pageDict), Char_PO.zeroByDotSmartStr(tmpTuple1[0][0]), varNo + " " + varName + "，" + str(pageDict),  varNo + " " + varName + "\n页面值（" + str(pageDict) + "）\n库值（" + str(tmpTuple1[0][0]) + "）\n" + str(errorSql) + "\n")
-        if str(pageDict) == str(tmpTuple1[0][0]):
-            return "ok", ""
+        self.assertEqual(Char_PO.zeroByDotSmartStr(pageDict), Char_PO.zeroByDotSmartStr(tmpTuple1[0][0]), varNo + " " + varName + "，" + str(pageDict),  varNo + " " + varName + "\nclient(" + str(pageDict) + "）\nserver(" + str(tmpTuple1[0][0]) + ")\n" + str(errorSql) + "\n")
+        if Char_PO.zeroByDotSmartStr(pageDict) == Char_PO.zeroByDotSmartStr(tmpTuple1[0][0]):
+            return "ok", " "
         else:
-            return "error", "页面值（" + str(pageDict) + "），库值（" + str(tmpTuple1[0][0]) + "）"
+            # return "error", "页面值（" + str(pageDict) + "），库值（" + str(tmpTuple1[0][0]) + "）"
+            return "error", str(Time_PO.getDate_minus()) + "，" + str(varNo) + "，client(" + str(pageDict) + ")，server(" + str(tmpTuple1[0][0]) + ")"
         # self.assertEqual(str(pageDict), str(tmpTuple1[0][0]), "[ok], " + varName + "（" + str(pageDict) + "%）", "[errorrrrrrrrrr], " + varName + "（" + str(pageDict) + "%）, 库值：" + str(tmpTuple1[0][0]) + "\n" + str(errorSql) + "\n")
 
 
@@ -596,48 +598,33 @@ class BiPO(object):
             errorSql = str(varSql).replace("%s", varDate)
 
         tmpTuple = Mysql_PO.cur.fetchall()
-        print(tmpTuple)
-        print(type(tmpTuple))
 
         tmpdict1 = {}
         for k, v in tmpTuple:
-            # if varAfterDot == "0.00":
-            #     if "." in str(v):
-            #         dotLen = str(v).split(".")[1]   # 小数点后一个0
-            #         if len(dotLen) == 1:
-            #             v = str(v) + "0"    # 补0
-            #     else:   # 整数
-            #         v = str(v) + ".00"  # 补.00
-            # elif varAfterDot == "0":
-            #     if "." in str(v):
-            #         dotLen = str(v).split(".")[1]
-            #         if dotLen == "00":
-            #             v = str(v).split(".")[0]
             tmpdict1[k] = str(Char_PO.zeroByDotSmartStr(v))
 
-        self.assertEqual(varDict, tmpdict1, varNo + " " + varName + "，" + str(tmpdict1),  varNo + " " + varName + "\n页面值（" + str(varDict) + "）\n库值（" + str(tmpdict1) + "）\n" + str(errorSql) + "\n")
-        # self.assertEqual(varDict, tmpdict1, "[ok], " + varName + "（" + str(tmpdict1) + "）", "[errorrrrrrrrrr], " + varName + "\n页面：" + str(varDict) + "\n库值：" + str(tmpdict1) + "\n" + str(errorSql) + "\n")
+        self.assertEqual(varDict, tmpdict1, varNo + " " + varName + "，" + str(tmpdict1),  varNo + " " + varName + "\nclient(" + str(varDict) + ")\nserver(" + str(tmpdict1) + ")\n" + str(errorSql) + "\n")
         if varDict == tmpdict1:
             return "ok", ""
         else:
-            return "error", "页面值（" + str(varDict) + "），库值（" + str(tmpdict1) + "）"
-
+            # return "error", "页面值（" + str(varDict) + "），库值（" + str(tmpdict1) + "）"
+            return "error", str(Time_PO.getDate_minus()) + "，" + str(varNo) + "，client(" + str(varDict) + ")，server(" + str(tmpdict1) + ")"
 
     def top10right(self, varNo, varAfterDot, varName, varSql, varDate):
         # varAfterDot = 0 表示取整，如 12.00则转换成12
         # varAfterDot = 0.00 表示保留2位小数，如 12 转换成 12。00
 
         tmpList1 = self.getContent("//div")
-
-        tmp = self.getContent("//span")
-        tmp = str(tmp).split(varName + "', '")[1].split("'")[0]
-        tmp = tmpList1[0].split(varName)[1].split(tmp)[0].split("\n")
-        tmp.pop()
-        tmp.pop(0)
-        varDict = self.List_PO.list2dictBySerial(tmp)
-        for k,v in varDict.items():
-            varDict[k] = str(Char_PO.zeroByDotSmartStr(v))
-        print(varDict)
+        tmpList2 = self.getContent("//span")
+        tmpList2 = str(tmpList2).split(varName + "', '")[1].split("'")[0]
+        tmpList2 = tmpList1[0].split(varName)[1].split(tmpList2)[0].split("\n")
+        tmpList2.pop()
+        tmpList2.pop(0)
+        varDict = self.List_PO.list2dictBySerial(tmpList2)
+        # print(varDict)
+        if varDict != None:
+            for k,v in varDict.items():
+                varDict[k] = str(Char_PO.zeroByDotSmartStr(v))
 
         if "," in varDate:
             tmpDate = str(varDate).split(",")
@@ -660,25 +647,14 @@ class BiPO(object):
 
         tmpdict1 = {}
         for k, v in tmpTuple:
-            # if varAfterDot == "0.00":
-            #     if "." in str(v):
-            #         dotLen = str(v).split(".")[1]   # 小数点后一个0
-            #         if len(dotLen) == 1:
-            #             v = str(v) + "0"    # 补0
-            #     else:   # 整数
-            #         v = str(v) + ".00"  # 补.00
-            # elif varAfterDot == "0":
-            #     if "." in str(v):
-            #         dotLen = str(v).split(".")[1]
-            #         if dotLen == "00":
-            #             v = str(v).split(".")[0]
-            # tmpdict1[k] = str(v)
             tmpdict1[k] = str(Char_PO.zeroByDotSmartStr(v))
 
-        self.assertEqual(varDict, tmpdict1, varNo + " " + varName + "，" + str(tmpdict1),  varNo + " " + varName + "\n页面值（" + str(varDict) + "）\n库值（" + str(tmpdict1) + "）\n" + str(errorSql) + "\n")
+        self.assertEqual(varDict, tmpdict1, varNo + " " + varName + "，" + str(tmpdict1),  varNo + " " + varName + "\nclient(" + str(varDict) + ")\nserver(" + str(tmpdict1) + ")\n" + str(errorSql) + "\n")
         if varDict == tmpdict1:
             return "ok", ""
         else:
-            return "error", "页面值（" + str(varDict) + "），库值（" + str(tmpdict1) + "）"
+            # return "error", "页面值（" + str(varDict) + "），库值（" + str(tmpdict1) + "）"
+            return "error", str(Time_PO.getDate_minus()) + "，" + str(varNo) + "，client(" + str(varDict) + ")，server(" + str(tmpdict1) + ")"
+
 
 
