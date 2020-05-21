@@ -5,7 +5,8 @@
 # Description: BI集成平台自动化脚本 by pycharm（打印结果，输出日志到log）
 # *****************************************************************
 
-
+import os, sys
+sys.path.append("../../../../")
 from instance.zyjk.BI.PageObject.BiPO import *
 Bi_PO = BiPO()
 List_PO = ListPO()
@@ -45,13 +46,11 @@ for i in range(2, row+1):
     if "1.1." in str(recordList[7]) :  # 将当前数据更新时间写入统计日期
         tmpList = Excel_PO.getRowValue(excelFile, i, "bi")
         x = tmpList[9].count("%")
-        # print(x)
         if x == 2:
             Excel_PO.writeXlsx(excelFile, "bi", i, 11, str(varUpdateDate)+"," + str(varUpdateDate))
         else:
             Excel_PO.writeXlsx(excelFile, "bi", i, 11, str(varUpdateDate))
         recordList = Excel_PO.getRowValue(excelFile, i, "bi")
-        # print(recordList)
         result, info = Bi_PO.monitor(str(recordList[7]), recordList[8], recordList[9], recordList[10])
         Excel_PO.writeXlsx(excelFile, "bi", i, 1, result)
         Excel_PO.writeXlsx(excelFile, "bi", i, 2, info)
@@ -84,13 +83,10 @@ for i in range(2, row+1):
 
     recordList = []
 
-
 print("end")
 # ===============================================================================================
 # Bi_PO.menu1("1", "实时监控指标")
-# varUpdateDate = str(varDataUpdateDate).split("数据更新时间：")[1].split(" ")[0]
 # Bi_PO.menu2ByHref("1.1", "今日运营分析", "/bi/realTimeMonitoringIndicator/todayOperationalAnalysis")
-
 # # 2，当前住院欠费明细
 # print(Bi_PO.getContent("//tr"))
 # Bi_PO.menu1Close("实时监控指标")
@@ -134,7 +130,7 @@ print("end")
 
 
 # # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# print("\n[1.4 医技动态监测]" + " -" * 100)
+# print("\n[1.4 医技动态]" + " -" * 100)
 # Bi_PO.menu2ByHref("/bi/realTimeMonitoringIndicator/operationTrend",vatUpdateDate)
 #
 # # 1，遍历并分成多个列表（今日检验项目数，今日检验总费用，今日检查项目数，今日检查总费用）
@@ -145,17 +141,12 @@ print("end")
 
 # ===============================================================================================
 
-
-
-#
 # Bi_PO.menu1("2", "门诊分析")
-# sleep(2)
 
 # #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # varUpdateDate = "2020-03-22"
 # Bi_PO.menu2ByHref("2.2 门诊预约", "/bi/outpatientAnalysis/outpatientAppointment",varUpdateDate)
-#
-#
+
 # # 1，遍历并分成多个列表（门诊预约人次，院内窗口预约）
 # # 门诊预约人次 = 统计期内门诊预约人次和
 # SELECT sum(subscribeCount) from bi_outpatient_yard where statisticsDate ='2019-09-15'
@@ -169,9 +160,6 @@ print("end")
 # reserveList.append("门诊预约率")
 # reserveList.append(tmpList2[0].split("门急预约人次月趋势\n")[1].split("\n门诊预约率")[0])
 # print(List_PO.listBorderDict(reserveList))
-
-
-# #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 #  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -192,9 +180,7 @@ print("end")
 # sleep(1212)
 # Bi_PO.winByDiv("门急诊收入科室排名\n", "门急诊均次费月趋势")
 
-# # 这里有问题？
-# Bi_PO.top10("2.4.8", "0", Bi_PO.winByDiv("门急诊收入科室排名\n", "门急诊均次费月趋势"), "门急诊收入科室排名", 'SELECT deptname,round(outPAccount,2) from bi_outpatient_dept where statisticsDate ="%s" GROUP BY deptname ORDER BY outpaccount DESC LIMIT 10', varUpdateDate)
-#
+
 # # 2.4.9 门急诊医疗收入构成分析
 # Bi_PO.Color_PO.consoleColor("31", "33", "[warning], 2.4.9 门急诊医疗收入构成分析, 未提供sql", "")
 # Bi_PO.Log_PO.logger.warning("2.4.9 门急诊医疗收入构成分析, 未提供sql")
@@ -207,7 +193,6 @@ print("end")
 # Bi_PO.menu1("3", "住院分析")
 # varUpdateDate = "2020-03-22"
 # # Bi_PO.menu2ByHref("3.1","住院业务", "/bi/hospitalizationAnnlysis/inpatientService", varUpdateDate)
-#
 #
 #
 # # # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -273,22 +258,17 @@ print("end")
 # Bi_PO.menu2ByHref("/bi/medicalInsuranceAnalysis/outpatientEmergeInsurance", varUpdateDate)
 #
 # # ===============================================================================================
-#
 # Bi_PO.l("医技分析")
-#
 # # 检验分析
 # Bi_PO.menu2ByHref("/bi/medicalTechnologyAnalysis/InspectionAnalysis", varUpdateDate)
-#
 # # 检查分析
 # Bi_PO.menu2ByHref("/bi/medicalTechnologyAnalysis/ExamineAnalysis", varUpdateDate)
 #
 # # ===============================================================================================
 #
 # Bi_PO.menu1("医疗质量")
-#
 # # 治疗质量
 # Bi_PO.menu2ByHref("/bi/medicalQuality/treatmentQuality", varUpdateDate)
-#
 # # 诊断质量
 # Bi_PO.menu2ByHref("/bi/medicalQuality/diagnosticQuality", varUpdateDate)
 

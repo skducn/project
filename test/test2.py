@@ -1,24 +1,58 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
+# ********************************************************************************************************************
+# Author     : John
+# Date       : 2019-1-8
+# Description: ChainMap
+# ********************************************************************************************************************
 
-from collections import ChainMap
-baseline = {'music': 'bach', 'art': 'rembrandt'}
-adjustments = {'art': 'van gogh', 'opera': 'carmen'}
-print(ChainMap(adjustments, baseline))
-print(list(ChainMap(adjustments, baseline)))
+import imghdr
 
-a = {'x': 1, 'z': 3 }
-b = {'y': 2, 'z': 4 }
-c = ChainMap(a,b)
-print(c['x']) # Outputs 1 (from a)
-print(c['y']) # Outputs 2 (from b)
-print(c['z']) # Outputs 3 (from a)
-c['z'] = 5
-c['g'] = 2
-print(a)
-print(b)
+# if __name__ == '__main__':
+#     # 检测一个文件
+#     with open('D:/test/123.jpg', 'rb') as img_file:
+#         print(imghdr.what(img_file))
+
+import imghdr
+import urllib3
+import uuid
 
 
-#
+class Spider:
+
+    pool_manager = urllib3.PoolManager()
+
+    @staticmethod
+    def get(url):
+        return Spider.pool_manager.urlopen('GET', url)
+
+
+class ImageDownLoader:
+    """
+    图片下载器
+    """
+
+    @staticmethod
+    def download(url, path):
+        """
+        这个方法用来下载图片并保存
+        :param url:  图片的路径
+        :param path: 要保存到的路径
+        :return:
+        """
+        response = Spider.get(url)
+        save_name = path + uuid.uuid1().hex + "." + imghdr.what(None, response.data)
+        with open(save_name, 'wb') as img_file:
+            img_file.write(response.data)
+
+
+if __name__ == '__main__':
+    ImageDownLoader.download('http://img3.doubanio.com/view/photo/albumcover/public/p2327732376.webp', 'D:/')
+    with open('D:/e5c59ac59b4311eaa1a0505bc2b637ea.webp', 'rb') as img_file:
+        print(imghdr.what(img_file))
+
+
+
+
 # import os,shutil,datetime
 # # from time import sleep
 # # import paramiko
