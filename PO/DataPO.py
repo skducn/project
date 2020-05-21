@@ -38,9 +38,11 @@
 8.2，MD5分段加密
 
 9，获取文档里某个单词出现的数量
+
+10，生成uuid
 '''
 
-import sys, random, json, jsonpath, hashlib, socket, struct, re, datetime
+import sys, random, json, jsonpath, hashlib, socket, struct, re, datetime,uuid
 from datetime import date
 from datetime import timedelta
 
@@ -419,6 +421,26 @@ class DataPO():
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
+    # 10，生成uuid
+    def getUuid(self, varMode, varName="jinhao"):
+        # UUID是128位的全局唯一标识符，通常由32字节的字符串表示。
+        if varMode == "uuid1":
+            # 从主机ID，序列号和当前时间生成UUID
+            return uuid.uuid1().hex
+        elif varMode == "md5":
+            # 把一个UUID和name经过MD5生成UUID
+            return (uuid.uuid3(uuid.uuid1(), varName).hex)
+        elif varMode == "random":
+            # 生成一个随机UUID
+            return (uuid.uuid4().hex)
+        elif varMode == "sh1":
+            # 把一个UUID和name经过sha1生成UUID
+            return (uuid.uuid5(uuid.uuid1(), varName).hex)
+
+
+
+
+
 if __name__ == '__main__':
 
     Data_PO = DataPO()
@@ -470,3 +492,9 @@ if __name__ == '__main__':
     print("9，获取文档里某个单词出现的数量".center(100, "-"))
     # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "INFO"))
     # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "ERROR"))
+
+    print("10，生成uuid".center(100, "-"))
+    print(Data_PO.getUuid("uuid1"))
+    print(Data_PO.getUuid("md5"))
+    print(Data_PO.getUuid("random"))
+    print(Data_PO.getUuid("sh1"))
