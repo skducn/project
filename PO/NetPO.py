@@ -5,6 +5,19 @@
 # Description: 网络对象（发邮件，获取网页状态码，网页header，网页内容，下载文件,下载网页，下载图片
 # ***************************************************************
 
+'''
+1，发送邮件
+
+2.1，获取网站状态码
+2.2，获取网站的header
+2.3，获取网站内容
+
+3.1，下载程序
+3.2，下载网页/图片
+3.3，下载图片
+3.4，异步多线程下载图片
+'''
+
 import sys, smtplib, os, base64, requests, urllib,json, jsonpath, logging, time
 import email.mime.multipart
 import email.mime.text
@@ -107,6 +120,7 @@ class NetPO():
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
+
     # 2.1，获取网站状态码
     def getURLCode(self, varURL):
         # 获取网站的 statuscode，如 200 404 500'''
@@ -137,6 +151,7 @@ class NetPO():
             return response.text
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+
 
     # 3.1，下载程序
     def downloadProgram(self, varUrlFile, varFilePath='./'):
@@ -219,22 +234,23 @@ class NetPO():
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-
-    # 3.4，异步多线程下载图片
-    def downloadImageAsync(self, varPathList):
+    # 3.4，异步多线程下载多张图
+    def downloadImageAsync(self, varPathList, varFilePath="./"):
         # http://www.51testing.com/html/73/n-4471673.html  使用 Selenium 实现谷歌以图搜图爬虫（爬取大图）
         # https://blog.csdn.net/S_o_l_o_n/article/details/86066704 python多进程任务拆分之apply_async()和map_async()
-        # 通过异步多线程方式将列表中文件下载到当前路径
-        # 如：varPathList = ["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"]
+        # 通过异步多线程方式将列表中路径文件下载到当前路径, 只能传入1个参数，摸索中。
+        # https://www.cnblogs.com/c-x-a/p/9049651.html  pool.map的第二个参数想传入多个咋整？
         logging.basicConfig(level=logging.INFO, format="%(asctime)s [*] %(processName)s %(message)s")
         start = time.time()
-        logging.info("-----main before")
-        pool = Pool(cpu_count())  # 建立一个进程池，cpu_count() 表示cpu核心数，将进程数设置为cpu核心数
-        pool.map_async(Net_PO.downloadImage, varPathList)
+        logging.info("下载前")
+
+        # 建立一个进程池，cpu_count() 表示cpu核心数，将进程数设置为cpu核心数
+        pool = Pool(cpu_count())
+        pool.map_async(Net_PO.downloadImage, varPathList)   # map_async（函数，参数）
 
         pool.close()
         pool.join()
-        logging.info(f"-----main after {time.time() - start} s")
+        logging.info(f"下载后 {time.time() - start} s")
 
 
 if __name__ == '__main__':
@@ -275,7 +291,7 @@ if __name__ == '__main__':
     # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "/11/123.jpg")  # 同上
 
     # print("3.4，异步多线程下载图片".center(100, "-"))
-    # Net_PO.downloadImageAsync(["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"])
+    Net_PO.downloadImageAsync(["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"],"d:\\test\\")
     # Net_PO.downloadImageAsync([["http://img.sccnn.com/bimg/341/08062.jpg"], ["http://img.sccnn.com/bimg/339/21311.jpg"],["http://img.sccnn.com/bimg/341/23281.jpg"], ["http://img.sccnn.com/bimg/341/21281.jpg"]])
 
 

@@ -6,6 +6,7 @@
 # https://www.jb51.net/article/167029.htm
 # https://www.cnblogs.com/it-tsz/p/10605021.html set集合
 # *********************************************************************
+
 from collections import ChainMap
 
 from PO.MysqlPO import *
@@ -29,7 +30,6 @@ class DictPO():
         else:
             return None
 
-
     # 1.2，获取2个字典交、并、差和对称差集的键值对
     def getKeyValueByDict(self, varOperator, varDict1, varDict2):
         if varOperator == "&":
@@ -43,8 +43,7 @@ class DictPO():
         else:
             return None
 
-
-     # 1.3， 两个字典合并，去掉N个key
+    # 1.3， 两个字典合并，去掉N个key
     def getMergeDictDelKey(self, varOperator, varDict1, varDict2):
         pass
         # # 两个字典合并，去掉N个key
@@ -53,6 +52,7 @@ class DictPO():
         # c = {key: a[key] for key in a.keys() - {'w', "z"}}
         # return(c)
         # # {'y': 2, 'x': 1}
+
 
     # 2，将2个字典合并成一个字典
     def getMergeDict2(self,varDict1, varDict2):
@@ -117,25 +117,3 @@ if __name__ == "__main__":
     print(Dict_PO.getMergeDict3(d1, d2, d3))  # {'b': 2, 'c': 3, 'z': 88, 'd': 4, 'a': 1}
 
 
-
-
-    # varUpdateDate = '2020-03-22'
-    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)
-    #
-    # # Mysql_PO.conn.cursor(MySQLdb.cursors.DictCursor)
-    # # Mysql_PO.cur.execute('select * from bi_outpatient_yard ')
-    # # Mysql_PO.cur.execute('SELECT deptName,antibioticRecipe from bi_dept_recipe_day WHERE statisticsDate ="2020-03-22" ORDER BY antibioticRecipe DESC limit 10')
-    # Mysql_PO.cur.execute('SELECT deptname,round(outPAccount,2)from bi_outpatient_dept where statisticsDate ="2020-03-22" ORDER BY outpaccount DESC LIMIT 15')
-    # tmpTuple = Mysql_PO.cur.fetchall()
-    # # desc = Mysql_PO.cur.description  # 获取单表的字段名信息
-    # # print(desc)
-    # print(tmpTuple)
-    # # print(Mysql_PO.cur.rowcount)  # 获取结果集的条数/
-    #
-    # dict1={}
-    # for k,v in tmpTuple:
-    #     print(k)
-    #     print(v)
-    #     dict1[k]=v
-    # print(dict1)
-    #
