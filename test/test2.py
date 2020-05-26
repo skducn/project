@@ -5,6 +5,50 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
+import pyttsx3
+engine = pyttsx3.init()
+rate = engine.getProperty('rate')
+engine.setProperty('rate', rate-55)
+engine.say('The quick brown fox jumped over the lazy dog.')
+engine.runAndWait()
+
+
+"""
+本地语音文件识别测试
+"""
+# import speech_recognition as sr
+# import sys
+#
+# say = '你看看'
+# r = sr.Recognizer()
+#
+# # 本地语音测试
+# harvard = sr.AudioFile(sys.path[0]+'/youseesee.wav')
+# with harvard as source:
+#     # 去噪
+#     r.adjust_for_ambient_noise(source, duration=0.2)
+#     audio = r.record(source)
+#
+# # 语音识别
+# test = r.recognize_google(audio, language="cmn-Hans-CN", show_all=True)
+# print(test)
+#
+# # 分析语音
+# flag = False
+# for t in test['alternative']:
+#     print(t)
+#     if say in t['transcript']:
+#         flag = True
+#         break
+# if flag:
+#     print('Bingo')
+
+# engine = pyttsx3.init()
+# engine.say("风飘荡，雨濛茸，翠条柔弱花头重")
+# engine.runAndWait()
+
+
+
 import imghdr
 
 # if __name__ == '__main__':
@@ -15,40 +59,40 @@ import imghdr
 import imghdr
 import urllib3
 import uuid
-
-
-class Spider:
-
-    pool_manager = urllib3.PoolManager()
-
-    @staticmethod
-    def get(url):
-        return Spider.pool_manager.urlopen('GET', url)
-
-
-class ImageDownLoader:
-    """
-    图片下载器
-    """
-
-    @staticmethod
-    def download(url, path):
-        """
-        这个方法用来下载图片并保存
-        :param url:  图片的路径
-        :param path: 要保存到的路径
-        :return:
-        """
-        response = Spider.get(url)
-        save_name = path + uuid.uuid1().hex + "." + imghdr.what(None, response.data)
-        with open(save_name, 'wb') as img_file:
-            img_file.write(response.data)
-
-
-if __name__ == '__main__':
-    ImageDownLoader.download('http://img3.doubanio.com/view/photo/albumcover/public/p2327732376.webp', 'D:/')
-    with open('D:/e5c59ac59b4311eaa1a0505bc2b637ea.webp', 'rb') as img_file:
-        print(imghdr.what(img_file))
+#
+#
+# class Spider:
+#
+#     pool_manager = urllib3.PoolManager()
+#
+#     @staticmethod
+#     def get(url):
+#         return Spider.pool_manager.urlopen('GET', url)
+#
+#
+# class ImageDownLoader:
+#     """
+#     图片下载器
+#     """
+#
+#     @staticmethod
+#     def download(url, path):
+#         """
+#         这个方法用来下载图片并保存
+#         :param url:  图片的路径
+#         :param path: 要保存到的路径
+#         :return:
+#         """
+#         response = Spider.get(url)
+#         save_name = path + uuid.uuid1().hex + "." + imghdr.what(None, response.data)
+#         with open(save_name, 'wb') as img_file:
+#             img_file.write(response.data)
+#
+#
+# if __name__ == '__main__':
+#     ImageDownLoader.download('http://img3.doubanio.com/view/photo/albumcover/public/p2327732376.webp', 'D:/')
+#     with open('D:/e5c59ac59b4311eaa1a0505bc2b637ea.webp', 'rb') as img_file:
+#         print(imghdr.what(img_file))
 
 
 
