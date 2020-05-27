@@ -24,9 +24,16 @@ for i in range(2, row + 1):
     # print(len(recordList))
     # sleep(1212)
 
-    if recordList[8] != "" and recordList[4] == "完整性":
+    # if recordList[8] != "" and recordList[4] == "完整性":
+    if recordList[8] != "" :
 
         print(i, recordList)
+
+        # 5，重置 HrRuleRecord 质控结果表
+        Rule_PO.execQuery("delete HrRuleRecord")
+        Rule_PO.execQuery("delete HrCover")
+        Rule_PO.execQuery("delete HrPersonBasicInfo")
+
         # 1，对封面表、基本信息表、一对多表插入一条完整的档案
         Rule_PO.execSqlFile("HrCover.sql")  # 插入一条封面表记录
         Rule_PO.execSqlFile("HrPersonBasicInfo.sql")  # 插入一条基本信息表记录
