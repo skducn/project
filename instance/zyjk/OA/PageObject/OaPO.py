@@ -1,24 +1,88 @@
 # coding=utf-8
-#***************************************************************
+# *****************************************************************
 # Author     : John
-# Created on : 2018-3-15
-# Description: 首营 对象库
-#***************************************************************
+# Date       : 2020-6-4
+# Description: OA 对象库
+# *****************************************************************
 
-import sys, os, platform
-sys.path.append("..")
-# from config.config import *
-from zyjk.OA.web.config.config import *
+from instance.zyjk.OA.config.config import *
+from selenium.webdriver.common.action_chains import ActionChains
 
-class OvertimePO(object):
 
-    def __init__(self, Level_PO):
-         self.Level_PO = Level_PO
+class OaPO(object):
+
+    def __init__(self):
+        self.List_PO = ListPO()
+        self.Time_PO = TimePO()
+        self.Color_PO = ColorPO()
+        self.List_PO = ListPO()
+        self.Str_PO = StrPO()
+        self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
+
+
+    def open(self):
+        self.Web_PO = WebPO("chrome")
+        self.Web_PO.openURL(varURL)
+        self.Web_PO.driver.maximize_window()  # 全屏
+        # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
 
     '''1、登录'''
     def login(self, varUser):
-        self.Level_PO.inputName("UNAME", varUser)
-        self.Level_PO.clickXpath(u"//button[@id='submit']", 2)
+        ''' 登录 '''
+
+        self.Web_PO.inputId("name", varUser)
+        self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
+
+    def memu(self, varMemuName, varSubName):
+        '''点击左侧菜单,并选择模块'''
+
+        # # 获取菜单列表
+        x = self.Web_PO.getXpathsText("//div")
+        list1 = []
+        for i in x :
+            if "快捷菜单" in i:
+                list1.append(i)
+                break
+        list2 = []
+        for i in range(len(str(list1[0]).split("\n"))):
+            if Str_PO.isContainChinese(str(list1[0]).split("\n")[i]) == True:
+                list2.append(str(list1[0]).split("\n")[i])
+        # print(list2)
+        for j in range(len(list2)):
+            if list2[j] == varMemuName:
+                self.Web_PO.clickXpath("//ul[@id='first_menu']/li[" + str(j+1) + "]", 2)
+                x = self.Web_PO.getXpathsText("//li")
+                list3 = []
+                list4 = []
+                for i in x:
+                    if varMemuName in i:
+                        list3.append(i)
+                        break
+                # print(list3)
+                for i in range(len(str(list3[0]).split("\n"))):
+                    if str(list3[0]).split("\n")[i] != varMemuName and Str_PO.isContainChinese(str(list3[0]).split("\n")[i]) == True:
+                        list4.append(str(list3[0]).split("\n")[i])
+                # print(list4)
+                for k in range(len(list4)):
+                    if list4[k] == varSubName:
+                        self.Web_PO.clickXpath("//ul[@id='first_menu']/li[" + str(j+1) + "]/div[2]/ul/li[" + str(k+1) + "]/a", 2)
+
+    def getWorkQty(self):
+        # # 检查 常用工作中表单数量，应该3个。
+        list1 = self.Web_PO.getXpathsText("//li")
+        # print(list1)
+        qty = len(list1) - 4
+        if qty == 3:
+            print("ok, 工作流 - 新建工作 - 常用工作表单数量3个。")
+        else:
+            print("errorrrrrrrrrr, 工作流 - 新建工作 - 常用工作表单数量" + qty + "个!")
+
+
+
+
+
+
+
 
     '''2、创建申请单'''
     def createRequisition(self, company, type, period, starttime, endtime, content):
