@@ -36,6 +36,8 @@
 8.2，比较两列表，返回两列表中相同元素
 8.3，比较两列表，返回包含在一个列表内而不在另一个列表中的元素
 
+9，截取列表中区间元素作为新列表元素。
+
 '''
 
 import numpy,sys
@@ -367,6 +369,29 @@ class ListPO():
         else:
             return [x for x in varContainList if x not in varList1]
 
+    # 9，截取列表中区间元素作为新列表元素。
+    def getSectionList(self, varList, varElement, varMode):
+        # 如：[1,2,3,'测试',4,5,6] ，获取测试之前的元素，或获取测试之后的元素。
+        # print(List_PO.getSectionList([1, 2, 3, '测试', 4, 5, 6], '测试', 'delbefore'))  # [4,5,6]
+        # print(List_PO.getSectionList([1, 2, 3, '测试', 4, 5, 6], '测试', 'delafter'))  # [1,2,3]
+        if varMode == "delbefore":
+            list3 = []
+            a = ""
+            for i in varList:
+                if i == varElement:
+                    a = 1
+                if a == 1:
+                    list3.append(i)
+            list3.pop(0)
+            return (list3)
+        elif varMode == "delafter":
+            # 将列表中某个元素之前的元素组成一个新的列表， 如 [1,2,3,'审核信息',4,5,6] 变为 [1,2,3]
+            list4 = []
+            for i in varList:
+                if varElement == i:
+                    break
+                list4.append(i)
+            return (list4)
 
     # 10
     # print('b的值为:', b)
@@ -528,3 +553,7 @@ if __name__ == "__main__":
     list2 = ['张三', '李四', '老二', '王七']
     print(List_PO.getContainElementByCmp(list1, list2, list1))  # ['王五']  //最后一个参数表示包含的列表，如在list1列表中而不在list2列表中
     print(List_PO.getContainElementByCmp(list1, list2, list2))  # ['王七']  //最后一个参数表示包含的列表，如在list2列表中而不在list1列表中
+
+    print("9，截取列表中区间元素作为新列表元素。".center(100, "-"))
+    print(List_PO.getSectionList([1,2,3,'测试',4,5,6], '测试', 'delbefore'))  # [4,5,6]
+    print(List_PO.getSectionList([1,2,3,'测试',4,5,6], '测试', 'delafter'))  # [1,2,3]

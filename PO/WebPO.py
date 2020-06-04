@@ -86,6 +86,11 @@ class WebPO(BasePO):
 
     # 1.2，关闭网站
     def closeURL(self):
+        # 关闭当前窗口
+        self.driver.close()
+
+    def quitURL(self):
+        # 退出驱动并关闭所有关联的窗口
         self.driver.quit()
 
     # 获取当前全屏浏览器宽高
@@ -225,29 +230,23 @@ class WebPO(BasePO):
             return self.driver.switch_to_alert().text
 
     # 7，多窗口切换
-    def switchWindow(self, varURL1, varURL2):
-        # 多窗口切换，打开url1，再打开url2，切回url1
+    def switchWindow(self, varURL1, varURL2, varSwitch):
+        # 多窗口切换，打开 varURL1，再打开 varURL2，切换窗口到第几个窗口。
+        # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 0)   # 切回到第1个窗口
+        # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 1)   # 切回到第2个窗口
 
-        # 打开url1
         self.openURL(varURL1)
-        # 打开url2
         self.driver.execute_script('window.open("' + varURL2 + '");')  # 2147483656
-
         all_handles = self.driver.window_handles
-        # 切回url1
-        sleep(5)
-        self.driver.switch_to.window(all_handles[0])
 
-        # 切回url2
+        # 切回到第几个窗口
+        sleep(2)
+        self.driver.switch_to.window(all_handles[varSwitch])
+
+        # Web_PO.driver.close()  # 关闭当前窗口
+        # Web_PO.driver.switch_to.window(all_handles[1])  # 切换回url2
         # sleep(5)
-        # self.driver.switch_to.window(all_handles[1])
-
-        Web_PO.driver.close()  # 关闭当前窗口（163）
-        Web_PO.driver.switch_to.window(all_handles[1])  # 切换回url2
-        sleep(5)
-        Web_PO.driver.quit() # 关闭所有窗口
-
-
+        # Web_PO.driver.quit() # 关闭所有窗口
 
 
 if __name__ == '__main__':
@@ -275,4 +274,4 @@ if __name__ == '__main__':
 
 
     print("7，多窗口切换".center(100, "-"))
-    Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com")
+    Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 1)
