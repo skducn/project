@@ -152,7 +152,6 @@ if __name__ == '__main__':
         os.system("start .\\report\\report.html")
         os.system("start .\\config\\interface.xls")
     if on_off == 'on':
-
         email.send_email()
 
 

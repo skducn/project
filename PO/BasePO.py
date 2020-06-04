@@ -3,7 +3,7 @@
 # Author     : John
 # Created on : 2020-3-20
 # Description: 基类封装(公用方法)
-# # 重新定义find_element, find_elements, send_keys, input，click，get，print，checkbox，select，iframe，js，color，exist
+# # 重新定义find_element, find_elements, send_keys, input，click，get，print，checkbox，select，iframe，js，color，exist,alert
 #***************************************************************
 
 import sys, os, platform
@@ -69,9 +69,6 @@ class BasePO(object):
     def sendKeysXpath_mac(self, dimXpath, dimValue):
         self.driver.find_element_by_xpath(dimXpath).send_keys(dimValue)
 
-    def close_driver(self):
-        self.driver.close()
-        # self.driver.quit()
 
 
     '''[ASSERT]'''
@@ -654,9 +651,21 @@ class BasePO(object):
 
     def iframeXpath(self, dimXpath, t):
         # 定位iframe的Xpath
-        # self.Level_PO.inIframeXpth("//body[@class='gray-bg top-navigation']/div[4]/iframe", 1)
+        # self.Level_PO.iframeXpath("//body[@class='gray-bg top-navigation']/div[4]/iframe", 1)
         self.driver.switch_to_frame(self.driver.find_element_by_xpath(dimXpath))
         sleep(t)
+
+    def iframeXpathAttr(self, dimXpath, varAttr, varContain, t):
+        # self.Level_PO.iframeXpathAttr("//iframe", "src", "/general/workflow/new/", 2)
+        try:
+            for a in self.find_elements(*(By.XPATH, dimXpath)):
+                if varContain in a.get_attribute(varAttr):
+                    self.driver.switch_to_frame(self.driver.find_element_by_xpath(dimXpath))
+                    break
+            sleep(t)
+            print("111")
+        except:
+            print("error121212")
 
     def inIframeTopDiv(self, varPath, t):
         # 定位iframe的div路径
@@ -680,37 +689,31 @@ class BasePO(object):
         self.driver.switch_to_default_content()
         sleep(t)
 
-    '''[ 8js ]'''
 
+    '''[ 8js ]'''
     def jsExecute(self, varJs, t):
         # 执行js
-        # js = 'document.querySelector("input[type=number]").value="";    //清除input输入框内哦那个
-        # js = 'document.getElementById("filePath").style.display="block"'
+        # varJs = 'document.querySelector("input[type=number]").value="";    //清除input输入框内哦那个
+
         self.driver.execute_script(varJs)
         sleep(t)
 
     def jsIdReadonly(self, varId, t):
-        # 定位id ，去掉js控件只读属性，一般第三方控件日期
-        varJs = 'document.getElementById("' + varId + '").removeAttribute("readonly")'
-        self.jsExecute(varJs)
-        sleep(t)
+        # 通过id去掉控件只读属性，一般用于第三方日期控件
+        self.jsExecute('document.getElementById("' + varId + '").removeAttribute("readonly")', t)
 
     def jsNameReadonly(self, varName, t):
-        # 定位Name，去掉js控件只读属性，一般第三方控件日期
-        # document没有getElementByName方法，只有document.getElementsByName 得到的是标签的数组；
-        # 可以通过数组第一个元素获取，如 array[0]
-        varJs = 'document.getElementsByName("' + varName + '")[0].removeAttribute("readonly")'
-        self.jsExecute(varJs)
-        sleep(t)
+        # 通过Name去掉控件只读属性，一般用于第三方日期控件
+        # 注意：document不支持getElementByName方法，只有getElementsByName方法获取标签数组，可通过数组第一个元素获取，如 array[0]
+        self.jsExecute('document.getElementsByName("' + varName + '")[0].removeAttribute("readonly")', t)
 
     def jsNameDisplay(self, varName, t):
-        # 去掉js隐藏属性
-        varJs = 'document.getElementsByName("' + varName + '")[0].style.display=""'
-        self.jsExecute(varJs)
-        sleep(t)
+        # 通过name去掉隐藏属性，显示UI
+        self.jsExecute('document.getElementsByName("' + varName + '")[0].style.display=""', t)
 
     def displayBlockID(self, varID):
         # 未验证？
+        # varJs = 'document.getElementById("filePath").style.display="block"'
         return self.driver.find_element_by_id(varID).style.display
 
 
@@ -777,6 +780,7 @@ class BasePO(object):
 
     def isElementXpath(self, varPath):
         # 通过Xpath方式检查元素是否存在
+        # print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_11' and @value='同意' and @checked]")) ，如判断单选框哪个被选中，如检查checked是否存在作为依据。
         flag = False
         try:
             self.driver.find_element_by_xpath(varPath)
@@ -795,6 +799,22 @@ class BasePO(object):
         except:
             flag = False
         return flag
+
+    ''' [11 alert] '''
+    def alertAccept(self):
+        # 系统默认弹框，点击确定
+        alert = self.driver.switch_to.alert
+        alert.accept()
+
+    def alertDismiss(self):
+        # 系统默认弹框，点击取消
+        alert = self.driver.switch_to.alert
+        alert.dismiss()
+
+    def alertInformation(self):
+        # 返回系统默认弹框中的文案信息
+        alert = self.driver.switch_to.alert
+        return alert.text
 
 
 if __name__ == '__main__':
