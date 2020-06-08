@@ -21,151 +21,23 @@ Excel_PO = ExcelPO()
 
 
 
+#***************************************************************#***************************************************************
 
+# varNo = "5680"
 
-# # 申请者登录OA
-# Oa_PO.open()
-# Oa_PO.login("jinhao")
-#
-# # 点击菜单选模块
-# Oa_PO.memu("工作流", "新建工作")
-#
-# # 检查 常用工作中表单数量，应该3个。
-# Oa_PO.Web_PO.iframeXpath("//iframe[@src='/general/workflow/new/']", 2)
-# Oa_PO.getWorkQty()
-#
-# # 请假申请单
-# Oa_PO.Web_PO.clickXpathsContain("//button", "onclick", "请假申请", 2)
-# # Oa_PO.Web_PO.iframeQuit(2)
-# # Oa_PO.Web_PO.iframeId("tabs_w10000_iframe", 2)
-# # Oa_PO.Web_PO.iframeId("work_form_data", 2)
-# # Oa_PO.Web_PO.clickXpathsNum("//input[@type='radio']",3, 2)  # 公休
-# # Oa_PO.Web_PO.jsIdReadonly("DATA_4", 2)
-# # Oa_PO.Web_PO.inputXpath("//input[@name='DATA_4']", "2020-06-04 09:43:40")
-# # Oa_PO.Web_PO.jsIdReadonly("DATA_5", 2)
-# # Oa_PO.Web_PO.inputXpath("//input[@name='DATA_5']", "2020-06-05 09:43:40")
-# # Oa_PO.Web_PO.inputXpath("//input[@name='DATA_67']", "2")
-# # Oa_PO.Web_PO.inputXpath("//textarea[@name='DATA_7']", "请假休息")
-# # Oa_PO.Web_PO.inputXpath("//textarea[@name='DATA_44']", "已交接")
-# # Oa_PO.Web_PO.iframeSwitch(1)
-# # Oa_PO.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
-# # Oa_PO.Web_PO.alertAccept()
-# Oa_PO.Web_PO.iframeQuit(2)
-# Oa_PO.Web_PO.quitURL()
+# # 场景1：请假单，请假天数3天
+# varNo = Oa_PO.apply("1/7, ", "jinhao", "请假申请", 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), "3")
+# Oa_PO.audit("2/7, ", varNo, "部门领导", "wanglei01", "同意", "部门领导批准")
+# Oa_PO.audit("3/7, ", varNo, "人事总监", "yanlibei", "同意", "yanlibei批准")
+# Oa_PO.audit("4/7, ", varNo, "副总", "wanglei01", "同意", "wanglei批准")
+# Oa_PO.audit("5/7, ", varNo, "总经理", "yuanyongtao", "同意", "yuanyongtao批准")
+# Oa_PO.applyDone("6/7, ", varNo, "jinhao")
+# Oa_PO.applyDone("7/7, ", varNo, "yanlibei")
 
-
-# -----------------------------------------------------------------------------
-
-# # 审核员登录OA - 部门领导
-# Oa_PO.open()
-# Oa_PO.login("wanglei01")
-#
-# # 点击菜单选模块
-# Oa_PO.memu("工作流", "我的工作")
-# Oa_PO.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
-#
-# Oa_PO.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
-# Oa_PO.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[2]/td[8]/a", 2)  # 选择最近一条未审核记录
-# Oa_PO.Web_PO.iframeSwitch(2)
-# Oa_PO.Web_PO.iframeId("workflow-form-frame", 2)  # 第二层
-# Oa_PO.Web_PO.iframeId("work_form_data", 2)  # 第三层
-# Oa_PO.Web_PO.clickXpath("//input[@name='DATA_11' and @value='同意']", 2)  # 同意
-# Oa_PO.Web_PO.clickXpath("//input[@name='DATA_11' and @value='不同意']", 2)  # 不同意
-# Oa_PO.Web_PO.inputXpath("//textarea[@name='DATA_12']", "ok批准")
-# Oa_PO.Web_PO.iframeSwitch(1)
-# Oa_PO.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
-# Oa_PO.Web_PO.alertAccept()
-# Oa_PO.Web_PO.iframeQuit(2)
-# Oa_PO.Web_PO.quitURL()
-
-
-# -----------------------------------------------------------------------------
-
-# # 审核员登录OA - 人事总监
-# Oa_PO.open()
-# Oa_PO.login("yanlibei")
-#
-# # 点击菜单选模块
-# Oa_PO.memu("工作流", "我的工作")
-# Oa_PO.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
-#
-# Oa_PO.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
-# Oa_PO.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[2]/td[8]/a", 2)  # 选择最近一条未审核记录
-# Oa_PO.Web_PO.iframeSwitch(2)
-# Oa_PO.Web_PO.iframeId("workflow-form-frame", 2)  # 第二层
-# Oa_PO.Web_PO.iframeId("work_form_data", 2)  # 第三层
-# Oa_PO.Web_PO.clickXpath("//input[@name='DATA_14' and @value='同意']", 2)  # 同意
-# # Oa_PO.Web_PO.clickXpath("//input[@name='DATA_14' and @value='不同意']", 2)  # 不同意
-# Oa_PO.Web_PO.inputXpath("//textarea[@name='DATA_15']", "ok批准,谢谢")
-# Oa_PO.Web_PO.iframeSwitch(1)
-# Oa_PO.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
-# Oa_PO.Web_PO.alertAccept()
-# Oa_PO.Web_PO.iframeQuit(2)
-# Oa_PO.Web_PO.quitURL()
-
-# -----------------------------------------------------------------------------
-#
-# # 审核员登录OA - 副总
-# Oa_PO.open()
-# Oa_PO.login("wanglei01")
-#
-# # 点击菜单选模块
-# Oa_PO.memu("工作流", "我的工作")
-# Oa_PO.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
-#
-# Oa_PO.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
-# Oa_PO.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[2]/td[8]/a", 2)  # 选择最近一条未审核记录
-# Oa_PO.Web_PO.iframeSwitch(2)
-# Oa_PO.Web_PO.iframeId("workflow-form-frame", 2)  # 第二层
-# Oa_PO.Web_PO.iframeId("work_form_data", 2)  # 第三层  , 进入表单
-# Oa_PO.Web_PO.clickXpath("//input[@name='DATA_21' and @value='同意']", 2)  # 同意
-# # Oa_PO.Web_PO.clickXpath("//input[@name='DATA_21' and @value='不同意']", 2)  # 不同意
-# Oa_PO.Web_PO.inputXpath("//textarea[@name='DATA_18']", "ok批准,谢谢")
-# Oa_PO.Web_PO.iframeSwitch(1)
-# Oa_PO.Web_PO.clickXpath("//input[@id='handle_end']", 2)  # 提交
-# Oa_PO.Web_PO.alertAccept()
-# Oa_PO.Web_PO.iframeQuit(2)
-# Oa_PO.Web_PO.quitURL()
-
-# -----------------------------------------------------------------------------
-
-# 申请人登录OA - 回执确认
-Oa_PO.open()
-Oa_PO.login("jinhao")
-
-# 点击菜单选模块
-Oa_PO.memu("工作流", "我的工作")
-Oa_PO.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
-Oa_PO.Web_PO.clickLinktext("办结工作", 2)
-Oa_PO.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
-Oa_PO.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[2]/td[9]/a", 2)  # 选择最近一条审核通过的记录
-Oa_PO.Web_PO.iframeQuit(2)
-
-# 前后都表达打印（弹出窗口）
-all_handles = Oa_PO.Web_PO.driver.window_handles
-Oa_PO.Web_PO.driver.switch_to.window(all_handles[1])
-x = Oa_PO.Web_PO.getXpathsText("//td")
-# print(x[0])
-number = str(x[0]).split("表单")[0]
-print(number.strip(" "))  # 流水号：5597
-
-Oa_PO.Web_PO.iframeId("print_frm", 2)
-list2 = Oa_PO.Web_PO.getXpathsText("//td")
-# print(list2)
-
-print(List_PO.getSectionList(List_PO.getSectionList(list2, '审核信息', 'delbefore'), "流程开始（" + number.strip(" ") + "）", 'delafter'))
-# ['副总审批：同意 不同意 ', 'ok批准', '王磊 2020-06-04 16:36:07', '人事总监审批：同意 不同意 ', 'ok批准,谢谢', '严丽蓓 2020-06-04 16:42:53', '副总审批：同意 不同意 ', 'ok批准,谢谢', '王磊 2020-06-04 16:47:40', '总经理审批：同意 不同意 ', '', '']
-
-
-# 获取某个字段是否存在
-print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_11' and @value='同意' and @checked]"))
-print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_11' and @value='不同意' and @checked]"))
-
-print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_14' and @value='同意' and @checked]"))
-print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_14' and @value='不同意' and @checked]"))
-
-print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_21' and @value='同意' and @checked]"))
-print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_21' and @value='不同意' and @checked]"))
-
-print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_68' and @value='同意' and @checked]"))
-print(Oa_PO.Web_PO.isElementXpath("//input[@name='DATA_68' and @value='不同意' and @checked]"))
+# 场景2：请假单，请假天数1天
+varNo = Oa_PO.apply("1/6, ", "jinhao", "请假申请", 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), "1")
+Oa_PO.audit("2/6, ", varNo, "部门领导", "wanglei01", "同意", "部门领导批准")
+Oa_PO.audit("3/6, ", varNo, "人事总监", "yanlibei",  "同意", "yanlibei批准")
+Oa_PO.audit("4/6, ", varNo, "副总", "wanglei01", "同意", "wanglei批准")
+Oa_PO.applyDone("5/6, ", varNo, "jinhao")
+Oa_PO.applyDone("6/6, ", varNo, "yanlibei")
