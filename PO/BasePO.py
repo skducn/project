@@ -296,16 +296,6 @@ class BasePO(object):
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickXpathsXpathTextContain(self, varPaths, varPaths2, varContain, t):
-        # ? 遍历路径之路径，点击text中包含某内容的连接。
-        try:
-            for a in self.find_elements(*(By.XPATH, varPaths)):
-                a.find_element(*(By.XPATH, varPaths2))
-                if varContain in a.text:
-                    break
-                sleep(t)
-        except:
-            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     def clickXpathsXpath(self, varPaths, varPaths2, t):
         # 遍历路径之路径
@@ -359,45 +349,62 @@ class BasePO(object):
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     def getXpathsText(self, varPaths):
-        # 获取遍历路径的文本
-        # Level_PO.getXpathsText(u"//tr")
+        # 获取文本列表
+        # getXpathsText("//tr")
         try:
-            l = []
+            list1 = []
             for a in self.find_elements(*(By.XPATH, varPaths)):
-                l.append(a.text)
-            return l
+                list1.append(a.text)
+            return list1
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
     def getXpathsTextPlace(self, varPaths, varContent):
-        # 获取遍历路径，定位内容在第几个
-        # Level_PO.getXpathsRow(u"//tr", u"test") ， 结果 3 表示test在第3个tr里 ， 如未找到返回None
+        # 获取文本所在的位置
+        # getXpathsTextPlace("//tr", "test")   //3 表示test在第3个tr里，未找到返回None
         r = 0
         try:
             for a in self.find_elements(*(By.XPATH, varPaths)):
                 r = r + 1
                 if a.text == varContent:
                     return r
-            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            return None
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     def getXpathsPartTextPlace(self, varPaths, dimPartContent):
-        # 获取遍历路径，定位内容模糊在第几个
-        # Level_PO.getXpathsPartTextRow(u"//tr", u"test")
+        # 获取模糊文本所在的位置
+        # getXpathsPartTextPlace("//tr", "test")
+        # 如：遍历//table[@id='gridTable']/tbody/tr/td[9]/a"，其中 tr是多行，其中第9个单元格下a标签的文本，得到是在第几个tr中。
+        # getXpathsPartTextPlace("//table[@id='gridTable']/tbody/tr/td[9]/a", "2020060422", 2))
         r = 0
         try:
             for a in self.find_elements(*(By.XPATH, varPaths)):
                 r = r + 1
                 if dimPartContent in a.text:
                     return r
-            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            return None
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
+    def getXpathsAttrPlace(self, varPaths, varAttr, varValue):
+        # 获取某属性值所在的位置
+        # varNoRow = self.Web_PO.getXpathsAttrPlace("//td[9]/a", "href", "1122")
+
+        r = 0
+        try:
+            for a in self.find_elements(*(By.XPATH, varPaths)):
+                r = r + 1
+                if varValue in a.get_attribute(varAttr):
+                    return r
+            return None
+        except:
+            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+
+
     def getXpathAttr(self, varPath, varAttr):
-        # 获取路径属性
+        # 获取属性
         # Level_PO.getXpathAttr(u"//input[@class='123']",u"value")
         try:
             return self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr)
@@ -416,7 +423,7 @@ class BasePO(object):
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     def getXpathsAttr(self, varPaths, varAttr):
-        # 获取遍历路径属性
+        # 获取属性列表
         # Level_PO.getXpathsAttr(u"//tr", u"id")  获取表格里数据数量。
         l = []
         try:
