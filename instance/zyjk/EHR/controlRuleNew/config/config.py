@@ -8,6 +8,7 @@
 from PO.LogPO import *
 from PO.NetPO import *
 from PO.DataPO import *
+from PO.ColorPO import *
 from PO.ExcelPO.ExcelPO import *
 from PO.TimePO import *
 Time_PO = TimePO()
@@ -19,16 +20,11 @@ varExcel = "cr1.2.xlsx"
 varExcelSheet = "controlRule"
 varCurl = 'curl http://localhost:8080/healthRecordRules/rulesApi/execute/31011310200312009116'
 varJar = 'healthRecordRules.jar'
+varRuleType = "完整性"     # 规范性，完整性，一致性，有效性，追溯性，所有
+
 
 # 日志文件
 logFile = './log/controlRul_' + Time_PO.getDate() + '.log'
 
-# # 邮件信息
-# email_nickNameByFrom = u'令狐冲'
-# email_sender = 'skducn@163.com'
-# email_receiver = "h.jin@zy-healthtech.com"
-# email_subject = "bi自动化测试结果"
-# email_content = "你好！\n\n\n    这是本次bi集成平台自动化测试结果，请查看附件。\n\n\n\n\n\n\n\n这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards"
-# email_attachment = logFile
 
 
