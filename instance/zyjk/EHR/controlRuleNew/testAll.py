@@ -22,6 +22,7 @@ if __name__ == '__main__':
 
     # 质控文档
     excelFile = File_PO.getLayerPath("./config") + "\\" + varExcel
+    print(excelFile)
     row, col = Excel_PO.getRowCol(excelFile, varExcelSheet)
     recordList = []
 
