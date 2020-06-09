@@ -15,7 +15,8 @@ excelFile = File_PO.getLayerPath("./config") + "\\cr1.1.xlsx"
 row, col = Excel_PO.getRowCol(excelFile, "controlRule")
 recordList = []
 
-for i in range(2, 3):
+# for i in range(2, 3):
+for i in range(2, row + 1):
     recordList = Excel_PO.getRowValue(excelFile, i, "controlRule")
     if recordList[6] != "ok":
         print(i, recordList)

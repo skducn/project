@@ -23,12 +23,8 @@ Time_PO = TimePO()
 from PO.MysqlPO import *
 Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测试数据库
 
-
-
 # 39 环境
 varURL = "http://192.168.0.39"
-
-
 
 # 日志文件
 logFile = './log/oa_' + Time_PO.getDate() + '.log'
