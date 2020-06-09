@@ -20,8 +20,8 @@ varExcel = "cr1.2.xlsx"
 varExcelSheet = "controlRule"
 varCurl = 'curl http://localhost:8080/healthRecordRules/rulesApi/execute/31011310200312009116'
 varJar = 'healthRecordRules.jar'
-varRuleType = "完整性"     # 规范性，完整性，一致性，有效性，追溯性，所有
-
+varRuleType = ""     # 默认为空，执行所有规则类型，其他可选：规范性，完整性，一致性，有效性，追溯性 ，表示执行某一规则类型 。
+varIsRun = ""     # 默认为空，执行所有用例，其他可选：error，ok，表示只执行比对结果是error或ok的用例。
 
 # 日志文件
 logFile = './log/controlRul_' + Time_PO.getDate() + '.log'
