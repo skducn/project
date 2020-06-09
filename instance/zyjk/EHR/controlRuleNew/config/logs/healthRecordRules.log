@@ -163,3 +163,821 @@
 2020-06-09 10:55:56.307 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
 2020-06-09 10:55:56.311 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 41eaf8c413c84f89a816aa51db357fc3(String), 2020-06-09 10:55:56.306(Timestamp), 31011310200312009116(String), 5f7ecb11a3894e1d83e68322c3e3071d(String), 2020-06-09 10:55:56.306(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 10:55:56.306(Timestamp), 31011310200312009116(String), 8282714ec36c405cbf094755098177e9(String), 2020-06-09 10:55:56.306(Timestamp), 31011310200312009116(String), c4ff94b2fbdf4e889a5cfa517edd74c9(String), 2020-06-09 10:55:56.306(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 10:55:56.306(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 10:55:56.306(Timestamp), 31011310200312009116(String), db6607db218b4182924b980ecb900b19(String), 2020-06-09 10:55:56.306(Timestamp) 
 2020-06-09 10:55:56.333 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 8 
+2020-06-09 14:53:44.665 [INFO ] com.benetech.rules.RulesApplication                - [logStarting:55] Starting RulesApplication v1.0-SNAPSHOT on DESKTOP-EOCO1V0 with PID 4092 (D:\51\python\project\instance\zyjk\EHR\controlRuleNew\config\healthRecordRules.jar started by ZY in D:\51\python\project\instance\zyjk\EHR\controlRuleNew\config) 
+2020-06-09 14:53:44.669 [DEBUG] com.benetech.rules.RulesApplication                - [logStarting:56] Running with Spring Boot v2.2.1.RELEASE, Spring v5.2.1.RELEASE 
+2020-06-09 14:53:44.669 [INFO ] com.benetech.rules.RulesApplication                - [logStartupProfileInfo:655] The following profiles are active: test 
+2020-06-09 14:53:46.611 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [initialize:92] Tomcat initialized with port(s): 8080 (http) 
+2020-06-09 14:53:46.623 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Initializing ProtocolHandler ["http-nio-8080"] 
+2020-06-09 14:53:46.624 [INFO ] org.apache.catalina.core.StandardService           - [log:173] Starting service [Tomcat] 
+2020-06-09 14:53:46.625 [INFO ] org.apache.catalina.core.StandardEngine            - [log:173] Starting Servlet engine: [Apache Tomcat/9.0.27] 
+2020-06-09 14:53:46.695 [INFO ] o.a.c.c.C.[.[localhost].[/healthRecordRules]       - [log:173] Initializing Spring embedded WebApplicationContext 
+2020-06-09 14:53:46.696 [INFO ] org.springframework.web.context.ContextLoader      - [prepareWebApplicationContext:284] Root WebApplicationContext: initialization completed in 1566 ms 
+2020-06-09 14:53:46.775 [DEBUG] org.apache.ibatis.logging.LogFactory               - [setImplementation:135] Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter. 
+2020-06-09 14:53:47.015 [WARN ] org.mybatis.spring.SqlSessionFactoryBean           - [buildSqlSessionFactory:467] Can't find class in '[com.benetech.rules.*.entity]' package. Please check your configuration. 
+2020-06-09 14:53:47.637 [INFO ] com.alibaba.druid.pool.DruidDataSource             - [init:930] {dataSource-1} inited 
+2020-06-09 14:53:47.831 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==>  Preparing: select a.RuleId as ruleId, a.RuleSql as clazz from HrRule a join HrRuleProps b on a.RuleId = b.RuleId where -- RuleId in ('34278f71cf1d42c88158aaf637fa5203', '8d30baa03bfc4233a8f115c57a0ebf08', '63eb82a44bf64c96a0b9023fa2a3c9d9') a.RuleSql != '' and a.RuleSql is not null and b.Enable = 1  
+2020-06-09 14:53:47.854 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==> Parameters:  
+2020-06-09 14:53:47.929 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] <==      Total: 301 
+2020-06-09 14:53:48.147 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [init:64] 加载规则：301 条 
+2020-06-09 14:53:48.161 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==>  Preparing: SELECT codeSysType AS type, code AS code, [value] AS value FROM tb_code_value WHERE code != '' AND [value] != ''  
+2020-06-09 14:53:48.162 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==> Parameters:  
+2020-06-09 14:53:48.718 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] <==      Total: 44881 
+2020-06-09 14:53:48.751 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:92] 初始化字典类型: 467 种 
+2020-06-09 14:53:48.752 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:93] 初始化字典: 44881 条 
+2020-06-09 14:53:48.873 [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor   - [initialize:171] Initializing ExecutorService 'applicationTaskExecutor' 
+2020-06-09 14:53:49.074 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Starting ProtocolHandler ["http-nio-8080"] 
+2020-06-09 14:53:49.102 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [start:204] Tomcat started on port(s): 8080 (http) with context path '/healthRecordRules' 
+2020-06-09 14:53:49.108 [INFO ] com.benetech.rules.RulesApplication                - [logStarted:61] Started RulesApplication in 4.957 seconds (JVM running for 5.407) 
+2020-06-09 14:53:49.110 [INFO ] com.benetech.rules.RulesApplication                - [main:20] -------------启动成功------------- 
+2020-06-09 14:54:01.981 [INFO ] o.a.c.c.C.[.[localhost].[/healthRecordRules]       - [log:173] Initializing Spring DispatcherServlet 'dispatcherServlet' 
+2020-06-09 14:54:01.983 [INFO ] org.springframework.web.servlet.DispatcherServlet  - [initServletBean:525] Initializing Servlet 'dispatcherServlet' 
+2020-06-09 14:54:01.991 [INFO ] org.springframework.web.servlet.DispatcherServlet  - [initServletBean:547] Completed initialization in 7 ms 
+2020-06-09 14:54:02.035 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:54:02.044 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:02.058 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 0 
+2020-06-09 14:54:02.063 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [buildEhrModel:108] 31011310200312009116封面为空 
+2020-06-09 14:54:02.064 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:54:02.065 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:02.071 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 0 
+2020-06-09 14:54:02.082 [ERROR] o.a.c.c.C.[.[.[.[dispatcherServlet]                - [log:175] Servlet.service() for servlet [dispatcherServlet] in context with path [/healthRecordRules] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause 
+java.lang.NullPointerException: null
+	at com.benetech.rules.modules.model.service.impl.BasicInfoBuildServiceImpl.buildBasicInfo(BasicInfoBuildServiceImpl.java:44)
+	at com.benetech.rules.modules.model.service.impl.EhrModelBuildServiceImpl.buildEhrModel(EhrModelBuildServiceImpl.java:112)
+	at com.benetech.rules.modules.process.service.impl.QcProcessServiceImpl.execute(QcProcessServiceImpl.java:41)
+	at com.benetech.rules.modules.api.RulesController.execute(RulesController.java:47)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:861)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1579)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+2020-06-09 14:54:29.741 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:54:29.744 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:29.763 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:54:29.779 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:54:29.803 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:29.816 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:29.828 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:54:29.832 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:54:29.861 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 938 
+2020-06-09 14:54:29.952 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:54:29.953 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:29.958 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:29.966 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:29.967 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:29.973 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:29.979 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:54:29.979 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:54:29.981 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:29.984 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:29.992 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:29.997 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:54:29.998 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:54:30.274 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:54:30.499 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:54:30.519 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:54:30.550 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:54:30.560 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:54:30.569 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:54:30.574 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:54:30.577 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:54:30.580 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:54:30.583 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:54:30.586 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:54:30.596 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:54:30.630 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:54:30.631 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:54:30.675 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:54:30.696 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:54:30.708 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:54:30.721 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:54:30.787 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:54:30.795 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:54:30.722(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:54:30.722(Timestamp) 
+2020-06-09 14:54:30.824 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:54:34.761 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:54:34.764 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:34.773 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:54:34.780 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:54:34.782 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:34.790 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:34.796 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:54:34.797 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:54:34.820 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 952 
+2020-06-09 14:54:34.826 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:54:34.827 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:34.832 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:34.838 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:34.840 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:34.849 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:34.856 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:54:34.857 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:54:34.858 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:34.859 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:34.869 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:34.874 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:54:34.875 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:54:34.898 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:54:34.900 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:54:34.905 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:54:34.908 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:54:34.910 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:54:34.912 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:54:34.913 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:54:34.914 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:54:34.915 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:54:34.916 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:54:34.918 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:54:34.921 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:54:34.923 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:54:34.924 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:54:34.926 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:54:34.928 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:54:34.929 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:54:34.931 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:54:34.936 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:54:34.938 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:54:34.934(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:54:34.934(Timestamp) 
+2020-06-09 14:54:34.957 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:54:39.008 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:54:39.011 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:39.023 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:54:39.031 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:54:39.034 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:39.052 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:39.059 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:54:39.060 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:54:39.086 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 966 
+2020-06-09 14:54:39.093 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:54:39.095 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:39.100 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:39.106 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:39.108 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:39.115 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:39.120 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:54:39.120 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:54:39.121 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:39.122 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:39.128 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:39.134 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:54:39.134 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:54:39.151 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:54:39.153 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:54:39.155 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:54:39.157 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:54:39.160 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:54:39.162 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:54:39.163 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:54:39.165 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:54:39.167 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:54:39.168 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:54:39.169 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:54:39.172 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:54:39.172 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:54:39.175 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:54:39.177 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:54:39.179 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:54:39.180 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:54:39.181 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:54:39.186 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:54:39.190 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:54:39.182(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:54:39.182(Timestamp) 
+2020-06-09 14:54:39.227 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:54:42.943 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:54:42.945 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:42.953 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:54:42.958 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:54:42.959 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:42.966 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:42.972 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:54:42.973 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:54:42.994 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 980 
+2020-06-09 14:54:43.000 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:54:43.001 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:43.008 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:43.013 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:43.014 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:43.023 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:43.028 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:54:43.029 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:54:43.030 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:43.031 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:43.037 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:43.041 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:54:43.042 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:54:43.057 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:54:43.059 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:54:43.061 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:54:43.065 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:54:43.070 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:54:43.071 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:54:43.072 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:54:43.074 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:54:43.075 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:54:43.076 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:54:43.077 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:54:43.081 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:54:43.081 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:54:43.082 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:54:43.084 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:54:43.085 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:54:43.087 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:54:43.089 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:54:43.091 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:54:43.092 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:54:43.09(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:54:43.09(Timestamp) 
+2020-06-09 14:54:43.117 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:54:46.733 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:54:46.735 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:46.747 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:54:46.753 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:54:46.756 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:54:46.762 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:46.767 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:54:46.768 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:54:46.795 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 994 
+2020-06-09 14:54:46.800 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:54:46.802 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:46.808 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:54:46.813 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:46.815 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:46.834 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:46.839 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:54:46.839 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:54:46.840 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:54:46.841 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:54:46.846 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:54:46.852 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:54:46.852 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:54:46.863 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:54:46.866 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:54:46.868 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:54:46.870 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:54:46.872 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:54:46.873 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:54:46.876 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:54:46.878 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:54:46.879 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:54:46.880 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:54:46.882 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:54:46.884 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:54:46.886 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:54:46.887 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:54:46.888 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:54:46.889 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:54:46.890 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:54:46.891 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:54:46.893 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:54:46.898 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:54:46.892(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:54:46.892(Timestamp) 
+2020-06-09 14:54:46.912 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:55:00.713 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:55:00.715 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:55:00.721 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 0 
+2020-06-09 14:55:00.728 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [buildEhrModel:108] 31011310200312009116封面为空 
+2020-06-09 14:55:00.729 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:55:00.733 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:55:00.740 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 0 
+2020-06-09 14:55:00.745 [ERROR] o.a.c.c.C.[.[.[.[dispatcherServlet]                - [log:175] Servlet.service() for servlet [dispatcherServlet] in context with path [/healthRecordRules] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause 
+java.lang.NullPointerException: null
+	at com.benetech.rules.modules.model.service.impl.BasicInfoBuildServiceImpl.buildBasicInfo(BasicInfoBuildServiceImpl.java:44)
+	at com.benetech.rules.modules.model.service.impl.EhrModelBuildServiceImpl.buildEhrModel(EhrModelBuildServiceImpl.java:112)
+	at com.benetech.rules.modules.process.service.impl.QcProcessServiceImpl.execute(QcProcessServiceImpl.java:41)
+	at com.benetech.rules.modules.api.RulesController.execute(RulesController.java:47)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:861)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1579)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+2020-06-09 14:55:24.742 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:55:24.744 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:55:24.752 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 0 
+2020-06-09 14:55:24.757 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [buildEhrModel:108] 31011310200312009116封面为空 
+2020-06-09 14:55:24.758 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:55:24.759 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:55:24.766 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 0 
+2020-06-09 14:55:24.773 [ERROR] o.a.c.c.C.[.[.[.[dispatcherServlet]                - [log:175] Servlet.service() for servlet [dispatcherServlet] in context with path [/healthRecordRules] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause 
+java.lang.NullPointerException: null
+	at com.benetech.rules.modules.model.service.impl.BasicInfoBuildServiceImpl.buildBasicInfo(BasicInfoBuildServiceImpl.java:44)
+	at com.benetech.rules.modules.model.service.impl.EhrModelBuildServiceImpl.buildEhrModel(EhrModelBuildServiceImpl.java:112)
+	at com.benetech.rules.modules.process.service.impl.QcProcessServiceImpl.execute(QcProcessServiceImpl.java:41)
+	at com.benetech.rules.modules.api.RulesController.execute(RulesController.java:47)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:861)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1579)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+2020-06-09 14:55:52.846 [INFO ] com.benetech.rules.RulesApplication                - [logStarting:55] Starting RulesApplication v1.0-SNAPSHOT on DESKTOP-EOCO1V0 with PID 11204 (D:\51\python\project\instance\zyjk\EHR\controlRuleNew\config\healthRecordRules.jar started by ZY in D:\51\python\project\instance\zyjk\EHR\controlRuleNew\config) 
+2020-06-09 14:55:52.852 [DEBUG] com.benetech.rules.RulesApplication                - [logStarting:56] Running with Spring Boot v2.2.1.RELEASE, Spring v5.2.1.RELEASE 
+2020-06-09 14:55:52.853 [INFO ] com.benetech.rules.RulesApplication                - [logStartupProfileInfo:655] The following profiles are active: test 
+2020-06-09 14:55:54.275 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [initialize:92] Tomcat initialized with port(s): 8080 (http) 
+2020-06-09 14:55:54.287 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Initializing ProtocolHandler ["http-nio-8080"] 
+2020-06-09 14:55:54.288 [INFO ] org.apache.catalina.core.StandardService           - [log:173] Starting service [Tomcat] 
+2020-06-09 14:55:54.288 [INFO ] org.apache.catalina.core.StandardEngine            - [log:173] Starting Servlet engine: [Apache Tomcat/9.0.27] 
+2020-06-09 14:55:54.356 [INFO ] o.a.c.c.C.[.[localhost].[/healthRecordRules]       - [log:173] Initializing Spring embedded WebApplicationContext 
+2020-06-09 14:55:54.357 [INFO ] org.springframework.web.context.ContextLoader      - [prepareWebApplicationContext:284] Root WebApplicationContext: initialization completed in 1421 ms 
+2020-06-09 14:55:54.443 [DEBUG] org.apache.ibatis.logging.LogFactory               - [setImplementation:135] Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter. 
+2020-06-09 14:55:54.678 [WARN ] org.mybatis.spring.SqlSessionFactoryBean           - [buildSqlSessionFactory:467] Can't find class in '[com.benetech.rules.*.entity]' package. Please check your configuration. 
+2020-06-09 14:55:55.284 [INFO ] com.alibaba.druid.pool.DruidDataSource             - [init:930] {dataSource-1} inited 
+2020-06-09 14:55:55.471 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==>  Preparing: select a.RuleId as ruleId, a.RuleSql as clazz from HrRule a join HrRuleProps b on a.RuleId = b.RuleId where -- RuleId in ('34278f71cf1d42c88158aaf637fa5203', '8d30baa03bfc4233a8f115c57a0ebf08', '63eb82a44bf64c96a0b9023fa2a3c9d9') a.RuleSql != '' and a.RuleSql is not null and b.Enable = 1  
+2020-06-09 14:55:55.488 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==> Parameters:  
+2020-06-09 14:55:55.563 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] <==      Total: 301 
+2020-06-09 14:55:55.752 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [init:64] 加载规则：301 条 
+2020-06-09 14:55:55.765 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==>  Preparing: SELECT codeSysType AS type, code AS code, [value] AS value FROM tb_code_value WHERE code != '' AND [value] != ''  
+2020-06-09 14:55:55.766 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==> Parameters:  
+2020-06-09 14:55:56.216 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] <==      Total: 44881 
+2020-06-09 14:55:56.242 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:92] 初始化字典类型: 467 种 
+2020-06-09 14:55:56.242 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:93] 初始化字典: 44881 条 
+2020-06-09 14:55:56.353 [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor   - [initialize:171] Initializing ExecutorService 'applicationTaskExecutor' 
+2020-06-09 14:55:56.544 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Starting ProtocolHandler ["http-nio-8080"] 
+2020-06-09 14:55:56.570 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [start:204] Tomcat started on port(s): 8080 (http) with context path '/healthRecordRules' 
+2020-06-09 14:55:56.575 [INFO ] com.benetech.rules.RulesApplication                - [logStarted:61] Started RulesApplication in 4.236 seconds (JVM running for 4.682) 
+2020-06-09 14:55:56.577 [INFO ] com.benetech.rules.RulesApplication                - [main:20] -------------启动成功------------- 
+2020-06-09 14:56:08.360 [INFO ] o.a.c.c.C.[.[localhost].[/healthRecordRules]       - [log:173] Initializing Spring DispatcherServlet 'dispatcherServlet' 
+2020-06-09 14:56:08.361 [INFO ] org.springframework.web.servlet.DispatcherServlet  - [initServletBean:525] Initializing Servlet 'dispatcherServlet' 
+2020-06-09 14:56:08.371 [INFO ] org.springframework.web.servlet.DispatcherServlet  - [initServletBean:547] Completed initialization in 10 ms 
+2020-06-09 14:56:08.410 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:56:08.416 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:56:08.424 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 0 
+2020-06-09 14:56:08.429 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [buildEhrModel:108] 31011310200312009116封面为空 
+2020-06-09 14:56:08.430 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:56:08.432 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:56:08.437 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 0 
+2020-06-09 14:56:08.447 [ERROR] o.a.c.c.C.[.[.[.[dispatcherServlet]                - [log:175] Servlet.service() for servlet [dispatcherServlet] in context with path [/healthRecordRules] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause 
+java.lang.NullPointerException: null
+	at com.benetech.rules.modules.model.service.impl.BasicInfoBuildServiceImpl.buildBasicInfo(BasicInfoBuildServiceImpl.java:44)
+	at com.benetech.rules.modules.model.service.impl.EhrModelBuildServiceImpl.buildEhrModel(EhrModelBuildServiceImpl.java:112)
+	at com.benetech.rules.modules.process.service.impl.QcProcessServiceImpl.execute(QcProcessServiceImpl.java:41)
+	at com.benetech.rules.modules.api.RulesController.execute(RulesController.java:47)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:861)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1579)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+2020-06-09 14:56:24.106 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:56:24.108 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:56:24.114 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 0 
+2020-06-09 14:56:24.120 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [buildEhrModel:108] 31011310200312009116封面为空 
+2020-06-09 14:56:24.123 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:56:24.125 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:56:24.134 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 0 
+2020-06-09 14:56:24.139 [ERROR] o.a.c.c.C.[.[.[.[dispatcherServlet]                - [log:175] Servlet.service() for servlet [dispatcherServlet] in context with path [/healthRecordRules] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause 
+java.lang.NullPointerException: null
+	at com.benetech.rules.modules.model.service.impl.BasicInfoBuildServiceImpl.buildBasicInfo(BasicInfoBuildServiceImpl.java:44)
+	at com.benetech.rules.modules.model.service.impl.EhrModelBuildServiceImpl.buildEhrModel(EhrModelBuildServiceImpl.java:112)
+	at com.benetech.rules.modules.process.service.impl.QcProcessServiceImpl.execute(QcProcessServiceImpl.java:41)
+	at com.benetech.rules.modules.api.RulesController.execute(RulesController.java:47)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:861)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1579)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Unknown Source)
+2020-06-09 14:57:57.065 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:57:57.067 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:57:57.078 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:57:57.086 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:57:57.088 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:57:57.097 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:57:57.103 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:57:57.104 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:57:57.140 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 1008 
+2020-06-09 14:57:57.176 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:57:57.185 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:57:57.192 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:57:57.248 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:57:57.329 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:57:57.337 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:57:57.344 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:57:57.344 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:57:57.345 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:57:57.346 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:57:57.352 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:57:57.364 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:57:57.365 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:57:57.544 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:57:57.643 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:57:57.648 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:57:57.661 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:57:57.682 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:57:57.696 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:57:57.702 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:57:57.712 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:57:57.721 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:57:57.732 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:57:57.743 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:57:57.790 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:57:57.814 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:57:57.816 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:57:57.826 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:57:57.830 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:57:57.832 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:57:57.837 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:57:57.887 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:57:57.900 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:57:57.845(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:57:57.845(Timestamp) 
+2020-06-09 14:57:57.939 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:58:02.257 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:58:02.260 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:58:02.276 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:58:02.284 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:58:02.287 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:58:02.298 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:58:02.305 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:58:02.307 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:58:02.338 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 1022 
+2020-06-09 14:58:02.358 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:58:02.359 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:02.369 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:58:02.382 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:58:02.383 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:02.407 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:58:02.417 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:58:02.417 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:58:02.418 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:58:02.420 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:02.436 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:58:02.441 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:58:02.442 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:58:02.460 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:58:02.462 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:58:02.465 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:58:02.468 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:58:02.472 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:58:02.474 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:58:02.475 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:58:02.477 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:58:02.478 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:58:02.479 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:58:02.482 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:58:02.484 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:58:02.485 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:58:02.486 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:58:02.487 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:58:02.489 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:58:02.490 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:58:02.492 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:58:02.494 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:58:02.496 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:58:02.493(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:58:02.493(Timestamp) 
+2020-06-09 14:58:02.515 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:58:06.939 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:58:06.941 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:58:06.951 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:58:06.956 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:58:06.959 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:58:06.965 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:58:06.969 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:58:06.970 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:58:06.993 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 1036 
+2020-06-09 14:58:07.000 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:58:07.001 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:07.013 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:58:07.018 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:58:07.019 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:07.047 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:58:07.053 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:58:07.053 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:58:07.055 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:58:07.056 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:07.066 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:58:07.071 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:58:07.072 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:58:07.088 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:58:07.090 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:58:07.092 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:58:07.094 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:58:07.096 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:58:07.097 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:58:07.098 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:58:07.100 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:58:07.102 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:58:07.102 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:58:07.103 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:58:07.105 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:58:07.106 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:58:07.108 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:58:07.110 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:58:07.112 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:58:07.113 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:58:07.115 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:58:07.116 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:58:07.118 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:58:07.115(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:58:07.115(Timestamp) 
+2020-06-09 14:58:07.143 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:58:10.986 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:58:10.988 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:58:10.994 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:58:11.001 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:58:11.003 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:58:11.009 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:58:11.015 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:58:11.016 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:58:11.042 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 1050 
+2020-06-09 14:58:11.048 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:58:11.049 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:11.055 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:58:11.059 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:58:11.060 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:11.065 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:58:11.070 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:58:11.070 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:58:11.072 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:58:11.074 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:11.081 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:58:11.086 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:58:11.087 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:58:11.100 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:58:11.102 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:58:11.103 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:58:11.106 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:58:11.111 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:58:11.117 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:58:11.118 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:58:11.120 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:58:11.122 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:58:11.125 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:58:11.129 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:58:11.131 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:58:11.132 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:58:11.136 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:58:11.138 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:58:11.140 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:58:11.141 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:58:11.143 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:58:11.145 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:58:11.151 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:58:11.144(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:58:11.144(Timestamp) 
+2020-06-09 14:58:11.170 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
+2020-06-09 14:58:14.880 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-09 14:58:14.881 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:58:14.890 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-09 14:58:14.895 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-09 14:58:14.896 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-09 14:58:14.904 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-09 14:58:14.910 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-09 14:58:14.911 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-09 14:58:14.933 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 1064 
+2020-06-09 14:58:14.939 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-09 14:58:14.941 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:14.947 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-09 14:58:14.951 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:58:14.952 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:14.957 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:58:14.962 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-09 14:58:14.962 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 0 
+2020-06-09 14:58:14.963 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-09 14:58:14.966 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-09 14:58:14.971 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 0 
+2020-06-09 14:58:14.977 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-09 14:58:14.978 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 0 
+2020-06-09 14:58:14.988 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:燃料类型超出字典范围燃料类型选项不在字典范围（1 液化气, 2 煤, 3 天然气,m 4 沼气, 5 柴火, 6 其他） 
+2020-06-09 14:58:14.990 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厕所超出字典范围厕所选项不在字典范围（1 卫生厕所 2 一格或二格粪池式 3 马桶  4 露天粪坑  5 简易棚厕 ） 
+2020-06-09 14:58:14.992 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:文化程度超出字典范围文化程度不在字典范围内（1 研究生 2 大学本科 3 大学专科和专科学校 4 中等专业学校 5 技工学校 6 高中 7 初中 8小学9文盲或半文盲10不详 ） 
+2020-06-09 14:58:14.995 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史既往史疾病确诊时间未填写 
+2020-06-09 14:58:14.997 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话本人电话未填写 
+2020-06-09 14:58:14.999 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话未填写联系电话为空值 
+2020-06-09 14:58:15.000 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:RH超出字典范围RH不在字典范围内（1 阴性 2 阳性 3 不详 ） 
+2020-06-09 14:58:15.001 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术时间未填写同时满足以下条件： 1、既往史手术选“有” 2、既往史手术填写了手术名称 3、手术时间为空值 
+2020-06-09 14:58:15.002 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:禽畜栏超出字典范围禽畜栏选项不在字典范围（1 无, 2 单设, 3 室内, 4 室外） 
+2020-06-09 14:58:15.003 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族填写错误同时满足以下条件： 1、民族不为空值 2、与56个名族的名称不符合 
+2020-06-09 14:58:15.004 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:饮水超出字典范围饮水选项不在字典范围（1自来水, 2经净化过滤的水, 3井水, 4河湖水, 5 塘水, 6其他） 
+2020-06-09 14:58:15.006 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:民族超出字典范围同时满足以下条件： 1、民族不为空值 2、民族不在字典范围内（民族字典按GB/T3304） 
+2020-06-09 14:58:15.007 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:厨房排风设施超出字典范围厨房排风设施选项不在字典范围（1 无, 2 油烟机, 3 换气扇, 4 烟囱） 
+2020-06-09 14:58:15.008 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-09 14:58:15.009 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-09 14:58:15.010 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:血型超出字典范围血型不在字典范围内（1 A 型  2 B 型  3 O 型  4 AB 型 ） 
+2020-06-09 14:58:15.012 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表联系人电话联系人电话未填写 
+2020-06-09 14:58:15.014 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:17 
+2020-06-09 14:58:15.017 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-09 14:58:15.018 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 2b41b4683ac44aa885e0d0ef089a3ca5(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), 37bdeecdf7044a70a76394b6853245a3(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), 59d8e69348314e3ca04bb4f0f94bd54e(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), 6302b0fcdcd7482099581602a1fec501(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), 7838cdc133cb43e1be4828444054e220(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), 8c22db3c92bb445b9712ca61107e8312(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), 92dc5e8124ba4c5396a3fa7c3d1dd8db(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), 9dd8f43bbd5f4c6bb27aeca1774bc345(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), a827e00ae95e4c5a8d9e7227ca08b08a(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), a96f5e6051f541159fca9dec2d47050e(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), b617e78f0d204457b8db6cf72d9b1347(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), cac20bf188fd4f7296a3678a1604b001(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), caee967163d44945a84844b7d912b993(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), ec2230d5400f4fb8995526fb54ecb2dc(String), 2020-06-09 14:58:15.015(Timestamp), 31011310200312009116(String), ec56f4e1864e4a5bb0ad8ce1e94aa382(String), 2020-06-09 14:58:15.015(Timestamp) 
+2020-06-09 14:58:15.045 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 17 
