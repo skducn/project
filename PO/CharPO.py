@@ -8,49 +8,59 @@
 # 2，二进制数据使用byte类型表示
 # 3，字符串通过编码转换为字节码，str--->(encode)--->bytes ，如：str.encode("utf-8")
 # 4，字节码通过解码转换为字符串，bytes--->(decode)--->str ，如：bytes.decode(encoding="utf-8", errors="strict")
-
 # *********************************************************************
-import sys
+
+'''
+1，中文字符串转字节码
+2，字节码转中文字符串
+3，判断元素是不是数字类型（不支持中文大写数字及英文字母）
+4, Numbers类型小数点后补0或去掉0（规则)
+5，列表中浮点数或字符串，小数点后0优化方法
+6，单个浮点数或字符串，小数点后0优化方法
+
+7.1 中文转拼音（不带声调）
+7.2 中文转拼音（带声调,支持多音字）
+7.3, 中文转拼音(声调，分隔符，大小写)
+
+'''
+
+import sys, pypinyin
+from xpinyin import Pinyin
 
 class CharPO():
 
     def __init__(self):
         pass
 
-    # 1，字符串转字节码
+    # 1，中文字符串转字节码
     def str2byte(self, varStr, varCoding="utf-8"):
-        # 字符串str 编码成 字节码byte
+        # str 转 byte
+        # utf-8 可以看成是unicode的一个扩展集，varStr就是unicode编码，所以无需再解码，python3开始已不支持decode属性。
+        # 如：byte1 = varStr.decode('utf-8')     # AttributeError: 'str' object has no attribute 'decode'
         try:
             byte1 = varStr.encode(varCoding)
             return byte1
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-        # 要点：
-        # byte1 = name.decode('utf-8')  # AttributeError: 'str' object has no attribute 'decode'
-        # utf-8 可以看成是unicode的一个扩展集，varStr本设就是unicode编码，所以无需再解码，python3开始已不支持decode属性。
 
-    # 2，字节码转字符串
+    # 2，字节码转中文字符串
     def byte2str(self, varByte, varCoding="utf-8"):
-        # 字节码byte 解码成 字符串str
+        # byte 转 str
+        # bytes.decode(encoding="utf-8", errors="strict")
+        # encoding - - 要使用的编码，如"UTF-8"。
+        # errors - - 设置不同错误的处理方案，默认为 strict 表示编码错误引起一个UnicodeError，其他还有：'ignore', 'replace', 'xmlcharrefreplace', 'backslashreplace'
+        # 以及通过codecs.register_error()注册的任何值。
         try:
             str1 = varByte.decode(varCoding, 'strict')
             return str1
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-        # 说明
-        # bytes.decode(encoding="utf-8", errors="strict")
-        # encoding - - 要使用的编码，如"UTF-8"。
-        # errors - - 设置不同错误的处理方案。默认为
-        # 'strict', 意为编码错误引起一个UnicodeError。 其他可能得值有
-        # 'ignore', 'replace', 'xmlcharrefreplace', 'backslashreplace'
-        # 以及通过codecs.register_error()注册的任何值。
 
-    # 3，判断元素是不是数字（不支持中文数字）
+    # 3，判断元素是不是数字类型（不支持中文大写数字及英文字母）
     def isNumbersType(self, varValue):
-        # 支持python Numbers数字类型（int,float,book,complex）以及字符串
-        # 注意：支持long类型，python2中有long类型， python3中已没有long类型
+        # 支持数字类型有：int、float、bool、complex、字符串、long类型（python2中有long类型， python3中没有long类型）
         # print(Char_PO.isNumbersType(123))  # True
         # print(Char_PO.isNumbersType(complex(1, 2)))  # True
         # print(Char_PO.isNumbersType(complex("1")))  # True
@@ -182,25 +192,49 @@ class CharPO():
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-            
+
+    # 7.1 中文转拼音（不带声调）
+    def chinese2pinyin(self, varWord):
+        # print(Char_PO.chinese2pinyin("金浩"))  # jinhao
+        s = ''
+        for i in pypinyin.pinyin(varWord, style=pypinyin.NORMAL):
+            s += ''.join(i)
+        return s
+
+    # 7.2 中文转拼音（带声调）
+    def chinese2pinyinTone(self, varWord, varMode=False):
+        # 开启多音字 ：heteronym = True
+        # print(Char_PO.chinese2pinyinTone("金浩"))  # jīn hào
+        s = ''
+        for i in pypinyin.pinyin(varWord, heteronym=varMode):
+            s = s + ''.join(i) + " "
+        return s
 
 
+    # 7.3, 中文转拼音(声调，分隔符，大小写)
+    def chinese2pinyin1(self, varWord, splitter="", convert='lower', tone_marks=""):
+        p = Pinyin()
+        # get_pinyin(self, chars=u'你好', splitter=u'-',tone_marks=None, convert='lower'):
+        # print(Char_PO.chinese2pinyin1("你好"))  # nihao
+        # print(Char_PO.chinese2pinyin1("你好", splitter="-"))  # ni-hao
+        # print(Char_PO.chinese2pinyin1("你好", tone_marks="marks"))  # nǐhǎo
+        # print(Char_PO.chinese2pinyin1("你好", tone_marks="marks", convert="upper"))  # NǏHǍO
+        # print(Char_PO.chinese2pinyin1("你好", tone_marks="numbers", splitter="-"))  # ni3-hao3
+        return p.get_pinyin(varWord, splitter=splitter,tone_marks=tone_marks, convert=convert)
 
 if __name__ == "__main__":
 
     Char_PO = CharPO()
 
-    print("1，字符串转字节码".center(100, "-"))
+    print("1，中文字符串转字节码".center(100, "-"))
     print(Char_PO.str2byte("金浩", "utf-8"))  # b'\xe9\x87\x91\xe6\xb5\xa9'
     print(Char_PO.str2byte("金浩", "GBK"))  # b'\xbd\xf0\xba\xc6'
-    print(Char_PO.str2byte(123, "GBK"))  # None
 
-    print("2，字节码转字符串".center(100, "-"))
+    print("2，字节码转中文字符串".center(100, "-"))
     print(Char_PO.byte2str(b'\xe9\x87\x91\xe6\xb5\xa9', "utf-8"))  # 金浩
     print(Char_PO.byte2str(b'\xbd\xf0\xba\xc6', "gbk"))  # 金浩
-    print(Char_PO.byte2str("123123123", "gbk"))  # None
 
-    print("3，判断元素是不是数字（不支持中文数字）".center(100, "-"))
+    print("3，判断元素是不是数字类型（不支持中文大写数字及英文字母）".center(100, "-"))
     print(Char_PO.isNumbersType(123))  # True
     print(Char_PO.isNumbersType(complex(1, 2)))  # True
     print(Char_PO.isNumbersType(complex("1")))  # True
@@ -225,11 +259,11 @@ if __name__ == "__main__":
     print(Char_PO.zeroByDot(44.0, 1))  # 44.00   //在小数点后再添加1个0
     print(Char_PO.zeroByDot(55.0, 3))  # 55.0000  //在小数点后再添加3个0
     print(Char_PO.zeroByDot("66.000", 3))  # 66.000000
-    print(Char_PO.zeroByDot(77, -4))  # None ， 整数去掉小数后4个0，逻辑不通返回None
+    print(Char_PO.zeroByDot(77, -4))  # None ， 整数去掉小数后4个0，逻辑不通返回None  ??
     print(Char_PO.zeroByDot(88, 0))  # 88
     print(Char_PO.zeroByDot(99, 1))  # 99.0
     print(Char_PO.zeroByDot(12, 6))  # 120.000000
-    print(Char_PO.zeroByDot('13', -4))  # None
+    print(Char_PO.zeroByDot('13', -4))  # None ???
     print(Char_PO.zeroByDot('14', 0))  # 14
     print(Char_PO.zeroByDot('15', 1))  # 15.0
     print(Char_PO.zeroByDot('16', 6))  # 16.000000
@@ -285,3 +319,15 @@ if __name__ == "__main__":
     for k, v in tuple1:
         tmpdict2[k] = str(Char_PO.zeroByDotSmartStr(v))
     print(tmpdict2)
+
+
+    print("7 中文转拼音".center(100, "-"))
+    print(Char_PO.chinese2pinyin("金浩"))  # jinhao
+    print(Char_PO.chinese2pinyinTone("金浩"))  # jīn hào
+    print(Char_PO.chinese2pinyinTone("金浩", True))  # jīnjìn hàogǎogé
+
+    print(Char_PO.chinese2pinyin1("你好"))  # nihao
+    print(Char_PO.chinese2pinyin1("你好", splitter="-"))  # ni-hao
+    print(Char_PO.chinese2pinyin1("你好",tone_marks="marks"))  # nǐhǎo
+    print(Char_PO.chinese2pinyin1("你好",tone_marks="marks",convert="upper"))  # NǏHǍO
+    print(Char_PO.chinese2pinyin1("你好",tone_marks="numbers", splitter="-"))  # ni3-hao3
