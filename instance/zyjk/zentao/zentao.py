@@ -19,7 +19,10 @@ Mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306)  # 测试
 row, col = Excel_PO.getRowCol("核心思想与禅道每日审查_测试.xlsx", "每日禅道审查")
 
 # 昨天
-varStartDate = str(Time_PO.get_day_of_day(-1))
+# varStartDate = str(Time_PO.get_day_of_day(-1))
+# varEndDate = varStartDate + " 23:59:59"
+
+varStartDate = "2020-06-05"
 varEndDate = varStartDate + " 23:59:59"
 
 # 获取人员的任务清单

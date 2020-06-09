@@ -13,6 +13,11 @@
 
 # https://www.cnblogs.com/kerrycode/p/11391832.html  pymssql默认关闭自动模式开启事务行为浅析
 # https://docs.microsoft.com/zh-cn/previous-versions/sql/sql-server-2008-r2/ms179296(v=sql.105)?redirectedfrom=MSDN   微软官网transact-SQL使用TRy...catch
+
+# 关于Python获取SQLSERVER数据库中文显示乱码问题
+# 原因是由于数据库中的字段的类型问题导致,varchar乱码 而 ncarchar正常
+# 解决方案：在select语句中直接通过convert(nvarchar(20), remark) 转换即可
+
 #***************************************************************
 
 import pymssql,uuid
@@ -45,7 +50,7 @@ class SqlServerPO():
         # 得到数据库连接信息，返回conn.cursor()
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
-        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, autocommit=True)
+        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf8', autocommit=True)
         cur = self.conn.cursor()  # 创建一个游标对象
         if not cur:
             raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
@@ -92,8 +97,6 @@ class SqlServerPO():
         cur.close()  # 关闭游标
         self.conn.close()  # 关闭连接
 
-
-
     def ExecQueryBySQL(self, varPathSqlFile):
 
         '''执行sql文件语句'''
@@ -118,7 +121,6 @@ class SqlServerPO():
             # cur.callproc(sql,(1,2))
             # self.conn.commit()
             self.conn.close()
-
 
     def dbDesc(self, *args):
         ''' 搜索表结构，表名区分大小写 '''
@@ -694,6 +696,8 @@ class SqlServerPO():
                 else:
                     print("[errorrrrrrr , 数据库(" + self.varDB + ")中没有找到 " + varTable + "表!]")
 
+
+
 if __name__ == '__main__':
 
     # Sqlserver_PO = SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "bmlpimpro")  # PIM 测试环境
@@ -705,7 +709,10 @@ if __name__ == '__main__':
     #     print(Value)
 
 
-    Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境
+    # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境
+    Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "data_center_test1")  # EHR质控 测试环境
+    tmpList = Sqlserver_PO.ExecQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
+    print(tmpList)
 
     # Sqlserver_PO.dbDesc()  # 所有表结构
     Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
