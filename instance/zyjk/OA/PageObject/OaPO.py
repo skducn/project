@@ -17,6 +17,7 @@ class OaPO(object):
         self.Color_PO = ColorPO()
         self.List_PO = ListPO()
         self.Str_PO = StrPO()
+        self.Char_PO = CharPO()
         self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
 
     '''打开浏览器'''
@@ -120,7 +121,6 @@ class OaPO(object):
         elif varModuleName == "借款申请":
             pass
 
-
     '''审核'''
     def audit(self, varSerial, varNo, varRole, varAudit, varIsAgree, varOpinion):
         # Oa_PO.audit("2/6, ", varNo, "部门领导", "wanglei01", "同意", "部门领导批准")
@@ -146,29 +146,47 @@ class OaPO(object):
                 self.Web_PO.clickXpath("//input[@name='DATA_11' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.inputXpath("//textarea[@name='DATA_12']", varOpinion)  # 审批意见
                 self.Web_PO.iframeSwitch(1)
-                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
-                self.Web_PO.alertAccept()
+                if self.Web_PO.isElementId("onekey_next") == True:
+                    self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                    self.Web_PO.alertAccept()
+                elif self.Web_PO.isElementId("next") == True:
+                    self.Web_PO.clickId("next", 2)  # 提交
+                    self.Web_PO.clickId("work_run_submit", 2)  # 确定
                 self.Web_PO.iframeQuit(2)
                 self.Web_PO.quitURL()
             elif varRole == "人事总监":
                 self.Web_PO.clickXpath("//input[@name='DATA_14' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.inputXpath("//textarea[@name='DATA_15']", varOpinion)  # 审批意见
                 self.Web_PO.iframeSwitch(1)
-                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
-                self.Web_PO.alertAccept()
+                if self.Web_PO.isElementId("onekey_next") == True:
+                    self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                    self.Web_PO.alertAccept()
+                elif self.Web_PO.isElementId("next") == True:
+                    self.Web_PO.clickId("next", 2)  # 提交
+                    self.Web_PO.clickId("work_run_submit", 2)
                 self.Web_PO.iframeQuit(2)
                 self.Web_PO.quitURL()
             elif varRole == "副总":
                 varDay = self.Web_PO.getXpathAttr("//input[@name='DATA_67']", "value")
-                self.Web_PO.clickXpath("//input[@name='DATA_21' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.inputXpath("//textarea[@name='DATA_18']", varOpinion)  # 审批意见
+                self.Web_PO.clickXpath("//input[@name='DATA_21' and @value='" + varIsAgree + "']", 2)  # 是否同意
+                self.Web_PO.clickXpath("//input[@name='DATA_21' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.iframeSwitch(1)
                 if int(varDay) >= 3:
-                    self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                    if self.Web_PO.isElementId("onekey_next") == True:
+                        self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                        self.Web_PO.alertAccept()
+                    elif self.Web_PO.isElementId("next") == True:
+                        self.Web_PO.clickId("next", 2)  # 提交
+                        self.Web_PO.clickId("work_run_submit", 2)  # 确定
                 else:
-                    self.Web_PO.clickXpath("//input[@id='handle_end']", 2)  # 提交
-                    # self.Web_PO.alertAccept()
-                self.Web_PO.alertAccept()
+                    if self.Web_PO.isElementId("handle_end") == True:
+                        self.Web_PO.clickXpath("//input[@id='handle_end']", 2)  # 提交
+                        self.Web_PO.alertAccept()
+                    elif self.Web_PO.isElementId("next") == True:
+                        self.Web_PO.clickId("next", 2)  # 提交
+                        self.Web_PO.clickId("work_run_submit", 2)  # 确定
+
                 self.Web_PO.iframeQuit(2)
                 self.Web_PO.quitURL()
             elif varRole == "总经理":

@@ -16,7 +16,7 @@ from PO.MysqlPO import *
 Mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306)  # 测试数据库
 
 # 获取行列总数
-row, col = Excel_PO.getRowCol("核心思想与禅道每日审查_测试.xlsx", "每日禅道审查")
+row, col = Excel_PO.getRowCol("禅道每日审查_测试.xlsx", "每日禅道审查")
 
 # 昨天
 varStartDate = str(Time_PO.get_day_of_day(-1))
@@ -47,11 +47,11 @@ for i in tmpTuple:
     count = count + 1
 
 # 保存
-Excel_PO.writeXlsxByMore("核心思想与禅道每日审查_测试.xlsx", "每日禅道审查", list2)
+Excel_PO.writeXlsxByMore("禅道每日审查_测试.xlsx", "每日禅道审查", list2)
 print("\n成功导出" + str(varStartDate) + "的任务清单，请稍等...")
 
 if platform.system() == 'Darwin':
-    os.system("open 核心思想与禅道每日审查_测试.xlsx")
+    os.system("open 禅道每日审查_测试.xlsx")
 if platform.system() == 'Windows':
-    os.system("start 核心思想与禅道每日审查_测试.xlsx")
+    os.system("start 禅道每日审查_测试.xlsx")
 
