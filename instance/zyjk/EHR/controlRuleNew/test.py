@@ -12,7 +12,6 @@ Excel_PO = ExcelPO()
 Color_PO = ColorPO()
 
 
-
 def f():
     # 1，启动jar包
     os.system('java -jar ' + Rule_PO.switchPath("./config", Rule_PO.jar))
@@ -60,7 +59,7 @@ if __name__ == '__main__':
                                                   1] + "," + recordList[3] + "," + recordList[4] + "）有<" + str(
                                                   tmpCount[0][0]) + ">条质控结果！", "")
                         Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
-                                           Rule_PO.excelFileSheetName, i, 7, "error," + str(tmpCount[0][0]))
+                                           Rule_PO.excelFileSheetName, i, 7, "error")
                         Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
                                            Rule_PO.excelFileSheetName, i, 8, str(tmpCount[0][0]) + "条问题描述！")
                     else:
@@ -108,7 +107,7 @@ if __name__ == '__main__':
                                                   tmpCount[0][0]) + ">条质控结果！",
                                               "")
                         Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
-                                           Rule_PO.excelFileSheetName, i, 7, "error," + str(tmpCount[0][0]))
+                                           Rule_PO.excelFileSheetName, i, 7, "error")
                         Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
                                            Rule_PO.excelFileSheetName, i, 8, str(tmpCount[0][0]) + "条问题描述！")
                     else:
@@ -220,29 +219,23 @@ if __name__ == '__main__':
                                                   recordList[3] + "," + recordList[4] + "）有<" + str(
                                                       tmpCount[0][0]) + ">条质控结果！",
                                                   "")
-                            Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
-                                               Rule_PO.excelFileSheetName, i, 7, "error," + str(tmpCount[0][0]))
-                            Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
-                                               Rule_PO.excelFileSheetName, i, 8, str(tmpCount[0][0]) + "条问题描述！")
+                            Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),Rule_PO.excelFileSheetName, i, 7, "error")
+                            Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),Rule_PO.excelFileSheetName, i, 8, str(tmpCount[0][0]) + "条问题描述！")
                         else:
                             # 5，查看质控结果
                             tmpList = Rule_PO.execQuery(
                                 "SELECT t2.Comment,convert(nvarchar(255), t2.Categories) FROM HrRuleRecord t1 JOIN HrRule t2 ON t1.RuleId=t2.RuleId")
                             for j in tmpList:
                                 if str(j[0]).strip() == recordList[3] and str(j[1]).strip() == recordList[4]:
-                                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
-                                                       Rule_PO.excelFileSheetName, i, 7, "ok")
-                                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
-                                                       Rule_PO.excelFileSheetName, i, 8, "(" + j[0] + "," + j[1] + ")")
+                                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),Rule_PO.excelFileSheetName, i, 7, "ok")
+                                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),Rule_PO.excelFileSheetName, i, 8, "(" + j[0] + "," + j[1] + ")")
                                 else:
                                     Color_PO.consoleColor("31", "33",
                                                           "ERROR, excel值(" + recordList[3] + "," + recordList[
                                                               4] + "), 库值(" + j[
                                                               0] + "," + j[1] + ")", "")
-                                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
-                                                       Rule_PO.excelFileSheetName, i, 7, "error")
-                                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),
-                                                       Rule_PO.excelFileSheetName, i, 8, "(" + j[0] + "," + j[1] + ")")
+                                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),Rule_PO.excelFileSheetName, i, 7, "error")
+                                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile),Rule_PO.excelFileSheetName, i, 8, "(" + j[0] + "," + j[1] + ")")
                                 break
                             recordList = []
                     else:

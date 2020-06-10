@@ -47,7 +47,7 @@ if __name__ == '__main__':
                 tmpCount = Rule_PO.execQuery( "SELECT count(*) FROM HrRuleRecord t1 JOIN HrRule t2 ON t1.RuleId=t2.RuleId")
                 if tmpCount[0][0] != 1:
                     Color_PO.consoleColor("31", "33", "ERROR, 表格第<" + str(i) + ">行（" + recordList[0] + "," + recordList[1] + "," + recordList[3] + "," + recordList[4] + "）有<" + str(tmpCount[0][0]) + ">条质控结果！", "")
-                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile), Rule_PO.excelFileSheetName, i, 7, "error," + str(tmpCount[0][0]))
+                    Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile), Rule_PO.excelFileSheetName, i, 7, "error")
                     Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile), Rule_PO.excelFileSheetName, i, 8, str(tmpCount[0][0]) + "条问题描述！")
                 else:
                     # 5，查看质控结果
