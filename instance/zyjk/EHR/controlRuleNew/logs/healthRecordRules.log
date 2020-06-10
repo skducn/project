@@ -3648,3 +3648,351 @@
 2020-06-10 15:24:45.218 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
 2020-06-10 15:24:45.219 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 5f7ecb11a3894e1d83e68322c3e3071d(String), 2020-06-10 15:24:45.217(Timestamp), 31011310200312009116(String), 63eb82a44bf64c96a0b9023fa2a3c9d9(String), 2020-06-10 15:24:45.217(Timestamp), 31011310200312009116(String), 8282714ec36c405cbf094755098177e9(String), 2020-06-10 15:24:45.217(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-10 15:24:45.217(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-10 15:24:45.217(Timestamp), 31011310200312009116(String), db6607db218b4182924b980ecb900b19(String), 2020-06-10 15:24:45.217(Timestamp) 
 2020-06-10 15:24:45.231 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 6 
+2020-06-10 15:24:49.513 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-10 15:24:49.514 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-10 15:24:49.519 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-10 15:24:49.524 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-10 15:24:49.524 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-10 15:24:49.529 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-10 15:24:49.534 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-10 15:24:49.535 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-10 15:24:49.542 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 16 
+2020-06-10 15:24:49.547 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-10 15:24:49.547 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:24:49.552 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-10 15:24:49.557 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-10 15:24:49.558 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:24:49.563 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 1 
+2020-06-10 15:24:49.568 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-10 15:24:49.568 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 1 
+2020-06-10 15:24:49.569 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 2  
+2020-06-10 15:24:49.569 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:24:49.574 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 1 
+2020-06-10 15:24:49.578 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 2  
+2020-06-10 15:24:49.578 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:24:49.583 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] <==      Total: 0 
+2020-06-10 15:24:49.588 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-10 15:24:49.588 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:24:49.602 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 3 
+2020-06-10 15:24:49.607 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-10 15:24:49.607 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 3 
+2020-06-10 15:24:49.608 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:24:49.608 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:24:49.613 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:24:49.618 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:24:49.618 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:24:49.623 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:24:49.628 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:24:49.628 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190401596084000(String) 
+2020-06-10 15:24:49.633 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:24:49.638 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:24:49.638 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190401596084000(String) 
+2020-06-10 15:24:49.644 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:24:49.649 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:24:49.650 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190408596837900(String) 
+2020-06-10 15:24:49.655 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:24:49.659 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:24:49.660 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190408596837900(String) 
+2020-06-10 15:24:49.665 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:24:49.689 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话固定电话长度异常（不含区号） 
+2020-06-10 15:24:49.692 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:固定电话长度异常（不含区号）同时满足以下条件： 1、联系人电话不为空值 2、联系人电话为固定电话（不是1和0开头判断为固定电话） 3、号码长度小于7位或大于8位 
+2020-06-10 15:24:49.697 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-10 15:24:49.698 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-10 15:24:49.699 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话不为纯数字同时满足以下条件： 1、联系电话不为空值 2、联系电话不是纯数字 
+2020-06-10 15:24:49.701 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:5 
+2020-06-10 15:24:49.703 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-10 15:24:49.703 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 5f7ecb11a3894e1d83e68322c3e3071d(String), 2020-06-10 15:24:49.701(Timestamp), 31011310200312009116(String), 8282714ec36c405cbf094755098177e9(String), 2020-06-10 15:24:49.701(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-10 15:24:49.701(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-10 15:24:49.701(Timestamp), 31011310200312009116(String), db6607db218b4182924b980ecb900b19(String), 2020-06-10 15:24:49.701(Timestamp) 
+2020-06-10 15:24:49.714 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 5 
+2020-06-10 15:25:02.914 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-10 15:25:02.915 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-10 15:25:02.921 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-10 15:25:02.926 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-10 15:25:02.927 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-10 15:25:02.934 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-10 15:25:02.939 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-10 15:25:02.940 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-10 15:25:02.946 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 16 
+2020-06-10 15:25:02.951 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-10 15:25:02.952 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:25:02.960 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-10 15:25:02.965 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-10 15:25:02.966 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:25:02.971 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 1 
+2020-06-10 15:25:02.975 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-10 15:25:02.976 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 1 
+2020-06-10 15:25:02.976 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 2  
+2020-06-10 15:25:02.977 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:25:02.981 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 1 
+2020-06-10 15:25:02.986 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 2  
+2020-06-10 15:25:02.987 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:25:02.991 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] <==      Total: 0 
+2020-06-10 15:25:02.995 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-10 15:25:02.996 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:25:03.012 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 3 
+2020-06-10 15:25:03.017 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-10 15:25:03.017 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 3 
+2020-06-10 15:25:03.018 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:25:03.018 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:25:03.023 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:25:03.027 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:25:03.028 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:25:03.032 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:25:03.037 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:25:03.037 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190401596084000(String) 
+2020-06-10 15:25:03.041 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:25:03.046 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:25:03.047 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190401596084000(String) 
+2020-06-10 15:25:03.052 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:25:03.057 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:25:03.057 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190408596837900(String) 
+2020-06-10 15:25:03.062 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:25:03.067 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:25:03.067 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190408596837900(String) 
+2020-06-10 15:25:03.072 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:25:03.100 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表本人电话固定电话长度异常（不含区号） 
+2020-06-10 15:25:03.101 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:固定电话长度异常（不含区号）同时满足以下条件： 1、联系人电话不为空值 2、联系人电话为固定电话（不是1和0开头判断为固定电话） 3、号码长度小于7位或大于8位 
+2020-06-10 15:25:03.104 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史手术未填写既往史手术为空值 
+2020-06-10 15:25:03.104 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:既往史输血未填写既往史输血为空值 
+2020-06-10 15:25:03.105 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话不为纯数字同时满足以下条件： 1、联系电话不为空值 2、联系电话不是纯数字 
+2020-06-10 15:25:03.106 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:148] 规则执行结束结果条数为:5 
+2020-06-10 15:25:03.107 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-10 15:25:03.107 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 5f7ecb11a3894e1d83e68322c3e3071d(String), 2020-06-10 15:25:03.106(Timestamp), 31011310200312009116(String), 8282714ec36c405cbf094755098177e9(String), 2020-06-10 15:25:03.106(Timestamp), 31011310200312009116(String), ce48246656384d1cb27c046cba2f8c4c(String), 2020-06-10 15:25:03.106(Timestamp), 31011310200312009116(String), daa41bd0401e41fcb3523f1abb6e08d1(String), 2020-06-10 15:25:03.106(Timestamp), 31011310200312009116(String), db6607db218b4182924b980ecb900b19(String), 2020-06-10 15:25:03.106(Timestamp) 
+2020-06-10 15:25:03.152 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 5 
+2020-06-10 15:38:29.017 [INFO ] com.benetech.rules.RulesApplication                - [logStarting:55] Starting RulesApplication v1.0-SNAPSHOT on DESKTOP-EOCO1V0 with PID 1236 (D:\51\python\project\instance\zyjk\EHR\controlRuleNew\config\healthRecordRules.jar started by ZY in D:\51\python\project\instance\zyjk\EHR\controlRuleNew) 
+2020-06-10 15:38:29.055 [DEBUG] com.benetech.rules.RulesApplication                - [logStarting:56] Running with Spring Boot v2.2.1.RELEASE, Spring v5.2.1.RELEASE 
+2020-06-10 15:38:29.055 [INFO ] com.benetech.rules.RulesApplication                - [logStartupProfileInfo:655] The following profiles are active: test 
+2020-06-10 15:38:30.543 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [initialize:92] Tomcat initialized with port(s): 8838 (http) 
+2020-06-10 15:38:30.555 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Initializing ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:38:30.556 [INFO ] org.apache.catalina.core.StandardService           - [log:173] Starting service [Tomcat] 
+2020-06-10 15:38:30.556 [INFO ] org.apache.catalina.core.StandardEngine            - [log:173] Starting Servlet engine: [Apache Tomcat/9.0.27] 
+2020-06-10 15:38:30.617 [INFO ] o.a.c.c.C.[.[localhost].[/healthRecordRules]       - [log:173] Initializing Spring embedded WebApplicationContext 
+2020-06-10 15:38:30.617 [INFO ] org.springframework.web.context.ContextLoader      - [prepareWebApplicationContext:284] Root WebApplicationContext: initialization completed in 1510 ms 
+2020-06-10 15:38:30.700 [DEBUG] org.apache.ibatis.logging.LogFactory               - [setImplementation:135] Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter. 
+2020-06-10 15:38:30.967 [WARN ] org.mybatis.spring.SqlSessionFactoryBean           - [buildSqlSessionFactory:467] Can't find class in '[com.benetech.rules.*.entity]' package. Please check your configuration. 
+2020-06-10 15:38:31.798 [INFO ] com.alibaba.druid.pool.DruidDataSource             - [init:930] {dataSource-1} inited 
+2020-06-10 15:38:31.996 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==>  Preparing: select a.RuleId as ruleId, a.RuleSql as clazz from HrRule a join HrRuleProps b on a.RuleId = b.RuleId where -- RuleId in ('34278f71cf1d42c88158aaf637fa5203', '8d30baa03bfc4233a8f115c57a0ebf08', '63eb82a44bf64c96a0b9023fa2a3c9d9') a.RuleSql != '' and a.RuleSql is not null and b.Enable = 1  
+2020-06-10 15:38:32.018 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==> Parameters:  
+2020-06-10 15:38:32.160 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] <==      Total: 310 
+2020-06-10 15:38:32.414 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [init:64] 加载规则：310 条 
+2020-06-10 15:38:32.431 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==>  Preparing: SELECT codeSysType AS type, code AS code, [value] AS value FROM tb_code_value WHERE code != '' AND [value] != ''  
+2020-06-10 15:38:32.431 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==> Parameters:  
+2020-06-10 15:38:32.899 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] <==      Total: 44881 
+2020-06-10 15:38:32.924 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:96] 初始化字典类型: 467 种 
+2020-06-10 15:38:32.924 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:97] 初始化字典: 44881 条 
+2020-06-10 15:38:33.044 [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor   - [initialize:171] Initializing ExecutorService 'applicationTaskExecutor' 
+2020-06-10 15:38:33.283 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Starting ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:38:33.315 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [start:204] Tomcat started on port(s): 8838 (http) with context path '/healthRecordRules' 
+2020-06-10 15:38:33.318 [INFO ] com.benetech.rules.RulesApplication                - [logStarted:61] Started RulesApplication in 4.861 seconds (JVM running for 5.279) 
+2020-06-10 15:38:33.320 [INFO ] com.benetech.rules.RulesApplication                - [main:20] -------------启动成功------------- 
+2020-06-10 15:42:27.144 [INFO ] com.benetech.rules.RulesApplication                - [logStarting:55] Starting RulesApplication v1.0-SNAPSHOT on DESKTOP-EOCO1V0 with PID 12784 (D:\51\python\project\instance\zyjk\EHR\controlRuleNew\config\healthRecordRules.jar started by ZY in D:\51\python\project\instance\zyjk\EHR\controlRuleNew) 
+2020-06-10 15:42:27.147 [DEBUG] com.benetech.rules.RulesApplication                - [logStarting:56] Running with Spring Boot v2.2.1.RELEASE, Spring v5.2.1.RELEASE 
+2020-06-10 15:42:27.148 [INFO ] com.benetech.rules.RulesApplication                - [logStartupProfileInfo:655] The following profiles are active: test 
+2020-06-10 15:42:28.622 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [initialize:92] Tomcat initialized with port(s): 8838 (http) 
+2020-06-10 15:42:28.635 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Initializing ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:42:28.636 [INFO ] org.apache.catalina.core.StandardService           - [log:173] Starting service [Tomcat] 
+2020-06-10 15:42:28.637 [INFO ] org.apache.catalina.core.StandardEngine            - [log:173] Starting Servlet engine: [Apache Tomcat/9.0.27] 
+2020-06-10 15:42:28.718 [INFO ] o.a.c.c.C.[.[localhost].[/healthRecordRules]       - [log:173] Initializing Spring embedded WebApplicationContext 
+2020-06-10 15:42:28.718 [INFO ] org.springframework.web.context.ContextLoader      - [prepareWebApplicationContext:284] Root WebApplicationContext: initialization completed in 1477 ms 
+2020-06-10 15:42:28.819 [DEBUG] org.apache.ibatis.logging.LogFactory               - [setImplementation:135] Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter. 
+2020-06-10 15:42:28.983 [WARN ] org.mybatis.spring.SqlSessionFactoryBean           - [buildSqlSessionFactory:467] Can't find class in '[com.benetech.rules.*.entity]' package. Please check your configuration. 
+2020-06-10 15:42:29.623 [INFO ] com.alibaba.druid.pool.DruidDataSource             - [init:930] {dataSource-1} inited 
+2020-06-10 15:42:30.109 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==>  Preparing: select a.RuleId as ruleId, a.RuleSql as clazz from HrRule a join HrRuleProps b on a.RuleId = b.RuleId where -- RuleId in ('34278f71cf1d42c88158aaf637fa5203', '8d30baa03bfc4233a8f115c57a0ebf08', '63eb82a44bf64c96a0b9023fa2a3c9d9') a.RuleSql != '' and a.RuleSql is not null and b.Enable = 1  
+2020-06-10 15:42:30.140 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==> Parameters:  
+2020-06-10 15:42:30.219 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] <==      Total: 310 
+2020-06-10 15:42:30.427 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [init:64] 加载规则：310 条 
+2020-06-10 15:42:30.440 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==>  Preparing: SELECT codeSysType AS type, code AS code, [value] AS value FROM tb_code_value WHERE code != '' AND [value] != ''  
+2020-06-10 15:42:30.440 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==> Parameters:  
+2020-06-10 15:42:30.989 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] <==      Total: 44881 
+2020-06-10 15:42:31.016 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:96] 初始化字典类型: 467 种 
+2020-06-10 15:42:31.017 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:97] 初始化字典: 44881 条 
+2020-06-10 15:42:31.149 [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor   - [initialize:171] Initializing ExecutorService 'applicationTaskExecutor' 
+2020-06-10 15:42:31.407 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Starting ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:42:31.434 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [start:204] Tomcat started on port(s): 8838 (http) with context path '/healthRecordRules' 
+2020-06-10 15:42:31.437 [INFO ] com.benetech.rules.RulesApplication                - [logStarted:61] Started RulesApplication in 4.81 seconds (JVM running for 5.256) 
+2020-06-10 15:42:31.443 [INFO ] com.benetech.rules.RulesApplication                - [main:20] -------------启动成功------------- 
+2020-06-10 15:42:31.637 [INFO ] o.a.c.c.C.[.[localhost].[/healthRecordRules]       - [log:173] Initializing Spring DispatcherServlet 'dispatcherServlet' 
+2020-06-10 15:42:31.637 [INFO ] org.springframework.web.servlet.DispatcherServlet  - [initServletBean:525] Initializing Servlet 'dispatcherServlet' 
+2020-06-10 15:42:31.644 [INFO ] org.springframework.web.servlet.DispatcherServlet  - [initServletBean:547] Completed initialization in 6 ms 
+2020-06-10 15:42:31.686 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-10 15:42:31.692 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-10 15:42:31.709 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-10 15:42:31.714 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-10 15:42:31.714 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-10 15:42:31.724 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-10 15:42:31.728 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-10 15:42:31.729 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-10 15:42:31.735 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 16 
+2020-06-10 15:42:31.741 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-10 15:42:31.741 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:31.747 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-10 15:42:31.752 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-10 15:42:31.753 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:31.764 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 1 
+2020-06-10 15:42:31.768 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-10 15:42:31.769 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 1 
+2020-06-10 15:42:31.769 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 2  
+2020-06-10 15:42:31.770 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:42:31.774 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.779 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 2  
+2020-06-10 15:42:31.779 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:42:31.783 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.788 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryIpLis      - [debug:159] ==>  Preparing: select t1.name as name, t1.reportNo as reportNo, t1.reportDate as reportDate, t1.reportTypeCode as reportTypeCode, t1.visitType as visitType from tb_lis_report t1 LEFT JOIN tb_empi_index_root t2 on t1.empiGuid = t2.guid where t2.idCardNo = ?  
+2020-06-10 15:42:31.789 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryIpLis      - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:31.793 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryIpLis      - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.797 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-10 15:42:31.798 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:31.812 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 3 
+2020-06-10 15:42:31.817 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-10 15:42:31.817 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 3 
+2020-06-10 15:42:31.818 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:31.818 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:42:31.823 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 1 
+2020-06-10 15:42:31.828 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:31.828 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:42:31.833 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.837 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==>  Preparing: select t1.name as name, t1.reportNo as reportNo, t1.reportDate as reportDate, t1.reportTypeCode as reportTypeCode, t1.visitType as visitType from tb_lis_report t1 LEFT JOIN tb_empi_index_root t2 on t1.empiGuid = t2.guid where t2.idCardNo = ?  
+2020-06-10 15:42:31.838 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:31.842 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.848 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:31.849 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190401596084000(String) 
+2020-06-10 15:42:31.854 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.864 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:31.865 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190401596084000(String) 
+2020-06-10 15:42:31.871 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.878 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==>  Preparing: select t1.name as name, t1.reportNo as reportNo, t1.reportDate as reportDate, t1.reportTypeCode as reportTypeCode, t1.visitType as visitType from tb_lis_report t1 LEFT JOIN tb_empi_index_root t2 on t1.empiGuid = t2.guid where t2.idCardNo = ?  
+2020-06-10 15:42:31.878 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:31.884 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.890 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:31.890 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190408596837900(String) 
+2020-06-10 15:42:31.896 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.901 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:31.903 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190408596837900(String) 
+2020-06-10 15:42:31.907 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.912 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==>  Preparing: select t1.name as name, t1.reportNo as reportNo, t1.reportDate as reportDate, t1.reportTypeCode as reportTypeCode, t1.visitType as visitType from tb_lis_report t1 LEFT JOIN tb_empi_index_root t2 on t1.empiGuid = t2.guid where t2.idCardNo = ?  
+2020-06-10 15:42:31.912 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:31.917 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] <==      Total: 0 
+2020-06-10 15:42:31.921 [DEBUG] c.b.r.m.model.mapper.PatInfoMapper.queryInfoById   - [debug:159] ==>  Preparing: select t1.name as name, t1.workUnitName as workUnitName, t1.orgCode as orgCode, t2.HospitalLevel as orgLevel, t1.systemCode as systemCode, t1.objectId as objectId from tb_empi_pat_info t1 LEFT JOIN t_dic_hospital_info t2 on t1.orgCode = t2.Hospital_id where t1.idCardNo = ?  
+2020-06-10 15:42:31.922 [DEBUG] c.b.r.m.model.mapper.PatInfoMapper.queryInfoById   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:31.927 [DEBUG] c.b.r.m.model.mapper.PatInfoMapper.queryInfoById   - [debug:159] <==      Total: 0 
+2020-06-10 15:42:32.019 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:建档后与一级医院门诊就诊记录诊断逻辑不符（高血压）同时满足以下条件： 1、个人基本信息表《既往史（疾病）》不等于“高血压”， 2、一级医院门诊就诊记录表《门诊诊断编码》中诊断为“高血压” 3、个人基本信息表《建档日期》小于门诊就诊记录表《门诊就诊日期》 高血压诊断匹配规则： 1）ICD10编码：详见"各疾病对应ICD编码“sheet 2）关键字：“高血压” 
+2020-06-10 15:42:32.036 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（冠心病） 
+2020-06-10 15:42:32.042 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（恶性肿瘤） 
+2020-06-10 15:42:32.043 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:姓名未填写姓名为空值 
+2020-06-10 15:42:32.045 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（严重精神障碍） 
+2020-06-10 15:42:32.046 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:建档后与一级医院住院就诊记录诊断逻辑不符（高血压）同时满足以下条件： 1、个人基本信息表《既往史（疾病）》不包含“高血压” 2、一级医院住院就诊记录表《诊断编码》中诊断为“高血压” 3、个人基本信息表《建档日期》小于住院就诊记录表《出院时间》 高血压诊断匹配规则： 1）ICD10编码：详见"各疾病对应ICD编码“sheet 2）关键字“高血压” 
+2020-06-10 15:42:32.048 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（慢性阻塞性肺疾病） 
+2020-06-10 15:42:32.052 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（结核病） 
+2020-06-10 15:42:32.068 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话不为纯数字同时满足以下条件： 1、联系电话不为空值 2、联系电话不是纯数字 
+2020-06-10 15:42:32.070 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（高血压） 
+2020-06-10 15:42:32.072 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:158] 规则执行结束结果条数为:10 
+2020-06-10 15:42:32.104 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-10 15:42:32.105 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 24c732e2bc8e4e7eaf9ccba66df7b04a(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), 37709c46fb4f451580b4e0be4ec44b28(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), 6215c196bad04737a9a0e8beb6ec90d6(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), 63eb82a44bf64c96a0b9023fa2a3c9d9(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), 661894759bf54f15988290359dace0ae(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), 67bb8640d8954474b388fcb74c9d4a1c(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), 7e01461557c44660a7e83275d0491078(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), 84bc5e11d4f34fe0a79317a855f0fc28(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), db6607db218b4182924b980ecb900b19(String), 2020-06-10 15:42:32.072(Timestamp), 31011310200312009116(String), f26063a8ca124939bd55524b421aa7a1(String), 2020-06-10 15:42:32.072(Timestamp) 
+2020-06-10 15:42:32.126 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 10 
+2020-06-10 15:42:34.689 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==>  Preparing: select Name as name, Phone as phone, Province as registerProvinceName, ProvinceCode as registerProvinceCode, City as registerCityName, CityCode as registerCityCode, District as registerDistrictName, DistrictCode as registerDistrictCode, permanentNeighborhood as registerNeighborhoodName, permanentNeighborhoodCode as registerNeighborhoodCode, permanentVillageName as registerVillageName, permanentVillageCode as registerVillageCode, PermanentAddress as registerAddress, Neighborhood as currentNeighborhoodName, NeighborhoodCode as currentNeighborhoodCode, VillageName as currentVillageName, VillageCode as currentVillageCode, PresentAddress as currentAddress, ArchiveUnit as archiveUnit, Archiver as archiver, ResponsibleDoctor as responsibleDoctor, DateOfCreateArchive as dateOfCreateArchive from HrCover where ArchiveNum = ?  
+2020-06-10 15:42:34.690 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-10 15:42:34.695 [DEBUG] c.b.r.m.m.m.CoverBuildMapper.queryByArchiveNum     - [debug:159] <==      Total: 1 
+2020-06-10 15:42:34.700 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==>  Preparing: select Id as id, Name as name, Sex as sex, DateOfBirth as dateOfBirth, IdCard as idCard, WorkUnit as workUnit, Phone as phone, ContactsName as contactsName, ContactsPhone as contactsPhone, ResidenceType as residenceType, NationCode as nationCode, BloodType as bloodType, RhBloodType as rhBloodType, Degree as degree, Occupation as occupation, MaritalStatus as maritalStatus, HeredityHistoryFlag as heredityHistoryFlag, EnvironmentKitchenAeration as environmentKitchenAeration, EnvironmentFuelType as environmentFuelType, EnvironmentWater as environmentWater, EnvironmentToilet as environmentToilet, EnvironmentCorral as environmentCorral from HrPersonBasicInfo where archiveNum = ?  
+2020-06-10 15:42:34.701 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] ==> Parameters: 31011310200312009116(String) 
+2020-06-10 15:42:34.706 [DEBUG] c.b.r.m.m.m.B.queryByArchiveNum                    - [debug:159] <==      Total: 1 
+2020-06-10 15:42:34.710 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==>  Preparing: select associationType as associationType, code as code, msg as msg, occurDate as occurDate from HrAssociationInfo where Pid = ? and TableSource = 'HrPersonBasicInfo'  
+2020-06-10 15:42:34.711 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] ==> Parameters: 1(Integer) 
+2020-06-10 15:42:34.716 [DEBUG] c.b.r.m.m.m.B.getAssociationInfo                   - [debug:159] <==      Total: 16 
+2020-06-10 15:42:34.721 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==>  Preparing: select JMXM as name, SJHM as phone from QYYH where sfzh = ?  
+2020-06-10 15:42:34.721 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:34.725 [DEBUG] c.b.r.modules.model.mapper.SignMapper.queryById    - [debug:159] <==      Total: 1 
+2020-06-10 15:42:34.730 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.ipVisitStrNo as streamNo, t1.admissionDate as inMedicalDate, t1.dischargeDate as outMedicalDate, t2.sexCode as sex, t2.dateOfBirth as dateOfBirth, t2.name as name, t2.phoneNum as phone FROM tb_his_ip_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid LEFT JOIN t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-10 15:42:34.730 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:34.738 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryInfoList   - [debug:159] <==      Total: 1 
+2020-06-10 15:42:34.743 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:34] 获取ipData1 
+2020-06-10 15:42:34.744 [ERROR] c.b.r.m.model.service.impl.IpBuildServiceImpl      - [buildHospitalInfo:35] 1 
+2020-06-10 15:42:34.745 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 2  
+2020-06-10 15:42:34.746 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:42:34.751 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.757 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 2  
+2020-06-10 15:42:34.758 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:42:34.763 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.buildSurgery    - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.767 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryIpLis      - [debug:159] ==>  Preparing: select t1.name as name, t1.reportNo as reportNo, t1.reportDate as reportDate, t1.reportTypeCode as reportTypeCode, t1.visitType as visitType from tb_lis_report t1 LEFT JOIN tb_empi_index_root t2 on t1.empiGuid = t2.guid where t2.idCardNo = ?  
+2020-06-10 15:42:34.768 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryIpLis      - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:34.773 [DEBUG] c.b.r.m.model.mapper.IpBuildMapper.queryIpLis      - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.778 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==>  Preparing: SELECT t3.HospitalLevel as orgLevel, t1.orgCode as orgCode, t1.opVisitStrNo as streamNo, t1.visitTime as medicalDate, t2.name as name, t2.phoneNum as phone FROM tb_his_op_medical_record t1 LEFT JOIN tb_empi_index_root t2 ON t2.guid = t1.empiGuid left join t_dic_hospital_info t3 on t3.Hospital_id = t1.orgCode WHERE t2.idCardNo = ?  
+2020-06-10 15:42:34.778 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:34.793 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryInfoList   - [debug:159] <==      Total: 3 
+2020-06-10 15:42:34.798 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:31] 获取op的data 
+2020-06-10 15:42:34.798 [ERROR] c.b.r.m.model.service.impl.OpBuildServiceImpl      - [buildOutpatientInfo:32] 3 
+2020-06-10 15:42:34.799 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:34.799 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:42:34.804 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 1 
+2020-06-10 15:42:34.809 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:34.810 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190322594248000(String) 
+2020-06-10 15:42:34.814 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.819 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==>  Preparing: select t1.name as name, t1.reportNo as reportNo, t1.reportDate as reportDate, t1.reportTypeCode as reportTypeCode, t1.visitType as visitType from tb_lis_report t1 LEFT JOIN tb_empi_index_root t2 on t1.empiGuid = t2.guid where t2.idCardNo = ?  
+2020-06-10 15:42:34.819 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:34.825 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.831 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:34.831 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190401596084000(String) 
+2020-06-10 15:42:34.838 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.842 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:34.843 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190401596084000(String) 
+2020-06-10 15:42:34.847 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.852 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==>  Preparing: select t1.name as name, t1.reportNo as reportNo, t1.reportDate as reportDate, t1.reportTypeCode as reportTypeCode, t1.visitType as visitType from tb_lis_report t1 LEFT JOIN tb_empi_index_root t2 on t1.empiGuid = t2.guid where t2.idCardNo = ?  
+2020-06-10 15:42:34.853 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:34.858 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.863 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==>  Preparing: SELECT diagnosisCode as code, diagnosisName as name FROM tb_his_diagnosis WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:34.864 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] ==> Parameters: 20190408596837900(String) 
+2020-06-10 15:42:34.875 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildDiagnosis  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.880 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==>  Preparing: SELECT operCode as code, operName as name FROM tb_his_operation WHERE visitStrNo = ? AND visitType = 1  
+2020-06-10 15:42:34.881 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] ==> Parameters: 20190408596837900(String) 
+2020-06-10 15:42:34.886 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.buildOperation  - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.890 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==>  Preparing: select t1.name as name, t1.reportNo as reportNo, t1.reportDate as reportDate, t1.reportTypeCode as reportTypeCode, t1.visitType as visitType from tb_lis_report t1 LEFT JOIN tb_empi_index_root t2 on t1.empiGuid = t2.guid where t2.idCardNo = ?  
+2020-06-10 15:42:34.890 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:34.895 [DEBUG] c.b.r.m.model.mapper.OpBuildMapper.queryOpLis      - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.900 [DEBUG] c.b.r.m.model.mapper.PatInfoMapper.queryInfoById   - [debug:159] ==>  Preparing: select t1.name as name, t1.workUnitName as workUnitName, t1.orgCode as orgCode, t2.HospitalLevel as orgLevel, t1.systemCode as systemCode, t1.objectId as objectId from tb_empi_pat_info t1 LEFT JOIN t_dic_hospital_info t2 on t1.orgCode = t2.Hospital_id where t1.idCardNo = ?  
+2020-06-10 15:42:34.900 [DEBUG] c.b.r.m.model.mapper.PatInfoMapper.queryInfoById   - [debug:159] ==> Parameters: 110101199003071970(String) 
+2020-06-10 15:42:34.905 [DEBUG] c.b.r.m.model.mapper.PatInfoMapper.queryInfoById   - [debug:159] <==      Total: 0 
+2020-06-10 15:42:34.928 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:建档后与一级医院门诊就诊记录诊断逻辑不符（高血压）同时满足以下条件： 1、个人基本信息表《既往史（疾病）》不等于“高血压”， 2、一级医院门诊就诊记录表《门诊诊断编码》中诊断为“高血压” 3、个人基本信息表《建档日期》小于门诊就诊记录表《门诊就诊日期》 高血压诊断匹配规则： 1）ICD10编码：详见"各疾病对应ICD编码“sheet 2）关键字：“高血压” 
+2020-06-10 15:42:34.930 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（冠心病） 
+2020-06-10 15:42:34.936 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（恶性肿瘤） 
+2020-06-10 15:42:34.939 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（严重精神障碍） 
+2020-06-10 15:42:34.939 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:与一级医院门诊就诊记录表姓名不一致同时满足以下条件： 1、封面《姓名》不为空值 2、一级医院门诊就诊记录表《患者姓名》不为空 3、封面《姓名》与门诊就诊记录表中《患者姓名》不相等 
+2020-06-10 15:42:34.939 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:建档后与一级医院住院就诊记录诊断逻辑不符（高血压）同时满足以下条件： 1、个人基本信息表《既往史（疾病）》不包含“高血压” 2、一级医院住院就诊记录表《诊断编码》中诊断为“高血压” 3、个人基本信息表《建档日期》小于住院就诊记录表《出院时间》 高血压诊断匹配规则： 1）ICD10编码：详见"各疾病对应ICD编码“sheet 2）关键字“高血压” 
+2020-06-10 15:42:34.969 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（慢性阻塞性肺疾病） 
+2020-06-10 15:42:34.970 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:与一级医院住院就诊记录表姓名不一致同时满足以下条件： 1、封面《姓名》不为空值 2、一级医院住院就诊记录表《患者姓名》不为空 3、封面《姓名》与住院就诊记录表中《患者姓名》不相等 
+2020-06-10 15:42:34.970 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（结核病） 
+2020-06-10 15:42:34.973 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:姓名长度异常长度>50字符 
+2020-06-10 15:42:34.975 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:联系电话不为纯数字同时满足以下条件： 1、联系电话不为空值 2、联系电话不是纯数字 
+2020-06-10 15:42:34.980 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [onSuccess:92] 符合规则为:个人基本信息表既往史建档前与一级医院门诊就诊记录诊断逻辑不符（高血压） 
+2020-06-10 15:42:34.982 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [saveResult:158] 规则执行结束结果条数为:12 
+2020-06-10 15:42:34.985 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==>  Preparing: insert into HrRuleRecord(RecordId, ArchiveNum, RuleId, RecordTime, Ispass) values (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1) , (NEWID(), ?, ?, ?, 1)  
+2020-06-10 15:42:34.987 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] ==> Parameters: 31011310200312009116(String), 24c732e2bc8e4e7eaf9ccba66df7b04a(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), 37709c46fb4f451580b4e0be4ec44b28(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), 6215c196bad04737a9a0e8beb6ec90d6(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), 661894759bf54f15988290359dace0ae(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), 67349648cf9e48c8aa0a7792d105a845(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), 67bb8640d8954474b388fcb74c9d4a1c(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), 7e01461557c44660a7e83275d0491078(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), 7f6d3def9a2f45c88acc7fba4d50a317(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), 84bc5e11d4f34fe0a79317a855f0fc28(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), b8eeb38e528544b28133b9ee94c5fbc4(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), db6607db218b4182924b980ecb900b19(String), 2020-06-10 15:42:34.982(Timestamp), 31011310200312009116(String), f26063a8ca124939bd55524b421aa7a1(String), 2020-06-10 15:42:34.982(Timestamp) 
+2020-06-10 15:42:35.016 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.saveResult    - [debug:159] <==    Updates: 12 
+2020-06-10 15:45:29.215 [INFO ] com.benetech.rules.RulesApplication                - [logStarting:55] Starting RulesApplication v1.0-SNAPSHOT on DESKTOP-EOCO1V0 with PID 6552 (D:\51\python\project\instance\zyjk\EHR\controlRuleNew\config\healthRecordRules.jar started by ZY in D:\51\python\project\instance\zyjk\EHR\controlRuleNew) 
+2020-06-10 15:45:29.218 [DEBUG] com.benetech.rules.RulesApplication                - [logStarting:56] Running with Spring Boot v2.2.1.RELEASE, Spring v5.2.1.RELEASE 
+2020-06-10 15:45:29.219 [INFO ] com.benetech.rules.RulesApplication                - [logStartupProfileInfo:655] The following profiles are active: test 
+2020-06-10 15:45:30.698 [INFO ] o.s.boot.web.embedded.tomcat.TomcatWebServer       - [initialize:92] Tomcat initialized with port(s): 8838 (http) 
+2020-06-10 15:45:30.711 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Initializing ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:45:30.712 [INFO ] org.apache.catalina.core.StandardService           - [log:173] Starting service [Tomcat] 
+2020-06-10 15:45:30.712 [INFO ] org.apache.catalina.core.StandardEngine            - [log:173] Starting Servlet engine: [Apache Tomcat/9.0.27] 
+2020-06-10 15:45:30.808 [INFO ] o.a.c.c.C.[.[localhost].[/healthRecordRules]       - [log:173] Initializing Spring embedded WebApplicationContext 
+2020-06-10 15:45:30.809 [INFO ] org.springframework.web.context.ContextLoader      - [prepareWebApplicationContext:284] Root WebApplicationContext: initialization completed in 1493 ms 
+2020-06-10 15:45:30.915 [DEBUG] org.apache.ibatis.logging.LogFactory               - [setImplementation:135] Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter. 
+2020-06-10 15:45:31.077 [WARN ] org.mybatis.spring.SqlSessionFactoryBean           - [buildSqlSessionFactory:467] Can't find class in '[com.benetech.rules.*.entity]' package. Please check your configuration. 
+2020-06-10 15:45:31.988 [INFO ] com.alibaba.druid.pool.DruidDataSource             - [init:930] {dataSource-1} inited 
+2020-06-10 15:45:32.176 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==>  Preparing: select a.RuleId as ruleId, a.RuleSql as clazz from HrRule a join HrRuleProps b on a.RuleId = b.RuleId where -- RuleId in ('34278f71cf1d42c88158aaf637fa5203', '8d30baa03bfc4233a8f115c57a0ebf08', '63eb82a44bf64c96a0b9023fa2a3c9d9') a.RuleSql != '' and a.RuleSql is not null and b.Enable = 1  
+2020-06-10 15:45:32.201 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] ==> Parameters:  
+2020-06-10 15:45:32.291 [DEBUG] c.b.r.m.e.mapper.RuleEngineMapper.getAllRules      - [debug:159] <==      Total: 310 
+2020-06-10 15:45:32.502 [INFO ] c.b.r.m.engine.service.impl.RuleEngineServiceImpl  - [init:64] 加载规则：310 条 
+2020-06-10 15:45:32.516 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==>  Preparing: SELECT codeSysType AS type, code AS code, [value] AS value FROM tb_code_value WHERE code != '' AND [value] != ''  
+2020-06-10 15:45:32.517 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] ==> Parameters:  
+2020-06-10 15:45:32.949 [DEBUG] c.b.r.m.m.mapper.EhrModelBuildMapper.getAllCode    - [debug:159] <==      Total: 44881 
+2020-06-10 15:45:32.978 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:96] 初始化字典类型: 467 种 
+2020-06-10 15:45:32.979 [INFO ] c.b.r.m.m.service.impl.EhrModelBuildServiceImpl    - [init:97] 初始化字典: 44881 条 
+2020-06-10 15:45:33.110 [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor   - [initialize:171] Initializing ExecutorService 'applicationTaskExecutor' 
+2020-06-10 15:45:33.371 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Starting ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:45:33.382 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Pausing ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:45:33.383 [INFO ] org.apache.catalina.core.StandardService           - [log:173] Stopping service [Tomcat] 
+2020-06-10 15:45:33.387 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Stopping ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:45:33.387 [INFO ] org.apache.coyote.http11.Http11NioProtocol         - [log:173] Destroying ProtocolHandler ["http-nio-8838"] 
+2020-06-10 15:45:33.389 [INFO ] o.s.b.a.l.ConditionEvaluationReportLoggingListener - [logMessage:136]     Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled. 
+2020-06-10 15:45:33.390 [ERROR] o.s.b.diagnostics.LoggingFailureAnalysisReporter   - [report:40]     ***************************  APPLICATION FAILED TO START  ***************************    Description:    Web server failed to start. Port 8838 was already in use.    Action:    Identify and stop the process that's listening on port 8838 or configure this application to listen on another port.   
+2020-06-10 15:45:33.395 [INFO ] o.s.scheduling.concurrent.ThreadPoolTaskExecutor   - [shutdown:208] Shutting down ExecutorService 'applicationTaskExecutor' 
+2020-06-10 15:45:33.399 [INFO ] com.alibaba.druid.pool.DruidDataSource             - [close:1825] {dataSource-1} closed 
