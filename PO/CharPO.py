@@ -194,10 +194,10 @@ class CharPO():
 
 
     # 7.1 中文转拼音（不带声调）
-    def chinese2pinyin(self, varWord):
+    def chinese2pinyin(self, varWord, varMode=False):
         # print(Char_PO.chinese2pinyin("金浩"))  # jinhao
         s = ''
-        for i in pypinyin.pinyin(varWord, style=pypinyin.NORMAL):
+        for i in pypinyin.pinyin(varWord, style=pypinyin.NORMAL, heteronym=varMode):
             s += ''.join(i)
         return s
 
@@ -322,11 +322,12 @@ if __name__ == "__main__":
 
 
     print("7 中文转拼音".center(100, "-"))
-    print(Char_PO.chinese2pinyin("金浩"))  # jinhao
+    print(Char_PO.chinese2pinyin("曾祥云", True))  # jinhao
+    print(Char_PO.chinese2pinyin("金浩", True))  # jinhao
     print(Char_PO.chinese2pinyinTone("金浩"))  # jīn hào
     print(Char_PO.chinese2pinyinTone("金浩", True))  # jīnjìn hàogǎogé
 
-    print(Char_PO.chinese2pinyin1("你好"))  # nihao
+    print(Char_PO.chinese2pinyin1("jin你好"))  # nihao
     print(Char_PO.chinese2pinyin1("你好", splitter="-"))  # ni-hao
     print(Char_PO.chinese2pinyin1("你好",tone_marks="marks"))  # nǐhǎo
     print(Char_PO.chinese2pinyin1("你好",tone_marks="marks",convert="upper"))  # NǏHǍO

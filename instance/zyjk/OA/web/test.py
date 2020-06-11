@@ -19,31 +19,24 @@ Excel_PO = ExcelPO()
 Char_PO = CharPO()
 
 #***************************************************************#***************************************************************
+# 请假申请
 
-varNo = "5764"
+# Oa_PO.askOff("请假申请", 1, "所有人员")
+# Oa_PO.askOff("请假申请", 1, '赵云')
+# Oa_PO.askOff("请假申请", 1, "赵云,陈晓东")
 
-# # 场景1：请假单，请假天数3天
-# varNo = Oa_PO.apply("1/7, ", "jinhao", "请假申请", 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), "3")
-# Oa_PO.audit("2/7, ", varNo, "部门领导", "wanglei01", "同意", "部门领导批准")
-# Oa_PO.audit("3/7, ", varNo, "人事总监", "yanlibei", "同意", "yanlibei批准")
-# Oa_PO.audit("4/7, ", varNo, "副总", "wanglei01", "同意", "wanglei批准")
-# Oa_PO.audit("5/7, ", varNo, "总经理", "yuanyongtao", "同意", "yuanyongtao批准")
-# Oa_PO.applyDone("6/7, ", varNo, "jinhao")
-# Oa_PO.applyDone("7/7, ", varNo, "yanlibei")
-
-# # 场景2：请假单，请假天数1天
-# varNo = Oa_PO.apply("1/6, ", "jinhao", "请假申请", 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), "1")
-# Oa_PO.audit("2/6, ", varNo, "部门领导", "wanglei01", "同意", "部门领导批准")
-# Oa_PO.audit("3/6, ", varNo, "人事总监", "yanlibei",  "同意", "yanlibei批准")
-# Oa_PO.audit("4/6, ", varNo, "副总", "wanglei01", "同意", "wanglei批准")
-# Oa_PO.applyDone("5/6, ", varNo, "jinhao")
-# Oa_PO.applyDone("6/6, ", varNo, "yanlibei")
+# 场景2：请假申请3天
+# Oa_PO.askOff("请假申请", 3, "所有人员")
+# Oa_PO.askOff("请假申请", 3, '赵云')
+# Oa_PO.askOff("请假申请", 3, "赵云,陈晓东")
 
 
-# 场景2：请假单，请假天数1天
-# varNo = Oa_PO.apply("1/6, ", "zhaoyun", "请假申请", 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), "1")
-# Oa_PO.audit("2/6, ", varNo, "部门领导", "jinhao", "同意", "jinhao批准")
-# Oa_PO.audit("3/6, ", varNo, "人事总监", "yanlibei",  "同意", "yanlibei批准")
-# Oa_PO.audit("4/6, ", varNo, "副总", "wanglei01", "同意", "wanglei批准")
-Oa_PO.applyDone("5/6, ", varNo, "zhaoyun")
-# Oa_PO.applyDone("6/6, ", varNo, "yanlibei")
+#***************************************************************#***************************************************************
+# 外出申请
+# Oa_PO.egression('曲翰林')
+Oa_PO.egression('韩群锋')
+
+#***************************************************************#***************************************************************
+# 出差申请
+# Oa_PO.evection("出差申请", 3, '赵云')
+
