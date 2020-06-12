@@ -7,7 +7,11 @@
 
 from instance.zyjk.OA.config.config import *
 from selenium.webdriver.common.action_chains import ActionChains
-
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class OaPO(object):
 
@@ -508,6 +512,9 @@ class OaPO(object):
             elif self.Web_PO.isElementId("next") == True:
                 self.Web_PO.clickId("next", 1)  # 提交
                 self.Web_PO.clickId("work_run_submit", 1)  # 确定
+                # 判断是否有弹框
+                if EC.alert_is_present()(self.Web_PO.driver):
+                    self.Web_PO.alertAccept()
             self.Web_PO.iframeQuit(1)
             self.Web_PO.quitURL()
         elif varRole == "副总":
@@ -516,8 +523,9 @@ class OaPO(object):
             self.Web_PO.iframeSwitch(1)
             self.Web_PO.clickId("next", 1)  # 提交
             self.Web_PO.clickId("work_run_submit", 1)  # 确定
-            # if self.Web_PO.isElement(self.Web_PO.alertAccept()):
-            #     self.Web_PO.alertAccept()
+            # 判断是否有弹框
+            if EC.alert_is_present()(self.Web_PO.driver):
+                self.Web_PO.alertAccept()
             self.Web_PO.iframeQuit(1)
             self.Web_PO.quitURL()
         elif varRole == "行政":

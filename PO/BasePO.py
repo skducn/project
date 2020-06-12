@@ -815,22 +815,35 @@ class BasePO(object):
             flag = False
         return flag
 
+
+
     ''' [11 alert] '''
     def alertAccept(self):
-        # 系统默认弹框，点击确定
+        # 点击弹框中的确认
         alert = self.driver.switch_to.alert
         alert.accept()
 
     def alertDismiss(self):
-        # 系统默认弹框，点击取消
+        # 点击弹框中的取消
         alert = self.driver.switch_to.alert
         alert.dismiss()
 
-    def alertInformation(self):
-        # 返回系统默认弹框中的文案信息
+    def alertText(self):
+        # 获取弹框中的文案
         alert = self.driver.switch_to.alert
         return alert.text
 
+class alert_is_present(object):
+    """判断是否有alert弹窗"""
+    def __init__(self, driver):
+        self.driver = driver
+    def __call__(self):
+        try:
+            alert = self.driver.switch_to.alert
+            alert.text
+            return True
+        except NoAlertPresentException:
+            return False
 
 if __name__ == '__main__':
     Base_PO = BasePO()
