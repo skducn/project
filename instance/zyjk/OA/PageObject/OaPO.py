@@ -6,7 +6,6 @@
 # *****************************************************************
 
 from instance.zyjk.OA.config.config import *
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.select import Select
