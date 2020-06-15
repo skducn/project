@@ -79,18 +79,21 @@ class OaPO(object):
 
 
     '''请假 - 申请'''
-    def askOffApply(self, varSerial, varUser, varType, varStartDate, varEndDate, varDay ):
+    def askOffApply(self, varSerial, varUser, varType, varStartDate, varEndDate, varDay):
         '''请假'''
         self.open()
-        self.login(varUser)  # 申请者
+        self.login(Char_PO.chinese2pinyin1(varUser))  # 申请者
         self.memu("工作流", "新建工作")  # 选择菜单与模块
-        # # 检查 常用工作中表单数量
-        # self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/new/']", 2)
-        # self.getWorkQty()
         # 请假申请单页面
-        self.Web_PO.clickXpathsContain("//button", "onclick", "请假申请", 2)
-        self.Web_PO.iframeQuit(2)
-        self.Web_PO.iframeId("tabs_w10000_iframe", 2)
+        self.Web_PO.iframeId("tabs_130_iframe", 2)
+        self.Web_PO.clickLinktext("全部工作", 1)
+        list1 = self.Web_PO.getXpathsText("//h4/span")
+        for i in range(len(list1)):
+            if "请假申请单" in list1[i]:
+                self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
+                break
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.iframeId("tabs_w10000_iframe", 1)
         varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 申请单编号，如 5666
         self.Web_PO.iframeId("work_form_data", 2)
         self.Web_PO.clickXpathsNum("//input[@type='radio']", varType, 2)  # 公休  请假类别，1=事假，2=调休，3=公休，4=病假，5=婚假，6=丧假，7=其他
@@ -106,8 +109,8 @@ class OaPO(object):
         self.Web_PO.alertAccept()
         self.Web_PO.iframeQuit(5)
         self.Web_PO.quitURL()
-        print(Char_PO.chinese2pinyin1(varUser) + "，" + "请假申请" + varDay + "天（流水号：" + str(varNo) + "）" + "- - " * 10)
-        print(str(varSerial) + " 已提交")
+        Color_PO.consoleColor("31", "36", varUser + "，" + "请假申请" + str(varDay) + "天（流水号：" + str(varNo) + "）" + "- - " * 10, "")
+        print(varSerial + "申请 已提交")
         return varNo
 
     '''请假 - 审核'''
@@ -178,20 +181,22 @@ class OaPO(object):
                 self.Web_PO.iframeQuit(2)
                 self.Web_PO.quitURL()
             elif varRole == "总经理":
-                self.Web_PO.clickXpath("//input[@name='DATA_68' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.inputXpath("//textarea[@name='DATA_57']", varOpinion)  # 审批意见
+                self.Web_PO.clickXpath("//input[@name='DATA_68' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.iframeSwitch(1)
                 self.Web_PO.clickXpath("//input[@id='handle_end']", 2)  # 提交
                 self.Web_PO.alertAccept()
                 self.Web_PO.iframeQuit(2)
                 self.Web_PO.quitURL()
+            if varAudit == "wanglei01":
+                varAudit = "王磊"
             print(varSerial + varRole + varAudit + " 已审批")
 
     '''请假 - 回执查询'''
     def askOffDone(self, varSerial, varNo, varUser):
 
         self.open()
-        self.login(varUser)  # 申请人
+        self.login(Char_PO.chinese2pinyin1(varUser))  # 申请人
         self.memu("工作流", "我的工作")
 
         # # 选择流水号
@@ -245,9 +250,9 @@ class OaPO(object):
                 list6.append(list5[i])
 
         self.Web_PO.quitURL()
-        print(varSerial + varUser + " 查看审核回执：")
+        print(varSerial + varUser + " 查回执：")
         list7 = []
-        print(list6)
+        # print(list6)
         for i in list6:
             if "未审核（总经理）" not in i:
                 list7.append(i)
@@ -265,50 +270,68 @@ class OaPO(object):
             print(list7)
 
     # 请假
-    def askOff(self, varModuleName, varDay, varStaffList):
+    def askOff(self, varStaffList, varDay=1):
         excelFile = File_PO.getLayerPath("../config") + "\\oa.xlsx"
-        row, col = Excel_PO.getRowCol(excelFile, varModuleName)
+        row, col = Excel_PO.getRowCol(excelFile, "请假申请")
         for i in range(2, row + 1):
-            recordList = Excel_PO.getRowValue(excelFile, i, varModuleName)
-            if varStaffList == "所有人员":
+            recordList = Excel_PO.getRowValue(excelFile, i, "请假申请")
+            if varStaffList == "所有人":
                 if varDay < 3:
                     # print(recordList[1])
-                    varNo = self.askOffApply("1/6, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/6, ", varNo, "部门领导", Char_PO.chinese2pinyin1(recordList[2]), "同意", "")
-                    self.askOffAudit("3/6, ", varNo, "人事总监", "严丽蓓",  "同意", "")
-                    self.askOffAudit("4/6, ", varNo, "副总", "wanglei01", "同意", "")
-                    self.askOffDone("5/6, ", varNo, recordList[1])
+                    varNo = self.askOffApply("1/5, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
+                    self.askOffAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "批准")
+                    self.askOffAudit("3/5, ", varNo, "人事总监", "严丽蓓",  "同意", "好的")
+                    self.askOffAudit("4/5, ", varNo, "副总", "wanglei01", "同意", "谢谢")
+                    self.askOffDone("5/5, ", varNo, recordList[1])
                     # self.askOffDone("6/6, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
+                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 4, "ok")
                 elif varDay >= 3:
-                    varNo = self.askOffApply("1/7, ", Char_PO.chinese2pinyin1(recordList[1]), varModuleName, 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/7, ", varNo, "部门领导", Char_PO.chinese2pinyin1(recordList[2]), "同意", "")
-                    self.askOffAudit("3/7, ", varNo, "人事总监", "严丽蓓", "同意", "")
-                    self.askOffAudit("4/7, ", varNo, "副总", "wanglei01", "同意", "")
-                    self.askOffAudit("5/7, ", varNo, "总经理", "苑永涛", "同意", "yuanyongtao批准")
-                    # self.askOffDone("5/6, ", varNo, Char_PO.chinese2pinyin1(recordList[1]))
+                    varNo = self.askOffApply("1/6, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
+                    self.askOffAudit("2/6, ", varNo, "部门领导", recordList[2], "同意", "批准")
+                    self.askOffAudit("3/6, ", varNo, "人事总监", "严丽蓓", "同意", "好的")
+                    self.askOffAudit("4/6, ", varNo, "副总", "wanglei01", "同意", "谢谢")
+                    self.askOffAudit("5/6, ", varNo, "总经理", "苑永涛", "同意", "yuanyongtao批准")
+                    self.askOffDone("6/6, ", varNo, recordList[1])
                     # self.askOffDone("7/7, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
-
+                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 5, "ok")
+            elif varStaffList == "空" and recordList[3] == "":
+                if varDay < 3:
+                    # print(recordList[1])
+                    varNo = self.askOffApply("1/5, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
+                    self.askOffAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "批准")
+                    self.askOffAudit("3/5, ", varNo, "人事总监", "严丽蓓", "同意", "好的")
+                    self.askOffAudit("4/5, ", varNo, "副总", "wanglei01", "同意", "谢谢")
+                    self.askOffDone("5/5, ", varNo, recordList[1])
+                    # self.askOffDone("6/6, ", varNo, "yanlibei")
+                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 4, "ok")
+                elif varDay >= 3:
+                    varNo = self.askOffApply("1/6, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
+                    self.askOffAudit("2/6, ", varNo, "部门领导", recordList[2], "同意", "批准")
+                    self.askOffAudit("3/6, ", varNo, "人事总监", "严丽蓓", "同意", "好的")
+                    self.askOffAudit("4/6, ", varNo, "副总", "wanglei01", "同意", "谢谢")
+                    self.askOffAudit("5/6, ", varNo, "总经理", "苑永涛", "同意", "yuanyongtao批准")
+                    self.askOffDone("6/6, ", varNo, recordList[1])
+                    # self.askOffDone("7/7, ", varNo, "yanlibei")
+                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 5, "ok")
             elif recordList[1] in varStaffList :
                 if varDay < 3:
                     # print(recordList[1])
-                    varNo = self.askOffApply("1/6, ", Char_PO.chinese2pinyin1(recordList[1]), varModuleName, 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/6, ", varNo, "部门领导", Char_PO.chinese2pinyin1(recordList[2]), "同意", "")
-                    self.askOffAudit("3/6, ", varNo, "人事总监", "yanlibei",  "同意", "")
-                    self.askOffAudit("4/6, ", varNo, "副总", "wanglei01", "同意", "")
-                    # Oa_PO.askOffDone("5/6, ", varNo, Char_PO.chinese2pinyin1(recordList[1]))
-                    # Oa_PO.askOffDone("6/6, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
+                    varNo = self.askOffApply("1/5, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
+                    self.askOffAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "批准5")
+                    self.askOffAudit("3/5, ", varNo, "人事总监", "严丽蓓",  "同意", "好的5")
+                    self.askOffAudit("4/5, ", varNo, "副总", "wanglei01", "同意", "谢谢5")
+                    self.askOffDone("5/5, ", varNo, recordList[1])
+                    # self.askOffDone("6/6, ", varNo, "yanlibei")
+                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 4, "ok")
                 elif varDay >= 3:
-                    varNo = self.askOffApply("1/7, ", Char_PO.chinese2pinyin1(recordList[1]), varModuleName, 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/7, ", varNo, "部门领导", Char_PO.chinese2pinyin1(recordList[2]), "同意", "")
-                    self.askOffAudit("3/7, ", varNo, "人事总监", "yanlibei", "同意", "")
-                    self.askOffAudit("4/7, ", varNo, "副总", "wanglei01", "同意", "")
-                    self.askOffAudit("5/7, ", varNo, "总经理", "yuanyongtao", "同意", "yuanyongtao批准")
-                    # Oa_PO.askOffDone("5/6, ", varNo, Char_PO.chinese2pinyin1(recordList[1]))
-                    # Oa_PO.askOffDone("7/7, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
+                    varNo = self.askOffApply("1/6, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
+                    self.askOffAudit("2/6, ", varNo, "部门领导", recordList[2], "同意", "批准1")
+                    self.askOffAudit("3/6, ", varNo, "人事总监", "严丽蓓", "同意", "好的2")
+                    self.askOffAudit("4/6, ", varNo, "副总", "wanglei01", "同意", "谢谢3")
+                    self.askOffAudit("5/6, ", varNo, "总经理", "苑永涛", "同意", "yuanyongtao批准")
+                    self.askOffDone("6/6, ", varNo, recordList[1])
+                    # self.askOffDone("7/7, ", varNo, "yanlibei")
+                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 5, "ok")
 
 
 
@@ -450,7 +473,7 @@ class OaPO(object):
     def evectionApply(self, varSerial, varUser, varToFollow, varDay, varFromDate, varToDate, varFromCity, varToCity, varTraffic, varWork, varFee):
         '''出差申请单'''
         self.open()
-        print(Char_PO.chinese2pinyin1(varUser))
+        # print(Char_PO.chinese2pinyin1(varUser))
         self.login(Char_PO.chinese2pinyin1(varUser))
         self.memu("工作流", "新建工作")
         # 外出申请单页面
