@@ -27,10 +27,8 @@ if __name__ == '__main__':
     time_start = time.time()
     for i in range(2, row + 1):
         recordList = Excel_PO.getRowValue(Rule_PO.switchPath("./config", Rule_PO.excelFile), i, Rule_PO.excelFileSheetName)
-        print(i)
 
         if recordList[8] != "" and "?" in recordList[8]:
-
             # 2，清除HrRuleRecord表数据
             Rule_PO.execQuery("delete HrRuleRecord")
 
@@ -45,7 +43,7 @@ if __name__ == '__main__':
             # 比对结果
             tmpCount = Rule_PO.execQuery( "SELECT count(*) FROM HrRuleRecord t1 JOIN HrRule t2 ON t1.RuleId=t2.RuleId")
             if tmpCount[0][0] != 1:
-                Color_PO.consoleColor("31", "33", "ERROR, 表格第<" + str(i) + ">行（" + recordList[0] + "," + recordList[1] + "," + recordList[3] + "," + recordList[4] + "）有<" + str(tmpCount[0][0]) + ">条质控结果！", "")
+                Color_PO.consoleColor("31", "33", "ERROR，表格第<" + str(i) + ">行（" + recordList[0] + "," + recordList[1] + "," + recordList[3] + "," + recordList[4] + "）有<" + str(tmpCount[0][0]) + ">条质控结果！", "")
                 Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile), Rule_PO.excelFileSheetName, i, 7, "error")
                 Excel_PO.writeXlsx(Rule_PO.switchPath("./config", Rule_PO.excelFile), Rule_PO.excelFileSheetName, i, 8, str(tmpCount[0][0]) + "条问题描述！")
             else:
@@ -66,6 +64,8 @@ if __name__ == '__main__':
             Rule_PO.execQuery(str(recordList[8]).split("?")[1])
             if recordList[9] != "":
                 Rule_PO.execQuery(str(recordList[9]).split("?")[1])
+        else:
+            print(i,"，无sql")
     time_end = time.time()
 
     Color_PO.consoleColor("31", "31", "结束，耗时 %s 秒" % round(time_end - time_start, 2), "")
