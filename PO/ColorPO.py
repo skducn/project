@@ -21,10 +21,11 @@ if __name__ == '__main__':
 
     Color_PO = ColorPO()
 
-
+    import time
     Color_PO.consoleColor("31", "36", "[OK]", "[1,2,3,4,5]error")
     Color_PO.consoleColor("31", "31", "[ERROR]", "123123123123")
     Color_PO.consoleColor("31", "33", "[WARNING]", "[1,2,3,4,5]error")
+
 
         # print('\033[1;31;41m', '[1], 红底红字', '\033[0m')
         # print('\033[1;31;42m', '[2], 草绿底红字', '\033[0m')

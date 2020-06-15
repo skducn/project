@@ -201,21 +201,21 @@ class BasePO(object):
 
     '''[ 2click ]'''
 
-    def clickId(self, varId, t):
+    def clickId(self, varId, t=0):
         try:
             self.find_element(*(By.ID, varId)).click()
             sleep(t)
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickLinktext(self, varContent, t):
+    def clickLinktext(self, varContent, t=0):
         try:
             self.find_element(*(By.LINK_TEXT, varContent)).click()
             sleep(t)
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickLinkstext(self, varContent, t):
+    def clickLinkstext(self, varContent, t=0):
         try:
             for a in self.find_elements(*(By.LINK_TEXT, varContent)):
                 a.click()
@@ -223,7 +223,7 @@ class BasePO(object):
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickTagname(self, varContent, t):
+    def clickTagname(self, varContent, t=0):
         # clickTagname(u"test", 2)
         try:
             self.find_element(*(By.TAG_NAME, varContent)).click()
@@ -231,7 +231,7 @@ class BasePO(object):
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickXpath(self, varPath, t):
+    def clickXpath(self, varPath, t=0):
         # clickXpath(u"//button[@ng-click='action.callback()']", 2)
         try:
             self.find_element(*(By.XPATH, varPath)).click()
@@ -239,7 +239,7 @@ class BasePO(object):
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickXpathEnter(self, varPath, t):
+    def clickXpathEnter(self, varPath, t=0):
         try:
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
             sleep(t)
@@ -247,7 +247,7 @@ class BasePO(object):
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
-    def clickXpaths(self, varPaths, t):
+    def clickXpaths(self, varPaths, t=0):
         # 遍历路径
         # self.Level_PO.clickXpaths("//a[contains(@href,'1194')]", 2)  , 表示遍历所有a 中href属性内容包含1194字符串的连接。
         try:
@@ -257,7 +257,7 @@ class BasePO(object):
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickXpathsNum(self, varPaths, varNum, t):
+    def clickXpathsNum(self, varPaths, varNum, t=0):
         # 遍历同一属性的多个click，点击第N个。
         # Level_PO.clickXpathsNum(u"//button[@ng-click='action.callback()']", 5, 2)  ，表示遍历后点击第五个连接。
         try:
@@ -271,7 +271,7 @@ class BasePO(object):
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickXpathsTextContain(self, varPaths, varContain, t):
+    def clickXpathsTextContain(self, varPaths, varContain, t=0):
         # 遍历路径，点击text中包含某内容的连接。
         # self.Level_PO.clickXpathsTextContain("//td[@aria-describedby='gridTable_run_name']/a", '20190506059', 2)
         try:
@@ -283,7 +283,7 @@ class BasePO(object):
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def clickXpathsContain(self, varPaths, varAttr, varContain, t):
+    def clickXpathsContain(self, varPaths, varAttr, varContain, t=0):
         # 遍历路径，点击属性varAttr中包含某内容的连接。
         # self.Level_PO.clickXpathsContain("//a", "href", '1194', 2)
         try:
@@ -297,7 +297,7 @@ class BasePO(object):
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
-    def clickXpathsXpath(self, varPaths, varPaths2, t):
+    def clickXpathsXpath(self, varPaths, varPaths2, t=0):
         # 遍历路径之路径
         # 一般用于，click后二次确认
         try:
@@ -309,7 +309,7 @@ class BasePO(object):
         except:
             print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    def floatXpath(self, varPath, varPath2, t):
+    def floatXpath(self, varPath, varPath2, t=0):
         # ?
         try:
             elements = self.find_element(*(By.XPATH, varPath))
@@ -650,19 +650,19 @@ class BasePO(object):
 
     '''[ 7iframe ]'''
 
-    def iframeId(self, varId, t):
+    def iframeId(self, varId, t=0):
         # 定位iframe的id
         # self.Level_PO.iframeId("layui-layer-iframe1", 1)
         self.driver.switch_to_frame(self.driver.find_element_by_id(varId))
         sleep(t)
 
-    def iframeXpath(self, dimXpath, t):
+    def iframeXpath(self, dimXpath, t=0):
         # 定位iframe的Xpath
         # self.Level_PO.iframeXpath("//body[@class='gray-bg top-navigation']/div[4]/iframe", 1)
         self.driver.switch_to_frame(self.driver.find_element_by_xpath(dimXpath))
         sleep(t)
 
-    def iframeXpathAttr(self, dimXpath, varAttr, varContain, t):
+    def iframeXpathAttr(self, dimXpath, varAttr, varContain, t=0):
         # self.Level_PO.iframeXpathAttr("//iframe", "src", "/general/workflow/new/", 2)
         try:
             for a in self.find_elements(*(By.XPATH, dimXpath)):
@@ -670,11 +670,10 @@ class BasePO(object):
                     self.driver.switch_to_frame(self.driver.find_element_by_xpath(dimXpath))
                     break
             sleep(t)
-            print("111")
         except:
-            print("error121212")
+           return None
 
-    def inIframeTopDiv(self, varPath, t):
+    def inIframeTopDiv(self, varPath, t=0):
         # 定位iframe的div路径
         # evel_PO.inIframeDiv("[@id='showRealtime']", 2)
         # Home_PO.inIframeDiv("[@class='cetc-popup-content']/div", 2)
@@ -683,14 +682,14 @@ class BasePO(object):
         self.driver.switch_to_frame(iframe)
         sleep(t)
 
-    def iframeSwitch(self, t):
+    def iframeSwitch(self, t=0):
         # 多个iframe之间切换
         # 如第一层iframe1，第二层iframe2，两者之间切换
         # self.Level_PO.inIframeTopDivParent(1)
         self.driver.switch_to.parent_frame()
         sleep(t)
 
-    def iframeQuit(self, t):
+    def iframeQuit(self, t=0):
         # 退出 iframe
         # self.Level_PO.outIframe(1)
         self.driver.switch_to_default_content()
@@ -698,23 +697,22 @@ class BasePO(object):
 
 
     '''[ 8js ]'''
-    def jsExecute(self, varJs, t):
+    def jsExecute(self, varJs, t=0):
         # 执行js
         # varJs = 'document.querySelector("input[type=number]").value="";    //清除input输入框内哦那个
-
         self.driver.execute_script(varJs)
         sleep(t)
 
-    def jsIdReadonly(self, varId, t):
+    def jsIdReadonly(self, varId, t=0):
         # 通过id去掉控件只读属性，一般用于第三方日期控件
         self.jsExecute('document.getElementById("' + varId + '").removeAttribute("readonly")', t)
 
-    def jsNameReadonly(self, varName, t):
+    def jsNameReadonly(self, varName, t=0):
         # 通过Name去掉控件只读属性，一般用于第三方日期控件
         # 注意：document不支持getElementByName方法，只有getElementsByName方法获取标签数组，可通过数组第一个元素获取，如 array[0]
         self.jsExecute('document.getElementsByName("' + varName + '")[0].removeAttribute("readonly")', t)
 
-    def jsNameDisplay(self, varName, t):
+    def jsNameDisplay(self, varName, t=0):
         # 通过name去掉隐藏属性，显示UI
         self.jsExecute('document.getElementsByName("' + varName + '")[0].style.display=""', t)
 
@@ -734,6 +732,16 @@ class BasePO(object):
 
 
     '''[ 10exist ]'''
+
+    def isElement(self, var1):
+        # 通过Id方式检查元素是否存在
+        flag = False
+        try:
+            var1
+            flag = True
+        except:
+            flag = False
+        return flag
 
     def isElementId(self, varId):
         # 通过Id方式检查元素是否存在
@@ -807,22 +815,35 @@ class BasePO(object):
             flag = False
         return flag
 
+
+
     ''' [11 alert] '''
     def alertAccept(self):
-        # 系统默认弹框，点击确定
+        # 点击弹框中的确认
         alert = self.driver.switch_to.alert
         alert.accept()
 
     def alertDismiss(self):
-        # 系统默认弹框，点击取消
+        # 点击弹框中的取消
         alert = self.driver.switch_to.alert
         alert.dismiss()
 
-    def alertInformation(self):
-        # 返回系统默认弹框中的文案信息
+    def alertText(self):
+        # 获取弹框中的文案
         alert = self.driver.switch_to.alert
         return alert.text
 
+class alert_is_present(object):
+    """判断是否有alert弹窗"""
+    def __init__(self, driver):
+        self.driver = driver
+    def __call__(self):
+        try:
+            alert = self.driver.switch_to.alert
+            alert.text
+            return True
+        except NoAlertPresentException:
+            return False
 
 if __name__ == '__main__':
     Base_PO = BasePO()
