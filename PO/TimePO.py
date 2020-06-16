@@ -6,8 +6,10 @@
 # *********************************************************************
 
 from time import strftime, localtime
-from datetime import timedelta, date
+from datetime import date, datetime, timedelta
 import calendar, datetime, time
+from workalendar.asia import China
+cal = China()
 
 class TimePO():
 
@@ -232,6 +234,21 @@ class TimePO():
         import datetime
         return (varDate + datetime.timedelta(days=varDays))
 
+    def get_weekday(self,x):
+        # 获取每月工作日天数，
+        from datetime import datetime
+        start_date = x + '-01'
+        # start_date
+        start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+        start_datetime_2 = datetime.date(start_datetime)
+        # 计算每月最后一天的date
+        days_in_month = start_datetime_2.replace(day=28) + timedelta(days=4)
+        # print( start_datetime_2.replace(day=28))
+        end_date = days_in_month - timedelta(days=days_in_month.day)
+        # print(start_datetime_2,end_date)
+        cal = China()
+        data = cal.get_working_days_delta(start_datetime_2, end_date)
+        return data
 
     # # # 计算耗时功能
     # time_start = time.time()
@@ -243,6 +260,16 @@ class TimePO():
 if __name__ == "__main__":
 
     Time_PO = TimePO()
+
+    # 获取2020年法定节假日
+    print(cal.holidays(2020))
+
+    # # 获取某一天是否工作日，工作日返回True，反之返回False
+    print(cal.is_working_day(date(2020, 6, 13)))
+
+    # 获取每月工作日天数，
+    print(cal.get_working_days_delta(date(2020, 6, 1), date(2020, 6, 29)))
+    print(Time_PO.get_weekday("2020-07"))
 
     print(Time_PO.getDate())  # 20190919
     print(Time_PO.getDate_minus())  # 2019-09-19
