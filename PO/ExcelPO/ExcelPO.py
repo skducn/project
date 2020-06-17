@@ -91,8 +91,6 @@ class ExcelPO():
             wb = load_workbook(varFileName)
             xl_sheet_names = wb.sheetnames  # 获取所有sheet页名字
 
-
-
             # 判断 varSheet 是数字还是字符
             if isinstance(varSheet, int):  # 判断是int类型
                 # 定位到sheet页,[0]为sheet页索引
@@ -390,7 +388,7 @@ class ExcelPO():
                 list1.append(r+1)
                 for c in range(cols):
                     value = sh.cell_value(rowx=r, colx=c)
-                    list1.append(value)
+                    list1.append(value)    # 列表第一个元素是excel编号
                 list2.append(list1)
                 list1 = []
         return list2
