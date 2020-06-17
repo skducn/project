@@ -18,14 +18,16 @@ def add(a, b):
 # @setting()装饰器中通过 max_examples 管理随机数的个数
 # @given() 装饰测试用例，调用strategies 模块下面的 integers() 方法生成随机的测试数。
 class Testdata1(unittest.TestCase):
-    @settings(max_examples=10)
-    @given(a=st.integers(), b=st.integers())
+    @settings(max_examples=100)
+    @given(a=st.ip_addresses(), b=st.tuples())
     def test_case(self, a, b):
-        print("a->", a)
+        # print("a->", a)
         print("b->", b)
-        c1 = a + b
-        c2 = add(a, b)
-        self.assertEqual(c1, c2)
+        # c1 = a + b
+        # c2 = add(a, b)
+        # self.assertEqual(c1, c2)
+
+
 if __name__ == '__main__':
     unittest.main()
 
