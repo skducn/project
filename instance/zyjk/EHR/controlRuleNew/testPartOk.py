@@ -30,7 +30,7 @@ if __name__ == '__main__':
     for i in range(len(list1)):
         recordList = list1[i]
         if recordList[9] != "" and "?" in recordList[9]:
-            if "error" in recordList[7]:
+            if "partOk" in recordList[7]:
 
                 # 2，清除HrRuleRecord表数据
                 Rule_PO.execQuery("delete HrRuleRecord")
