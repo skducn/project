@@ -13,10 +13,10 @@
 ===========================================================================
 
 【新质控测试流程语句】
-java -jar D:\51\python\project\instance\zyjk\EHR\controlRuleNew1\config\healthRecordRules.jar
+java -jar D:\51\python\project\instance\zyjk\EHR\controlRuleNew\config\healthRecordRules.jar
 DELETE HrRuleRecord
 update HrCover set name=null
-curl http://localhost:8080/healthRecordRules/rulesApi/execute/31011310200312009116
+curl http://localhost:8838/healthRecordRules/rulesApi/execute/31011310200312009116
 SELECT t2.Comment,t2.Categories, t2.RuleSql FROM HrRuleRecord t1 JOIN HrRule t2 ON t1.RuleId=t2.RuleId
 UPDATE  HrCover set name='舒阳'
 
