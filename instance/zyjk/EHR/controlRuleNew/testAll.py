@@ -26,9 +26,7 @@ if __name__ == '__main__':
 
     time_start = time.time()
     for i in range(2, row + 1):
-    # for i in range(591, row + 1):
         recordList = Excel_PO.getRowValue(Rule_PO.switchPath("./config", Rule_PO.excelFile), i, Rule_PO.excelFileSheetName)
-
         if recordList[8] != "" and "?" in recordList[8]:
 
             # 2，清除HrRuleRecord表数据
