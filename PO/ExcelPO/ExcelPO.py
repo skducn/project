@@ -236,7 +236,7 @@ class ExcelPO():
 
     # 3.5，获取列值
     def getColValue(self, varFileName, varCol, varSheet=0):
-        # 获取 某一列的值，以列表形式返回，如 ['赵云', '小寒', '陈晓东'] , 异常或为空则返回 None
+        # 获取 某一列的值，以列表形式返回， 异常或为空则返回 None
         try:
             list1 = []
             wb = xlrd.open_workbook(varFileName)
@@ -371,6 +371,31 @@ class ExcelPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
+    # 判断列值，返回行记录
+    def getOneRowColValue(self, varFileName, varSheet, varCol, varValue):
+    # 打开表格，定位sheet，获取行列数，遍历某一列的值，依据某列条件输出行值
+    # print(Excel_PO.getOneRowColValue("D:\\51\\python\\project\\PO\\ExcelPO\\test1.xlsx", "Sheet", 3, "ok"))  # 判断遍历第三列的值是不是ok,如果是则返回这行数据。
+        list1 = []
+        list2 = []
+        wb = xlrd.open_workbook(varFileName)
+        if isinstance(varSheet, int):
+            sh = wb.sheet_by_index(varSheet)
+        else:
+            sh = wb.sheet_by_name(varSheet)
+        if wb.sheet_loaded(varSheet) == True:  # 检查 sheet是否导入完毕，返回True 或 False
+            rows = sh.nrows
+            cols = sh.ncols
+        for r in range(rows):
+            if sh.cell_value(r, varCol - 1) == varValue:
+                list1.append(r+1)
+                for c in range(cols):
+                    value = sh.cell_value(rowx=r, colx=c)
+                    list1.append(value)
+                list2.append(list1)
+                list1 = []
+        return list2
+
+
 
 
 if __name__ == "__main__":
@@ -424,7 +449,7 @@ if __name__ == "__main__":
     # print(Excel_PO.getRowCol("d:\\test3.xlsx", 1))  # [11, 12]  // 定位第二张工作表，返回行列列表
     #
     # print("3.4，获取行值".center(100, "-"))
-    print(Excel_PO.getRowValue("d:\\test3.xlsx", 1))  # [0.0, 0.0, 'yoyo', 43909.0]   //默认第一个工作表，获取第一行数据，注意日期变成了43909.0
+    # print(Excel_PO.getRowValue("d:\\test3.xlsx", 1))  # [0.0, 0.0, 'yoyo', 43909.0]   //默认第一个工作表，获取第一行数据，注意日期变成了43909.0
     # print(Excel_PO.getRowValue("d:\\test3.xlsx", 2, "mySheet1"))  # [1.0, 1.0, '', '2020.3.19']   //打开mySheet1，获取第二行数据，注意数字是浮点数，如1.0
     # # print(Excel_PO.getRowValue("d:\\test3.xlsx", 1)[3])  # 43909.0  //定位第一张工作表，获取第一行第四列
     #
@@ -447,3 +472,4 @@ if __name__ == "__main__":
     # print("6，两表比较，输出差异".center(100, "-"))
     # Excel_PO.cmpExcel("d:\\file2.xlsx", "mySheet1", "d:\\file3.xlsx", "mySheet1")
 
+    print(Excel_PO.getOneRowColValue("D:\\51\\python\\project\\PO\\ExcelPO\\test1.xlsx", "Sheet", 3, "ok"))
