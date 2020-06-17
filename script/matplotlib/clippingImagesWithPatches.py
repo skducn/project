@@ -13,7 +13,6 @@ import matplotlib.cbook as cbook
 from matplotlib.pyplot import savefig
 
 
-
 with cbook.get_sample_data('d:\\1\\test.jpg') as image_file:
     image = plt.imread(image_file)
 

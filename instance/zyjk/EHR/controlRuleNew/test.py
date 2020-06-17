@@ -13,7 +13,7 @@ Color_PO = ColorPO()
 
 
 def f():
-    # 1，启动jar包
+    # 1，子进程中启动jar包
     os.system('java -jar ' + Rule_PO.switchPath("./config", Rule_PO.jar))
 
 if __name__ == '__main__':
@@ -22,6 +22,7 @@ if __name__ == '__main__':
     p.start()
     sleep(6)
 
+    # 主进程
     # 初始化质控文档
     recordList = []
     row, col = Excel_PO.getRowCol(Rule_PO.switchPath("./config", Rule_PO.excelFile), Rule_PO.excelFileSheetName)

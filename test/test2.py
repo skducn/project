@@ -5,17 +5,17 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
-import pyttsx3
-engine = pyttsx3.init()
-rate = engine.getProperty('rate')
-engine.setProperty('rate', rate-55)
-engine.say('The quick brown fox jumped over the lazy dog.')
-engine.runAndWait()
-
-
-"""
-本地语音文件识别测试
-"""
+# import pyttsx3
+# engine = pyttsx3.init()
+# rate = engine.getProperty('rate')
+# engine.setProperty('rate', rate-55)
+# engine.say('The quick brown fox jumped over the lazy dog.')
+# engine.runAndWait()
+#
+#
+# """
+# 本地语音文件识别测试
+# """
 # import speech_recognition as sr
 # import sys
 #

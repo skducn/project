@@ -123,14 +123,11 @@ class WebPO(BasePO):
         im = ImageGrab.grab()
         im.save(varImageFile)
 
-    # 3.2，截取浏览器内屏幕
+    # 3.2，截取浏览器屏幕，保存文件png
     def captureBrowser(self, varImageFile):
-        # #截取浏览器内屏幕(因此要打开浏览器后才能截图)
-        # self.Web_PO.captureBrowser("d:\\screenshot.jpg")
-        try:
-            self.driver.get_screenshot_as_file(varImageFile)
-        except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+        # 注意必须使用openURL打开浏览器后才能截屏 ，如：Web_PO.openURL('https://www.baidu.com/')
+        # self.Web_PO.captureBrowser("d:\\screenshot.png")
+        self.driver.get_screenshot_as_file(varImageFile)
 
     # 3.3，截屏指定图片中某一区域
     def capturePicturePart(self, varSourceImageFile, varTargetImageFile, varHighStart, varHighEnd, varWidthStart, varWidthEnd):
@@ -272,14 +269,15 @@ if __name__ == '__main__':
     # print(Web_PO.getBrowserSize())  # (1920, 1040)
     #
     # print("3.1，截取全屏".center(100, "-"))
-    # Web_PO.captureScreen('d:\\fullScreen.jpg')  # 1920,1080
+    Web_PO.captureScreen('d:\\fullScreen.jpg')  # 1920,1080
     #
     # print("3.2，截取浏览器内屏幕".center(100, "-"))
-    # Web_PO.captureBrowser("d:\\browserScreen.jpg")  # 1920,926
+    # Web_PO.openURL('https://www.baidu.com/')
+    # Web_PO.captureBrowser(u"d:\\browserScreen.png")  # 1920,926
 
-    # print("3.3，截屏指定图片中某一区域".center(100, "-"))
-    # Web_PO.capturePicturePart("d:\\allscreen.png", "d:\\allscreenPart.png", 500, 700, 750, 1050)
+    print("3.3，截屏指定图片中某一区域".center(100, "-"))
+    Web_PO.capturePicturePart("d:\\fullScreen.jpg", "d:\\test.jpg", 500, 700, 750, 1050)
 
 
-    print("7，多窗口切换".center(100, "-"))
-    Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 1)
+    # print("7，多窗口切换".center(100, "-"))
+    # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 1)
