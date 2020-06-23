@@ -386,7 +386,7 @@ class OaPO(object):
         self.Web_PO.iframeSwitch(1)
         self.Web_PO.iframeId("workflow-form-frame", 1)  # 第二层
         self.Web_PO.iframeId("work_form_data", 1)  # 第三层
-        if varRole == "领导":
+        if varRole == "部门领导":
             self.Web_PO.clickXpath("//input[@name='DATA_60' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
             self.Web_PO.inputXpath("//textarea[@name='DATA_61']", varOpinion)  # 审批意见
             self.Web_PO.iframeSwitch(1)
@@ -441,23 +441,23 @@ class OaPO(object):
             recordList = Excel_PO.getRowValue(excelFile, i, varModuleName)
             if varStaffList == "所有人":
                 varNo = self.egressionApply("1/4, ", recordList[1], Time_PO.getDatetimeEditHour(24), '医院领导', '上海宝山华亭路1000号交通大学复数医院', '驻场测试')
-                self.egressionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
+                self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
                 self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
-                self.egressionAudit("4/4, ", varNo, "行政", "沈婷", "确认", "谢谢")
+                self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
                 Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
             elif varStaffList == "空" and recordList[3] == "":
                 varNo = self.egressionApply("1/4, ", recordList[1], Time_PO.getDatetimeEditHour(24), '医院领导', '上海宝山华亭路1000号交通大学复数医院', '驻场测试')
-                self.egressionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
+                self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
                 self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
-                self.egressionAudit("4/4, ", varNo, "行政", "沈婷", "确认", "谢谢")
+                self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
                 Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
             elif recordList[1] in varStaffList:
                 import time
                 time_start = time.time()
                 varNo = self.egressionApply("1/4, ", recordList[1], Time_PO.getDatetimeEditHour(24), '医院领导','上海宝山华亭路1000号交通大学复数医院', '驻场测试')
-                self.egressionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
+                self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
                 self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
-                self.egressionAudit("4/4, ", varNo, "行政", "沈婷", "确认", "谢谢")
+                self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
                 Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
                 time_end = time.time()
                 time = time_end - time_start
@@ -507,7 +507,7 @@ class OaPO(object):
             self.Web_PO.clickId("work_run_submit", 2)  # 确定
         self.Web_PO.iframeQuit(1)
         self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "36", varUser + "，" + "出差申请" + str(varDay) + "天（流水号：" + str(varNo) + "）" + "- - " * 10, "")
+        Color_PO.consoleColor("31", "36", varUser + "，" + "出差申请" + str(varDay) + "天（" + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
 
@@ -524,7 +524,7 @@ class OaPO(object):
         self.Web_PO.iframeSwitch(1)
         self.Web_PO.iframeId("workflow-form-frame", 1)  # 第二层
         self.Web_PO.iframeId("work_form_data", 1)  # 第三层
-        if varRole == "领导":
+        if varRole == "部门领导":
             self.Web_PO.clickXpath("//input[@name='DATA_60' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
             self.Web_PO.inputXpath("//textarea[@name='DATA_61']", varOpinion)  # 审批意见
             self.Web_PO.iframeSwitch(1)
@@ -550,7 +550,7 @@ class OaPO(object):
                 self.Web_PO.alertAccept()
             self.Web_PO.iframeQuit(1)
             self.Web_PO.quitURL()
-        elif varRole == "行政":
+        elif varRole == "行政总监":
             self.Web_PO.inputXpath("//textarea[@name='DATA_67']", varOpinion)  # 审批意见
             self.Web_PO.clickXpath("//input[@name='DATA_66' and @value='" + varIsAgree + "']", 1)  # 确认/有异议，备注
             self.Web_PO.iframeSwitch(1)
@@ -558,7 +558,7 @@ class OaPO(object):
             self.Web_PO.alertAccept()
             self.Web_PO.iframeQuit(1)
             self.Web_PO.quitURL()
-        elif varRole == "财务":
+        elif varRole == "财务总监":
             self.Web_PO.inputXpath("//textarea[@name='DATA_70']", varOpinion)  # 审批意见
             self.Web_PO.clickXpath("//input[@name='DATA_69' and @value='" + varIsAgree + "']", 1)  # 确认/有异议，备注
             self.Web_PO.iframeSwitch(1)
@@ -583,56 +583,55 @@ class OaPO(object):
                         varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay,
                                                    Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
                                                    '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/4, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                        self.evectionAudit("4/4, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
+                        self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                        self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                        self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
                     else:
                         varNo = self.evectionApply("1/5, ", recordList[1], "韩少龙,", varDay, Time_PO.getDatetimeEditHour(12),Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机','驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/5, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/5, ", varNo, "副总", "wanglei01", "同意", "注意安全")
-                        self.evectionAudit("4/5, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                        self.evectionAudit("5/5, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
+                        self.evectionAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                        self.evectionAudit("3/5, ", varNo, "副总", recordList[3], "同意", "注意安全")
+                        self.evectionAudit("4/5, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                        self.evectionAudit("5/5, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
+                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 8, "ok")
                 else:
                     varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay, Time_PO.getDatetimeEditHour(12),Time_PO.getDatetimeEditHour(24) ,'上海','北京', '飞机','驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部',100)
-                    self.evectionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                    self.evectionAudit("3/4, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                    self.evectionAudit("4/4, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
+                    self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                    self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                    self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
+                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 7, "ok")
             elif varStaffList == "空" :
-
-                if varDay > 3 and recordList[4] == "":
+                if varDay > 3 and recordList[7] == "":
                     import time
                     time_start = time.time()
                     if recordList[1] in "金浩，曲翰林，邹永熹，刘耀，千北辰，张福军，韩群锋":
                         varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay,
                                                    Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
                                                    '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/4, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                        self.evectionAudit("4/4, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
+                        self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                        self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                        self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
                     else:
                         varNo = self.evectionApply("1/5, ", recordList[1], "韩少龙,", varDay,
                                                    Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
                                                    '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/5, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/5, ", varNo, "副总", "wanglei01", "同意", "注意安全")
-                        self.evectionAudit("4/5, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                        self.evectionAudit("5/5, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
+                        self.evectionAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                        self.evectionAudit("3/5, ", varNo, "副总", recordList[3], "同意", "注意安全")
+                        self.evectionAudit("4/5, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                        self.evectionAudit("5/5, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
+                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 8, "ok")
                     time_end = time.time()
                     time = time_end - time_start
                     Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
-                elif varDay <= 3 and recordList[3] == "":
+                elif varDay <= 3 and recordList[7] == "":
                     import time
                     time_start = time.time()
                     varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay, Time_PO.getDatetimeEditHour(12),
                                                Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机',
                                                '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                    self.evectionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                    self.evectionAudit("3/4, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                    self.evectionAudit("4/4, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
+                    self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                    self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                    self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
+                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 7, "ok")
                     time_end = time.time()
                     time = time_end - time_start
                     Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
@@ -644,26 +643,26 @@ class OaPO(object):
                         varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay,
                                                    Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
                                                    '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/4, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                        self.evectionAudit("4/4, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
+                        self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                        self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                        self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
                     else:
                         varNo = self.evectionApply("1/5, ", recordList[1], "韩少龙,", varDay,
                                                    Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
                                                    '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/5, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/5, ", varNo, "副总", "wanglei01", "同意", "注意安全")
-                        self.evectionAudit("4/5, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                        self.evectionAudit("5/5, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
+                        self.evectionAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                        self.evectionAudit("3/5, ", varNo, "副总", recordList[3], "同意", "注意安全")
+                        self.evectionAudit("4/5, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                        self.evectionAudit("5/5, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
+                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 8, "ok")
                 else:
                     varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay, Time_PO.getDatetimeEditHour(12),
                                                Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机',
                                                '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                    self.evectionAudit("2/4, ", varNo, "领导", recordList[2], "同意", "快去快回")
-                    self.evectionAudit("3/4, ", varNo, "行政", "严丽蓓", "确认", "谢谢")
-                    self.evectionAudit("4/4, ", varNo, "财务", "顾书琴", "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
+                    self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                    self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
+                    self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
+                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 7, "ok")
                 time_end = time.time()
                 time = time_end - time_start
                 Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
@@ -671,3 +670,286 @@ class OaPO(object):
             os.system("open " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
         if platform.system() == 'Windows':
             os.system("start " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
+
+
+
+    '''固定资产采购 - 申请'''
+    def equipmentApply(self, varSerial, varApplicationName, varUser, varFromDate):
+        '''固定资产采购'''
+        self.open()
+        self.login(Char_PO.chinese2pinyin1(varUser))
+        self.memu("工作流", "新建工作")
+        # 外出申请单页面
+        self.Web_PO.iframeId("tabs_130_iframe", 2)
+        self.Web_PO.clickLinktext("全部工作", 1)
+        list1 = self.Web_PO.getXpathsText("//h4/span")
+        for i in range(len(list1)):
+            if varApplicationName in list1[i]:
+                self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
+                break
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.iframeId("tabs_w10000_iframe", 1)
+        varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 获取申请单编号，如 5666
+        self.Web_PO.iframeId("work_form_data", 1)
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[2]/input", "服务器1")  # 名称
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[3]/input", "10")  # 数量
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[4]/input", varFromDate)  # 期望到货时间
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[5]/input", "50001")  # 预计总价
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[6]/input", "HP")  # 准购厂商
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[7]/input", "PIM项目")  # 项目名称
+        self.Web_PO.inputXpath("//textarea[@name='DATA_328']", "HP123")  # 规格要求
+        self.Web_PO.inputXpath("//textarea[@name='DATA_322']", "扩容需要")  # 申请购买理由
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c1']/input", "hp专卖店")  # 厂商1
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c2']/input", "hp")  # 厂牌2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c3']/input", "50521456")  # 联系方式1
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c4']/input", "5000")  # 单价1
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c5']/input", "50000")  # 总价1
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c1']/input", "IBM直营店")  # 厂商2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c2']/input", "IBM")  # 厂牌2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c3']/input", "13816109050")  # 联系方式2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c4']/input", "5001")  # 单价2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c5']/input", "50010")  # 总价2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c1']/input", "taobao网点")  # 厂商3
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c2']/input", "taobao")  # 厂牌3
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c3']/input", "58771632")  # 联系方式3
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c4']/input", "5002")  # 单价3
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c5']/input", "50020")  # 总价3
+        self.Web_PO.iframeSwitch(1)
+        self.Web_PO.clickId("next", 2)  # 提交
+        self.Web_PO.clickId("work_run_submit", 2)  # 确定
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.quitURL()
+        Color_PO.consoleColor("31", "36", varUser + "，" + varApplicationName + "（" + str(varNo) + "）" + "- - " * 10, "")
+        print(varSerial + "申请 已提交")
+        return varNo
+
+    '''固定资产采购 - 审核'''
+    def equipmentAudit(self,varSerial, varNo, varRole, varAudit, varIsAgree, varOpinion):
+        self.open()
+        self.login(Char_PO.chinese2pinyin1(varAudit))
+        self.memu("工作流", "我的工作")
+        # # 选择流水号
+        self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 1)  # 第一层
+        self.Web_PO.iframeId("workflow-data-list", 1)  # 第二层
+        varNoRow = self.Web_PO.getXpathsTextPlace("//table[@id='gridTable']/tbody/tr/td[3]/div", varNo)
+        self.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[" + str(varNoRow + 1) + "]/td[8]/a", 1)
+        self.Web_PO.iframeSwitch(1)
+        self.Web_PO.iframeId("workflow-form-frame", 1)  # 第二层
+        self.Web_PO.iframeId("work_form_data", 1)  # 第三层
+        if varRole == "部门领导":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_196']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_209' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("next", 1)  # 提交
+            self.Web_PO.clickId("work_run_submit", 1)  # 确定
+            # 判断是否有弹框
+            if EC.alert_is_present()(self.Web_PO.driver):
+                self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "财务主管":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_115']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_211' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("onekey_next", 1)  # 提交
+            self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "财务经理":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_17']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_312' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("onekey_next", 1)  # 提交
+            self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "副总":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_19']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_213' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("onekey_next", 1)  # 提交
+            self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "总经理":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_21']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_214' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("handle_end", 1)  # 提交
+            self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+
+        if varAudit == "wanglei01":
+            varAudit = "王磊"
+        print(varSerial + varRole + varAudit + " 已审批")
+
+    '''固定资产采购 - 查询'''
+    def equipmentDone(self, varSerial, varNo, varUser):
+        # 判断审批人的状态，返回全同意或 某某不同意
+        self.open()
+        self.login(Char_PO.chinese2pinyin1(varUser))  # 申请人
+        self.memu("工作流", "我的工作")
+        # # 选择流水号
+        self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
+        self.Web_PO.clickLinktext("办结工作", 2)
+        self.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
+        varNoRow = self.Web_PO.getXpathsAttrPlace("//td[9]/a", "href", varNo)
+        self.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[" + str(varNoRow + 1) + "]/td[9]/a", 2)
+        self.Web_PO.iframeQuit(2)
+        # 表单打印（弹出窗口）
+        all_handles = self.Web_PO.driver.window_handles
+        self.Web_PO.driver.switch_to.window(all_handles[1])
+        x = self.Web_PO.getXpathsText("//td")
+        number = str(x[0]).split("表单")[0]
+        # print(number.strip(" "))  # 流水号：5597
+        self.Web_PO.iframeId("print_frm", 2)
+        list2 = self.Web_PO.getXpathsText("//td")
+        # print(list2)
+
+        list6 = []
+        x = 0
+        if self.Web_PO.isElementXpath("//input[@name='DATA_209' and @value='同意' and @checked]") == True:
+            list6.append("同意（部门领导）")
+            x = x + 1
+        elif self.Web_PO.isElementXpath("//input[@name='DATA_209' and @value='不同意' and @checked]") == True:
+            list6.append("不同意（部门领导）")
+        else:
+            list6.append("未审核（部门领导）")
+        if self.Web_PO.isElementXpath("//input[@name='DATA_211' and @value='同意' and @checked]") == True:
+            list6.append("同意（财务主管）")
+            x = x + 1
+        elif self.Web_PO.isElementXpath("//input[@name='DATA_211' and @value='不同意' and @checked]") == True:
+            list6.append("不同意（财务主）")
+        else:
+            list6.append("未审核（财务主）")
+        if self.Web_PO.isElementXpath("//input[@name='DATA_312' and @value='同意' and @checked]") == True:
+            list6.append("同意（财务经理）")
+            x = x + 1
+        elif self.Web_PO.isElementXpath("//input[@name='DATA_312' and @value='不同意' and @checked]") == True:
+            list6.append("不同意（财务经理）")
+        else:
+            list6.append("未审核（财务经理）")
+        if self.Web_PO.isElementXpath("//input[@name='DATA_213' and @value='同意' and @checked]") == True:
+            list6.append("同意（副总）")
+            x = x + 1
+        elif self.Web_PO.isElementXpath("//input[@name='DATA_213' and @value='不同意' and @checked]") == True:
+            list6.append("不同意（副总）")
+        else:
+            list6.append("未审核（副总）")
+        if self.Web_PO.isElementXpath("//input[@name='DATA_214' and @value='同意' and @checked]") == True:
+            list6.append("同意（总经理）")
+            x = x + 1
+        elif self.Web_PO.isElementXpath("//input[@name='DATA_214' and @value='不同意' and @checked]") == True:
+            list6.append("不同意（总经理）")
+        else:
+            list6.append("未审核（总经理）")
+        print(list6)
+        if x == 5 :
+            return "ok"
+        else:
+            return (list6)
+
+
+
+    '''借款申请单 - 申请'''
+
+    def loanApply(self, varSerial, varApplicationName, varUser, varFromDate):
+        '''借款申请单'''
+        self.open()
+        self.login(Char_PO.chinese2pinyin1(varUser))
+        self.memu("工作流", "新建工作")
+        # 外出申请单页面
+        self.Web_PO.iframeId("tabs_130_iframe", 2)
+        self.Web_PO.clickLinktext("全部工作", 1)
+        list1 = self.Web_PO.getXpathsText("//h4/span")
+        for i in range(len(list1)):
+            if varApplicationName in list1[i]:
+                self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
+                break
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.iframeId("tabs_w10000_iframe", 1)
+        varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 获取申请单编号，如 5666
+        self.Web_PO.iframeId("work_form_data", 1)
+
+        self.Web_PO.inputXpath("//tr[@id='LV_208_r1_c1']/textarea", "我缺钱")  # 情况说明
+        self.Web_PO.inputXpath("//tr[@id='LV_208_r1_c2']/input", "500")  # 单项金额
+        self.Web_PO.jsNameReadonly("DATA_186")
+        self.Web_PO.inputXpath("//input[@name='DATA_186']",varFromDate)  # 预计核销日期
+
+
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[3]/input", "10")  # 数量
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[4]/input", varFromDate)  # 期望到货时间
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[5]/input", "50001")  # 预计总价
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[6]/input", "HP")  # 准购厂商
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[7]/input", "PIM项目")  # 项目名称
+        self.Web_PO.inputXpath("//textarea[@name='DATA_328']", "HP123")  # 规格要求
+        self.Web_PO.inputXpath("//textarea[@name='DATA_322']", "扩容需要")  # 申请购买理由
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c1']/input", "hp专卖店")  # 厂商1
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c2']/input", "hp")  # 厂牌2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c3']/input", "50521456")  # 联系方式1
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c4']/input", "5000")  # 单价1
+        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c5']/input", "50000")  # 总价1
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c1']/input", "IBM直营店")  # 厂商2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c2']/input", "IBM")  # 厂牌2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c3']/input", "13816109050")  # 联系方式2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c4']/input", "5001")  # 单价2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c5']/input", "50010")  # 总价2
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c1']/input", "taobao网点")  # 厂商3
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c2']/input", "taobao")  # 厂牌3
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c3']/input", "58771632")  # 联系方式3
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c4']/input", "5002")  # 单价3
+        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c5']/input", "50020")  # 总价3
+        self.Web_PO.iframeSwitch(1)
+        self.Web_PO.clickId("next", 2)  # 提交
+        self.Web_PO.clickId("work_run_submit", 2)  # 确定
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.quitURL()
+        Color_PO.consoleColor("31", "36", varUser + "，" + varApplicationName + "（" + str(varNo) + "）" + "- - " * 10, "")
+        print(varSerial + "申请 已提交")
+        return varNo
+
+
+    # 申请单
+    def application(self, varApplicationName, varStaffList="所有人"):
+        import time
+        excelFile = File_PO.getLayerPath("../config") + "\\oa.xlsx"
+        row, col = Excel_PO.getRowCol(excelFile, varApplicationName)
+        for i in range(2, row + 1):
+            if varApplicationName == "固定资产采购申请单":
+                if varStaffList == "所有人":
+                    recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
+                    time_start = time.time()
+                    varNo = self.equipmentApply("1/7, ", varApplicationName, recordList[1], Time_PO.getDatetimeEditHour(12))
+                    self.equipmentAudit("2/7, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                    self.equipmentAudit("3/7, ", varNo, "财务主管", recordList[3], "同意", "注意安全")
+                    self.equipmentAudit("4/7, ", varNo, "财务经理", recordList[4], "同意", "谢谢")
+                    self.equipmentAudit("5/7, ", varNo, "副总", recordList[5], "同意", "不客气")
+                    self.equipmentAudit("6/7, ", varNo, "总经理", recordList[6], "同意", "批准了")
+                    Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, self.equipmentDone("7/7, ", varNo, recordList[1]))
+                    time_end = time.time()
+                    time = time_end - time_start
+                    Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
+            elif varApplicationName == "借款申请单":
+                if varStaffList == "所有人":
+                    recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
+                    time_start = time.time()
+                    varNo = self.equipmentApply("1/7, ", varApplicationName, recordList[1],Time_PO.getDatetimeEditHour(12))
+                    self.equipmentAudit("2/7, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
+                    self.equipmentAudit("3/7, ", varNo, "财务主管", recordList[3], "同意", "注意安全")
+                    self.equipmentAudit("4/7, ", varNo, "财务经理", recordList[4], "同意", "谢谢")
+                    self.equipmentAudit("5/7, ", varNo, "副总", recordList[5], "同意", "不客气")
+                    self.equipmentAudit("6/7, ", varNo, "总经理", recordList[6], "同意", "批准了")
+                    Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8,self.equipmentDone("7/7, ", varNo, recordList[1]))
+                    time_end = time.time()
+                    time = time_end - time_start
+                    Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
+
+
+        if platform.system() == 'Darwin':
+            os.system("open " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
+        if platform.system() == 'Windows':
+            os.system("start " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
+
+
+
