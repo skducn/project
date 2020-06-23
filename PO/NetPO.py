@@ -28,13 +28,10 @@ from urllib.request import urlretrieve
 from email.mime.multipart import MIMEMultipart
 from email.utils import parseaddr,formataddr
 from multiprocessing import Pool, cpu_count
-
 from PO.FilePO import *
 File_PO = FilePO()
 
-
 class NetPO():
-
 
     # 1，发送邮件
     def sendEmail(self, varNickNameByFrom, varFrom, varTo, varSubject, varConent, varFile="", varPic="", varHtmlFileName="", varHtmlContent=""):
@@ -236,21 +233,22 @@ class NetPO():
 
     # 3.4，异步多线程下载多张图
     def downloadImageAsync(self, varPathList, varFilePath="./"):
+        # https://www.cnblogs.com/nigel-woo/p/5700329.html 多进程知识补遗整理
         # http://www.51testing.com/html/73/n-4471673.html  使用 Selenium 实现谷歌以图搜图爬虫（爬取大图）
         # https://blog.csdn.net/S_o_l_o_n/article/details/86066704 python多进程任务拆分之apply_async()和map_async()
-        # 通过异步多线程方式将列表中路径文件下载到当前路径, 只能传入1个参数，摸索中。
+        # 通过异步多线程方式将列表中路径文件下载到当前路径, 只能传入1个参数。
         # https://www.cnblogs.com/c-x-a/p/9049651.html  pool.map的第二个参数想传入多个咋整？
         logging.basicConfig(level=logging.INFO, format="%(asctime)s [*] %(processName)s %(message)s")
         start = time.time()
-        logging.info("下载前")
 
         # 建立一个进程池，cpu_count() 表示cpu核心数，将进程数设置为cpu核心数
         pool = Pool(cpu_count())
         pool.map_async(Net_PO.downloadImage, varPathList)   # map_async（函数，参数）
-
         pool.close()
         pool.join()
-        logging.info(f"下载后 {time.time() - start} s")
+
+        end = time.time()
+        logging.info(f"{str(cpu_count())}核多线程异步下载 {len(varPathList)} 张图片，耗时 {round(end-start,0)}秒")
 
 
 if __name__ == '__main__':
