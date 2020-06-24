@@ -95,6 +95,7 @@ class OaPO(object):
         self.Web_PO.iframeQuit(1)
         self.Web_PO.iframeId("tabs_w10000_iframe", 1)
         varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 申请单编号，如 5666
+        Color_PO.consoleColor("31", "36","[" + varUser + "] " + "请假申请" + str(varDay) + "天（No." + str(varNo) + "）" + "- - " * 10,"")
         self.Web_PO.iframeId("work_form_data", 2)
         self.Web_PO.clickXpathsNum("//input[@type='radio']", varType, 2)  # 公休  请假类别，1=事假，2=调休，3=公休，4=病假，5=婚假，6=丧假，7=其他
         self.Web_PO.jsIdReadonly("DATA_4", 2)
@@ -103,13 +104,22 @@ class OaPO(object):
         self.Web_PO.inputXpath("//input[@name='DATA_5']", varEndDate)  # 请假结束时间
         self.Web_PO.inputXpath("//input[@name='DATA_67']", varDay)  # 申请天数
         self.Web_PO.inputXpath("//textarea[@name='DATA_7']", varStartDate)  # 事由
-        self.Web_PO.inputXpath("//textarea[@name='DATA_44']", varEndDate)  # 待变事项
+        self.Web_PO.inputXpath("//textarea[@name='DATA_44']", varEndDate)  # 请代办事项
         self.Web_PO.iframeSwitch(1)
-        self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
-        self.Web_PO.alertAccept()
+
+        if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+            self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+            self.Web_PO.alertAccept()
+        elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+            self.Web_PO.clickId("next", 2)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            # 判断是否有弹框
+            if EC.alert_is_present()(self.Web_PO.driver):
+                self.Web_PO.alertAccept()
+
+
         self.Web_PO.iframeQuit(5)
         self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "36", varUser + "，" + "请假申请" + str(varDay) + "天（流水号：" + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
 
@@ -135,27 +145,34 @@ class OaPO(object):
         varTitle = self.Web_PO.getXpathsText("//strong")
         if varTitle[0] == "请假申请单":
             if varRole == "部门领导":
-                self.Web_PO.clickXpath("//input[@name='DATA_11' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.inputXpath("//textarea[@name='DATA_12']", varOpinion)  # 审批意见
+                self.Web_PO.clickXpath("//input[@name='DATA_11' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.iframeSwitch(1)
-                if self.Web_PO.isElementId("onekey_next") == True:
+                if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
                     self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
                     self.Web_PO.alertAccept()
-                elif self.Web_PO.isElementId("next") == True:
+                elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
                     self.Web_PO.clickId("next", 2)  # 提交
                     self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                    # 判断是否有弹框
+                    if EC.alert_is_present()(self.Web_PO.driver):
+                        self.Web_PO.alertAccept()
                 self.Web_PO.iframeQuit(2)
                 self.Web_PO.quitURL()
             elif varRole == "人事总监":
                 self.Web_PO.clickXpath("//input[@name='DATA_14' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.inputXpath("//textarea[@name='DATA_15']", varOpinion)  # 审批意见
                 self.Web_PO.iframeSwitch(1)
-                if self.Web_PO.isElementId("onekey_next") == True:
+                if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
                     self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
                     self.Web_PO.alertAccept()
-                elif self.Web_PO.isElementId("next") == True:
+                elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
                     self.Web_PO.clickId("next", 2)  # 提交
-                    self.Web_PO.clickId("work_run_submit", 2)
+                    self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                    # 判断是否有弹框
+                    if EC.alert_is_present()(self.Web_PO.driver):
+                        self.Web_PO.alertAccept()
+
                 self.Web_PO.iframeQuit(2)
                 self.Web_PO.quitURL()
             elif varRole == "副总":
@@ -165,12 +182,15 @@ class OaPO(object):
                 self.Web_PO.clickXpath("//input[@name='DATA_21' and @value='" + varIsAgree + "']", 2)  # 是否同意
                 self.Web_PO.iframeSwitch(1)
                 if int(varDay) >= 3:
-                    if self.Web_PO.isElementId("onekey_next") == True:
+                    if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
                         self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
                         self.Web_PO.alertAccept()
-                    elif self.Web_PO.isElementId("next") == True:
+                    elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
                         self.Web_PO.clickId("next", 2)  # 提交
                         self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                        # 判断是否有弹框
+                        if EC.alert_is_present()(self.Web_PO.driver):
+                            self.Web_PO.alertAccept()
                 else:
                     if self.Web_PO.isElementId("handle_end") == True:
                         self.Web_PO.clickXpath("//input[@id='handle_end']", 2)  # 提交
@@ -193,7 +213,7 @@ class OaPO(object):
             print(varSerial + varRole + varAudit + " 已审批")
 
     '''请假 - 回执查询'''
-    def askOffDone(self, varSerial, varNo, varUser):
+    def askOffDone(self, varNo, varUser, varDay):
 
         self.open()
         self.login(Char_PO.chinese2pinyin1(varUser))  # 申请人
@@ -212,15 +232,17 @@ class OaPO(object):
         self.Web_PO.driver.switch_to.window(all_handles[1])
         x = self.Web_PO.getXpathsText("//td")
         number = str(x[0]).split("表单")[0]
-        # print(number.strip(" "))  # 流水号：5597
+        # print(number.strip(" "))  # No. 5597
         self.Web_PO.iframeId("print_frm", 2)
         list2 = self.Web_PO.getXpathsText("//td")
         list5 = self.List_PO.getSectionList(self.List_PO.getSectionList(list2, '审核信息', 'delbefore'), "流程开始（" + number.strip(" ") + "）", 'delafter')
         list6 = []
+        x = 0
         for i in range(len(list5)):
             if i == 0:
                 if self.Web_PO.isElementXpath("//input[@name='DATA_11' and @value='同意' and @checked]") == True:
                     list6.append("同意（部门领导）")
+                    x = x + 1
                 elif self.Web_PO.isElementXpath("//input[@name='DATA_11' and @value='不同意' and @checked]") == True:
                     list6.append("不同意（部门领导）")
                 else:
@@ -228,6 +250,7 @@ class OaPO(object):
             elif i == 3:
                 if self.Web_PO.isElementXpath("//input[@name='DATA_14' and @value='同意' and @checked]") == True:
                     list6.append("同意（人事总监）")
+                    x = x + 1
                 elif self.Web_PO.isElementXpath("//input[@name='DATA_14' and @value='不同意' and @checked]") == True:
                     list6.append("不同意（人事总监）")
                 else:
@@ -235,6 +258,7 @@ class OaPO(object):
             elif i == 6:
                 if self.Web_PO.isElementXpath("//input[@name='DATA_21' and @value='同意' and @checked]") == True:
                     list6.append("同意（副总）")
+                    x = x + 1
                 elif self.Web_PO.isElementXpath("//input[@name='DATA_21' and @value='不同意' and @checked]") == True:
                     list6.append("不同意（副总）")
                 else:
@@ -242,6 +266,7 @@ class OaPO(object):
             elif i == 9:
                 if self.Web_PO.isElementXpath("//input[@name='DATA_68' and @value='同意' and @checked]") == True:
                     list6.append("同意（总经理）")
+                    x = x + 1
                 elif self.Web_PO.isElementXpath("//input[@name='DATA_68' and @value='不同意' and @checked]") == True:
                     list6.append("不同意（总经理）")
                 else:
@@ -250,24 +275,30 @@ class OaPO(object):
                 list6.append(list5[i])
 
         self.Web_PO.quitURL()
-        print(varSerial + varUser + " 查回执：")
-        list7 = []
-        # print(list6)
-        for i in list6:
-            if "未审核（总经理）" not in i:
-                list7.append(i)
-            else:
-                break
-        if len(list7) == 9:
-            varArr = self.List_PO.listSplitArray(list7, 3)
-            for i in range(len(varArr)):
-                print(varArr[i])
-        elif len(list7) == 12:
-            varArr = self.List_PO.listSplitArray(list7, 4)
-            for i in range(len(varArr)):
-                print(varArr[i])
+        # print(varSerial + varUser + " 查回执：")
+        # list7 = []
+        # # print(list6)
+        # for i in list6:
+        #     if "未审核（总经理）" not in i:
+        #         list7.append(i)
+        #     else:
+        #         break
+        # if len(list7) == 9:
+        #     varArr = self.List_PO.listSplitArray(list7, 3)
+        #     for i in range(len(varArr)):
+        #         print(varArr[i])
+        # elif len(list7) == 12:
+        #     varArr = self.List_PO.listSplitArray(list7, 4)
+        #     for i in range(len(varArr)):
+        #         print(varArr[i])
+        # else:
+        #     print(list7)
+        if varDay < 3 and x == 3:
+            return "ok"
+        elif varDay >= 3 and x == 4:
+            return "ok"
         else:
-            print(list7)
+            return list6
 
     # 请假
     def askOff(self, varStaffList, varDay=1):
@@ -339,7 +370,7 @@ class OaPO(object):
     def egressionApply(self, varSerial, varUser, varOutDate, varToObject, varOutAddress, varOutReason ):
         '''外出申请单'''
         self.open()
-        print(Char_PO.chinese2pinyin1(varUser))
+        # print(Char_PO.chinese2pinyin1(varUser))
         self.login(Char_PO.chinese2pinyin1(varUser))
         self.memu("工作流", "新建工作")
         # 外出申请单页面
@@ -360,15 +391,18 @@ class OaPO(object):
         self.Web_PO.inputXpath("//input[@name='DATA_72']", varOutAddress)  # 外出地点
         self.Web_PO.inputXpath("//textarea[@name='DATA_7']", varOutReason)  # 外出事由
         self.Web_PO.iframeSwitch(1)
-        if self.Web_PO.isElementId("onekey_next") == True:
-            self.Web_PO.clickId("onekey_next", 2)  # 提交
+        if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+            self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
             self.Web_PO.alertAccept()
-        elif self.Web_PO.isElementId("next") == True:
+        elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
             self.Web_PO.clickId("next", 2)  # 提交
             self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            # 判断是否有弹框
+            if EC.alert_is_present()(self.Web_PO.driver):
+                self.Web_PO.alertAccept()
         self.Web_PO.iframeQuit(1)
         self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "36", varUser + "，" + "外出申请单" + "（流水号：" + str(varNo) + "）" + "- - " * 10, "")
+        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + "外出申请单" + "（No." + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
 
@@ -390,13 +424,15 @@ class OaPO(object):
             self.Web_PO.clickXpath("//input[@name='DATA_60' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
             self.Web_PO.inputXpath("//textarea[@name='DATA_61']", varOpinion)  # 审批意见
             self.Web_PO.iframeSwitch(1)
-            if self.Web_PO.isElementId("onekey_next") == True:
-                self.Web_PO.clickId("onekey_next", 1)  # 提交
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
                 self.Web_PO.alertAccept()
-            elif self.Web_PO.isElementId("next") == True:
-                self.Web_PO.clickId("next", 1)  # 提交
-                self.Web_PO.clickId("work_run_submit", 1)  # 确定
-                self.Web_PO.alertAccept()
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                # 判断是否有弹框
+                if EC.alert_is_present()(self.Web_PO.driver):
+                    self.Web_PO.alertAccept()
             self.Web_PO.iframeQuit(1)
             self.Web_PO.quitURL()
         elif varRole == "行政":
@@ -407,6 +443,8 @@ class OaPO(object):
             self.Web_PO.alertAccept()
             self.Web_PO.iframeQuit(1)
             self.Web_PO.quitURL()
+        if varAudit == "wanglei01":
+            varAudit = "王磊"
         print(varSerial + varRole + varAudit + " 已审批")
 
     '''外出 - 申请之填写返回时间'''
@@ -444,13 +482,13 @@ class OaPO(object):
                 self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
                 self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
                 self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
-                Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
+                Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
             elif varStaffList == "空" and recordList[3] == "":
                 varNo = self.egressionApply("1/4, ", recordList[1], Time_PO.getDatetimeEditHour(24), '医院领导', '上海宝山华亭路1000号交通大学复数医院', '驻场测试')
                 self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
                 self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
                 self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
-                Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
+                Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
             elif recordList[1] in varStaffList:
                 import time
                 time_start = time.time()
@@ -458,14 +496,11 @@ class OaPO(object):
                 self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
                 self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
                 self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
-                Excel_PO.writeXlsx(excelFile, varModuleName, i, 4, "ok")
+                Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
                 time_end = time.time()
                 time = time_end - time_start
                 Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
-        if platform.system() == 'Darwin':
-            os.system("open " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
-        if platform.system() == 'Windows':
-            os.system("start " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
+
 
 
 
@@ -499,15 +534,18 @@ class OaPO(object):
         self.Web_PO.inputXpath("//tr[@id='LV_79_r1']/td[7]/textarea", varWork)  # 工作内容
         self.Web_PO.inputXpath("//tr[@id='LV_79_r1']/td[8]/input", varFee)  # 费用预算
         self.Web_PO.iframeSwitch(1)
-        if self.Web_PO.isElementId("onekey_next") == True:
-            self.Web_PO.clickId("onekey_next", 2)  # 提交
+        if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+            self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
             self.Web_PO.alertAccept()
-        elif self.Web_PO.isElementId("next") == True:
+        elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
             self.Web_PO.clickId("next", 2)  # 提交
             self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            # 判断是否有弹框
+            if EC.alert_is_present()(self.Web_PO.driver):
+                self.Web_PO.alertAccept()
         self.Web_PO.iframeQuit(1)
         self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "36", varUser + "，" + "出差申请" + str(varDay) + "天（" + str(varNo) + "）" + "- - " * 10, "")
+        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + "出差申请" + str(varDay) + "天（No." + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
 
@@ -528,12 +566,12 @@ class OaPO(object):
             self.Web_PO.clickXpath("//input[@name='DATA_60' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
             self.Web_PO.inputXpath("//textarea[@name='DATA_61']", varOpinion)  # 审批意见
             self.Web_PO.iframeSwitch(1)
-            if self.Web_PO.isElementId("onekey_next") == True:
-                self.Web_PO.clickId("onekey_next", 1)  # 提交
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
                 self.Web_PO.alertAccept()
-            elif self.Web_PO.isElementId("next") == True:
-                self.Web_PO.clickId("next", 1)  # 提交
-                self.Web_PO.clickId("work_run_submit", 1)  # 确定
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
                 # 判断是否有弹框
                 if EC.alert_is_present()(self.Web_PO.driver):
                     self.Web_PO.alertAccept()
@@ -579,7 +617,7 @@ class OaPO(object):
             recordList = Excel_PO.getRowValue(excelFile, i, varModuleName)
             if varStaffList == "所有人":
                 if varDay > 3:
-                    if recordList[1] in "金浩，曲翰林，邹永熹，刘耀，千北辰，张福军，韩群锋":
+                    if recordList[1] in "金浩，曲翰林，邹永熹，刘耀，千北辰，张福军，韩群锋，ronghui.":
                         varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay,
                                                    Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
                                                    '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
@@ -603,7 +641,7 @@ class OaPO(object):
                 if varDay > 3 and recordList[7] == "":
                     import time
                     time_start = time.time()
-                    if recordList[1] in "金浩，曲翰林，邹永熹，刘耀，千北辰，张福军，韩群锋":
+                    if recordList[1] in "金浩，曲翰林，邹永熹，刘耀，千北辰，张福军，韩群锋，ronghui.":
                         varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay,
                                                    Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
                                                    '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
@@ -779,7 +817,6 @@ class OaPO(object):
             self.Web_PO.alertAccept()
             self.Web_PO.iframeQuit(1)
             self.Web_PO.quitURL()
-
         if varAudit == "wanglei01":
             varAudit = "王磊"
         print(varSerial + varRole + varAudit + " 已审批")
@@ -802,7 +839,7 @@ class OaPO(object):
         self.Web_PO.driver.switch_to.window(all_handles[1])
         x = self.Web_PO.getXpathsText("//td")
         number = str(x[0]).split("表单")[0]
-        # print(number.strip(" "))  # 流水号：5597
+        # print(number.strip(" "))  # No. 5597
         self.Web_PO.iframeId("print_frm", 2)
         list2 = self.Web_PO.getXpathsText("//td")
         # print(list2)
@@ -910,13 +947,42 @@ class OaPO(object):
         return varNo
 
 
+
+    def askOffFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varPersonnel, varVicepresident, varPresident, varDay):
+        if varDay < 3 :
+            varNo = self.askOffApply("1/4, ", varUser, 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
+            self.askOffAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "批准")
+            self.askOffAudit("3/4, ", varNo, "人事总监", varPersonnel, "同意", "好的")
+            self.askOffAudit("4/4, ", varNo, "副总", varVicepresident, "同意", "谢谢")
+            Excel_PO.writeXlsx(excelFile, varApplicationName, i, 7, str(self.askOffDone(varNo, varUser, varDay)))
+        else:
+            varNo = self.askOffApply("1/5, ", varUser, 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
+            self.askOffAudit("2/5, ", varNo, "部门领导", varLeader, "同意", "批准")
+            self.askOffAudit("3/5, ", varNo, "人事总监", varPersonnel, "同意", "好的")
+            self.askOffAudit("4/5, ", varNo, "副总", varVicepresident, "同意", "谢谢")
+            self.askOffAudit("5/5, ", varNo, "总经理", varPresident, "同意", "yuanyongtao批准")
+            Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, str(self.askOffDone(varNo, varUser, varDay)))
+
+
+
     # 申请单
-    def application(self, varApplicationName, varStaffList="所有人"):
+    def application(self, varApplicationName, varStaffList, varDay):
         import time
         excelFile = File_PO.getLayerPath("../config") + "\\oa.xlsx"
         row, col = Excel_PO.getRowCol(excelFile, varApplicationName)
         for i in range(2, row + 1):
-            if varApplicationName == "固定资产采购申请单":
+            if varApplicationName == "请假申请单":
+                recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
+                if varStaffList == "所有人":
+                    self.askOffFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
+                elif varStaffList == "空" :
+                    if varDay < 3 and recordList[6] == "" :
+                        self.askOffFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3],recordList[4], recordList[5], varDay)
+                    elif varDay >=3 and recordList[7] == "" :
+                        self.askOffFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3],recordList[4], recordList[5], varDay)
+                elif recordList[1] in varStaffList:
+                    self.askOffFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
+            elif varApplicationName == "固定资产采购申请单":
                 if varStaffList == "所有人":
                     recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
                     time_start = time.time()
@@ -940,7 +1006,7 @@ class OaPO(object):
                     self.equipmentAudit("4/7, ", varNo, "财务经理", recordList[4], "同意", "谢谢")
                     self.equipmentAudit("5/7, ", varNo, "副总", recordList[5], "同意", "不客气")
                     self.equipmentAudit("6/7, ", varNo, "总经理", recordList[6], "同意", "批准了")
-                    Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8,self.equipmentDone("7/7, ", varNo, recordList[1]))
+                    Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, self.equipmentDone("7/7, ", varNo, recordList[1]))
                     time_end = time.time()
                     time = time_end - time_start
                     Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
