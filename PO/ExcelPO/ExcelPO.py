@@ -33,6 +33,9 @@ from openpyxl import load_workbook
 import openpyxl, os, sys
 # import pandas as pd
 
+from PO.ColorPO import *
+Color_PO = ColorPO()
+
 
 '''
 1，新建excel（by openpyxl）
@@ -101,9 +104,11 @@ class ExcelPO():
                 print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             wk_sheet.cell(row=varRow, column=varCol, value=varContent)
             wb.save(varFileName)
-
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            # Color_PO.consoleColor("31", "31", "[ERROR]", "库包 " + str(sys._getframe(1).f_lineno) + " 行跳转 " + sys._getframe().f_code.co_name + " " + str(sys._getframe(0).f_lineno) + " 行")
+            Color_PO.consoleColor("31", "31", "[ERROR] ", "call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')")
+
+            # print("[], call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 2.2，多个元素写操作（by openpyxl）
     def writeXlsxByMore(self, varFileName, varSheet, varList_Row_Col_Content):
