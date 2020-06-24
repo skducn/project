@@ -256,6 +256,7 @@ class TimePO():
     # time_end = time.time()
     # time = time_end - time_start
     # print('耗时%s秒' % time)
+    # Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
 
 if __name__ == "__main__":
 

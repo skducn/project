@@ -79,8 +79,7 @@ class OaPO(object):
 
 
     '''请假 - 申请'''
-    def askOffApply(self, varSerial, varUser, varType, varStartDate, varEndDate, varDay):
-        '''请假'''
+    def askOffApply(self, varSerial, varApplicationName, varUser, varType, varStartDate, varEndDate, varDay):
         self.open()
         self.login(Char_PO.chinese2pinyin1(varUser))  # 申请者
         self.memu("工作流", "新建工作")  # 选择菜单与模块
@@ -89,13 +88,13 @@ class OaPO(object):
         self.Web_PO.clickLinktext("全部工作", 1)
         list1 = self.Web_PO.getXpathsText("//h4/span")
         for i in range(len(list1)):
-            if "请假申请单" in list1[i]:
+            if varApplicationName in list1[i]:
                 self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
                 break
         self.Web_PO.iframeQuit(1)
         self.Web_PO.iframeId("tabs_w10000_iframe", 1)
         varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 申请单编号，如 5666
-        Color_PO.consoleColor("31", "36","[" + varUser + "] " + "请假申请" + str(varDay) + "天（No." + str(varNo) + "）" + "- - " * 10,"")
+        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + "请假申请" + str(varDay) + "天（No." + str(varNo) + "）" + "- - " * 10,"")
         self.Web_PO.iframeId("work_form_data", 2)
         self.Web_PO.clickXpathsNum("//input[@type='radio']", varType, 2)  # 公休  请假类别，1=事假，2=调休，3=公休，4=病假，5=婚假，6=丧假，7=其他
         self.Web_PO.jsIdReadonly("DATA_4", 2)
@@ -106,7 +105,6 @@ class OaPO(object):
         self.Web_PO.inputXpath("//textarea[@name='DATA_7']", varStartDate)  # 事由
         self.Web_PO.inputXpath("//textarea[@name='DATA_44']", varEndDate)  # 请代办事项
         self.Web_PO.iframeSwitch(1)
-
         if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
             self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
             self.Web_PO.alertAccept()
@@ -116,15 +114,12 @@ class OaPO(object):
             # 判断是否有弹框
             if EC.alert_is_present()(self.Web_PO.driver):
                 self.Web_PO.alertAccept()
-
-
         self.Web_PO.iframeQuit(5)
         self.Web_PO.quitURL()
         print(varSerial + "申请 已提交")
         return varNo
-
     '''请假 - 审核'''
-    def askOffAudit(self, varSerial, varNo, varRole, varAudit, varIsAgree, varOpinion):
+    def askOffAudit(self, varSerial, varApplicationName, varNo, varRole, varAudit, varIsAgree, varOpinion):
         # Oa_PO.audit("2/6, ", varNo, "部门领导", "wanglei01", "同意", "部门领导批准")
         # 不同意 没写？
 
@@ -143,7 +138,7 @@ class OaPO(object):
         self.Web_PO.iframeId("workflow-form-frame", 2)  # 第二层
         self.Web_PO.iframeId("work_form_data", 2)  # 第三层
         varTitle = self.Web_PO.getXpathsText("//strong")
-        if varTitle[0] == "请假申请单":
+        if varTitle[0] == varApplicationName:
             if varRole == "部门领导":
                 self.Web_PO.inputXpath("//textarea[@name='DATA_12']", varOpinion)  # 审批意见
                 self.Web_PO.clickXpath("//input[@name='DATA_11' and @value='" + varIsAgree + "']", 2)  # 是否同意
@@ -172,7 +167,6 @@ class OaPO(object):
                     # 判断是否有弹框
                     if EC.alert_is_present()(self.Web_PO.driver):
                         self.Web_PO.alertAccept()
-
                 self.Web_PO.iframeQuit(2)
                 self.Web_PO.quitURL()
             elif varRole == "副总":
@@ -211,15 +205,13 @@ class OaPO(object):
             if varAudit == "wanglei01":
                 varAudit = "王磊"
             print(varSerial + varRole + varAudit + " 已审批")
-
     '''请假 - 回执查询'''
     def askOffDone(self, varNo, varUser, varDay):
-
         self.open()
         self.login(Char_PO.chinese2pinyin1(varUser))  # 申请人
         self.memu("工作流", "我的工作")
 
-        # # 选择流水号
+        # 选择流水号
         self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
         self.Web_PO.clickLinktext("办结工作", 2)
         self.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
@@ -300,77 +292,12 @@ class OaPO(object):
         else:
             return list6
 
-    # 请假
-    def askOff(self, varStaffList, varDay=1):
-        excelFile = File_PO.getLayerPath("../config") + "\\oa.xlsx"
-        row, col = Excel_PO.getRowCol(excelFile, "请假申请")
-        for i in range(2, row + 1):
-            recordList = Excel_PO.getRowValue(excelFile, i, "请假申请")
-            if varStaffList == "所有人":
-                if varDay < 3:
-                    # print(recordList[1])
-                    varNo = self.askOffApply("1/5, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "批准")
-                    self.askOffAudit("3/5, ", varNo, "人事总监", "严丽蓓",  "同意", "好的")
-                    self.askOffAudit("4/5, ", varNo, "副总", "wanglei01", "同意", "谢谢")
-                    self.askOffDone("5/5, ", varNo, recordList[1])
-                    # self.askOffDone("6/6, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 4, "ok")
-                elif varDay >= 3:
-                    varNo = self.askOffApply("1/6, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/6, ", varNo, "部门领导", recordList[2], "同意", "批准")
-                    self.askOffAudit("3/6, ", varNo, "人事总监", "严丽蓓", "同意", "好的")
-                    self.askOffAudit("4/6, ", varNo, "副总", "wanglei01", "同意", "谢谢")
-                    self.askOffAudit("5/6, ", varNo, "总经理", "苑永涛", "同意", "yuanyongtao批准")
-                    self.askOffDone("6/6, ", varNo, recordList[1])
-                    # self.askOffDone("7/7, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 5, "ok")
-            elif varStaffList == "空" and recordList[3] == "":
-                if varDay < 3:
-                    # print(recordList[1])
-                    varNo = self.askOffApply("1/5, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "批准")
-                    self.askOffAudit("3/5, ", varNo, "人事总监", "严丽蓓", "同意", "好的")
-                    self.askOffAudit("4/5, ", varNo, "副总", "wanglei01", "同意", "谢谢")
-                    self.askOffDone("5/5, ", varNo, recordList[1])
-                    # self.askOffDone("6/6, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 4, "ok")
-                elif varDay >= 3:
-                    varNo = self.askOffApply("1/6, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/6, ", varNo, "部门领导", recordList[2], "同意", "批准")
-                    self.askOffAudit("3/6, ", varNo, "人事总监", "严丽蓓", "同意", "好的")
-                    self.askOffAudit("4/6, ", varNo, "副总", "wanglei01", "同意", "谢谢")
-                    self.askOffAudit("5/6, ", varNo, "总经理", "苑永涛", "同意", "yuanyongtao批准")
-                    self.askOffDone("6/6, ", varNo, recordList[1])
-                    # self.askOffDone("7/7, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 5, "ok")
-            elif recordList[1] in varStaffList :
-                if varDay < 3:
-                    # print(recordList[1])
-                    varNo = self.askOffApply("1/5, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "批准5")
-                    self.askOffAudit("3/5, ", varNo, "人事总监", "严丽蓓",  "同意", "好的5")
-                    self.askOffAudit("4/5, ", varNo, "副总", "wanglei01", "同意", "谢谢5")
-                    self.askOffDone("5/5, ", varNo, recordList[1])
-                    # self.askOffDone("6/6, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 4, "ok")
-                elif varDay >= 3:
-                    varNo = self.askOffApply("1/6, ", recordList[1], 1, Time_PO.getDatetimeEditHour(0), Time_PO.getDatetimeEditHour(24), str(varDay))
-                    self.askOffAudit("2/6, ", varNo, "部门领导", recordList[2], "同意", "批准1")
-                    self.askOffAudit("3/6, ", varNo, "人事总监", "严丽蓓", "同意", "好的2")
-                    self.askOffAudit("4/6, ", varNo, "副总", "wanglei01", "同意", "谢谢3")
-                    self.askOffAudit("5/6, ", varNo, "总经理", "苑永涛", "同意", "yuanyongtao批准")
-                    self.askOffDone("6/6, ", varNo, recordList[1])
-                    # self.askOffDone("7/7, ", varNo, "yanlibei")
-                    Excel_PO.writeXlsx(excelFile, "请假申请", i, 5, "ok")
-
 
 
     '''外出 - 申请'''
     def egressionApply(self, varSerial, varUser, varOutDate, varToObject, varOutAddress, varOutReason ):
-        '''外出申请单'''
+
         self.open()
-        # print(Char_PO.chinese2pinyin1(varUser))
         self.login(Char_PO.chinese2pinyin1(varUser))
         self.memu("工作流", "新建工作")
         # 外出申请单页面
@@ -402,10 +329,9 @@ class OaPO(object):
                 self.Web_PO.alertAccept()
         self.Web_PO.iframeQuit(1)
         self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + "外出申请单" + "（No." + str(varNo) + "）" + "- - " * 10, "")
+        Color_PO.consoleColor("31", "33", "[" + varUser + "] " + "外出申请单" + "（No." + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
-
     '''外出 - 审核'''
     def egressionAudit(self, varSerial, varNo, varRole, varAudit, varIsAgree, varOpinion):
         self.open()
@@ -446,7 +372,6 @@ class OaPO(object):
         if varAudit == "wanglei01":
             varAudit = "王磊"
         print(varSerial + varRole + varAudit + " 已审批")
-
     '''外出 - 申请之填写返回时间'''
     def egressionRevise(self, varSerial, varNo, varUser, varReturnDate):
         self.open()
@@ -469,38 +394,6 @@ class OaPO(object):
         self.Web_PO.iframeQuit(1)
         self.Web_PO.quitURL()
         print(varSerial + "返回时间 已填写")
-
-    # 外出
-    def egression(self, varStaffList):
-        varModuleName = "外出申请"
-        excelFile = File_PO.getLayerPath("../config") + "\\oa.xlsx"
-        row, col = Excel_PO.getRowCol(excelFile, varModuleName)
-        for i in range(2, row + 1):
-            recordList = Excel_PO.getRowValue(excelFile, i, varModuleName)
-            if varStaffList == "所有人":
-                varNo = self.egressionApply("1/4, ", recordList[1], Time_PO.getDatetimeEditHour(24), '医院领导', '上海宝山华亭路1000号交通大学复数医院', '驻场测试')
-                self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
-                self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
-                Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
-            elif varStaffList == "空" and recordList[3] == "":
-                varNo = self.egressionApply("1/4, ", recordList[1], Time_PO.getDatetimeEditHour(24), '医院领导', '上海宝山华亭路1000号交通大学复数医院', '驻场测试')
-                self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
-                self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
-                Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
-            elif recordList[1] in varStaffList:
-                import time
-                time_start = time.time()
-                varNo = self.egressionApply("1/4, ", recordList[1], Time_PO.getDatetimeEditHour(24), '医院领导','上海宝山华亭路1000号交通大学复数医院', '驻场测试')
-                self.egressionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                self.egressionRevise("3/4, ", varNo, recordList[1], Time_PO.getDatetimeEditHour(48))
-                self.egressionAudit("4/4, ", varNo, "行政", recordList[3], "确认", "谢谢")
-                Excel_PO.writeXlsx(excelFile, varModuleName, i, 5, "ok")
-                time_end = time.time()
-                time = time_end - time_start
-                Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
-
 
 
 
@@ -548,7 +441,6 @@ class OaPO(object):
         Color_PO.consoleColor("31", "36", "[" + varUser + "] " + "出差申请" + str(varDay) + "天（No." + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
-
     '''出差 - 审核'''
     def evectionAudit(self,varSerial, varNo, varRole, varAudit, varIsAgree, varOpinion):
         self.open()
@@ -608,107 +500,6 @@ class OaPO(object):
             varAudit = "王磊"
         print(varSerial + varRole + varAudit + " 已审批")
 
-    # 出差
-    def evection(self, varStaffList, varDay=3):
-        varModuleName = "出差申请"
-        excelFile = File_PO.getLayerPath("../config") + "\\oa.xlsx"
-        row, col = Excel_PO.getRowCol(excelFile, varModuleName)
-        for i in range(2, row + 1):
-            recordList = Excel_PO.getRowValue(excelFile, i, varModuleName)
-            if varStaffList == "所有人":
-                if varDay > 3:
-                    if recordList[1] in "金浩，曲翰林，邹永熹，刘耀，千北辰，张福军，韩群锋，ronghui.":
-                        varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay,
-                                                   Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
-                                                   '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                        self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    else:
-                        varNo = self.evectionApply("1/5, ", recordList[1], "韩少龙,", varDay, Time_PO.getDatetimeEditHour(12),Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机','驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/5, ", varNo, "副总", recordList[3], "同意", "注意安全")
-                        self.evectionAudit("4/5, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                        self.evectionAudit("5/5, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 8, "ok")
-                else:
-                    varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay, Time_PO.getDatetimeEditHour(12),Time_PO.getDatetimeEditHour(24) ,'上海','北京', '飞机','驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部',100)
-                    self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                    self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                    self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 7, "ok")
-            elif varStaffList == "空" :
-                if varDay > 3 and recordList[7] == "":
-                    import time
-                    time_start = time.time()
-                    if recordList[1] in "金浩，曲翰林，邹永熹，刘耀，千北辰，张福军，韩群锋，ronghui.":
-                        varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay,
-                                                   Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
-                                                   '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                        self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    else:
-                        varNo = self.evectionApply("1/5, ", recordList[1], "韩少龙,", varDay,
-                                                   Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
-                                                   '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/5, ", varNo, "副总", recordList[3], "同意", "注意安全")
-                        self.evectionAudit("4/5, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                        self.evectionAudit("5/5, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 8, "ok")
-                    time_end = time.time()
-                    time = time_end - time_start
-                    Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
-                elif varDay <= 3 and recordList[7] == "":
-                    import time
-                    time_start = time.time()
-                    varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay, Time_PO.getDatetimeEditHour(12),
-                                               Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机',
-                                               '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                    self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                    self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                    self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 7, "ok")
-                    time_end = time.time()
-                    time = time_end - time_start
-                    Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
-            elif recordList[1] in varStaffList:
-                import time
-                time_start = time.time()
-                if varDay > 3:
-                    if recordList[1] in "金浩，曲翰林，邹永熹，刘耀，千北辰，张福军，韩群锋":
-                        varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay,
-                                                   Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
-                                                   '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                        self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    else:
-                        varNo = self.evectionApply("1/5, ", recordList[1], "韩少龙,", varDay,
-                                                   Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24),
-                                                   '上海', '北京', '飞机', '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                        self.evectionAudit("2/5, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                        self.evectionAudit("3/5, ", varNo, "副总", recordList[3], "同意", "注意安全")
-                        self.evectionAudit("4/5, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                        self.evectionAudit("5/5, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 8, "ok")
-                else:
-                    varNo = self.evectionApply("1/4, ", recordList[1], "韩少龙,", varDay, Time_PO.getDatetimeEditHour(12),
-                                               Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机',
-                                               '驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部驻场测试部', 100)
-                    self.evectionAudit("2/4, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                    self.evectionAudit("3/4, ", varNo, "行政总监", recordList[4], "确认", "谢谢")
-                    self.evectionAudit("4/4, ", varNo, "财务总监", recordList[5], "确认", "可预支费用！")
-                    Excel_PO.writeXlsx(excelFile, varModuleName, i, 7, "ok")
-                time_end = time.time()
-                time = time_end - time_start
-                Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
-        if platform.system() == 'Darwin':
-            os.system("open " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
-        if platform.system() == 'Windows':
-            os.system("start " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
-
 
 
     '''固定资产采购 - 申请'''
@@ -760,7 +551,6 @@ class OaPO(object):
         Color_PO.consoleColor("31", "36", varUser + "，" + varApplicationName + "（" + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
-
     '''固定资产采购 - 审核'''
     def equipmentAudit(self,varSerial, varNo, varRole, varAudit, varIsAgree, varOpinion):
         self.open()
@@ -820,7 +610,6 @@ class OaPO(object):
         if varAudit == "wanglei01":
             varAudit = "王磊"
         print(varSerial + varRole + varAudit + " 已审批")
-
     '''固定资产采购 - 查询'''
     def equipmentDone(self, varSerial, varNo, varUser):
         # 判断审批人的状态，返回全同意或 某某不同意
@@ -890,7 +679,6 @@ class OaPO(object):
 
 
     '''借款申请单 - 申请'''
-
     def loanApply(self, varSerial, varApplicationName, varUser, varFromDate):
         '''借款申请单'''
         self.open()
@@ -948,22 +736,49 @@ class OaPO(object):
 
 
 
+    '''请假申请流程'''
     def askOffFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varPersonnel, varVicepresident, varPresident, varDay):
         if varDay < 3 :
-            varNo = self.askOffApply("1/4, ", varUser, 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
-            self.askOffAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "批准")
-            self.askOffAudit("3/4, ", varNo, "人事总监", varPersonnel, "同意", "好的")
-            self.askOffAudit("4/4, ", varNo, "副总", varVicepresident, "同意", "谢谢")
+            varNo = self.askOffApply("1/4, ", varApplicationName, varUser, 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
+            self.askOffAudit("2/4, ", varApplicationName, varNo, "部门领导", varLeader, "同意", "批准")
+            self.askOffAudit("3/4, ", varApplicationName, varNo, "人事总监", varPersonnel, "同意", "好的")
+            self.askOffAudit("4/4, ", varApplicationName, varNo, "副总", varVicepresident, "同意", "谢谢")
             Excel_PO.writeXlsx(excelFile, varApplicationName, i, 7, str(self.askOffDone(varNo, varUser, varDay)))
         else:
-            varNo = self.askOffApply("1/5, ", varUser, 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
-            self.askOffAudit("2/5, ", varNo, "部门领导", varLeader, "同意", "批准")
-            self.askOffAudit("3/5, ", varNo, "人事总监", varPersonnel, "同意", "好的")
-            self.askOffAudit("4/5, ", varNo, "副总", varVicepresident, "同意", "谢谢")
-            self.askOffAudit("5/5, ", varNo, "总经理", varPresident, "同意", "yuanyongtao批准")
+            varNo = self.askOffApply("1/5, ", varApplicationName, varUser, 1, Time_PO.getDatetimeEditHour(0),Time_PO.getDatetimeEditHour(24), str(varDay))
+            self.askOffAudit("2/5, ", varApplicationName, varNo, "部门领导", varLeader, "同意", "批准")
+            self.askOffAudit("3/5, ", varApplicationName, varNo, "人事总监", varPersonnel, "同意", "好的")
+            self.askOffAudit("4/5, ", varApplicationName, varNo, "副总", varVicepresident, "同意", "谢谢")
+            self.askOffAudit("5/5, ", varApplicationName, varNo, "总经理", varPresident, "同意", "yuanyongtao批准")
             Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, str(self.askOffDone(varNo, varUser, varDay)))
-
-
+    '''外出申请流程'''
+    def egressionFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varAdmin):
+        varNo = self.egressionApply("1/4, ", varUser, Time_PO.getDatetimeEditHour(24), '医院领导', '上海宝山华亭路1000号交通大学复数医院', '驻场测试')
+        self.egressionAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "快去快回")
+        self.egressionRevise("3/4, ", varNo, varUser, Time_PO.getDatetimeEditHour(48))
+        self.egressionAudit("4/4, ", varNo, "行政", varAdmin, "确认", "谢谢")
+        Excel_PO.writeXlsx(excelFile, varApplicationName, i, 5, "ok")
+    '''出差申请流程'''
+    def evectionFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varVicepresident, varPersonnel, varfinancialAffairs, varDay):
+        if varDay > 3:
+            if varLeader == "wanglei01":
+                varNo = self.evectionApply("1/4, ", varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
+                self.evectionAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "快去快回")
+                self.evectionAudit("3/4, ", varNo, "行政总监", varPersonnel, "确认", "谢谢")
+                self.evectionAudit("4/4, ", varNo, "财务总监", varfinancialAffairs, "确认", "可预支费用！")
+            else:
+                varNo = self.evectionApply("1/5, ", varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
+                self.evectionAudit("2/5, ", varNo, "部门领导", varLeader, "同意", "快去快回")
+                self.evectionAudit("3/5, ", varNo, "副总", varVicepresident, "同意", "注意安全")
+                self.evectionAudit("4/5, ", varNo, "行政总监", varPersonnel, "确认", "谢谢")
+                self.evectionAudit("5/5, ", varNo, "财务总监", varfinancialAffairs, "确认", "可预支费用！")
+            Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, "ok")
+        else:
+            varNo = self.evectionApply("1/4, ", varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
+            self.evectionAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "快去快回")
+            self.evectionAudit("3/4, ", varNo, "行政总监", varPersonnel, "确认", "谢谢")
+            self.evectionAudit("4/4, ", varNo, "财务总监", varfinancialAffairs, "确认", "可预支费用！")
+            Excel_PO.writeXlsx(excelFile, varApplicationName, i, 7, "ok")
 
     # 申请单
     def application(self, varApplicationName, varStaffList, varDay):
@@ -976,12 +791,31 @@ class OaPO(object):
                 if varStaffList == "所有人":
                     self.askOffFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
                 elif varStaffList == "空" :
-                    if varDay < 3 and recordList[6] == "" :
+                    if varDay < 3 and recordList[6] == "":
                         self.askOffFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3],recordList[4], recordList[5], varDay)
-                    elif varDay >=3 and recordList[7] == "" :
+                    elif varDay >= 3 and recordList[7] == "":
                         self.askOffFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3],recordList[4], recordList[5], varDay)
                 elif recordList[1] in varStaffList:
                     self.askOffFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
+            elif varApplicationName == "外出申请单":
+                recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
+                if varStaffList == "所有人":
+                    self.egressionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3])
+                elif varStaffList == "空" and recordList[4] == "":
+                    self.egressionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3])
+                elif recordList[1] in varStaffList:
+                    self.egressionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3])
+            elif varApplicationName == "出差申请单":
+                recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
+                if varStaffList == "所有人":
+                    self.evectionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
+                elif varStaffList == "空" :
+                    if varDay > 3 and recordList[7] == "":
+                        self.evectionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
+                    elif varDay <=3 and recordList[6] == "":
+                        self.evectionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
+                elif recordList[1] in varStaffList:
+                    self.evectionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
             elif varApplicationName == "固定资产采购申请单":
                 if varStaffList == "所有人":
                     recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
