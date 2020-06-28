@@ -306,6 +306,8 @@ if __name__ == "__main__":
     print(Time_PO.get_today_month(3))  # 2020-06-19   //返回3个月后的今天
     print(Time_PO.getBeforeAfterDate("2019-12-15", -1))   # 2019-12-14  ，注意第一个参数日期是字符串  //返回指定日期的前一天
     print(Time_PO.getBeforeAfterDate("2019-12-15", 2))   # 2019-12-17  //返回指定日期的后2天
+    print(Time_PO.getBeforeAfterDate(Time_PO.getDate_minus(), 2))   # 2019-12-17  //返回后天
+
 
 
 
