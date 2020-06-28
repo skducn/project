@@ -147,10 +147,10 @@ class WebPO(BasePO):
         sleep(t)
 
     # 4.2，屏幕上移
-    def scrollTop(self, t):
-        # 屏幕上移 screenTop("10000",2)
+    def scrollTop(self,location, t):
+        # 屏幕上移 self.Web_PO.scrollTop("10000",2)
         # js = "var q=document.body.scrollTop=" + location
-        self.driver.execute_script("var q=document.documentElement.scrollTop=100000")
+        self.driver.execute_script("var q=document.documentElement.scrollTop=" + location)
         sleep(t)
 
     # 4.3，屏幕下移

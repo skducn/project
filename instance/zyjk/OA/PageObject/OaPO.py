@@ -295,8 +295,7 @@ class OaPO(object):
 
 
     '''外出 - 申请'''
-    def egressionApply(self, varSerial, varUser, varOutDate, varToObject, varOutAddress, varOutReason ):
-
+    def egressionApply(self, varSerial, varApplicationName, varUser, varOutDate, varToObject, varOutAddress, varOutReason ):
         self.open()
         self.login(Char_PO.chinese2pinyin1(varUser))
         self.memu("工作流", "新建工作")
@@ -305,7 +304,7 @@ class OaPO(object):
         self.Web_PO.clickLinktext("全部工作", 1)
         list1 = self.Web_PO.getXpathsText("//h4/span")
         for i in range(len(list1)):
-            if "外出申请单" in list1[i]:
+            if varApplicationName in list1[i]:
                 self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i+1) + "]/div[2]", 1)
                 break
         self.Web_PO.iframeQuit(1)
@@ -329,7 +328,7 @@ class OaPO(object):
                 self.Web_PO.alertAccept()
         self.Web_PO.iframeQuit(1)
         self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "33", "[" + varUser + "] " + "外出申请单" + "（No." + str(varNo) + "）" + "- - " * 10, "")
+        Color_PO.consoleColor("31", "33", "[" + varUser + "] " + varApplicationName + "（No." + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
     '''外出 - 审核'''
@@ -398,7 +397,7 @@ class OaPO(object):
 
 
     '''出差 - 申请'''
-    def evectionApply(self, varSerial, varUser, varToFollow, varDay, varFromDate, varToDate, varFromCity, varToCity, varTraffic, varWork, varFee):
+    def evectionApply(self, varSerial, varApplicationName, varUser, varToFollow, varDay, varFromDate, varToDate, varFromCity, varToCity, varTraffic, varWork, varFee):
         '''出差申请单'''
         self.open()
         # print(Char_PO.chinese2pinyin1(varUser))
@@ -409,7 +408,7 @@ class OaPO(object):
         self.Web_PO.clickLinktext("全部工作", 1)
         list1 = self.Web_PO.getXpathsText("//h4/span")
         for i in range(len(list1)):
-            if "出差申请单" in list1[i]:
+            if varApplicationName in list1[i]:
                 self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
                 break
         self.Web_PO.iframeQuit(1)
@@ -438,7 +437,7 @@ class OaPO(object):
                 self.Web_PO.alertAccept()
         self.Web_PO.iframeQuit(1)
         self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + "出差申请" + str(varDay) + "天（No." + str(varNo) + "）" + "- - " * 10, "")
+        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + varApplicationName + str(varDay) + "天（No." + str(varNo) + "）" + "- - " * 10, "")
         print(varSerial + "申请 已提交")
         return varNo
     '''出差 - 审核'''
@@ -502,6 +501,294 @@ class OaPO(object):
 
 
 
+    '''借款申请单 - 申请'''
+    def loanApply(self, varSerial, varApplicationName, varUser, varDescription, varMoney, varFromDate, varPay, varBankName, varCompany, varAccountName, varAccount,varProjectName, varRelatedApply):
+        self.open()
+        self.login(Char_PO.chinese2pinyin1(varUser))
+        self.memu("工作流", "新建工作")
+        self.Web_PO.iframeId("tabs_130_iframe", 2)
+        self.Web_PO.clickLinktext("全部工作", 1)
+        list1 = self.Web_PO.getXpathsText("//h4/span")
+        for i in range(len(list1)):
+            if varApplicationName in list1[i]:
+                self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
+                break
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.iframeId("tabs_w10000_iframe", 1)
+        varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 获取申请单编号，如 5666
+
+        self.Web_PO.iframeId("work_form_data", 1)
+        self.Web_PO.inputXpath("//td[@id='LV_208_r1_c1']/textarea", varDescription)  # 情况说明
+        self.Web_PO.inputXpath("//td[@id='LV_208_r1_c2']/input", varMoney)  # 单项金额
+        self.Web_PO.jsNameReadonly("DATA_186")
+        self.Web_PO.inputXpath("//input[@name='DATA_186']", varFromDate)  # 预计核销日期
+        self.Web_PO.clickXpath("//input[@name='DATA_187' and @value='" + varPay + "']", 1)  # 付款方式
+        self.Web_PO.inputXpath("//input[@name='DATA_188']", varBankName)  # 收款银行名称
+        self.Web_PO.selectXpathText("//select[@name='DATA_277']", varCompany)  # 费用支付公司
+        self.Web_PO.inputXpath("//input[@name='DATA_164']", varAccountName)  # 收款账户名称
+        self.Web_PO.inputXpath("//input[@name='DATA_166']", varAccount)  # 收款账号
+        self.Web_PO.inputXpath("//input[@name='DATA_319']", varProjectName)  # 项目名称
+        self.Web_PO.selectXpathText("//select[@name='DATA_321']", varRelatedApply)  # 相关申请单
+        self.Web_PO.iframeSwitch(1)
+        if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+            self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+            self.Web_PO.alertAccept()
+        elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+            self.Web_PO.clickId("next", 2)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.quitURL()
+        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + varApplicationName + "（No." + str(varNo) + "）" + "- - " * 10, "")
+        print(varSerial + "申请 已提交")
+        return varNo
+
+    '''借款申请单 - 审核'''
+    def loanAudit(self, varSerial, varNo, varRole, varAudit, varIsAgree, varOpinion, varPresidentIsAgree, varAdminIsAgree, varCashier):
+        self.open()
+        self.login(Char_PO.chinese2pinyin1(varAudit))
+        self.memu("工作流", "我的工作")
+        # # 选择流水号
+        self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 1)  # 第一层
+        self.Web_PO.iframeId("workflow-data-list", 1)  # 第二层
+        varNoRow = self.Web_PO.getXpathsTextPlace("//table[@id='gridTable']/tbody/tr/td[3]/div", varNo)
+        self.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[" + str(varNoRow + 1) + "]/td[8]/a", 1)
+        self.Web_PO.iframeSwitch(1)
+        self.Web_PO.iframeId("workflow-form-frame", 1)  # 第二层
+        self.Web_PO.iframeId("work_form_data", 1)  # 第三层
+        if varRole == "部门领导":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_196']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_209' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                self.Web_PO.alertAccept()
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            # 判断是否有弹框
+            if EC.alert_is_present()(self.Web_PO.driver):
+                self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "财务主管":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_115']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_211' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.locElement("//input[@name='DATA_313' and @value='" + varAdminIsAgree + "']")
+            self.Web_PO.clickXpath("//input[@name='DATA_313' and @value='" + varAdminIsAgree + "']", 1)  # 行政审批 是/否
+            self.Web_PO.clickXpath("//input[@name='DATA_227' and @value='" + varPresidentIsAgree + "']", 1)  # 总经理审批 是/否
+            self.Web_PO.selectXpathText("//select[@name='DATA_230']", varCashier)  # 出纳人
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("next", 1)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "行政":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_314']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_316' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("next", 1)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "财务经理":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_17']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_212' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                self.Web_PO.alertAccept()
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                # 判断是否有弹框
+                if EC.alert_is_present()(self.Web_PO.driver):
+                    self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "副总":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_19']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_213' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                self.Web_PO.alertAccept()
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                # # 判断是否有弹框
+                # if EC.alert_is_present()(self.Web_PO.driver):
+                #     self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "总经理":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_21']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_214' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("next", 2)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "出纳":
+            self.Web_PO.locElement("//input[@name='DATA_216' and @value='" + varIsAgree + "']")
+            self.Web_PO.clickXpath("//input[@name='DATA_216' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("handle_end", 1)  # 提交
+            self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        if varAudit == "wanglei01":
+            varAudit = "王磊"
+        if varAudit == "zangye":
+            varAudit = "臧晔"
+        print(varSerial + varRole + varAudit + " 已审批")
+
+
+
+    '''付款申请单 - 申请'''
+    def payApply(self, varSerial, varApplicationName, varUser, varSubject, varDescription, varMoney, varFromDate, varPay, varBankName, varCompany, varAccountName, varAccount,varProjectName, varRelatedApply, varContract):
+        self.open()
+        self.login(Char_PO.chinese2pinyin1(varUser))
+        self.memu("工作流", "新建工作")
+        self.Web_PO.iframeId("tabs_130_iframe", 2)
+        self.Web_PO.clickLinktext("全部工作", 1)
+        list1 = self.Web_PO.getXpathsText("//h4/span")
+        for i in range(len(list1)):
+            if varApplicationName in list1[i]:
+                self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
+                break
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.iframeId("tabs_w10000_iframe", 1)
+        varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 获取申请单编号，如 5666
+
+        self.Web_PO.iframeId("work_form_data", 1)
+        self.Web_PO.selectXpathText("//td[@id='LV_208_r1_c1']/select", varSubject)  # 费用科目
+        self.Web_PO.inputXpath("//td[@id='LV_208_r1_c2']/textarea", varDescription)  # 情况说明
+        self.Web_PO.inputXpath("//td[@id='LV_208_r1_c3']/input", varMoney)  # 单项金额
+        self.Web_PO.jsNameReadonly("DATA_186")
+        self.Web_PO.inputXpath("//input[@name='DATA_186']", varFromDate)  # 预计核销日期
+        self.Web_PO.clickXpath("//input[@name='DATA_187' and @value='" + varPay + "']", 1)  # 付款方式
+        self.Web_PO.inputXpath("//input[@name='DATA_188']", varBankName)  # 收款银行名称
+        self.Web_PO.selectXpathText("//select[@name='DATA_277']", varCompany)  # 费用支付公司
+        self.Web_PO.inputXpath("//input[@name='DATA_164']", varAccountName)  # 收款账户名称
+        self.Web_PO.inputXpath("//input[@name='DATA_166']", varAccount)  # 收款账号
+        self.Web_PO.inputXpath("//input[@name='DATA_319']", varProjectName)  # 项目名称
+        self.Web_PO.selectXpathText("//select[@name='DATA_321']", varRelatedApply)  # 相关申请单
+        self.Web_PO.clickXpath("//input[@name='DATA_322' and @value='" + varContract + "']", 1)  # 合同
+        self.Web_PO.iframeSwitch(1)
+        if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+            self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+            self.Web_PO.alertAccept()
+        elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+            self.Web_PO.clickId("next", 2)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+        self.Web_PO.iframeQuit(1)
+        self.Web_PO.quitURL()
+        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + varApplicationName + "（No." + str(varNo) + "）" + "- - " * 10, "")
+        print(varSerial + "申请 已提交")
+        return varNo
+
+    '''付款申请单 - 审核'''
+    def payAudit(self, varSerial, varNo, varRole, varAudit, varIsAgree, varOpinion, varPresidentIsAgree, varAdminIsAgree, varCashier):
+        self.open()
+        self.login(Char_PO.chinese2pinyin1(varAudit))
+        self.memu("工作流", "我的工作")
+        # # 选择流水号
+        self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 1)  # 第一层
+        self.Web_PO.iframeId("workflow-data-list", 1)  # 第二层
+        varNoRow = self.Web_PO.getXpathsTextPlace("//table[@id='gridTable']/tbody/tr/td[3]/div", varNo)
+        self.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[" + str(varNoRow + 1) + "]/td[8]/a", 1)
+        self.Web_PO.iframeSwitch(1)
+        self.Web_PO.iframeId("workflow-form-frame", 1)  # 第二层
+        self.Web_PO.iframeId("work_form_data", 1)  # 第三层
+        if varRole == "部门领导":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_196']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_209' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                self.Web_PO.alertAccept()
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            # 判断是否有弹框
+            if EC.alert_is_present()(self.Web_PO.driver):
+                self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "财务主管":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_115']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_211' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.locElement("//input[@name='DATA_313' and @value='" + varAdminIsAgree + "']")
+            self.Web_PO.clickXpath("//input[@name='DATA_313' and @value='" + varAdminIsAgree + "']", 1)  # 行政审批 是/否
+            self.Web_PO.clickXpath("//input[@name='DATA_227' and @value='" + varPresidentIsAgree + "']", 1)  # 总经理审批 是/否
+            self.Web_PO.selectXpathText("//select[@name='DATA_230']", varCashier)  # 出纳人
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("next", 1)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "行政":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_314']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_316' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("next", 1)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "财务经理":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_17']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_212' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                self.Web_PO.alertAccept()
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                # 判断是否有弹框
+                if EC.alert_is_present()(self.Web_PO.driver):
+                    self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "副总":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_19']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_213' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                self.Web_PO.alertAccept()
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                # # 判断是否有弹框
+                # if EC.alert_is_present()(self.Web_PO.driver):
+                #     self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "总经理":
+            self.Web_PO.inputXpath("//textarea[@name='DATA_21']", varOpinion)  # 审批意见
+            self.Web_PO.clickXpath("//input[@name='DATA_214' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("next", 2)  # 提交
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        elif varRole == "出纳":
+            self.Web_PO.locElement("//input[@name='DATA_216' and @value='" + varIsAgree + "']")
+            self.Web_PO.clickXpath("//input[@name='DATA_216' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("handle_end", 1)  # 提交
+            self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(1)
+            self.Web_PO.quitURL()
+        if varAudit == "wanglei01":
+            varAudit = "王磊"
+        if varAudit == "zangye":
+            varAudit = "臧晔"
+        print(varSerial + varRole + varAudit + " 已审批")
+
+
+
     '''固定资产采购 - 申请'''
     def equipmentApply(self, varSerial, varApplicationName, varUser, varFromDate):
         '''固定资产采购'''
@@ -548,7 +835,8 @@ class OaPO(object):
         self.Web_PO.clickId("work_run_submit", 2)  # 确定
         self.Web_PO.iframeQuit(1)
         self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "36", varUser + "，" + varApplicationName + "（" + str(varNo) + "）" + "- - " * 10, "")
+        Color_PO.consoleColor("31", "36", "[" + varUser + "] " + varApplicationName + "（No." + str(varNo) + "）" + "- - " * 10, "")
+
         print(varSerial + "申请 已提交")
         return varNo
     '''固定资产采购 - 审核'''
@@ -678,62 +966,6 @@ class OaPO(object):
 
 
 
-    '''借款申请单 - 申请'''
-    def loanApply(self, varSerial, varApplicationName, varUser, varFromDate):
-        '''借款申请单'''
-        self.open()
-        self.login(Char_PO.chinese2pinyin1(varUser))
-        self.memu("工作流", "新建工作")
-        # 外出申请单页面
-        self.Web_PO.iframeId("tabs_130_iframe", 2)
-        self.Web_PO.clickLinktext("全部工作", 1)
-        list1 = self.Web_PO.getXpathsText("//h4/span")
-        for i in range(len(list1)):
-            if varApplicationName in list1[i]:
-                self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
-                break
-        self.Web_PO.iframeQuit(1)
-        self.Web_PO.iframeId("tabs_w10000_iframe", 1)
-        varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 获取申请单编号，如 5666
-        self.Web_PO.iframeId("work_form_data", 1)
-
-        self.Web_PO.inputXpath("//tr[@id='LV_208_r1_c1']/textarea", "我缺钱")  # 情况说明
-        self.Web_PO.inputXpath("//tr[@id='LV_208_r1_c2']/input", "500")  # 单项金额
-        self.Web_PO.jsNameReadonly("DATA_186")
-        self.Web_PO.inputXpath("//input[@name='DATA_186']",varFromDate)  # 预计核销日期
-
-
-        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[3]/input", "10")  # 数量
-        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[4]/input", varFromDate)  # 期望到货时间
-        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[5]/input", "50001")  # 预计总价
-        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[6]/input", "HP")  # 准购厂商
-        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[7]/input", "PIM项目")  # 项目名称
-        self.Web_PO.inputXpath("//textarea[@name='DATA_328']", "HP123")  # 规格要求
-        self.Web_PO.inputXpath("//textarea[@name='DATA_322']", "扩容需要")  # 申请购买理由
-        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c1']/input", "hp专卖店")  # 厂商1
-        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c2']/input", "hp")  # 厂牌2
-        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c3']/input", "50521456")  # 联系方式1
-        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c4']/input", "5000")  # 单价1
-        self.Web_PO.inputXpath("//td[@id='LV_323_r1_c5']/input", "50000")  # 总价1
-        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c1']/input", "IBM直营店")  # 厂商2
-        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c2']/input", "IBM")  # 厂牌2
-        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c3']/input", "13816109050")  # 联系方式2
-        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c4']/input", "5001")  # 单价2
-        self.Web_PO.inputXpath("//td[@id='LV_323_r2_c5']/input", "50010")  # 总价2
-        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c1']/input", "taobao网点")  # 厂商3
-        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c2']/input", "taobao")  # 厂牌3
-        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c3']/input", "58771632")  # 联系方式3
-        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c4']/input", "5002")  # 单价3
-        self.Web_PO.inputXpath("//td[@id='LV_323_r3_c5']/input", "50020")  # 总价3
-        self.Web_PO.iframeSwitch(1)
-        self.Web_PO.clickId("next", 2)  # 提交
-        self.Web_PO.clickId("work_run_submit", 2)  # 确定
-        self.Web_PO.iframeQuit(1)
-        self.Web_PO.quitURL()
-        Color_PO.consoleColor("31", "36", varUser + "，" + varApplicationName + "（" + str(varNo) + "）" + "- - " * 10, "")
-        print(varSerial + "申请 已提交")
-        return varNo
-
 
 
     '''请假申请流程'''
@@ -753,7 +985,7 @@ class OaPO(object):
             Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, str(self.askOffDone(varNo, varUser, varDay)))
     '''外出申请流程'''
     def egressionFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varAdmin):
-        varNo = self.egressionApply("1/4, ", varUser, Time_PO.getDatetimeEditHour(24), '医院领导', '上海宝山华亭路1000号交通大学复数医院', '驻场测试')
+        varNo = self.egressionApply("1/4, ", varApplicationName, varUser, Time_PO.getDatetimeEditHour(24), '医院领导', '上海宝山华亭路1000号交通大学复数医院', '驻场测试')
         self.egressionAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "快去快回")
         self.egressionRevise("3/4, ", varNo, varUser, Time_PO.getDatetimeEditHour(48))
         self.egressionAudit("4/4, ", varNo, "行政", varAdmin, "确认", "谢谢")
@@ -762,27 +994,70 @@ class OaPO(object):
     def evectionFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varVicepresident, varPersonnel, varfinancialAffairs, varDay):
         if varDay > 3:
             if varLeader == "wanglei01":
-                varNo = self.evectionApply("1/4, ", varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
+                varNo = self.evectionApply("1/4, ", varApplicationName, varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
                 self.evectionAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "快去快回")
                 self.evectionAudit("3/4, ", varNo, "行政总监", varPersonnel, "确认", "谢谢")
                 self.evectionAudit("4/4, ", varNo, "财务总监", varfinancialAffairs, "确认", "可预支费用！")
             else:
-                varNo = self.evectionApply("1/5, ", varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
+                varNo = self.evectionApply("1/5, ", varApplicationName, varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
                 self.evectionAudit("2/5, ", varNo, "部门领导", varLeader, "同意", "快去快回")
                 self.evectionAudit("3/5, ", varNo, "副总", varVicepresident, "同意", "注意安全")
                 self.evectionAudit("4/5, ", varNo, "行政总监", varPersonnel, "确认", "谢谢")
                 self.evectionAudit("5/5, ", varNo, "财务总监", varfinancialAffairs, "确认", "可预支费用！")
             Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, "ok")
         else:
-            varNo = self.evectionApply("1/4, ", varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
+            varNo = self.evectionApply("1/4, ", varApplicationName, varUser, "无", varDay, Time_PO.getDatetimeEditHour(12), Time_PO.getDatetimeEditHour(24), '上海', '北京', '飞机', '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试1', 100)
             self.evectionAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "快去快回")
             self.evectionAudit("3/4, ", varNo, "行政总监", varPersonnel, "确认", "谢谢")
             self.evectionAudit("4/4, ", varNo, "财务总监", varfinancialAffairs, "确认", "可预支费用！")
             Excel_PO.writeXlsx(excelFile, varApplicationName, i, 7, "ok")
+    '''借款申请流程'''
+    def loanFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varFinanceOfficer, varAdmin, varFinanceManager, varVicepresident, varPresident, varCashier):
+        if varLeader == "wanglei01":
+            varNo = self.loanApply("1/6, ", varApplicationName, varUser, "路途费用", "500", str(Time_PO.getBeforeAfterDate(Time_PO.getDate_minus(), 2)), "现金", '上海银行', '上海智赢健康科技有限公司', 'jinhao','6220115210231025', '电子健康档案', '无')
+            self.loanAudit("2/6, ", varNo, "财务主管", varFinanceOfficer, "同意", "财务主管点评", "是", "是", varCashier)
+            self.loanAudit("3/6, ", varNo, "行政", varAdmin, "同意", "yanlibei点评", "", "", "")
+            self.loanAudit("3/6, ", varNo, "财务经理", varFinanceManager, "同意", "zangye点评", "", "", "")
+            self.loanAudit("4/6, ", varNo, "副总", varVicepresident, "同意", "wanglei点评", "", "", "")
+            self.loanAudit("5/6, ", varNo, "总经理", varPresident, "同意", "yuanyongtao点评", "", "", "")
+            self.loanAudit("6/6, ", varNo, "出纳", varCashier, "同意", "", "", "", "")
+        else:
+            varNo = self.loanApply("1/8, ", varApplicationName, varUser, "路途费用", "500", str(Time_PO.getBeforeAfterDate(Time_PO.getDate_minus(), 2)), "现金", '上海银行', '上海智赢健康科技有限公司', 'jinhao','6220115210231025', '电子健康档案', '无')
+            self.loanAudit("2/8, ", varNo, "部门领导", varLeader, "同意", "部门领导点评", "", "", "")
+            self.loanAudit("3/8, ", varNo, "财务主管", varFinanceOfficer, "同意", "财务主管点评", "是", "是", varCashier)
+            self.loanAudit("4/8, ", varNo, "行政", varAdmin, "同意", "yanlibei点评", "", "", "")
+            self.loanAudit("5/8, ", varNo, "财务经理", varFinanceManager, "同意", "zangye点评", "", "", "")
+            self.loanAudit("6/8, ", varNo, "副总", varVicepresident, "同意", "wanglei点评", "", "", "")
+            self.loanAudit("7/8, ", varNo, "总经理", varPresident, "同意", "yuanyongtao点评", "", "", "")
+            self.loanAudit("8/8, ", varNo, "出纳", varCashier, "同意", "", "", "", "")
+        Excel_PO.writeXlsx(excelFile, varApplicationName, i, 10, "ok")
+    '''付款申请流程'''
+    def payFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varFinanceOfficer, varAdmin, varFinanceManager, varVicepresident, varPresident, varCashier):
+        if varLeader == "wanglei01":
+            varNo = self.payApply("1/6, ", varApplicationName, varUser, "租赁费", "2019办公场地", "500", str(Time_PO.getBeforeAfterDate(Time_PO.getDate_minus(), 2)), "现金", '上海银行', '上海智赢健康科技有限公司', 'jinhao', '6220115210231025', '电子健康档案', '无',"有")
+            self.payAudit("2/6, ", varNo, "财务主管", varFinanceOfficer, "同意", "财务主管点评", "是", "是", varCashier)
+            self.payAudit("3/6, ", varNo, "行政", varAdmin, "同意", "yanlibei点评", "", "", "")
+            self.payAudit("3/6, ", varNo, "财务经理", varFinanceManager, "同意", "zangye点评", "", "", "")
+            self.payAudit("4/6, ", varNo, "副总", varVicepresident, "同意", "wanglei点评", "", "", "")
+            self.payAudit("5/6, ", varNo, "总经理", varPresident, "同意", "yuanyongtao点评", "", "", "")
+            self.payAudit("6/6, ", varNo, "出纳", varCashier, "同意", "", "", "", "")
+        else:
+            varNo = self.payApply("1/8, ", varApplicationName, varUser, "租赁费", "2019办公场地", "500", str(Time_PO.getBeforeAfterDate(Time_PO.getDate_minus(), 2)), "现金", '上海银行', '上海智赢健康科技有限公司', 'jinhao', '6220115210231025', '电子健康档案', '无',"有")
+            self.payAudit("2/8, ", varNo, "部门领导", varLeader, "同意", "部门领导点评", "", "", "")
+            self.payAudit("3/8, ", varNo, "财务主管", varFinanceOfficer, "同意", "财务主管点评", "是", "是", varCashier)
+            self.payAudit("4/8, ", varNo, "行政", varAdmin, "同意", "yanlibei点评", "", "", "")
+            self.payAudit("5/8, ", varNo, "财务经理", varFinanceManager, "同意", "zangye点评", "", "", "")
+            self.payAudit("6/8, ", varNo, "副总", varVicepresident, "同意", "wanglei点评", "", "", "")
+            self.payAudit("7/8, ", varNo, "总经理", varPresident, "同意", "yuanyongtao点评", "", "", "")
+            self.payAudit("8/8, ", varNo, "出纳", varCashier, "同意", "", "", "", "")
+        Excel_PO.writeXlsx(excelFile, varApplicationName, i, 10, "ok")
+
+
+
+
 
     # 申请单
-    def application(self, varApplicationName, varStaffList, varDay):
-        import time
+    def application(self, varApplicationName, varStaffList, varDay=0):
         excelFile = File_PO.getLayerPath("../config") + "\\oa.xlsx"
         row, col = Excel_PO.getRowCol(excelFile, varApplicationName)
         for i in range(2, row + 1):
@@ -816,34 +1091,42 @@ class OaPO(object):
                         self.evectionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
                 elif recordList[1] in varStaffList:
                     self.evectionFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], varDay)
+            elif varApplicationName == "借款申请单":
+                recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
+                import time
+                time_start = time.time()
+                if varStaffList == "所有人":
+                    self.loanFlow(excelFile, varApplicationName, i,  recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], recordList[6], recordList[7], recordList[8])
+                elif varStaffList == "空" and recordList[9] == "":
+                    self.loanFlow(excelFile, varApplicationName, i,  recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], recordList[6], recordList[7], recordList[8])
+                elif recordList[1] in varStaffList:
+                    self.loanFlow(excelFile, varApplicationName, i,  recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], recordList[6], recordList[7], recordList[8])
+                time_end = time.time()
+                time = time_end - time_start
+                Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
+            elif varApplicationName == "付款申请单":
+                recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
+                import time
+                time_start = time.time()
+                if varStaffList == "所有人":
+                    self.payFlow(excelFile, varApplicationName, i,  recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], recordList[6], recordList[7], recordList[8])
+                elif varStaffList == "空" and recordList[9] == "":
+                    self.payFlow(excelFile, varApplicationName, i,  recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], recordList[6], recordList[7], recordList[8])
+                elif recordList[1] in varStaffList:
+                    self.payFlow(excelFile, varApplicationName, i,  recordList[1], recordList[2], recordList[3], recordList[4], recordList[5], recordList[6], recordList[7], recordList[8])
+                time_end = time.time()
+                time = time_end - time_start
+                Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
             elif varApplicationName == "固定资产采购申请单":
                 if varStaffList == "所有人":
                     recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
-                    time_start = time.time()
                     varNo = self.equipmentApply("1/7, ", varApplicationName, recordList[1], Time_PO.getDatetimeEditHour(12))
-                    self.equipmentAudit("2/7, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                    self.equipmentAudit("3/7, ", varNo, "财务主管", recordList[3], "同意", "注意安全")
-                    self.equipmentAudit("4/7, ", varNo, "财务经理", recordList[4], "同意", "谢谢")
-                    self.equipmentAudit("5/7, ", varNo, "副总", recordList[5], "同意", "不客气")
-                    self.equipmentAudit("6/7, ", varNo, "总经理", recordList[6], "同意", "批准了")
+                    self.equipmentAudit("2/7, ", varNo, "部门领导", recordList[2], "同意", "部门领导点评")
+                    self.equipmentAudit("3/7, ", varNo, "财务主管", recordList[3], "同意", "财务主管点评")
+                    self.equipmentAudit("4/7, ", varNo, "财务经理", recordList[4], "同意", "财务经理点评")
+                    self.equipmentAudit("5/7, ", varNo, "副总", recordList[5], "同意", "副总点评")
+                    self.equipmentAudit("6/7, ", varNo, "总经理", recordList[6], "同意", "总经理点评")
                     Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, self.equipmentDone("7/7, ", varNo, recordList[1]))
-                    time_end = time.time()
-                    time = time_end - time_start
-                    Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
-            elif varApplicationName == "借款申请单":
-                if varStaffList == "所有人":
-                    recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
-                    time_start = time.time()
-                    varNo = self.equipmentApply("1/7, ", varApplicationName, recordList[1],Time_PO.getDatetimeEditHour(12))
-                    self.equipmentAudit("2/7, ", varNo, "部门领导", recordList[2], "同意", "快去快回")
-                    self.equipmentAudit("3/7, ", varNo, "财务主管", recordList[3], "同意", "注意安全")
-                    self.equipmentAudit("4/7, ", varNo, "财务经理", recordList[4], "同意", "谢谢")
-                    self.equipmentAudit("5/7, ", varNo, "副总", recordList[5], "同意", "不客气")
-                    self.equipmentAudit("6/7, ", varNo, "总经理", recordList[6], "同意", "批准了")
-                    Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, self.equipmentDone("7/7, ", varNo, recordList[1]))
-                    time_end = time.time()
-                    time = time_end - time_start
-                    Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
 
 
         if platform.system() == 'Darwin':
