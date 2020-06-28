@@ -319,7 +319,6 @@ class BasePO(object):
             self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
-
     def clickXpathsXpath(self, varPaths, varPaths2, t=0):
         # 遍历路径之路径
         # 一般用于，click后二次确认
@@ -333,8 +332,8 @@ class BasePO(object):
             self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
-    def floatXpath(self, varPath, varPath2, t=0):
-        # ?
+    def clickXpathXpath(self, varPath, varPath2, t=0):
+        # ? 未侧式
         try:
             elements = self.find_element(*(By.XPATH, varPath))
             actions = ActionChains(self.driver)
@@ -720,7 +719,6 @@ class BasePO(object):
     def iframeSwitch(self, t=0):
         # 多个iframe之间切换
         # 如第一层iframe1，第二层iframe2，两者之间切换
-        # self.Level_PO.inIframeTopDivParent(1)
         self.driver.switch_to.parent_frame()
         sleep(t)
 
@@ -850,6 +848,16 @@ class BasePO(object):
             flag = False
         return flag
 
+    def locElement(self, varPath, t=0):
+        # 定位到某元素
+        try:
+            elements = self.find_element(*(By.XPATH, varPath))
+            actions = ActionChains(self.driver)
+            actions.move_to_element(elements).perform()
+            sleep(t)
+        except:
+            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+
 
 
     ''' [11 alert] '''
@@ -879,6 +887,8 @@ class alert_is_present(object):
             return True
         except NoAlertPresentException:
             return False
+
+
 
 if __name__ == '__main__':
     Base_PO = BasePO()
