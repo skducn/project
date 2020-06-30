@@ -20,8 +20,11 @@
 9、list.remove(object) 删除值的第一次出现。如果该值不存在，将引发ValueError。
 10、list.reverse() 翻转列表
 11、list.sort(key[,reverse=True]) 升序排序 ，如果reverse=True则是降序排列
+
 12、列表操作符，组合、重复、判断、截取"
 '''
+
+print(dir(list))
 
 print("1，list.append(object)".center(100, "-"))
 # 功能：向列表中添加成员，每次只能在列表尾添加一个成员，在使用前列表必须存在，如预先定义一个空列表。
@@ -29,11 +32,11 @@ print("1，list.append(object)".center(100, "-"))
 # append 将参数视为 element，作为追加一个元素拼接（整体追加）
 list1 = []
 list1.append('1')
-print(id(list1))
+print(id(list1))  # 2637392327616
 list1.append(55)
-print(id(list1))
+print(id(list1))  # 2637392327616
 list1.append(['john', '1', 1])
-print(id(list1))
+print(id(list1))  # 2637392327616
 print(list1)  # ['1', 55, ['john', '1', 1]]
 
 
@@ -45,7 +48,7 @@ print(list2)  # []
 
 
 print("3，list.copy()".center(100, "-"))
-# 功能：浅拷贝
+# 功能：浅拷贝，影响子列表
 import copy
 a = [1, 2, 3, 4, ['a', 'b']]
 b = a  # 赋值引用
@@ -79,6 +82,7 @@ list5.extend('love')    # list5.extend('love') 等效于 list[len(list5):]= 'lov
 # list5[len(list5):] = 'love'   # [1, 2, 3, 'john', '1', 1, 'l', 'o', 'v', 'e']
 print(list5)  # [1, 2, 3, 'john', '1', 1, 'l', 'o', 'v', 'e']
 # list5.extend(555) # TypeError: 'int' object is not iterable  //报错，不支持int类型的对象
+# list5.extend(100)    # TypeError: 'int' object is not iterable
 
 
 print("6，list.index()".center(100, "-"))
@@ -96,9 +100,9 @@ list7.insert(1, 'love') # 在第1个索引之前添加
 print(list7)  # [123, 'love', 456, 789]
 list7.insert(2, [1, 2, 3])
 print(list7)  # [123, 'love', [1, 2, 3], 456, 789]
-# list1.insert(0,'wanglu')  # 没有插入，因为索引0之前不符合规则。
-list7.insert(2, 100)
-print(list7)  # [123, 'love', 100, [1, 2, 3], 456, 789]
+list1.insert(0, 'wanglu')  # 没报错，但也没有插入wanglu，因为索引0之前不符合规则。
+# list7.insert(-1, 100)
+print(list7)  # [123, 'love', 100, [1, 2, 3], 456, 100, 789]
 
 
 print("8，list.pop()".center(100, "-"))
@@ -114,13 +118,14 @@ print(list8)  # []
 
 
 print("9，list.remove()".center(100, "-"))
-# 功能：从列表中删除指定成员，不能print(list.remove())，这样返回None
-# 注意：当列表中有多个重复成员的时候，一次只删除第一个。
+# 功能：从左到右删除列表中第一个符合要求的元素
+# 注意：print(list.remove()) 则返回 None ， 一般不建议print
+# 注意：当列表中有多个重复元素时，从左到右只删除第一个元素。
 list9 = [123, 456, 789, 456, 'abc', ['love', 3]]
 list9.remove(456)
 list9.remove(['love', 3])
-print(list9.remove('abc'))
-print(list9)  # [123, 789, 456] ， 第2个456不会删除。
+print(list9.remove('abc'))  # None
+print(list9)  # [123, 789, 456]   //第2个456不会删除。
 
 # 关于del用法，用索引进行删除 及 删除整个列表
 del list9[1]  # 通过索引号删除列表值
@@ -159,15 +164,20 @@ print(list18[1:3])  # [2, 3] , 返回从第2个到第3个元素列表
 print(list18[1:1])  # [] , 返回空列表
 print(list18[1:2])  # [2] , 注意虽然是1个元素，但返回的是1个元素的列表
 print(list18[1:2][0])  # 2 , 返回第2个元素
+print(list18[1:3][1])  # 3
 print("~~~~~~~~~~~~~~~~~~~~")
 print(list18[1:-1])  # [2, 3, 4, 5, 6, 7, 8, 9], 返回从第2个到倒数第二个元素列表
-print(list18[1:-1:1]) # [2, 3, 4, 5, 6, 7, 8, 9], 后面：1表示 隔1取1
-print(list18[1:-1:2]) # [2, 4, 6, 8] , 隔2取1
+print(list18[1:-1:1])  # [2, 3, 4, 5, 6, 7, 8, 9], 后面：1表示 隔1取1
+print(list18[1:-1:2])  # [2, 4, 6, 8] , 隔2取1
 print("~~~~~~~~~~~~~~~~~~~~")
 print(list18[3::-1])  # [4, 3, 2, 1] , 先获取1-4元素，然后倒序排列隔1取1，输出列表
 print(list18[4::-2])  # [5, 3, 1], 先获取1-5元素，然后倒序隔2取1，输出列表
 print(list18[3::])  # [4, 5, 6, 7, 8, 9, 0] ， 从第4个元素开始到最后
+print(list18[3::2])  # [4, 6, 8,0]
 
 l = [1,2,3,4,5,6]
 l[1:3] = ['a','c'] # 将列表里的 索引为1和2位置的数据修改成a,c
 print(l)  # [1, 'a', 'c', 4, 5, 6]
+
+
+
