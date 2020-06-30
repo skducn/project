@@ -11,7 +11,7 @@
 3，center，将字符串以某种形式居中。如：str.center(10, "-")) ，"1234"=> "---1234---"
 4，count，统计字符串中某字符出现的次数。如：str.count("3")，"12343335673"  => 5
 5，encode，将普通字符串转二进制，如 str.encode('utf-8')  ，"李四" => b'\xe6\x9d\x8e\xe5\x9b\x9b'
-6，endswith，从右往左判断某个字符正确返回True，错误返回False。 如：str.startswith("y"),  "you are man"  => True
+6，endswith，从右往左判断某个字符正确返回True，错误返回False。
 7，expandtabs，将字符串中tab符号(\\t)转为空格。如：str.expandtabs(16)，"this is\ta apply" => "this is         a apply"
 8，find，从左往右查找字符串中某字符是否存在，找到则返回下标，否则返回-1。如 str.find("are"), "you are a man"  => 4
 9，format，字符串格式化。 如：'{} {}'.format(str1,str2)
@@ -50,6 +50,10 @@
 42，title
 43，translate
 44，upper
+
+45,f-string
+46, 原始字符串
+47，表示真除，%表示取余，//结果取整
 '''
 
 
@@ -94,17 +98,16 @@ str1 = "31233334563"
 print(str1.count("3", 1, len(str1)-1))   # 4  //统计字符串“31233334563”中除前后2个3以外所有3出现的个数。
 
 
-print("5，str1.encode() 将普通字符串转二进制".center(100, "-"))
-# # byte1.decode()，将二进制字符串转为普通字符串
-# # 注意：编码的格式与解码的格式必须保持一致
+print("5，str1.encode() 将字符串转二进制".center(100, "-"))
+# byte1.decode()，将二进制字符串转为普通字符串
+# 注意：编码的格式与解码的格式必须保持一致
 # Python3 里有两种表示字符序列的类型，分别是 bytes 和 str, 其中bytes 的实例包含 8 位值，str 的则包含 Unicode 字符。
 # Python2 里有两种表示字符序列的类型，分别是 str 和 Unicode，它与 Python3 的不同是，str 的实例包含原始的 8 位值，而 Unicode 的实例包含 Unicode 字符。
 # 所以：Python3 中字符串默认为 Unicode；如：str1 = "你好"
 # 而Python2 中使用 Unicode，则必须在字符串的前面加一个 「u」前缀，如 ：str1= u"你好"   。 python2中 通过 from __future__ import unicode_literals 可设置默认unicode字符串。
-name = "李四"   # Unicode 的表现形式
-print(name)  # 李四
-myname = name.encode('utf-8')   # utf-8 是存储形式 ， 是 Unicode 的一种存储形式罢了。
-print(myname)  # b'\xe6\x9d\x8e\xe5\x9b\x9b'
+s = "李四"   # Unicode 的表现形式
+b = s.encode('utf-8')   # utf-8 是一种编码形式，是Unicode 的一种存储形式罢了。
+print(b)  # b'\xe6\x9d\x8e\xe5\x9b\x9b'
 # 存储形式用在哪里？文本文件里内容与文件编码格式不一致的话保存就会报错，如文件编码默认是 ASCII 编码，显然用 Unicode 表示的汉字是无法用 ASCII 码存储的，所以就抛出了 UnicodeEncodeError 异常。
 # python3 很好地解决了这个问题，通过open 参数 encoding='utf-8' 进行内容编码。其实也就是 name.encode('utf-8') ，将 unicode 转为 二进制数据，如：
 # with open('./Desktop/data.txt', 'w', encoding='utf-8') as f:
@@ -119,6 +122,48 @@ print(unicodestring.encode("utf-8"))  # b'\xe9\x87\x91\xe6\xb5\xa9'
 print(unicodestring.encode("utf-16"))  # b'\xff\xfe\xd1\x91im'
 # print(unicodestring.encode("ascii"))   # 报错，UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-1: ordinal not in range(128)  因为超出的127个字符
 # print(unicodestring.encode("ISO-8859-1"))  # 报错， UnicodeEncodeError: 'latin-1' codec can't encode characters in position 0-1: ordinal not in range(256)   因为超出的256个字符
+
+s = "ABCD金浩"
+print(s[1])  # B
+print(s[0:3])  # ABC
+b = s.encode("utf-8")
+print(b[0])  # 65
+print(b[0] + b[1])  # 131 = 65 + 66
+if b[0] < b[1]:
+    print("ok")
+print(b[4])  #  233
+print(b)  # b'ABCD\xe9\x87\x91\xe6\xb5\xa9'
+s = b.decode("utf-8")
+print(s)  # ABCD金浩
+
+s = "金"
+b = s.encode("utf-8")
+print(b)  # b'\xe9\x87\x91'
+b = s.encode("utf-16")
+print(b)  # b'\xe9\x87\x91'
+
+# 将字符转ascii或unicode编码
+s = "金"
+x = "浩"
+print(ord(s))  # 37329
+print(ord(x))  # 28009
+print(type(ord(s)))  # <class 'int'>
+s = chr(37329)  # 金
+x = chr(28009)  # 浩
+print(s + x)  # 金浩
+# s = "马"
+s = "严"
+print(s.encode('utf-8'))  # b'\xe4\xb8\xa5'  //unicode内存编码，十六进制
+print(s.encode('gb2312'))  # b'\xd1\xcf'   //unicode内存编码，十六进制
+print(s.encode('unicode_escape'))  # b'\\u9a6c'    //unicode内存编码，十六进制
+print(type(s.encode('unicode_escape')))  # <class 'bytes'>
+print(s.encode('unicode_escape').decode())  # \u9a6c   //unicode编号 0x9A6C
+print(type(s.encode('unicode_escape').decode()))  # <class 'str'>
+print(ord(s))  # 39532   //unicode整数编号
+print(type(ord(s)))  # <class 'int'>
+print(bin(ord(s)))  # 0b 1001101001101100     //二进制形式的字符串
+print(type(bin(ord(s))))  # <class 'str'>
+print(bytes(b'\\u9a6c').decode("unicode_escape"))  # 马   //解码
 
 
 print("6，str1.endswith('xx'[,start,end]) 从右往左判断某个位置的字符是否是预期值，返回True或False ".center(100, "-"))
@@ -164,61 +209,47 @@ print(str1.index("are"))  # 4
 # print(str1.index("are2"))  # 报错，ValueError: substring not found
 
 
-print("12，str1.isalnum() 判断str1是否由数字、字母、中文组成，返回True或False".center(100, "-"))
+print("12，str1.isalnum() 判断str1是否由数字、字母、中文，返回True或False".center(100, "-"))
 # 注意：中文默认也是字母
-str1 = "youman"
-str2 = "you123man"
-str3 = "1234"
-str4 = "you@man"
-str5 = "you man"
-str6 = "you你好ma123n"
-print(str1.isalnum())  # True
-print(str2.isalnum())  # True
-print(str3.isalnum())  # True
-print(str4.isalnum())  # False   //有特殊字符
-print(str5.isalnum())  # False   //有空格
-print(str6.isalnum())  # True
+print("1234".isalnum())  # True
+print("测试".isalnum())  # True
+print("abc".isalnum())  # True
+print("hi john".isalnum())  # False   //有空格
+print("@#$".isalnum())  # False   //有特殊字符
 
 
-print("13，str1.isalpha() 判断str1是否为纯字母（包括中文），返回True或False".center(100, "-"))
-# 注意：中文默认也是字母
-str1 = "youman"
-str2 = "you123man"
-str3 = "1234"
-str4 = "you@man"
-str5 = "you man"
-str6 = "you你好man"
-print(str1.isalpha())  # True
-print(str2.isalpha())  # False
-print(str3.isalpha())  # False
-print(str4.isalpha())  # False
-print(str5.isalpha())  # False
-print(str6.isalpha())  # True
+print("13，str1.isalpha() 判断str1是否字母、中文，返回True或False".center(100, "-"))
+print("test".isalpha())  # True
+print("测试".isalpha())  # True
+print("1234".isalpha())  # False
+print("you@#$".isalpha())  # False
+print("hi john".isalpha())  # False
 
 
 print("14，isascii ?".center(100, "-"))
 
 
 print("15，str1.isdecimal() 判断是否是阿拉伯数字(Unicode，全角)".center(100, "-"))
-# True: Unicode数字，全角数字（双字节）
-# False: 罗马数字，汉字数字,小数
+# True: 阿拉伯数字、全角阿拉伯数字（双字节）
+# False: 汉字数字、罗马数字、小数
 # Error: byte数字（单字节）
-str1 = "1234"
-print(str1.isdecimal())  # True
-str2 = "１２３４"
-print(str2.isdecimal())  # True
-
+print("1234".isdecimal())  # True
+print("１２３４".isdecimal())  # True
+print("一".isdecimal())  # False
+print("III".isdecimal())  # False
+print("0.11".isdecimal())  # False
+print("测试1234".isdecimal())  # False
 
 print("16，str1.isdigit() 判断是否是阿拉伯数字(Unicode,byte,全角)".center(100, "-"))
-# True: Unicode数字，byte数字（单字节），全角数字（双字节）
-# False: 汉字数字，罗马数字,小数
-# Error: 无
-str1 = "1234"
-print(str1.isdigit())  # True
-str2 = b"1234"
-print(str2.isdigit())  # True
-str3 = "１２３４"
-print(str3.isdigit())  # True
+# True: 阿拉伯数字、全角阿拉伯数字（双字节）、bytes数字（单字节）
+# False: 汉字数字、罗马数字、小数、汉字与数字混合
+print('1234'.isdigit())  # True
+print("１２３４".isdigit())  # True
+print(b"1234".isdigit())  # True
+print("一".isdigit())  # False
+print("III".isdigit())  # False
+print("0.11".isdigit())  # False
+print("测试1234".isdigit())  # False
 
 
 print("17，isidentifier() 判断字符串是否是有效标识符".center(100, "-"))
@@ -242,17 +273,15 @@ print(str2.islower())  # False
 
 
 print("19，str1.isnumeric() 判断是否是阿拉伯数字(Unicode,全角,罗马,中文数字)".center(100, "-"))
-# True: Unicode数字，全角数字（双字节），罗马数字，汉字数字
+# True: 阿拉伯数字、全角阿拉伯数字（双字节）、罗马数字、汉字数字
 # False: 小数
 # Error: byte数字（单字节）
-str1 = "1234"
-str2 = "３４"
-str3 = "Ⅲ"
-str4 = "一二三四"
-print(str1.isnumeric())  # True
-print(str2.isnumeric())  # True
-print(str3.isnumeric())  # True
-print(str4.isnumeric())  # True
+print("1234".isnumeric())  # True
+print("３４".isnumeric())  # True
+print("Ⅲ".isnumeric())  # True
+print("一二三四".isnumeric())  # True
+print("0.11".isnumeric())  # False
+print("测试1234".isnumeric())  # False
 
 
 print("20，isprintable() 判断字符串中所有字符是否都是可打印字符(in repr())或字符串为空".center(100, "-"))
@@ -358,6 +387,7 @@ print(str.rjust(10, '*'))  # ****jinhao
 print("34，str.rpartiton(str) 从右向左寻找，以字符串中的某个元素为中心将左右分割共分割成三个元素并放入到元组中".center(100, "-"))
 a = "hello is goog is world"
 print(a.rpartition("is"))  # ('hello is goog ', 'is', ' world')
+print(a.rpartition("is")[2])
 
 
 print("35，str.rsplit(str="", num) 从右向左通过指定分隔符对字符串进行切片，如果参数 num 有指定值，则分隔 num+1 个子字符串".center(100, "-"))
@@ -402,9 +432,6 @@ print(str1.startswith("o", 1))  # True
 
 # ****************************************************************************************************************************************************
 
-
-
-
 #
 # # json实现 字典 与 字符串 互转换
 # dict7 = {'a':'192.168.1.1','b':'192.168.1.2'}
@@ -420,3 +447,28 @@ print(str1.startswith("o", 1))  # True
 # print(dict7)  # {'a': '192.168.1.1', 'b': '192.168.1.2'} # 技巧，如果输出结果中是单引号，这一组就是字典
 #
 
+
+print("45, f-string".center(100, "-"))
+name = "john"
+print(f'hello {name} + {1}')  # hello john + 1
+x = 1
+print(f'{x+1=}')  # x+1=2
+print(f'{x+1}')  # 2
+
+
+print("46, 原始字符串".center(100, "-"))
+print( r'\n123' )
+print( '\\n123' )
+para_str = """这是一个多行字符串的实例
+多行字符串可以使用制表符
+TAB ( \t )。
+也可以使用换行符 [ \n ]。
+"""
+print(para_str)
+
+
+print("47，表示真除，%表示取余，//结果取整".center(100, "-"))
+print('3 / 2 =', 3 / 2)  # 真除
+print('3 // 2 =', 3 // 2)  # 取整
+print('3 / 2.0 =', 3 / 2.0)
+print('3 // 2.0 =', 3 // 2.0)
