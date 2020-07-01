@@ -412,6 +412,7 @@ print("37，str.split(str="", num) 通过指定分隔符对字符串进行切片
 # num -- 分割次数, 默认为 -1, 即分隔所有。
 str = "Line1-abcdef \nLine2-abc \nLine4-abcd";
 print(str.split( ))  # ['Line1-abcdef', 'Line2-abc', 'Line4-abcd']   //以空格为分隔符，包含 \n
+print(len(str.split( )))
 print(str.split(' ', 1 ))  # ['Line1-abcdef', '\nLine2-abc \nLine4-abcd']  //以空格为分隔符，分隔成两个
 
 
