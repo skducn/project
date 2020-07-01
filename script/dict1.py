@@ -32,16 +32,24 @@ dict.itervalues() return an iterator over the mapping's values (for py2.7)
 
 # ********************************************************************************************************************
 
-# 1，字典的新增键值、修改值、删键、弹键、清空字典、删除字典
-# dict1 = {"a": "123", "b": "456", "c": "789"}
+# 字典的新增键值、修改值、删键、弹键、清空字典、删除字典
+print("1，用dict关键字新增字典时key只能是字符串，不能是数字、元组".center(100, "-"))
+dict1 = dict(a='1', b='2', c='3')
+print(dict1)  # {'a': '1', 'b': '2', 'c': '3'}
 
-# 使用dict关键字新增字典，注意key只能是字符串，不能是数字或元组
-dict1 = dict(a='123',b='456',c='789')
-print(dict1) # {'a': '123', 'b': '456', 'c': '789'}
 
-# 新增键值
-dict1[100] = "watermelon"
-print(dict1)  # {'a': '123', 'b': '456', 'c': '789', 100: 'watermelon'}
+print("2，新增键值，前提要有dict1这个字典".center(100, "-"))
+# 一个合法的字典，键可以是字符串，数字，元组，但不能是列表
+dict2 = {}
+dict2[100] = 88
+dict2["abc"] = "watermelon"
+dict2[(12,)] = "watermelon"
+dict2[(123)] = "john"
+dict2[("姓名")] = "金浩"
+print(dict2)  # {100: 88, 'abc': 'watermelon', (12,): 'watermelon', 123: 'john', '姓名': '金浩'}
+
+
+dict1 = {'a': 'Zara', 'age': 7, 5:4, (12,):"123"}
 
 # 新增默认键，setdefault(key)方法
 dict1.setdefault("d") # 如果d不存在则新增这个键（默认值为None)。
@@ -242,5 +250,12 @@ print(list(dict7.values()))  # ['Zara', 7, 'First']
 
 
 # 字典 转 字符串
-dict1 = {'name': 'Zara', 'age': 7, 'class': 'First'}
+dict1 = {'name': 'Zara', 'age': 7, 'class': 'First', 5:4, (12,):"123"}
 print(type(str(dict1)), str(dict1))  # <class 'str'> {'name': 'Zara', 'age': 7, 'class': 'First'}
+
+
+
+
+
+
+
