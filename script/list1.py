@@ -2,7 +2,7 @@
 # *******************************************************************
 # Author     : John
 # Date       : 2019-1-29
-# Description: 列表内置属性及使用方法 list1.py
+# Description: 列表
 # list，实际上是列表类型的构造函数，列表可变且序可迭代。class list([iterable])
 # Rather than being a function, list is actually a mutable sequence type, as documented in Lists and Sequence Types — list, tuple, range
 # *******************************************************************
@@ -20,7 +20,6 @@
 9、list.remove(object) 删除值的第一次出现。如果该值不存在，将引发ValueError。
 10、list.reverse() 翻转列表
 11、list.sort(key[,reverse=True]) 升序排序 ，如果reverse=True则是降序排列
-
 12、列表操作符，组合、重复、判断、截取"
 '''
 
@@ -50,13 +49,14 @@ print(list2)  # []
 
 
 print("3，list.copy()".center(100, "-"))
-# 功能：浅拷贝，影响子列表
+# 功能：浅拷贝（拷贝父对象，引用子对象）
 import copy
-a = [1, 2, 3, 4, ['a', 'b']]
+a = [1, 2, 3, 4, ['a', 'b'], (1,), {"a": 123}]
 b = a  # 赋值引用
 c = copy.copy(a)  # 浅拷贝  = list.copy()
 d = copy.deepcopy(a)  # 深拷贝
 a.append(5)  # 修改对象a
+# a[4] = ['z','y']
 a[4].append('c')  # 修改对象a中的['a', 'b']数组对象
 print('a = ', a)  # [1, 2, 3, 4, ['a', 'b', 'c'], 5]
 print('b = ', b)  # [1, 2, 3, 4, ['a', 'b', 'c'], 5]
@@ -107,9 +107,8 @@ print(list7)  # ['太阳', 123, 'love', [1, 2, 3], 456, 100, 789]
 list7.insert(-1, 100)  # 不存在，没有报语法错
 
 
-
 print("8，list.pop()".center(100, "-"))
-# 功能：获取元素并删除。先进后出
+# 功能：获取元素并删除（先进后出）
 list8 = [11, 22, 33, 44, 55]
 print(list8.pop(1))  # 22
 print(list8)  # [11, 33, 44, 55]
@@ -134,82 +133,107 @@ print(list9)  # [11, 33, 22]
 
 print("10，del list()".center(100, "-"))
 # 功能：用索引号部分元素、内嵌列表元素、全部元素
-list9 = [11, 22, 33, 44, 55, 22, ["a", 100]]
-
-del list9[1]  # 通过索引号删除列表值
-print(list9)  # [11, 33, 44, 55, 22, ['a', 100]]
-
-del list9[-1][0]   # 删除 ["a", 100] 中的 "a"
-print(list9)  # [11, 33, 44, 55, 22, [100]]
-
-list9.append(list9.pop()[0])
-print(list9)  # [11, 33, 44, 55, 22, 100]
-
-del list9  # 删除列表
+list10 = [11, 22, 33, 44, 55, 22, ["a", 100]]
+del list10[1]  # 通过索引号删除列表值
+print(list10)  # [11, 33, 44, 55, 22, ['a', 100]]
+del list10[-1][0]   # 删除 ["a", 100] 中的 "a"
+print(list10)  # [11, 33, 44, 55, 22, [100]]
+list10.append(list10.pop()[0])
+print(list10)  # [11, 33, 44, 55, 22, 100]
+del list10  # 删除列表
 # print(list9)  # NameError: name 'list9' is not defined
 
 
 print("11，list.reverse()".center(100, "-"))
 # 功能：就是将列表中的元素前后颠倒，不能print（list.reverse()）
-list10 = [123, 456, 789]
-list10.reverse()
-print(list10)  # [789, 456, 123]
+list11 = [123, 456, 789]
+list11.reverse()
+print(list11)  # [789, 456, 123]
 
 
 print("12，list.sort()".center(100, "-"))
 # 功能：将元素从小到大排序，不能print(list.sort())，这样返回None
-list11 = [4, 8, 2, 5, 77]
-list11.sort()
-print(list11)  # [2, 4, 5, 8, 77]
+list12 = [4, 8, 2, 5, 77]
+list12.sort()
+print(list12)  # [2, 4, 5, 8, 77]
 # sort(reverse=True)：将元素从大到小排序
-list11.sort(reverse=True)
-print(list11)  # [77, 8, 5, 4, 2]
+list12.sort(reverse=True)
+print(list12)  # [77, 8, 5, 4, 2]
 
 
 print("13，列表操作符，组合、重复、判断、截取".center(100, "-"))
 print([1, 2, 3] + [4, 5, 6])  # [1, 2, 3, 4, 5, 6]
 print(['Hi'] * 4)  # ['Hi', 'Hi', 'Hi', 'Hi']
 print(3 in [1, 2, 3])  # True
-list18 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-print(list18[2])  # 3 ， 返回第3个元素
-print(list18[-2])  # 9 ， 返回倒数第2个元素
-print(list18[1:])  # [2, 3, 4, 5, 6, 7, 8, 9, 0], 返回从第2个到最后的元素列表，注意是列表
-print(list18[1:3])  # [2, 3] , 返回从第2个到第3个元素列表
-print(list18[1:1])  # [] , 返回空列表
-print(list18[1:2])  # [2] , 注意虽然是1个元素，但返回的是1个元素的列表
-print(list18[1:2][0])  # 2 , 返回第2个元素
-print(list18[1:3][1])  # 3
-print("~~~~~~~~~~~~~~~~~~~~")
-print(list18[1:])  # [2, 3, 4, 5, 6, 7, 8, 9, 0]
-print(list18[1:-1])  # [2, 3, 4, 5, 6, 7, 8, 9], 返回从第2个到倒数第二个元素列表
-print(list18[1:-1:1])  # [2, 3, 4, 5, 6, 7, 8, 9], 后面：1表示 隔1取1
-print(list18[1:-1:2])  # [2, 4, 6, 8] , 隔2取1
-print("~~~~~~~~~~~~~~~~~~~~")
-print(list18[3::])  # [4, 5, 6, 7, 8, 9, 0]， 从第4个元素开始到最后
-print(list18[3::-1])  # [4, 3, 2, 1] , 先获取1-4元素，然后倒序排列隔1取1，输出列表
-print(list18[4::-2])  # [5, 3, 1], 先获取1-5元素，然后倒序隔2取1，输出列表
-print(list18[3::2])  # [4, 6, 8,0]
+list13 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+print(list13[2])  # 3 ， 返回第3个元素
+print(list13[-2])  # 9 ， 返回倒数第2个元素
+print(list13[1:])  # [2, 3, 4, 5, 6, 7, 8, 9, 0], 返回从第2个到最后的元素列表
+print(list13[1:3])  # [2, 3] , 返回从第2个到第3个元素列表
+print(list13[1:1])  # [] , 返回空列表
+print(list13[1:2])  # [2] , 注意虽然是1个元素，但返回的是1个元素的列表
+print(list13[1:2][0])  # 2 , 返回第2个元素
+print(list13[1:3][1])  # 3
+print(list13[1:-1])  # [2, 3, 4, 5, 6, 7, 8, 9], 返回从第2个到倒数第2个元素列表
+print(list13[1:-1:1])  # [2, 3, 4, 5, 6, 7, 8, 9], 返回从第2个到倒数第2个元素列表，并间隔1输出
+print(list13[1:-1:2])  # [2, 4, 6, 8] , 隔2取1
+print(list13[3::])  # [4, 5, 6, 7, 8, 9, 0]， 从第4个元素开始到最后
+print(list13[3::2])  # [4, 6, 8, 0]
+print(list13[3::-1])  # [4, 3, 2, 1] , 先判断第三位，如果是负数，先获取第一位之前的元素（包括当前位），最后倒序隔1输出列表
+print(list13[4::-2])  # [5, 3, 1], 先判断第三位，如果是负数，先获取第一位之前的元素（包括当前位），最后倒序隔2输出列表
 
 
-# 练习题2：
-l = [1, 2, 3, 4, 5, 6]
-print(id(l))
-print(l[1:4])  # [2, 3, 4]
-l[1:4] = ['a', 'c']  # 将列表里的 索引为1和2位置的数据修改成a,c
-print(l)  # [1, 'a', 'c', 5, 6]
-print(id(l))
+# ************************************************************************************************************************************
+
+print("14，练习题1".center(100, "-"))
+# 练习题1：将列表[1, 2, 3, 4, 5, 6] 改为 [1, 200, 300, 5, 6]
+list14 = [1, 2, 3, 4, 5, 6]
+print(list14[1:3])  # [2, 3, 4]
+list14[1:4] = [200, 300]  #   //实际传了3个值 [200,300,?]，只是最后一个值list识别成非法值，索性干掉吧，这样完成了删除4的功能。
+print(list14)  # [1, 200, 300, 5, 6]
 
 
-# 练习题1：
-list9 = [11, 22, 33, ["a", 100, "b"], 44, 55, 22, ["a", 300, "b"]]
-print(id(list9))
-for x in range(len(list9)):
-    if not isinstance(list9[x], int):
-        del list9[x][::2]   # del x[0],x[1]
-        # print(list9[x][0])
-        list9.insert(x+1, list9[x][0])
-        list9.remove(list9[x])
-        # break
-print(list9)
-print(id(list9))
+print("15，练习题2".center(100, "-"))
+# 练习题2：将列表[11, 22, 33, ["a", 100, "b"], 44, 55, 22, ["a", 300, "b"]] 改为  [11, 22, 33, 100, 44, 55, 22, 300]
+list15 = [11, 22, 33, ["a", 100, "b"], 44, 55, 22, ["a", 300, "b"]]
+for x in range(len(list15)):
+    if not isinstance(list15[x], int):
+        del list15[x][::2]
+        list15.insert(x+1, list15[x][0])
+        list15.remove(list15[x])
+print(list15)
 
+
+print("16，练习题3".center(100, "-"))
+# 练习题2：将列表[11, 22, 33, ["a", 100, "b"], 44, 55, 22, ["a", "c", 300, "b"]] 改为  [11, 22, 33, 100, 44, 55, 22, 300]
+list16 = [11, 22, 33, ["a", 100, "b"], 44, 55, 22, ["a", "c", 300, "b"]]
+a = 0
+for x in range(len(list16)):
+    if not isinstance(list16[x], int):
+        for i in range(len(list16[x])):
+            if isinstance(list16[x][i], int):
+                a = list16[x][i]
+        list16.insert(x+1, a)
+        list16.remove(list16[x])
+print(list16)  # [11, 22, 33, 100, 44, 55, 22, 300]
+
+
+print("17，练习题4".center(100, "-"))
+# 练习题4：将列表[11, 22, 33, 44, 55, 22, ["a", 100]] 改为  [11, 22, 33, 44, 55, 22, [100]]
+list17 = [11, 22, 33, 44, 55, 22, ["a", 100]]
+del list17[-1][0]
+print(list17)  # [11, 22, 33, 44, 55, 22, [100]]
+
+
+print("18，练习题5".center(100, "-"))
+# 练习题8：将列表[11, 22, 33, ["a", 100, "b", 200]] 改为  [11, 22, 33, 300]
+list18 = [11, 22, 33, ["a", 100, "b", 200]]
+a = 0
+for x in range(len(list18)):
+    if not isinstance(list18[x], int):
+        for i in range(len(list18[x])):
+            if isinstance(list18[x][i], int):
+                a = a + list18[x][i]
+        list18.insert(x+1, a)
+        list18.remove(list18[x])
+print(list18)  # [11, 22, 33, 300]
