@@ -3,20 +3,10 @@
 # Author        : John
 # Date          : 2019-1-19
 # Description   : EHR 接口自动化框架之 驱动
+# http://192.168.0.36:19090/test_ehr_sys/healthRecord/swagger-ui.html
 # *****************************************************************
-import json, jsonpath, os, xlrd, xlwt, requests, inspect, smtplib, email, mimetypes, base64,urllib3
+import json, jsonpath, os, xlrd, xlwt, requests, inspect, smtplib, email, mimetypes, base64,urllib3,sys
 from time import sleep
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from email.mime.audio import MIMEAudio
-from email.mime.base import MIMEBase
-
-import instance.zyjk.EHR.frame1.readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
-
-# 解决Python3 控制台输出InsecureRequestWarning的问题,https://www.cnblogs.com/ernana/p/8601789.html
-# 代码页加入以下这个
 # from requests.packages.urllib3.exceptions import InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # 禁用安全请求警告
@@ -27,18 +17,13 @@ from xlrd import open_workbook
 
 class HTTP:
     def __init__(self):
-        # 构造函数，实例化实例变量
-        global scheme, baseurl, port, commonpath
-        scheme = localReadConfig.get_http("scheme")
-        baseurl = localReadConfig.get_http("baseurl")
-        port = localReadConfig.get_http("port")
-        commonpath = localReadConfig.get_http("commonpath")
-
+        # 实例化session，会话保持（跨请求保持某些参数）
         self.session = requests.session()
         self.jsonres = {}   # 存放json解析后的结果
         self.params = {}   # 用来保存所需要的数据，实现关联
         self.url = ''  # 全局的url
-        self.headers = {"Content-Type": "application/json;charset=UTF-8"}  # heaaders 默认请求Content-type   ,
+        # 设置请求头, heaaders 默认请求Content-type
+        self.headers = {"Content-Type": "application/json;charset=UTF-8"}
         # self.session.headers['Content-type'] = 'application/x-www-form-urlencoded'
         # self.session.headers['User Agent'] = 'Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/64.0'   # 添加默认UA，模拟chrome浏览器
 
@@ -52,19 +37,31 @@ class HTTP:
             return False
 
     def postLogin(self, interName, param):
+
         ''' 登录接口的 post请求 '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName
-        result = self.session.post(path, headers=self.headers, json=param, verify=False)
-        # print(result.text)
+
+        url = "http://192.168.0.36:8080/healthRecord" + interName
+        result = self.session.post(url, headers=self.headers, json=param, verify=False)
+        print(result.status_code)
+        print(result.text)
         self.jsonres = json.loads(result.text)
-        self.session.headers['token'] = self.jsonres['token']
-        # print(self.session.headers)
-        res = result.text
+        print(str(self.jsonres))
+        print("前：" + str(self.session.headers))
         try:
-            res = res[res.find('{'):res.rfind('}') + 1]
+            self.session.headers['token'] = self.jsonres['token']
+            print("后：" + str(self.session.headers))
+            res = result.text
+            return res
         except Exception as e:
-            print(e.__traceback__)
-        return res
+            import traceback
+            # print(e.__traceback__)  # <traceback object at 0x0000017ADEFC8C80>  traceback 对象
+            # traceback.print_tb(sys.exc_info()[2])  # 查看 traceback 对象包含的内容
+            print(sys.exc_info())  # 捕获异常信息（type,value,traceback）
+            print(e.args)
+            # print(e.__str__())  # 异常实例
+            # print(e.with_traceback(sys.exc_info()[2]))
+        # except TypeError as e:
+        #     raise ValueError(e).with_traceback(sys.exc_info()[2])
 
     def post(self, interName, param):
         ''' post 请求
@@ -72,12 +69,12 @@ class HTTP:
             :param param 参数: {'userName': 'jin', 'password': 'Jinhao1/'}
             :return: 有
         '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName
+        url = "http://192.168.0.36:8080/healthRecord" + interName
         if param == '':
-            result = self.session.post(path, data=None)
+            result = self.session.post(url, data=None)
         else:
-            result = self.session.post(path, headers=self.headers, json=param, verify=False)
-            # print(result.text)
+            result = self.session.post(url, headers=self.headers, json=param, verify=False)
+            print(result.text)
         # print(self.session.headers)
         res = result.text
         try:
@@ -118,14 +115,15 @@ class HTTP:
             :param param: userName=jinhao
             :return: 有
         '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName + "?" + param
+        # path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName + "?" + param
+        url = "http://192.168.0.36:8080/healthRecord" + interName + "?" + param
         if param == '':
-            result = self.session.post(path, data=None)
+            result = self.session.post(url, data=None)
         else:
             # result = requests.get(path, headers=self.headers)
-            result = self.session.get(path, headers=self.headers, verify=False)
+            result = self.session.get(url, headers=self.headers, verify=False)
         print(self.session.headers)
-        # print(result.text)
+        print(result.text)
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}')+1]
@@ -213,77 +211,27 @@ class HTTP:
 
         return varJoint[:-1]
 
-    # 3个关于Email函数
-    def getAttachment(self, attachmentFilePath):
-        contentType, encoding = mimetypes.guess_type(attachmentFilePath)
-        if contentType is None or encoding is not None:
-            contentType = 'application/octet-stream'
-        mainType, subType = contentType.split('/', 1)
-        file = open(attachmentFilePath, 'rb')
-        if mainType == 'text':
-            attachment = MIMEText(file.read())
-        elif mainType == 'message':
-            attachment = email.message_from_file(file)
-        elif mainType == 'image':
-            attachment = MIMEImage(file.read(), subType=subType)
-        elif mainType == 'audio':
-            attachment = MIMEAudio(file.read(), subType=subType)
-        else:
-            attachment = MIMEBase(mainType, subType)
-        attachment.set_payload(file.read())
-        # encode_base64(attachment)
-        base64.b64encode(attachment.encode('utf-8'))
 
-        file.close()
-        attachment.add_header('Content-Disposition', 'attachment', filename=os.path.basename(attachmentFilePath))
-        return attachment
-    def sendemail(self, subject, text, *attachmentFilePaths):
-        gmailUser = 'skducn@163.com'
-        gmailPassword = 'jinhao123'
-        recipient = 'skducn@163.com'
-        # recipient = "'jinhao@mo-win.com.cn', 'guoweiliang@mo-win.com.cn'"
-        msg = MIMEMultipart()
-        msg['From'] = gmailUser
-        msg['To'] = recipient
-        msg['Subject'] = subject
-        msg.attach(MIMEText(text, 'plain', 'utf-8'))
-        # 附件是可选项
-        for attachmentFilePath in attachmentFilePaths:
-            if attachmentFilePath != '':
-                msg.attach(self.getAttachment(attachmentFilePath))
-        mailServer = smtplib.SMTP('smtp.exmail.qq.com', 587)
-        mailServer.ehlo()
-        mailServer.starttls()
-        mailServer.ehlo()
-        mailServer.login(gmailUser, gmailPassword)
-        mailServer.sendmail(gmailUser, recipient, msg.as_string())
-        mailServer.close()
-        print('Sent email to %s' % recipient)
-    def send1(self):
+if __name__ == '__main__':
+    # cookie = "'beijing'=1,'上海'=2,'hangzhou'=3"
+    cookie = "a =100,b=200"
 
-        import smtplib
-        from email.mime.text import MIMEText
-        from email.header import Header
 
-        mail_host = "smtp.163.com"
-        mail_user = "skducn@163.com"
-        mail_pass = "jinhao80"
-        sender = 'skducn@163.com'
-        # receivers = ['skducn@163.com', '******@163.com']
-        receivers = ['skducn@163.com']
-        body_content = """ 测试文本  """
+    # print([i.split("=")[0] for i in cookie.split(",")])
 
-        message = MIMEText(body_content, 'plain', 'utf-8')
-        message['From'] = "skducn@163.com"
-        message['To'] = "skducn@163.com"
-        subject = """
-        项目异常测试邮件
-        """
-        message['Subject'] = Header(subject, 'utf-8')
-        smtpObj = smtplib.SMTP()
-        smtpObj.connect(mail_host, 25)
-        smtpObj.set_debuglevel(1)
-        smtpObj.login(mail_user, mail_pass)
-        smtpObj.sendmail(sender, receivers, message.as_string())
-        print("邮件发送成功")
+    d = {}
+    for i in cookie.split(","):
+        d[i.split("=")[0]] =i.split("=")[1]
+    print(d)
+    # print(sys.exc_info())
+    #
+    # http = HTTP()
+    # http.postLogin("/app/login", {'userName': 'shuyang', 'password': '07497ba923378ceada4a7f6428be9956'})
+    # http.get("/encrypted/getQuestionList", 'userName=shuyang')
+    # # http.get("/PersonBasicInfo/getArchiveNum", 'idCard=110101199003071970')
+    # # http.get("/app/recordManager/validateIdCard", 'idCard=110101199003071970')
+    # # http.get("/app/recordManager/getArchivePropertyByIdcard", 'idCard=110101199003071970')
+    #
+    # # http.post("/app/recordManager/save",{'fieldSourcesInfo': {'fields': ['Name', 'PermanentAddress', 'IdCard', 'DateOfBirth', 'Sex', 'NationCode'], 'sourceType': ''}, 'hasAudio': 1, 'personBasicInfo': {'archiveNum': '', 'bloodType': '0', 'contactsName': '金浩', 'contactsPhone': '13816109050', 'dateOfBirth': '1980-04-11', 'degree': '0', 'environmentCorral': '3', 'environmentFuelType': '2', 'environmentKitchenAeration': '1', 'environmentToilet': '2', 'environmentWater': '1', 'idCard': '310101198004110014', 'itemList': [{'code': '0', 'type': 'pay_method'}, {'code': '1000', 'type': 'history_of_drug_allergy'}, {'code': '0000', 'type': 'history_of_exposure'}, {'code': '1000', 'type': 'history_of_disease'}, {'code': '0000', 'type': 'family_history_of_father'}, {'code': '0000', 'type': 'family_history_of_mother'}, {'code': '0000', 'type': 'family_history_of_siblings'}, {'code': '0000', 'type': 'family_history_of_children'}, {'code': '1', 'type': 'disablity_type'}], 'maritalStatus': '0', 'name': '许恋柏', 'nationCode': '01',"noNumberProvided": 1, 'occupation': '1', 'occupationalDiseasesFlag': '0000', 'residenceType': '1', 'rhBloodType': '0', 'sex': '1', 'workUnit': '上海智赢健康科技有限公司'}, 'recordCoverDto': {'archiveNum': '', 'archiveUnit': '大场镇大场社区卫生服务中心', 'archiveUnitCode': 184, 'archiver': '金浩', 'archiverId': 31, 'city': '重庆市', 'cityCode': 500100, 'dateOfCreateArchive': '2019-05-28', 'district': '万州区', 'districtCode': 500101, 'name': '郑龙', 'neighborhood': '大场镇', 'neighborhoodCode': 310113102, 'permanentAddress': '分水镇新石村2组112号', 'phone': '13822050583', 'presentAddress': '大场镇沪太路2660弄', 'presentCityName': '上海市', 'presentDistrictCode': 310113, 'presentDistrictName': '宝山区', 'presentProvinceName': '上海市', 'province': '重庆市', 'provinceCode': 500000, 'responsibleDoctor': '吴怡', 'responsibleDoctorId': 11, 'villageCode': 310113102001, 'villageName': '大华一村一居委会'}, 'recordTimeList': [{'endTime': 1553650391128, 'moduleName': 'BASIC', 'operationType': 0, 'recordTime': 65646, 'startTime': 1553650292628}, {'endTime': 1553650358144, 'moduleName': 'COVER', 'operationType': 0, 'recordTime': 22429, 'startTime': 1553650272310}]})
+
 

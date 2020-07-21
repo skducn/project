@@ -790,7 +790,7 @@ class OaPO(object):
 
 
     '''固定资产采购 - 申请'''
-    def equipmentApply(self, varSerial, varApplicationName, varUser, varFromDate):
+    def equipmentApply(self, varSerial, varApplicationName, varUser, varCompany):
         '''固定资产采购'''
         self.open()
         self.login(Char_PO.chinese2pinyin1(varUser))
@@ -809,10 +809,13 @@ class OaPO(object):
         self.Web_PO.iframeId("work_form_data", 1)
         self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[2]/input", "服务器1")  # 名称
         self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[3]/input", "10")  # 数量
-        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[4]/input", varFromDate)  # 期望到货时间
+        self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[4]/input", Time_PO.getDatetimeEditHour(12))  # 期望到货时间
         self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[5]/input", "50001")  # 预计总价
         self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[6]/input", "HP")  # 准购厂商
         self.Web_PO.inputXpath("//table[@id='LV_208']/tbody/tr[2]/td[7]/input", "PIM项目")  # 项目名称
+
+        self.Web_PO.selectXpathText("//select[@name='DATA_1003']", varCompany)
+
         self.Web_PO.inputXpath("//textarea[@name='DATA_328']", "HP123")  # 规格要求
         self.Web_PO.inputXpath("//textarea[@name='DATA_322']", "扩容需要")  # 申请购买理由
         self.Web_PO.inputXpath("//td[@id='LV_323_r1_c1']/input", "hp专卖店")  # 厂商1
@@ -855,25 +858,6 @@ class OaPO(object):
         if varRole == "部门领导":
             self.Web_PO.inputXpath("//textarea[@name='DATA_196']", varOpinion)  # 审批意见
             self.Web_PO.clickXpath("//input[@name='DATA_209' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
-            self.Web_PO.iframeSwitch(1)
-            self.Web_PO.clickId("next", 1)  # 提交
-            self.Web_PO.clickId("work_run_submit", 1)  # 确定
-            # 判断是否有弹框
-            if EC.alert_is_present()(self.Web_PO.driver):
-                self.Web_PO.alertAccept()
-            self.Web_PO.iframeQuit(1)
-            self.Web_PO.quitURL()
-        elif varRole == "财务主管":
-            self.Web_PO.inputXpath("//textarea[@name='DATA_115']", varOpinion)  # 审批意见
-            self.Web_PO.clickXpath("//input[@name='DATA_211' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
-            self.Web_PO.iframeSwitch(1)
-            self.Web_PO.clickId("onekey_next", 1)  # 提交
-            self.Web_PO.alertAccept()
-            self.Web_PO.iframeQuit(1)
-            self.Web_PO.quitURL()
-        elif varRole == "财务经理":
-            self.Web_PO.inputXpath("//textarea[@name='DATA_17']", varOpinion)  # 审批意见
-            self.Web_PO.clickXpath("//input[@name='DATA_312' and @value='" + varIsAgree + "']", 1)  # 同意/不同意
             self.Web_PO.iframeSwitch(1)
             self.Web_PO.clickId("onekey_next", 1)  # 提交
             self.Web_PO.alertAccept()
@@ -1051,6 +1035,18 @@ class OaPO(object):
             self.payAudit("7/8, ", varNo, "总经理", varPresident, "同意", "yuanyongtao点评", "", "", "")
             self.payAudit("8/8, ", varNo, "出纳", varCashier, "同意", "", "", "", "")
         Excel_PO.writeXlsx(excelFile, varApplicationName, i, 10, "ok")
+    '''固定资产申请流程'''
+    def equipmentFlow(self, excelFile, varApplicationName, i, varUser, varLeader, varVicepresident, varPresident, varCompany):
+        if varLeader == "wanglei01":
+            varNo = self.equipmentApply("1/3, ", varApplicationName, varUser, varCompany)
+            self.equipmentAudit("2/3, ", varNo, "副总", varVicepresident, "同意", "副总点评")
+            self.equipmentAudit("3/3, ", varNo, "总经理", varPresident, "同意", "总经理点评")
+        else:
+            varNo = self.equipmentApply("1/4, ", varApplicationName, varUser, varCompany)
+            self.equipmentAudit("2/4, ", varNo, "部门领导", varLeader, "同意", "部门领导点评")
+            self.equipmentAudit("3/4, ", varNo, "副总", varVicepresident, "同意", "副总点评")
+            self.equipmentAudit("4/4, ", varNo, "总经理", varPresident, "同意", "总经理点评")
+        Excel_PO.writeXlsx(excelFile, varApplicationName, i, 7, "ok")
 
 
 
@@ -1117,16 +1113,11 @@ class OaPO(object):
                 time_end = time.time()
                 time = time_end - time_start
                 Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
-            elif varApplicationName == "固定资产采购申请单":
+            elif varApplicationName == "项目设备采购申请单":
+                recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
                 if varStaffList == "所有人":
-                    recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
-                    varNo = self.equipmentApply("1/7, ", varApplicationName, recordList[1], Time_PO.getDatetimeEditHour(12))
-                    self.equipmentAudit("2/7, ", varNo, "部门领导", recordList[2], "同意", "部门领导点评")
-                    self.equipmentAudit("3/7, ", varNo, "财务主管", recordList[3], "同意", "财务主管点评")
-                    self.equipmentAudit("4/7, ", varNo, "财务经理", recordList[4], "同意", "财务经理点评")
-                    self.equipmentAudit("5/7, ", varNo, "副总", recordList[5], "同意", "副总点评")
-                    self.equipmentAudit("6/7, ", varNo, "总经理", recordList[6], "同意", "总经理点评")
-                    Excel_PO.writeXlsx(excelFile, varApplicationName, i, 8, self.equipmentDone("7/7, ", varNo, recordList[1]))
+                    self.equipmentFlow(excelFile, varApplicationName, i,  recordList[1], recordList[2], recordList[3], recordList[4], recordList[5])
+
 
 
         if platform.system() == 'Darwin':

@@ -452,12 +452,13 @@ class MysqlPO():
 
 if __name__ == '__main__':
 
+    pass
     # 患者360 开发环境
-    mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)
+    # mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)
     # mysql_PO.dbRecord('*', 'char', u'%郑和成%')
     # mysql_PO.dbRecord('*', 'float', u'%295.54%')
     # mysql_PO.dbDesc()   # 打印所有表结构
-    mysql_PO.dbDesc2excel("d:\\test5.xlsx", "mySheet1")  # 将所有表结构导出到excel
+    # mysql_PO.dbDesc2excel("d:\\test5.xlsx", "mySheet1")  # 将所有表结构导出到excel
 
 
     # BI 测试环境
