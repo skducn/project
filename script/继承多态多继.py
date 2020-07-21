@@ -1,81 +1,234 @@
 # coding: utf-8
 # ********************************************************************************************************************
 # Author     : John
-# Date       : 2020-3-18
-# Description: 链表推导式
-# 链表表达式在for语句前面，for后面就是对参数的限定。[XXX for yyy](必须要有方括号表示是链表），XXX表示链表，yyy限定XXX中参数。
+# Date       : 2020-7-7
+# Description: 继承，多态，多重继承
 # ********************************************************************************************************************
-from functools import reduce
 
-print("1，列表元素翻倍".center(100, "-"))
-num = [1, 2, 3, 4, 5]
-myvec = [x * 2 for x in num]
-print(myvec)  # [2, 4, 6, 8, 10]
+# 1，继承是子类自动共享父类之间数据和方法的机制
 
+class Mylist(list):
+    pass
+    def test(self):
+        pass
+def func():
+    pass
 
-print("2，列表元素翻倍后，与原值组成子列表".center(100, "-"))
-num = [1, 2, 3]
-myvec = [[x, x * 2] for x in num]
-print(myvec)  # [[1, 2], [2, 4], [3, 6]]
-
-
-print("3，遍历列表，按条件修改列表值".center(100, "-"))
-vec = [2, 4, 6]
-print([3 * x for x in vec])  # [6, 12, 18]
-print([3 * x for x in vec if x > 3])  # [12, 18]
-print([3 * x for x in vec if x <= 2])  # []
-print([[x, x ** 2] for x in vec])  # [[2, 4], [4, 16], [6, 36]]
-print([(x, x ** 2) for x in vec])  # [(2, 4), (4, 16), (6, 36)]
-vec = ["我的名字", "你的名字", "测试内容"]
-print([x for x in vec if "名字" in x])  # ['我的名字', '你的名字']
-print([x.replace("名字", "name") for x in vec if "名字" in x])  # ['我的name', '你的name']
-print([x.replace("名字", "name") for x in vec])  # ['我的name', '你的name', '测试内容']
+list2 = Mylist()
+print(list2)
+list2.append(5)
+list2.append(6)
+print(list2)
 
 
-print("4，批量替换列表值".center(100, "-"))
-abc = [['abc\n'], ['cde\n'], ['def\n']]
-print([[x[i].replace("\n", "") for i in range(1)] for x in abc])  # [['abc'], ['cde'], ['def']]
-abc = ['abc\n', 'cde\n', 'def\n']
-print([x.replace("\n", "") for x in abc])  # ['abc', 'cde', 'def']
-abc = ['a\tbc\n', 'cde\n', 'def\n']
-print([x.replace("\n", "").replace("\t", "") for x in abc])  # ['abc', 'cde', 'def']
+
+class A:
+    def foo(self):
+        print('called A.foo()')
+
+class B(A):
+    pass
+
+class C(A):
+    def foo(self):
+        print('called C.foo()')
+
+class D(B, C):
+    pass
+
+if __name__ == '__main__':
+    d = D()
+    d.foo()
 
 
-print("5，去掉列表中值前后空格".center(100, "-"))
-mybag = [' glass', ' apple', ' green leaf ']
-print([x.strip() for x in mybag])  # ['glass', 'apple', 'green leaf']
+class Person():
+
+    name = '小义'
+
+    __alise = '小wang'
+
+    def getname(self):
+
+        return self.__alise
+
+p = Person()
+
+print(p.name)  # '小义'
+
+# print(p.__alise)  # 报错，AttributeError: 'Person' object has no attribute '__alise'，因为不能用这种方式访问私有变量。
+
+print(p._Person__alise)  # 小wang , 通过函数self方式调用私有变量。
+
+print(p.getname())  # 小wang, 通过函数self方式调用私有变量。
 
 
-print("6，两个列所有值乘积（相加）后的列".center(100, "-"))
-vec1 = [2, 4, 6]
-vec2 = [4, 3, -9]
-print([x * y for x in vec1 for y in vec2])  # [8, 6, -18, 16, 12, -36, 24, 18, -54]
-print([x+y for x in vec1 for y in vec2])  # [6, 5, -7, 8, 7, -5, 10, 9, -3]
-print([vec1[i]*vec2[i] for i in range(len(vec1))])  # [8, 12, -54]
 
 
-print("7，在推导之外保留循环变量值".center(100, "-"))
-x = 100
-print([x ** 3 for x in range(5)])  # [0, 1, 8, 27, 64]
-print(x)  # 100  //保留原变量值。
+# class GrandFather():
+#     print('我是爷爷')
+#
+# class Parent(GrandFather):
+#     print('我是父类')
+#
+# class SubClass(Parent):
+#     print('我是子类')
+#
+# # sub = SubClass()
+# SubClass()
+# #注意：类在定义的时候就执行类体代码，执行顺序是从上到下
+
+#
+class Parent2():
+    print('干爹')
+
+class Parent():
+    print('亲爹')
+
+class Me(Parent, Parent2):
+    print('我')
+Me()
+
+print(Me.__bases__)  # (<class '__main__.Parent'>, <class '__main__.Parent2'>)
+
+#注意：类在定义的时候就执行类体代码，执行顺序是从上到下
+#
+# print(SubClass.__bases__)
+# #注意，如果sub = SubClass(),sub是没有__bases__方法的
+
+class Mobile():
+    def call(self):
+        return("打电话")
 
 
-print("8，100以内的能够被3整除的正整数".center(100, "-"))
-print([n for n in range(1,100) if n % 3 == 0])
-# [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99]
+class People():
+    def __init__(self, name, mobile):
+        self.name = name
+        self.mobile = mobile
+    def call(self):
+        print(self.name + self.mobile)
+
+people = People('小白', Mobile().call())
+people.call()
 
 
-print("9，输出 1-9 的2次方值".center(100, "-"))
-print([x ** 2 for x in range(1, 10)])  # # [1, 4, 9, l_s4, 25, 36, 49, 64, 81]
+
+class Parent:
+    def hello(self):
+        print('父类的方法')
+
+class Child(Parent):
+    pass
+
+p = Parent()
+p.hello()  # 父类的方法
+c = Child()
+c.hello()  # 父类的方法
 
 
-print("10，找出100以内的能够被3整除的正整数".center(100, "-"))
-print([n for n in range(1, 100) if n % 3 == 0])  # [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99]
+class Child(Parent):
+
+    def __init__(self):
+        super(Child, self).__init__()
+
+    def hello(self):
+        print('子类的方法')
 
 
-print("11，range对象转列表".center(100, "-"))
-print(list(range(1, 5)))  # <class 'list'> [1, 2, 3, 4]
+
+c = Child()
+c.hello()  # 子类的方法
+p.hello()  # 父类的方法
+
+# 「方法解析顺序」（Method Resolution Order，或MRO
+print(Child.mro())  # [<class '__main__.Child'>, <class '__main__.Parent'>, <class 'object'>]
 
 
-print("12，10阶乘".center(100, "-"))
-print(reduce(lambda x, y: x * y, range(1, 11)))  # 3628800
+# 经典类的 MRO
+import inspect
+class A:
+   def show(self):
+       print("A.show()")
+
+class B(A):
+    pass
+class C(A):
+   def show(self):
+       print("C.show()")
+
+class D(B, C):
+    pass
+
+print(inspect.getmro(D))
+# (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+
+print(D.__mro__)
+# (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+
+x = D()
+x.show()
+
+# 菱形继承
+# 按照深度遍历,重复类只保留最后一个
+# 按照深度遍历，其顺序为 [D, B, A, object, C, A, object]，重复类只保留最后一个，因此变为 [D, B, C, A, object]
+
+
+class X(object):
+    pass
+class Y(object):
+    pass
+class A(X, Y):
+    print("aaa")
+class B(Y):
+    print("bbb")
+class C(A, B):
+    pass
+
+print(C.__mro__)
+# (<class '__main__.C'>, <class '__main__.A'>, <class '__main__.X'>, <class '__main__.B'>, <class '__main__.Y'>, <class 'object'>)
+c = C()
+
+
+# c a x b y object
+
+
+
+
+
+
+class Parent:
+   def myMethod(self):
+      print('父类方法')
+
+class Child(Parent):
+   def myMethod(self):
+      print('子类方法')
+
+c = Child()          # 子类实例
+c.myMethod()         # 子类调用重写方法
+
+
+
+class Person(object):
+    def __init__(self,name,sex):
+        self.name = name
+        self.sex = sex
+
+    def print_title(self):
+        if self.sex == "male":
+            print("man")
+        elif self.sex == "female":
+            print("woman")
+
+class Child(Person):
+    def print_title(self):
+        if self.sex == "male":
+            print("boy")
+        elif self.sex == "female":
+            print("girl")
+
+May = Child("May","female")
+Peter = Person("Peter","male")
+
+print(May.name,May.sex,Peter.name,Peter.sex)
+May.print_title()
+Peter.print_title()
