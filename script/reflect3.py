@@ -7,12 +7,7 @@
 # python是一门解释型语言，因此对于反射机制支持很好。在python中支持反射机制的函数有 eval()、exec()、getattr()、setattr()、delattr()、__import__，这些函数都可以执行字符串。
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-KEYWORD = "john"
-
-print('index')
+print('user')
 
 def sayHello():
-    print('hello index')
-
-def sayHelloZhCn():
-    print('你好 index')
+    print('hello user')

@@ -15,12 +15,9 @@ from datetime import datetime
 from time import sleep
 from parameterized import parameterized
 from BeautifulReport import BeautifulReport as bf
-
 from instance.zyjk.EHR.frame1.configEmail import *
 email = Email()
-
 import instance.zyjk.EHR.frame1.reflection
-
 import instance.zyjk.EHR.frame1.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 on_off = localReadConfig.get_email("on_off")
@@ -44,7 +41,7 @@ l_interIsRun = (xls.getInterIsRun())  # 获取inter中isRun执行筛选列表 �
 class runAllEHR(unittest.TestCase):
 
     @parameterized.expand(xls.getCaseParam())
-    def test11(self, excelNo, caseName, method, interName, param, jsonpathKey, expected, checkDB, execDB):
+    def test11(self, excelNo, caseName, method, interName, param, jsonpathKey, expected, selectSQL, updateSQL):
         ' '
         # 判断对象属性是否存在
         if hasattr(runAllEHR, "userId"):param = param.replace("$$userId", str(runAllEHR.userId))  # 用户id
@@ -113,8 +110,8 @@ class runAllEHR(unittest.TestCase):
             d_jsonres = xls.result(excelNo, caseName, method, interName, param, jsonpathKey, expected)
         # **********************************************************************************************************************************
 
-        # rtncheckDB, rtnexecDB = SqlServer_PO.dbSelect(checkDB, execDB)
-        # xls.setCaseParam(excelNo, '', '', str(d_jsonres),rtncheckDB, rtnexecDB)
+        # rtnselectSQL, rtnupdateSQL = SqlServer_PO.dbSelect(selectSQL, updateSQL)
+        # xls.setCaseParam(excelNo, '', '', str(d_jsonres),rtnselectSQL, rtnupdateSQL)
 
         # 登录11
         if caseName == "登录11":
@@ -122,13 +119,15 @@ class runAllEHR(unittest.TestCase):
             runAllEHR.token = token[0]
             userId = jsonpath.jsonpath(d_jsonres, expr='$.userInfo.uid')
             runAllEHR.userId = str(userId[0])
-            # rtncheckDB, rtnexecDB = SqlServer_PO.dbSelect(checkDB, execDB)
+            xls.setCaseParam(excelNo, "token=" + token[0] + "\n" + "userId=" + str(userId[0]), '',str(d_jsonres), '', '')
+
+            # rtnselectSQL, rtnupdateSQL = SqlServer_PO.dbSelect(selectSQL, updateSQL)
             # xls.setCaseParam(excelNo, 'token=' + token[0] + "\n" + 'userId=' + str(userId[0]), 'pass',
-            #                      str(d_jsonres), str(rtncheckDB), str(rtnexecDB))
+            #                      str(d_jsonres), str(rtnselectSQL), str(rtnupdateSQL))
 
         # 15 检验身份证号码是否建档
         if tmp_idCard == 'on':
-            xls.setCaseParam(excelNo, "idCard=" + newIdCard + "\n" + "dateOfBirth=" + dateOfBirth, 'pass', str(d_jsonres), '', '')
+            xls.setCaseParam(excelNo, "idCard=" + newIdCard + "\n" + "dateOfBirth=" + dateOfBirth, '', str(d_jsonres), '', '')
 
         # 17 保存档案
         if "/app/recordManager/save" == interName:
@@ -151,7 +150,7 @@ if __name__ == '__main__':
     if platform.system() == 'Windows':
         os.system("start .\\report\\report.html")
         os.system("start .\\config\\interface.xls")
-    if on_off == 'on':
-        email.send_email()
+    # if on_off == 'on':
+    #     email.send_email()
 
 
