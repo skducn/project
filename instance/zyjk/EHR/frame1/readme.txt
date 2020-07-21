@@ -3,6 +3,10 @@ runAll ,
 xls.py - XLS - getCaseParam([[2, 3, 5], [], 0],'/inter/HTTP/auth')
 返回：[['获取Token', 'post', '/inter/HTTP/auth', 'None', '$.status','200']]
 
+           d_jsonres = xls.result(excelNo, caseName, method, interName, dict(eval(param)), jsonpathKey, expected)
+
+      xls.setCaseParam(excelNo, "token=" + token[0], 'pass', str(d_jsonres), '', '')
+
 2，每个接口名称对应的函数，如 '/inter/HTTP/auth'
 testAuth('获取Token', 'post', '/inter/HTTP/auth', 'None', '$.status','200')
 

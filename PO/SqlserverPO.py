@@ -710,18 +710,20 @@ if __name__ == '__main__':
 
 
     # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境
-    Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "data_center_test1")  # EHR质控 测试环境
-    tmpList = Sqlserver_PO.ExecQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
-    print(tmpList)
+    # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "data_center_test1")  # EHR质控 测试环境
+    # tmpList = Sqlserver_PO.ExecQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
+    # print(tmpList)
+
+    Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthrecord_test")  # EHR 测试环境
 
     # Sqlserver_PO.dbDesc()  # 所有表结构
-    Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
+    # Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
     # Sqlserver_PO.dbDesc('Upms*')  # 查看所有b开头的表结构（通配符*） ??? 错误函数
     # Sqlserver_PO.dbDesc('HrPersonBasicInfo', 'personid,Id,Name')   # 某表的部分字段
     # Sqlserver_PO.dbDesc('b*', 'id,page')  # 查看所有b开头的表中id字段的结构（通配符*）
 
     # Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.
-    # Sqlserver_PO.dbRecord('*', 'varchar', '%居委会%')  # 搜索所有表符合条件的记录.
+    Sqlserver_PO.dbRecord('*', 'varchar', '%110101199003071970%')  # 搜索所有表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
     # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
