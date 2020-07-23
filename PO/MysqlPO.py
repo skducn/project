@@ -453,6 +453,12 @@ class MysqlPO():
 if __name__ == '__main__':
 
     pass
+    # # crm小程序清空账号权限
+    # mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
+    # mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
+    # mysql_PO.conn.commit()
+
+    # tmpTuple = Mysql_PO.cur.fetchall()
     # 患者360 开发环境
     # mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)
     # mysql_PO.dbRecord('*', 'char', u'%郑和成%')

@@ -383,6 +383,20 @@ class BasePO(object):
         except:
             self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
+    def getXpathsTextPart(self, varPaths, varText):
+        # 获取部分文本列表（从头开始获取直到遇到varText为止）
+        # getXpathsText("//div","Copyright © 2019上海智赢健康科技有限公司出品")
+        try:
+            list1 = []
+            for a in self.find_elements(*(By.XPATH, varPaths)):
+                if varText in a.text:
+                    list1.append(a.text)
+                    break
+                else:
+                    list1.append(a.text)
+            return list1
+        except:
+            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsTextPlace(self, varPaths, varContent):
         # 获取文本所在的位置
