@@ -11,7 +11,7 @@ Excel_PO = ExcelPO()
 
  # 3，执行质控存储过程 ?未解决
 
-# Rule_PO.execSqlFile1("controlRule.sql")
+Rule_PO.execSqlFile1("controlRule.sql")
 # Rule_PO.execQuery("exec proControl")
 
 Rule_PO.execProcedure('proControl')
