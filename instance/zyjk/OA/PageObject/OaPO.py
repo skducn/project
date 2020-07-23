@@ -1117,6 +1117,10 @@ class OaPO(object):
                 recordList = Excel_PO.getRowValue(excelFile, i, varApplicationName)
                 if varStaffList == "所有人":
                     self.equipmentFlow(excelFile, varApplicationName, i,  recordList[1], recordList[2], recordList[3], recordList[4], recordList[5])
+                elif varStaffList == "空" and recordList[6] == "":
+                    self.equipmentFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3],recordList[4], recordList[5])
+                elif recordList[1] in varStaffList:
+                    self.equipmentFlow(excelFile, varApplicationName, i, recordList[1], recordList[2], recordList[3],recordList[4], recordList[5])
 
 
 

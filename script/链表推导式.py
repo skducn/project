@@ -3,7 +3,9 @@
 # Author     : John
 # Date       : 2020-3-18
 # Description: 链表推导式
+# 列表推导式子（list comprehension）是一种方便简单的语法形式，利用它将一根列表经过过滤后转换成另一个列表，也可以利用它将函数应用与列表中的元素.
 # 链表表达式在for语句前面，for后面就是对参数的限定。[XXX for yyy](必须要有方括号表示是链表），XXX表示链表，yyy限定XXX中参数。
+# [表达式 for 变量 in 列表 ], [表达式 for 变量 in 列表 if 条件]
 # ********************************************************************************************************************
 from functools import reduce
 
@@ -74,8 +76,15 @@ print([n for n in range(1, 100) if n % 3 == 0])  # [3, 6, 9, 12, 15, 18, 21, 24,
 
 
 print("11，range对象转列表".center(100, "-"))
-print(list(range(1, 5)))  # <class 'list'> [1, 2, 3, 4]
+print(list(range(1, 5)))  # [1, 2, 3, 4]
 
 
 print("12，10阶乘".center(100, "-"))
 print(reduce(lambda x, y: x * y, range(1, 11)))  # 3628800
+
+
+print("13，将字典key与value互换".center(100, "-"))
+a_dict = {'a': 1, 'b': 2, 'c': 3}
+print({value:key for key, value in a_dict.items()})   # {1: 'a', 2: 'b', 3: 'c'}
+
+

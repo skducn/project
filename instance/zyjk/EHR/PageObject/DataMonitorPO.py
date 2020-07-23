@@ -15,7 +15,6 @@ class DataMonitorPO():
 
     def __init__(self):
         self.Web_PO = WebPO("chrome")
-        # self.Web_PO = WebPO("firefox")
         self.Web_PO.openURL(varURL)
         self.Web_PO.driver.maximize_window()  # 全屏
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
@@ -30,9 +29,48 @@ class DataMonitorPO():
         self.Web_PO.inputXpath("//input[@type='password']", varPass)
         self.Web_PO.clickXpath("//button[@type='button']", 2)
 
-    def clickMenu(self):
-        # 系统管理
-        self.Web_PO.clickXpath('//*[@id="app"]/div/div[1]/div[2]/div[1]/div/ul/li[2]/div', 2)
+    def clickMenu(self, varName, varSubName=""):
+        # 点击左侧菜单
+
+        # 获取菜单名称及对应href
+        list1 = self.Web_PO.getXpathsText("//li[@tabindex='-1']")
+
+        # 只有一层菜单
+        if varName in str(list1):
+            dict1 = self.List_PO.lists2dict(self.List_PO.listDelElement(list1, ""), self.Web_PO.getXpathsAttr("//div/ul/li/a", "href"))
+            # print(dict1)
+            for k in dict1:
+                if k == varName:
+                    self.Web_PO.clickXpathsContain("//a", "href", str(dict1[k]).replace("http://192.168.0.36:19090/test_ehr_admin/", ""), 1)
+        else:
+            # 有第二层菜单
+            list3 = self.Web_PO.getXpathsText("//li")
+            list3 = self.List_PO.listDelElement(list3, "")
+            for l in range(len(list3)):
+                if varName == list3[l]:
+                    self.Web_PO.clickXpath("//div[@class='el-scrollbar__view']/ul/li[" + str(l+1) + "]", 2)
+
+                    list4 = self.Web_PO.getXpathsText("//li")
+                    list5 = self.Web_PO.getXpathsAttr("//li[@aria-expanded='true']/ul/li//a", "href")
+                    for p in list4:
+                        if varName in p and varSubName in p :
+                            list4 = (p.split("\n"))
+                            list4.pop(0)
+                            # break
+                    # print(list4)
+                    # print(list5)
+                    dict6 = self.List_PO.lists2dict(list4, list5)
+                    # print(dict6)
+                    for k2 in dict6:
+                        if k2 == varSubName:
+                            self.Web_PO.clickXpathsContain("//a", "href", str(dict6[k2]).replace("http://192.168.0.36:19090/test_ehr_admin/", ""), 1)
+
+    def scroll(self):
+        self.Web_PO.scrollIntoView("//a[@href='#/residentsSigned']", 5)
+
+    def tt(self):
+        print(self.Web_PO.getXpathsText("//div"))
+
 
     # def searchField(self, varName):
     #
