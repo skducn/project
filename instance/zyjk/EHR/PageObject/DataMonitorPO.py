@@ -2,11 +2,12 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2019-7-18
-# Description: EHR对象库
+# Description:  电子健康档案数据监控中心（PC端）EHR对象库
 # *****************************************************************
 
 from PO.WebPO import *
 from PO.ListPO import *
+from PO.ColorPO import *
 from instance.zyjk.EHR.config.config import *
 import string,numpy
 from string import digits
@@ -19,7 +20,7 @@ class DataMonitorPO():
         self.Web_PO.driver.maximize_window()  # 全屏
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
         self.List_PO = ListPO()
-
+        self.Color_PO = ColorPO()
 
     def login(self, varUser, varPass):
 
@@ -30,22 +31,24 @@ class DataMonitorPO():
         self.Web_PO.clickXpath("//button[@type='button']", 2)
 
     def clickMenu(self, varName, varSubName=""):
-        # 点击左侧菜单
+
+        ''' 点击左侧菜单 '''
 
         # 获取菜单名称及对应href
         list1 = self.Web_PO.getXpathsText("//li[@tabindex='-1']")
 
         # 只有一层菜单
         if varName in str(list1):
-            dict1 = self.List_PO.lists2dict(self.List_PO.listDelElement(list1, ""), self.Web_PO.getXpathsAttr("//div/ul/li/a", "href"))
+            dict1 = self.List_PO.lists2dict(self.List_PO.listDel(list1, ""), self.Web_PO.getXpathsAttr("//div/ul/li/a", "href"))
             # print(dict1)
             for k in dict1:
                 if k == varName:
                     self.Web_PO.clickXpathsContain("//a", "href", str(dict1[k]).replace("http://192.168.0.36:19090/test_ehr_admin/", ""), 1)
+            self.Color_PO.consoleColor("31", "36", "[" + varName + "]", "")
         else:
             # 有第二层菜单
             list3 = self.Web_PO.getXpathsText("//li")
-            list3 = self.List_PO.listDelElement(list3, "")
+            list3 = self.List_PO.listDel(list3, "")
             for l in range(len(list3)):
                 if varName == list3[l]:
                     self.Web_PO.clickXpath("//div[@class='el-scrollbar__view']/ul/li[" + str(l+1) + "]", 2)
@@ -64,12 +67,163 @@ class DataMonitorPO():
                     for k2 in dict6:
                         if k2 == varSubName:
                             self.Web_PO.clickXpathsContain("//a", "href", str(dict6[k2]).replace("http://192.168.0.36:19090/test_ehr_admin/", ""), 1)
+            self.Color_PO.consoleColor("31", "36", "[" + varName + "] - [" + varSubName + "]", "")
 
-    def scroll(self):
-        self.Web_PO.scrollIntoView("//a[@href='#/residentsSigned']", 5)
+    def updateDate(self):
 
-    def tt(self):
-        print(self.Web_PO.getXpathsText("//div"))
+        '''获取数据更新截止至时间'''
+
+        l_text = self.Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")
+        varDate = l_text[0].split("数据更新截止至时间：")[1].split("\nCopyright")[0]
+        print ("数据更新截止至时间：" + varDate)
+
+    def qcAnalysis_dropDownList1(self, varSelectName):
+
+        ''' 档案质控分析 - 档案质控总体情况 - 下拉框选值'''
+
+        self.Color_PO.consoleColor("31", "31", "\n[档案质控总体情况 - 查询 - " + varSelectName + "]", "")
+        self.Web_PO.clickXpath("//input[@placeholder='请选择质控时间']", 2)
+        l_text2 = self.Web_PO.getXpathsTextPart("//body/div[2]/div/div/ul/li/span", "Copyright © 2019上海智赢健康科技有限公司出品")
+        l_text2 = self.List_PO.listSerialNumber(l_text2, 1)
+        d_text2 = self.List_PO.list2dictByTuple(l_text2)
+        d_text2 = {v: k for k, v in d_text2.items()}
+        for k in d_text2:
+            if k == varSelectName:
+                self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(d_text2[k]) + "]", 2)
+
+        # 显示搜索结果
+        l_text = self.Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")
+        l_qcOverall = l_text[0].split("重置\n")[1].split("\n本页")[0]
+        l_qcOverall = l_qcOverall.split('\n')
+        str1 = l_qcOverall.pop(0)
+        print(str1)  # '质控时间 质控档案总数量 问题档案数量 规范建档率 操作'
+        global list3
+        list3 = []
+        x = (self.List_PO.listSplitSubList(l_qcOverall, 6))
+        for i in x:
+            print(i)
+            list3.append(i[0])
+
+    def qcAnalysis_dropDownList1_opr(self, varKey, varOpr, varRule="", varPageNum=1):
+
+        ''' 档案质控分析 - 档案质控总体情况 - 操作（详情，规范建档率提升分析）'''
+
+        a = [list3.index(x) for x in list3 if x == varKey][0]
+        if varOpr == "规范建档率提升分析":
+            self.Color_PO.consoleColor("31", "31", "\n[规范建档率提升分析]", "")
+            self.Web_PO.clickXpath("//div[@class='el-table__body-wrapper is-scrolling-none']/table/tbody/tr[" + str(a + 1) + "]/td[5]/div/div/div[2]/button", 2)  # 点击 记录规范建档率提升分析
+            l_text = self.Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
+            l_standardAnalysis = l_text[0].split("规范建档率提升分析\n序")[1].split("\n问题档案列表")[0]
+            l_standardAnalysis = l_standardAnalysis.split('\n')
+            tmp1 = l_standardAnalysis.pop(0)
+            print("序" + tmp1)  # '序号 规则类型 问题档案数量(份) 规范建档率提升至'
+            x = (self.List_PO.listSplitSubList(l_standardAnalysis, 4))
+            x.pop(-1)
+            for i in x:
+                print(i)
+        elif varOpr == "详情":
+            # 点击 档案质控总体情况列表中的详情
+            self.Web_PO.clickXpath("//div[@class='el-table__body-wrapper is-scrolling-none']/table/tbody/tr[" + str(a + 1) + "]/td[5]/div/div/div[1]/button", 2)
+            if varRule == "":   # 默认不勾选规则类型
+                self.Color_PO.consoleColor("31", "31", "\n[问题档案列表]", "")
+            else:
+                self.Color_PO.consoleColor("31", "31", "\n[问题档案列表 - " + varRule + "]", "")
+
+                self.Web_PO.scrollIntoView("//div[@class='el-checkbox-group']/label[1]", 2)
+                l_rule = self.Web_PO.getXpathsText("//div[@class='el-checkbox-group']/label")  # ['规范性 (10.99%)', '完整性 (59.47%)', '有效性 (29.54%)']
+                l_rule = self.List_PO.listSerialNumber(l_rule, 1)
+                d_rule = self.List_PO.list2dictByTuple(l_rule)
+                d_rule = {value: key for key, value in d_rule.items()}
+
+                # 选择规则类型
+                varQty = varRule.split(",")
+                if len(varQty) == 1:
+                    for k in d_rule:
+                        if varRule in k:
+                            self.Web_PO.clickXpath("//div[@class='el-checkbox-group']/label[" + str(d_rule[k]) + "]", 2)
+                else:
+                    for i in range(len(varQty)):
+                        for k in d_rule:
+                            if varQty[i] in k:
+                                self.Web_PO.clickXpath("//div[@class='el-checkbox-group']/label[" + str(d_rule[k]) + "]", 2)
+
+            # 前往第几页（默认第一页）
+            self.Web_PO.scrollIntoView("//input[@placeholder='请选择']", 2)
+            self.Web_PO.inputXpathClearEnter("//div[@class='block']/div[2]/span/div/input", varPageNum)
+
+            l_text = self.Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
+            l_problemList = l_text[0].split("问题档案列表\n")[1].split("\n操作")[0]
+            l_problemList = l_problemList.split('\n')
+            # x = (self.List_PO.listSplitSubList(l_problemList, 5))
+            for i in l_problemList:
+                print(i)  # ['规则类型:', '规范性 (10.99%)', '完整性 (59.47%)', '有效性 (29.54%)']
+            l_problemList = l_text[0].split("错误描述\n")[1].split("\n选择当前页数显示")[0]
+            l_problemList = l_problemList.split('\n')
+            l_problemList1 = (self.List_PO.listSplitSubList(l_problemList, 8))
+            for i in l_problemList1:
+                print(i)
+            return l_problemList1
+
+    def qcAnalysis_problem_opr(self,varList1, varIdCard):
+
+        ''' 档案质控分析 - 问题档案列表 - 操作（患者身份证）
+        获取患者质控项目汇总列表（健康档案封面 和 个人基本信息表）'''
+
+        try:
+            for i in range(len(varList1)):
+                if varIdCard == varList1[i][1]:
+                    varPatient = self.Web_PO.getXpathText("//div[@class='tableEHRss']/div/div/div[" + str(i + 1) + "]/div[3]")
+                    self.Web_PO.clickXpath("//div[@class='tableEHRss']/div/div/div[" + str(i + 1) + "]/div[1]/div/span", 2)
+                    break
+            self.Color_PO.consoleColor("31", "31", "\n[质控项目汇总 - " + str(varIdCard) + "(" + varPatient + ")]", "")
+            self.Color_PO.consoleColor("31", "33", "\n[健康档案封面]", "")
+            l_text = self.Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
+            l_cover = l_text[0].split("健康档案封面\n")[1].split("\n个人基本信息表")[0]
+            l_cover = l_cover.split('\n')
+            # print(l_cover)
+            # 格式化 健康档案封面
+            l_cover_format = []
+            for i in range(len(l_cover)):
+                if i < len(l_cover):
+                    if ":" in l_cover[i] and "(" not in l_cover[i + 1]:
+                        l_cover_format.append(l_cover[i] + l_cover[i + 1])
+                        l_cover.pop(i + 1)
+                    else:
+                        l_cover_format.append(l_cover[i])
+            print(l_cover_format.pop(0))  # 问题数：1
+            d_cover_format = self.List_PO.list2dictBySerial(l_cover_format)
+            for k in d_cover_format:
+                print(k, d_cover_format[k])
+
+            self.Color_PO.consoleColor("31", "33", "\n[个人基本信息表]", "")
+            l_basic = l_text[0].split("个人基本信息表\n")[1].split("\n健康档案封面")[0]
+            l_basic = l_basic.split('\n')
+            # print(l_basic)
+            # 格式化 个人基本信息表
+            l_basic_format = []
+            for i in range(len(l_basic)):
+                if i < len(l_basic):
+                    if ":" in l_basic[i] and "(" not in l_basic[i + 1]:
+                        l_basic_format.append(l_basic[i] + l_basic[i + 1])
+                        l_basic.pop(i + 1)
+                    else:
+                        l_basic_format.append(l_basic[i])
+            print(l_basic_format.pop(0))  # 问题数：19
+            d_basic_format = self.List_PO.list2dictBySerial(l_basic_format)
+            for k in d_basic_format:
+                print(k, d_basic_format[k])
+        except:
+            self.Color_PO.consoleColor("31", "31", "[ERROR]", "身份证号(" + str(varIdCard) + ")有误，请检查！")
+
+
+    def qcAnalysis_problem_page(self, varPageNum):
+
+        ''' 档案质控分析 - 问题档案列表 - 翻页 '''
+
+        self.Web_PO.scrollIntoView("//input[@placeholder='请选择']", 2)
+        self.Web_PO.inputXpathClearEnter("//div[@class='block']/div[2]/span/div/input", varPageNum)
+
+
 
 
     # def searchField(self, varName):
