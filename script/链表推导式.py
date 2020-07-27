@@ -88,3 +88,7 @@ a_dict = {'a': 1, 'b': 2, 'c': 3}
 print({value:key for key, value in a_dict.items()})   # {1: 'a', 2: 'b', 3: 'c'}
 
 
+print("14，获取某个元素的index值".center(100, "-"))
+list1 = [2019, 2018, 2017, 2016]
+print([list1.index(x) for x in list1 if x == 2017][0])
+
