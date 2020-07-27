@@ -199,7 +199,7 @@ class BasePO(object):
             self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
-    def inputXpathEnterClear(self, varPath, varContent):
+    def inputXpathClearEnter(self, varPath, varContent):
         try:
             self.find_element(*(By.XPATH, varPath)).clear()
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
