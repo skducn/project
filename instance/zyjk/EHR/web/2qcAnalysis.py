@@ -27,7 +27,6 @@ dataMonitor_PO.clickMenu("档案质控分析")
 # 2，数据更新截止至时间：2020年07月15日
 dataMonitor_PO.updateDate()
 
-
 # 3，档案质控总体情况 - 查询 - 按档案年份查询 （场景1）
 dataMonitor_PO.qcAnalysis_dropDownList1("按档案年份查询")
 dataMonitor_PO.qcAnalysis_dropDownList1_opr("2016", "规范建档率提升分析")  # 操作 - 规范建档率提升分析
