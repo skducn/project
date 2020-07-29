@@ -385,7 +385,7 @@ class ListPO():
     def listIntercept(self, varList, varElement, varMode):
         # 如：[1,2,3,'测试',4,5,6] ，获取测试之前的元素，或获取测试之后的元素。
 
-        if varMode == 0:
+        if varMode == 1:
             list3 = []
             a = ""
             for i in varList:
@@ -395,7 +395,7 @@ class ListPO():
                     list3.append(i)
             list3.pop(0)
             return (list3)
-        elif varMode == 1:
+        elif varMode == 0:
             # 将列表中某个元素之前的元素组成一个新的列表， 如 [1,2,3,'审核信息',4,5,6] 变为 [1,2,3]
             list4 = []
             for i in varList:
@@ -572,5 +572,5 @@ if __name__ == "__main__":
 
 
     print("9，截取列表中区间元素".center(100, "-"))
-    print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', '0'))  # [4,5,6]
-    print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', '1'))  # [1,2,3]
+    print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', 0))  # [1,2,3]
+    print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', 1))  # [4,5,6]
