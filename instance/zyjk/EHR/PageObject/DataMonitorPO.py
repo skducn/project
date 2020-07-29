@@ -26,9 +26,19 @@ class DataMonitorPO():
 
         ''' 登录 '''
 
+        global varUser_session
+        varUser_session = varUser
+
         self.Web_PO.inputXpath("//input[@type='text']", varUser)
         self.Web_PO.inputXpath("//input[@type='password']", varPass)
         self.Web_PO.clickXpath("//button[@type='button']", 2)
+
+        # 获取所属社区
+        self.getCommunity(varUser)
+
+        # 获取数据更新截止至时间
+        self.getUpdateDate(varUser)
+
 
     def clickMenu(self, varName, varSubName=""):
 
@@ -69,14 +79,23 @@ class DataMonitorPO():
                             self.Web_PO.clickXpathsContain("//a", "href", str(dict6[k2]).replace("http://192.168.0.36:19090/test_ehr_admin/", ""), 1)
             self.Color_PO.consoleColor("31", "36", "[" + varName + "] - [" + varSubName + "]", "")
 
-    def updateDate(self):
+    def getUpdateDate(self,varUser):
 
-        '''获取数据更新截止至时间'''
+        ''' 获取数据更新截止至时间 '''
 
-        l_text = self.Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")
-        varDate = l_text[0].split("数据更新截止至时间：")[1].split("\n")[0]
-        print("数据更新截止至时间：" + varDate)
+        if varUser != "admin":
+            l_text = self.Web_PO.getXpathsTextPart("//div", "\nCopyright")
+            varDate = l_text[0].split("数据更新截止至时间：")[1].split("\n")[0]
+            print("数据更新截止至时间：" + varDate)
 
+    def getCommunity(self, varUser):
+
+        ''' 获取所属社区 '''
+
+        if varUser != "admin":
+            l_text = self.Web_PO.getXpathsTextPart("//div", "\nCopyright")
+            s_text = l_text[0].split("档案更新监控\n")[1].split("\n")[0]
+            print("所属社区：" + s_text)
 
     def homePage_indicator(self):
 
@@ -312,9 +331,13 @@ class DataMonitorPO():
     def sys_userList(self):
 
         '''用户列表'''
+
         self.Color_PO.consoleColor("31", "31", "\n[用户列表]", "")
-        l_text = self.Web_PO.getXpathsTextPart("//td/div", "Copyright © 2019上海智赢健康科技有限公司出品")
-        l_userList = (self.List_PO.listSplitSubList(l_text, 6))
+        l_text = self.Web_PO.getXpathsText("//td/div")
+        if varUser_session == "admin":
+            l_userList = (self.List_PO.listSplitSubList(l_text, 7))
+        else:
+            l_userList = (self.List_PO.listSplitSubList(l_text, 6))
         l_userList2 = []
         for i in range(len(l_userList)):
             if l_userList[i][0] != "":
@@ -322,80 +345,105 @@ class DataMonitorPO():
         for i in l_userList2:
             print(i)
 
-
-    def sys_user_add(self, l_userList2, varAccount, varNickName, varPhone, varAttr):
-
-        '''系统公里 - 用户管理 - 增加用户'''
-        tmp = 0
-        for i in range(len(l_userList2)):
-            if l_userList2[i][1] == varAccount:
-                tmp = 1
-                self.Color_PO.consoleColor("31", "33", "[WARNING] 用户(" + varAccount + ")已存在，请检查！", "")
-
-                break
-        if tmp == 0:
-            self.Web_PO.clickXpath("//button[@class='el-button el-button--success el-button--mini']", 2)  # 点击 新增
-            self.Web_PO.inputXpath("//input[@placeholder='用户名']", varAccount)  # 用户名不能重复，且不能是中文
-            self.Web_PO.inputXpath("//input[@placeholder='昵称']", varNickName)
-            self.Web_PO.inputXpath("//input[@placeholder='手机']", varPhone)
-            self.Web_PO.clickXpath("//tr[@class='el-table__row']/td[5]", 2)  # 点击 用户属性
-            l_text = self.Web_PO.getXpathsText("//div/div/div/ul/li")
-            l_text = self.List_PO.listIntercept(l_text, '1', 0)
-            for i in range(len(l_text)):
-                if l_text[i] == varAttr:
-                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i+1) + "]", 2)  # 选择用户属性
-                    break
-            self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[2]", 2)  # 保存
-            self.Color_PO.consoleColor("31", "33", "[ok], 增加用户 -  " + varAccount + ", " + varNickName + ", " + varPhone + ", " + varAttr, "")
-
     def sys_user_search(self, varType, varValue):
 
         ''' 系统管理 - 用户管理 - 搜索（用户名、昵称、手机号）'''
-
-        self.Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[1]/div/div/div/div/div/input", 2)  # 请选择
-        if varType == '用户名':
-            self.Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[1]", 2)  # 用户名
-        elif varType == '昵称':
-            self.Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[2]", 2)  # 昵称
-        elif varType == '手机':
-            self.Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[3]", 2)  # 手机
-        else:
+        try:
+            self.Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[1]/div/div/div/div/div/input", 2)  # 请选择
+            if varType == '用户名':
+                self.Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[1]", 2)  # 用户名
+            elif varType == '昵称':
+                self.Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[2]", 2)  # 昵称
+            elif varType == '手机':
+                self.Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[3]", 2)  # 手机
+            else:
+                exit()
+            self.Web_PO.inputXpathClear("//input[@placeholder='请输入搜索内容']", varValue)  # 输入搜索内容
+            self.Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[2]/div/button[1]", 2)  # 查找
+            l_text = self.Web_PO.getXpathsText("//td/div")
+            if l_text == None:
+                return False
+            else:
+                l_userList = (self.List_PO.listSplitSubList(l_text, 6))
+                # print(l_userList)
+                for i in range(len(l_userList)):
+                    if l_userList[i][1] == varValue:
+                        return True
+                return False
+        except:
             exit()
-        self.Web_PO.inputXpathClear("//input[@placeholder='请输入搜索内容']", varValue)  # 输入搜索内容
-        self.Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[2]/div/button[1]", 2)  # 查找
 
-        l_text = self.Web_PO.getXpathsText("//div")
-        print(l_text)
-        # l_userList = (self.List_PO.listSplitSubList(l_text, 6))
-        # l_userList2 = []
-        # for i in range(len(l_userList)):
-        #     if l_userList[i][0] != "":
-        #         l_userList2.append(l_userList[i])
-        # for i in l_userList2:
-        #     print(i)
+    def sys_user_add(self, varAccount, varNickName, varPhone, varAttr, varCommunity=""):
 
+        '''系统公里 - 用户管理 - 增加用户'''
 
+        try:
+            self.Color_PO.consoleColor("31", "31", "\n[增加用户]", "")
+            varResult = self.sys_user_search("用户名", varAccount)  # 依据用户名搜索
+            if varResult == False:
+                self.Web_PO.clickXpath("//button[@class='el-button el-button--success el-button--mini']", 2)  # 点击 新增
+                self.Web_PO.inputXpath("//input[@placeholder='用户名']", varAccount)  # 用户名不能重复，且不能是中文
+                self.Web_PO.inputXpath("//input[@placeholder='昵称']", varNickName)
+                self.Web_PO.inputXpath("//input[@placeholder='手机']", varPhone)
+                self.Web_PO.clickXpath("//tr[@class='el-table__row']/td[5]", 2)  # 点击 用户属性
+                l_text = self.Web_PO.getXpathsText("//div/div/div/ul/li")
+                l_text = self.List_PO.listIntercept(l_text, '1', 1)
+                l_text = self.List_PO.listDel(l_text, "")  # ['家庭医生', '家庭医生助理', '院长', '护士']
+                for i in range(len(l_text)):
+                    if l_text[i] == varAttr:
+                        self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i+1) + "]", 2)  # 选择用户属性
+                        break
+                if varUser_session == "admin":
+                    self.Web_PO.clickXpath("//tr[@class='el-table__row']/td[5]", 2)  # 点击 用户属性
+                    l_text = self.Web_PO.getXpathsText("//div/div[1]/div[1]/ul/li")
+                    l_text = self.List_PO.listDel(l_text, "")  # ['家庭医生', '家庭医生助理', '院长', '护士']
+                    l_text.pop(0)
+                    for i in range(len(l_text)):
+                        if l_text[i] == varAttr:
+                            self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择用户属性
+                            break
+                    self.Web_PO.clickXpath("//tr[@class='el-table__row']/td[6]", 2)  # 点击 所属社区
+                    l_text = self.Web_PO.getXpathsText("//div/div[1]/div[1]/ul/li")
+                    l_text = self.List_PO.listDel(l_text, "")  # ['临汾路街道社区卫生服务中心', '芷江西路街道社区卫生服务中心', '北站街道社区卫生服务中心', '宝山路街道社区卫生服务中心', '彭浦新村街道社区卫生服务中心', '彭浦镇社区卫生服务中心', '天目西路街道社区卫生服务中心', '共和新路街道社区卫生服务中心', '大宁路街道社区卫生服务中心', '大桥社区卫生服务中心', '四平社区卫生服务中心', '延吉社区卫生服务中心', '五角场镇社区卫生服务中心', '殷行社区卫生服务中心', '平凉社区卫生服务中心', '长白社区卫生服务中心', '江浦社区卫生服务中心', '控江社区卫生服务中心', '五角场街道社区卫生服务中心', '定海社区卫生服务中心', '金泽镇社区卫生服务中心', '练塘镇社区卫生服务中心', '白鹤社区卫生服务中心', '华新镇社区卫生服务中心', '香花桥街道社区卫生服务中心', '盈浦街道社区卫生服务中心', '朱家角镇社区卫生服务中心', '徐泾镇社区卫生服务中心', '重固镇社区卫生服务中心', '赵巷镇社区卫生服务中心', '潍坊社区卫生服务中心', '周家渡社区卫生服务中心', '金杨社区卫生服务中心', '沪东社区卫生服务中心', '塘桥社区卫生服务中心', '金桥社区卫生服务中心', '南码头社区卫生服务中心', '上钢社区卫生服务中心', '东明社区卫生服务中心', '陆家嘴社区卫生服务中心', '洋泾社区卫生服务中心', '浦兴社区卫生服务中心', '联洋社区卫生服务中心', '花木社区卫生服务中心', '三林社区卫生服务中心', '北蔡社区卫生服务中心', '唐镇社区卫生服务中心', '高东社区卫生服务中心', '高行社区卫生服务中心', '张江社区卫生服务中心', '曹路社区卫生服务中心', '机场社区卫生服务中心', '江镇社区卫生服务中心', '合庆社区卫生服务中心', '王港社区卫生服务中心', '川沙社区卫生服务中心', '黄楼社区卫生服务中心', '高桥社区卫生服务中心', '凌桥社区卫生服务中心', '迎博社区卫生服务中心', '孙桥社区卫生服务中心', '芦潮港社区卫生服务中心', '航头社区卫生服务中心', '新场社区卫生服务中心', '宣桥社区卫生服务中心', '六灶社区卫生服务中心', '祝桥社区卫生服务中心', '惠南社区卫生服务中心', '大团社区卫生服务中心', '周浦社区卫生服务中心', '泥城社区卫生服务中心', '书院社区卫生服务中心', '万祥社区卫生服务中心', '老港社区卫生服务中心', '康桥社区卫生服务中心', '朱泾社区卫生服务中心', '朱泾镇新农社区卫生服务中心', '亭林镇社区卫生服务中心', '廊下镇社区卫生服务中心', '山阳镇社区卫生服务中心', '吕巷镇社区卫生服务中心', '吕巷镇干巷镇社区卫生服务中心', '枫泾镇社区卫生服务中心', '枫泾镇兴塔社区卫生服务中心', '张堰镇社区卫生服务中心', '漕泾镇社区卫生服务中心', '金山卫镇社区卫生服务中心', '金山工业区社区卫生服务中心', '石化街道社区卫生服务中心', '马陆镇社区卫生服务中心', '嘉定工业区社区卫生服务中心', '嘉定区真新社区卫生服务中心', '嘉定区迎园医院/新成街道社区卫生服务中心', '嘉定区徐行镇社区卫生服务中心', '嘉定区华亭镇社区卫生服务中心', '嘉定镇街道社区卫生服务中心', '外冈镇社区卫生服务中心', '安亭镇社区卫生服务中心', '安亭镇黄渡社区卫生服务中心', '江桥镇社区卫生服务中心', '菊园社区卫生服务中心', '南翔镇社区卫生服务中心', '打浦桥街道社区卫生服务中心', '淮海中路街道社区卫生服中心', '瑞金二路街道社区卫生服务中心', '五里桥街道社区卫生服务中心', '南京东路街道社区卫生服务中心', '外滩街道社区卫生服务中心', '小东门街道社区卫生服务中心', '老西门街道社区卫生服务中心', '半淞园街道社区卫生服务中心', '豫园街道社区卫生服务中心', '曲阳路街道社区卫生服务中心', '凉城新村街道社区卫生服务中心', '广中路街道社区卫生服务中心', '欧阳路街道社区卫生服务中心', '嘉兴路街道社区卫生服务中心', '提篮桥街道社区卫生服务中心', '江湾镇街道社区卫生服务中心', '四川北路街道社区卫生服务中心', '南桥镇社区卫生服务中心', '西渡社区卫生服务中心', '光明社区卫生服务中心', '庄行镇社区卫生服务中心', '邬桥社区卫生服务中心', '金汇镇社区卫生服务中心', '泰日社区卫生服务中心', '齐贤社区卫生服务中心', '柘林镇社区卫生服务中心', '胡桥社区卫生服务中心', '新寺社区卫生服务中心', '青村镇社区卫生服务中心', '钱桥社区卫生服务中心', '奉城镇社区卫生服务中心', '塘外社区卫生服务中心', '头桥社区卫生服务中心', '四团镇社区卫生服务中心', '平安社区卫生服务中心', '海湾镇社区卫生服务中心', '五四社区卫生服务中心', '燎原社区卫生服务中心', '海湾镇社区卫生服务中心奉新分中心', '四团镇社区卫生服务中心邵场分中心', '南桥镇社区卫生服务中心贝港分中心', '横沙乡社区卫生服务中心', '新村乡社区卫生服务中心', '堡镇社区卫生服务中心', '中兴镇社区卫生服务中心', '新海镇社区卫生服务中心', '竖新镇社区卫生服务中心', '向化镇社区卫生服务中心', '港沿镇社区卫生服务中心', '东平镇社区卫生服务中心', '新河镇社区卫生服务中心', '三星镇社区卫生服务中心', '港西镇社区卫生服务中心', '陈家镇社区卫生服务中心', '庙镇社区卫生服务中心', '长兴镇社区卫生服务中心', '建设镇社区卫生服务中心', '绿华镇社区卫生服务中心', '城桥镇社区卫生服务中心', '程家桥街道社区卫生服务中心', '北新泾街道社区卫生服务中心', '虹桥街道社区卫生服务中心', '华阳街道社区卫生服务中心', '仙霞街道社区卫生服务中心', '江苏街道社区卫生服务中心', '周桥街道社区卫生服务中心', '新华街道社区卫生服务中心', '新泾镇社区卫生服务中心', '天山社区卫生服务中心', '杨行镇社区卫生服务中心', '大场镇祁连社区卫生服务中心', '顾村镇社区卫生服务中心', '罗店镇社区卫生服务中心', '罗泾镇社区卫生服务中心', '吴淞街道社区卫生服务中心', '月浦镇月浦社区卫生服务中心', '淞南镇社区卫生服务中心', '庙行镇社区卫生服务中心', '张庙街道长江路社区卫生服务中心', '高境镇社区卫生服务中心', '大场镇大场社区卫生服务中心', '张庙街道泗塘社区卫生服务中心', '月浦镇盛桥社区卫生服务中心', '友谊街道社区卫生服务中心', '顾村镇菊泉新城社区卫生服务中心', '大场镇第三社区卫生服务中心', '南京西路街道社区卫生服务中心', '石门二路街道社区卫生服务中心', '江宁路街道社区卫生服务中心', '静安寺街道社区卫生服务中心', '曹家渡街道社区卫生服务中心', '曹杨街道社区卫生服务中心', '甘泉街道社区卫生服务中心', '长风街道长风社区卫生服务中心', '长风街道白玉社区卫生服务中心', '长寿街道社区卫生服务中心', '宜川街道社区卫生服务中心', '石泉街道社区卫生服务中心', '真如镇社区卫生服务中心', '长征镇社区卫生服务中心', '桃浦镇社区卫生服务中心', '岳阳街道社区卫生服务中心', '新桥街道社区卫生服务中心', '九亭街道社区卫生服务中心', '方松街道社区卫生服务中心', '泗泾街道社区卫生服务中心', '车墩街道社区卫生服务中心', '永丰街道社区卫生服务中心', '中山街道社区卫生服务中心', '洞泾镇社区卫生服务中心', '佘山镇社区卫生服务中心分中心', '石湖荡镇社区卫生服务中心', '泖港镇社区卫生服务中心', '新浜镇社区卫生服务中心', '小昆山镇社区卫生服务中心', '叶榭镇社区卫生服务中心', '吴泾社区卫生服务中心', '马桥社区卫生服务中心', '华漕社区卫生服务中心', '浦江社区卫生服务中心', '颛桥社区卫生服务中心', '梅陇社区卫生服务中心', '古美社区卫生服务中心', '七宝社区卫生服务中心', '龙柏社区卫生服务中心', '虹桥社区卫生服务中心', '新虹社区卫生服务中心', '莘庄社区卫生服务中心', '江川社区卫生服务中心', '枫林街道社区卫生服务中心', '虹梅街道社区卫生服务中心', '田林街道社区卫生服务中心', '凌云街道社区卫生服务中心', '斜土街道社区卫生服务中心', '龙华街道社区卫生服务中心', '天平街道社区卫生服务中心', '康健街道社区卫生服务中心', '漕河泾街道社区卫生服务中心', '徐家汇街道社区卫生服务中心', '华泾镇社区卫生服务中心', '长桥街道社区卫生服务中心', '上海市白茅岭医院', '上海市军天湖医院']
+                    l_text.pop(0)
+                    # print(l_text)
+                    for i in range(len(l_text)):
+                        if l_text[i] == varCommunity:
+                            self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]" , 2)  # 选择用户属性
+                            break
+                    self.Web_PO.clickXpath("//td[@class='el-table_1_column_7 is-center role-edit-row']/div/button[2]", 2)  # 保存
+                else:
+                    # pass
+                    self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[2]", 2)  # 保存
+                print("[已增加] => " + varAccount + ", " + varNickName + ", " + varPhone + ", " + varAttr)
+            else:
+                print("[已存在] => " + varAccount)
+        except:
+            exit()
 
     def sys_user_edit(self, varAccountOld, varAccount, varNickName, varPhone, varAttr):
 
         '''系统管理 - 用户管理 - 编辑'''
         try:
             self.Color_PO.consoleColor("31", "31", "\n[编辑用户]", "")
-            self.sys_user_search("用户名", varAccountOld)  # 依据用户名搜索
-            self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[2]", 2)  # 编辑
-            self.Web_PO.inputXpathClear("//input[@placeholder='用户名']", varAccount)  # 用户名不能重复，且不能是中文
-            self.Web_PO.inputXpathClear("//input[@placeholder='昵称']", varNickName)
-            self.Web_PO.inputXpathClear("//input[@placeholder='手机']", varPhone)
-            self.Web_PO.clickXpath("//td[@class='el-table_1_column_5  ']/div/div/div/div/input", 2)  # 点击 用户属性
-            l_text = self.Web_PO.getXpathsText("//div/div/div/ul/li")
-            l_text = self.List_PO.listIntercept(l_text, '1', 0)
-            l_text = self.List_PO.listDel(l_text, "")
-            for i in range(len(l_text)):
-                if l_text[i] == varAttr:
-                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择用户属性
-                    break
-            self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[2]", 2)  # 保存
-            print("[已完成] => " + varAccount + ", " + varNickName + ", " + varPhone + ", " + varAttr)
+            varResult = self.sys_user_search("用户名", varAccountOld)  # 依据用户名搜索
+            if varResult == True :
+                self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[2]", 2)  # 编辑
+                self.Web_PO.inputXpathClear("//input[@placeholder='用户名']", varAccount)  # 用户名不能重复，且不能是中文
+                self.Web_PO.inputXpathClear("//input[@placeholder='昵称']", varNickName)
+                self.Web_PO.inputXpathClear("//input[@placeholder='手机']", varPhone)
+                self.Web_PO.clickXpath("//td[@class='el-table_1_column_5  ']/div/div/div/div/input", 2)  # 点击 用户属性
+                l_text = self.Web_PO.getXpathsText("//div/div/div/ul/li")
+                l_text = self.List_PO.listIntercept(l_text, '1', 0)
+                l_text = self.List_PO.listDel(l_text, "")
+                for i in range(len(l_text)):
+                    if l_text[i] == varAttr:
+                        self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择用户属性
+                        break
+                self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[2]", 2)  # 保存
+                print("[已编辑] => " + varAccount + ", " + varNickName + ", " + varPhone + ", " + varAttr)
+            else:
+                print("[未找到] => " + varAccountOld)
         except:
             exit()
 
@@ -404,23 +452,26 @@ class DataMonitorPO():
         '''系统管理 - 用户管理 - 角色'''
         try:
             self.Color_PO.consoleColor("31", "31", "\n[角色用户]", "")
-            self.sys_user_search("用户名", varAccount)  # 依据用户名搜索
-            self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[1]", 2)  # 点击 角色
-            self.Web_PO.clickXpath("//div[@class='el-select__tags']/input", 2)  # 选择角色
-            x = self.Web_PO.getXpathsText("//div[@class='el-select-dropdown el-popper is-multiple']/div/div/ul/li")
-            # print(x)  # ['社区机构管理员', '家庭医生', 'ai核对管理员', '档案查看管理员', '安全审计员', '测试管理人员']
-            self.Web_PO.clickXpaths("//i[@class='el-tag__close el-icon-close']", 2)
-            if len(t_role) == 1:
-                for i in range(len(x)):
-                    if x[i] == t_role[0]:
-                        self.Web_PO.clickXpath("//div[@class='el-select-dropdown el-popper is-multiple']/div/div/ul/li[" + str(i+1) + "]", 0)  # 选择 角色
-            else:
-                for j in range(len(t_role)):
+            varResult = self.sys_user_search("用户名", varAccount)  # 依据用户名搜索
+            if varResult == True :
+                self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[1]", 2)  # 点击 角色
+                self.Web_PO.clickXpath("//div[@class='el-select__tags']/input", 2)  # 选择角色
+                x = self.Web_PO.getXpathsText("//div[@class='el-select-dropdown el-popper is-multiple']/div/div/ul/li")
+                # print(x)  # ['社区机构管理员', '家庭医生', 'ai核对管理员', '档案查看管理员', '安全审计员', '测试管理人员']
+                self.Web_PO.clickXpaths("//i[@class='el-tag__close el-icon-close']", 2)
+                if len(t_role) == 1:
                     for i in range(len(x)):
-                        if x[i] == t_role[j]:
-                            self.Web_PO.clickXpath("//div[@class='el-select-dropdown el-popper is-multiple']/div/div/ul/li[" + str(i + 1) + "]", 0)  # 选择 角色
-            self.Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[3]", 2)  # 确认
-            print("[已完成] => " + str(t_role))
+                        if x[i] == t_role[0]:
+                            self.Web_PO.clickXpath("//div[@class='el-select-dropdown el-popper is-multiple']/div/div/ul/li[" + str(i+1) + "]", 0)  # 选择 角色
+                else:
+                    for j in range(len(t_role)):
+                        for i in range(len(x)):
+                            if x[i] == t_role[j]:
+                                self.Web_PO.clickXpath("//div[@class='el-select-dropdown el-popper is-multiple']/div/div/ul/li[" + str(i + 1) + "]", 0)  # 选择 角色
+                self.Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[3]", 2)  # 确认
+                print("[已角色] => " + str(t_role))
+            else:
+                print("[未找到] => " + str(varAccount))
         except:
             exit()
 
@@ -429,9 +480,14 @@ class DataMonitorPO():
         '''系统管理 - 用户管理 - 删除'''
 
         try:
-            self.sys_user_search("用户名", varAccount)  # 依据用户名搜索
-            self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[3]", 2)  # 删除
-            self.Web_PO.clickXpath("//div[@class='el-message-box']/div[3]/button[2]", 2)  # 二次确定。
+            self.Color_PO.consoleColor("31", "31", "\n[删除用户]", "")
+            varResult = self.sys_user_search("用户名", varAccount)  # 依据用户名搜索
+            if varResult == True:
+                self.Web_PO.clickXpath("//td[@class='el-table_1_column_6 is-center role-edit-row']/div/button[3]", 2)  # 删除
+                self.Web_PO.clickXpath("//div[@class='el-message-box']/div[3]/button[2]", 2)  # 二次确定。
+                print("[已删除] => " + str(varAccount))
+            else:
+                print("[未找到] => " + str(varAccount))
         except:
             exit()
 

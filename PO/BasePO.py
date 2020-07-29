@@ -381,7 +381,8 @@ class BasePO(object):
                 list1.append(a.text)
             return list1
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            return None
+            # self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsTextPart(self, varPaths, varText):
         # 获取部分文本列表（从头开始获取直到遇到varText为止）
