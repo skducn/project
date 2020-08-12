@@ -781,16 +781,6 @@ class BasePO(object):
 
     '''[ 10exist ]'''
 
-    def isElement(self, var1):
-        # 通过Id方式检查元素是否存在
-        flag = False
-        try:
-            var1
-            flag = True
-        except:
-            flag = False
-        return flag
-
     def isElementId(self, varId):
         # 通过Id方式检查元素是否存在
         flag = False
