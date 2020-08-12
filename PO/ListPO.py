@@ -384,7 +384,6 @@ class ListPO():
     # 9，截取列表中区间元素作为新列表元素。
     def listIntercept(self, varList, varElement, varMode):
         # 如：[1,2,3,'测试',4,5,6] ，获取测试之前的元素，或获取测试之后的元素。
-
         if varMode == 1:
             list3 = []
             a = ""
