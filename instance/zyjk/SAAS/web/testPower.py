@@ -26,5 +26,5 @@ Saas_PO.clickMenuAll("权限管理", "角色管理")
 # Saas_PO.power_role_editName("管理1", "管理123")
 # # 1.3，删除角色
 # Saas_PO.power_role_del("管理123")
-# # 1.4，编辑角色的菜单
+# # 1.4，编辑角色的菜单，勾选 ["科室注册", "标准代码", "项目管理"]
 Saas_PO.power_role_editMenu("内科医生123", ["科室注册", "标准代码", "项目管理"])

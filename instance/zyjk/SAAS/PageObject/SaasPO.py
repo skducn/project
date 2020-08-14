@@ -247,9 +247,21 @@ class SaasPO(object):
                 if list1[i] == varMemberType:
                     self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择人员类别
 
-            # self.Web_PO.clickXpath("//div[@class='el-col el-col-13']/div[4]/div/div/div[1]/input", 2)  # 就职医院及科室
-            # self.Web_PO.clickXpath('//*[@id="cascader-menu-2150-0-10"]/span', 2)  #  医疗结构
-            # self.Web_PO.clickXpath('//*[@id="cascader-menu-8114-1-2"]/span', 2)  # 科室
+            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[4]/div/div/div/input', 2)  # 就职医院及科室
+            list1 = self.Web_PO.getXpathsText("//span")
+            list1 = self.List_PO.listIntercept(list1, "保存", 1)
+            list1 = self.List_PO.listDel(list1, "")
+            for i in range(len(list1)):
+                if list1[i] == varHospital:
+                    self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[1]/div[1]/ul/li[' + str(i+1) + ']', 2)  #  选择医疗结构
+                    list2 = self.Web_PO.getXpathsText("//span")
+                    list2 = self.List_PO.listIntercept(list2, varHospital, 1)
+                    list2 = self.List_PO.listDel(list2, "")
+                    for j in range(len(list2)):
+                        if list2[j] == varOffice:
+                            self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[2]/div[1]/ul/li[' + str(j+1) + ']', 2)  #  选择科室
+                            break
+                    break
 
             self.Web_PO.clickXpath("//div[@class='el-col el-col-13']/div[5]/div/div/div[1]/input", 2)  # 职称
             list1 = self.Web_PO.getXpathsText("//span")
@@ -301,9 +313,21 @@ class SaasPO(object):
                 if list1[i] == varMemberType:
                     self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择人员类别
 
-            # self.Web_PO.clickXpath("//div[@class='el-col el-col-13']/div[4]/div/div/div[1]/input", 2)  # 就职医院及科室
-            # self.Web_PO.clickXpath('//*[@id="cascader-menu-2150-0-10"]/span', 2)  #  医疗结构
-            # self.Web_PO.clickXpath('//*[@id="cascader-menu-8114-1-2"]/span', 2)  # 科室
+            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[4]/div/div/div/input', 2)  # 就职医院及科室
+            list1 = self.Web_PO.getXpathsText("//span")
+            list1 = self.List_PO.listIntercept(list1, "保存", 1)
+            list1 = self.List_PO.listDel(list1, "")
+            for i in range(len(list1)):
+                if list1[i] == varHospital:
+                    self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[1]/div[1]/ul/li[' + str(i + 1) + ']', 2)  # 选择医疗结构
+                    list2 = self.Web_PO.getXpathsText("//span")
+                    list2 = self.List_PO.listIntercept(list2, varHospital, 1)
+                    list2 = self.List_PO.listDel(list2, "")
+                    for j in range(len(list2)):
+                        if list2[j] == varOffice:
+                            self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[2]/div[1]/ul/li[' + str(j + 1) + ']', 2)  # 选择科室
+                            break
+                    break
 
             self.Web_PO.clickXpath("//div[@class='el-col el-col-13']/div[5]/div/div/div[1]/input", 2)  # 职称
             list1 = self.Web_PO.getXpathsText("//span")

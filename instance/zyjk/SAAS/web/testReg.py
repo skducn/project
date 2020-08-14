@@ -41,13 +41,13 @@ Saas_PO.login("016", "123456")
 
 
 # # 3，医护人员注册
-# Saas_PO.clickMenuAll("注册管理", "医护人员注册")
+Saas_PO.clickMenuAll("注册管理", "医护人员注册")
 # # 3.1,搜索
-# # varSearchResult = Saas_PO.reg_nurseReg_search("董存瑞")
-# # 3.2,新增  医院及科室?
-# # Saas_PO.reg_nurseReg_add(varSearchResult, "董明珠", r"D:\test.jpg", "13816109088", "护照", "310101198004110014", "女", "1980-04-11", "护士", "中国保健医院", "骨科", "护士长", str(Time_PO.get_day_of_day(1)), "专治不孕不育之疑难杂症")
+varSearchResult = Saas_PO.reg_nurseReg_search("董明珠")
+# # 3.2,新增
+# Saas_PO.reg_nurseReg_add(varSearchResult, "董明珠", r"D:\test.jpg", "13816109088", "护照", "310101198004110014", "女", "1980-04-11", "护士", "中国保健医院1", "骨科", "护士长", str(Time_PO.get_day_of_day(1)), "专治不孕不育之疑难杂症")
 # # 3.3,用户（编辑）
-# # Saas_PO.reg_nurseReg_edit(varSearchResult, "董存瑞", r"D:\test.jpg", "13816109089", "身份证", "310101198004120015", "男", "1980-04-12", "医生", "中国保健医院", "心内科", "主治医生", str(Time_PO.get_day_of_day(2)), "专治脚气疑难杂症")
+Saas_PO.reg_nurseReg_edit(varSearchResult, "董存瑞", r"D:\test.jpg", "13816109089", "身份证", "310101198004120015", "男", "1980-04-12", "医生", "中国保健医院1", "心内科", "主治医生", str(Time_PO.get_day_of_day(2)), "专治脚气疑难杂症")
 # # 3.4,账号（编辑）忽略不做
 # # 3.5,操作启用/停用
 # # Saas_PO.reg_nurseReg_opr(varSearchResult, "启用")
