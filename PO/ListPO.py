@@ -50,7 +50,7 @@ print(List_PO.listsContain(list1, list2))  # ['王五', 'test'] //返回list1中
     print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', '0'))  # [4,5,6]
     print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', '1'))  # [1,2,3]
 
-
+10, 去重
 '''
 
 import numpy,sys
@@ -384,8 +384,7 @@ class ListPO():
     # 9，截取列表中区间元素作为新列表元素。
     def listIntercept(self, varList, varElement, varMode):
         # 如：[1,2,3,'测试',4,5,6] ，获取测试之前的元素，或获取测试之后的元素。
-
-        if varMode == "0":
+        if varMode == 1:
             list3 = []
             a = ""
             for i in varList:
@@ -395,7 +394,7 @@ class ListPO():
                     list3.append(i)
             list3.pop(0)
             return (list3)
-        elif varMode == "1":
+        elif varMode == 0:
             # 将列表中某个元素之前的元素组成一个新的列表， 如 [1,2,3,'审核信息',4,5,6] 变为 [1,2,3]
             list4 = []
             for i in varList:
@@ -403,6 +402,19 @@ class ListPO():
                     break
                 list4.append(i)
             return (list4)
+
+
+    # 10，删除列表中重复的项目
+    def listDelAllRepeat(self, varList):
+        return [item for item in varList if varList.count(item) == 1]
+
+    # 11，列表去重（并从小到大排列）
+    def listDelRepeatBySort(self, varList):
+        return list(set(varList))
+
+    # 12，列表去重(保持原位)
+    def listDelRepeat(self, varList):
+        return sorted(set(varList), key=varList.index)
 
     # 10
     # print('b的值为:', b)
@@ -572,5 +584,16 @@ if __name__ == "__main__":
 
 
     print("9，截取列表中区间元素".center(100, "-"))
-    print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', '0'))  # [4,5,6]
-    print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', '1'))  # [1,2,3]
+    print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', 0))  # [1,2,3]
+    print(List_PO.listIntercept([1, 2, 3, '测试', 4, 5, 6], '测试', 1))  # [4,5,6]
+
+    print("10，删除列表中重复的项目".center(100, "-"))
+    print(List_PO.listDelAllRepeat([2, 1, 13, 6, 2, 1]))  # [13, 6]
+
+    print("11，列表去重(元素从小到大排列）".center(100, "-"))
+    print(List_PO.listDelRepeatBySort([2, 1, 13, 6, 2, 1]))  # [1, 2, 13, 6]
+
+    print("12，列表去重（保持原位）".center(100, "-"))
+    print(List_PO.listDelRepeat([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
+
+
