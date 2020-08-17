@@ -3,6 +3,7 @@
 # Author     : John
 # Created on : 2020-6-9
 # Description: 新质控规则自动化脚本
+# test
 # *****************************************************************
 
 from time import sleep

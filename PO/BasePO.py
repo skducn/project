@@ -60,13 +60,13 @@ class BasePO(object):
             # print u"%s 页面中未能找到 %s 元素"%(self, loc)
             print(u"页面中未找到元素 %s " % (loc))
 
-    def sendKeysId_mac(self, varId, dimValue):
+    def sendKeysId(self, varId, dimValue):
         self.driver.find_element_by_id(varId).send_keys(dimValue)
 
-    def sendKeysName_mac(self, varName, dimValue):
+    def sendKeysName(self, varName, dimValue):
         self.driver.find_element_by_name(varName).send_keys(dimValue)
 
-    def sendKeysXpath_mac(self, dimXpath, dimValue):
+    def sendKeysXpath(self, dimXpath, dimValue):
         self.driver.find_element_by_xpath(dimXpath).send_keys(dimValue)
 
 
@@ -381,7 +381,9 @@ class BasePO(object):
                 list1.append(a.text)
             return list1
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            return None
+            # self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+
 
     def getXpathsTextPart(self, varPaths, varText):
         # 获取部分文本列表（从头开始获取直到遇到varText为止）
@@ -780,16 +782,6 @@ class BasePO(object):
 
     '''[ 10exist ]'''
 
-    def isElement(self, var1):
-        # 通过Id方式检查元素是否存在
-        flag = False
-        try:
-            var1
-            flag = True
-        except:
-            flag = False
-        return flag
-
     def isElementId(self, varId):
         # 通过Id方式检查元素是否存在
         flag = False
@@ -850,6 +842,20 @@ class BasePO(object):
         except:
             flag = False
         return flag
+
+    def isElementXpathByAttr(self, varPath, varAttr, varContain):
+        # 通过Xpath方式检查特定属性的元素是否存在
+        flag = False
+        try:
+            for a in self.find_elements(*(By.XPATH, varPath)):
+                if varContain == a.get_attribute(varAttr):
+                    flag = True
+                    break
+        except:
+            flag = False
+        return flag
+
+
 
     def isElementVisibleXpath(self, element):
         # 未验证？？？
