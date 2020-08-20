@@ -7165,11 +7165,15 @@ body.skin-3 {
             "className": "SaasPO",
             "methodName": "test1Main",
             "description": " 测试模块 ",
-            "spendTime": "7.71 s",
+            "spendTime": "16.8 s",
             "status": "成功",
             "log": [
                 "[ok] caseNo.2 , 登录 , 登录账号 , self.login(\"016\", \"123456\")",
-                "[errorrrrrrrrrr] caseNo.3 , 注册管理 , 点击医疗机构注册 , self.clickMenuAll(\"注册管理1\", \"医疗机构注册\")",
+                "[ok] caseNo.3 , 注册管理 , 点击医疗机构注册 , self.clickMenuAll(\"注册管理\", \"医疗机构注册\")",
+                "",
+                "",
+                "\u001b[31;33m[WARNING] 新增医疗机构报失败 , 医院名称或代码已存在！ \u001b[0m",
+                "[ok] caseNo.7 , 注册管理 , 搜索“中国保健医院123”，点击停用 , self.reg_medicalReg_opr(\"中国保健医院12398\", \"停用\")",
                 ""
             ]
         }
@@ -7177,8 +7181,8 @@ body.skin-3 {
     "testName": "SAAS自动化测试报告",
     "testAll": 1,
     "testFail": 0,
-    "beginTime": "2020-08-20 15:48:28",
-    "totalTime": "12s",
+    "beginTime": "2020-08-20 18:01:20",
+    "totalTime": "21s",
     "testSkip": 0,
     "testError": 0
 };

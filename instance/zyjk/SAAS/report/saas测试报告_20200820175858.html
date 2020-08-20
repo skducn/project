@@ -7165,25 +7165,26 @@ body.skin-3 {
             "className": "SaasPO",
             "methodName": "test1Main",
             "description": " 测试模块 ",
-            "spendTime": "4.38 s",
+            "spendTime": "9.96 s",
             "status": "错误",
             "log": [
-                "[errorrrrrrrrrr] caseNo.2 , 登录 , 登录账号 , self.login(\"01611\", \"123456\")\n",
+                "[ok] caseNo.2 , 登录 , 登录账号 , self.login(\"016\", \"123456\")\n[error: \"112医疗机构注册\" 不存在！] caseNo.3 , 注册管理 , 点击医疗机构注册 , self.clickMenuAll(\"注册管理\", \"112医疗机构注册\")\n",
                 "Traceback (most recent call last):\n",
                 "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 60, in testPartExecutor\n    yield\n",
                 "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n",
                 "  File \"C:\\Python38\\lib\\unittest\\case.py\", line 633, in _callTestMethod\n    method()\n",
                 "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\PageObject\\SaasPO.py\", line 101, in test1Main\n    self.readTestcase()\n",
-                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\PageObject\\SaasPO.py\", line 143, in readTestcase\n    raise SystemExit(1)\n",
-                "SystemExit: 1\n"
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\PageObject\\SaasPO.py\", line 142, in readTestcase\n    exit()\n",
+                "  File \"C:\\Python38\\lib\\_sitebuiltins.py\", line 26, in __call__\n    raise SystemExit(code)\n",
+                "SystemExit: None\n"
             ]
         }
     ],
     "testName": "SAAS自动化测试报告",
     "testAll": 1,
     "testFail": 1,
-    "beginTime": "2020-08-20 16:14:07",
-    "totalTime": "9s",
+    "beginTime": "2020-08-20 17:59:00",
+    "totalTime": "14s",
     "testSkip": 0,
     "testError": 0
 };
