@@ -23,7 +23,8 @@ File_PO = FilePO()
 6.2，卸载apk
 
 7.1，根据进程名获取PID
-7.2，根据pid获取进程的信息
+7.2，杀掉进程
+7.3，根据pid获取进程的信息
 '''
 
 
@@ -139,7 +140,7 @@ class DevicePO():
         else:
             print("error，设备未找到！")
 
-    # 7，根据进程名获取PID
+    # 7.1，根据进程名获取PID
     def getProcessPid(self, varProcessName):
         p = psutil.process_iter()
         for r in p:
@@ -147,6 +148,11 @@ class DevicePO():
             f = re.compile(varProcessName, re.I)
             if f.search(aa):
                 return (aa.split('pid=')[1].split(',')[0])
+
+    # 7.2，杀掉进程
+    def killPid(self, varPid):
+        os.popen('taskkill.exe /f /pid '+str(varPid))
+
 
 if __name__ == '__main__':
 
@@ -179,7 +185,10 @@ if __name__ == '__main__':
     print("7.1，根据进程名获取PID".center(100, "-"))
     print(Device_PO.getProcessPid("pycharm.exe"))  # 34168
 
-    print("7.2，根据pid获取进程的信息".center(100, "-"))
+    print("7.2，杀掉进程".center(100, "-"))
+    print(Device_PO.killPid(Device_PO.getProcessPid("java.exe")))  # None
+
+    print("7.3，根据pid获取进程的信息".center(100, "-"))
     p = psutil.Process(int(Device_PO.getProcessPid("pycharm.exe")))
 
     # 获取进程名
@@ -204,3 +213,5 @@ if __name__ == '__main__':
     print(p.io_counters())
     # 进程开启的线程数
     print(p.num_threads())
+
+

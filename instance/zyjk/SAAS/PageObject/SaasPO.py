@@ -11,7 +11,7 @@ import instance.zyjk.SAAS.config.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 from PO.LogPO import *
 from PO.NetPO import *
-from PO.DataPO import *
+from PO.DevicePO import *
 from PO.ColorPO import *
 from PO.ExcelPO.ExcelPO import *
 from PO.TimePO import *
@@ -19,7 +19,6 @@ from PO.SqlserverPO import *
 from PO.FilePO import *
 from PO.WebPO import *
 from PO.ListPO import *
-from PO.ColorPO import *
 from PO.MysqlPO import *
 
 from time import sleep
@@ -67,6 +66,7 @@ class SaasPO(unittest.TestCase):
         self.Time_PO = TimePO()
         self.File_PO = FilePO()
         self.Excel_PO = ExcelPO()
+        self.Device_PO = DevicePO()
         # self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
         self.Web_PO = WebPO("chrome")
         self.Web_PO.openURL(localReadConfig.get_http("varUrl"))
@@ -132,25 +132,19 @@ class SaasPO(unittest.TestCase):
                     print("[ok] caseNo." + str(l + 1) + " , " + str(
                         self.sheetTestCase.cell_value(caseFrom, 2)) + " , " + str(
                         self.sheetTestCase.cell_value(l, 3)) + " , " + str(self.sheetTestCase.cell_value(l, 4)))
-
                 elif varResult[1] == "error":
                     newWs.write(l, 0, varResult[0], self.styleRed)
                     newWs.write(l, 5, varResult[2], self.styleRed)
                     self.newbk.save(self.varExcel)
-                    print("[errorrrrrrrrrr] caseNo." + str(l + 1) + " , " + str(
+                    print("[error: " + varResult[2] + "] caseNo." + str(l + 1) + " , " + str(
                         self.sheetTestCase.cell_value(caseFrom, 2)) + " , " + str(
                         self.sheetTestCase.cell_value(l, 3)) + " , " + str(self.sheetTestCase.cell_value(l, 4)))
-                    raise SystemExit(1)
-
+                    exit()
                 elif varResult[1] == "warning":
                     newWs.write(l, 0, varResult[0], self.styleRed)
                     newWs.write(l, 5, varResult[2], self.styleRed)
                     self.newbk.save(self.varExcel)
-
-            # except:
-
-            #     sys.exit(0)
-
+                    Color_PO.consoleColor("31", "33", "[warning: " + varResult[2] + "] caseNo." + str(l + 1) + " , " + str(self.sheetTestCase.cell_value(caseFrom, 2)) + " , " + str(self.sheetTestCase.cell_value(l, 3)) + " , " + str(self.sheetTestCase.cell_value(l, 4)), "")
 
 
     def login(self, varUser, varPass):
@@ -168,7 +162,6 @@ class SaasPO(unittest.TestCase):
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "登录后页面异常！"]
         else:
             return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "无法登录或登录后页面异常！"]
-
 
     # 操作菜单
     def clickMenuAll(self, varMenu1, varMenu2):
@@ -191,7 +184,6 @@ class SaasPO(unittest.TestCase):
             # 如果菜单不存在则退出系统
             if varSign == 0 :
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", '"' + varMenu1 + '" 不存在！']
-
 
             # 选择子菜单 '''
 
@@ -277,11 +269,9 @@ class SaasPO(unittest.TestCase):
                 self.Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[2]", 2)  # 保存
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
             else:
-                print("\n")
-                Color_PO.consoleColor("31", "33", "[WARNING] 新增医疗机构报失败 , 医院名称或代码已存在！", "")
-                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "医院名称或代码已存在！"]
+                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "warning", "医院名称或代码已存在！"]
         except:
-            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "exit", "注册管理.医疗机构注册 - 新增医疗机构报错！"]
+            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "注册管理.医疗机构注册 - 新增医疗机构报错！"]
 
     def reg_medicalReg_edit(self, varHospitalName,l_medicalReg):
 
@@ -312,13 +302,11 @@ class SaasPO(unittest.TestCase):
                     self.Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[2]", 2)  # 保存
                     return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
                 else:
-                    print("\n")
-                    Color_PO.consoleColor("31", "33", "[WARNING] 编辑医疗机构报失败 , 医院名称或代码已存在！", "")
-                    return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "医院名称或代码已存在！"]
+                    return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "warning", "医院名称或代码已存在！"]
             else:
-                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "医院名称不存在！"]
+                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "warning", "医院名称不存在！"]
         except:
-            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "exit", "注册管理.医疗机构注册 - 编辑医疗机构报错！"]
+            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "注册管理.医疗机构注册 - 编辑医疗机构报错！"]
 
     def reg_medicalReg_opr(self, varSearchHospital, varOpr):
 
@@ -336,9 +324,9 @@ class SaasPO(unittest.TestCase):
                         self.Web_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(list1[3]) + "]/td[8]/div/div/span[3]/span", 2)  # 点击启用
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
             else:
-                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
+                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "warning", "医院名称没找到！"]
         except:
-            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "exit", varSearchHospital + "," + varOpr + "失败！"]
+            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", varSearchHospital + "," + varOpr + "失败！"]
 
 
     # 注册.科室管理
