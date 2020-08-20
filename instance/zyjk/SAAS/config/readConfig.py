@@ -27,11 +27,15 @@ class ReadConfig:
         return value
 
     def get_user(self, name):
-        value = self.cf.get("user", name)
+        value = self.cf.get("USER", name)
         return value
 
     def get_database(self, name):
         value = self.cf.get("DATABASE", name)
+        return value
+
+    def get_report(self, name):
+        value = self.cf.get("REPORT", name)
         return value
 
 if __name__ == '__main__':

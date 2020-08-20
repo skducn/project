@@ -293,10 +293,8 @@ class MysqlPO():
                                 self.cur.execute('select * from %s where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
                                 t4 = self.cur.fetchall()
                                 if len(t4) != 0:
-                                    print("*" * 100)
-                                    print("搜索: " + varValue + " , " + "结果: " + str(
-                                        len(t4)) + " 条记录 来自" + self.varDB + "." + varTable + "(" + str(
-                                        tblDDL[0]) + ")." + list0[i] + "\n")
+                                    print("- -" * 50)
+                                    print("[search = " + varValue + "] , [result = " + str(len(t4)) + "] , [location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0]) + ")." + list0[i] + "]\n")
                                     for j in range(len(t4)):
                                         print(list(t4[j]))
                                     print()
@@ -326,7 +324,8 @@ class MysqlPO():
                         self.cur.execute('select * from %s where %s LIKE "%s"' % (varTable, list0[i], varValue))
                         t4 = self.cur.fetchall()
                         if len(t4) != 0:
-                            print("搜索: " + varValue + " , " + "结果: " + str(len(t4)) + " 条记录 来自" + self.varDB + "." + varTable + "(" + str(tblDDL[0]) + ")." + list0[i] + "\n" )
+                            print("- -" * 50)
+                            print("[search = " + varValue + "] , [result = " + str(len(t4)) + "] , [location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0]) + ")." + list0[i] + "]\n")
                             for j in range(len(t4)):
                                 print(list(t4[j]))
                 list0 = []

@@ -113,9 +113,13 @@ from PO import SqlserverPO, MysqlPO
 # mysql_PO.dbRecord('*', 'char', u'%耳、鼻、咽喉科%')
 # # mysql_PO.dbRecord('*', 'float', u'%295.54%')
 
-# 患者360(mysql)
-mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)  # 测试环境
-# mysql_PO.dbRecord('*', 'char', u'%郑和成%')
-# mysql_PO.dbRecord('*', 'float', u'%295.54%')
-# mysql_PO.dbDesc()   # 所有表结构
-mysql_PO.dbDesc('upv_blood_match_report')   # UpmsUser表结构
+# # 患者360(mysql)
+# mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)  # 测试环境
+# # mysql_PO.dbRecord('*', 'char', u'%郑和成%')
+# # mysql_PO.dbRecord('*', 'float', u'%295.54%')
+# # mysql_PO.dbDesc()   # 所有表结构
+# mysql_PO.dbDesc('upv_blood_match_report')   # UpmsUser表结构
+
+# # SAAS(mysql)
+mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
+mysql_PO.dbRecord('*', 'char', u'%中国保健医院%')
