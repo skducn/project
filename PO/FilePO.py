@@ -365,7 +365,7 @@ if __name__ == "__main__":
     # print(File_PO.getUpPathSlash())  # D:/51/python/project
     #
     # print("2.5 获取自定义上层目录路径".center(100, "-"))
-    # print(File_PO.getLayerPath("../../"))  # D:\51\python\project
+    print(File_PO.getLayerPath("../../tools"))  # D:\51\python\tools
     # print(File_PO.getLayerPath("/"))  # D:\
     #
     # print("2.6 切换路径，影响os.getcwd()".center(100, "-"))
@@ -449,9 +449,9 @@ if __name__ == "__main__":
     # print(os.path.isfile("D:\\51\\python\\project\\PO\\FilePO\\test.txt"))  # True
     #
     # print("3.16 遍历目录中指定扩展名文件".center(100, "-"))
-    filelist = []
-    File_PO.getfilelist(filelist, "../test/upload", [".png", ".jpg"])
-    print(filelist)
+    # filelist = []
+    # File_PO.getfilelist(filelist, "../test/upload", [".png", ".jpg"])
+    # print(filelist)
     #
     #
     #

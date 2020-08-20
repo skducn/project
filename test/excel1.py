@@ -36,7 +36,7 @@ def read(filename, sheetNo=0):
     sh = book.sheet_by_index(sheetNo)
     cols = sh.ncols
     rows = sh.nrows
-    print 'cols=', cols, 'rows=', rows
+    print ('cols=', cols, 'rows=', rows)
     for r in range(rows):  # cols and rows start from 0
         value = sh.cell_value(rowx=r, colx=0)
 
