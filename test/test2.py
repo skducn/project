@@ -5,29 +5,34 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
-from PO.TimePO import *
-Time_PO = TimePO()
+import pymysql
+pymysql.install_as_MySQLdb()
 
-x = '../report/saas_' + str(Time_PO.getDatetime()) + '.html'
-print(x)
 
+
+# from PO.TimePO import *
+# Time_PO = TimePO()
 #
-# def abc(x):
-#     if x == 1:
-#         print(11111)
-#         return True
-#     else:
-#         print(22222)
-#         return False
-#
-# exec("x = abc(1)")
+# x = '../report/saas_' + str(Time_PO.getDatetime()) + '.html'
 # print(x)
-
-for i in range(111):
-    if i == 5:
-        exit()
-    else:
-        print(i)
+#
+# #
+# # def abc(x):
+# #     if x == 1:
+# #         print(11111)
+# #         return True
+# #     else:
+# #         print(22222)
+# #         return False
+# #
+# # exec("x = abc(1)")
+# # print(x)
+#
+# for i in range(111):
+#     if i == 5:
+#         exit()
+#     else:
+#         print(i)
 
 
 # varRule = "11222"

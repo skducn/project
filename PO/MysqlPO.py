@@ -8,6 +8,8 @@
 # pip3.7 install mysqlclient
 #***************************************************************
 
+import pymysql
+pymysql.install_as_MySQLdb()
 import MySQLdb
 from PO.ExcelPO.ExcelPO import *
 Excel_PO = ExcelPO()
@@ -20,7 +22,7 @@ class MysqlPO():
         self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=varPort, use_unicode=True)
         self.cur = self.conn.cursor()
         self.cur.execute('SET NAMES utf8;')
-        self.conn.set_character_set('utf8')
+        # self.conn.set_character_set('utf8')
         self.cur.execute('show tables')
 
     def dbDesc(self, *args):
@@ -451,11 +453,11 @@ class MysqlPO():
 
 if __name__ == '__main__':
 
-    pass
+
     # # crm小程序清空账号权限
-    # mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
-    # mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
-    # mysql_PO.conn.commit()
+    mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
+    mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
+    mysql_PO.conn.commit()
 
     # tmpTuple = Mysql_PO.cur.fetchall()
     # 患者360 开发环境
