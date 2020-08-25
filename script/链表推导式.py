@@ -85,7 +85,8 @@ print(reduce(lambda x, y: x * y, range(1, 11)))  # 3628800
 
 print("13，将字典key与value互换".center(100, "-"))
 a_dict = {'a': 1, 'b': 2, 'c': 3}
-print({value:key for key, value in a_dict.items()})   # {1: 'a', 2: 'b', 3: 'c'}
+print({value: key for key, value in a_dict.items()})   # {1: 'a', 2: 'b', 3: 'c'}
+print([value for key, value in a_dict.items() if key == 'c'][0])   #  3
 
 
 print("14，获取某个元素的index值".center(100, "-"))

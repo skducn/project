@@ -16,7 +16,7 @@ Excel_PO = ExcelPO()
 
 class MysqlPO():
 
-    def __init__(self, varHost, varUser, varPassword, varDB, varPort):
+    def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
 
         self.varDB = varDB
         self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=varPort, use_unicode=True)

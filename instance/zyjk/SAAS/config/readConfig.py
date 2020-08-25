@@ -34,9 +34,10 @@ class ReadConfig:
         value = self.cf.get("DATABASE", name)
         return value
 
-    def get_report(self, name):
-        value = self.cf.get("REPORT", name)
+    def get_interface(self, name):
+        value = self.cf.get("INTERFACE", name)
         return value
+
 
 if __name__ == '__main__':
     print(currentPath)
