@@ -110,7 +110,7 @@ class NetPO():
 
             smtp = smtplib.SMTP()
             smtp.connect('smtp.163.com', '25')
-            smtp.login(varFrom, str(base64.b64decode("amluaGFvMTIz"), encoding="utf-8"))  # byte转str
+            smtp.login(varFrom, str(base64.b64decode("amluaGFvMTIzbak"), encoding="utf-8"))  # byte转str
             smtp.sendmail(varFrom, varTo, msg.as_string())
             smtp.quit()
             print(u"邮件已发送给：" + str(varTo))
@@ -256,6 +256,7 @@ if __name__ == '__main__':
     Net_PO = NetPO()
 
     # print("1，发送邮件".center(100, "-"))
+
     # Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n" + "tesst" + "\n\n 这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","","","","")
     # Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com,skducn@163.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n\n\n\n\n\n\n这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","NetPO.py")
 
@@ -289,7 +290,7 @@ if __name__ == '__main__':
     # Net_PO.downloadImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg", "/11/123.jpg")  # 同上
 
     # print("3.4，异步多线程下载图片".center(100, "-"))
-    Net_PO.downloadImageAsync(["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"],"d:\\test\\")
+    # Net_PO.downloadImageAsync(["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"],"d:\\test\\")
     # Net_PO.downloadImageAsync([["http://img.sccnn.com/bimg/341/08062.jpg"], ["http://img.sccnn.com/bimg/339/21311.jpg"],["http://img.sccnn.com/bimg/341/23281.jpg"], ["http://img.sccnn.com/bimg/341/21281.jpg"]])
 
 

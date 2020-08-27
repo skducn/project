@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bcee6349-2fbc-4bf8-a1c8-de4b5c1bba36" name="Default" comment="2020.4.1 add readme.md">
-<<<<<<< HEAD
-=======
+
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
->>>>>>> parent of 5fcf12b... test 2
-      <change beforePath="$PROJECT_DIR$/PO/ApkPO.py" beforeDir="false" afterPath="$PROJECT_DIR$/PO/ApkPO.py" afterDir="false" />
+
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
