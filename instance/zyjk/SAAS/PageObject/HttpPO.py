@@ -1,31 +1,24 @@
 # -*- coding: utf-8 -*-
 # *****************************************************************
 # Author        : John
-# Date          : 2019-1-19
-# Description   : EHR 接口自动化框架之 驱动
+# Date          : 2020-8-27
+# Description   : 接口请求方式
 # *****************************************************************
-import json, jsonpath, os, xlrd, xlwt, requests, inspect, smtplib, email, mimetypes, base64,urllib3
-from time import sleep
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from email.mime.audio import MIMEAudio
-from email.mime.base import MIMEBase
 
-import instance.zyjk.EHR.frame1.readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
+import json, jsonpath, requests, urllib3
+from time import sleep
+
+import instance.zyjk.SAAS.PageObject.ReadConfigPO as readConfig
+localReadConfig = readConfig.ReadConfigPO()
 
 # 解决Python3 控制台输出InsecureRequestWarning的问题,https://www.cnblogs.com/ernana/p/8601789.html
-# 代码页加入以下这个
 # from requests.packages.urllib3.exceptions import InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # 禁用安全请求警告
 # requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-from xlutils.copy import copy
-from xlrd import open_workbook
 
-class HTTP:
+class HttpPO():
     def __init__(self):
         # 构造函数，实例化实例变量
         global scheme, baseurl, port, commonpath
@@ -212,78 +205,4 @@ class HTTP:
             print("error, 接口的参数与值数量不一致！")
 
         return varJoint[:-1]
-
-    # 3个关于Email函数
-    def getAttachment(self, attachmentFilePath):
-        contentType, encoding = mimetypes.guess_type(attachmentFilePath)
-        if contentType is None or encoding is not None:
-            contentType = 'application/octet-stream'
-        mainType, subType = contentType.split('/', 1)
-        file = open(attachmentFilePath, 'rb')
-        if mainType == 'text':
-            attachment = MIMEText(file.read())
-        elif mainType == 'message':
-            attachment = email.message_from_file(file)
-        elif mainType == 'image':
-            attachment = MIMEImage(file.read(), subType=subType)
-        elif mainType == 'audio':
-            attachment = MIMEAudio(file.read(), subType=subType)
-        else:
-            attachment = MIMEBase(mainType, subType)
-        attachment.set_payload(file.read())
-        # encode_base64(attachment)
-        base64.b64encode(attachment.encode('utf-8'))
-
-        file.close()
-        attachment.add_header('Content-Disposition', 'attachment', filename=os.path.basename(attachmentFilePath))
-        return attachment
-    def sendemail(self, subject, text, *attachmentFilePaths):
-        gmailUser = 'skducn@163.com'
-        gmailPassword = 'jinhao123'
-        recipient = 'skducn@163.com'
-        # recipient = "'jinhao@mo-win.com.cn', 'guoweiliang@mo-win.com.cn'"
-        msg = MIMEMultipart()
-        msg['From'] = gmailUser
-        msg['To'] = recipient
-        msg['Subject'] = subject
-        msg.attach(MIMEText(text, 'plain', 'utf-8'))
-        # 附件是可选项
-        for attachmentFilePath in attachmentFilePaths:
-            if attachmentFilePath != '':
-                msg.attach(self.getAttachment(attachmentFilePath))
-        mailServer = smtplib.SMTP('smtp.exmail.qq.com', 587)
-        mailServer.ehlo()
-        mailServer.starttls()
-        mailServer.ehlo()
-        mailServer.login(gmailUser, gmailPassword)
-        mailServer.sendmail(gmailUser, recipient, msg.as_string())
-        mailServer.close()
-        print('Sent email to %s' % recipient)
-    def send1(self):
-
-        import smtplib
-        from email.mime.text import MIMEText
-        from email.header import Header
-
-        mail_host = "smtp.163.com"
-        mail_user = "skducn@163.com"
-        mail_pass = "123456"
-        sender = 'skducn@163.com'
-        # receivers = ['skducn@163.com', '******@163.com']
-        receivers = ['skducn@163.com']
-        body_content = """ 测试文本  """
-
-        message = MIMEText(body_content, 'plain', 'utf-8')
-        message['From'] = "skducn@163.com"
-        message['To'] = "skducn@163.com"
-        subject = """
-        项目异常测试邮件
-        """
-        message['Subject'] = Header(subject, 'utf-8')
-        smtpObj = smtplib.SMTP()
-        smtpObj.connect(mail_host, 25)
-        smtpObj.set_debuglevel(1)
-        smtpObj.login(mail_user, mail_pass)
-        smtpObj.sendmail(sender, receivers, message.as_string())
-        print("邮件发送成功")
 

@@ -7162,10 +7162,10 @@ body.skin-3 {
     "testPass": 4,
     "testResult": [
         {
-            "className": "runAllEHR",
+            "className": "testInterface",
             "methodName": "test11_0",
             "description": "[with excelNo=1, caseName='登录账号错误1', method='post', interName='/app/login', param=\"{'imei': '123123','userName': 'j', 'password': 'Qa@123456'}\", jsonpathKey='$.msg', expected='用户名不存在', selectSQL='', updateSQL='']",
-            "spendTime": "0.0268 s",
+            "spendTime": "0.187 s",
             "status": "成功",
             "log": [
                 "{'imei': '123123', 'userName': 'j', 'password': 'Qa@123456'}",
@@ -7173,10 +7173,10 @@ body.skin-3 {
             ]
         },
         {
-            "className": "runAllEHR",
+            "className": "testInterface",
             "methodName": "test11_1",
             "description": "[with excelNo=2, caseName='登录密码错误2', method='post', interName='/app/login', param=\"{'imei': '123123','userName': 'shuyang', 'password': 'error'}\", jsonpathKey='$.msg', expected='密码错误', selectSQL='', updateSQL='']",
-            "spendTime": "0.0501 s",
+            "spendTime": "0.0863 s",
             "status": "成功",
             "log": [
                 "{'imei': '123123', 'userName': 'shuyang', 'password': 'error'}",
@@ -7184,10 +7184,10 @@ body.skin-3 {
             ]
         },
         {
-            "className": "runAllEHR",
+            "className": "testInterface",
             "methodName": "test11_2",
             "description": "[with excelNo=3, caseName='登录账号密码为空11', method='post', interName='/app/login', param=\"{'imei': '123123','userName': None, 'password': None}\", jsonpathKey='$.code', expected='10004', selectSQL='', updateSQL='update UpmsEncrypted set ErrorCount=3 where Id=20']",
-            "spendTime": "0.0144 s",
+            "spendTime": "0.0645 s",
             "status": "成功",
             "log": [
                 "{'imei': '123123', 'userName': None, 'password': None}",
@@ -7195,10 +7195,10 @@ body.skin-3 {
             ]
         },
         {
-            "className": "runAllEHR",
+            "className": "testInterface",
             "methodName": "test11_3",
             "description": "[with excelNo=4, caseName='登录11', method='postLogin', interName='/app/login', param=\"{'imei': '123123','userName': '...97ba923378ceada4a7f6428be9956'}\", jsonpathKey='$.msg', expected='成功', selectSQL=\"select * from UpmsEncrypted where CreateName='赵云'\", updateSQL='']",
-            "spendTime": "0.0923 s",
+            "spendTime": "0.103 s",
             "status": "成功",
             "log": [
                 "{'imei': '123123', 'userName': 'shuyang', 'password': '07497ba923378ceada4a7f6428be9956'}",
@@ -7206,10 +7206,10 @@ body.skin-3 {
             ]
         }
     ],
-    "testName": "EHR测试报告",
+    "testName": "SAAS接口自动化测试报告",
     "testAll": 4,
     "testFail": 0,
-    "beginTime": "2020-08-27 17:04:46",
+    "beginTime": "2020-08-27 17:56:10",
     "totalTime": "0s",
     "testSkip": 0,
     "testError": 0
