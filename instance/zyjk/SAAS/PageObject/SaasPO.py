@@ -6,12 +6,13 @@
 # *****************************************************************
 
 import sys, unittest
+
 sys.path.append("../../../../")
 import instance.zyjk.SAAS.config.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 from PO.LogPO import *
 from PO.NetPO import *
-from PO.DataPO import *
+from PO.DevicePO import *
 from PO.ColorPO import *
 from PO.ExcelPO.ExcelPO import *
 from PO.TimePO import *
@@ -19,7 +20,6 @@ from PO.SqlserverPO import *
 from PO.FilePO import *
 from PO.WebPO import *
 from PO.ListPO import *
-from PO.ColorPO import *
 from PO.MysqlPO import *
 
 from time import sleep
@@ -34,6 +34,7 @@ class CustomizeError(BaseException):
 
     def __str__(self):
         return self.msg
+
 
 class SaasPO(unittest.TestCase):
 
@@ -56,27 +57,22 @@ class SaasPO(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         global ruleType, isRun, caseFrom, caseTo, curl, rulesApi, archiveNum, jar, excel, excelSheet1
-        self.excelFile = localReadConfig.get_excel("excelFile")
-        self.excelFileSheetName = localReadConfig.get_excel("excelFileSheetName")
-        host = localReadConfig.get_database("host")
-        username = localReadConfig.get_database("username")
-        password = localReadConfig.get_database("password")
-        database = localReadConfig.get_database("database")
-        self.Sqlserver_PO = SqlServerPO(host, username, password, database)
-        # logFile = localReadConfig.get_log("logFile")
         self.Time_PO = TimePO()
         self.File_PO = FilePO()
         self.Excel_PO = ExcelPO()
+        self.Device_PO = DevicePO()
+        self.List_PO = ListPO()
+        self.Color_PO = ColorPO()
+        self.excelFile = localReadConfig.get_excel("excelFile")
+        self.excelFileSheetName = localReadConfig.get_excel("excelFileSheetName")
+        self.Mysql_PO = MysqlPO(localReadConfig.get_database("host"), localReadConfig.get_database("username"), localReadConfig.get_database("password"), localReadConfig.get_database("database"))
         # self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
+
         self.Web_PO = WebPO("chrome")
         self.Web_PO.openURL(localReadConfig.get_http("varUrl"))
         self.Web_PO.driver.maximize_window()  # 全屏
-        # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
-        self.List_PO = ListPO()
-        self.Color_PO = ColorPO()
-        self.Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
 
-        self.varExcel = os.path.abspath(File_PO.getLayerPath("../config") + "/case.xls")
+        self.varExcel = os.path.abspath(File_PO.getLayerPath("../config") + "/" + self.excelFile)
         self.varTimeYMDHSM = datetime.datetime.now().strftime('%Y%m%d%H%M%S')  # 获取当天日期时间,格式：20161020130318
         bk = xlrd.open_workbook(self.varExcel, formatting_info=True)
         self.newbk = copy(bk)
@@ -120,7 +116,9 @@ class SaasPO(unittest.TestCase):
         # 遍历 module的case
         newWs = self.newbk.get_sheet(1)
         for l in range(caseFrom, caseEnd):
-            if self.sheetTestCase.cell_value(l, 1) == "N" or self.sheetTestCase.cell_value(l, 1) == "n" or self.sheetTestCase.cell_value(l, 4) == "":
+            if self.sheetTestCase.cell_value(l, 1) == "N" or self.sheetTestCase.cell_value(l,
+                                                                                           1) == "n" or self.sheetTestCase.cell_value(
+                    l, 4) == "":
                 pass
             else:
                 newWs.write(l, 0, "", self.styleBlue)  # 清空执行日期
@@ -132,26 +130,23 @@ class SaasPO(unittest.TestCase):
                     print("[ok] caseNo." + str(l + 1) + " , " + str(
                         self.sheetTestCase.cell_value(caseFrom, 2)) + " , " + str(
                         self.sheetTestCase.cell_value(l, 3)) + " , " + str(self.sheetTestCase.cell_value(l, 4)))
-
                 elif varResult[1] == "error":
                     newWs.write(l, 0, varResult[0], self.styleRed)
                     newWs.write(l, 5, varResult[2], self.styleRed)
                     self.newbk.save(self.varExcel)
-                    print("[errorrrrrrrrrr] caseNo." + str(l + 1) + " , " + str(
+                    print("[error: " + varResult[2] + "] caseNo." + str(l + 1) + " , " + str(
                         self.sheetTestCase.cell_value(caseFrom, 2)) + " , " + str(
                         self.sheetTestCase.cell_value(l, 3)) + " , " + str(self.sheetTestCase.cell_value(l, 4)))
-                    raise SystemExit(1)
-
+                    exit()
                 elif varResult[1] == "warning":
                     newWs.write(l, 0, varResult[0], self.styleRed)
                     newWs.write(l, 5, varResult[2], self.styleRed)
                     self.newbk.save(self.varExcel)
-
-            # except:
-
-            #     sys.exit(0)
-
-
+                    Color_PO.consoleColor("31", "33",
+                                          "[warning: " + varResult[2] + "] caseNo." + str(l + 1) + " , " + str(
+                                              self.sheetTestCase.cell_value(caseFrom, 2)) + " , " + str(
+                                              self.sheetTestCase.cell_value(l, 3)) + " , " + str(
+                                              self.sheetTestCase.cell_value(l, 4)), "")
 
     def login(self, varUser, varPass):
 
@@ -161,14 +156,15 @@ class SaasPO(unittest.TestCase):
         self.Web_PO.inputXpath("//input[@placeholder='密码']", varPass)
         self.Web_PO.clickXpath("//button[@type='button']", 2)  # 登录
         # 检查登录是否成功
-        if self.Web_PO.isElementXpath('//*[@id="app"]/section/div/section/section/header/div/div[1]/div[3]/div[2]/div/span[2]'):
-            if self.Web_PO.getXpathText('//*[@id="app"]/section/div/section/section/header/div/div[1]/div[3]/div[2]/div/span[2]') == "个人中心":
+        if self.Web_PO.isElementXpath(
+                '//*[@id="app"]/section/div/section/section/header/div/div[1]/div[3]/div[2]/div/span[2]'):
+            if self.Web_PO.getXpathText(
+                    '//*[@id="app"]/section/div/section/section/header/div/div[1]/div[3]/div[2]/div/span[2]') == "个人中心":
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
             else:
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "登录后页面异常！"]
         else:
             return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "无法登录或登录后页面异常！"]
-
 
     # 操作菜单
     def clickMenuAll(self, varMenu1, varMenu2):
@@ -189,9 +185,8 @@ class SaasPO(unittest.TestCase):
                     break
             sleep(1)
             # 如果菜单不存在则退出系统
-            if varSign == 0 :
+            if varSign == 0:
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", '"' + varMenu1 + '" 不存在！']
-
 
             # 选择子菜单 '''
 
@@ -222,13 +217,15 @@ class SaasPO(unittest.TestCase):
         # print(list1)
         for i in range(len(list1)):
             if varProvince == list1[i]:
-                self.Web_PO.clickXpath("//ul[@class='el-scrollbar__view el-cascader-menu__list']/li[" + str(i + 2) + "]", 2)  # 所属地区2级
+                self.Web_PO.clickXpath(
+                    "//ul[@class='el-scrollbar__view el-cascader-menu__list']/li[" + str(i + 2) + "]", 2)  # 所属地区2级
                 list2 = self.Web_PO.getXpathsText("//li")
                 list2 = self.List_PO.listIntercept(list2, '台湾', 1)
                 # print(list2)
                 for i in range(len(list2)):
                     if varCity == list2[i]:
-                        self.Web_PO.clickXpath("//div[@class='el-cascader-panel']/div[2]/div[1]/ul/li[" + str(i + 1) + "]", 2)
+                        self.Web_PO.clickXpath(
+                            "//div[@class='el-cascader-panel']/div[2]/div[1]/ul/li[" + str(i + 1) + "]", 2)
                         break
                 break
 
@@ -243,13 +240,13 @@ class SaasPO(unittest.TestCase):
             list1 = self.Web_PO.getXpathsText("//tr[@class='el-table__row']/td[1]/div")
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
-                if varHospital == list1[i] :
+                if varHospital == list1[i]:
                     varSign = i
-            if varSign > -1 :
-                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", "", True, varSign+1]
+            if varSign > -1:
+                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", "", True, varSign + 1]
             else:
-                return [1, datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "没找到！", False, varSign+1]
-        return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "没找到！", False, varSign+1]
+                return [1, datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "没找到！", False, varSign + 1]
+        return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "没找到！", False, varSign + 1]
 
     def reg_medicalReg_add(self, l_medicalReg):
 
@@ -263,7 +260,7 @@ class SaasPO(unittest.TestCase):
             self.Mysql_PO.cur.execute('select count(*) from sys_org where orgNo="%s"' % l_medicalReg[1])
             t_countOrgNoByDb = self.Mysql_PO.cur.fetchall()
 
-            if t_countOrgNameByDb[0][0] == 0 and t_countOrgNoByDb[0][0] == 0 :
+            if t_countOrgNameByDb[0][0] == 0 and t_countOrgNoByDb[0][0] == 0:
                 self.Web_PO.clickXpath("//button[@class='el-button right-add el-button--primary']", 2)  # 新增
                 self.Web_PO.inputXpathClear("//form[@class='el-form']/div[1]/div/div/input", l_medicalReg[0])  # 医院名称
                 self.Web_PO.inputXpathClear("//input[@placeholder='请输入医院代码']", l_medicalReg[1])  # 代码
@@ -277,13 +274,11 @@ class SaasPO(unittest.TestCase):
                 self.Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[2]", 2)  # 保存
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
             else:
-                print("\n")
-                Color_PO.consoleColor("31", "33", "[WARNING] 新增医疗机构报失败 , 医院名称或代码已存在！", "")
-                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "医院名称或代码已存在！"]
+                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "warning", "医院名称或代码已存在！"]
         except:
-            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "exit", "注册管理.医疗机构注册 - 新增医疗机构报错！"]
+            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "注册管理.医疗机构注册 - 新增医疗机构报错！"]
 
-    def reg_medicalReg_edit(self, varHospitalName,l_medicalReg):
+    def reg_medicalReg_edit(self, varHospitalName, l_medicalReg):
 
         '''注册管理 - 医疗机构注册 - 编辑 '''
         # varHospital, varCode, varLead, varProvince, varCity, varAddress, varName, varPhone, varIntro
@@ -299,8 +294,10 @@ class SaasPO(unittest.TestCase):
             list1 = self.reg_medicalReg_search(varHospitalName)
             if list1[3] == True:
                 if t_countOrgNameByDb[0][0] == 0 and t_countOrgNoByDb[0][0] == 0:
-                    self.Web_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(list1[4]) + "]/td[8]/div/span", 2)  # 编辑
-                    self.Web_PO.inputXpathClear("//form[@class='el-form']/div[1]/div/div/input", l_medicalReg[0])  # 医院名称
+                    self.Web_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(
+                        list1[4]) + "]/td[8]/div/span", 2)  # 编辑
+                    self.Web_PO.inputXpathClear("//form[@class='el-form']/div[1]/div/div/input",
+                                                l_medicalReg[0])  # 医院名称
                     self.Web_PO.inputXpathClear("//input[@placeholder='请输入医院代码']", l_medicalReg[1])  # 代码
                     self.Web_PO.inputXpathClear("//input[@placeholder='请输入医院负责人姓名']", l_medicalReg[2])  # 负责人
                     self.Web_PO.clickXpath("//form[@class='el-form']/div[4]/div/div/div/input", 2)  # 所属地区
@@ -312,13 +309,11 @@ class SaasPO(unittest.TestCase):
                     self.Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[2]", 2)  # 保存
                     return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
                 else:
-                    print("\n")
-                    Color_PO.consoleColor("31", "33", "[WARNING] 编辑医疗机构报失败 , 医院名称或代码已存在！", "")
-                    return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "医院名称或代码已存在！"]
+                    return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "warning", "医院名称或代码已存在！"]
             else:
-                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "医院名称不存在！"]
+                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "warning", "医院名称不存在！"]
         except:
-            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "exit", "注册管理.医疗机构注册 - 编辑医疗机构报错！"]
+            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", "注册管理.医疗机构注册 - 编辑医疗机构报错！"]
 
     def reg_medicalReg_opr(self, varSearchHospital, varOpr):
 
@@ -328,18 +323,23 @@ class SaasPO(unittest.TestCase):
             list1 = self.reg_medicalReg_search(varSearchHospital)
             # print(list1)
             if list1[3] == True:
-                if varOpr == "启用" :
-                    if not self.Web_PO.isElementXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(list1[3]) + "]/td[8]/div/div/span[1]/span[@aria-hidden]"):
-                        self.Web_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(list1[3]) + "]/td[8]/div/div/span[1]/span", 2)  # 点击停用
-                if varOpr == "停用" :
-                    if not self.Web_PO.isElementXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(list1[3]) + "]/td[8]/div/div/span[3]/span[@aria-hidden]"):
-                        self.Web_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(list1[3]) + "]/td[8]/div/div/span[3]/span", 2)  # 点击启用
+                if varOpr == "启用":
+                    if not self.Web_PO.isElementXpath(
+                            "//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(
+                                    list1[3]) + "]/td[8]/div/div/span[1]/span[@aria-hidden]"):
+                        self.Web_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(
+                            list1[3]) + "]/td[8]/div/div/span[1]/span", 2)  # 点击停用
+                if varOpr == "停用":
+                    if not self.Web_PO.isElementXpath(
+                            "//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(
+                                    list1[3]) + "]/td[8]/div/div/span[3]/span[@aria-hidden]"):
+                        self.Web_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr[" + str(
+                            list1[3]) + "]/td[8]/div/div/span[3]/span", 2)  # 点击启用
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
             else:
-                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
+                return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "warning", "医院名称没找到！"]
         except:
-            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "exit", varSearchHospital + "," + varOpr + "失败！"]
-
+            return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "error", varSearchHospital + "," + varOpr + "失败！"]
 
     # 注册.科室管理
     def reg_officeReg_search(self, varHospital):
@@ -354,18 +354,17 @@ class SaasPO(unittest.TestCase):
             return False
         return True
 
-
-
     def reg_officeReg_add(self, varSearchResult, varOffice, varOfficeIntro):
 
         '''注册管理 - 科室注册 - 添加科室'''
 
         if varSearchResult:
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/div/div/div[1]/section/main/div/div[11]/div[1]/span[2]/span[2]/button/span', 2)  # 添加
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/div/div/div[1]/section/main/div/div[11]/div[1]/span[2]/span[2]/button/span',
+                2)  # 添加
             self.Web_PO.inputXpath("//input[@placeholder='请输入科室名称']", varOffice)
             self.Web_PO.inputXpath("//textarea[@palceholder='请输入科室介绍']", varOfficeIntro)
             self.Web_PO.clickXpath("//button[@class='el-button el-button--primary']", 2)  # 保存
-
 
     # 注册.医护人员注册
     def reg_nurseReg_search(self, varName):
@@ -407,7 +406,7 @@ class SaasPO(unittest.TestCase):
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varInfo[3]:
-                    self.Web_PO.clickXpath('/html/body/div[3]/div[1]/div[1]/ul/li[' + str(i+1) + ']', 2)  # 选择证件类型
+                    self.Web_PO.clickXpath('/html/body/div[3]/div[1]/div[1]/ul/li[' + str(i + 1) + ']', 2)  # 选择证件类型
 
             self.Web_PO.inputXpathClear("//input[@placeholder='身份证类型，校验身份证号码']", varInfo[4])
 
@@ -417,7 +416,8 @@ class SaasPO(unittest.TestCase):
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varInfo[5]:
-                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择性别
+                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]",
+                                           2)  # 选择性别
 
             self.Web_PO.inputXpathEnter("//input[@placeholder='选择日期']", varInfo[6])
 
@@ -427,21 +427,26 @@ class SaasPO(unittest.TestCase):
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varInfo[7]:
-                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择人员类别
+                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]",
+                                           2)  # 选择人员类别
 
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[4]/div/div/div/input', 2)  # 就职医院及科室
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[4]/div/div/div/input',
+                2)  # 就职医院及科室
             list1 = self.Web_PO.getXpathsText("//span")
             list1 = self.List_PO.listIntercept(list1, "保存", 1)
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varInfo[8]:
-                    self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[1]/div[1]/ul/li[' + str(i+1) + ']', 2)  # 选择医疗结构
+                    self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[1]/div[1]/ul/li[' + str(i + 1) + ']',
+                                           2)  # 选择医疗结构
                     list2 = self.Web_PO.getXpathsText("//span")
                     list2 = self.List_PO.listIntercept(list2, varInfo[8], 1)
                     list2 = self.List_PO.listDel(list2, "")
                     for j in range(len(list2)):
                         if list2[j] == varInfo[9]:
-                            self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[2]/div[1]/ul/li[' + str(j+1) + ']', 2)  # 选择科室
+                            self.Web_PO.clickXpath(
+                                '//div[@class="el-cascader-panel"]/div[2]/div[1]/ul/li[' + str(j + 1) + ']', 2)  # 选择科室
                             break
                     break
 
@@ -451,19 +456,26 @@ class SaasPO(unittest.TestCase):
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varInfo[10]:
-                    self.Web_PO.clickXpath("//div[@class='el-select-dropdown el-popper' and @x-placement]/div[1]/div[1]/ul/li["  + str(i+1) + "]", 2)  # 选择职称
+                    self.Web_PO.clickXpath(
+                        "//div[@class='el-select-dropdown el-popper' and @x-placement]/div[1]/div[1]/ul/li[" + str(
+                            i + 1) + "]", 2)  # 选择职称
                     break
 
-            self.Web_PO.inputXpathEnter('//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[6]/div/div/input', varInfo[11])  # 注册日期
+            self.Web_PO.inputXpathEnter(
+                '//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[6]/div/div/input',
+                varInfo[11])  # 注册日期
             self.Web_PO.inputXpathClear("//textarea[@placeholder='请输入个人介绍']", varInfo[12])
             self.Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[2]", 2)  # 保存
 
-    def reg_nurseReg_edit(self, varSearchResult, varName, varHead, varPhone, varCertificateType, varIdcard, varSex, varBirthday, varMemberType, varHospital, varOffice, varTitle, varRegDate, varIntro):
+    def reg_nurseReg_edit(self, varSearchResult, varName, varHead, varPhone, varCertificateType, varIdcard, varSex,
+                          varBirthday, varMemberType, varHospital, varOffice, varTitle, varRegDate, varIntro):
 
         '''注册管理 - 医护人员注册 - 编辑 '''
 
         if varSearchResult == True:
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/div/section/main/div/div[4]/div[2]/table/tbody/tr/td[8]/div/span[1]', 2)  # 用户
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/div/section/main/div/div[4]/div[2]/table/tbody/tr/td[8]/div/span[1]',
+                2)  # 用户
             self.Web_PO.inputXpathClear("//form[@class='el-form']/div[1]/div/div/div/div/input", varName)  # 姓名
             self.Web_PO.sendKeysName("file", varHead)  # 头像
             self.Web_PO.inputXpathClear("//input[@placeholder='请输入手机号码']", varPhone)  # 手机号
@@ -474,7 +486,7 @@ class SaasPO(unittest.TestCase):
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varCertificateType:
-                    self.Web_PO.clickXpath('/html/body/div[3]/div[1]/div[1]/ul/li[' + str(i+1) + ']', 2)  # 选择证件类型
+                    self.Web_PO.clickXpath('/html/body/div[3]/div[1]/div[1]/ul/li[' + str(i + 1) + ']', 2)  # 选择证件类型
 
             self.Web_PO.inputXpathClear("//input[@placeholder='身份证类型，校验身份证号码']", varIdcard)
 
@@ -484,7 +496,8 @@ class SaasPO(unittest.TestCase):
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varSex:
-                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择性别
+                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]",
+                                           2)  # 选择性别
 
             self.Web_PO.inputXpathClearEnter("//input[@placeholder='选择日期']", varBirthday)  # 出生日期
 
@@ -494,21 +507,26 @@ class SaasPO(unittest.TestCase):
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varMemberType:
-                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择人员类别
+                    self.Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(i + 1) + "]",
+                                           2)  # 选择人员类别
 
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[4]/div/div/div/input', 2)  # 就职医院及科室
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[4]/div/div/div/input',
+                2)  # 就职医院及科室
             list1 = self.Web_PO.getXpathsText("//span")
             list1 = self.List_PO.listIntercept(list1, "保存", 1)
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varHospital:
-                    self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[1]/div[1]/ul/li[' + str(i + 1) + ']', 2)  # 选择医疗结构
+                    self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[1]/div[1]/ul/li[' + str(i + 1) + ']',
+                                           2)  # 选择医疗结构
                     list2 = self.Web_PO.getXpathsText("//span")
                     list2 = self.List_PO.listIntercept(list2, varHospital, 1)
                     list2 = self.List_PO.listDel(list2, "")
                     for j in range(len(list2)):
                         if list2[j] == varOffice:
-                            self.Web_PO.clickXpath('//div[@class="el-cascader-panel"]/div[2]/div[1]/ul/li[' + str(j + 1) + ']', 2)  # 选择科室
+                            self.Web_PO.clickXpath(
+                                '//div[@class="el-cascader-panel"]/div[2]/div[1]/ul/li[' + str(j + 1) + ']', 2)  # 选择科室
                             break
                     break
 
@@ -518,9 +536,12 @@ class SaasPO(unittest.TestCase):
             list1 = self.List_PO.listDel(list1, "")
             for i in range(len(list1)):
                 if list1[i] == varTitle:
-                    self.Web_PO.clickXpath("//div[@x-placement='top-start']/div/div/ul/li[" + str(i + 1) + "]", 2)  # 选择职称
+                    self.Web_PO.clickXpath("//div[@x-placement='top-start']/div/div/ul/li[" + str(i + 1) + "]",
+                                           2)  # 选择职称
 
-            self.Web_PO.inputXpathClearEnter('//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[6]/div/div/input', varRegDate)  # 注册日期
+            self.Web_PO.inputXpathClearEnter(
+                '//*[@id="app"]/section/div/section/section/main/div/div/div[1]/div/div[2]/form/div[1]/div[2]/div[6]/div/div/input',
+                varRegDate)  # 注册日期
             self.Web_PO.inputXpathClear("//textarea[@placeholder='请输入个人介绍']", varIntro)
             self.Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[2]", 2)  # 保存
 
@@ -537,7 +558,8 @@ class SaasPO(unittest.TestCase):
                     varSign = 1
                     break
             if varOpr == "启用" and varSign == 0:
-                self.Web_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr/td[8]/div/div/span[1]/span", 2)  # 启用
+                self.Web_PO.clickXpath(
+                    "//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr/td[8]/div/div/span[1]/span", 2)  # 启用
                 print("已启用")
 
             if varOpr == "停用" and varSign == 0:
@@ -545,26 +567,30 @@ class SaasPO(unittest.TestCase):
                     "//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr/td[8]/div/div/span[3]/span", 2)  # 停用
                 print("已停用")
 
-
     # 注册.配置维护
     def reg_Config_opr(self, varConfigName, varValue):
 
         '''注册管理 - 配置维护 - 修改配置的当前值'''
 
         self.Web_PO.inputXpathClearEnter("//input[@placeholder='支持配置名称关键字及拼音首字母关键字']", varConfigName)  # 搜索配置名称
-        self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/main/form/div/div[4]/div[2]/table/tbody/tr/td[8]/div/span', 2)  # 点击修改
+        self.Web_PO.clickXpath(
+            '//*[@id="app"]/section/div/section/section/main/div/section/main/form/div/div[4]/div[2]/table/tbody/tr/td[8]/div/span',
+            2)  # 点击修改
         # 当前值，如果是输入框，否则是下拉框
         if self.Web_PO.isElementXpath("//input[@placeholder='请输入数字']"):
             self.Web_PO.inputXpathClearEnter("//input[@placeholder='请输入数字']", varValue)
-        elif self.Web_PO.isElementXpath('//*[@id="app"]/section/div/section/section/main/div/section/main/form/div/div[3]/table/tbody/tr/td[3]/div/div/div/div/div[1]/input'):
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/main/form/div/div[3]/table/tbody/tr/td[3]/div/div/div/div/div[1]/input', 1)
+        elif self.Web_PO.isElementXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/main/form/div/div[3]/table/tbody/tr/td[3]/div/div/div/div/div[1]/input'):
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/main/form/div/div[3]/table/tbody/tr/td[3]/div/div/div/div/div[1]/input',
+                1)
             if varValue == "启用" or varValue == "是":
                 self.Web_PO.clickXpath('/html/body/div[2]/div[1]/div[1]/ul/li[1]', 1)  # 启用/是
             else:
                 self.Web_PO.clickXpath('/html/body/div[2]/div[1]/div[1]/ul/li[2]', 2)  # 停用/否
-        self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/main/form/div/div[4]/div[2]/table/tbody/tr/td[8]/div/span[1]', 2)  # 保存
-
-
+        self.Web_PO.clickXpath(
+            '//*[@id="app"]/section/div/section/section/main/div/section/main/form/div/div[4]/div[2]/table/tbody/tr/td[8]/div/span[1]',
+            2)  # 保存
 
     # 权限.新增角色
     def power_role_add(self, varRole):
@@ -579,12 +605,16 @@ class SaasPO(unittest.TestCase):
         varSign = 0
         for i in list1:
             if i == varRole:
-                varSign =1
+                varSign = 1
                 break
         if varSign == 0:
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/section[1]/header/div/div[2]/button/span', 2)  # 新建角色
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/section[1]/header/div/div[2]/button/span',
+                2)  # 新建角色
             self.Web_PO.inputXpathClear("//input[@placeholder='请输入内容']", varRole)  # 角色
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(len(list1)+1) + ']/div/div[2]', 2)  # 保存
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(
+                    len(list1) + 1) + ']/div/div[2]', 2)  # 保存
 
     # 权限.编辑角色名称
     def power_role_editName(self, varRoleOld, varRoleNew):
@@ -598,12 +628,16 @@ class SaasPO(unittest.TestCase):
         varSign = 0
         for i in range(len(list1)):
             if list1[i] == varRoleOld:
-                varSign = i+1
+                varSign = i + 1
                 break
         if varSign != 0:
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(varSign) + ']/div/div[2]', 2)  # 编辑
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(
+                    varSign) + ']/div/div[2]', 2)  # 编辑
             self.Web_PO.inputXpathClear("//input[@placeholder='请输入内容']", varRoleNew)  # 新角色
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(varSign) + ']/div/div[2]', 2)  # 保存
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(
+                    varSign) + ']/div/div[2]', 2)  # 保存
 
     # 权限.删除角色
     def power_role_del(self, varRole):
@@ -617,13 +651,15 @@ class SaasPO(unittest.TestCase):
         varSign = 0
         for i in range(len(list1)):
             if list1[i] == varRole:
-                varSign = i+1
+                varSign = i + 1
                 break
         if varSign != 0:
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(varSign) + ']/div/div[3]', 2)  # 删除
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(
+                    varSign) + ']/div/div[3]', 2)  # 删除
             self.Web_PO.clickXpath('/html/body/div[2]/div/div[3]/button[2]/span', 2)  # 确定
 
-     # 权限.编辑角色的菜单
+    # 权限.编辑角色的菜单
     def power_role_editMenu(self, varRole, varMenu):
 
         ''' 权限管理 - 角色管理 - 编辑角色的菜单 '''
@@ -638,7 +674,9 @@ class SaasPO(unittest.TestCase):
                 varSign = i + 1
                 break
         if varSign != 0:
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(varSign) + ']/div/div[1]', 2)  # 点击角色
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/section[1]/main/ul/li[' + str(
+                    varSign) + ']/div/div[1]', 2)  # 点击角色
 
             # 获取大菜单列表
             list0 = self.Web_PO.getXpathsText("//li")
@@ -647,9 +685,10 @@ class SaasPO(unittest.TestCase):
 
             # 清除所有大菜单的勾选（点击大菜单的checkbox，再取消已勾选的。）
             for i in range(len(list0)):
-                self.Web_PO.clickXpaths("//div[@class='el-tree']/div[" + str(i+1) + "]/div[1]/label", 2)
+                self.Web_PO.clickXpaths("//div[@class='el-tree']/div[" + str(i + 1) + "]/div[1]/label", 2)
             for i in range(len(list0)):
-                if self.Web_PO.isElementXpathByAttr("//div[@class='el-tree']/div[" + str(i+1) + "]", "aria-checked", "true"):
+                if self.Web_PO.isElementXpathByAttr("//div[@class='el-tree']/div[" + str(i + 1) + "]", "aria-checked",
+                                                    "true"):
                     self.Web_PO.clickXpaths("//div[@class='el-tree']/div[" + str(i + 1) + "]/div[1]/label", 2)
 
             # 子菜单列表
@@ -658,10 +697,10 @@ class SaasPO(unittest.TestCase):
             # 子菜单对应的层级及序号
             x = (self.Web_PO.getXpathsQty("//div[@class='el-tree']/div"))
             list2 = []
-            for i in range(x-1):
-                a = (self.Web_PO.getXpathsQty("//div[@class='el-tree']/div[" + str(i+1) + "]/div[2]/div"))
+            for i in range(x - 1):
+                a = (self.Web_PO.getXpathsQty("//div[@class='el-tree']/div[" + str(i + 1) + "]/div[2]/div"))
                 for j in range(a):
-                    list2.append(str(i+1) + "." + str(j+1))
+                    list2.append(str(i + 1) + "." + str(j + 1))
 
             # 将子菜单列表与子菜单对应的层级及序号组合成字典
             dict1 = self.List_PO.lists2dict(list6, list2)
@@ -670,26 +709,23 @@ class SaasPO(unittest.TestCase):
             for i in range(len(varMenu)):
                 for k in dict1:
                     if k == varMenu[i]:
-                        self.Web_PO.clickXpath("//div[@class='el-tree']/div[" + str(dict1[k]).split(".")[0] + "]/div[2]/div[" + str(dict1[k]).split(".")[1] + "]/div[1]/label", 2)
+                        self.Web_PO.clickXpath(
+                            "//div[@class='el-tree']/div[" + str(dict1[k]).split(".")[0] + "]/div[2]/div[" +
+                            str(dict1[k]).split(".")[1] + "]/div[1]/label", 2)
 
-            self.Web_PO.clickXpath('//*[@id="app"]/section/div/section/section/main/div/section/section[2]/footer/button', 2)  # 保存
-
+            self.Web_PO.clickXpath(
+                '//*[@id="app"]/section/div/section/section/main/div/section/section[2]/footer/button', 2)  # 保存
 
 
 if __name__ == '__main__':
     suite = unittest.defaultTestLoader.discover('.', pattern='SaasPO.py', top_level_dir=None)
     runner = bf(suite)
     reportFile = '../report/saas测试报告_' + str(Time_PO.getDatetime()) + '.html'
-    runner.report(filename=reportFile, description= 'SAAS自动化测试报告')
+    runner.report(filename=reportFile, description='SAAS自动化测试报告')
     os.system("start " + reportFile)
-
-
-
 
 # if __name__ == '__main__':
 #     currentPath = os.path.split(os.path.realpath(__file__))[0]
 #     getConfig = os.path.join(currentPath, "config.ini")
 #     print(currentPath)
 #     # Saas_PO = SaasPO()
-
-

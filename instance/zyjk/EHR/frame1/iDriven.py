@@ -267,7 +267,7 @@ class HTTP:
 
         mail_host = "smtp.163.com"
         mail_user = "skducn@163.com"
-        mail_pass = "jinhao80"
+        mail_pass = "123456"
         sender = 'skducn@163.com'
         # receivers = ['skducn@163.com', '******@163.com']
         receivers = ['skducn@163.com']

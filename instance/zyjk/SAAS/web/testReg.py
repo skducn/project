@@ -6,18 +6,20 @@
 # *****************************************************************
 
 from instance.zyjk.SAAS.PageObject.SaasPO import *
+
 Saas_PO = SaasPO()
 from PO.TimePO import *
+
 time_PO = TimePO()
 from PO.ListPO import *
+
 List_PO = ListPO()
 from PO.ColorPO import *
-Color_PO = ColorPO()
 
+Color_PO = ColorPO()
 
 # 登录
 Saas_PO.login("016", "123456")
-
 
 # # 1，医疗机构注册
 Saas_PO.clickMenuAll("注册管理", "医疗机构注册")
