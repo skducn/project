@@ -77,7 +77,6 @@ class HTTP:
         except Exception as e:
             print(e.__traceback__)
 
-
     def get(self, interName, param=''):
         ''' get 请求
             :param interName: /inter/HTTP/login
@@ -102,16 +101,8 @@ if __name__ == '__main__':
     http = HTTP()
     print(http.post("/auth/login", {'userNo': '016', 'password': '123456'}))
     dict1 = (http.get("/auth/getCodeByToken"))
+    print(dict1)
     print(http.get("/auth/getTokenByCode", 'code=' + dict1['data']))
+    print(http.get("/saasuser/sysOrg/getProvince"))
+    print(http.get("/saasuser/sysOrg/getCity", 'code=820000'))
     print(http.post("/auth/logout"))
-
-
-    # print(http.get("/auth/getTokenByCode", 'code=' + str([value for key, value in dict1.items() if key == 'data'][0])))
-    # print(d['token'])
-
-
-
-    # http.get("/encrypted/getQuestionList", 'userName=shuyang')
-    # x = http.get("/PersonBasicInfo/getArchiveNum", 'idCard=110101199003071970')
-    # x = json.loads(x)
-    # print(x['data'])
