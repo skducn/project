@@ -18,7 +18,7 @@ class XlsPO():
 
     def __init__(self):
         # 初始化表格
-        self.varExcel = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) + u'\\config\\' + localReadConfig.get_system("excelName")
+        self.varExcel = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) + u'\\config\\' + localReadConfig.get_excel("interfaceFile")
         self.rbk = xlrd.open_workbook(self.varExcel, formatting_info=True)
         self.wbk = copy(self.rbk)
         self.wSheet = self.wbk.get_sheet(1)
@@ -141,83 +141,6 @@ class XlsPO():
                 l_case = []
         return l_casesuit
 
-    def getCaseParam123(self, l_interIsRun, interName):
-        '''
-        遍历case获取参数
-        :param l_interIsRun: [[2, 3, 5], [], 0] , 3个列表分表表示isRunY,isNoRun,isRunAll
-        :param interName: '/inter/HTTP/auth'
-        :return: [[2，'获取Token', 'post', '/inter/HTTP/auth', 'None', '$.status','200']]
-        '''
-        l_case = []
-        l_casesuit = []
-
-        # isRun 为空 （case工作表）
-        if l_interIsRun[2] > 0:
-            for i in range(1, self.sheetCase.nrows):
-                if self.sheetCase.cell_value(i, 5) == interName:
-                    if self.sheetCase.cell_value(i, 0) == 'N' or self.sheetCase.cell_value(i, 0) == 'n':
-                        pass
-                    else:
-                        l_case.append(i)  # excelNO
-                        l_case.append(self.sheetCase.cell_value(i, 3))  # caseName
-                        l_case.append(self.sheetCase.cell_value(i, 4))  # method
-                        l_case.append(self.sheetCase.cell_value(i, 5))  # interName
-                        l_case.append(self.sheetCase.cell_value(i, 6))  # param
-                        l_case.append(self.sheetCase.cell_value(i, 7))  # jsonpath
-                        l_case.append(self.sheetCase.cell_value(i, 8))  # expected
-                        l_case.append(self.sheetCase.cell_value(i, 13))  # selectSQL
-                        l_case.append(self.sheetCase.cell_value(i, 15))  # updateSQL
-                        l_casesuit.append(l_case)
-                        l_case = []
-        else:
-            if len(l_interIsRun[0]) == 0:  # isNoRun
-                # 遍历 inter 中 isRun <> N 的case
-                l_isNoRun = []
-                for i in l_interIsRun[1]:
-                    l_isNoRun.append(self.sheetInter.cell_value(i - 1, 4))
-                for i in range(1, self.sheetCase.nrows):
-                    if self.sheetCase.cell_value(i, 5) not in l_isNoRun:
-                        if self.sheetCase.cell_value(i, 5) == interName:
-                            # 遍历 isRun from case
-                            if self.sheetCase.cell_value(i, 0) == 'N' or self.sheetCase.cell_value(i, 0) == 'n':
-                                pass
-                            else:
-                                l_case.append(i)  # excelNO
-                                l_case.append(self.sheetCase.cell_value(i, 3))  # caseName
-                                l_case.append(self.sheetCase.cell_value(i, 4))  # method
-                                l_case.append(self.sheetCase.cell_value(i, 5))  # interName
-                                l_case.append(self.sheetCase.cell_value(i, 6))  # param
-                                l_case.append(self.sheetCase.cell_value(i, 7))  # jsonpath
-                                l_case.append(self.sheetCase.cell_value(i, 8))  # expected
-                                l_case.append(self.sheetCase.cell_value(i, 13))  # selectSQL
-                                l_case.append(self.sheetCase.cell_value(i, 15))  # updateSQL
-                                l_casesuit.append(l_case)
-                                l_case = []
-            else:
-                # isRunY
-                l_isRunY = []
-                for i in l_interIsRun[0]:
-                    l_isRunY.append(self.sheetInter.cell_value(i - 1, 3))
-                for i in range(1, self.sheetCase.nrows):
-                    if self.sheetCase.cell_value(i, 4) in l_isRunY:
-                        if self.sheetCase.cell_value(i, 4) == interName:
-                            # 遍历 isRun from case
-                            if self.sheetCase.cell_value(i, 0) == 'N' or self.sheetCase.cell_value(i, 0) == 'n':
-                                pass
-                            else:
-                                l_case.append(i)  # excelNO
-                                l_case.append(self.sheetCase.cell_value(i, 3))  # caseName
-                                l_case.append(self.sheetCase.cell_value(i, 4))  # method
-                                l_case.append(self.sheetCase.cell_value(i, 5))  # interName
-                                l_case.append(self.sheetCase.cell_value(i, 6))  # param
-                                l_case.append(self.sheetCase.cell_value(i, 7))  # jsonpath
-                                l_case.append(self.sheetCase.cell_value(i, 8))  # expected
-                                l_case.append(self.sheetCase.cell_value(i, 13))  # selectSQL
-                                l_case.append(self.sheetCase.cell_value(i, 15))  # updateSQL
-                                l_casesuit.append(l_case)
-                                l_case = []
-        return l_casesuit
-
     def setCaseParam(self, excelNo, generation, result, response, selectSQL, updateSQL):
 
         '''
@@ -257,26 +180,31 @@ class XlsPO():
 
         self.wbk.save(self.varExcel)
 
-    def result(self, excelNo, caseName, method, interName, param, jsonpathKey, expected):
+    def result(self, excelNo, caseName, method, interName, d_requestParam, jsonpathKey, expected):
 
         ''' 解析参数 '''
 
-        print(param)  # 输出参数，如{'imei': '123123', 'userName': 'j', 'password': 'Qa@123456'}
-        jsonres = reflection.run([caseName, method, interName, param])
-        # print(jsonres)  # {"msg":"用户名不存在","code":10001,"token":""}
-        d_jsonres = json.loads(jsonres)
-        # print(d_jsonres)  # {'msg': '用户名不存在', 'code': 10001, 'token': ''}
-        jsonpathValue = jsonpath.jsonpath(d_jsonres, expr=jsonpathKey)
-        jsonpathValue = str(jsonpathValue[0])
-        # 断言预期结果
-        if jsonpathValue != expected:
-            self.setCaseParam(excelNo, "", "Fail", str(d_jsonres), "", "")
-            assert jsonpathValue == expected, "预期值是<" + expected + ">，而实测值是<" + jsonpathValue +">"
+        # 请求参数
+        if d_requestParam == "":
+            print("[无参]")
+        else:
+            print("[参数] => " + str(d_requestParam))
+
+        # 响应值
+        d_responseValue = reflection.run([caseName, method, interName, d_requestParam])
+        print("[返回值] => " + str(d_responseValue))
+
+        # 检查预期值
+        l_expected = jsonpath.jsonpath(d_responseValue, expr=jsonpathKey)
+        if l_expected[0] != expected:
+            self.setCaseParam(excelNo, "", "Fail", str(d_responseValue), "", "")
+            assert l_expected[0] == expected, "预期值是<" + expected + ">, 实测值是<" + l_expected[0] + ">"
             return False
         else:
-            self.setCaseParam(excelNo, "", "OK", str(d_jsonres), "", "")
-            return d_jsonres
+            self.setCaseParam(excelNo, "", "OK", str(d_responseValue), "", "")
+            print("[结果] => ok, 预期值与实测值一致\n")
+            return d_responseValue
 
 if __name__ == '__main__':
+
     Xls_PO = XlsPO()
-    # xls.setCaseParam(3,'userid=12', 'pass' ,"{'status': 200, 'msg': '恭喜您，登录成功', 'userid': '1'}")

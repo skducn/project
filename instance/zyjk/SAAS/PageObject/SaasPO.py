@@ -8,8 +8,8 @@
 import sys, unittest
 
 sys.path.append("../../../../")
-import instance.zyjk.SAAS.config.readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
+import instance.zyjk.SAAS.PageObject.ReadConfigPO as readConfig
+localReadConfig = readConfig.ReadConfigPO()
 from PO.LogPO import *
 from PO.NetPO import *
 from PO.DevicePO import *
@@ -63,13 +63,12 @@ class SaasPO(unittest.TestCase):
         self.Device_PO = DevicePO()
         self.List_PO = ListPO()
         self.Color_PO = ColorPO()
-        self.excelFile = localReadConfig.get_excel("excelFile")
-        self.excelFileSheetName = localReadConfig.get_excel("excelFileSheetName")
-        self.Mysql_PO = MysqlPO(localReadConfig.get_database("host"), localReadConfig.get_database("username"), localReadConfig.get_database("password"), localReadConfig.get_database("database"))
+        self.excelFile = localReadConfig.get_excel("webFile")
+        self.Mysql_PO = MysqlPO(localReadConfig.get_db("host"), localReadConfig.get_db("username"), localReadConfig.get_db("password"), localReadConfig.get_db("database"), localReadConfig.get_db("port"))
         # self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
 
         self.Web_PO = WebPO("chrome")
-        self.Web_PO.openURL(localReadConfig.get_http("varUrl"))
+        self.Web_PO.openURL(localReadConfig.get_http("webUrl"))
         self.Web_PO.driver.maximize_window()  # 全屏
 
         self.varExcel = os.path.abspath(File_PO.getLayerPath("../config") + "/" + self.excelFile)

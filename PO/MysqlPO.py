@@ -19,7 +19,7 @@ class MysqlPO():
     def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
 
         self.varDB = varDB
-        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=varPort, use_unicode=True)
+        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
         self.cur = self.conn.cursor()
         self.cur.execute('SET NAMES utf8;')
         # self.conn.set_character_set('utf8')
@@ -454,10 +454,12 @@ class MysqlPO():
 if __name__ == '__main__':
 
 
-    # # crm小程序清空账号权限
-    mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
-    mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
-    mysql_PO.conn.commit()
+    Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
+
+    # # # crm小程序清空账号权限
+    # mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
+    # mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
+    # mysql_PO.conn.commit()
 
     # tmpTuple = Mysql_PO.cur.fetchall()
     # 患者360 开发环境
