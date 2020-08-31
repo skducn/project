@@ -28,15 +28,12 @@ class testInterface(unittest.TestCase):
     def test11(self, excelNo, caseName, method, interName, param, jsonpathKey, expected, selectSQL, updateSQL):
 
         ''
-        # ' 判断对象属性是否存在 '
+        # 判断对象属性是否存在
         if hasattr(testInterface, "code"):param = param.replace("$$code", str(testInterface.code))
+        if hasattr(testInterface, "token"):param = param.replace("$$token", str(testInterface.token))
 
-        # **********************************************************************************************************************************
-        if method == "post":
-            d_jsonres = Xls_PO.result(excelNo, caseName, method, interName, dict(eval(param)), jsonpathKey, expected)
-        elif method == "get":
-            d_jsonres = Xls_PO.result(excelNo, caseName, method, interName, param, jsonpathKey, expected)
-        # **********************************************************************************************************************************
+        # 请求
+        d_jsonres = Xls_PO.result(excelNo, caseName, method, interName, param, jsonpathKey, expected)
 
         # 登录
         if caseName == "登录":
