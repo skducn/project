@@ -52,7 +52,7 @@ class HttpPO():
             if param == '':
                 result = self.session.post(url, data=None)
             else:
-                result = self.session.post(url, headers=self.headers, json=param, verify=False)
+                result = self.session.post(url, headers=self.headers, json=dict(eval(param)), verify=False)
             self.jsonres = json.loads(result.text)
             if "token" not in self.session.headers:
                 self.session.headers['token'] = self.jsonres['data']['token']

@@ -180,18 +180,18 @@ class XlsPO():
 
         self.wbk.save(self.varExcel)
 
-    def result(self, excelNo, caseName, method, interName, d_requestParam, jsonpathKey, expected):
+    def result(self, excelNo, caseName, method, interName, param, jsonpathKey, expected):
 
         ''' 解析参数 '''
 
         # 请求参数
-        if d_requestParam == "":
+        if param == "":
             print("[无参]")
         else:
-            print("[参数] => " + str(d_requestParam))
+            print("[参数] => " + str(param))
 
         # 响应值
-        d_responseValue = reflection.run([caseName, method, interName, d_requestParam])
+        d_responseValue = reflection.run([caseName, method, interName, param])
         print("[返回值] => " + str(d_responseValue))
 
         # 检查预期值
