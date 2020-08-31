@@ -154,17 +154,15 @@ class XlsPO():
         # generation
         self.wSheet.write(excelNo, 9, generation, self.styleBlue)
 
-        # result
+
         if result == "OK":
-            self.wSheet.write(excelNo, 10, result, self.styleBlue)
+            self.wSheet.write(excelNo, 10, result, self.styleBlue)    # result
+            self.wSheet.write(excelNo, 11, response, self.styleBlue)   # response
+            self.wSheet.write(excelNo, 12, str(datetime.now().strftime("%Y%m%d%H%M%S")), self.styleBlue)   # date
         if result == "Fail":
-            self.wSheet.write(excelNo, 10, result, self.styleRed)
-
-        # response
-        self.wSheet.write(excelNo, 11, response, self.styleBlue)
-
-        # date
-        self.wSheet.write(excelNo, 12, str(datetime.now().strftime("%Y%m%d%H%M%S")), self.styleBlue)
+            self.wSheet.write(excelNo, 10, result, self.styleRed)  # result
+            self.wSheet.write(excelNo, 11, response, self.styleRed)   # response
+            self.wSheet.write(excelNo, 12, str(datetime.now().strftime("%Y%m%d%H%M%S")), self.styleRed)  # date
 
         # selectSQL
         if selectSQL == 0:
@@ -198,8 +196,8 @@ class XlsPO():
         l_expected = jsonpath.jsonpath(d_responseValue, expr=jsonpathKey)
         if l_expected[0] != expected:
             self.setCaseParam(excelNo, "", "Fail", str(d_responseValue), "", "")
-            assert l_expected[0] == expected, "预期值是<" + expected + ">, 实测值是<" + l_expected[0] + ">"
-            return False
+            print("[结果] => Fail, 预期值：" + str(expected) + ", 实测值：" + str(l_expected[0]) + "\n")
+            return d_responseValue
         else:
             self.setCaseParam(excelNo, "", "OK", str(d_responseValue), "", "")
             print("[结果] => ok, 预期值与实测值一致\n")

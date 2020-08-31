@@ -55,7 +55,10 @@ class HttpPO():
                 result = self.session.post(url, headers=self.headers, json=dict(eval(param)), verify=False)
             self.jsonres = json.loads(result.text)
             if "token" not in self.session.headers:
-                self.session.headers['token'] = self.jsonres['data']['token']
+                if None == self.jsonres["data"]:
+                    pass
+                elif 'token' in self.jsonres["data"]:
+                    self.session.headers['token'] = self.jsonres['data']['token']
             return self.jsonres
         except Exception as e:
             print(e.__traceback__)

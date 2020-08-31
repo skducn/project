@@ -5,9 +5,15 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
-import pymysql
-pymysql.install_as_MySQLdb()
+# import pymysql
+# pymysql.install_as_MySQLdb()
 
+d = {'name':'Tom', 'age':10, 'Tel':{"token":1212121212}}
+
+if 'token' in d["Tel"]:
+    print("1111111")
+else:
+    print(222222)
 
 
 # from PO.TimePO import *

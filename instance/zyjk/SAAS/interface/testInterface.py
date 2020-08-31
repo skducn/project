@@ -3,7 +3,7 @@
 # Author        : John
 # Date          : 2020-8-27
 # Description   : SAAS 接口自动化框架
-# https://md5jiami.51240.com/   md5加密
+# http://192.168.0.213:8801/doc.html   SAAS接口文档
 # *****************************************************************
 
 import os, sys, json, jsonpath, unittest, platform, time
