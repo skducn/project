@@ -155,11 +155,11 @@ class XlsPO():
         self.wSheet.write(excelNo, 9, generation, self.styleBlue)
 
 
-        if result == "OK":
+        if result == "ok":
             self.wSheet.write(excelNo, 10, result, self.styleBlue)    # result
             self.wSheet.write(excelNo, 11, response, self.styleBlue)   # response
             self.wSheet.write(excelNo, 12, str(datetime.now().strftime("%Y%m%d%H%M%S")), self.styleBlue)   # date
-        if result == "Fail":
+        if result == "fail":
             self.wSheet.write(excelNo, 10, result, self.styleRed)  # result
             self.wSheet.write(excelNo, 11, response, self.styleRed)   # response
             self.wSheet.write(excelNo, 12, str(datetime.now().strftime("%Y%m%d%H%M%S")), self.styleRed)  # date
@@ -184,7 +184,7 @@ class XlsPO():
 
         # 请求参数
         if param == "":
-            print("[无参]")
+            print("[参数] => 无")
         else:
             print("[参数] => " + str(param))
 
@@ -195,13 +195,12 @@ class XlsPO():
         # 检查预期值
         l_expected = jsonpath.jsonpath(d_responseValue, expr=jsonpathKey)
         if l_expected[0] != expected:
-            self.setCaseParam(excelNo, "", "Fail", str(d_responseValue), "", "")
-            print("[结果] => Fail, 预期值：" + str(expected) + ", 实测值：" + str(l_expected[0]) + "\n")
-            return d_responseValue
+            self.setCaseParam(excelNo, "", "fail", str(d_responseValue), "", "")
+            print("[结果] => No." + str(excelNo) + " fail, 预期值(" + str(expected) + ") <> 实测值(" + str(l_expected[0]) + ")\n")
         else:
-            self.setCaseParam(excelNo, "", "OK", str(d_responseValue), "", "")
-            print("[结果] => ok, 预期值与实测值一致\n")
-            return d_responseValue
+            self.setCaseParam(excelNo, "", "ok", str(d_responseValue), "", "")
+            print("[结果] => No." + str(excelNo) + " ok, 预期值 = 实测值\n")
+        return d_responseValue
 
 if __name__ == '__main__':
 

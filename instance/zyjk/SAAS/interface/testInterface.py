@@ -25,7 +25,7 @@ l_interIsRun = (Xls_PO.getInterIsRun())  # 获取inter中isRun执行筛选列表
 class testInterface(unittest.TestCase):
 
     @parameterized.expand(Xls_PO.getCaseParam())
-    def test11(self, excelNo, caseName, method, interName, param, jsonpathKey, expected, selectSQL, updateSQL):
+    def test(self, excelNo, caseName, method, interName, param, jsonpathKey, expected, selectSQL, updateSQL):
 
         ''
         # 判断对象属性是否存在

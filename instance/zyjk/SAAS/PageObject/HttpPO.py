@@ -72,10 +72,10 @@ class HttpPO():
         '''
         try:
             if param == '':
-                url = self.interfaceUrl + "/" + interName
+                url = self.interfaceUrl + interName
                 result = self.session.get(url, headers=self.headers, verify=False)
             else:
-                url = self.interfaceUrl + "/" + interName + "?" + param
+                url = self.interfaceUrl + interName + "?" + param
                 result = requests.get(url, headers=self.headers)
             print("[地址] => " + url)
             return json.loads(result.text)
