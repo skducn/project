@@ -122,4 +122,4 @@ from PO import SqlserverPO, MysqlPO
 
 # # SAAS(mysql)
 mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
-mysql_PO.dbRecord('*', 'char', u'%中国保健医院%')
+mysql_PO.dbRecord('*', 'char', u'%张静庆%')
