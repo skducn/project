@@ -8,12 +8,30 @@
 # import pymysql
 # pymysql.install_as_MySQLdb()
 
-d = {'name':'Tom', 'age':10, 'Tel':{"token":1212121212}}
+x =  {'localName':'阿里巴巴333','orgId':'279'}
+print(x['orgId'])
 
-if 'token' in d["Tel"]:
-    print("1111111")
-else:
-    print(222222)
+from PO.DataPO import *
+Data_PO = DataPO()
+
+
+param = "orgName=$$[Data_PO.getRandomName()]&region=310000000000&regionCity=310100000000&orgNo=$$[Data_PO.getRandomNum(20)]&duty=王磊&address=上海东方路100号&relation=令狐冲&relationPhone=13816109050&orgInfo=成立于2020年"
+
+
+if "$$[" in param:
+    for i in range(1, len(param.split("$$["))):
+        var = param.split("$$[")[1].split("]")[0]
+        param = param.replace("$$[" + var + "]", eval(var))
+    print(param)
+
+
+
+# d = {'name':'Tom', 'age':10, 'Tel':{"token":1212121212}}
+#
+# if 'token' in d["Tel"]:
+#     print("1111111")
+# else:
+#     print(222222)
 
 
 # from PO.TimePO import *
