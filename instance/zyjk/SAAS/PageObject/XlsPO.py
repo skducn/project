@@ -9,10 +9,12 @@ import os, xlrd, xlwt, json, jsonpath
 from datetime import datetime
 from xlrd import open_workbook
 from xlutils.copy import copy
-
 import instance.zyjk.SAAS.PageObject.ReadConfigPO as readConfig
 localReadConfig = readConfig.ReadConfigPO()
 import instance.zyjk.SAAS.PageObject.ReflectionPO as reflection
+from PO.ListPO import *
+List_PO = ListPO()
+
 
 class XlsPO():
 
@@ -118,6 +120,17 @@ class XlsPO():
         # print(l_isRun)
         return l_isRun
 
+    def getCaseGeneration(self):
+
+        ''' 获取generation参数 '''
+
+        l_case = []
+        for i in range(1, self.sheetCase.nrows):
+            l_case.append(self.sheetCase.cell_value(i, 9))
+
+        d_generation = List_PO.list2dictByStrPartition(l_case, varSign="=")
+        return d_generation
+
     def getCaseParam(self):
 
         ''' 遍历case获取参数 '''
@@ -154,7 +167,6 @@ class XlsPO():
         # generation
         self.wSheet.write(excelNo, 9, generation, self.styleBlue)
 
-
         if result == "ok":
             self.wSheet.write(excelNo, 10, result, self.styleBlue)    # result
             self.wSheet.write(excelNo, 11, response, self.styleBlue)   # response
@@ -189,7 +201,8 @@ class XlsPO():
             print("[参数] => " + str(param))
 
         # 响应值
-        d_responseValue = reflection.run([caseName, method, interName, param])
+        d_responseValue,param = reflection.run([caseName, method, interName, param])
+        # d_responseValue,param = reflection.run([method,excelNo, caseName,interName, param])
         print("[返回值] => " + str(d_responseValue))
 
         # 检查预期值
@@ -200,7 +213,7 @@ class XlsPO():
         else:
             self.setCaseParam(excelNo, "", "ok", str(d_responseValue), "", "")
             print("[结果] => No." + str(excelNo) + " ok, 预期值 = 实测值\n")
-        return d_responseValue
+        return d_responseValue,param
 
 if __name__ == '__main__':
 

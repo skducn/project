@@ -15,6 +15,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # 禁用安全请求警告
 # requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
+from PO.DataPO import *
+Data_PO = DataPO()
+
 
 class HttpPO():
 
@@ -48,8 +51,18 @@ class HttpPO():
         '''
         try:
             url = self.interfaceUrl + interName
+            print("[参数] => " + str(param))
             print("[地址] => " + url)
+            print("[方式] => post")
             if param == '':
+                result = self.session.post(url, data=None)
+            elif "=" in param:
+                if "$$[" in param:
+                    for i in range(1, len(param.split("$$["))):
+                        var = param.split("$$[")[1].split("]")[0]
+                        param = param.replace("$$[" + var + "]", eval(var))
+                    print(param)
+                url = self.interfaceUrl + interName + "?" + param
                 result = self.session.post(url, data=None)
             else:
                 result = self.session.post(url, headers=self.headers, json=dict(eval(param)), verify=False)
@@ -59,7 +72,7 @@ class HttpPO():
                     pass
                 elif 'token' in self.jsonres["data"]:
                     self.session.headers['token'] = self.jsonres['data']['token']
-            return self.jsonres
+            return self.jsonres, param
         except Exception as e:
             print(e.__traceback__)
 
@@ -78,10 +91,34 @@ class HttpPO():
                 url = self.interfaceUrl + interName + "?" + param
                 result = requests.get(url, headers=self.headers)
             print("[地址] => " + url)
-            return json.loads(result.text)
+            print("[方式] => get")
+            return json.loads(result.text),param
         except Exception as e:
             print(e.__traceback__)
 
+    def put(self, interName, param=''):
+
+        ''' put 请求
+            :param interName:
+            :param param:
+            :return: 有
+        '''
+        try:
+            if param == '':
+                url = self.interfaceUrl + interName
+                result = self.session.put(url, headers=self.session.headers, verify=False)
+            else:
+                # url = self.interfaceUrl + interName + "?" + param
+                # result = requests.put(url, headers=self.session.headers)
+                url = self.interfaceUrl + interName
+                result = self.session.put(url, headers=self.session.headers, json=dict(eval(param)), verify=False)
+
+            print("[地址] => " + url)
+            print("[方式] => put")
+            return json.loads(result.text), param
+
+        except Exception as e:
+            print(e.__traceback__)
 
     # 定义断言相等的关键字，用来判断json的key对应的值和期望相等。
     def assertequals(self,jsonpaths,value):

@@ -294,9 +294,7 @@ class MysqlPO():
                         for i in range(0, len(list0)):
                             # print(list0[i]) 过滤系统关键字
                             if list0[i] not in 'desc,limit,key,group,usage':
-                                # print(varTable)
-                                # print(list0[i])
-                                self.cur.execute('select * from %s where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
+                                self.cur.execute('select * from `%s` where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
                                 t4 = self.cur.fetchall()
                                 if len(t4) != 0:
                                     print("- -" * 50)
@@ -525,9 +523,20 @@ class MysqlPO():
 
 if __name__ == '__main__':
 
-
+    # pass
     Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
-    Mysql_PO.dbDesc2excel("d:\\saasuserdev.xlsx", "mySheet1")  # 将所有表结构导出到excel
+    Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % ("陈一机构"))
+    tmpTuple = Mysql_PO.cur.fetchall()
+    print(tmpTuple[0][0])
+
+    Mysql_PO.cur.execute('select id from sys_dept where localName="%s" and orgId="%s"' % ("阿里巴巴999",279))
+    id = Mysql_PO.cur.fetchall()
+    print(id)
+
+
+    # Mysql_PO.dbDesc2excel("d:\\saasuserdev.xlsx", "mySheet1")  # 将所有表结构导出到excel
+    # Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % 123)
+
 
     # # # crm小程序清空账号权限
     # mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
