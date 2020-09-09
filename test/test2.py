@@ -8,6 +8,17 @@
 # import pymysql
 # pymysql.install_as_MySQLdb()
 
+args = "FullArgSpec(args=['self', 'interName', 'param'], varargs=None, varkw=None, defaults=('',), kwonlyargs=[], kwonlydefaults=None, annotations={})"
+print(args.find('args='))
+print(args.find(', varargs'))
+# args = args[args.find('args=') + 5:args.find(', varargs')]  # ['self', 'interName', 'param']
+# print(args)
+print(args[args.find('args=') + 5:args.find(', varargs')])  # ['self', 'interName', 'param']
+print(args[17:47])
+args = (args[17:47])
+print(args)
+# print(args)
+
 x =  {'localName':'阿里巴巴333','orgId':'279'}
 print(x['orgId'])
 

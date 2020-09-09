@@ -20,6 +20,8 @@ from PO.TimePO import *
 Time_PO = TimePO()
 from PO.DataPO import *
 data_PO = DataPO()
+from PO.ColorPO import *
+Color_PO = ColorPO()
 from PO.MysqlPO import *
 Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
 l_interIsRun = (Xls_PO.getInterIsRun())  # 获取inter中isRun执行筛选列表 ，[[], [], 3]
@@ -28,7 +30,7 @@ l_interIsRun = (Xls_PO.getInterIsRun())  # 获取inter中isRun执行筛选列表
 class testInterface(unittest.TestCase):
 
     @parameterized.expand(Xls_PO.getCaseParam())
-    def test(self, excelNo, caseName, method, interName, param, jsonpathKey, expected, selectSQL, updateSQL):
+    def test(self, excelNo, caseName, method, interName, param, jsonpathKey, expected, generation, selectSQL, updateSQL):
 
         ''
         # 判断对象属性是否存在
@@ -42,7 +44,11 @@ class testInterface(unittest.TestCase):
         testInterface.orgId = d_generation['orgId']
 
         # 解析
-        d_jsonres, param = Xls_PO.result(excelNo, caseName, method, interName, param, jsonpathKey, expected)
+        if method != "":
+            d_jsonres, param = Xls_PO.result(excelNo, caseName, method, interName, param, jsonpathKey, expected)
+        else:
+            # 自定义变量不解析
+            Color_PO.consoleColor("31", "36", "[" + str(excelNo + 1) + "] > " + caseName + " > " + generation + "\n", "")
 
         # 5 登录
         if caseName == "登录":
@@ -78,11 +84,11 @@ if __name__ == '__main__':
     runner = bf(suite)
     reportFile = '../report/saas接口测试报告_' + str(Time_PO.getDatetime()) + '.html'
     runner.report(filename=reportFile, description=localReadConfig.get_system("projectName"))
-    if platform.system() == 'Darwin':
-        os.system("open " + reportFile)
-        os.system("open ../config/" + localReadConfig.get_excel("interfaceFile"))
+    # if platform.system() == 'Darwin':
+    #     os.system("open " + reportFile)
+    #     os.system("open ../config/" + localReadConfig.get_excel("interfaceFile"))
     if platform.system() == 'Windows':
-        os.system("start " + reportFile)
+    #     os.system("start " + reportFile)
         os.system("start ..\\config\\" + localReadConfig.get_excel("interfaceFile"))
 
 
