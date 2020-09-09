@@ -16,22 +16,21 @@ Http_PO = HttpPO()
 def run(line):
 
     global Http_PO
-    func = getattr(Http_PO, line[1])  # line[1]=method   # post,get,pull
-    args = inspect.getfullargspec(func).__str__()  # FullArgSpec(args=['self', 'interName', 'param'], varargs=None, varkw=None, defaults=('',), kwonlyargs=[], kwonlydefaults=None, annotations={})
-    print(args)
-    args = args[args.find('args=') + 5:args.find(', varargs')]  # ['self', 'interName', 'param']
-    args = eval(args)  # ['self', 'interName', 'param']
-    print(args)
-    args.pop(0)  # ['interName', 'param']
-    l = len(args)  #  依据xls - result函数中 jsonres = reflection.run([caseName, method, interName, param])  line2=interName ,line3=param
+
+    func = getattr(Http_PO, line[0])  # method = post,get,pull
+    args = inspect.getfullargspec(func).__str__()  # FullArgSpec(args=['self', 'excelNo', 'caseName', 'interName', 'param'], varargs=None, varkw=None, defaults=('',), kwonlyargs=[], kwonlydefaults=None, annotations={})
+    args = args[args.find('args=') + 5:args.find(', varargs')]  # ['self', 'excelNo', 'caseName', 'interName', 'param']
+    args = eval(args)
+    args.pop(0)  # ['excelNo', 'caseName', 'interName', 'param']
+    l = len(args)  #  依据xls - result函数中 jsonres = reflection.run([method, excelNo, caseName, interName, param])
     if l == 0:
         return func()
     elif l == 2:
         return func(line[2], line[3])
     elif l == 3:
-        return func(line[1],line[2],line[3])
+        return func(line[1], line[2], line[3])
     elif l == 4:
-        return func(line[0],line[1],line[2],line[3])
+        return func(line[1], line[2], line[3], line[4])
 
 
 

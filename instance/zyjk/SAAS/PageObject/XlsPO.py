@@ -15,6 +15,8 @@ import instance.zyjk.SAAS.PageObject.ReflectionPO as reflection
 from PO.ListPO import *
 List_PO = ListPO()
 
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
 class XlsPO():
 
@@ -148,6 +150,7 @@ class XlsPO():
                 l_case.append(self.sheetCase.cell_value(i, 6))  # param
                 l_case.append(self.sheetCase.cell_value(i, 7))  # jsonpath
                 l_case.append(self.sheetCase.cell_value(i, 8))  # expected
+                l_case.append(self.sheetCase.cell_value(i, 9))  # generation
                 l_case.append(self.sheetCase.cell_value(i, 13))  # selectSQL
                 l_case.append(self.sheetCase.cell_value(i, 15))  # updateSQL
                 l_casesuit.append(l_case)
@@ -194,25 +197,21 @@ class XlsPO():
 
         ''' 解析参数 '''
 
-        # 请求参数
-        if param == "":
-            print("[参数] => 无")
-        else:
-            print("[参数] => " + str(param))
-
         # 响应值
-        d_responseValue,param = reflection.run([caseName, method, interName, param])
-        # d_responseValue,param = reflection.run([method,excelNo, caseName,interName, param])
-        print("[返回值] => " + str(d_responseValue))
+
+        d_responseValue, param = reflection.run([method, excelNo, caseName, interName, param])
+        print("[响应] => " + str(d_responseValue))
 
         # 检查预期值
         l_expected = jsonpath.jsonpath(d_responseValue, expr=jsonpathKey)
         if l_expected[0] != expected:
             self.setCaseParam(excelNo, "", "fail", str(d_responseValue), "", "")
-            print("[结果] => No." + str(excelNo) + " fail, 预期值(" + str(expected) + ") <> 实测值(" + str(l_expected[0]) + ")\n")
+            # print("[断言] => fail, 预期值(" + str(expected) + ") <> 实测值(" + str(l_expected[0]) + ")\n")
+            Color_PO.consoleColor("31", "31", "[断言] =>", "fail, 预期值(" + str(expected) + ") <> 实测值(" + str(l_expected[0]) + ")\n")
         else:
             self.setCaseParam(excelNo, "", "ok", str(d_responseValue), "", "")
-            print("[结果] => No." + str(excelNo) + " ok, 预期值 = 实测值\n")
+            print("[断言] => ok, 预期值 = 实测值\n")
+
         return d_responseValue,param
 
 if __name__ == '__main__':

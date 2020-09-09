@@ -42,29 +42,29 @@ class HttpPO():
             print('error:url地址不合法')
             return False
 
-    def post(self, interName, param=''):
+    def post(self, excelNo, caseName, interName, param=''):
 
         ''' post 请求
             :param interName 接口地址:
             :param param 参数:
             :return: 有
         '''
+
         try:
             url = self.interfaceUrl + interName
-            print("[参数] => " + str(param))
-            print("[地址] => " + url)
-            print("[方式] => post")
             if param == '':
                 result = self.session.post(url, data=None)
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > post > " + url)
             elif "=" in param:
                 if "$$[" in param:
                     for i in range(1, len(param.split("$$["))):
                         var = param.split("$$[")[1].split("]")[0]
                         param = param.replace("$$[" + var + "]", eval(var))
-                    print(param)
+                    print("[" + str(excelNo + 1) + "] => " + caseName + " > post > " + url + " > " + str(param))
                 url = self.interfaceUrl + interName + "?" + param
                 result = self.session.post(url, data=None)
             else:
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > post > " + url + " > " + str(param))
                 result = self.session.post(url, headers=self.headers, json=dict(eval(param)), verify=False)
             self.jsonres = json.loads(result.text)
             if "token" not in self.session.headers:
@@ -76,7 +76,7 @@ class HttpPO():
         except Exception as e:
             print(e.__traceback__)
 
-    def get(self, interName, param=''):
+    def get(self, excelNo, caseName, interName, param=''):
 
         ''' get 请求
             :param interName:
@@ -87,16 +87,17 @@ class HttpPO():
             if param == '':
                 url = self.interfaceUrl + interName
                 result = self.session.get(url, headers=self.headers, verify=False)
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > get > " + url)
             else:
                 url = self.interfaceUrl + interName + "?" + param
                 result = requests.get(url, headers=self.headers)
-            print("[地址] => " + url)
-            print("[方式] => get")
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > get > " + url)
+
             return json.loads(result.text),param
         except Exception as e:
             print(e.__traceback__)
 
-    def put(self, interName, param=''):
+    def put(self, excelNo, caseName, interName, param=''):
 
         ''' put 请求
             :param interName:
@@ -107,14 +108,13 @@ class HttpPO():
             if param == '':
                 url = self.interfaceUrl + interName
                 result = self.session.put(url, headers=self.session.headers, verify=False)
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > put > " + url)
             else:
                 # url = self.interfaceUrl + interName + "?" + param
                 # result = requests.put(url, headers=self.session.headers)
                 url = self.interfaceUrl + interName
                 result = self.session.put(url, headers=self.session.headers, json=dict(eval(param)), verify=False)
-
-            print("[地址] => " + url)
-            print("[方式] => put")
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > put > " + url + " > " + str(param))
             return json.loads(result.text), param
 
         except Exception as e:

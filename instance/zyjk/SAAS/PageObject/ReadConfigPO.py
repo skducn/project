@@ -8,6 +8,9 @@
 
 import os, codecs, configparser, platform
 
+
+
+
 if platform.system() == 'Darwin':
     configPath = os.path.dirname(os.path.dirname(__file__)) + "/config//config.ini"
 if platform.system() == 'Windows':
