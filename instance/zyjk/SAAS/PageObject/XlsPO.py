@@ -119,7 +119,6 @@ class XlsPO():
         l_isRun.append(l_isRunY)
         l_isRun.append(l_isNoRun)
         l_isRun.append(len(l_isRunAll))
-        # print(l_isRun)
         return l_isRun
 
     def getCaseGeneration(self):
@@ -128,8 +127,12 @@ class XlsPO():
 
         l_case = []
         for i in range(1, self.sheetCase.nrows):
-            l_case.append(self.sheetCase.cell_value(i, 9))
-
+            varG = self.sheetCase.cell_value(i, 9)
+            if "," in varG:
+                for j in range(len(str(varG).split(","))):
+                    l_case.append(varG.split(",")[j])
+            else:
+                l_case.append(self.sheetCase.cell_value(i, 9))
         d_generation = List_PO.list2dictByStrPartition(l_case, varSign="=")
         return d_generation
 
@@ -198,21 +201,20 @@ class XlsPO():
         ''' 解析参数 '''
 
         # 响应值
-
         d_responseValue, param = reflection.run([method, excelNo, caseName, interName, param])
         print("[响应] => " + str(d_responseValue))
+
 
         # 检查预期值
         l_expected = jsonpath.jsonpath(d_responseValue, expr=jsonpathKey)
         if l_expected[0] != expected:
             self.setCaseParam(excelNo, "", "fail", str(d_responseValue), "", "")
-            # print("[断言] => fail, 预期值(" + str(expected) + ") <> 实测值(" + str(l_expected[0]) + ")\n")
-            Color_PO.consoleColor("31", "31", "[断言] =>", "fail, 预期值(" + str(expected) + ") <> 实测值(" + str(l_expected[0]) + ")\n")
+            Color_PO.consoleColor("31", "31", "[断言] => fail, 预期值(" + str(expected) + ") <> 实测值(" + str(l_expected[0]) + ")\n" , "")
         else:
             self.setCaseParam(excelNo, "", "ok", str(d_responseValue), "", "")
             print("[断言] => ok, 预期值 = 实测值\n")
 
-        return d_responseValue,param
+        return d_responseValue, param
 
 if __name__ == '__main__':
 
