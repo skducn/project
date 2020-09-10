@@ -33,15 +33,21 @@ class testInterface(unittest.TestCase):
     def test(self, excelNo, caseName, method, interName, param, jsonpathKey, expected, generation, selectSQL, updateSQL):
 
         ''
-        # 判断对象属性是否存在
+        # 判断对象属性是否存在,generation中所有变量。
         if hasattr(testInterface, "code"):param = param.replace("$$code", str(testInterface.code))
         if hasattr(testInterface, "token"):param = param.replace("$$token", str(testInterface.token))
-        if hasattr(testInterface, "orgId"):param = param.replace("$$orgId", str(testInterface.orgId))
         if hasattr(testInterface, "id"):param = param.replace("$$id", str(testInterface.id))
+        if hasattr(testInterface, "roleId"):param = param.replace("$$roleId", str(testInterface.roleId))
+        if hasattr(testInterface, "roleName"):param = param.replace("$$roleName", str(testInterface.roleName))
 
-        # 获取 generation值，字典
+        # 获取 generation中自定义变量
+        if hasattr(testInterface, "orgId"): param = param.replace("$$orgId", str(testInterface.orgId))
+        if hasattr(testInterface, "userId"): param = param.replace("$$userId", str(testInterface.userId))
         d_generation = Xls_PO.getCaseGeneration()
         testInterface.orgId = d_generation['orgId']
+        testInterface.userId = d_generation['userId']
+        testInterface.roleName = d_generation['roleName']
+
 
         # 解析
         if method != "":
@@ -62,21 +68,30 @@ class testInterface(unittest.TestCase):
             testInterface.code = data[0]
             Xls_PO.setCaseParam(excelNo, "code=" + data[0], '', str(d_jsonres), '', '')
 
-        # 9 新增医疗机构
+        # 8 新增医疗机构
         if caseName == "新增医疗机构":
             orgName = str(param).split("orgName=")[1].split("&")[0]
             Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % orgName)
             orgId = Mysql_PO.cur.fetchall()
-            Xls_PO.setCaseParam(excelNo, "orgId=" + str(orgId[0][0]), '', str(d_jsonres), '', '')
+            Xls_PO.setCaseParam(excelNo, "orgId=" + str(orgId[0][0]) + "\norgName=" + str(orgName), '', str(d_jsonres), '', '')
             testInterface.orgId = str(orgId[0][0])
 
-        # 11 新增科室
+        # 13 新增科室
         if caseName == "新增科室":
             param = dict(eval(param))
             Mysql_PO.cur.execute('select id from sys_dept where localName="%s" and orgId="%s"' % (param['localName'], testInterface.orgId))
             id = Mysql_PO.cur.fetchall()
             Xls_PO.setCaseParam(excelNo, "id=" + str(id[0][0]), '', str(d_jsonres), '', '')
             testInterface.id = str(id[0][0])
+
+        # 18 新增角色
+        if caseName == "新增角色":
+            param = dict(eval(param))
+            Mysql_PO.cur.execute('select id from sys_role where roleName="%s" and status=1' % (param['roleName']))
+            roleId = Mysql_PO.cur.fetchall()
+            Xls_PO.setCaseParam(excelNo, "roleId=" + str(roleId[0][0]) + ",roleName=" + param['roleName'], '', str(d_jsonres), '', '')
+            testInterface.roleId = str(roleId[0][0])
+
 
 
 if __name__ == '__main__':

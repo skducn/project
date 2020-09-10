@@ -60,12 +60,19 @@ class HttpPO():
                     for i in range(1, len(param.split("$$["))):
                         var = param.split("$$[")[1].split("]")[0]
                         param = param.replace("$$[" + var + "]", eval(var))
-                    print("[" + str(excelNo + 1) + "] => " + caseName + " > post > " + url + " > " + str(param))
+
+                print("[" + str(excelNo + 1) + "] => " + caseName + " > post > " + url + " > " + str(param))
                 url = self.interfaceUrl + interName + "?" + param
                 result = self.session.post(url, data=None)
             else:
+                if "$$[" in param:
+                    for i in range(1, len(param.split("$$["))):
+                        var = param.split("$$[")[1].split("]")[0]
+                        param = param.replace("$$[" + var + "]", eval(var))
+
                 print("[" + str(excelNo + 1) + "] > " + caseName + " > post > " + url + " > " + str(param))
-                result = self.session.post(url, headers=self.headers, json=dict(eval(param)), verify=False)
+                result = self.session.post(url, headers=self.session.headers, json=dict(eval(param)), verify=False)
+
             self.jsonres = json.loads(result.text)
             if "token" not in self.session.headers:
                 if None == self.jsonres["data"]:
@@ -86,11 +93,11 @@ class HttpPO():
         try:
             if param == '':
                 url = self.interfaceUrl + interName
-                result = self.session.get(url, headers=self.headers, verify=False)
+                result = self.session.get(url, headers=self.session.headers, verify=False)
                 print("[" + str(excelNo + 1) + "] > " + caseName + " > get > " + url)
             else:
                 url = self.interfaceUrl + interName + "?" + param
-                result = requests.get(url, headers=self.headers)
+                result = requests.get(url, headers=self.session.headers, verify=False)
                 print("[" + str(excelNo + 1) + "] > " + caseName + " > get > " + url)
 
             return json.loads(result.text),param
@@ -105,16 +112,23 @@ class HttpPO():
             :return: 有
         '''
         try:
+            url = self.interfaceUrl + interName
             if param == '':
-                url = self.interfaceUrl + interName
                 result = self.session.put(url, headers=self.session.headers, verify=False)
                 print("[" + str(excelNo + 1) + "] > " + caseName + " > put > " + url)
-            else:
-                # url = self.interfaceUrl + interName + "?" + param
-                # result = requests.put(url, headers=self.session.headers)
-                url = self.interfaceUrl + interName
-                result = self.session.put(url, headers=self.session.headers, json=dict(eval(param)), verify=False)
+            elif "{" in param and "}" in param:
                 print("[" + str(excelNo + 1) + "] > " + caseName + " > put > " + url + " > " + str(param))
+                result = self.session.put(url, headers=self.session.headers, json=dict(eval(param)), verify=False)
+            else:
+                if "$$[" in param:
+                    for i in range(1, len(param.split("$$["))):
+                        var = param.split("$$[")[1].split("]")[0]
+                        param = param.replace("$$[" + var + "]", eval(var))
+                print("[" + str(excelNo + 1) + "] => " + caseName + " > put > " + url + " > " + str(param))
+                url = self.interfaceUrl + interName + "?" + param
+                result = self.session.put(url, data=None)
+
+
             return json.loads(result.text), param
 
         except Exception as e:
