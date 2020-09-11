@@ -5,35 +5,40 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
-# import pymysql
-# pymysql.install_as_MySQLdb()
 
-args = "FullArgSpec(args=['self', 'interName', 'param'], varargs=None, varkw=None, defaults=('',), kwonlyargs=[], kwonlydefaults=None, annotations={})"
-print(args.find('args='))
-print(args.find(', varargs'))
-# args = args[args.find('args=') + 5:args.find(', varargs')]  # ['self', 'interName', 'param']
+x = "{'articleContent': '内容非常好看', 'articleIntro': '简介很难写','articleName': '中年男人不容易', 'author': '我心流浪','cover':'?'}"
+x = str(x).replace("?", "5")
+print(x)
+
+# # import pymysql
+# # pymysql.install_as_MySQLdb()
+#
+# args = "FullArgSpec(args=['self', 'interName', 'param'], varargs=None, varkw=None, defaults=('',), kwonlyargs=[], kwonlydefaults=None, annotations={})"
+# print(args.find('args='))
+# print(args.find(', varargs'))
+# # args = args[args.find('args=') + 5:args.find(', varargs')]  # ['self', 'interName', 'param']
+# # print(args)
+# print(args[args.find('args=') + 5:args.find(', varargs')])  # ['self', 'interName', 'param']
+# print(args[17:47])
+# args = (args[17:47])
 # print(args)
-print(args[args.find('args=') + 5:args.find(', varargs')])  # ['self', 'interName', 'param']
-print(args[17:47])
-args = (args[17:47])
-print(args)
-# print(args)
-
-x =  {'localName':'阿里巴巴333','orgId':'279'}
-print(x['orgId'])
-
-from PO.DataPO import *
-Data_PO = DataPO()
-
-
-param = "orgName=$$[Data_PO.getRandomName()]&region=310000000000&regionCity=310100000000&orgNo=$$[Data_PO.getRandomNum(20)]&duty=王磊&address=上海东方路100号&relation=令狐冲&relationPhone=13816109050&orgInfo=成立于2020年"
-
-
-if "$$[" in param:
-    for i in range(1, len(param.split("$$["))):
-        var = param.split("$$[")[1].split("]")[0]
-        param = param.replace("$$[" + var + "]", eval(var))
-    print(param)
+# # print(args)
+#
+# x =  {'localName':'阿里巴巴333','orgId':'279'}
+# print(x['orgId'])
+#
+# from PO.DataPO import *
+# Data_PO = DataPO()
+#
+#
+# param = "orgName=$$[Data_PO.getRandomName()]&region=310000000000&regionCity=310100000000&orgNo=$$[Data_PO.getRandomNum(20)]&duty=王磊&address=上海东方路100号&relation=令狐冲&relationPhone=13816109050&orgInfo=成立于2020年"
+#
+#
+# if "$$[" in param:
+#     for i in range(1, len(param.split("$$["))):
+#         var = param.split("$$[")[1].split("]")[0]
+#         param = param.replace("$$[" + var + "]", eval(var))
+#     print(param)
 
 
 

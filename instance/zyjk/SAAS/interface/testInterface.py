@@ -48,6 +48,15 @@ class testInterface(unittest.TestCase):
         testInterface.userId = d_generation['userId']
         testInterface.roleName = d_generation['roleName']
 
+        if caseName == "新增宣教文章":
+            import base64
+            f = open(r"d:\\test\\aaa.png", "rb")
+            img = base64.b64encode(f.read())
+            # print(img)
+            # print(img.decode("utf-8"))  # 转换成字符串
+            param = str(param).replace('?', img.decode("utf-8"))
+
+
 
         # 解析
         if method != "":
@@ -94,6 +103,8 @@ class testInterface(unittest.TestCase):
 
 
 
+
+
 if __name__ == '__main__':
     suite = unittest.defaultTestLoader.discover('.', pattern='testInterface.py', top_level_dir=None)
     runner = bf(suite)
@@ -102,9 +113,9 @@ if __name__ == '__main__':
     # if platform.system() == 'Darwin':
     #     os.system("open " + reportFile)
     #     os.system("open ../config/" + localReadConfig.get_excel("interfaceFile"))
-    if platform.system() == 'Windows':
-    #     os.system("start " + reportFile)
-        os.system("start ..\\config\\" + localReadConfig.get_excel("interfaceFile"))
+    # if platform.system() == 'Windows':
+    # #     os.system("start " + reportFile)
+    #     os.system("start ..\\config\\" + localReadConfig.get_excel("interfaceFile"))
 
 
 
