@@ -16,6 +16,8 @@
 3.2，下载网页/图片
 3.3，下载图片
 3.4，异步多线程下载图片
+
+4， 将图片转换成二进制或字符串
 '''
 
 import sys, smtplib, os, base64, requests, urllib,json, jsonpath, logging, time
@@ -251,6 +253,16 @@ class NetPO():
         logging.info(f"{str(cpu_count())}核多线程异步下载 {len(varPathList)} 张图片，耗时 {round(end-start,0)}秒")
 
 
+    # 4， 将图片转换成二进制或字符串
+    def image2strOrByte(self, varImageFile, varMode="str"):
+        f = open(varImageFile, "rb")
+        img = base64.b64encode(f.read())
+        if varMode == "str":
+            return (img.decode("utf-8"))  # 转换成字符串
+        else:
+            return(img)
+
+
 if __name__ == '__main__':
 
     Net_PO = NetPO()
@@ -293,4 +305,6 @@ if __name__ == '__main__':
     # Net_PO.downloadImageAsync(["http://img.sccnn.com/bimg/341/08062.jpg", "http://img.sccnn.com/bimg/339/21311.jpg","http://img.sccnn.com/bimg/341/23281.jpg", "http://img.sccnn.com/bimg/341/21281.jpg"],"d:\\test\\")
     # Net_PO.downloadImageAsync([["http://img.sccnn.com/bimg/341/08062.jpg"], ["http://img.sccnn.com/bimg/339/21311.jpg"],["http://img.sccnn.com/bimg/341/23281.jpg"], ["http://img.sccnn.com/bimg/341/21281.jpg"]])
 
-
+    # print("4，将图片转换成二进制或字符串".center(100, "-"))
+    # print(Net_PO.image2strOrByte(r"d:\\test\\aaa.png"))
+    # print(Net_PO.image2strOrByte(r"d:\\test\\aaa.png", "byte"))
