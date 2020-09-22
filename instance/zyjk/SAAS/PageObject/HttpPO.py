@@ -6,8 +6,6 @@
 # *****************************************************************
 
 import json, jsonpath, requests, urllib3
-from time import sleep
-
 import instance.zyjk.SAAS.PageObject.ReadConfigPO as readConfig
 localReadConfig = readConfig.ReadConfigPO()
 
@@ -17,21 +15,21 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # 禁用安全请求警告
 # requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
+from PO.DataPO import *
+Data_PO = DataPO()
+
 
 class HttpPO():
+
     def __init__(self):
         # 构造函数，实例化实例变量
-        global scheme, baseurl, port, commonpath
-        scheme = localReadConfig.get_http("scheme")
-        baseurl = localReadConfig.get_http("baseurl")
-        port = localReadConfig.get_http("port")
-        commonpath = localReadConfig.get_http("commonpath")
-
+        global interfaceUrl
+        self.interfaceUrl = localReadConfig.get_http("interfaceUrl")
         self.session = requests.session()
         self.jsonres = {}   # 存放json解析后的结果
         self.params = {}   # 用来保存所需要的数据，实现关联
-        self.url = ''  # 全局的url
-        self.headers = {"Content-Type": "application/json;charset=UTF-8"}  # heaaders 默认请求Content-type   ,
+        self.url = ""
+        self.headers = {"Content-Type": "application/json;charset=UTF-8"}
         # self.session.headers['Content-type'] = 'application/x-www-form-urlencoded'
         # self.session.headers['User Agent'] = 'Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/64.0'   # 添加默认UA，模拟chrome浏览器
 
@@ -44,88 +42,97 @@ class HttpPO():
             print('error:url地址不合法')
             return False
 
-    def postLogin(self, interName, param):
-        ''' 登录接口的 post请求 '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName
-        result = self.session.post(path, headers=self.headers, json=param, verify=False)
-        # print(result.text)
-        self.jsonres = json.loads(result.text)
-        self.session.headers['token'] = self.jsonres['token']
-        # print(self.session.headers)
-        res = result.text
-        try:
-            res = res[res.find('{'):res.rfind('}') + 1]
-        except Exception as e:
-            print(e.__traceback__)
-        return res
+    def post(self, excelNo, caseName, interName, param=''):
 
-    def post(self, interName, param):
         ''' post 请求
-            :param interName 接口地址: /inter/HTTP/login
-            :param param 参数: {'userName': 'jin', 'password': 'Jinhao1/'}
+            :param interName 接口地址:
+            :param param 参数:
             :return: 有
         '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName
-        if param == '':
-            result = self.session.post(path, data=None)
-        else:
-            result = self.session.post(path, headers=self.headers, json=param, verify=False)
-            # print(result.text)
-        # print(self.session.headers)
-        res = result.text
+
         try:
-            res = res[res.find('{'):res.rfind('}')+1]
-            # print(res)
+            url = self.interfaceUrl + interName
+            if param == '':
+                result = self.session.post(url, data=None)
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > post > " + url)
+            elif "=" in param:
+                if "$$[" in param:
+                    for i in range(1, len(param.split("$$["))):
+                        var = param.split("$$[")[1].split("]")[0]
+                        param = param.replace("$$[" + var + "]", eval(var))
+
+                print("[" + str(excelNo + 1) + "] => " + caseName + " > post > " + url + " > " + str(param))
+                url = self.interfaceUrl + interName + "?" + param
+                result = self.session.post(url, data=None)
+            else:
+                if "$$[" in param:
+                    for i in range(1, len(param.split("$$["))):
+                        var = param.split("$$[")[1].split("]")[0]
+                        param = param.replace("$$[" + var + "]", eval(var))
+
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > post > " + url + " > " + str(param))
+                result = self.session.post(url, headers=self.session.headers, json=dict(eval(param)), verify=False)
+
+            self.jsonres = json.loads(result.text)
+            if "token" not in self.session.headers:
+                if None == self.jsonres["data"]:
+                    pass
+                elif 'token' in self.jsonres["data"]:
+                    self.session.headers['token'] = self.jsonres['data']['token']
+            return self.jsonres, param
         except Exception as e:
             print(e.__traceback__)
-        return res
 
-    def postget(self, interName, param):
+    def get(self, excelNo, caseName, interName, param=''):
+
         ''' get 请求
-            :param interName: /inter/HTTP/login
-            :param param: userName=jinhao
+            :param interName:
+            :param param:
             :return: 有
         '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName + "?" + param
-        if param == '':
-            result = self.session.post(path, data=None)
-        else:
-            # result = requests.get(path, headers=self.headers)
-            result = self.session.post(path, headers=self.headers, verify=False)
-            if "token" in result.text:
-                self.jsonres = json.loads(result.text)
-                self.session.headers['token'] = self.jsonres['token']
-        print(self.session.headers)
-        # print(result.text)
-        res = result.text
         try:
-            res = res[res.find('{'):res.rfind('}')+1]
+            if param == '':
+                url = self.interfaceUrl + interName
+                result = self.session.get(url, headers=self.session.headers, verify=False)
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > get > " + url)
+            else:
+                url = self.interfaceUrl + interName + "?" + param
+                result = requests.get(url, headers=self.session.headers, verify=False)
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > get > " + url)
+
+            return json.loads(result.text),param
         except Exception as e:
             print(e.__traceback__)
 
-        return res
+    def put(self, excelNo, caseName, interName, param=''):
 
-    def get(self, interName, param):
-        ''' get 请求
-            :param interName: /inter/HTTP/login
-            :param param: userName=jinhao
+        ''' put 请求
+            :param interName:
+            :param param:
             :return: 有
         '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName + "?" + param
-        if param == '':
-            result = self.session.post(path, data=None)
-        else:
-            # result = requests.get(path, headers=self.headers)
-            result = self.session.get(path, headers=self.headers, verify=False)
-        print(self.session.headers)
-        # print(result.text)
-        res = result.text
         try:
-            res = res[res.find('{'):res.rfind('}')+1]
+            url = self.interfaceUrl + interName
+            if param == '':
+                result = self.session.put(url, headers=self.session.headers, verify=False)
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > put > " + url)
+            elif "{" in param and "}" in param:
+                print("[" + str(excelNo + 1) + "] > " + caseName + " > put > " + url + " > " + str(param))
+                result = self.session.put(url, headers=self.session.headers, json=dict(eval(param)), verify=False)
+            else:
+                if "$$[" in param:
+                    for i in range(1, len(param.split("$$["))):
+                        var = param.split("$$[")[1].split("]")[0]
+                        param = param.replace("$$[" + var + "]", eval(var))
+                print("[" + str(excelNo + 1) + "] => " + caseName + " > put > " + url + " > " + str(param))
+                url = self.interfaceUrl + interName + "?" + param
+                result = self.session.put(url, data=None)
+
+
+            return json.loads(result.text), param
+
         except Exception as e:
             print(e.__traceback__)
-        return res
-
 
     # 定义断言相等的关键字，用来判断json的key对应的值和期望相等。
     def assertequals(self,jsonpaths,value):

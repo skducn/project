@@ -6,6 +6,10 @@
 # 查询后中文正确显示，但在数据库中却显示乱码 ， 解决方法如下 ，添加 charset='utf8 ，  charset是要跟你数据库的编码一样，如果是数据库是gb2312 ,则写charset='gb2312'。
 # conn = pymssql.Connect(host='localhost', user='root', passwd='root', db='python',charset='utf8')
 # pip3.7 install mysqlclient
+# None是一个对象，而NULL是一个类型。
+# Python中没有NULL，只有None，None有自己的特殊类型NoneType。
+# None不等于0、任何空字符串、False等。
+# 在Python中，None、False、0、""(空字符串)、[](空列表)、()(空元组)、{}(空字典)都相当于False。
 #***************************************************************
 
 import pymysql
@@ -19,7 +23,7 @@ class MysqlPO():
     def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
 
         self.varDB = varDB
-        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=varPort, use_unicode=True)
+        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
         self.cur = self.conn.cursor()
         self.cur.execute('SET NAMES utf8;')
         # self.conn.set_character_set('utf8')
@@ -290,9 +294,7 @@ class MysqlPO():
                         for i in range(0, len(list0)):
                             # print(list0[i]) 过滤系统关键字
                             if list0[i] not in 'desc,limit,key,group,usage':
-                                # print(varTable)
-                                # print(list0[i])
-                                self.cur.execute('select * from %s where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
+                                self.cur.execute('select * from `%s` where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
                                 t4 = self.cur.fetchall()
                                 if len(t4) != 0:
                                     print("- -" * 50)
@@ -402,6 +404,74 @@ class MysqlPO():
         ''' 将数据库表结构（字段、类型、DDL）导出到excel'''
 
         l_name = []
+        l_dataType = []
+        l_isNull = []
+        l_isKey = []
+        l_default = []
+        l_comment = []
+
+        listSub = []
+        listMain = []
+        sum = 1
+
+        self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
+        tblName = self.cur.fetchall()
+        for k in range(len(tblName)):
+            self.cur.execute('select column_name,column_type,is_nullable,column_key,column_default,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+            tblFields = self.cur.fetchall()
+            listSub.append(1)
+            listSub.append("表名")
+            listSub.append("表说明")
+            listSub.append("名称")
+            listSub.append("数据类型(长度)")
+            listSub.append("允许空值")
+            listSub.append("主键")
+            listSub.append("默认值")
+            listSub.append("说明")
+            listMain.append(listSub)
+            listSub = []
+            for i in tblFields:
+                l_name.append(i[0])
+                l_dataType.append(i[1])
+                l_isNull.append(i[2])
+                l_isKey.append(i[3])
+                if i[4] == None:
+                    l_default.append("")
+                else:
+                    l_default.append(i[4])
+                l_comment.append(i[5])
+            x = 0
+            for i in range(len(tblFields)):
+                listSub.append(sum+1)
+                if x != 1:
+                    listSub.append(tblName[k][0])
+                    listSub.append(tblName[k][1])
+                else:
+                    listSub.append("")
+                    listSub.append("")
+                listSub.append(l_name[i])
+                listSub.append(l_dataType[i])
+                listSub.append(l_isNull[i])
+                listSub.append(l_isKey[i])
+                listSub.append(l_default[i])
+                listSub.append(l_comment[i])
+                listMain.append(listSub)
+                listSub = []
+                sum = sum + 1
+                x = 1
+            l_name = []
+            l_dataType = []
+            l_isNull = []
+            l_isKey = []
+            l_default = []
+            l_comment = []
+
+        Excel_PO.writeXlsxByMore(varFileName, varSheetName, listMain)
+
+    def dbDesc2excelbak(self, varFileName, varSheetName):
+        ''' 将数据库表结构（字段、类型、DDL）导出到excel'''
+
+        l_name = []
         l_type = []
         l_isnull = []
         l_comment = []
@@ -453,11 +523,25 @@ class MysqlPO():
 
 if __name__ == '__main__':
 
+    # pass
+    Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
+    Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % ("陈一机构"))
+    tmpTuple = Mysql_PO.cur.fetchall()
+    print(tmpTuple[0][0])
 
-    # # crm小程序清空账号权限
-    mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
-    mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
-    mysql_PO.conn.commit()
+    Mysql_PO.cur.execute('select id from sys_dept where localName="%s" and orgId="%s"' % ("阿里巴巴999",279))
+    id = Mysql_PO.cur.fetchall()
+    print(id)
+
+
+    # Mysql_PO.dbDesc2excel("d:\\saasuserdev.xlsx", "mySheet1")  # 将所有表结构导出到excel
+    # Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % 123)
+
+
+    # # # crm小程序清空账号权限
+    # mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
+    # mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
+    # mysql_PO.conn.commit()
 
     # tmpTuple = Mysql_PO.cur.fetchall()
     # 患者360 开发环境
