@@ -97,7 +97,7 @@ from PO import SqlserverPO, MysqlPO
 # mysql_PO.dbDesc('app_info', 'id,mid')   # 查看book表id,page字段的结构
 # mysql_PO.dbRecord('user','char', '%13816109050%')  # 搜索myclass表中内容包含yoyo的char类型记录。
 # mysql_PO.dbRecord('*', 'char', '13816109050')  # 模糊搜索所有表中带yoy的char类型。
-# mysql_PO.dbRecord('*', 'varchar', u'%金丽娜%')  # 模糊搜索所有表中带35的double类型。
+# mysql_PO.dbRecord('*', 'varchar', u'%一次性使用有创压力传感器%')  # 模糊搜索所有表中带35的double类型。
 # mysql_PO.dbRecord('*', 'datetime', u'%2019-04-12 15:13:23%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
 # mysql_PO.dbCreateDate()   # 查看所有表的创建时间
 # mysql_PO.dbCreateDate('app_code')   # 查看book表创建时间
@@ -121,5 +121,6 @@ from PO import SqlserverPO, MysqlPO
 # mysql_PO.dbDesc('upv_blood_match_report')   # UpmsUser表结构
 
 # # SAAS(mysql)
+# mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasecgdev", 3306)  # 测试环境
 mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
-mysql_PO.dbRecord('*', 'char', u'%中国保健医院%')
+mysql_PO.dbRecord('*', 'char', u'%什么是脑血栓%')

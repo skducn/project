@@ -8,6 +8,9 @@
 
 import os, codecs, configparser, platform
 
+
+
+
 if platform.system() == 'Darwin':
     configPath = os.path.dirname(os.path.dirname(__file__)) + "/config//config.ini"
 if platform.system() == 'Windows':
@@ -30,18 +33,25 @@ class ReadConfigPO():
         self.cf = configparser.ConfigParser()
         self.cf.read(configPath, encoding="utf-8-sig")
 
-    def get_system(self, name):
-        value = self.cf.get("SYSTEM", name)
-        return value
-
     def get_http(self, name):
         value = self.cf.get("HTTP", name)
+        return value
+
+    def get_user(self, name):
+        value = self.cf.get("USER", name)
         return value
 
     def get_db(self, name):
         value = self.cf.get("DATABASE", name)
         return value
 
+    def get_excel(self, name):
+        value = self.cf.get("EXCEL", name)
+        return value
+
+    def get_system(self, name):
+        value = self.cf.get("SYSTEM", name)
+        return value
 
 if __name__ == '__main__':
 
