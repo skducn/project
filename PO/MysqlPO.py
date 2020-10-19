@@ -523,39 +523,25 @@ class MysqlPO():
 
 if __name__ == '__main__':
 
-    # pass
-    Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
+    # 195_saas_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)
     Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % ("陈一机构"))
     tmpTuple = Mysql_PO.cur.fetchall()
     print(tmpTuple[0][0])
-
     Mysql_PO.cur.execute('select id from sys_dept where localName="%s" and orgId="%s"' % ("阿里巴巴999",279))
     id = Mysql_PO.cur.fetchall()
     print(id)
 
-
-    # Mysql_PO.dbDesc2excel("d:\\saasuserdev.xlsx", "mySheet1")  # 将所有表结构导出到excel
-    # Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % 123)
-
-
-    # # # crm小程序清空账号权限
-    # mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
-    # mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
-    # mysql_PO.conn.commit()
-
-    # tmpTuple = Mysql_PO.cur.fetchall()
-    # 患者360 开发环境
+    # 195_患者360_test   (开发环境)
     # mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)
     # mysql_PO.dbRecord('*', 'char', u'%郑和成%')
     # mysql_PO.dbRecord('*', 'float', u'%295.54%')
     # mysql_PO.dbDesc()   # 打印所有表结构
     # mysql_PO.dbDesc2excel("d:\\test5.xlsx", "mySheet1")  # 将所有表结构导出到excel
 
-
-    # BI 测试环境
+    # 195_Bi_test   (测试环境）
     # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)
     # varUpdateDate = '2020-03-22'
-    #
     # # Mysql_PO.conn.cursor(MySQLdb.cursors.DictCursor)
     # # Mysql_PO.cur.execute('SELECT ifnull(round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2),0)' % varUpdateDate)
     # # Mysql_PO.cur.execute('SELECT ifnull(round((SELECT inPAccount/10000 FROM `bi_inpatient_yard` where statisticsDate = "%s"),2),0)' % varUpdateDate)
@@ -563,21 +549,29 @@ if __name__ == '__main__':
     # tmpTuple = Mysql_PO.cur.fetchall()
     # print(tmpTuple)
     # print(tmpTuple[0][1])
-    #
     # # desc = Mysql_PO.cur.description     # 获取单表的字段名信息
     # # print(desc)
     # # print(Mysql_PO.cur.rowcount)   # 获取结果集的条数/
     # # print(tmpTuple[0][0])
-
-
     # Mysql_PO.cur.execute('select id,anaesthesiaId from bi_anaesthesia_dept where deptIdName="%s" ' % ("骨科"))
     # tmpTuple = Mysql_PO.cur.fetchall()
     # print(tmpTuple)
     # for i in tmpTuple:
     #     print(str(i[0]) + " , " + str(i[1]))
 
-    # Mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)  # 盛蕴CRM小程序 测试环境
-    #
+
+
+    # Mysql_PO.dbDesc2excel("d:\\saasuserdev.xlsx", "mySheet1")  # 将所有表结构导出到excel
+    # Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % 123)
+
+
+    # 39_crm_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
+    # crm小程序清空账号权限
+    # mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
+    # mysql_PO.conn.commit()
+    # tmpTuple = Mysql_PO.cur.fetchall()
+
     # Mysql_PO.cur.execute('select USER_NAME from user where USER_PRIV_NO=%s ' % (999))
     # l_result = Mysql_PO.cur.fetchall()
     # print(len(l_result))
@@ -585,6 +579,17 @@ if __name__ == '__main__':
     # print(l_result[0][0])
     # for (Value) in l_result:
     #     print(Value)
+
+
+    # 35_ehr_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # mysql_PO = MysqlPO("192.168.0.35", "test", "123456", "healthrecord_test", 3336)  # 测试环境
+    # mysql_PO = MysqlPO("192.168.0.35", "test", "123456", "healthrecord", 3336)  # 开发环境
+
+
+    # 201_禅道 >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306)
+
+
 
     # Mysql_PO.dbDesc()  # 所有表结构
     # Mysql_PO.dbDesc('user')   # 指定表结构
