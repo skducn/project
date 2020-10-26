@@ -113,9 +113,9 @@ if __name__ == '__main__':
     # if platform.system() == 'Darwin':
     #     os.system("open " + reportFile)
     #     os.system("open ../config/" + localReadConfig.get_excel("interfaceFile"))
-    # if platform.system() == 'Windows':
-    # #     os.system("start " + reportFile)
-    #     os.system("start ..\\config\\" + localReadConfig.get_excel("interfaceFile"))
+    if platform.system() == 'Windows':
+    #     os.system("start " + reportFile)
+        os.system("start ..\\config\\" + localReadConfig.get_excel("interfaceFile"))
 
 
 
