@@ -23,7 +23,7 @@ colorama==0.4.1
 comtypes==1.1.7
 constantly==15.1.0
 coverage==4.0.3
-cryptography==2.8
+cryptography==3.2
 cssselect==1.0.1
 cycler==0.10.0
 Cython==0.29.14
