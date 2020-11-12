@@ -1,0 +1,4 @@
+id,module,name,file,doc,markers,status,message,duration
+test_3.py::test_a,test_3,test_a,test_3.py,,,passed,,0.0003786660000000275
+test_3.py::Test_aaa::test_01,test_3,test_01,test_3.py,,,passed,,0.00033148699999996367
+test_3.py::Test_aaa::test_02,test_3,test_02,test_3.py,,,passed,,0.000356923000000009
