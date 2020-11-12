@@ -1,0 +1,4 @@
+id,module,name,file,doc,markers,status,message,duration
+test_1.py::test_func,test_1,test_func,test_1.py,,,failed,"assert 4 == 5
+ +  where 4 = func(3)",0.0005284100000000347
+test_1.py::test_user,test_1,test_user,test_1.py,,,passed,,0.0003881020000000568
