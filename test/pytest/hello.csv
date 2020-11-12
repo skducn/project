@@ -1,0 +1,6 @@
+id,module,name,file,doc,markers,status,message,duration
+test_2.py::test_a,test_2,test_a,test_2.py,,,passed,,0.000624409000000048
+test_2.py::Test_aaa::test_01,test_2,test_01,test_2.py,,,passed,,0.0006293330000000097
+test_2.py::Test_aaa::test_02,test_2,test_02,test_2.py,,,passed,,0.0007392810000002026
+test_2.py::Test_bbb::test_01,test_2,test_01,test_2.py,,usefixtures,passed,,0.0006637940000000508
+test_2.py::Test_bbb::test_02,test_2,test_02,test_2.py,,usefixtures,passed,,0.0006322049999998303
