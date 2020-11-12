@@ -1,0 +1,9 @@
+id,module,name,file,doc,markers,status,message,duration
+,,,,,,,,
+test_1.py::test_user,test_1,test_user,test_1.py,,,passed,,0.000354461
+,,,,,,,,
+test_1.py::test_user_reg[\u7fa1\u9c7c],test_1,test_user_reg[\u7fa1\u9c7c],test_1.py,,parametrize,passed,,0.000364307
+,,,,,,,,
+test_1.py::test_user_reg[abc123],test_1,test_user_reg[abc123],test_1.py,,parametrize,passed,,0.000348307
+,,,,,,,,
+test_1.py::test_user_reg[admin@123.com],test_1,test_user_reg[admin@123.com],test_1.py,,parametrize,passed,,0.000425435
