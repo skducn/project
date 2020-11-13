@@ -3,8 +3,13 @@
 # Author        : John
 # Date          : 2019-9-26
 # Description   : excel 对象层
-# http://www.cnblogs.com/snow-backup/p/4021554.html
-# python处理Excel，pythonexcel http://www.bkjia.com/Pythonjc/926154.html
+
+# python 处理 Excel 表格  http://www.cnblogs.com/snow-backup/p/4021554.html
+# xlrd（读excel）表、xlwt（写excel）表、openpyxl（可读写excel表）
+# xlrd读数据较大的excel表时效率高于openpyxl
+# Working with Excel Files in Python   下载地址：http://www.python-excel.org/
+
+# python处理Excel，pythonexcel https://www.cnblogs.com/wanglle/p/11455758.html
 # Python利用pandas处理Excel数据的应用 # https://www.cnblogs.com/liulinghua90/p/9935642.html
 
 # python中处理excel表格，常用的库有xlrd（读excel）表、xlwt（写excel）表、openpyxl（可读写excel表）等。xlrd读数据较大的excel表时效率高于openpyxl，建议使用 xlrd 和 xlwt 两个库。
@@ -31,7 +36,7 @@ import xlrd, xlwt
 from xlutils.copy import copy
 from openpyxl import load_workbook
 import openpyxl, os, sys
-# import pandas as pd
+import pandas as pd
 
 from PO.ColorPO import *
 Color_PO = ColorPO()
@@ -50,10 +55,14 @@ Char_PO = CharPO()
 3.1 获取所有工作表名 l_getSheet()
 3.2 获取工作表名 getSheet()
 3.3 获取总行数和总列数 t_getRowColNums()
-3.4 获取行值 l_getRowValues()
-3.5 获取列值 l_getColValues()
+3.4 获取一行及单个值 l_getRowValues()
+3.5 获取一列及单个值 l_getColValues()
 3.6 获取单元格的值 getCellValue()
-    
+3.7 获取每行数据 l_getRowData()
+3.8 获取指定列的行数据 l_getRowDataByPartCol()
+3.9 获取每列数据 l_getColData()
+3.10 获取部分列的列数据 l_getColDataByPartCol()
+
 4 设置表格样式 set_style()
 
 5 两表比较，输出差异 cmpExcel()
@@ -62,9 +71,10 @@ Char_PO = CharPO()
 
 class ExcelPO():
 
-    def __init__(self, file):
+    def __init__(self, file, varSheet=0):
         self.file = file
         self.wb = xlrd.open_workbook(self.file)
+
         self.wb1 = load_workbook(self.file)
         self.sheetNames = self.wb1.sheetnames  # 获取所有sheet页名字
 
@@ -235,7 +245,8 @@ class ExcelPO():
             if self.wb.sheet_loaded(varSheet) == True:
                 return sh, sh.nrows, sh.ncols
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("errorrrrrrrrrr, line " + str(sys._getframe(1).f_lineno) + "（ctrl + G）, 执行 " + sys._getframe().f_code.co_name + "(), 可能工作表名不存在！")
+            exit(0)
 
     def l_getRowColNums(self,filename, varSheet=0):
         '''返回列表[行，列]'''
@@ -254,10 +265,11 @@ class ExcelPO():
                 list1.append(cols)
             return list1
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
-                sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("errorrrrrrrrrr, line " + str(sys._getframe(1).f_lineno) + "（ctrl + G）, 执行 " + sys._getframe().f_code.co_name + "(), 参数错误！")
+            exit(0)
 
-    # 3.4 获取行值
+
+    # 3.4 获取一行及单个值
     def l_getRowValues(self, row, varSheet=0):
         # 获取行值,可使用切片获取某行某个单元值
         # print(Excel_PO.l_getRowValues(2))  # //默认第一个工作表，获取第3行所有值
@@ -265,8 +277,13 @@ class ExcelPO():
         # print(Excel_PO.l_getRowValues(2)[3])  # 获取列表中第3行第4列值
 
         list1 = []
+
         try:
             sh, rows, cols = self.t_getRowColNums(varSheet)
+        except:
+            print("errorrrrrrrrrr, line " + str(sys._getframe(1).f_lineno) + "（ctrl + G）, 执行 " + sys._getframe().f_code.co_name + "() ")
+            exit(0)
+        try:
             for c in range(cols):
                 # ctype： 0 empty,1 string, 2 number, 3 date, 4 boolean, 5 error
                 if sh.cell(row, c).ctype == 0:
@@ -288,17 +305,23 @@ class ExcelPO():
                 list1.append(cellvalue)
             return list1
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("errorrrrrrrrrr, line " + str(sys._getframe(1).f_lineno) + "（ctrl + G）, 执行 " + sys._getframe().f_code.co_name + "(), 参数列表元素不能是0或负数！")
+            exit(0)
 
-    # 3.5 获取列值
+    # 3.5 获取一列及单个值
     def l_getColValues(self, column, varSheet=0):
         # 获取某列的值，可使用切片获取某行某个单元值
         # print(Excel_PO.l_getColValues(1))  # //默认第一个工作表，获取第2列所有值
         # print(Excel_PO.l_getColValues(3, "测试"))  # //定位“测试”工作表
         # print(Excel_PO.l_getColValues(1)[2])  # 获取列表中第2行第3列值
         list1 = []
+
         try:
             sh, rows, cols = self.t_getRowColNums(varSheet)
+        except:
+            print("errorrrrrrrrrr, line " + str(sys._getframe(1).f_lineno) + "（ctrl + G）, 执行 " + sys._getframe().f_code.co_name + "() ")
+            exit(0)
+        try:
             for row in range(rows):
                 # ctype： 0 empty,1 string, 2 number, 3 date, 4 boolean, 5 error
                 if sh.cell(row, column).ctype == 0:
@@ -320,7 +343,8 @@ class ExcelPO():
                 list1.append(cellvalue)
             return list1
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+            print("errorrrrrrrrrr, line " + str(sys._getframe(1).f_lineno) + "（ctrl + G）, 执行 " + sys._getframe().f_code.co_name + "(), 参数列表元素不能是0或负数！")
+            exit(0)
 
     # 3.6 获取单元格的值
     def getCellValue(self, row, column, varSheet=0):
@@ -350,9 +374,109 @@ class ExcelPO():
                 cellvalue = sh.cell_value(rowx=row, colx=column)
                 return cellvalue
 
+    # 3.7 获取每行数据
+    def l_getRowData(self, varSheet=0):
 
+        ''' 获取每行数据 '''
 
+        l_rowData = []  # 每行数据
+        l_allData = []  # 所有行数据
 
+        if isinstance(varSheet, int):
+            self.sh = self.wb1[self.sheetNames[varSheet]]
+        elif isinstance(varSheet, str):
+            self.sh = self.wb1[varSheet]
+
+        for cases in list(self.sh.rows):
+            for i in range(len(cases)):
+                l_rowData.append(cases[i].value)
+            l_allData.append(l_rowData)
+            l_rowData = []
+
+        return (l_allData)
+
+    # 3.8 获取指定列的行数据
+    def l_getRowDataByPartCol(self, l_varCol, varSheet=0):
+
+        '''
+        获取指定列的行数据，保存到列表
+        如：获取第1，3，4列的行数据
+        '''
+
+        l_rowData = []  # 每行的数据
+        l_allData = []  # 所有的数据
+
+        if isinstance(varSheet, int):
+            self.sh = self.wb1[self.sheetNames[varSheet]]
+        elif isinstance(varSheet, str):
+            self.sh = self.wb1[varSheet]
+
+        max_r = self.sh.max_row
+        for row in range(1, max_r + 1):
+            try:
+                for column in l_varCol:
+                    l_rowData.append(self.sh.cell(row, column).value)
+                l_allData.append(l_rowData)
+                l_rowData = []
+            except:
+                print("errorrrrrrrrrr, line " + str(
+                    sys._getframe(1).f_lineno) + ", in " + sys._getframe().f_code.co_name + "() ")
+                print("建议：参数列表元素不能是0或负数")
+                exit(0)
+
+        return l_allData
+
+    # 3.9 获取每列数据
+    def l_getColData(self, varSheet=0):
+
+        ''' 获取每列数据 '''
+
+        l_colData = []  # 每列数据
+        l_allData = []  # 所有行数据
+
+        if isinstance(varSheet, int):
+            self.sh = self.wb1[self.sheetNames[varSheet]]
+        elif isinstance(varSheet, str):
+            self.sh = self.wb1[varSheet]
+
+        for cases in list(self.sh.columns):
+            for i in range(len(cases)):
+                l_colData.append(cases[i].value)
+            l_allData.append(l_colData)
+            l_colData = []
+
+        return (l_allData)
+
+    # 3.10 获取部分列的列数据
+    def l_getColDataByPartCol(self, l_varCol, varSheet=0):
+
+        '''
+        获取部分列的列数据，保存到列表
+        如：获取第1，3，4列的列数据
+        '''
+
+        l_colData = []  # 每列的数据
+        l_allData = []  # 所有的数据
+
+        if isinstance(varSheet, int):
+            self.sh = self.wb1[self.sheetNames[varSheet]]
+        elif isinstance(varSheet, str):
+            self.sh = self.wb1[varSheet]
+
+        max_r = self.sh.max_row
+        for col in l_varCol:
+            try:
+                for row in range(1, max_r + 1):
+                    l_colData.append(self.sh.cell(row, col).value)
+                l_allData.append(l_colData)
+                l_colData = []
+            except:
+                print("errorrrrrrrrrr, line " + str(
+                    sys._getframe(1).f_lineno) + ", in " + sys._getframe().f_code.co_name + "() ")
+                print("建议：参数列表元素不能是0或负数")
+                exit(0)
+
+        return l_allData
 
     # 4 设置表格样式
     def set_style(self, name, height, bold=False):
@@ -455,7 +579,7 @@ class ExcelPO():
 
 if __name__ == "__main__":
 
-    Excel_PO = ExcelPO("d:\\test1.xlsx")
+    Excel_PO = ExcelPO("d:\\cases.xlsx")
 
 
     # print("1，新建excel（by openpyxl）".center(100, "-"))
@@ -503,19 +627,36 @@ if __name__ == "__main__":
     # print(Excel_PO.t_getRowColNums("测试")[0])  # 8 //返回工作表名是测试的总行数
     # print(Excel_PO.t_getRowColNums("测试")[1])  # 6 //返回工作表名是测试的总列数
     #
-    # print("3.4 获取行值".center(100, "-"))
-    # print(Excel_PO.l_getRowValues(2))  #   //默认第一个工作表，获取第3行所有值
-    # print(Excel_PO.l_getRowValues(2, "测试"))  #   //定位“测试”工作表
+    # print("3.4 获取一行及单个值".center(100, "-"))
+    # print(Excel_PO.l_getRowValues(2))  #   //获取第3行值
+    # print(Excel_PO.l_getRowValues(2, "Sheet"))  #   //打开 Sheet 工作表,获取第3行值
     # print(Excel_PO.l_getRowValues(2)[3])  # 获取列表中第3行第4列值
     #
-    # print("3.5 获取列值".center(100, "-"))
+    # print("3.5 获取一列及单个值".center(100, "-"))
     # print(Excel_PO.l_getColValues(1))   #  //默认第一个工作表，获取第2列所有值
-    # print(Excel_PO.l_getColValues(3, "测试"))  # //定位“测试”工作表
+    # print(Excel_PO.l_getColValues(3, "Sheet"))  # //定位“测试”工作表
     # print(Excel_PO.l_getColValues(1)[2])  # 获取列表中第2行第3列值
     #
     # print("3.6 获取单元格的值".center(100, "-"))
     # print(Excel_PO.getCellValue(2, 2))
 
+    # print("3.7 获取每行数据".center(100, "-"))
+    # l_data = Excel_PO.l_getRowData()
+    # print(l_data)
+    #
+    # print("3.8 获取指定列的行数据".center(100, "-"))
+    # l_data = Excel_PO.l_getRowDataByPartCol([1,2,4])
+    # print(l_data)
+    #
+    # print("3.9 获取每列数据".center(100, "-"))
+    # l_data = Excel_PO.l_getColData()
+    # print(l_data)
+    # for i in range(len(l_data[4])):
+    #     print(l_data[4][i])
+    #
+    # print("3.10 获取部分列的列数据".center(100, "-"))
+    # l_data = Excel_PO.l_getColDataByPartCol([1, 5])
+    # print(l_data)
 
     # # print("5 两表比较，输出差异".center(100, "-"))
     # file1,list1,file2,list2 = Excel_PO.cmpExcel("d:\\test1.xlsx", "mySheet1", "d:\\test2.xlsx", "mySheet1")
