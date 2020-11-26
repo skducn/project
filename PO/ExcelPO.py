@@ -579,8 +579,8 @@ class ExcelPO():
 
 if __name__ == "__main__":
 
-    Excel_PO = ExcelPO("d:\\cases.xlsx")
-
+    # Excel_PO = ExcelPO("d:\\cases.xlsx")
+    pass
 
     # print("1，新建excel（by openpyxl）".center(100, "-"))
     # Excel_PO.newExcel("d:\\123.xlsx")  # 新建excel，默认生成一个工作表Sheet1

@@ -15,8 +15,8 @@
 import pymysql
 pymysql.install_as_MySQLdb()
 import MySQLdb
-from PO.ExcelPO.ExcelPO import *
-Excel_PO = ExcelPO()
+from PO.ExcelPO import *
+
 
 class MysqlPO():
 
@@ -465,7 +465,7 @@ class MysqlPO():
             l_isKey = []
             l_default = []
             l_comment = []
-
+        Excel_PO = ExcelPO()
         Excel_PO.writeXlsxByMore(varFileName, varSheetName, listMain)
 
     def dbDesc2excelbak(self, varFileName, varSheetName):
@@ -519,6 +519,7 @@ class MysqlPO():
             l_isKey = []
             l_isnull = []
 
+        Excel_PO = ExcelPO()
         Excel_PO.writeXlsxByMore(varFileName, varSheetName, listMain)
 
 if __name__ == '__main__':
