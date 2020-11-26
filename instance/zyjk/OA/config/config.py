@@ -16,7 +16,7 @@ from PO.NetPO import *
 from PO.DataPO import *
 from PO.FilePO import *
 from PO.StrPO import *
-from PO.ExcelPO.ExcelPO import *
+from PO.ExcelPO import *
 from PO.TimePO import *
 Time_PO = TimePO()
 Color_PO = ColorPO()
