@@ -61,7 +61,8 @@ Char_PO = CharPO()
 3.7 获取每行数据 l_getRowData()
 3.8 获取指定列的行数据 l_getRowDataByPartCol()
 3.9 获取每列数据 l_getColData()
-3.10 获取部分列的列数据 l_getColDataByPartCol()
+3.10 获取某些列的列数据，可忽略多行 l_getColDataByPartCol()
+3.11 获取任意两列的计算值（+ - * /） l_getCalcData(2,3,"求和",1,"4.电子健康档案规范建档率")
 
 4 设置表格样式 set_style()
 
@@ -395,12 +396,12 @@ class ExcelPO():
 
         return (l_allData)
 
-    # 3.8 获取指定列的行数据
+    # 3.8 获取某些列的行数据
     def l_getRowDataByPartCol(self, l_varCol, varSheet=0):
+        # print(Excel_PO.l_getRowDataByPartCol([1, 2, 4]))  # 获取第2，3，5列的行数据
 
         '''
-        获取指定列的行数据，保存到列表
-        如：获取第1，3，4列的行数据
+        获取某些列的行数据
         '''
 
         l_rowData = []  # 每行的数据
@@ -415,7 +416,7 @@ class ExcelPO():
         for row in range(1, max_r + 1):
             try:
                 for column in l_varCol:
-                    l_rowData.append(self.sh.cell(row, column).value)
+                    l_rowData.append(self.sh.cell(row, column+1).value)
                 l_allData.append(l_rowData)
                 l_rowData = []
             except:
@@ -447,12 +448,15 @@ class ExcelPO():
 
         return (l_allData)
 
-    # 3.10 获取部分列的列数据
-    def l_getColDataByPartCol(self, l_varCol, varSheet=0):
+    # 3.10 获取某些列的列数据，可忽略多行
+    def l_getColDataByPartCol(self, l_varCol, l_varIgnoreRowNum, varSheet=0):
+        # print(Excel_PO.l_getColDataByPartCol([1, 3], [0, 2]))  # 获取第二列和第四列的列值，并忽略第一行和第三行的行值。
+        # l_data = Excel_PO.l_getColDataByPartCol([2], [], "7.家庭医生电子健康建档率")，获取第三列所有值。
 
         '''
-        获取部分列的列数据，保存到列表
-        如：获取第1，3，4列的列数据
+        获取某些列的列数据，可忽略某行
+        l_varCol = 获取的列
+        l_varIgnoreRowNum = 忽略的行
         '''
 
         l_colData = []  # 每列的数据
@@ -467,7 +471,8 @@ class ExcelPO():
         for col in l_varCol:
             try:
                 for row in range(1, max_r + 1):
-                    l_colData.append(self.sh.cell(row, col).value)
+                    if row-1 not in l_varIgnoreRowNum:
+                        l_colData.append(self.sh.cell(row, col+1).value)
                 l_allData.append(l_colData)
                 l_colData = []
             except:
@@ -477,6 +482,10 @@ class ExcelPO():
                 exit(0)
 
         return l_allData
+
+
+
+
 
     # 4 设置表格样式
     def set_style(self, name, height, bold=False):
@@ -579,8 +588,8 @@ class ExcelPO():
 
 if __name__ == "__main__":
 
-    # Excel_PO = ExcelPO("d:\\cases.xlsx")
-    pass
+    Excel_PO = ExcelPO("d:\\cases.xlsx")
+
 
     # print("1，新建excel（by openpyxl）".center(100, "-"))
     # Excel_PO.newExcel("d:\\123.xlsx")  # 新建excel，默认生成一个工作表Sheet1
@@ -626,37 +635,32 @@ if __name__ == "__main__":
     # print(Excel_PO.t_getRowColNums()[1])  # 3 //返回总列数
     # print(Excel_PO.t_getRowColNums("测试")[0])  # 8 //返回工作表名是测试的总行数
     # print(Excel_PO.t_getRowColNums("测试")[1])  # 6 //返回工作表名是测试的总列数
-    #
+
     # print("3.4 获取一行及单个值".center(100, "-"))
-    # print(Excel_PO.l_getRowValues(2))  #   //获取第3行值
-    # print(Excel_PO.l_getRowValues(2, "Sheet"))  #   //打开 Sheet 工作表,获取第3行值
+    # print(Excel_PO.l_getRowValues(2))  # 获取第3行值
     # print(Excel_PO.l_getRowValues(2)[3])  # 获取列表中第3行第4列值
     #
     # print("3.5 获取一列及单个值".center(100, "-"))
-    # print(Excel_PO.l_getColValues(1))   #  //默认第一个工作表，获取第2列所有值
-    # print(Excel_PO.l_getColValues(3, "Sheet"))  # //定位“测试”工作表
+    # print(Excel_PO.l_getColValues(1))   # 获取第2列所有值
     # print(Excel_PO.l_getColValues(1)[2])  # 获取列表中第2行第3列值
     #
     # print("3.6 获取单元格的值".center(100, "-"))
     # print(Excel_PO.getCellValue(2, 2))
 
     # print("3.7 获取每行数据".center(100, "-"))
-    # l_data = Excel_PO.l_getRowData()
-    # print(l_data)
+    # print(Excel_PO.l_getRowData())
     #
     # print("3.8 获取指定列的行数据".center(100, "-"))
-    # l_data = Excel_PO.l_getRowDataByPartCol([1,2,4])
-    # print(l_data)
+    # print(Excel_PO.l_getRowDataByPartCol([1,2,4]))   # 获取第2，3，5列的行数据
     #
     # print("3.9 获取每列数据".center(100, "-"))
-    # l_data = Excel_PO.l_getColData()
-    # print(l_data)
-    # for i in range(len(l_data[4])):
-    #     print(l_data[4][i])
-    #
-    # print("3.10 获取部分列的列数据".center(100, "-"))
-    # l_data = Excel_PO.l_getColDataByPartCol([1, 5])
-    # print(l_data)
+    # print(Excel_PO.l_getColData("test_case"))
+
+    # print("3.10 获取某些列的列数据，可忽略多行".center(100, "-"))
+    # print(Excel_PO.l_getColDataByPartCol([1, 3], [0, 2]))   # 获取第二列和第四列的列值，并忽略第一行和第三行的行值。
+
+
+
 
     # # print("5 两表比较，输出差异".center(100, "-"))
     # file1,list1,file2,list2 = Excel_PO.cmpExcel("d:\\test1.xlsx", "mySheet1", "d:\\test2.xlsx", "mySheet1")
