@@ -6,7 +6,7 @@
 
 # python 处理 Excel 表格  http://www.cnblogs.com/snow-backup/p/4021554.html
 # xlrd（读excel）表、xlwt（写excel）表、openpyxl（可读写excel表）
-# xlrd读数据较大的excel表时效率高于openpyxl
+# xlrd读数据较大的excel表时效率高于 openpyxl
 # Working with Excel Files in Python   下载地址：http://www.python-excel.org/
 
 # python处理Excel，pythonexcel https://www.cnblogs.com/wanglle/p/11455758.html
@@ -35,8 +35,10 @@ from datetime import date
 import xlrd, xlwt
 from xlutils.copy import copy
 from openpyxl import load_workbook
-import openpyxl, os, sys
 import pandas as pd
+import openpyxl
+import openpyxl.styles
+from openpyxl.styles import PatternFill
 
 from PO.ColorPO import *
 Color_PO = ColorPO()
@@ -72,12 +74,25 @@ Char_PO = CharPO()
 
 class ExcelPO():
 
-    def __init__(self, file, varSheet=0):
+    def __init__(self, file):
         self.file = file
         self.wb = xlrd.open_workbook(self.file)
 
-        self.wb1 = load_workbook(self.file)
-        self.sheetNames = self.wb1.sheetnames  # 获取所有sheet页名字
+        # self.wb1 = load_workbook(self.file)
+        # self.sheetNames = self.wb1.sheetnames
+
+        # # self.nameSizeColor = openpyxl.styles.Font(name="宋体", size=33, color="00CCFF")
+        self.wb2 = openpyxl.load_workbook(self.file)
+        self.sheetNames = self.wb2.sheetnames
+
+    def save(self):
+        self.wb2.save(self.file)
+
+
+    # def __del__(self):
+    #     self.wb1.save(self.file)
+
+
 
     # 1 新建excel（for xlsx）
     def newExcel(self, varFileName, *varSheetName):
@@ -384,9 +399,9 @@ class ExcelPO():
         l_allData = []  # 所有行数据
 
         if isinstance(varSheet, int):
-            self.sh = self.wb1[self.sheetNames[varSheet]]
+            self.sh = self.wb2[self.sheetNames[varSheet]]
         elif isinstance(varSheet, str):
-            self.sh = self.wb1[varSheet]
+            self.sh = self.wb2[varSheet]
 
         for cases in list(self.sh.rows):
             for i in range(len(cases)):
@@ -482,9 +497,6 @@ class ExcelPO():
                 exit(0)
 
         return l_allData
-
-
-
 
 
     # 4 设置表格样式
@@ -585,10 +597,26 @@ class ExcelPO():
         return list2
 
 
+    # 7 设置单元格背景色
+    def setCellColor(self, row, col, varColor, varSheet=0):
+        # Excel_PO.setCellColor(6, 7, "FF0000")   设置单元格第六行第七列背景色为红色
+        # 绿色 = 00E400，黄色 = FFFF00，橙色 = FF7E00，红色 = FF0000，粉色 = 99004C，褐色 =7E0023
+        if isinstance(varSheet, int):
+            sh = self.wb2[self.sheetNames[varSheet]]
+        else:
+            sh = self.wb2[varSheet]
+        style = PatternFill("solid", fgColor=varColor)
+        sh.cell(row, col).fill = style
 
 if __name__ == "__main__":
 
-    Excel_PO = ExcelPO("d:\\cases.xlsx")
+    Excel_PO = ExcelPO("d:\\1.xlsx")
+    Excel_PO.setCellColor(11, 7, "00E400")
+    Excel_PO.setCellColor(12, 7, "FFFF00")
+    Excel_PO.setCellColor(13, 7, "FF7E00")
+    Excel_PO.setCellColor(14, 7, "FF0000")
+    Excel_PO.setCellColor(15, 7, "99004C")
+    Excel_PO.save()
 
 
     # print("1，新建excel（by openpyxl）".center(100, "-"))
