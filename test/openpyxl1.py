@@ -12,6 +12,7 @@ class Case: #这个类用来存储用例的
     pass
 
 class ReadExcel(object): #读取excel数据的类
+
     def __init__(self,file_name,sheet_name):
         """
         这个是用来初始化读取对象的
@@ -22,7 +23,6 @@ class ReadExcel(object): #读取excel数据的类
         self.wb = openpyxl.load_workbook(file_name)
         # 选择表单
         self.sh = self.wb[sheet_name]
-
 
     def l_getRowData(self):
 
@@ -106,7 +106,7 @@ class ReadExcel(object): #读取excel数据的类
 
 if __name__ == '__main__':
 
-    r = ReadExcel('d:\\cases.xlsx', 'Sheet')
+    r = ReadExcel('d:\\1.xlsx', 'Sheet')
 
     # l_data = r.l_getRowData()
     # print(l_data)
