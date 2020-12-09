@@ -1,33 +1,31 @@
 # -*- coding: utf-8 -*-
 # *********************************************************************
 # Author        : John
-# Date          : 202-12-8
-# Description   : openpyxl 对象层, 可读写excel for xlsx
-# 注意事项：请安装 openpyxl 3.0.0，其他版本如3.0.2使用中会报错。 pip3 install openpyxl == 3.0.0
-
-# Python library to read/write Excel 2007 2010 xlsx/xlsm files
-# openpyxl is a Python library to read/write Excel 2010 xlsx/xlsm/xltx/xltm files
-# http://openpyxl.readthedocs.org/en/latest/
-# https://openpyxl.readthedocs.io/en/stable/usage.html#write-a-workbook
-# openpyxl（可读写excel表）专门处理Excel2007及以上版本产生的xlsx文件，xls和xlsx之间转换容易
-# 注意：如果文字编码是“gb2312” 读取后就会显示乱码，请先转成Unicode
-# openpyxl 的首行、首列 是 （1,1）而不是（0,0）
-# NULL空值：对应于python中的None，表示这个cell里面没有数据。
-# numberic： 数字型，统一按照浮点数来进行处理。对应于python中的float。
-# string： 字符串型，对应于python中的unicode。
-# 在默认情况下，openpyxl会将整个xlsx都读入到内存中，方便处理。
-# 操作大文件的时候，速度较慢，可以使用Optimized reader和Optimized writer。它们提供了流式的接口，速度更快。
-# xlrd 读取大数据的效率比 openpyxl高
-# openpyxl , xlsxwriter xlrd xlwt xlutils 下载地址：http://www.python-excel.org/
-# 以上这些库都没有提供修改 excel 表格内容功能，一般只能将原excel中的内容读出、做完处理后，再写入一个新的excel文件。
-# https://www.debug8.com/python/t_41519.html 常用模块openpyxl
+# Date          : 2020-12-8
+# Description   : openpyxl 对象层
+# openpyxl 官网 （http://openpyxl.readthedocs.org/en/latest/），支持Excel 2010 xlsx/xlsm/xltx/xltm 的读写，最新版本3.0.6（Oct 23, 2020）
+# 1，请安装 openpyxl 3.0.0，其他版本如3.0.2使用中会报错。 pip3 install openpyxl == 3.0.0
+# 2，如果文字编码是“gb2312” 读取后就会显示乱码，请先转成Unicode
+# 3，openpyxl 的首行、首列 是 （1,1）而不是（0,0）
+# 4，openpyxl 的NULL空值对应于python中的None，表示这个cell里面没有数据。
+# 5，openpyxl 的numberic数字型，统一按照浮点数来进行处理，对应于python中的float
+# 6，openpyxl 的string字符串型，对应于python中的unicode
+# 7，默认情况下，openpyxl会将整个xlsx读入到内存中，方便处理。
+# 8，openpyxl 操作大文件时可使用 Optimized reader 和 Optimized writer 两种模式，它们提供了流式的接口，速度更快，使我们可以用常量级的内存消耗来读取和写入无限量的数据。
+# Optimized reader，打开文件使用use_iterators=True参数，如：wb = load_workbook(filename = 'haggle.xlsx',use_iterators=True)
+# 9，openpyxl 读取大数据的效率没有 xlrd 高
+# 10，openpyxl 与 xlsxwriter xlrd xlwt xlutils 的比较，这些库都不支持 excel 写操作，一般只能将原excel中的内容读出、做完处理后，再写入一个新的excel文件。
+# 11，openpyxl常用模块用法：https://www.debug8.com/python/t_41519.html
 # *********************************************************************
 
+
 from openpyxl import load_workbook
-import openpyxl,sys
+import openpyxl, sys, platform, os, psutil
 import openpyxl.styles
 from openpyxl.styles import PatternFill
+from openpyxl.utils import get_column_letter
 from datetime import date
+from time import sleep
 
 from PO.ColorPO import *
 Color_PO = ColorPO()
@@ -50,6 +48,13 @@ Char_PO = CharPO()
 13 清空列 clsColData()
 14 两表比较，输出差异 cmpExcel()
 15 获取单元格的值 getCellValue()
+16 设置工作表标题选项卡背景颜色 setSheetColor()
+17 关闭excel进程
+18 添加工作表（工作表名重复时，保留原工作表）
+19 添加工作表（工作表名重复时，覆盖原工作表）
+20 删除工作表
+21 初始化数据
+22 get_column_letter得到表格列的字母编号
 '''
 
 class OpenpyxlPO():
@@ -62,6 +67,12 @@ class OpenpyxlPO():
 
     def save(self):
         self.wb.save(self.file)
+
+    def open(self):
+        if platform.system() == 'Darwin':
+            os.system("open " + self.file)
+        if platform.system() == 'Windows':
+            os.system("start " + self.file)
 
     def sh(self, varSheet):
         if isinstance(varSheet, int):
@@ -314,13 +325,93 @@ class OpenpyxlPO():
         cell_value = sh.cell(row=varRow, column=varCol).value
         return cell_value
 
+    # 16 设置工作表标题选项卡背景颜色
+    def setSheetColor(self, varColor, varSheet=0):
+        # Openpyxl_PO.setSheetColor("FF0000")
+        # 绿色 = 00E400，黄色 = FFFF00，橙色 = FF7E00，红色 = FF0000，粉色 = 99004C，褐色 =7E0023
+        sh = self.sh(varSheet)
+        sh.sheet_properties.tabColor = varColor
+
+    # 17 关闭excel进程
+    def closeExcelPid(self):
+        pids = psutil.pids()
+        for pid in pids:
+            try:
+                p = psutil.Process(pid)
+                # print('pid=%s,pname=%s' % (pid, p.name()))
+                # 关闭excel进程
+                if p.name() == 'EXCEL.EXE':
+                    cmd = 'taskkill /F /IM EXCEL.EXE'
+                    os.system(cmd)
+                    sleep(2)
+            except Exception as e:
+                pass
+
+    # 18 添加工作表（工作表名重复时，保留原工作表）
+    def addSheet(self, varSheetName, varIndex=0):
+        # 默认在左侧第一个位置上添加工作表，如果工作表名已存在，第一次重名时自动更名为原有名字后加1，第二次重名时自动更名为第一次更名后数字运算加1。如 test1工作表添加了2次后，生成test11,test12两个工作表。
+        # Openpyxl_PO.addSheet("test1")  # 默认在左侧第一个位置上添加工作表 test1
+        # Openpyxl_PO.addSheet("haha12", 99)   # 当index足够大时，则在最后一个位置添加工作表 haha12
+        # Openpyxl_PO.addSheet("7894", -1)   # 则倒数第二个位置添加工作表 7894
+
+        try:
+            self.wb.create_sheet(title=varSheetName, index=varIndex)
+            self.save()
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+
+    # 19 添加工作表（工作表名重复时，删除旧的工作表，谨慎！）
+    def addSheetByCover(self, varSheetName, varIndex=0):
+        # 已作了处理，如果添加的工作表已存在，则先删除旧的
+        # Openpyxl_PO.addSheet("test1")  # 默认在左侧第一个位置上添加工作表，如果工作表名已存在，第一次重名时自动更名为原有名字后加1，第二次重名时自动更名为第一次更名后数字运算加1。如 test1工作表添加了2次后，生成test11,test12两个工作表。
+        # Openpyxl_PO.addSheet("haha12", 99)   # 当index足够大时，则在最后一个位置添加工作表
+        # Openpyxl_PO.addSheet("7894", -1)   # 则倒数第二个位置添加工作表。
+
+        for i in self.wb.sheetnames:
+            if i == varSheetName:
+                del self.wb[i]
+                break
+        self.wb.create_sheet(title=varSheetName, index=varIndex)
+        self.save()
+
+
+    # 20 删除工作表
+    def delSheet(self, varSheetName):
+        # Openpyxl_PO.delSheet("test1")  # 删除test1工作表
+        # 注意确保工作表存在
+        try:
+            del self.wb[varSheetName]
+            self.save()
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+    # 21 初始化数据
+    def initData(self, data, varSheet=0):
+        sh = self.sh(varSheet)
+        for r in range(len(data)):
+            sh.append(data[r])
+        self.save()
+
+
+    # 22 get_column_letter得到表格列的字母编号
+    def get_column_letter(self, varRowFrom, varRowTo, varColFrom, varColTo, varSheet = 0):
+        # 用get_column_letter得到表格列的字母编号 https://www.pynote.net/archives/2269
+        sh = self.sh(varSheet)
+        for row in range(varRowFrom, varRowTo):
+            for col in range(varColFrom, varColTo):
+                _ = sh.cell(column=col, row=row, value="{0}".format(get_column_letter(col)))
+        self.save()
+
 
 if __name__ == "__main__":
 
     Openpyxl_PO = OpenpyxlPO("d:\\1.xlsx")
 
+    Openpyxl_PO.closeExcelPid()
 
-    print("1，新建excel".center(100, "-"))
+
+    print("1 新建excel".center(100, "-"))
     # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel，默认生成一个工作表Sheet1
     # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
@@ -388,3 +479,33 @@ if __name__ == "__main__":
 
     print("15 获取单元格值".center(100, "-"))
     # print(Openpyxl_PO.getCellValue(3, 2))  # 获取第3行第2列的值
+
+    print("16 设置工作表标题选项卡背景颜色".center(100, "-"))
+    # Openpyxl_PO.setSheetColor("FF0000")
+    # Openpyxl_PO.save()
+
+    print("17 关闭excel进程".center(100, "-"))
+    # Openpyxl_PO.closeExcelPid()
+
+    print("18 添加工作表（工作表名重复时，保留原工作表）".center(100, "-"))
+    # Openpyxl_PO.addSheet("test1")  # 默认在左侧第一个位置上添加工作表，如果工作表名已存在，第一次重名时自动更名为原有名字后加1，第二次重名时自动更名为第一次更名后数字运算加1。如 test1工作表添加了2次后，生成test11,test12两个工作表。
+    # Openpyxl_PO.addSheet("haha12", 99)   # 当index足够大时，则在最后一个位置添加工作表
+    # Openpyxl_PO.addSheet("7894", -1)   # 则倒数第二个位置添加工作表。
+
+    print("19 添加工作表（工作表名重复时，删除旧的工作表，谨慎！）".center(100, "-"))
+    # Openpyxl_PO.addSheetByCover("haha12", 99)   # 当index足够大时，则在最后一个位置添加工作表
+    # Openpyxl_PO.addSheetByCover("7894", -1)   # 则倒数第二个位置添加工作表。
+
+    print("20 删除工作表".center(100, "-"))
+    # Openpyxl_PO.delSheet("test1")  # 删除test1工作表
+
+
+    print("21 初始化数据".center(100, "-"))
+    # Openpyxl_PO.initData([['姓名', '电话', '成绩', '学科'], ['毛泽东', 15266606298, 14, '化学'], ['周恩来', 15201077791, 78, '美术']])   # 初始化数据，一般用于空工作表，如果工作表里有内容则在原有内容下面生成。
+    # Openpyxl_PO.initData([['姓名', '电话', '成绩', '学科'], ['金浩', 13816109050, 119, '语文'], ['Marry', 15201062191, 28, '数学']], "haha")  # 在haha工作表中初始化数据
+
+
+    print("22 get_column_letter得到表格列的字母编号".center(100, "-"))
+    # Openpyxl_PO.get_column_letter(10, 20, 3, 10)
+
+    Openpyxl_PO.open()
