@@ -8,17 +8,13 @@
 import sys
 
 '''
-1.1 字符串转列表
-1.2 字符串转元组
-1.3 字符串转字典
-
-2 判断字符串是否为数字
-3 判断字符串中是否包含中文
-4 判断字符串是否全部是中文
-
+1.1 字符串转列表 str2list()
+1.2 字符串转元组 str2tuple()
+1.3 字符串转字典 str2dict()
+2 判断字符串是否为数字 isNumberByStr()
+3 判断字符串中是否包含中文 isContainChinese()
+4 判断字符串是否全部是中文 isChinese()
 '''
-
-
 class StrPO():
 
     def __init__(self):
