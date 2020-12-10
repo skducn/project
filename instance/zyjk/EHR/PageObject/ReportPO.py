@@ -5,6 +5,13 @@
 # Description:  质控报告 EHR对象库
 # *****************************************************************
 
+
+# [ERROR] 表13.签约居民中高血压患者管理人数占家庭医生签约总人数占比，line 2,expected(9.55) <> actual(9.41)
+# [ERROR] 表13.签约居民中高血压患者管理人数占家庭医生签约总人数占比，line 2,expected(9.55) <> actual(9.41)
+# [ERROR] 表13.签约居民中高血压患者管理人数占家庭医生签约总人数占比，line 2,expected(9.55) <> actual(9.41)
+# [ERROR] 表13.签约居民中高血压患者管理人数占家庭医生签约总人数占比, line 2, expected(9.55) <> actual(9.41)
+# [ERROR] Excel No.2, expected(9.55) <> actual(9.41)
+
 from PO.OpenpyxlPO import *
 import sys,os
 from PO.StrPO import *
@@ -25,12 +32,13 @@ class ReportPO():
         varTest = ""
         for k in range(len(l_param)):
 
-            print(l_param[k][0])
+            varTitle = l_param[k][0]
+
             # 目标列
             try:
-                destSheetName = str(l_param[k][0]).split(".")[0]
+                destSheetName = str(l_param[k][0]).split(".")[0]  # 表1
                 destTestResult = str(l_param[k][0]).split(".")[1]  # 电子健康档案建档率
-                allData = self.Openpyxl_PO.l_getRowData(destSheetName)  # 表1
+                allData = self.Openpyxl_PO.l_getRowData(destSheetName)
                 for i in range(len(allData[0])):
                     if allData[0][i] == destTestResult:
                         destTestResult = i
@@ -61,7 +69,7 @@ class ReportPO():
             # print(sum)  # allData[i][3]/allData[i][2]*100
 
             # 测试
-
+            varStatus =0
             for i in range(1, len(allData)):
                 # if round((allData[i][3])/(allData[i][2]) * 100, 2) == round(allData[i][4], 2):
                 if varDot == 0:
@@ -72,12 +80,15 @@ class ReportPO():
                             self.Openpyxl_PO.setCellColor(i + 1, destTestResult+1, "00E400", destSheetName)  # 正确标绿色
                             if "ok" not in varTest:
                                 varTest = varTest + "ok"
+
+                            varStatus = varStatus + 0
                         else:
-                            Color_PO.consoleColor("31", "31", "[ERROR] Excel No." + str(i + 1) + ", expected(" + str(round(allData[i][destTestResult], 2)) + ") <> actual(" + str(int(eval(sum))) + ")", "")
+                            Color_PO.consoleColor("31", "31", "[ERROR] " + varTitle + " line " + str(i + 1) + ", expected(" + str(round(allData[i][destTestResult], 2)) + ") <> actual(" + str(int(eval(sum))) + ")", "")
                             # print("[error] No." + str(i+1) + ", 表格值" + str(round(allData[i][destTestResult], 2)) + ", 测试值" + str(int(eval(sum))))
                             self.Openpyxl_PO.setCellColor(i + 1, destTestResult+1, "FF0000", destSheetName)  # 错误标红色
                             if "error" not in varTest:
                                 varTest = varTest + "error"
+                            varStatus = varStatus + 1
                     except Exception as e:
                         pass
                 elif varDot == 2:
@@ -88,14 +99,19 @@ class ReportPO():
                             self.Openpyxl_PO.setCellColor(i + 1, destTestResult+1, "00E400", destSheetName)  # 正确标绿色
                             if "ok" not in varTest:
                                 varTest = varTest + "ok"
+                            varStatus = varStatus + 0
                         else:
-                            Color_PO.consoleColor("31", "31", "[ERROR] Excel No." + str(i+1) + ", expected(" + str(round(allData[i][destTestResult], 2)) + ") <> actual(" + str(round(eval(sum), 2)) + ")", "")
+                            Color_PO.consoleColor("31", "31", "[ERROR] " + varTitle + " line " + str(i+1) + ", expected(" + str(round(allData[i][destTestResult], 2)) + ") <> actual(" + str(round(eval(sum), 2)) + ")", "")
                             # print("[error] No." + str(i+1) + ", 表格值" + str(round(allData[i][destTestResult], 2)) + ", 测试值" + str(round(eval(sum), 2)))
                             self.Openpyxl_PO.setCellColor(i + 1, destTestResult+1, "FF0000", destSheetName)  # 错误标红色
                             if "error" not in varTest:
                                 varTest = varTest + "error"
+                            varStatus = varStatus + 1
                     except Exception as e:
                         pass
+
+            if varStatus == 0 :
+                print(varTitle + "（通过）")
 
             # 工作表标注颜色
             if varTest == "":
@@ -105,7 +121,7 @@ class ReportPO():
             else:
                 self.Openpyxl_PO.setSheetColor("00E400", destSheetName)
 
-            # print(varTest)
+
 
     def save(self):
         self.Openpyxl_PO.save()
