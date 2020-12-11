@@ -33,6 +33,7 @@ class CharPO():
     def __init__(self):
         pass
 
+        # 2 判断字符串是否为数字
 
 
     # 1.1 中文转字节码
