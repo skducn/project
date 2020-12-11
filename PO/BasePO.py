@@ -88,8 +88,8 @@ class BasePO(object):
             if expected == actual:
                 print(okMsg)
             else:
-                # print(errMsg)
-                self.Color_PO.consoleColor("31", "38", errMsg, "")
+                print(errMsg)
+                # self.Color_PO.consoleColor("31", "38", errMsg, "")
         except:
             self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
