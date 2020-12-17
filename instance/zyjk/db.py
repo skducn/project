@@ -75,6 +75,8 @@ from PO import SqlserverPO, MysqlPO
 
 # EHR 电子健康档案(sqlserver)
 # sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.35", "test", "123456", "healthrecord_test")  # 测试环境
+# sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "admin@12345", "EHRBC")  # 测试环境业务库
+sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "admin@12345", "EHRDC")  # 测试环境
 # sqlserver_PO.dbDesc()   # 所有表结构
 # sqlserver_PO.dbDesc('UpmsUser')   # UpmsUser表结构
 # sqlserver_PO.dbDesc('mmon*')  # 表名中带有mmon字符的表结构
@@ -82,7 +84,7 @@ from PO import SqlserverPO, MysqlPO
 # sqlserver_PO.dbDesc('UpmsUser', 'Id,Birthday,Sex')   # 查看UpmsUser表中Id,Birthday,Sex字段的结构
 # sqlserver_PO.dbRecord('UpmsUser', 'varchar', '%e10adc3949ba59abbe56e057f20f883e')  # 搜索 UpmsUser 表中内容包含 e10adc3949ba59abbe56e057f20f883e 的 varchar 类型记录。
 # sqlserver_PO.dbRecord('CommonDictionaryType', 'datetime', '2018-10-15 18:21%')  # 模糊搜索所有表中带2018-10-15 18:21%的datetime类型。
-# sqlserver_PO.dbRecord('*', 'varchar', '%sex%')
+sqlserver_PO.dbRecord('*', 'varchar', '%马云正%')
 # sqlserver_PO.dbRecord('*', 'datetime', '2018-10-15 18:21%')  # 模糊搜索所有表中带2018-10-15 18:21%的datetime类型。
 
 
@@ -122,5 +124,5 @@ from PO import SqlserverPO, MysqlPO
 
 # # SAAS(mysql)
 # mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasecgdev", 3306)  # 测试环境
-mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
-mysql_PO.dbRecord('*', 'char', u'%什么是脑血栓%')
+# mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
+# mysql_PO.dbRecord('*', 'char', u'%什么是脑血栓%')
