@@ -61,12 +61,16 @@ class BasePO(object):
             print(u"页面中未找到元素 %s " % (loc))
 
     def sendKeysId(self, varId, dimValue):
+        # 上传文件
+        # Oa_PO.Web_PO.sendKeysId("impload", os.getcwd() + "\\drugTemplet.xls")  # 导入文件
         self.driver.find_element_by_id(varId).send_keys(dimValue)
 
     def sendKeysName(self, varName, dimValue):
         self.driver.find_element_by_name(varName).send_keys(dimValue)
 
     def sendKeysXpath(self, dimXpath, dimValue):
+        # 上传文件
+        # Oa_PO.Web_PO.sendKeysXpath("//input[@id='impload'", os.getcwd() + "\\drugTemplet.xls")  # 导入文件
         self.driver.find_element_by_xpath(dimXpath).send_keys(dimValue)
 
 
