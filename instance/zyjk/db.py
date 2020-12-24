@@ -77,21 +77,21 @@ from PO import SqlserverPO, MysqlPO
 # sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.35", "test", "123456", "healthrecord_test")  # 测试环境
 # sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "admin@12345", "EHRBC")  # 测试环境业务库
 sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "admin@12345", "EHRDC")  # 测试环境
-# sqlserver_PO.dbDesc()   # 所有表结构
-# sqlserver_PO.dbDesc('UpmsUser')   # UpmsUser表结构
+sqlserver_PO.dbDesc()   # 所有表结构
+# sqlserver_PO.dbDesc('HrCover')   # UpmsUser表结构
 # sqlserver_PO.dbDesc('mmon*')  # 表名中带有mmon字符的表结构
 # sqlserver_PO.dbDesc('UpmsUser*', 'Birthday')  # 表名中带有UpmsUser字符的表中Birthday字段的结构
 # sqlserver_PO.dbDesc('UpmsUser', 'Id,Birthday,Sex')   # 查看UpmsUser表中Id,Birthday,Sex字段的结构
 # sqlserver_PO.dbRecord('UpmsUser', 'varchar', '%e10adc3949ba59abbe56e057f20f883e')  # 搜索 UpmsUser 表中内容包含 e10adc3949ba59abbe56e057f20f883e 的 varchar 类型记录。
 # sqlserver_PO.dbRecord('CommonDictionaryType', 'datetime', '2018-10-15 18:21%')  # 模糊搜索所有表中带2018-10-15 18:21%的datetime类型。
-sqlserver_PO.dbRecord('*', 'varchar', '%马云正%')
+# sqlserver_PO.dbRecord('*', 'varchar', '%马云正%')
 # sqlserver_PO.dbRecord('*', 'datetime', '2018-10-15 18:21%')  # 模糊搜索所有表中带2018-10-15 18:21%的datetime类型。
 
 
 # **********************************************************************************************************************************
 
 # 盛蕴CRM小程序(mysql)
-# mysql_PO = MysqlPO.MysqlPO("192.168.0.39", "ceshi", "123456", "TD_APP", 3336)  # 测试环境
+# mysql_PO = MysqlPO.MysqlPO("192.168.0.233", "ceshi", "123456", "TD_APP", 3336)  # 测试环境
 # mysql_PO.dbDesc()   # 所有表结构
 # mysql_PO.dbDesc('fact*')  # 查看所有b开头的表结构（通配符*）
 # mysql_PO.dbDesc('app_info')   # app_info表结构
