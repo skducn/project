@@ -23,16 +23,19 @@ class OaPO(object):
         self.Char_PO = CharPO()
         self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
 
+    '''打开浏览器'''
     def open(self):
         self.Web_PO = WebPO("chrome")
         self.Web_PO.openURL(varURL)
         self.Web_PO.driver.maximize_window()  # 全屏
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
+
+    '''登录页'''
     def login(self, varUser):
         self.Web_PO.inputId("name", varUser)
         self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
 
-    '''点击左侧菜单,选择模块'''
+    '''左侧菜单选择模块及浮层模块（无标题）'''
     def memu(self, varMemuName, varSubName):
         # # 获取菜单列表
         sleep(3)
@@ -61,10 +64,43 @@ class OaPO(object):
                 for i in range(len(str(list3[0]).split("\n"))):
                     if str(list3[0]).split("\n")[i] != varMemuName and Str_PO.isContainChinese(str(list3[0]).split("\n")[i]) == True:
                         list4.append(str(list3[0]).split("\n")[i])
-                # print(list4)
                 for k in range(len(list4)):
                     if list4[k] == varSubName:
                         self.Web_PO.clickXpath("//ul[@id='first_menu']/li[" + str(j+1) + "]/div[2]/ul/li[" + str(k+1) + "]/a", 2)
+
+
+    '''左侧菜单选择模块及浮层模块（有标题）'''
+    def memu2(self, varMemuName, varSubName):
+        # 标题，如人力资源模块中的薪酬管理标题
+        sleep(3)
+        x = self.Web_PO.getXpathsText("//div")
+        list1 = []
+        for i in x :
+            if "快捷菜单" in i:
+                list1.append(i)
+                break
+        list2 = []
+        for i in range(len(str(list1[0]).split("\n"))):
+            if Str_PO.isContainChinese(str(list1[0]).split("\n")[i]) == True:
+                list2.append(str(list1[0]).split("\n")[i])
+        # print(list2)
+        for j in range(len(list2)):
+            if list2[j] == varMemuName:
+                self.Web_PO.clickXpath("//ul[@id='first_menu']/li[" + str(j+1) + "]", 2)
+                x = self.Web_PO.getXpathsText("//li")
+                list3 = []
+                list4 = []
+                for i in x:
+                    if varMemuName in i:
+                        list3.append(i)
+                        break
+                for i in range(len(str(list3[0]).split("\n"))):
+                    if str(list3[0]).split("\n")[i] != varMemuName and Str_PO.isContainChinese(str(list3[0]).split("\n")[i]) == True:
+                        list4.append(str(list3[0]).split("\n")[i])
+                for k in range(len(list4)):
+                    if list4[k] == varSubName:
+                        self.Web_PO.clickXpath("//ul[@id='first_menu']/li[" + str(j+1) + "]/div[2]/ul/li[1]/ul/li[" + str(k) + "]/a", 2)
+
 
     '''检查 常用工作中表单数量'''
     def getWorkQty(self):
