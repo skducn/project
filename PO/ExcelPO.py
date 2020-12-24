@@ -39,11 +39,14 @@ import pandas as pd
 import openpyxl
 import openpyxl.styles
 from openpyxl.styles import PatternFill
+import win32com.client as win32
 
 from PO.ColorPO import *
 Color_PO = ColorPO()
 from PO.CharPO import *
 Char_PO = CharPO()
+from PO.FilePO import *
+File_PO = FilePO()
 
 '''
 1 新建excel（for xlsx） newExcel()
@@ -76,6 +79,12 @@ class ExcelPO():
 
     def __init__(self, file):
         self.file = file
+        # 判断是不是xlsx文件，如果是xls则转换成xlsx,同时删除xls文件
+        if str(self.file).split(".")[1] == "xls":
+            self.xls2xlsx(self.file)
+            self.file = str(self.file).replace(".xls", ".xlsx")
+            # 删除xls文件
+            File_PO.delFile(file)
         self.wb = xlrd.open_workbook(self.file)
 
         # self.wb1 = load_workbook(self.file)
@@ -608,15 +617,25 @@ class ExcelPO():
         style = PatternFill("solid", fgColor=varColor)
         sh.cell(row, col).fill = style
 
+    # 8 xls转xlsx
+    def xls2xlsx(self, varFile):
+        excel = win32.gencache.EnsureDispatch('Excel.Application')
+        wb = excel.Workbooks.Open(varFile)
+        wb.SaveAs(varFile + "x", FileFormat=51)  # FileFormat = 51 is for .xlsx extension
+        wb.Close()  # FileFormat = 56 is for .xls extension
+        excel.Application.Quit()
+
 if __name__ == "__main__":
 
-    Excel_PO = ExcelPO("d:\\1.xlsx")
-    Excel_PO.setCellColor(11, 7, "00E400")
-    Excel_PO.setCellColor(12, 7, "FFFF00")
-    Excel_PO.setCellColor(13, 7, "FF7E00")
-    Excel_PO.setCellColor(14, 7, "FF0000")
-    Excel_PO.setCellColor(15, 7, "99004C")
-    Excel_PO.save()
+    Excel_PO = ExcelPO("c:\\drugTemplet.xls")
+
+    # Excel_PO = ExcelPO("d:\\1.xlsx")
+    # Excel_PO.setCellColor(11, 7, "00E400")
+    # Excel_PO.setCellColor(12, 7, "FFFF00")
+    # Excel_PO.setCellColor(13, 7, "FF7E00")
+    # Excel_PO.setCellColor(14, 7, "FF0000")
+    # Excel_PO.setCellColor(15, 7, "99004C")
+    # Excel_PO.save()
 
 
     # print("1，新建excel（by openpyxl）".center(100, "-"))
