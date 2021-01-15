@@ -51,9 +51,48 @@ print(list(x))  # [3, 6]
 squares = map(lambda x: x ** 2, range(5))
 print(list(squares)) # [0,1,4,9,16]
 # 当seq多于一个时，map可以并行（注意是并行）地对每个seq执行
-x = map(lambda s:s[0:1].upper()+s[1:].lower(),['adam', 'LISA', 'barT'])
+x = map(lambda s:s[0:1].upper()+s[1:].lower(), ['adam', 'LISA', 'barT'])
 print(list(x))  # ['Adam', 'Lisa', 'Bart']
 
+# sorted() 可以对所有可迭代的对象进行排序操作
+a=[('b',3),('a',2),('d',4),('c',1)]
+print(sorted(a, key=lambda x: x[0]))  # [('a', 2), ('b', 3), ('c', 1), ('d', 4)]
+print(sorted(a, key=lambda x: x[1]))  # [('c', 1), ('a', 2), ('b', 3), ('d', 4)]
+
+# reduce() 函数会对参数序列中元素进行累积。
+from functools import reduce
+print(reduce(lambda a,b:'{},{}'.format(a,b),[1,2,3,4,5,"sasa",7,8,9]))   # 1,2,3,4,5,sasa,7,8,9
+print(reduce(lambda a, b: a + b, [1, 2, 3, 4, 5, 6, 7, 8, 9]))  #45
+print(reduce(lambda x, y: x * 10 + y, [1 , 2, 3, 4, 5]))  # 12345
+
+
+# reduce() 按性别分组
+# https://www.cnblogs.com/lonkiss/p/understanding-python-reduce-function.html
+scientists =({'name':'jinhao', 'age':105, 'gender':'male'},
+             {'name':'baba', 'age':76, 'gender':'male'},
+             {'name':'mama', 'age':202, 'gender':'female'},
+             {'name':'yoyo', 'age':84, 'gender':'female'})
+def group_by_gender(accumulator , value):
+    accumulator[value['gender']].append(value['name'])
+    return accumulator
+grouped = reduce(group_by_gender, scientists, {'male':[], 'female':[]})
+print(grouped)  # {'male': ['jinhao', 'baba'], 'female': ['mama', 'yoyo']}
+
+import itertools
+scientists =({'name':'jin', 'age':105, 'gender':'male'},
+             {'name':'baba', 'age':76, 'gender':'male'},
+             {'name':'mama', 'age':202, 'gender':'female'},
+             {'name':'yoyo', 'age':84, 'gender':'female'})
+grouped = {item[0]:list(item[1])
+           for item in itertools.groupby(scientists, lambda x: x['gender'])}
+print(grouped) # {'male': [{'name': 'jin', 'age': 105, 'gender': 'male'}, {'name': 'baba', 'age': 76, 'gender': 'male'}], 'female': [{'name': 'mama', 'age': 202, 'gender': 'female'}, {'name': 'yoyo', 'age': 84, 'gender': 'female'}]}
+
+scientists =({'name':'Alan Turing', 'age':105, 'gender':'male'},
+             {'name':'Dennis Ritchie', 'age':76, 'gender':'male'},
+             {'name':'Ada Lovelace', 'age':202, 'gender':'female'},
+             {'name':'Frances E. Allen', 'age':84, 'gender':'female'})
+grouped = reduce(lambda acc, val: {**acc, **{val['gender']: acc[val['gender']]+ [val['name']]}}, scientists, {'male':[], 'female':[]})
+print(grouped)
 
 
 
