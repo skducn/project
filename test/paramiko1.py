@@ -7,6 +7,20 @@
 #***************************************************************
 
 import paramiko
+
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+# ssh.connect(hostname="192.168.1.101", port=22, username="lhc", password="jinhao123")
+ssh.connect(hostname="192.168.1.105", port=22, username="linghuchong", password="Jinhao")
+stdin, stdout, stderr = ssh.exec_command("ls Downloads/")   # 将显示结果在本机上输出
+# stdin, stdout, stderr = ssh.exec_command("open Downloads/test.jpeg")  # 在服务器端打开图片
+result = stdout.read()
+print(result.decode())
+
+ssh.close()
+# 关闭连接
+
+
 # hostname="172.21.200.218"
 # port=22
 # username="linghuchong"
@@ -28,12 +42,11 @@ import paramiko
 #     print(stdout.read())
 #     s.close()
 
-ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-r=ssh.connect("172.21.200.153",22,"ZY", "jinhao123")
-stdin, stdout, stderr = ssh.exec_command("export")
-lines=stdout.readlines()
-print(type(lines))
-for line in lines:
-    print(line)
-ssh.close()
+
+
+# print(stdout.read().decode())
+# lines=stdout.readlines()
+# print(type(lines))
+# for line in lines:
+#     print(line)
+
