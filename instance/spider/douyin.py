@@ -99,9 +99,9 @@ def downloadVideo(url, varFromNumDown=0):
 				print(str(id) + "，{0} {1}".format(text, video_url))
 				ir = session.get(video_url, headers=headers)
 				# 新建用户目录及视频
-				if not os.path.exists("d:/" + nickname[0]):
-					os.mkdir("d:/" + nickname[0])
-				open(f'd:/{nickname[0]}/{str(id)}_{text}.mp4', 'wb').write(ir.content)
+				if not os.path.exists("d:/video/" + nickname[0]):
+					os.mkdir("d:/video/" + nickname[0])
+				open(f'd:/video/{nickname[0]}/{text}.mp4', 'wb').write(ir.content)
 			else:
 				print(str(id) + "，{0}".format(text))
 

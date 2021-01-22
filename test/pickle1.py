@@ -25,14 +25,16 @@ class Person:
     def show(self):
         print(self.name + "_" + str(self.age))
 
-aa = Person("JGood", 2)
-aa.show()  # JGood_2
-f = open('d:\\p.txt', 'wb')
-pickle.dump(aa, f, 0)
-f.close()
+# aa = Person("JGood", 2)
+# aa.show()  # JGood_2
+# f = open('d:\\p.txt', 'wb')    # p.txt中保存内容是 ccopy_reg_reconstructorp0(c__main__Personp1c__builtin__objectp2Ntp3Rp4(dp5Vnamep6VJGoodp7sVagep8I2sb.
+# pickle.dump(aa, f, 0)
+# f.close()
 
-f = open('d:\\p.txt', 'rb')
-bb = pickle.load(f)
+
+
+f = open('d:\\a.txt', 'rb')
+bb = pickle.load("")
 f.close()
-bb.show() # JGood_2
+bb.show()  # JGood_2
 
