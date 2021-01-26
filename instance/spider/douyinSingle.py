@@ -36,7 +36,8 @@ def downloadSingleVideo(url):
 
 	# 下载
 	ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
-	open(f'd:/{nickname}.mp4', 'wb').write(ir.content)
+	# open(f'd:/{nickname}.mp4', 'wb').write(ir.content)
+	open(f'/Users/linghuchong/Downloads/{nickname}.mp4', 'wb').write(ir.content)
 
 
 
