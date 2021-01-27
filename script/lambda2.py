@@ -5,8 +5,8 @@
 # Description: 匿名函数 lambda：是指一类无需定义标识符（函数名）的函数或子程序。
 # lambda 函数可以接收任意多个参数 (包括可选参数) 并且返回单个表达式的值。
 # 要点：
-# 1，lambda 函数不能包含命令，
-# 2，包含的表达式不能超过一个。
+# 1，lambda 函数不能包含命令；
+# 2，包含的表达式不能超过一个；
 # 格式： 函数对象地址 = lambda 参数列表 : 表达式 ， lambda返回值是一个函数的地址，也就是函数对象。
 # 用途：一般将它用在需要封装特殊的、非重用代码上，避免令代码充斥着大量单行函数。
 
@@ -28,20 +28,23 @@
 # ......
 # ********************************************************************************************************************
 
-
+# 1，标准匿名函数格式
 p = lambda x, y: x+y
 p(1, 4)     # 注意：这样是可以执行的，不会报错，只是没有print的话不会输出结果。
 print(p(1, 4))   # 5
-
 a = lambda x, y, z: (x+8) * y - z
 print(a(5, 6, 8))   # 70
 print(a)  # <function <lambda> at 0x000001F75FE0E160>
+print(type(a))  # <class 'function'>  lambda它是函数
 
-# 在匿名函数后面直接传递实参
+
+# 2，非标准你们函数写法，直接在匿名函数后接实参
 print((lambda x: x**2)(3))  # 9
 
-# 将lambda函数作为参数传递给其他函数比如说结合map、filter、sorted、reduce等一些Python内置函数使用
-# filter() 函数用于过滤序列，过滤掉不符合条件的元素，返回一个迭代器对象，如果要转换为列表，可以使用 list() 来转换。
+
+
+# 3，将lambda函数作为参数传递给其他函数，如filter、map、sorted、reduce等Python内置函数使用
+# filter() 过滤序列，过滤掉不符合条件的元素，返回一个迭代器对象，如果要转换为列表，可以使用 list() 来转换。
 x = filter(lambda x: x % 3 == 0, [1, 2, 3, 4, 5, 6])
 print(list(x))  # [3, 6]
 
@@ -49,21 +52,21 @@ print(list(x))  # [3, 6]
 # map() 会根据提供的函数对指定序列做映射。
 # 当seq只有一个时，将函数func作用于这个seq的每个元素上，并得到一个新的seq
 squares = map(lambda x: x ** 2, range(5))
-print(list(squares)) # [0,1,4,9,16]
+print(list(squares))  # [0,1,4,9,16]
 # 当seq多于一个时，map可以并行（注意是并行）地对每个seq执行
 x = map(lambda s:s[0:1].upper()+s[1:].lower(), ['adam', 'LISA', 'barT'])
 print(list(x))  # ['Adam', 'Lisa', 'Bart']
 
-# sorted() 可以对所有可迭代的对象进行排序操作
+# sorted() 对所有可迭代的对象进行排序
 a=[('b',3),('a',2),('d',4),('c',1)]
 print(sorted(a, key=lambda x: x[0]))  # [('a', 2), ('b', 3), ('c', 1), ('d', 4)]
 print(sorted(a, key=lambda x: x[1]))  # [('c', 1), ('a', 2), ('b', 3), ('d', 4)]
 
-# reduce() 函数会对参数序列中元素进行累积。
+# reduce() 对参数序列中元素进行累积。
 from functools import reduce
 print(reduce(lambda a,b:'{},{}'.format(a,b),[1,2,3,4,5,"sasa",7,8,9]))   # 1,2,3,4,5,sasa,7,8,9
-print(reduce(lambda a, b: a + b, [1, 2, 3, 4, 5, 6, 7, 8, 9]))  #45
-print(reduce(lambda x, y: x * 10 + y, [1 , 2, 3, 4, 5]))  # 12345
+print(reduce(lambda a, b: a + b, [1, 2, 3, 4, 5, 6, 7, 8, 9]))  # 45
+print(reduce(lambda x, y: x * 10 + y, [1, 2, 3, 4, 5]))  # 12345
 
 
 # reduce() 按性别分组
@@ -95,9 +98,30 @@ grouped = reduce(lambda acc, val: {**acc, **{val['gender']: acc[val['gender']]+ 
 print(grouped)
 
 
+# 4，实例选择菜单执行函数
+# msgCtrl = "1 : pause\n2 : stop\n3 : restart\nother to quit\n"
+# ctrlMap = {
+#     '1': lambda: doPause(),
+#     '2': lambda: doStop(),
+#     '3': lambda: doRestart()}
+# def doPause():
+#     print('do pause')
+# def doStop():
+#     print('do stop')
+# def doRestart():
+#     print('do restart')
+#
+# if __name__ == '__main__':
+#     print(msgCtrl)
+#     cmdCtrl = input('Input : ')
+#     if cmdCtrl  in ctrlMap:
+#         ctrlMap[cmdCtrl]()
+#     print(ctrlMap["1"])  # <function <lambda> at 0x00000270D88EF040>
+#     ctrlMap['3']()  # do restart
 
 
-# # 输入编号，返回相应内容
+
+# # 5，输入运算符，执行相应操作
 # '''
 # 输入1，计算10+2，返回12
 # 输入2，计算10-2，返回8
@@ -106,7 +130,6 @@ print(grouped)
 # '''
 #
 # tips = "1 : +\n2 : -\n3 : *\nother to quit\n"
-#
 # d1 = {
 #     '1': lambda x, y: x + y,
 #     '2': lambda x, y: x - y,
