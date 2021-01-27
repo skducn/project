@@ -36,11 +36,11 @@ def downloadSingleVideo(url):
 
 	# 下载
 	ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
-	# open(f'd:/{nickname}.mp4', 'wb').write(ir.content)
-	open(f'/Users/linghuchong/Downloads/{nickname}.mp4', 'wb').write(ir.content)
+	open(f'd:/{nickname}.mp4', 'wb').write(ir.content)
+	# open(f'/Users/linghuchong/Downloads/{nickname}.mp4', 'wb').write(ir.content)
 	# test
 
 
 if __name__ == '__main__':
 
-	downloadSingleVideo("https://v.douyin.com/JG5JuMf/")
+	downloadSingleVideo("https://v.douyin.com/JcF6mYb/")
