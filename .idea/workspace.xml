@@ -2,15 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bcee6349-2fbc-4bf8-a1c8-de4b5c1bba36" name="Default" comment="2020.4.1 add readme.md">
-      <change afterPath="$PROJECT_DIR$/script/set1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/firstObject.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/技巧.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/project.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/class/Inheritance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/class/Polymorphism.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/class/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/class/classDecorator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/class/classDynamicState.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/spider/douyinSingle.py" beforeDir="false" afterPath="$PROJECT_DIR$/instance/spider/douyinSingle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/lambda2.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/lambda2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/lambda3.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/class1.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/class/class1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/class2.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/class/class2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/class3.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/class4.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/class/class4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/技巧.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/技巧.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -74,6 +77,7 @@
     <SUITE FILE_PATH="coverage/09project$readConfig.coverage" NAME="readConfig Coverage Results" MODIFIED="1547976387086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common/interface/interFrame1" />
     <SUITE FILE_PATH="coverage/project$pytest_in_test_1_py.coverage" NAME="pytest in test_1.py Coverage Results" MODIFIED="1584957708468" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test/pytest" />
     <SUITE FILE_PATH="coverage/project$str1.coverage" NAME="str1 Coverage Results" MODIFIED="1584612500815" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/lib" />
+    <SUITE FILE_PATH="coverage/project$class4.coverage" NAME="class4 Coverage Results" MODIFIED="1611826673101" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/class" />
     <SUITE FILE_PATH="coverage/09project$configEmail.coverage" NAME="configEmail Coverage Results" MODIFIED="1548155147112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common/interface/interFrame2/common" />
     <SUITE FILE_PATH="coverage/project$shell1.coverage" NAME="shell1 Coverage Results" MODIFIED="1584955720449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/project$stockQuery.coverage" NAME="stockQuery Coverage Results" MODIFIED="1572250882437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/instance/zyjk/CRM/web" />
@@ -119,7 +123,7 @@
     <SUITE FILE_PATH="coverage/09project$ip_pachong.coverage" NAME="ip_pachong Coverage Results" MODIFIED="1550481054795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spider" />
     <SUITE FILE_PATH="coverage/Project$DatabasePO.coverage" NAME="DatabasePO Coverage Results" MODIFIED="1515375742810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Public/PageObject" />
     <SUITE FILE_PATH="coverage/09project$HJKinterfaceCase1_0_BPC.coverage" NAME="HJKinterfaceCase1_0_BPC Coverage Results" MODIFIED="1547716773443" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HJK/interface" />
-    <SUITE FILE_PATH="coverage/project$class1.coverage" NAME="class1 Coverage Results" MODIFIED="1584953276306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/project$class1.coverage" NAME="class1 Coverage Results" MODIFIED="1611811857157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/class" />
     <SUITE FILE_PATH="coverage/09project$.coverage" NAME="目录路径 Coverage Results" MODIFIED="1548834332783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
     <SUITE FILE_PATH="coverage/Project$hello.coverage" NAME="hello Coverage Results" MODIFIED="1501480428427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/django" />
     <SUITE FILE_PATH="coverage/Project$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1494398788222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Cos/TestSuite/TestCase" />
@@ -147,6 +151,7 @@
     <SUITE FILE_PATH="coverage/project$pytest_for_runAllEHR2_runAllEHR_test14.coverage" NAME="pytest for runAllEHR2.runAllEHR.test14 Coverage Results" MODIFIED="1554362699654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zyjk/EHR/frame1" />
     <SUITE FILE_PATH="coverage/Project$IP.coverage" NAME="IP Coverage Results" MODIFIED="1513679395247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
     <SUITE FILE_PATH="coverage/project$getPic.coverage" NAME="getPic Coverage Results" MODIFIED="1568795644821" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
+    <SUITE FILE_PATH="coverage/project$classDecorate.coverage" NAME="classDecorate Coverage Results" MODIFIED="1611826843718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/class" />
     <SUITE FILE_PATH="coverage/project$DevicePO.coverage" NAME="DevicePO Coverage Results" MODIFIED="1585729196802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PO" />
     <SUITE FILE_PATH="coverage/Project$run1.coverage" NAME="run1 Coverage Results" MODIFIED="1493784113572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Cos/TestSuite" />
     <SUITE FILE_PATH="coverage/09project$md51.coverage" NAME="md51 Coverage Results" MODIFIED="1547712803905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
@@ -206,6 +211,7 @@
     <SUITE FILE_PATH="coverage/project$inter.coverage" NAME="inter Coverage Results" MODIFIED="1555058443162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zyjk/PIM" />
     <SUITE FILE_PATH="coverage/project$urlretrive1.coverage" NAME="urlretrive1 Coverage Results" MODIFIED="1584611704928" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/lib" />
     <SUITE FILE_PATH="coverage/project$community_info_do.coverage" NAME="community_info_do Coverage Results" MODIFIED="1584946830451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/project$Polymorphism.coverage" NAME="Polymorphism Coverage Results" MODIFIED="1611817102786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/class" />
     <SUITE FILE_PATH="coverage/project$runAllEHR.coverage" NAME="runAllEHR Coverage Results" MODIFIED="1584948570837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/instance/zyjk/EHR/frame1" />
     <SUITE FILE_PATH="coverage/project$email1.coverage" NAME="email1 Coverage Results" MODIFIED="1568799077569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
     <SUITE FILE_PATH="coverage/project$pytest_in_web_py.coverage" NAME="pytest in web.py Coverage Results" MODIFIED="1579224418453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/instance/zyjk/EHR/web" />
@@ -219,7 +225,7 @@
     <SUITE FILE_PATH="coverage/project$pytest_in_test1_py.coverage" NAME="pytest in test1.py Coverage Results" MODIFIED="1584935729214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PO/HtmlTestRunnerPO" />
     <SUITE FILE_PATH="coverage/09project$xls__1_.coverage" NAME="xls (1) Coverage Results" MODIFIED="1548051517382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common/interface/interFrame1/config" />
     <SUITE FILE_PATH="coverage/project$DataMonitorPO.coverage" NAME="DataMonitorPO Coverage Results" MODIFIED="1584680384680" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/instance/zyjk/EHR/PageObject" />
-    <SUITE FILE_PATH="coverage/project$.coverage" NAME="技巧 Coverage Results" MODIFIED="1611727848892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/project$.coverage" NAME="技巧 Coverage Results" MODIFIED="1611796524412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/Project$test23.coverage" NAME="test23 Coverage Results" MODIFIED="1519711514752" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
     <SUITE FILE_PATH="coverage/project$datetime2.coverage" NAME="datetime2 Coverage Results" MODIFIED="1568881792301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/Project$download.coverage" NAME="download Coverage Results" MODIFIED="1513675438455" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
@@ -257,6 +263,7 @@
     <SUITE FILE_PATH="coverage/Project$adb1.coverage" NAME="adb1 Coverage Results" MODIFIED="1513673696086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
     <SUITE FILE_PATH="coverage/project$register.coverage" NAME="register Coverage Results" MODIFIED="1557217149189" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zyjk/OA/web" />
     <SUITE FILE_PATH="coverage/09project$runAll.coverage" NAME="runAll Coverage Results" MODIFIED="1550487990845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common/interface/interFrame1" />
+    <SUITE FILE_PATH="coverage/project$Inheritance.coverage" NAME="Inheritance Coverage Results" MODIFIED="1611820298444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/class" />
     <SUITE FILE_PATH="coverage/Project$DKDJinterfaceCase1_5__1_.coverage" NAME="DKDJinterfaceCase1_5 (1) Coverage Results" MODIFIED="1508225453047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HJK/interface" />
     <SUITE FILE_PATH="coverage/project$pytest_for_DataMonitorPO_DataMonitorPO.coverage" NAME="pytest for DataMonitorPO.DataMonitorPO Coverage Results" MODIFIED="1579081171177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/instance/zyjk/EHR/PageObject" />
     <SUITE FILE_PATH="coverage/Project$baidu.coverage" NAME="baidu Coverage Results" MODIFIED="1513674004137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
@@ -289,6 +296,7 @@
     <SUITE FILE_PATH="coverage/09project$mm131.coverage" NAME="mm131 Coverage Results" MODIFIED="1550476870986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common/spider/mm131" />
     <SUITE FILE_PATH="coverage/project$ExcelPO.coverage" NAME="ExcelPO Coverage Results" MODIFIED="1585630217384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PO" />
     <SUITE FILE_PATH="coverage/09project$zhihu1.coverage" NAME="zhihu1 Coverage Results" MODIFIED="1548387625390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spider3" />
+    <SUITE FILE_PATH="coverage/project$class3.coverage" NAME="class3 Coverage Results" MODIFIED="1611826384339" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/class" />
     <SUITE FILE_PATH="coverage/project$dataPO.coverage" NAME="dataPO Coverage Results" MODIFIED="1584925709738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PO" />
     <SUITE FILE_PATH="coverage/Project$run1__1_.coverage" NAME="run1 (1) Coverage Results" MODIFIED="1493685826547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/CETC/DKDJ_1_0/Server/TestSuite" />
     <SUITE FILE_PATH="coverage/09project$test3.coverage" NAME="test3 Coverage Results" MODIFIED="1548840936299" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
@@ -303,6 +311,7 @@
     <SUITE FILE_PATH="coverage/project$IP.coverage" NAME="IP Coverage Results" MODIFIED="1568959665084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/09project$huaban.coverage" NAME="huaban Coverage Results" MODIFIED="1550480473794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spider" />
     <SUITE FILE_PATH="coverage/09project$str1.coverage" NAME="str1 Coverage Results" MODIFIED="1548823411778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
+    <SUITE FILE_PATH="coverage/project$classDecorator.coverage" NAME="classDecorator Coverage Results" MODIFIED="1611828513202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/class" />
     <SUITE FILE_PATH="coverage/project$runAll.coverage" NAME="runAll Coverage Results" MODIFIED="1553820194714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common/interface/interFrame1" />
     <SUITE FILE_PATH="coverage/09project$readExcel.coverage" NAME="readExcel Coverage Results" MODIFIED="1548505999898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common/excel" />
     <SUITE FILE_PATH="coverage/09project$DKDJinterfaceCase1_5.coverage" NAME="DKDJinterfaceCase1_5 Coverage Results" MODIFIED="1547713075342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Dangjian/interface" />
@@ -357,6 +366,7 @@
     <SUITE FILE_PATH="coverage/project$lambda2.coverage" NAME="lambda2 Coverage Results" MODIFIED="1611715129799" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/Project$caseDatabaseLine.coverage" NAME="caseDatabaseLine Coverage Results" MODIFIED="1515030632364" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Public" />
     <SUITE FILE_PATH="coverage/project$mysql1.coverage" NAME="mysql1 Coverage Results" MODIFIED="1552462390343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zyjk/crm" />
+    <SUITE FILE_PATH="coverage/project$override.coverage" NAME="override Coverage Results" MODIFIED="1611814546538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/class" />
     <SUITE FILE_PATH="coverage/project$FilePO.coverage" NAME="FilePO Coverage Results" MODIFIED="1585647876146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PO/FilePO" />
     <SUITE FILE_PATH="coverage/Project$Boluome.coverage" NAME="Boluome Coverage Results" MODIFIED="1502798240002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Boluome" />
     <SUITE FILE_PATH="coverage/project$pytest_in_android_frame_py.coverage" NAME="pytest in android_frame.py Coverage Results" MODIFIED="1552974131204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zyjk/EHR" />
@@ -440,93 +450,96 @@
     <favorites_list name="Project" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/instance/spider/douyin.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/func1.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="9" selection-end-column="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/firstObject.py">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="57">
+              <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script/class/class1.py">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="76">
-              <caret line="4" column="52" lean-forward="true" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
+              <caret line="4" column="30" selection-end-line="6" selection-end-column="65" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test/技巧.py">
+        <entry file="file://$PROJECT_DIR$/script/class/classDecorator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="538">
+              <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/set1.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" column="14" lean-forward="true" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/instance/spider/douyinSingle.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="34" column="44" lean-forward="true" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/dict1.py">
+        <entry file="file://$PROJECT_DIR$/script/class/class2.py">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret selection-end-line="7" selection-end-column="69" />
+              <caret selection-end-line="7" selection-end-column="129" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.PyCharm2018.3/system/python_stubs/-797412331/builtins.py">
+        <entry file="file://$PROJECT_DIR$/script/class/classDynamicState.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="5773" column="65" lean-forward="true" selection-start-line="5773" selection-start-column="65" selection-end-line="5773" selection-end-column="65" />
+            <state relative-caret-position="247">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/lambda2.py">
+        <entry file="file://$PROJECT_DIR$/script/class/class4.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1165">
-              <caret line="128" column="23" selection-start-line="128" selection-start-column="23" selection-end-line="128" selection-end-column="23" />
+            <state relative-caret-position="133">
+              <caret line="7" column="33" lean-forward="true" selection-start-line="7" selection-start-column="33" selection-end-line="8" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/链表推导式.py">
+        <entry file="file://$PROJECT_DIR$/script/class/Inheritance.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+            <state relative-caret-position="681">
+              <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script/class/Polymorphism.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PO/CharPO.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="30" column="15" selection-start-line="30" selection-start-column="15" selection-end-line="30" selection-end-column="15" />
+              <folding>
+                <element signature="e#674#694#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/技巧.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -542,9 +555,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>查看单表或多表的所有表结构</find>
-      <find>??</find>
-      <find>search</find>
       <find>postLogin</find>
       <find>method</find>
       <find>load_workbook</find>
@@ -572,9 +582,11 @@
       <find>test</find>
       <find>3.6</find>
       <find>map</find>
+      <find>xique</find>
+      <find>...</find>
+      <find>装饰</find>
     </findStrings>
     <replaceStrings>
-      <replace>varDB</replace>
       <replace>print(varParam)</replace>
       <replace>(self)</replace>
       <replace>print ip</replace>
@@ -604,6 +616,7 @@
       <replace>varText</replace>
       <replace>getRandomIp(</replace>
       <replace>/filepo/</replace>
+      <replace>b</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -613,13 +626,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/PO/htmlTestRunnerPO.py" />
-        <option value="$PROJECT_DIR$/PO/HtmlTestRunnerPO/test2.py" />
-        <option value="$PROJECT_DIR$/PO/HtmlTestRunnerPO/test1.py" />
-        <option value="$PROJECT_DIR$/PO/HtmlTestRunnerPO/test3.py" />
-        <option value="$PROJECT_DIR$/PO/HtmlTestRunnerPO/HtmlTestRunnerPO.py" />
-        <option value="$PROJECT_DIR$/PO/MysqlPO.py" />
-        <option value="$PROJECT_DIR$/PO/sqlserverPO.py" />
         <option value="$PROJECT_DIR$/PO/DatabasePO.py" />
         <option value="$PROJECT_DIR$/test/apk.py" />
         <option value="$PROJECT_DIR$/test/capture1.py" />
@@ -664,25 +670,43 @@
         <option value="$PROJECT_DIR$/script/set1.py" />
         <option value="$PROJECT_DIR$/instance/spider/douyinSingle.py" />
         <option value="$PROJECT_DIR$/test/技巧.py" />
+        <option value="$PROJECT_DIR$/script/class/override.py" />
+        <option value="$PROJECT_DIR$/script/class/Polymorphism.py" />
+        <option value="$PROJECT_DIR$/script/class/Inheritance.py" />
+        <option value="$PROJECT_DIR$/script/class/class3.py" />
+        <option value="$PROJECT_DIR$/script/class/class1.py" />
+        <option value="$PROJECT_DIR$/script/class/classDecorate.py" />
+        <option value="$PROJECT_DIR$/script/class/classDecorator.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-282" />
-    <option name="y" value="87" />
+    <option name="x" value="-90" />
+    <option name="y" value="21" />
     <option name="width" value="2500" />
     <option name="height" value="1103" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
-      <showMembers ProjectPane="true" />
+      <showMembers ProjectPane="false" />
       <autoscrollToSource ProjectPane="false" />
       <autoscrollFromSource ProjectPane="false" />
       <sortByType ProjectPane="true" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="09project" type="cbb8eebc:String" user="09project" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -693,29 +717,13 @@
             <path>
               <item name="project" type="b2602c69:ProjectViewProjectNode" />
               <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="instance" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="instance" type="462c0819:PsiDirectoryNode" />
-              <item name="spider" type="462c0819:PsiDirectoryNode" />
+              <item name="script" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="project" type="b2602c69:ProjectViewProjectNode" />
               <item name="project" type="462c0819:PsiDirectoryNode" />
               <item name="script" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="09project" type="cbb8eebc:String" user="09project" />
+              <item name="class" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -733,19 +741,19 @@
     <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\51\python\project\instance\zyjk\EHR\PyTestApiAuto-master\Common" />
-      <recent name="D:\51\python\project\instance\zyjk\EHR\PyTestApiAuto-master" />
-      <recent name="D:\51\python\project\PO" />
-      <recent name="D:\51\python\project\instance\zyjk\PIM\web" />
-      <recent name="D:\51\python\project\instance\zyjk\CRM\PageObject" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\51\python\project\script\class" />
       <recent name="D:\51\python\project\instance\zyjk\CRM" />
       <recent name="D:\51\python\project\zyjk\BML\PageObject" />
       <recent name="D:\51\python\project\common\pytest" />
       <recent name="E:\51\Python\09project\common\interface\interFrame1" />
-      <recent name="E:\51\Python\09project\common\interface\interFrame1\testOK" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\51\python\project\script\class" />
+      <recent name="D:\51\python\project\instance\zyjk\EHR\PyTestApiAuto-master\Common" />
+      <recent name="D:\51\python\project\instance\zyjk\EHR\PyTestApiAuto-master" />
+      <recent name="D:\51\python\project\PO" />
+      <recent name="D:\51\python\project\instance\zyjk\PIM\web" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -760,8 +768,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.技巧">
-    <configuration name="技巧" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.classDecorator">
+    <configuration name="Inheritance" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -769,12 +777,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/class" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/技巧.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/class/Inheritance.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -783,7 +791,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="douyinSingle" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="class3" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -791,12 +799,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/instance/spider" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/class" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/instance/spider/douyinSingle.py" />
+      <option name="SCRIPT_NAME" value="D:\51\python\project\script\class\classDynamicState.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -805,7 +813,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="firstObject" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="class4" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -813,12 +821,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/class" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/firstObject.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/class/class4.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -827,7 +835,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="lambda2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="classDecorate" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -835,12 +843,34 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/class" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/lambda2.py" />
+      <option name="SCRIPT_NAME" value="D:\51\python\project\script\class\classDecorator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="classDecorator" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/class" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/class/classDecorator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -885,28 +915,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/common/interface/interFrame1/runAll.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="set1" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/set1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -966,19 +974,19 @@
       <item itemvalue="Python.unittest" />
       <item itemvalue="Python.runAll" />
       <item itemvalue="Python.ncz" />
-      <item itemvalue="Python.firstObject" />
-      <item itemvalue="Python.lambda2" />
-      <item itemvalue="Python.技巧" />
-      <item itemvalue="Python.set1" />
-      <item itemvalue="Python.douyinSingle" />
+      <item itemvalue="Python.Inheritance" />
+      <item itemvalue="Python.class3" />
+      <item itemvalue="Python.class4" />
+      <item itemvalue="Python.classDecorate" />
+      <item itemvalue="Python.classDecorator" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.技巧" />
-        <item itemvalue="Python.douyinSingle" />
-        <item itemvalue="Python.set1" />
-        <item itemvalue="Python.firstObject" />
-        <item itemvalue="Python.lambda2" />
+        <item itemvalue="Python.classDecorator" />
+        <item itemvalue="Python.classDecorate" />
+        <item itemvalue="Python.class4" />
+        <item itemvalue="Python.class3" />
+        <item itemvalue="Python.Inheritance" />
       </list>
     </recent_temporary>
   </component>
@@ -1136,7 +1144,8 @@
       <workItem from="1585789274017" duration="1499000" />
       <workItem from="1611642264228" duration="47000" />
       <workItem from="1611642331248" duration="1950000" />
-      <workItem from="1611709861211" duration="15656000" />
+      <workItem from="1611709861211" duration="16266000" />
+      <workItem from="1611796153621" duration="26204000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1550313403632</created>
@@ -1229,7 +1238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585793607880</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="2020.4.1 add readme.md">
+      <created>1611741414689</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1611741414689</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1265,7 +1281,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1318853000" />
+    <option name="totallyTimeSpent" value="1345667000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1277,18 +1293,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="1911" y="-9" width="1938" height="1058" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.40162602" side_tool="true" visible="true" weight="0.20308311" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.40162602" side_tool="true" visible="true" weight="0.16364606" />
       <window_info id="Favorites" order="1" side_tool="true" weight="0.32993445" />
       <window_info id="Structure" order="2" sideWeight="0.598374" weight="0.14209116" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49932975" weight="0.17280453" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6668901" visible="true" weight="0.3101983" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.6668901" visible="true" weight="0.23362446" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.33569404" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.2510917" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.25070822" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.33310992" side_tool="true" weight="0.41442716" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.36117136" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.19040698" />
@@ -1350,9 +1367,9 @@
     <MESSAGE value="good" />
     <MESSAGE value="2020.3.31" />
     <MESSAGE value="2020.4.1" />
-    <MESSAGE value="2020.4.1 add readme.md" />
     <MESSAGE value="2020.4.2 test APKPO.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020.4.2 test APKPO.py" />
+    <MESSAGE value="2020.4.1 add readme.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="2020.4.1 add readme.md" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1381,37 +1398,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/inout.py" />
-    <entry file="file://$PROJECT_DIR$/test/http1.py" />
-    <entry file="file://$PROJECT_DIR$/test/paramiko2.py" />
-    <entry file="file://$PROJECT_DIR$/test/ftp.py" />
-    <entry file="file://$PROJECT_DIR$/test/httppostjson.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/httppostjson性能.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/httppostjson性能2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="15" column="59" selection-start-line="15" selection-start-column="59" selection-end-line="15" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/excel1.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/draganddrop.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/3des.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -1490,13 +1476,6 @@
           <folding>
             <element signature="e#300#387#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PO/CharPO.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="19" column="18" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -1595,10 +1574,11 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/script/lambda3.py" />
     <entry file="file://$PROJECT_DIR$/instance/spider/douyin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="190">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
@@ -1609,31 +1589,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/链表推导式.py">
+    <entry file="file://$PROJECT_DIR$/script/set1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+        <state relative-caret-position="266">
+          <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/lambda3.py">
+    <entry file="file://$PROJECT_DIR$/instance/spider/douyinSingle.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/lambda2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1165">
-          <caret line="128" column="23" selection-start-line="128" selection-start-column="23" selection-end-line="128" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2018.3/system/python_stubs/-797412331/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="5773" column="65" lean-forward="true" selection-start-line="5773" selection-start-column="65" selection-end-line="5773" selection-end-column="65" />
+        <state relative-caret-position="627">
+          <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -1644,31 +1610,111 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/set1.py">
+    <entry file="file://$USER_HOME$/.PyCharm2018.3/system/python_stubs/-797412331/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="14" lean-forward="true" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
+        <state relative-caret-position="109687">
+          <caret line="5773" column="65" selection-start-line="5773" selection-start-column="65" selection-end-line="5773" selection-end-column="65" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/instance/spider/douyinSingle.py">
+    <entry file="file://$PROJECT_DIR$/script/lambda2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="34" column="44" lean-forward="true" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+        <state relative-caret-position="2432">
+          <caret line="128" column="23" selection-start-line="128" selection-start-column="23" selection-end-line="128" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/firstObject.py">
+    <entry file="file://$PROJECT_DIR$/script/链表推导式.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="52" lean-forward="true" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
+        <state relative-caret-position="437">
+          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/字符串操作.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/技巧.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        <state relative-caret-position="76">
+          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/firstObject.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PO/CharPO.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="30" column="15" selection-start-line="30" selection-start-column="15" selection-end-line="30" selection-end-column="15" />
+          <folding>
+            <element signature="e#674#694#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/class/Polymorphism.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/class/override.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="15" column="20" lean-forward="true" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/class/classDynamicState.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/class/class4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="33" lean-forward="true" selection-start-line="7" selection-start-column="33" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/class/Inheritance.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="681">
+          <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/class/class1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="30" selection-end-line="6" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/class/class2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="7" selection-end-column="129" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/class/classDecorator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
         </state>
       </provider>
     </entry>
