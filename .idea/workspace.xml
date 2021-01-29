@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bcee6349-2fbc-4bf8-a1c8-de4b5c1bba36" name="Default" comment="2020.4.1 add readme.md">
-      <change beforePath="$PROJECT_DIR$/script/class/class2.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/class/class2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -511,6 +511,7 @@
     </replaceStrings>
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -755,14 +756,14 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.ncz" />
-      <item itemvalue="Python.runAll" />
-      <item itemvalue="Python.unittest" />
       <item itemvalue="Python.Inheritance" />
       <item itemvalue="Python.class3" />
       <item itemvalue="Python.class4" />
       <item itemvalue="Python.classDecorate" />
       <item itemvalue="Python.classDecorator" />
+      <item itemvalue="Python.ncz" />
+      <item itemvalue="Python.runAll" />
+      <item itemvalue="Python.unittest" />
     </list>
     <recent_temporary>
       <list>
@@ -945,6 +946,7 @@
       <workItem from="1611828888561" duration="8000" />
       <workItem from="1611890515287" duration="564000" />
       <workItem from="1611891165851" duration="67000" />
+      <workItem from="1611892083075" duration="357000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1550313403632</created>
@@ -1058,7 +1060,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611891453770</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="2020.4.1 add readme.md">
+      <created>1611891745951</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1611891745951</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1123,35 +1132,39 @@
     <option name="LAST_COMMIT_MESSAGE" value="2020.4.1 add readme.md" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="325" y="35" key="CommitChangelistDialog2" timestamp="1611891453585">
+    <state x="325" y="35" key="CommitChangelistDialog2" timestamp="1611891745774">
       <screen x="0" y="0" width="1680" height="994" />
     </state>
-    <state x="325" y="35" key="CommitChangelistDialog2/0.0.1680.994@0.0.1680.994" timestamp="1611891453585" />
-    <state x="320" y="174" key="Vcs.Push.Dialog.v2" timestamp="1611891470644">
+    <state x="325" y="35" key="CommitChangelistDialog2/0.0.1680.994@0.0.1680.994" timestamp="1611891745774" />
+    <state x="320" y="174" key="Vcs.Push.Dialog.v2" timestamp="1611891748324">
       <screen x="0" y="0" width="1680" height="994" />
     </state>
-    <state x="320" y="174" key="Vcs.Push.Dialog.v2/0.0.1680.994@0.0.1680.994" timestamp="1611891470644" />
+    <state x="320" y="174" key="Vcs.Push.Dialog.v2/0.0.1680.994@0.0.1680.994" timestamp="1611891748324" />
+    <state x="506" y="358" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1611891961062">
+      <screen x="0" y="0" width="1680" height="994" />
+    </state>
+    <state x="506" y="358" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1680.994@0.0.1680.994" timestamp="1611891961062" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file:$PROJECT_DIR$/../../../../../../////MACLHC/linghuchong/Downloads/51/Python/project/Cos/TestSuite/runCos.py</url>
+          <url>file:$PROJECT_DIR$/../../../../../..//////MACLHC/linghuchong/Downloads/51/Python/project/Cos/TestSuite/runCos.py</url>
           <line>8</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file:$PROJECT_DIR$/../../../../../../////MACLHC/linghuchong/Downloads/51/Python/project/CJL/code/CJLinterfaceParam.py</url>
+          <url>file:$PROJECT_DIR$/../../../../../..//////MACLHC/linghuchong/Downloads/51/Python/project/CJL/code/CJLinterfaceParam.py</url>
           <line>6</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file:$PROJECT_DIR$/../../../../../../////MACLHC/linghuchong/Downloads/51/Python/project/HJK/interface/HJKinterfaceParam.py</url>
+          <url>file:$PROJECT_DIR$/../../../../../..//////MACLHC/linghuchong/Downloads/51/Python/project/HJK/interface/HJKinterfaceParam.py</url>
           <line>7</line>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file:$PROJECT_DIR$/../../../../../../////MACLHC/linghuchong/Downloads/51/Python/project/YYG/PageObject/Hao123PO.py</url>
+          <url>file:$PROJECT_DIR$/../../../../../..//////MACLHC/linghuchong/Downloads/51/Python/project/YYG/PageObject/Hao123PO.py</url>
           <line>7</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
