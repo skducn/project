@@ -1,41 +1,30 @@
 # -*- coding: utf-8 -*-
 
-import os,xlrd,xlwt,json,jsonpath
+import json, jsonpath
 from datetime import datetime
-from xlrd import open_workbook
-from xlutils.copy import copy
-
 import instance.zyjk.EHR.frame1.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
-
 import reflection
+from PO.OpenpyxlPO import *
 
+# 定义全局字典变量
+d_var = {}
 
 
 class XLS:
 
     def __init__(self):
+
         # 初始化表格
         self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'\config\\' + localReadConfig.get_system("excelName")
-        self.rbk = xlrd.open_workbook(self.varExcel, formatting_info=True)
-        self.wbk = copy(self.rbk)
-        self.wSheet = self.wbk.get_sheet(1)
-        self.styleBlue = xlwt.easyxf(u'font: height 260 ,name Times New Roman, color-index blue')
-        self.styleRed = xlwt.easyxf(u'font: height 260 ,name Times New Roman, color-index red')
-        sheetNums = 0
-        l_sheetNames = 0
-        l_sheetSerial = []  # 工作表序列
-        l_sheetName = []  # 工作表名字
-        d_sheetNames = {}
-        sheetNums = len(self.rbk.sheet_names())  # 工作表数量：如 2
-        l_sheetNames = self.rbk.sheet_names()  # 所有工作表名列表：如 ['inter', 'case']
-        for i in range(sheetNums):
-            l_sheetSerial.append(i)
-            l_sheetName.append(l_sheetNames[i])
-        d_sheetNames = dict(zip(l_sheetSerial, l_sheetName))  # 工作表名字典：{0: 'inter', 1: 'case'}
-        self.sheetInter = self.rbk.sheet_by_name(d_sheetNames[0])  # 第1个工作表：inter
-        self.sheetCase = self.rbk.sheet_by_name(d_sheetNames[1])  # 第2个工作表：case
+        self.Openpyxl_PO = OpenpyxlPO(self.varExcel)
+        self.Openpyxl_PO.closeExcelPid()   # 关闭所有打开的excel
+        l_sheetNames = (self.Openpyxl_PO.wb.sheetnames)   # 所有工作表名列表：如 ['inter', 'case']
+        self.sheetInter = l_sheetNames[0]  # inter工作表
+        self.sheetCase = l_sheetNames[1]  # case工作表
         self.d_inter = {}
+        self.Openpyxl_PO.clsColData(13, self.sheetCase)  # 清空 字典变量Value
+
 
     def getInterIsRun(self):
         """
@@ -116,109 +105,35 @@ class XLS:
         # print(l_isRun)
         return l_isRun
 
-    def getCaseParam(self):
 
+
+    def getCaseParam(self):
         ''' 遍历case获取参数 '''
 
         l_case = []
         l_casesuit = []
-        for i in range(1, self.sheetCase.nrows):
-            if self.sheetCase.cell_value(i, 0) == 'N' or self.sheetCase.cell_value(i, 0) == 'n':
+        sh = self.Openpyxl_PO.sh(self.sheetCase)
+        for i in range(sh.max_row-1):
+            if sh.cell(row=i+2, column=1).value == "N" or sh.cell(row=i+2, column=1).value == "n":
                 pass
             else:
-                l_case.append(i)  # excelNO
-                l_case.append(self.sheetCase.cell_value(i, 3))  # caseName
-                l_case.append(self.sheetCase.cell_value(i, 4))  # method
-                l_case.append(self.sheetCase.cell_value(i, 5))  # interName
-                l_case.append(self.sheetCase.cell_value(i, 6))  # param
-                l_case.append(self.sheetCase.cell_value(i, 7))  # jsonpath
-                l_case.append(self.sheetCase.cell_value(i, 8))  # expected
-                l_case.append(self.sheetCase.cell_value(i, 13))  # selectSQL
-                l_case.append(self.sheetCase.cell_value(i, 15))  # updateSQL
+                l_case.append(i+2)  # excelNO
+                l_case.append(sh.cell(row=i+2, column=6).value)  # interCase
+                l_case.append(sh.cell(row=i+2, column=7).value)  # interUrl
+                l_case.append(sh.cell(row=i+2, column=8).value)  # interMethod
+                l_case.append(sh.cell(row=i+2, column=9).value)  # interParam
+                l_case.append(sh.cell(row=i+2, column=10).value)  # interCheck
+                l_case.append(sh.cell(row=i+2, column=11).value)  # interExpected
+                l_case.append(sh.cell(row=i+2, column=12).value)  # dictKey
                 l_casesuit.append(l_case)
                 l_case = []
         return l_casesuit
 
-    def getCaseParam123(self, l_interIsRun, interName):
-        '''
-        遍历case获取参数
-        :param l_interIsRun: [[2, 3, 5], [], 0] , 3个列表分表表示isRunY,isNoRun,isRunAll
-        :param interName: '/inter/HTTP/auth'
-        :return: [[2，'获取Token', 'post', '/inter/HTTP/auth', 'None', '$.status','200']]
-        '''
-        l_case = []
-        l_casesuit = []
 
-        # isRun 为空 （case工作表）
-        if l_interIsRun[2] > 0:
-            for i in range(1, self.sheetCase.nrows):
-                if self.sheetCase.cell_value(i, 5) == interName:
-                    if self.sheetCase.cell_value(i, 0) == 'N' or self.sheetCase.cell_value(i, 0) == 'n':
-                        pass
-                    else:
-                        l_case.append(i)  # excelNO
-                        l_case.append(self.sheetCase.cell_value(i, 3))  # caseName
-                        l_case.append(self.sheetCase.cell_value(i, 4))  # method
-                        l_case.append(self.sheetCase.cell_value(i, 5))  # interName
-                        l_case.append(self.sheetCase.cell_value(i, 6))  # param
-                        l_case.append(self.sheetCase.cell_value(i, 7))  # jsonpath
-                        l_case.append(self.sheetCase.cell_value(i, 8))  # expected
-                        l_case.append(self.sheetCase.cell_value(i, 13))  # selectSQL
-                        l_case.append(self.sheetCase.cell_value(i, 15))  # updateSQL
-                        l_casesuit.append(l_case)
-                        l_case = []
-        else:
-            if len(l_interIsRun[0]) == 0:  # isNoRun
-                # 遍历 inter 中 isRun <> N 的case
-                l_isNoRun = []
-                for i in l_interIsRun[1]:
-                    l_isNoRun.append(self.sheetInter.cell_value(i - 1, 4))
-                for i in range(1, self.sheetCase.nrows):
-                    if self.sheetCase.cell_value(i, 5) not in l_isNoRun:
-                        if self.sheetCase.cell_value(i, 5) == interName:
-                            # 遍历 isRun from case
-                            if self.sheetCase.cell_value(i, 0) == 'N' or self.sheetCase.cell_value(i, 0) == 'n':
-                                pass
-                            else:
-                                l_case.append(i)  # excelNO
-                                l_case.append(self.sheetCase.cell_value(i, 3))  # caseName
-                                l_case.append(self.sheetCase.cell_value(i, 4))  # method
-                                l_case.append(self.sheetCase.cell_value(i, 5))  # interName
-                                l_case.append(self.sheetCase.cell_value(i, 6))  # param
-                                l_case.append(self.sheetCase.cell_value(i, 7))  # jsonpath
-                                l_case.append(self.sheetCase.cell_value(i, 8))  # expected
-                                l_case.append(self.sheetCase.cell_value(i, 13))  # selectSQL
-                                l_case.append(self.sheetCase.cell_value(i, 15))  # updateSQL
-                                l_casesuit.append(l_case)
-                                l_case = []
-            else:
-                # isRunY
-                l_isRunY = []
-                for i in l_interIsRun[0]:
-                    l_isRunY.append(self.sheetInter.cell_value(i - 1, 3))
-                for i in range(1, self.sheetCase.nrows):
-                    if self.sheetCase.cell_value(i, 4) in l_isRunY:
-                        if self.sheetCase.cell_value(i, 4) == interName:
-                            # 遍历 isRun from case
-                            if self.sheetCase.cell_value(i, 0) == 'N' or self.sheetCase.cell_value(i, 0) == 'n':
-                                pass
-                            else:
-                                l_case.append(i)  # excelNO
-                                l_case.append(self.sheetCase.cell_value(i, 3))  # caseName
-                                l_case.append(self.sheetCase.cell_value(i, 4))  # method
-                                l_case.append(self.sheetCase.cell_value(i, 5))  # interName
-                                l_case.append(self.sheetCase.cell_value(i, 6))  # param
-                                l_case.append(self.sheetCase.cell_value(i, 7))  # jsonpath
-                                l_case.append(self.sheetCase.cell_value(i, 8))  # expected
-                                l_case.append(self.sheetCase.cell_value(i, 13))  # selectSQL
-                                l_case.append(self.sheetCase.cell_value(i, 15))  # updateSQL
-                                l_casesuit.append(l_case)
-                                l_case = []
-        return l_casesuit
-
-    def setCaseParam(self, excelNo, generation, result, response, selectSQL, updateSQL):
+    def setCaseParam(self, excelNo, result, dictKey, d_jsonres):
 
         '''
+          self.setCaseParam(excelNo, "Fail", getVarKey, d_jsonres)
         保存 generation,result,resposne,date,selectSQL,updateSQL
         :param excelNo: case编号
         :param generation: 生成关键字，如 userid=1 或 为空
@@ -226,55 +141,93 @@ class XLS:
         :param response: {'status': 200, 'msg': '恭喜您，登录成功', 'userid': '1'}
         '''
 
-        # generation
-        self.wSheet.write(excelNo, 9, generation, self.styleBlue)
+
+        # 处理字典变量Key
+        tmp = ""
+        if dictKey != None or dictKey == "":
+            if "," in str(dictKey):
+                x = len(str(dictKey).split(","))
+                for i in range(x):
+                    # getVarValue = jsonpath.jsonpath(response, expr="$.data.size")
+                    getVarValue = jsonpath.jsonpath(d_jsonres, expr=str(dictKey).split(",")[i])
+                    tmp = str(getVarValue[0]) + "," + tmp
+                    self.Openpyxl_PO.setCellValue(excelNo, 13, tmp, 1)
+            else:
+                try:
+                    getVarValue = jsonpath.jsonpath(d_jsonres, expr=dictKey)
+                    self.Openpyxl_PO.setCellValue(excelNo, 13, getVarValue[0], self.sheetCase)
+                    d_var[dictKey] = str(getVarValue[0])
+                except Exception as e:
+                    print(e.__traceback__)
+                    self.Openpyxl_PO.setCellValue(excelNo, 2, "Fail", self.sheetCase)
+                    assert 1 == 0, "字典变量 " + dictKey + " 不存在!"
 
         # result
         if result == "OK":
-            self.wSheet.write(excelNo, 10, result, self.styleBlue)
-        if result == "Fail":
-            self.wSheet.write(excelNo, 10, result, self.styleRed)
+            self.Openpyxl_PO.setCellColor(excelNo, 2, "00E400", self.sheetCase)
+            self.Openpyxl_PO.setCellValue(excelNo, 2, "OK", self.sheetCase)
+        else:
+            self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
+            self.Openpyxl_PO.setCellValue(excelNo, 2, "Fail", self.sheetCase)
 
         # response
-        self.wSheet.write(excelNo, 11, response, self.styleBlue)
+        self.Openpyxl_PO.setCellValue(excelNo, 14, str(d_jsonres), self.sheetCase)
 
         # date
-        self.wSheet.write(excelNo, 12, str(datetime.now().strftime("%Y%m%d%H%M%S")), self.styleBlue)
+        self.Openpyxl_PO.setCellValue(excelNo, 3, str(datetime.now().strftime("%Y-%m-%d")), self.sheetCase)
+        self.Openpyxl_PO.wb.save(self.varExcel)
 
-        # selectSQL
-        if selectSQL == 0:
-            self.wSheet.write(excelNo, 14, selectSQL, self.styleRed)
-        else:
-            self.wSheet.write(excelNo, 14, selectSQL, self.styleBlue)
 
-        # updateSQL
-        if updateSQL == 'done':
-            self.wSheet.write(excelNo, 16, updateSQL, self.styleBlue)
-        else:
-            self.wSheet.write(excelNo, 16, updateSQL, self.styleRed)
+        # # selectSQL
+        # if selectSQL == 0:
+        #     self.wSheet.write(excelNo, 14, selectSQL, self.styleRed)
+        # else:
+        #     self.wSheet.write(excelNo, 14, selectSQL, self.styleBlue)
+        #
+        # # updateSQL
+        # if updateSQL == 'done':
+        #     self.wSheet.write(excelNo, 16, updateSQL, self.styleBlue)
+        # else:
+        #     self.wSheet.write(excelNo, 16, updateSQL, self.styleRed)
 
-        self.wbk.save(self.varExcel)
 
-    def result(self, excelNo, caseName, method, interName, param, jsonpathKey, expected):
+    def result(self, excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, dictKey):
 
         ''' 解析参数 '''
 
-        print(param)  # 输出参数，如{'imei': '123123', 'userName': 'j', 'password': 'Qa@123456'}
-        jsonres = reflection.run([caseName, method, interName, param])
-        # print(jsonres)  # {"msg":"用户名不存在","code":10001,"token":""}
+        ''' 将获取变量key保存到字典'''
+        sh = self.Openpyxl_PO.sh(self.sheetCase)
+        for i in range(sh.max_row):
+            if sh.cell(row=i + 1, column=1).value == "N" or sh.cell(row=i + 1, column=1).value == "n":
+                pass
+            else:
+                if sh.cell(row=i + 2, column=13).value != None:
+                    d_var[sh.cell(row=i + 2, column=12).value] = sh.cell(row=i + 2, column=13).value
+        # 解析
+        jsonres = reflection.run([interCase, interUrl, interMethod, interParam, d_var])
         d_jsonres = json.loads(jsonres)
-        # print(d_jsonres)  # {'msg': '用户名不存在', 'code': 10001, 'token': ''}
-        jsonpathValue = jsonpath.jsonpath(d_jsonres, expr=jsonpathKey)
-        jsonpathValue = str(jsonpathValue[0])
-        # 断言预期结果
-        if jsonpathValue != expected:
-            self.setCaseParam(excelNo, "", "Fail", str(d_jsonres), "", "")
-            assert jsonpathValue == expected, "预期值是<" + expected + ">，而实测值是<" + jsonpathValue +">"
-            return False
-        else:
-            self.setCaseParam(excelNo, "", "OK", str(d_jsonres), "", "")
-            return d_jsonres
+        try:
+            jsonpathValue = jsonpath.jsonpath(d_jsonres, expr=interCheck)
+            jsonpathValue = str(jsonpathValue[0])
+            # 判断check是否与expected相等?
+            if jsonpathValue != interExpected:
+                self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
+                self.setCaseParam(excelNo, "Fail", dictKey, d_jsonres)
+                assert jsonpathValue == interExpected, "预期值是<" + interExpected + ">，而实测值是<" + jsonpathValue + ">"
+            else:
+                self.Openpyxl_PO.setCellColor(excelNo, 2, "00E400", self.sheetCase)
+                self.setCaseParam(excelNo, "OK", dictKey, d_jsonres)
+        except Exception as e:
+            # 判断接口check是否存在?
+            print(e.__traceback__)
+            self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
+            self.setCaseParam(excelNo, "Fail", dictKey, d_jsonres)
+            assert 1 == 0, "接口check " + interCheck + " 不存在!"
+
+
+
+
+
 
 if __name__ == '__main__':
     xls = XLS()
-    # xls.setCaseParam(3,'userid=12', 'pass' ,"{'status': 200, 'msg': '恭喜您，登录成功', 'userid': '1'}")

@@ -62,7 +62,7 @@ class OpenpyxlPO():
     def __init__(self, file):
         self.file = file
         self.wb = openpyxl.load_workbook(self.file)
-        # self.wb.sheetnames  # 获取所有的工作表名称
+        self.wb.sheetnames  # 获取所有的工作表名称
         # # self.nameSizeColor = openpyxl.styles.Font(name="宋体", size=33, color="00CCFF")
 
     def save(self):
@@ -118,8 +118,8 @@ class OpenpyxlPO():
 
     # 3 设置单元格的值(ok)
     def setCellValue(self, varRow, varCol, varContent, varSheet=0):
-        # Openpyxl_PO.wrtCellValue(5, 3, "777777")  # 对第一个sheet表的第5行第3列写入数据
-        # Openpyxl_PO.wrtCellValue(5, 3, "12345678", "python")  # 对python工作表的的第5行第3列写入数据
+        # Openpyxl_PO.setCellValue(5, 3, "777777")  # 对第一个sheet表的第5行第3列写入数据
+        # Openpyxl_PO.setCellValue(5, 3, "12345678", "python")  # 对python工作表的的第5行第3列写入数据
         try:
             sh = self.sh(varSheet)
             sh.cell(row=varRow, column=varCol, value=varContent)
@@ -262,17 +262,20 @@ class OpenpyxlPO():
                 sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     # 13 清空列(ok)
-    def clsColData(self, varNums, varSheet=0):
+    def clsColData(self, varCol, varSheet=0):
+        # 注意：保留标题，从第二行开始清空
         # Openpyxl_PO.clsColData(2)  # 清空第2列
-        # Openpyxl_PO.clsColData(1, "python")  # 清空第2列
-
+        # Openpyxl_PO.clsColData(1, "python")  # 清空第1列
         try:
             sh = self.sh(varSheet)
-            for i in range(sh.max_row):
-                sh.cell(row=i + 1, column=varNums, value="")
+            for i in range(sh.max_row-1):
+                sh.cell(row=i + 2, column=varCol).value = None
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
                 sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+
+
 
     # 14 两表比较，输出差异
     def cmpExcel(self, file1, file1Sheet, file2, file2Sheet):
@@ -407,9 +410,8 @@ class OpenpyxlPO():
 if __name__ == "__main__":
 
     Openpyxl_PO = OpenpyxlPO("d:\\1.xlsx")
-
-    Openpyxl_PO.closeExcelPid()
-
+    # Openpyxl_PO.closeExcelPid()
+    print(Openpyxl_PO.wb.sheetnames)
 
     print("1 新建excel".center(100, "-"))
     # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel，默认生成一个工作表Sheet1
@@ -447,8 +449,8 @@ if __name__ == "__main__":
     # print(Openpyxl_PO.l_getColDataByPartCol([2], [], "python"))  # 获取第2列所有值。
 
     print("9 设置单元格背景色".center(100, "-"))
-    # Openpyxl_PO.setCellColor(11, 1, "00E400")
-    # Openpyxl_PO.save()
+    Openpyxl_PO.setCellColor(11, 1, "00E400")
+    Openpyxl_PO.save()
 
     print("10 删除行".center(100, "-"))
     # Openpyxl_PO.delRowData(2, 3)  # 删除第2行之连续3行（删除2，3，4行）
@@ -478,7 +480,7 @@ if __name__ == "__main__":
     #     print(l)
 
     print("15 获取单元格值".center(100, "-"))
-    # print(Openpyxl_PO.getCellValue(3, 2))  # 获取第3行第2列的值
+    print(Openpyxl_PO.getCellValue(3, 2))  # 获取第3行第2列的值
 
     print("16 设置工作表标题选项卡背景颜色".center(100, "-"))
     # Openpyxl_PO.setSheetColor("FF0000")
