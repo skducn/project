@@ -16,7 +16,11 @@ class XLS:
     def __init__(self):
 
         # 初始化表格
-        self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'\config\\' + localReadConfig.get_system("excelName")
+        if platform.system() == 'Darwin':
+            self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'/config/' + localReadConfig.get_system(
+                "excelName")
+        if platform.system() == 'Windows':
+            self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'\config\\' + localReadConfig.get_system("excelName")
         self.Openpyxl_PO = OpenpyxlPO(self.varExcel)
         self.Openpyxl_PO.closeExcelPid()   # 关闭所有打开的excel
         l_sheetNames = (self.Openpyxl_PO.wb.sheetnames)   # 所有工作表名列表：如 ['inter', 'case']
