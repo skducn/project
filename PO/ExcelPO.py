@@ -29,6 +29,8 @@
 # python读取excel中单元格的内容返回的有5种类型
 # ctype： 0 empty,1 string, 2 number, 3 date, 4 boolean, 5 error
 # 如 sh.cell(2, 1).ctype == 3  判断某一单元格内容是否是日期
+
+# pip install pypiwin32   安装win32com
 # *********************************************************************
 
 from datetime import date
@@ -40,6 +42,8 @@ import openpyxl
 import openpyxl.styles
 from openpyxl.styles import PatternFill
 import win32com.client as win32
+import openpyxl, sys, platform, os, psutil
+from time import sleep
 
 from PO.ColorPO import *
 Color_PO = ColorPO()
@@ -624,6 +628,21 @@ class ExcelPO():
         wb.SaveAs(varFile + "x", FileFormat=51)  # FileFormat = 51 is for .xlsx extension
         wb.Close()  # FileFormat = 56 is for .xls extension
         excel.Application.Quit()
+
+    # 17 关闭excel进程
+    def closeExcelPid(self):
+        pids = psutil.pids()
+        for pid in pids:
+            try:
+                p = psutil.Process(pid)
+                # print('pid=%s,pname=%s' % (pid, p.name()))
+                # 关闭excel进程
+                if p.name() == 'EXCEL.EXE':
+                    cmd = 'taskkill /F /IM EXCEL.EXE'
+                    os.system(cmd)
+                    sleep(2)
+            except Exception as e:
+                pass
 
 if __name__ == "__main__":
 

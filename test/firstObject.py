@@ -82,7 +82,7 @@ print(get_length('python'))   # 5
 # 7，实现了 __call__的类也可以作为函数
 # 对于一个自定义的类，如果实现了 __call__ 方法，那么该类的实例对象的行为就是一个函数，是一个可以被调用（callable()）的对象
 class Add:
-    def __init__(self,n):
+    def __init__(self, n):
         self.n = n
     def __call__(self, x):
         return self.n + x

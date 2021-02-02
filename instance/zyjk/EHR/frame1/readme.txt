@@ -1,4 +1,9 @@
-runAll , 
+runAllEHR.py
+
+from parameterized import parameterized    //unitest @parameterized.expand
+from BeautifulReport import BeautifulReport as bf   //生成报表
+
+
 1，遍历case获取参数
 xls.py - XLS - getCaseParam([[2, 3, 5], [], 0],'/inter/HTTP/auth')
 返回：[['获取Token', 'post', '/inter/HTTP/auth', 'None', '$.status','200']]

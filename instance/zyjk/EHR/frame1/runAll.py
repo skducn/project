@@ -32,7 +32,7 @@ l_interIsRun = (xls.getInterIsRun())  # 获取inter中isRun执行筛选列表 �
 class runAll(unittest.TestCase):
 
     # 登录
-    @parameterized.expand(xls.getCaseParam(l_interIsRun, '/healthRecord/app/login'))
+    @parameterized.expand(xls.getCaseParam(l_interIsRun, '/healthRecord/login'))
     def test1(self, excelNo, caseName, method, interName, param, jsonpathKey, expected):
         """ 登录获取token """
         d_jsonres = xls.result(excelNo, caseName, method, interName, param, jsonpathKey, expected, xls.d_inter, '')
@@ -43,20 +43,20 @@ class runAll(unittest.TestCase):
             print(token)
             xls.setCaseParam(excelNo,token,'pass',str(d_jsonres))
 
-    # 获取密保
-    @parameterized.expand(xls.getCaseParam(l_interIsRun, '/healthRecord/encrypted/getQuestionList'))
-    def test2(self, excelNo, caseName, method, interName, param, jsonpathKey, expected):
-        ''' 获取密保'''
-        d_jsonres = xls.result(excelNo, caseName, method, interName, param, jsonpathKey, expected, xls.d_inter, '')
-        if d_jsonres:
-            # 获取根节点下的 userId 节点的值，用于关联下个接口
-            if "userid" in d_jsonres:
-                userid = jsonpath.jsonpath(d_jsonres, expr='$.data.userId')
-                runAll.userid = userid[0]
-                userid = "userId=" + str(runAll.userid)
-                xls.setCaseParam(excelNo, userid, 'pass', str(d_jsonres))
-            else:
-                xls.setCaseParam(excelNo, '', 'pass', str(d_jsonres))
+    # # 获取密保
+    # @parameterized.expand(xls.getCaseParam(l_interIsRun, '/healthRecord/encrypted/getQuestionList'))
+    # def test2(self, excelNo, caseName, method, interName, param, jsonpathKey, expected):
+    #     ''' 获取密保'''
+    #     d_jsonres = xls.result(excelNo, caseName, method, interName, param, jsonpathKey, expected, xls.d_inter, '')
+    #     if d_jsonres:
+    #         # 获取根节点下的 userId 节点的值，用于关联下个接口
+    #         if "userid" in d_jsonres:
+    #             userid = jsonpath.jsonpath(d_jsonres, expr='$.data.userId')
+    #             runAll.userid = userid[0]
+    #             userid = "userId=" + str(runAll.userid)
+    #             xls.setCaseParam(excelNo, userid, 'pass', str(d_jsonres))
+    #         else:
+    #             xls.setCaseParam(excelNo, '', 'pass', str(d_jsonres))
 
 
     # @parameterized.expand(xls.getCaseParam(l_interIsRun, '/inter/HTTP/logout'))

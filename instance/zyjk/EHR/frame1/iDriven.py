@@ -33,7 +33,6 @@ class HTTP:
         baseurl = localReadConfig.get_http("baseurl")
         port = localReadConfig.get_http("port")
         commonpath = localReadConfig.get_http("commonpath")
-
         self.session = requests.session()
         self.jsonres = {}   # 存放json解析后的结果
         self.params = {}   # 用来保存所需要的数据，实现关联
@@ -51,14 +50,15 @@ class HTTP:
             print('error:url地址不合法')
             return False
 
-    def postLogin(self, interName, param):
-        ''' 登录接口的 post请求 '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName
+
+    def postLogin(self, interURL, param):
+
+        ''' 登录接口 post请求 '''
+        path = scheme + "://" + baseurl + ":" + port + interURL
         result = self.session.post(path, headers=self.headers, json=param, verify=False)
-        # print(result.text)
         self.jsonres = json.loads(result.text)
         self.session.headers['token'] = self.jsonres['token']
-        # print(self.session.headers)
+        print(result.text)
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
@@ -66,19 +66,23 @@ class HTTP:
             print(e.__traceback__)
         return res
 
-    def post(self, interName, param):
-        ''' post 请求
-            :param interName 接口地址: /inter/HTTP/login
-            :param param 参数: {'userName': 'jin', 'password': 'Jinhao1/'}
-            :return: 有
-        '''
+
+    def post(self, interName, param, d_var):
+        ''' post 请求'''
         path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName
         if param == '':
             result = self.session.post(path, data=None)
         else:
-            result = self.session.post(path, headers=self.headers, json=param, verify=False)
-            # print(result.text)
-        # print(self.session.headers)
+            if "{$." in param:
+                for k in d_var:
+                    if "{" + k + "}" in param:
+                        param = str(param).replace("{" + k + "}", str(d_var[k]))
+                result = self.session.post(path, headers=self.headers, json=param, verify=False)
+                print(param)
+            else:
+                result = self.session.post(path, headers=self.headers, json=param, verify=False)
+        print(d_var)
+        print(result.text)
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}')+1]
@@ -86,6 +90,34 @@ class HTTP:
         except Exception as e:
             print(e.__traceback__)
         return res
+
+
+    def get(self, interName, param, d_var):
+        ''' get 请求'''
+
+        # print(param)
+        if param == None:
+            path = scheme + "://" + baseurl + ":" + port + interName
+            result = self.session.get(path, data=None)
+        else:
+            path = scheme + "://" + baseurl + ":" + port + interName + "?" + param
+            if "{$." in param:
+                for k in d_var:
+                    if "{" + k + "}" in param:
+                        param = str(param).replace("{" + k + "}", str(d_var[k]))
+                result = self.session.get(path, headers=self.headers, verify=False)
+                print(param)
+            else:
+                result = self.session.get(path, headers=self.headers, verify=False)
+        print("字典变量：" + str(d_var))
+        print(result.text)
+        res = result.text
+        try:
+            res = res[res.find('{'):res.rfind('}') + 1]
+        except Exception as e:
+            print(e.__traceback__)
+        return res
+
 
     def postget(self, interName, param):
         ''' get 请求
@@ -112,26 +144,7 @@ class HTTP:
 
         return res
 
-    def get(self, interName, param):
-        ''' get 请求
-            :param interName: /inter/HTTP/login
-            :param param: userName=jinhao
-            :return: 有
-        '''
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName + "?" + param
-        if param == '':
-            result = self.session.post(path, data=None)
-        else:
-            # result = requests.get(path, headers=self.headers)
-            result = self.session.get(path, headers=self.headers, verify=False)
-        print(self.session.headers)
-        # print(result.text)
-        res = result.text
-        try:
-            res = res[res.find('{'):res.rfind('}')+1]
-        except Exception as e:
-            print(e.__traceback__)
-        return res
+
 
 
     # 定义断言相等的关键字，用来判断json的key对应的值和期望相等。
