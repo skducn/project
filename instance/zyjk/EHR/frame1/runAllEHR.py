@@ -44,12 +44,12 @@ data_PO = DataPO()
 
 class runAllEHR(unittest.TestCase):
     @parameterized.expand(xls.getCaseParam())
-    def test11(self, excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, dictKey):
+    def test11(self, excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote):
         ' '
-        if interMethod == "postLogin": xls.result(excelNo, interCase, interUrl, interMethod, dict(eval(interParam)), interCheck, interExpected, dictKey)
-        elif interMethod == "post": xls.result(excelNo, interCase, interUrl, interMethod, dict(eval(interParam)), interCheck, interExpected, dictKey)
-        elif interMethod == "get": xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, dictKey)
-        else: xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, dictKey)   # postget
+        if interMethod == "postLogin": xls.result(excelNo, interCase, interUrl, interMethod, dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)
+        elif interMethod == "post": xls.result(excelNo, interCase, interUrl, interMethod, dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)
+        elif interMethod == "get": xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)
+        else: xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)   # postget
 
 if __name__ == '__main__':
 

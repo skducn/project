@@ -42,7 +42,7 @@
 10，生成uuid
 '''
 
-import sys, random, json, jsonpath, hashlib, socket, struct, re, datetime,uuid
+import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid
 from datetime import date
 from datetime import timedelta
 
