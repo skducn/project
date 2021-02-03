@@ -95,22 +95,23 @@ class HTTP:
     def get(self, interName, param, d_var):
         ''' get 请求'''
 
-        # print(param)
+        print("接口param：" + str(param))
+        print("字典变量：" + str(d_var))
         if param == None:
             path = scheme + "://" + baseurl + ":" + port + interName
             result = self.session.get(path, data=None)
         else:
             path = scheme + "://" + baseurl + ":" + port + interName + "?" + param
-            if "{$." in param:
+            if "{{" in param:
                 for k in d_var:
-                    if "{" + k + "}" in param:
-                        param = str(param).replace("{" + k + "}", str(d_var[k]))
+                    if "{{" + k + "}}" in param:
+                        param = str(param).replace("{{" + k + "}}", str(d_var[k]))
                 result = self.session.get(path, headers=self.headers, verify=False)
-                print(param)
+                print("请求参数：" + str(param))
             else:
                 result = self.session.get(path, headers=self.headers, verify=False)
-        print("字典变量：" + str(d_var))
-        print(result.text)
+
+        print("返回值：" + str(result.text))
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
