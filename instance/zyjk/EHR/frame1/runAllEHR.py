@@ -3,15 +3,12 @@
 # Author        : John
 # Date          : 2019-1-19
 # Description   : EHR 接口自动化框架之 unittest for python3
-# URL: http://192.168.0.102:8080
-# http://192.168.0.241:8060/healthRecord/swagger-ui.html#/
-# DB: sqlServer
-# https://md5jiami.51240.com/   md5加密
-# e88cc96bfdf739b52e9893226b941129
+# yapi接口管理平台地址：http://192.168.0.235:3000/
+# 用户名  zhiying@123.com   密码  123456
+# md5在线加密  https://md5jiami.51240.com/
 # *****************************************************************
 
-import unittest, platform
-
+import unittest
 from parameterized import parameterized
 from BeautifulReport import BeautifulReport as bf
 

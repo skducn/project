@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" addBOMForNewFiles="with NO BOM">
-    <file url="file://$USER_HOME$/Desktop/新建文本文档 (11).txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/PO/说明.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/instance/templet/readme.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/instance/zyjk/EHR/controlRuleNew/readme.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/instance/zyjk/EHR/frame1/readme.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/script/matplotlib/readme.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/test/itchat.pkl" charset="UTF-8" />
   </component>
