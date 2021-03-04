@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import instance.zyjk.SAAS.frame1.readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
+from readConfig import *
+localReadConfig = ReadConfig()
 import reflection
 from PO.OpenpyxlPO import *
 from PO.DataPO import *

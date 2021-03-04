@@ -1,33 +1,28 @@
 # -*- coding: utf-8 -*-
-
-import json, jsonpath, requests, urllib3, redis
-import instance.zyjk.SAAS.frame1.readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
+import jsonpath, requests, urllib3, redis
+from readConfig import *
+localReadConfig = ReadConfig()
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-# python3控制台输出 InsecureRequestWarning 的解决方法
-# 参考：https://www.cnblogs.com/ernana/p/8601789.html
-# 加入代码： from requests.packages.urllib3.exceptions import InsecureRequestWarning
-# 禁用安全请求警告：requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 class HTTP:
     def __init__(self):
 
-        ''' 实例化实例变量'''
-
-        global ip, port, commonpath
-        ip = localReadConfig.get_http("ip")
-        port = localReadConfig.get_http("port")
+        self.ip = localReadConfig.get_http("ip")
+        self.port = localReadConfig.get_http("port")
+        self.r_host = localReadConfig.get_redis("host")
+        self.r_password = localReadConfig.get_redis("password")
+        self.r_port = localReadConfig.get_redis("port")
+        self.r_db = localReadConfig.get_redis("db")
         self.session = requests.session()
         self.jsonres = {}   # 存放json解析后的结果
         self.params = {}   # 用来保存所需要的数据，实现关联
-        self.url = ''  # 全局的url
         self.headers = {"Content-Type": "application/json;charset=UTF-8"}
         # self.session.headers['Content-type'] = 'application/x-www-form-urlencoded'
         # self.session.headers['User Agent'] = 'Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/64.0'   # 添加默认UA，模拟chrome浏览器
 
-        # 获取redis中的token
-        r1 = redis.Redis(host='192.168.0.213', password='', port=6379, db=0, decode_responses=False)
+        # 从redis的db0中随机获取一个token
+        r1 = redis.Redis(host=self.r_host, password=self.r_password, port=self.r_port, db=self.r_db, decode_responses=False)
         for i in r1.keys():
             if len(i) == 32:
                 token = str(i, encoding="utf-8")
@@ -52,7 +47,7 @@ class HTTP:
         print("header = " + str(self.session.headers))
         print("参数变量：" + str(param))
         print("字典变量：" + str(d_var))
-        testURL = ip + ":" + port + interName
+        testURL = self.ip + ":" + self.port + interName
         if param == '':
             result = self.session.post(testURL, data=None)
         else:
@@ -83,10 +78,10 @@ class HTTP:
         if d_var != {}:
             print("字典变量：" + str(d_var))
         if param == None:
-            testURL = ip + ":" + port + interName
+            testURL = self.ip + ":" + self.port + interName
             result = self.session.get(testURL, data=None)
         else:
-            testURL = ip + ":" + port + interName + "?" + param
+            testURL = self.ip + ":" + self.port + interName + "?" + param
             if "{{" in param:
                 for k in d_var:
                     if "{{" + k + "}}" in param:
