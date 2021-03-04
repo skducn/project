@@ -69,6 +69,9 @@ class HTTP:
 
     def post(self, interName, param, d_var):
         ''' post 请求'''
+
+        print("参数变量：" + str(param))
+        print("字典变量：" + str(d_var))
         path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName
         if param == '':
             result = self.session.post(path, data=None)
@@ -78,15 +81,13 @@ class HTTP:
                     if "{" + k + "}" in param:
                         param = str(param).replace("{" + k + "}", str(d_var[k]))
                 result = self.session.post(path, headers=self.headers, json=param, verify=False)
-                print(param)
+                print("请求参数：" + str(param))
             else:
                 result = self.session.post(path, headers=self.headers, json=param, verify=False)
-        print(d_var)
-        print(result.text)
+        print("返回值：" + str(result.text))
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}')+1]
-            # print(res)
         except Exception as e:
             print(e.__traceback__)
         return res
@@ -95,7 +96,7 @@ class HTTP:
     def get(self, interName, param, d_var):
         ''' get 请求'''
 
-        print("接口param：" + str(param))
+        print("参数变量：" + str(param))
         print("字典变量：" + str(d_var))
         if param == None:
             path = scheme + "://" + baseurl + ":" + port + interName
@@ -110,7 +111,6 @@ class HTTP:
                 print("请求参数：" + str(param))
             else:
                 result = self.session.get(path, headers=self.headers, verify=False)
-
         print("返回值：" + str(result.text))
         res = result.text
         try:
@@ -142,10 +142,7 @@ class HTTP:
             res = res[res.find('{'):res.rfind('}')+1]
         except Exception as e:
             print(e.__traceback__)
-
         return res
-
-
 
 
     # 定义断言相等的关键字，用来判断json的key对应的值和期望相等。
