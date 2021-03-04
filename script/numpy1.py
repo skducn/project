@@ -3,16 +3,18 @@
 # Author     : John
 # Date       : 2020-3-19
 # Description: numpy 多维数组对象
-# Python3已将numpy库作为内置库
+# NumPy 是一个运行速度非常快的数学库，主要用于数组计算
+# ndarray = N-dimensional array 多维度数组
 # *****************************************************************
 
 import numpy as np
 import pandas as pd
 
+
 obj = pd.Series([1,2,3,4])
 print(obj)
 
-print("1 创建一维数组".center(100, "-"))
+print("1 生成一维数组并获取元素".center(100, "-"))
 print(np.arange(10))  # [0 1 2 3 4 5 6 7 8 9]
 # for i in range(len(np.arange(10))):
 #     print(np.arange(10)[i])
@@ -22,7 +24,7 @@ print(np.arange(1, 10, 3)[2])  # 7
 
 
 
-print("2 获取多维数组中的值".center(100, "-"))
+print("2 获取多维数组中的元素".center(100, "-"))
 print(np.array([[1, 2], [3, 4]]))  # 参数为列表
 # [[1, 2], [3, 4]]
 print(np.array(([5, 6], [7, 8])))  # 参数为元组

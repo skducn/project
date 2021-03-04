@@ -103,3 +103,17 @@ print(textWrap.wrap(sample_text))
 
 
 
+a = ["welcome,linuxmi.com,33"]
+for i in a:
+    print(i.count(',') + 1)
+
+
+import numpy as np
+#创建数组
+a = np.array([2,1,0,5])
+print(a)
+print(a[:3])
+print(a.min())
+a.sort()
+b = np.array([1,2,3],[4,5,6])
+print(b*b)
