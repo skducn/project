@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 # *****************************************************************
-# Author        : John
-# Date          : 2019-1-19
 # Description   : 读取 config.ini , configparser
 # ConfigParser 是用来读取config.ini配置文件的包
 # *****************************************************************
@@ -32,31 +30,20 @@ class ReadConfig:
         self.cf = configparser.ConfigParser()
         self.cf.read(configPath, encoding="utf-8-sig")
 
-    def get_system(self, name):
-        value = self.cf.get("SYSTEM", name)
-        return value
-
-
-
     def get_http(self, name):
         value = self.cf.get("HTTP", name)
         return value
 
-    def get_headers(self, name):
-        value = self.cf.get("HEADERS", name)
-        return value
-
-    def set_headers(self, name, value):
-        self.cf.set("HEADERS", name, value)
-        with open(configPath, 'w+') as f:
-            self.cf.write(f)
-
-    def get_url(self, name):
-        value = self.cf.get("URL", name)
-        return value
-
     def get_db(self, name):
         value = self.cf.get("DATABASE", name)
+        return value
+
+    def get_system(self, name):
+        value = self.cf.get("SYSTEM", name)
+        return value
+
+    def get_redis(self, name):
+        value = self.cf.get("REDIS", name)
         return value
 
 

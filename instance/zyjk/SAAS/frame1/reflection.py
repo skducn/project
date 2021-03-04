@@ -1,5 +1,5 @@
 #-*-coding:utf-8 -*-
-#****************************************************************
+# ****************************************************************
 # Author     : John
 # Date       : 2019-1-16
 # Description: 反射机制
@@ -9,10 +9,8 @@
 # getattr() 函数用于返回一个对象属性值。
 #****************************************************************
 
-import sys,inspect
-# sys.path.append('E:\51\\Python\\09project\\common\\interface\\interFrame1')  # 如果要在cmd中执行python，需要加上路径，否则 public.PageObject.DatabasePO无法找到这个模块。
-
-from instance.zyjk.SAAS.frame1.iDriven import *
+import inspect
+from iDriven import *
 http = HTTP()
 
 def run(line):

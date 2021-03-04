@@ -9,11 +9,11 @@
 import unittest
 from parameterized import parameterized
 from BeautifulReport import BeautifulReport as bf
-import instance.zyjk.SAAS.frame1.readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
-from instance.zyjk.SAAS.frame1.iDriven import *
+from readConfig import *
+localReadConfig = ReadConfig()
+from iDriven import *
 http = HTTP()
-from instance.zyjk.SAAS.frame1.xls import *
+from xls import *
 xls = XLS()
 from PO.DataPO import *
 data_PO = DataPO()
