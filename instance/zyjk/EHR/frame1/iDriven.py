@@ -72,7 +72,7 @@ class HTTP:
 
         print("参数变量：" + str(param))
         print("字典变量：" + str(d_var))
-        path = scheme + "://" + baseurl + ":" + port + "/" + commonpath + interName
+        path = scheme + "://" + baseurl + ":" + port + commonpath + interName
         if param == '':
             result = self.session.post(path, data=None)
         else:
@@ -99,7 +99,7 @@ class HTTP:
         print("参数变量：" + str(param))
         print("字典变量：" + str(d_var))
         if param == None:
-            path = scheme + "://" + baseurl + ":" + port + interName
+            path = scheme + "://" + baseurl + ":" + port + commonpath + interName
             result = self.session.get(path, data=None)
         else:
             path = scheme + "://" + baseurl + ":" + port + interName + "?" + param
