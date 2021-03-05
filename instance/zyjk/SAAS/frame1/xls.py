@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+import sys
+sys.path.append("../../../../")
 from readConfig import *
 localReadConfig = ReadConfig()
 import reflection
