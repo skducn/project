@@ -22,20 +22,21 @@ class HTTP:
         # self.session.headers['User Agent'] = 'Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/64.0'   # 添加默认UA，模拟chrome浏览器
 
         # 从redis的db0中随机获取一个token
-        r1 = redis.Redis(host=self.r_host, password=self.r_password, port=self.r_port, db=self.r_db, decode_responses=False)
-        for i in r1.keys():
-            if len(i) == 32:
-                token = str(i, encoding="utf-8")
-                break
-        self.session.headers['token'] = token
+        # r1 = redis.Redis(host=self.r_host, password=self.r_password, port=self.r_port, db=self.r_db, decode_responses=False)
+        # for i in r1.keys():
+        #     if len(i) == 32:
+        #         token = str(i, encoding="utf-8")
+        #         break
+        # self.session.headers['token'] = token
 
 
     def header(self, interName, param, d_var):
 
         ''' 全局参数设置 '''
 
-        param = eval(param)
-        self.session.headers['deviceTag'] = param["deviceTag"]
+        d_param = eval(param)
+        for k in d_param:
+            self.session.headers[k] = d_param[k]
         print("header = " + str(self.session.headers))
         return {}
 
@@ -73,13 +74,20 @@ class HTTP:
         ''' get 请求'''
 
         print("header = " + str(self.session.headers))
-        if param != None:
-            print("参数变量：" + str(param))
         if d_var != {}:
             print("字典变量：" + str(d_var))
         if param == None:
-            testURL = self.ip + ":" + self.port + interName
-            result = self.session.get(testURL, data=None)
+            if "{{" in interName:
+                for k in d_var:
+                    if "{{" + k + "}}" in interName:
+                        interName = str(interName).replace("{{" + k + "}}", str(d_var[k]))
+                testURL = self.ip + ":" + self.port + interName
+            else:
+                testURL = self.ip + ":" + self.port + interName
+            print("request = " + str(testURL))
+            # result = self.session.get(testURL, data=None)
+            result = self.session.get(testURL, headers=self.headers, verify=False)
+
         else:
             testURL = self.ip + ":" + self.port + interName + "?" + param
             if "{{" in param:
@@ -87,9 +95,9 @@ class HTTP:
                     if "{{" + k + "}}" in param:
                         param = str(param).replace("{{" + k + "}}", str(d_var[k]))
                 result = self.session.get(testURL, headers=self.headers, verify=False)
-                print("request = " + str(param))
             else:
                 result = self.session.get(testURL, headers=self.headers, verify=False)
+            print("request = " + str(testURL))
         print("response = " + str(result.text))
         res = result.text
         try:
