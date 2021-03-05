@@ -5,7 +5,8 @@
 # Description: MysqlPO对象层，定义mysql数据库封装对象
 # 查询后中文正确显示，但在数据库中却显示乱码 ， 解决方法如下 ，添加 charset='utf8 ，  charset是要跟你数据库的编码一样，如果是数据库是gb2312 ,则写charset='gb2312'。
 # conn = pymssql.Connect(host='localhost', user='root', passwd='root', db='python',charset='utf8')
-# pip3.7 install mysqlclient
+# pip3 install mysqlclient  (MySQLdb)
+# pip3 install pymysql
 # None是一个对象，而NULL是一个类型。
 # Python中没有NULL，只有None，None有自己的特殊类型NoneType。
 # None不等于0、任何空字符串、False等。

@@ -3,7 +3,8 @@
 # Author        : John
 # Date          : 2021-3-4
 # Description   : SAAS 高血压
-# 接口文档: http://192.168.0.213:8801/doc.html
+# 开发环境接口文档: http://192.168.0.213:8801/doc.html
+# 测试环境接口文档：http://103.25.65.103:4488/doc.html
 # saas高血压: hypertension
 # *****************************************************************
 import unittest
