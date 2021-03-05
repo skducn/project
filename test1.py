@@ -9,13 +9,22 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-import redis
-r1=redis.Redis(host='192.168.0.213', password='', port=6379, db=0, decode_responses=False)
-for i in r1.keys():
-    if len(i) == 32:
-        s2 = str(i, encoding="utf-8")
-        break
-print(s2)
+from pyzbar.pyzbar import decode
+from PIL import Image
+path = "1.png"
+img = Image.open(path)
+bar = decode(img)[0]
+result = bar.data.decode()
+print(result)
+
+
+# import redis
+# r1=redis.Redis(host='192.168.0.213', password='', port=6379, db=0, decode_responses=False)
+# for i in r1.keys():
+#     if len(i) == 32:
+#         s2 = str(i, encoding="utf-8")
+#         break
+# print(s2)
 
 
 
