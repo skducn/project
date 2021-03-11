@@ -3,27 +3,32 @@
 # Author        : John
 # Date          : 2020-5-12
 # Description   : 使用json 模块操作文件
-# json 文件中存储的数据结构为 列表 或 字典。
-# 安装 pip3 install jsonpath-rw
-# 官网版本 1.4.0 https://pypi.python.org/pypi/jsonpath-rw
+# json 文件中存储的数据结构为“列表” 或 “字典”。
+# 安装： pip3 install jsonpath-rw
+# 官网： 1.4.0 https://pypi.python.org/pypi/jsonpath-rw
 # jsonpath官网 https://goessner.net/articles/JsonPath/
-# 线上的一个json文档用于测试，https://www.lagou.com/lbs/getAllCitySearchLabels.json
+# 网上一个json文档，https://www.lagou.com/lbs/getAllCitySearchLabels.json
 #****************************************************************
+
+'''
+1 将字符串、列表、字典保存在json文件中
+2 获取json文件中的值
+3 获取json字典中属性值或批量重复属性的值 by jsonpathrw , 如： stu_info[*].name
+4 获取json字典中属性值或批量重复属性的值 by jsonpath， 如：$.token
+'''
 
 import json, sys, jsonpath
 from jsonpath_rw import parse
 
-
 class JsonPO():
 
-
-    # 1，将列表或字典保存在json文件中
-    def setByJson(self, varJsonFile, varListDict):
+    # 1，将字符串、列表、字典保存在json文件中
+    def saveFile(self, varJsonFile, varListDict):
         with open(varJsonFile, 'w') as f_obj:
             json.dump(varListDict, f_obj)
 
     # 2，获取json文件中的值
-    def getByJson(self, varJsonFile):
+    def getValue(self, varJsonFile):
         # json.load(f_obj) 从json文件读取数据到内存中
         try:
             with open(varJsonFile, 'r') as f_obj:
@@ -54,18 +59,18 @@ if __name__ == '__main__':
 
     Json_PO = JsonPO()
 
-    print("1，将列表或字典保存在json文件中".center(100, "-"))
-    Json_PO.setByJson("jsonPO_list.json", [1, 2, 3, 4, 5, 6, 7])  # [1, 2, 3, 4, 5, 6, 7]
-    Json_PO.setByJson("jsonPO_dict.json", {1: "a", 2: "b"})  # {"1": "a", "2": "b"}
-    Json_PO.setByJson("jsonPO_tuple.json", "12345678")  # "12345678"
-    Json_PO.setByJson("jsonPO_str.json", (3, 4, 5))   # [3, 4, 5]
+    print("1 将字符串、列表、字典保存在json文件中".center(100, "-"))
+    Json_PO.saveFile("JsonPO/list.json", [1, 2, 3, 4, 5, 6, 7])  # [1, 2, 3, 4, 5, 6, 7]
+    Json_PO.saveFile("JsonPO/dict.json", {1: "a", 2: "b"})  # {"1": "a", "2": "b"}
+    Json_PO.saveFile("JsonPO/str.json", "12345678")  # "12345678"
+    Json_PO.saveFile("JsonPO/list2.json", (3, 4, 5))   # [3, 4, 5]   //注意：元组以列表形式保存。
 
 
     print("2，获取json文件中的值".center(100, "-"))
-    print(Json_PO.getByJson("jsonPO_list.json"))  # [1, 2, 3, 4, 5, 6, 7]  //列表
-    print(Json_PO.getByJson("jsonPO_dict.json"))  # {"1": "a", "2": "b"}  //字典
-    print(Json_PO.getByJson("jsonPO_tuple.json"))  # 12345678 //字符串
-    print(Json_PO.getByJson("jsonPO_str.json"))   # [3, 4, 5]  //元组转列表
+    print(Json_PO.getValue("JsonPO/list.json"))  # [1, 2, 3, 4, 5, 6, 7]  //列表
+    print(Json_PO.getValue("JsonPO/dict.json"))  # {"1": "a", "2": "b"}  //字典
+    print(Json_PO.getValue("JsonPO/str.json"))  # 12345678 //字符串
+    print(Json_PO.getValue("JsonPO/list2.json"))   # [3, 4, 5]  //列表
 
 
     print("3，获取json字典中值".center(100, "-"))
@@ -91,6 +96,7 @@ if __name__ == '__main__':
     }
 
     print(Json_PO.getValueByJsonpathrw(varDictJson, "stu_info[*].name"))  # ['小白', '小黑']
+    print(Json_PO.getValueByJsonpathrw(varDictJson, "stu_info[*].name")[1])  # 小黑
     print(Json_PO.getValueByJsonpathrw(varDictJson, "stu_info[1].name"))  # ['小黑']
     print(Json_PO.getValueByJsonpathrw(varDictJson, "stu_info[2].name"))  # []
     print(Json_PO.getValueByJsonpathrw(varDictJson, "error_code"))  # [10]

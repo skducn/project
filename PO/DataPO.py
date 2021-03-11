@@ -19,7 +19,7 @@
 1，随机生成中文用户名
 2，随机生成手机号码
 
-3.1，随机生成身份证号 （依赖于 getRandomIdcard.txt ）
+3.1，随机生成身份证号 （依赖于 DataPO/idCard.txt ）
 3.2，判断是否是有效身份证
 3.3，获取身份证的出生年月(只限大陆身份证)
 3.4，获取身份证的年龄
@@ -50,7 +50,7 @@ from datetime import timedelta
 class DataPO():
 
     # 1，随机生成中文用户名
-    def getRandomName(self):
+    def autoName(self):
         # 随机生成中文用户名
         a1 = ['赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张']
         a2 = ['玉', '明', '龙', '芳', '军', '玲', '一', '美', '恋', '世', '亮', '佳']
@@ -59,19 +59,16 @@ class DataPO():
         # return unicode(name, "utf-8")
 
     # 2，随机生成手机号码
-    def getRandomPhone(self):
-        # 随机生成手机号码
+    def autoPhone(self):
         prelist = ["130", "131", "132", "133", "134", "135", "136", "137", "138", "139", "147", "150", "151", "152", "153", "155", "156", "157", "158", "159", "186", "187", "188","199"]
         return random.choice(prelist) + "".join(random.choice("0123456789") for i in range(8))
 
     # 3.1，随机生成身份证号
-    def getRandomIdcard(self):
-        # 随机生成身份证号
-        # 如 Data_PO.rdIdcard()
+    def autoIdcard(self):
         global codelist
         codelist = []
         if not codelist:
-            with open("getRandomIdcard.txt") as file:
+            with open("DataPO/idCard.txt") as file:
                 data = file.read()
                 districtlist = data.split('\n')
             for node in districtlist:
@@ -241,7 +238,7 @@ class DataPO():
 
 
     # 4，随机生成n个数字
-    def getRandomNum(self, n):
+    def autoNum(self, n):
         # 随机生成n个数字
         # 如 Data_PO.rdNum(8)
         ret = []
@@ -258,7 +255,7 @@ class DataPO():
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 5.1，随机生成一个有效IP
-    def getRandomIp(self, varPartIP):
+    def autoIp(self, varPartIP):
         # 随机生成一个有效IP
         # print(Data_PO.getRandomIp(""))
         # print(Data_PO.getRandomIp("111.222.333.444"))
@@ -329,7 +326,7 @@ class DataPO():
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 5.2，随机生成一个有效IP2
-    def getRandomIp2(self):
+    def autoIp2(self):
         # 随机生成一个有效IP2
         return (socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff))))
 
@@ -363,7 +360,6 @@ class DataPO():
 
     # 6，从列表中随机获取某个元素
     def getRandomContent(self, l_Content, varNum):
-        # 从列表中随机获取n个元素
         # 如：rdContent(['411', '1023', '0906', '0225'],'2')
         try:
             return random.sample(l_Content, varNum)
@@ -422,7 +418,7 @@ class DataPO():
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 10，生成uuid
-    def getUuid(self, varMode, varName="jinhao"):
+    def autoUuid(self, varMode, varName="jinhao"):
         # UUID是128位的全局唯一标识符，通常由32字节的字符串表示。
         if varMode == "uuid1":
             # 从主机ID，序列号和当前时间生成UUID
@@ -440,26 +436,24 @@ class DataPO():
 
 
 
-
 if __name__ == '__main__':
 
     Data_PO = DataPO()
 
     print("1，随机生成中文用户名".center(100, "-"))
-    print(Data_PO.getRandomName())  # 陈恋柏
+    print(Data_PO.autoName())  # 陈恋柏
 
     print("2，随机生成有效手机号码".center(100, "-"))
-    print(Data_PO.getRandomPhone())  # 14790178656
+    print(Data_PO.autoPhone())  # 14790178656
 
     print("3.1，随机生成身份证号".center(100, "-"))
-    print(Data_PO.getRandomIdcard())   # 441427196909022802   // 随机生成身份证号
+    print(Data_PO.autoIdcard())   # 441427196909022802   // 随机生成身份证号
 
     print("3.2，判断是否是有效身份证".center(100, "-"))
-    print(Data_PO.isIdcard(Data_PO.getRandomIdcard()))
-    print(Data_PO.isIdcard("31012547854125"))
+    print(Data_PO.isIdcard(Data_PO.autoIdcard()))
 
     print("3.3，获取身份证的出生年月(只限大陆身份证)".center(100, "-"))
-    print(Data_PO.getBirthday(Data_PO.getRandomIdcard()))  # ('1965', '04', '16')
+    print(Data_PO.getBirthday(Data_PO.autoIdcard()))  # ('1965', '04', '16')
     print(Data_PO.getBirthday("31ceshi141212"))  # None  //错误的身份证则返回None
 
     print("3.4，获取身份证的年龄".center(100, "-"))
@@ -469,12 +463,12 @@ if __name__ == '__main__':
     print(Data_PO.getSex("310101198004110014"))  # 男
 
     print("4，随机生成n个数字".center(100, "-"))
-    print(Data_PO.getRandomNum(4))  # 6408  //随机生成4个数字
+    print(Data_PO.autoNum(4))  # 6408  //随机生成4个数字
 
     print("5.1，随机生成一个有效IP".center(100, "-"))
-    print(Data_PO.getRandomIp(""))  # 116.210.48.8  //随机生成一个IP地址
+    print(Data_PO.autoIp(""))  # 116.210.48.8  //随机生成一个IP地址
     print("5.2，随机生成一个有效IP2".center(100, "-"))
-    print(Data_PO.getRandomIp2())  # 36.93.19.190  //随机生成一个IP地址2
+    print(Data_PO.autoIp2())  # 36.93.19.190  //随机生成一个IP地址2
     print("5.3，从当前IP地址开始连续生成N个IP".center(100, "-"))
     print(Data_PO.getSeriesIp('101.23.228.254', 4))   # ['101.23.228.254', '101.23.228.255', '101.23.229.0', '101.23.229.1']
 
@@ -494,7 +488,7 @@ if __name__ == '__main__':
     # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "ERROR"))
 
     print("10，生成uuid".center(100, "-"))
-    print(Data_PO.getUuid("uuid1"))
-    print(Data_PO.getUuid("md5"))
-    print(Data_PO.getUuid("random"))
-    print(Data_PO.getUuid("sh1"))
+    print(Data_PO.autoUuid("uuid1"))
+    print(Data_PO.autoUuid("md5"))
+    print(Data_PO.autoUuid("random"))
+    print(Data_PO.autoUuid("sh1"))

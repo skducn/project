@@ -1,4 +1,4 @@
-# coding=utf-8
+#-- coding: utf-8 --
 #***************************************************************
 # Author     : John
 # Revise on : 2019-04-16
@@ -7,6 +7,7 @@
 # pymssql 托管在Github上：https://github.com/pymssql
 # python连接sql server数据库实现增删改查 https://www.cnblogs.com/malcolmfeng/p/6909293.html
 # /usr/local/pip3.7 install pymssql
+
 # 问题：查询后中文正确显示，但在数据库中却显示乱码
 # 解决方法：添加 charset='utf8' , 确保 charset 与数据库编码一致，如数据库是gb2312 , 则charset='gb2312'。
 # conn = pymssql.Connect(host='localhost', user='root', passwd='root', db='python',charset='utf8')
@@ -466,6 +467,9 @@ class SqlServerPO():
                             print("搜索: " + varValue + " , " + str(len(t4)) + " 条记录 来自 " + self.varDB + "." + varTable + "(" ")." + list0[i] + "\n")
                             for j in range(len(t4)):
                                 print(t4[j])
+                                # print(str(t4[j]).decode("utf8"))
+                                # print(t4[j].encode('latin-1').decode('utf8'))
+
                     list0 = []
                     list1 = []
             elif "*" not in varTable:
@@ -490,6 +494,8 @@ class SqlServerPO():
                         # print("search: " + varValue + " > " + self.varDB + "." + varTable + "(" ")." + list0[i] + " > [" + str(len(t4)) + " 条记录]" + "\n")
                         for j in range(len(t4)):
                             print(t4[j])
+                            # print(t4[j].encode('latin-1').decode('gbk'))
+
                 list0 = []
                 list1 = []
         else:
@@ -714,7 +720,7 @@ if __name__ == '__main__':
     # tmpList = Sqlserver_PO.ExecQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
     # print(tmpList)
 
-    Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthrecord_test")  # EHR 测试环境
+    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "admin@12345", "EHRDC")  # EHR 测试环境
 
     # Sqlserver_PO.dbDesc()  # 所有表结构
     # Sqlserver_PO.dbDesc('CommonDictionary')   # 某个表结构
@@ -723,7 +729,7 @@ if __name__ == '__main__':
     # Sqlserver_PO.dbDesc('b*', 'id,page')  # 查看所有b开头的表中id字段的结构（通配符*）
 
     # Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.
-    Sqlserver_PO.dbRecord('*', 'varchar', '%110101199003071970%')  # 搜索所有表符合条件的记录.
+    Sqlserver_PO.dbRecord('*', 'varchar', '%高血压%')  # 搜索所有表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
     # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
