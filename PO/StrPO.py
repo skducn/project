@@ -5,8 +5,6 @@
 # Description   : 字符串对象层
 # *********************************************************************
 
-import sys
-
 '''
 1.1 字符串转列表 str2list()
 1.2 字符串转元组 str2tuple()
@@ -15,6 +13,9 @@ import sys
 3 判断字符串中是否包含中文 isContainChinese()
 4 判断字符串是否全部是中文 isChinese()
 '''
+
+import sys
+
 class StrPO():
 
     def __init__(self):

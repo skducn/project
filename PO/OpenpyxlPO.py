@@ -131,8 +131,8 @@ class OpenpyxlPO():
 
     # 4 批量设置单元格的值(ok)
     def setMoreCellValue(self, varList_Row_Col_Content, varSheet=0):
-        # Openpyxl_PO.wrtMoreCellValue([[7, "你好", "测试", "报告"], [9, "再见", "", "好了"]])  # 对第7行第9行分别写入内容
-        # Openpyxl_PO.wrtMoreCellValue([[2, "a", "b", "c"], [3, "d", "", "f"]], -1)  # 对最后一个sheet表第2行第3行分别写入内容
+        # Openpyxl_PO.setMoreCellValue([[7, "你好", "测试", "报告"], [9, "再见", "", "好了"]])  # 对第7行第9行分别写入内容
+        # Openpyxl_PO.setMoreCellValue([[2, "a", "b", "c"], [3, "d", "", "f"]], -1)  # 对最后一个sheet表第2行第3行分别写入内容
 
         try:
             sh = self.sh(varSheet)
@@ -336,15 +336,18 @@ class OpenpyxlPO():
         sh.sheet_properties.tabColor = varColor
 
     # 17 关闭excel进程
-    def closeExcelPid(self):
+    def closeExcelPid(self, varApplication):
+
+        '''关闭进程
+        os.system 输出如果出现乱码，需将 File->Settings->Editor->File Encodings 中 Global Encoding 设置成 GBK'''
         pids = psutil.pids()
         for pid in pids:
             try:
                 p = psutil.Process(pid)
                 # print('pid=%s,pname=%s' % (pid, p.name()))
                 # 关闭excel进程
-                if p.name() == 'EXCEL.EXE':
-                    cmd = 'taskkill /F /IM EXCEL.EXE'
+                if p.name() == varApplication:
+                    cmd = 'taskkill /F /IM ' + varApplication
                     os.system(cmd)
                     sleep(2)
             except Exception as e:
@@ -410,7 +413,7 @@ class OpenpyxlPO():
 if __name__ == "__main__":
 
     Openpyxl_PO = OpenpyxlPO("d:\\1.xlsx")
-    # Openpyxl_PO.closeExcelPid()
+    # Openpyxl_PO.closeExcelPid('EXCEL.EXE')
     print(Openpyxl_PO.wb.sheetnames)
 
     print("1 新建excel".center(100, "-"))
@@ -487,7 +490,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.save()
 
     print("17 关闭excel进程".center(100, "-"))
-    # Openpyxl_PO.closeExcelPid()
+    # Openpyxl_PO.closeExcelPid('EXCEL.EXE')
 
     print("18 添加工作表（工作表名重复时，保留原工作表）".center(100, "-"))
     # Openpyxl_PO.addSheet("test1")  # 默认在左侧第一个位置上添加工作表，如果工作表名已存在，第一次重名时自动更名为原有名字后加1，第二次重名时自动更名为第一次更名后数字运算加1。如 test1工作表添加了2次后，生成test11,test12两个工作表。

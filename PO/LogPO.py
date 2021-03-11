@@ -41,11 +41,11 @@ class LogPO(object):
         self.logger.addHandler(th)
 
 if __name__ == '__main__':
-    log = LogPO('./log/bi/bi_' + Time_PO.getDate() + '.log', level='debug')
+    log = LogPO('LogPO/bi_' + Time_PO.getDate() + '.log', level='debug')
     log.logger.debug('debug')
     log.logger.info('info')
     log.logger.warning('警告')
     log.logger.error('报错')
     log.logger.critical('严重')
-    logError = LogPO('./log/bi/bi_error' + Time_PO.getDate() + '.log', level='error')
+    logError = LogPO('LogPO/bi_error' + Time_PO.getDate() + '.log', level='error')
     logError.logger.error('error213123123')

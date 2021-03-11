@@ -12,8 +12,6 @@
 
 import redis
 
-
-
 class RedisPO():
 
     def __init__(self, varHost, varPass, varPort, varDB, varDecode=False):

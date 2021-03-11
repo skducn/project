@@ -18,17 +18,6 @@
 # A2: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable , 重启电脑。
 # *******************************************************************************************************************************
 
-from PO.BasePO import *
-from selenium import webdriver
-# from selenium.webdriver.common.action_chains import ActionChains
-# from selenium.webdriver.support.select import Select
-# from selenium.webdriver.support.wait import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-from PIL import ImageGrab
-import cv2
-from pytesseract import *
-from PIL import Image, ImageDraw, ImageGrab
-
 '''
 1.1，打开网站
 1.2，关闭网站
@@ -50,6 +39,17 @@ from PIL import Image, ImageDraw, ImageGrab
 6，弹出框(未测试)
 
 7，切换窗口'''
+
+from PO.BasePO import *
+from selenium import webdriver
+# from selenium.webdriver.common.action_chains import ActionChains
+# from selenium.webdriver.support.select import Select
+# from selenium.webdriver.support.wait import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+from PIL import ImageGrab
+import cv2
+from pytesseract import *
+from PIL import Image, ImageDraw, ImageGrab
 
 class WebPO(BasePO):
 

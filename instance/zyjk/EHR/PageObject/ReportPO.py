@@ -170,4 +170,4 @@ class ReportPO():
         self.Openpyxl_PO.open()
 
     def closeExcelPid(self):
-        self.Openpyxl_PO.closeExcelPid()
+        self.Openpyxl_PO.closeExcelPid('EXCEL.EXE')

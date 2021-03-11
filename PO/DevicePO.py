@@ -3,15 +3,8 @@
 # Author     : John
 # Created on : 2019-9-19
 # Description: 电脑设备对象层（获取本机mac、本机IP、本机电脑名，调用本机摄像头（笔记本））
-# 调用笔记本摄像头，需安装opencv包，pip install opencv-python
+# 调用笔记本摄像头，需安装opencv包(cv2)，pip install opencv-python
 # ***************************************************************
-import socket, uuid, subprocess, os, cv2, sys
-import psutil, re
-
-from PO.TimePO import *
-Time_PO = TimePO()
-from PO.FilePO import *
-File_PO = FilePO()
 
 '''
 1，获取当前系统平台
@@ -27,6 +20,11 @@ File_PO = FilePO()
 7.3，根据pid获取进程的信息
 '''
 
+import socket, uuid, subprocess, cv2, psutil, re
+from PO.TimePO import *
+Time_PO = TimePO()
+from PO.FilePO import *
+File_PO = FilePO()
 
 class DevicePO():
 
