@@ -23,10 +23,11 @@ Openpyxl_PO = OpenpyxlPO(excelName)
 Openpyxl_PO.closeExcelPid('EXCEL.EXE')   # 关闭所有打开的excel
 
 
-# 获取上一工作日
+# 获取当天的工作日
 l_rowcol = Openpyxl_PO.l_getTotalRowCol(excelSheet)
 for i in range(11):
-    varStartDate = str(Time_PO.get_day_of_day(-1-i))
+    varStartDate = str(Time_PO.get_day_of_day(-i))
+    # varStartDate = str(Time_PO.get_day_of_day(-1-i)) # 上一工作日
     if cal.is_working_day(date(int(varStartDate.split("-")[0]), int(varStartDate.split("-")[1]), int(varStartDate.split("-")[2]))):
         break
 varEndDate = varStartDate + " 23:59:59"

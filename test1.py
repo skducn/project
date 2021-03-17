@@ -9,13 +9,36 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-from pyzbar.pyzbar import decode
-from PIL import Image
-path = "1.png"
-img = Image.open(path)
-bar = decode(img)[0]
-result = bar.data.decode()
-print(result)
+
+# #!/usr/bin/python
+# # -*- coding: UTF-8 -*-
+# import sys
+# sys.path.append("C:\MySoftware\Automagica2.0\pkgs")
+
+#引入automagica 模块
+from automagica import *
+#引入selenium 模块
+from selenium import webdriver
+
+#创建chrome浏览器实例，跳转到百度首页
+#browser = Chrome()
+browser = webdriver.Chrome()
+browser.get('https://baidu.com/')
+#获取搜索输入框，嵌入关键字automagica
+search_input = browser.find_element_by_name('wd')
+search_input.send_keys("automagica")
+#获取检索按钮，点击
+search_btn = browser.find_element_by_id('su')
+search_btn.click()
+
+#
+# from pyzbar.pyzbar import decode
+# from PIL import Image
+# path = "1.png"
+# img = Image.open(path)
+# bar = decode(img)[0]
+# result = bar.data.decode()
+# print(result)
 
 
 # import redis
