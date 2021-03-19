@@ -80,7 +80,7 @@ pbs==0.110
 pefile==2019.4.18
 pelican==4.2.0
 pexpect==4.2.1
-Pillow==6.2.1
+Pillow==8.1.1
 pinyin==0.4.0
 pluggy==0.13.1
 ply==3.11
