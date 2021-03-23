@@ -7128,77 +7128,75 @@
 </script>
 <script type="text/javascript">
     var resultData = {
-    "testPass": 5,
+    "testPass": 3,
     "testResult": [
         {
             "className": "run",
             "methodName": "test11_0",
-            "description": "[with excelNo=2, interCase='患者登录', interUrl=None, interMethod='header', interParam='{\"deviceTag\": \"cuser\",\"token\": ...d628cfec54fc0b213181ea1e57464\"}', interCheck=None, interExpected=None, d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0 s",
+            "description": "[with excelNo=2, interCase='医生登录', interUrl='/auth/miniLogin', interMethod='post', interParam='{\\n \"password\": \"123456\",\\n \"userNo\": \"18622222222\"}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'token': '$.data.token'}]",
+            "spendTime": "0.076 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': 'fb3d628cfec54fc0b213181ea1e57464'}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}",
+                "参数变量：{'password': '123456', 'userNo': '18622222222'}",
+                "字典变量：{}",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MSIsImlhdCI6MTYxNjQ4NjQwNywiZXhwIjoxNjE3MDkxMjA3fQ.DALXECEbkkPJCYVXRiYwlbd5laCCPA3qBn_EEPw_1R9pGx3RjkID5sErXR59IxZ6Kf3xBjThYAD_dLpRfwYmBw\",\"expire\":86400}}",
                 ""
             ]
         },
         {
             "className": "run",
             "methodName": "test11_1",
-            "description": "[with excelNo=3, interCase='查询当前登录用户', interUrl='/cuser/wxPatientLoginInfo/queryUserNow', interMethod='get', interParam=None, interCheck='$.msg', interExpected='success', d_KeyValueQuote={'empiId': '$.data.patientId'}]",
-            "spendTime": "0.116 s",
+            "description": "[with excelNo=3, interCase=None, interUrl=None, interMethod='header', interParam='{\"deviceTag\": \"app\",\"token\":\"{{token}}\"}', interCheck=None, interExpected=None, d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': 'fb3d628cfec54fc0b213181ea1e57464'}",
-                "request = http://103.25.65.103:4488/cuser/wxPatientLoginInfo/queryUserNow",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":29,\"openId\":null,\"unionId\":null,\"name\":\"杨明栋\",\"sex\":0,\"idCardNo\":\"310104196106072856\",\"socialSecurityNo\":null,\"phoneNumber\":\"18163912649\",\"birthdayDate\":\"1961-01-07 00:00:00\",\"patientId\":\"248724133898932226\",\"age\":\"60\",\"createId\":null,\"createTime\":\"2021-02-18 13:36:31\",\"updateId\":29,\"updateTime\":\"2021-02-19 10:22:58\"}}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MSIsImlhdCI6MTYxNjQ4NjQwNywiZXhwIjoxNjE3MDkxMjA3fQ.DALXECEbkkPJCYVXRiYwlbd5laCCPA3qBn_EEPw_1R9pGx3RjkID5sErXR59IxZ6Kf3xBjThYAD_dLpRfwYmBw'}",
                 ""
             ]
         },
         {
             "className": "run",
             "methodName": "test11_2",
-            "description": "[with excelNo=4, interCase='根据患者id查询宣教文章', interUrl='/cuser/sysPatientMissionHistory/queryPatientByMissionArticle', interMethod='get', interParam='currPage=1&pageSize=1', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'missionID': '$.data.list[0].id'}]",
-            "spendTime": "0.053 s",
-            "status": "成功",
+            "description": "[with excelNo=4, interCase='手机号重复校验', interUrl='/saasuser/tPatientInfo/checkPhone', interMethod='get', interParam='phone=15801993943', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0883 s",
+            "status": "失败",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': 'fb3d628cfec54fc0b213181ea1e57464'}",
-                "字典变量：{'empiId': '248724133898932226'}",
-                "request = http://103.25.65.103:4488/cuser/sysPatientMissionHistory/queryPatientByMissionArticle?currPage=1&pageSize=1",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"list\":[{\"id\":41,\"empiId\":null,\"articleIntroId\":null,\"issueTime\":\"2021-02-20 10:39:42\",\"issuer\":null,\"projectId\":null,\"state\":null,\"articleName\":\"什么是心房颤动\",\"author\":null,\"articleIntro\":null,\"cover\":\"ab7a1dc6eb734970b7c5/img/58/5825222908bc8584028c05aee5a5b17b224b1011c8175e49365ce8dd8548dfd9.jpeg\",\"articleContent\":null,\"editTime\":null,\"editName\":null,\"viewCount\":null}],\"total\":4,\"pageSize\":1,\"currPage\":0}}",
-                ""
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MSIsImlhdCI6MTYxNjQ4NjQwNywiZXhwIjoxNjE3MDkxMjA3fQ.DALXECEbkkPJCYVXRiYwlbd5laCCPA3qBn_EEPw_1R9pGx3RjkID5sErXR59IxZ6Kf3xBjThYAD_dLpRfwYmBw'}\n字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MSIsImlhdCI6MTYxNjQ4NjQwNywiZXhwIjoxNjE3MDkxMjA3fQ.DALXECEbkkPJCYVXRiYwlbd5laCCPA3qBn_EEPw_1R9pGx3RjkID5sErXR59IxZ6Kf3xBjThYAD_dLpRfwYmBw'}\nrequest = http://192.168.0.213:8801/saasuser/tPatientInfo/checkPhone?phone=15801993943\nresponse = {\"code\":500,\"msg\":\"手机号码有重复。\",\"data\":null}\n<traceback object at 0x000001E018BD1380>\n",
+                "Traceback (most recent call last):\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\xls.py\", line 204, in result\n    assert jsonpathValue == interExpected, \"预期值是<\" + interExpected + \">，而实测值是<\" + jsonpathValue + \">\"\n",
+                "AssertionError: 预期值是<success>，而实测值是<手机号码有重复。>\n",
+                "\nDuring handling of the above exception, another exception occurred:\n\n",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 59, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 593, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 550, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python39\\lib\\site-packages\\parameterized\\parameterized.py\", line 533, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\run.py\", line 28, in test11\n    elif interMethod == \"get\": xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\xls.py\", line 212, in result\n    assert 1 == 0, \"接口check \" + interCheck + \" 不存在!\"\n",
+                "AssertionError: 接口check $.msg 不存在!\n"
             ]
         },
         {
             "className": "run",
             "methodName": "test11_3",
-            "description": "[with excelNo=5, interCase='通过id获取一条数据（查看文章详情）', interUrl='/cuser/sysPatientMissionHistory/read/{{missionID}}', interMethod='get', interParam=None, interCheck='$.data.articleName', interExpected='什么是心房颤动', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0598 s",
+            "description": "[with excelNo=5, interCase='查询', interUrl='/saasuser/tPatientInfo/getPage', interMethod='get', interParam='currPage=1&pageSize=10', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0573 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': 'fb3d628cfec54fc0b213181ea1e57464'}",
-                "字典变量：{'empiId': '248724133898932226', 'missionID': 41}",
-                "request = http://103.25.65.103:4488/cuser/sysPatientMissionHistory/read/41",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":41,\"articleName\":\"什么是心房颤动\",\"author\":\"智赢\",\"articleIntro\":\"什么是心房颤动\",\"cover\":\"ab7a1dc6eb734970b7c5/img/58/5825222908bc8584028c05aee5a5b17b224b1011c8175e49365ce8dd8548dfd9.jpeg\",\"articleContent\":\"<figure class=\\\"image image-style-align-left\\\"><img src=\\\"ab7a1dc6eb734970b7c5/img/58/5825222908bc8584028c05aee5a5b17b224b1011c8175e49365ce8dd8548dfd9.jpeg\\\"></figure><p style=\\\"margin-left:0px;\\\">心房颤动（简称房颤）是常见的心律失常之一，用通俗的话说就是患者出现了“心脏乱跳”的现象。正常的心跳频率是60~100次/分，而且具有一定的规律性，可以保持心脏正常泵血功能。一旦发生房颤，心房的激动频率高达300-600次/分，且激动传导杂乱无章，心房失去正常的收缩，不但影响心脏的泵血功能，导致或加重心衰，还容易在心房内形成血栓，血栓脱落即可引起中风等并发症。房颤患者的心跳不但快慢不等，还会出现心跳强弱不齐以及“脱跳”，也就是说，如果同时测每分钟心率和脉率，会出现脉率低于心率的情况。</p><p style=\\\"margin-left:0px;\\\">&nbsp;</p><p style=\\\"margin-left:0px;\\\"><strong>接照心房颤动发作的持续时间长短，可将其分为：</strong></p><p style=\\\"margin-left:0px;\\\"><strong>1、阵发性心房颤动：</strong>是指心房颤动的持续时间在1～2周以内。阵发性房颤最典型的特点就是通常发作一下子就过去了，患者会短暂地出现心慌气短、胸口发闷等不适症状，部分患者还会头晕昏倒、双眼一黑等。<strong>2、持续性心房颤动：</strong>是指心房颤动的持续时间在2周以上，1年以内。<strong>3、永久性心房颤动：</strong>是指心房颤动的持续时间在1年以上。而这其中，阵发性房颤尤其容易被患者忽视。</p><p style=\\\"margin-left:0px;\\\"><strong>确诊房颤的方法很简单，只需要通过心电图就能完成，</strong>但对于阵发性房颤患者来说，由于发作时难以捉摸，不一定能赶在发作时及时做心电图，因此建议这部分患者可以到医院做24小时动态心电图。另外自己学会触摸脉搏，心慌不适时了解自己的脉搏情况，并详细描述给心律失常学专家，也能给诊断提供重要的线索。</p><p style=\\\"margin-left:0px;\\\"><span style=\\\"background-color:rgb(255,255,255);color:rgb(25,25,25);\\\">心房颤动的治疗方法有多种，包括病因治疗、节律控制、心室率控制加抗凝治疗、导管射频消融治疗、器械治疗(置入心房除颤器、抗心房颤动起搏器、多部位或双心房起搏、左心耳堵闭器)以及外科治疗等。</span></p><p style=\\\"margin-left:0px;\\\">&nbsp;</p><p style=\\\"margin-left:0px;\\\">目前多国临床研究表明，房颤的总发病率约为1％，并呈上升趋势。房颤的发生与年龄相关，年纪越大，房颤的发病率越高。据统计，房颤患者的中风发生率高达常人的7倍。房颤最大的危害是导致患者总死亡率增加、心脏逐渐扩大、心力衰竭及脑卒中发生率增加。</p><p style=\\\"margin-left:0px;\\\">&nbsp;</p><p style=\\\"margin-left:0px;\\\">房颤发作时会导致人体出现严重的不适症状，一般来说比较常见的就是心慌气短、胸口发闷的情况，部分患者会有头晕昏倒、双眼一黑的情况发生。但也有部分患者房颤时心室率不快，尤其是慢性房颤者；这种情况下，患者可能无任何症状，直至因为心衰或者出现中风才就诊发现心房颤动。因此，房颤的危害及治疗的必要性，并不取决于患者症状的轻重，房颤患者无论有无症状均应到专科医院行系统检查，评估房颤的危险分层，由专科医生指导下一步的治疗。</p>\",\"editTime\":\"2020-10-19 14:49:35\",\"editName\":\"赵云\",\"issueTime\":\"2020-10-19 14:49:35\",\"issuer\":\"赵云\",\"state\":2,\"viewCount\":18,\"createId\":162,\"createTime\":\"2020-09-21 10:58:02\",\"updateId\":29,\"updateTime\":\"2021-03-05 10:50:33\",\"projectId\":null}}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_4",
-            "description": "[with excelNo=6, interCase='医者登录', interUrl=None, interMethod='header', interParam='{\"deviceTag\": \"app\",\"token\": \"fe57464\"}', interCheck=None, interExpected=None, d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0 s",
-            "status": "成功",
-            "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'fe57464'}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MSIsImlhdCI6MTYxNjQ4NjQwNywiZXhwIjoxNjE3MDkxMjA3fQ.DALXECEbkkPJCYVXRiYwlbd5laCCPA3qBn_EEPw_1R9pGx3RjkID5sErXR59IxZ6Kf3xBjThYAD_dLpRfwYmBw'}",
+                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MSIsImlhdCI6MTYxNjQ4NjQwNywiZXhwIjoxNjE3MDkxMjA3fQ.DALXECEbkkPJCYVXRiYwlbd5laCCPA3qBn_EEPw_1R9pGx3RjkID5sErXR59IxZ6Kf3xBjThYAD_dLpRfwYmBw'}",
+                "request = http://192.168.0.213:8801/saasuser/tPatientInfo/getPage?currPage=1&pageSize=10",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"records\":[{\"empiId\":\"264222089041219585\",\"name\":\"阿里咯\",\"belongDocId\":91,\"sex\":\"0\",\"sexName\":\"男\",\"birthday\":\"1939-03-07\",\"age\":\"83\",\"idCardNo\":\"110101193903073835\",\"phone\":\"15801993943\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":\"2\",\"avatar\":null,\"dateAdded\":\"2021-03-16 13:45:50\",\"itemId\":null},{\"empiId\":null,\"name\":\"儿额哇\",\"belongDocId\":91,\"sex\":\"1\",\"sexName\":\"女\",\"birthday\":\"1968-03-07\",\"age\":\"54\",\"idCardNo\":\"110101196803078501\",\"phone\":\"13866663233\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":null,\"avatar\":null,\"dateAdded\":\"2021-03-15 13:46:09\",\"itemId\":null},{\"empiId\":null,\"name\":\"一一\",\"belongDocId\":91,\"sex\":\"1\",\"sexName\":\"女\",\"birthday\":\"1968-03-07\",\"age\":\"54\",\"idCardNo\":\"110101196803073348\",\"phone\":\"13457177777\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":null,\"avatar\":null,\"dateAdded\":\"2021-03-15 13:45:44\",\"itemId\":null},{\"empiId\":null,\"name\":\"不烦\",\"belongDocId\":91,\"sex\":\"1\",\"sexName\":\"女\",\"birthday\":\"1968-03-07\",\"age\":\"54\",\"idCardNo\":\"11010119680307106X\",\"phone\":\"13466666666\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":null,\"avatar\":null,\"dateAdded\":\"2021-03-15 13:45:24\",\"itemId\":null},{\"empiId\":null,\"name\":\"意义\",\"belongDocId\":91,\"sex\":\"1\",\"sexName\":\"女\",\"birthday\":\"1968-03-07\",\"age\":\"54\",\"idCardNo\":\"110101196803071609\",\"phone\":\"13455555555\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":null,\"avatar\":null,\"dateAdded\":\"2021-03-15 13:45:03\",\"itemId\":null},{\"empiId\":\"263889046229295106\",\"name\":\"七八\",\"belongDocId\":91,\"sex\":\"1\",\"sexName\":\"女\",\"birthday\":\"1968-03-07\",\"age\":\"54\",\"idCardNo\":\"110101196803078122\",\"phone\":\"18709865986\",\"grading\":\"3\",\"gradingName\":\"高危\",\"followId\":1,\"followUpStatus\":null,\"status\":\"2\",\"avatar\":null,\"dateAdded\":\"2021-03-15 13:41:14\",\"itemId\":null},{\"empiId\":\"262752207627878402\",\"name\":\"张三丰\",\"belongDocId\":91,\"sex\":\"0\",\"sexName\":\"男\",\"birthday\":\"1924-03-07\",\"age\":\"98\",\"idCardNo\":\"110101192403071310\",\"phone\":\"13818889342\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":\"3\",\"avatar\":null,\"dateAdded\":\"2021-03-12 10:31:06\",\"itemId\":null},{\"empiId\":null,\"name\":\"平平\",\"belongDocId\":91,\"sex\":\"0\",\"sexName\":\"男\",\"birthday\":\"1983-05-13\",\"age\":\"38\",\"idCardNo\":\"610523198305134774\",\"phone\":\"15145257844\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":null,\"avatar\":null,\"dateAdded\":\"2021-03-11 16:54:46\",\"itemId\":null},{\"empiId\":null,\"name\":\"哥哥\",\"belongDocId\":91,\"sex\":\"1\",\"sexName\":\"女\",\"birthday\":\"1990-03-07\",\"age\":\"32\",\"idCardNo\":\"110101199003079729\",\"phone\":\"12345678997\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":null,\"avatar\":null,\"dateAdded\":\"2021-03-08 15:06:51\",\"itemId\":null},{\"empiId\":null,\"name\":\"江江江\",\"belongDocId\":91,\"sex\":\"1\",\"sexName\":\"女\",\"birthday\":\"1990-03-07\",\"age\":\"32\",\"idCardNo\":\"110101199003074020\",\"phone\":\"15801993944\",\"grading\":\"0\",\"gradingName\":\"未分级\",\"followId\":1,\"followUpStatus\":null,\"status\":null,\"avatar\":null,\"dateAdded\":\"2021-03-08 13:14:01\",\"itemId\":null}],\"total\":14,\"size\":10,\"current\":1,\"searchCount\":true,\"pages\":2}}",
                 ""
             ]
         }
     ],
     "testName": "SAAS测试报告",
-    "testAll": 5,
-    "testFail": 0,
-    "beginTime": "2021-03-11 14:59:38",
-    "totalTime": "0s",
+    "testAll": 4,
+    "testFail": 1,
+    "beginTime": "2021-03-23 16:00:05",
+    "totalTime": "1s",
     "testSkip": 0,
     "testError": 0
 };

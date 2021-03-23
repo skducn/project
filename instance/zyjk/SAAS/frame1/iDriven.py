@@ -34,9 +34,17 @@ class HTTP:
 
         ''' 全局参数设置 '''
 
-        d_param = eval(param)
-        for k in d_param:
-            self.session.headers[k] = d_param[k]
+        if "{{" in param:
+            for k in d_var:
+                if "{{" + k + "}}" in param:
+                    param = str(param).replace("{{" + k + "}}", str(d_var[k]))
+            d_param = eval(param)
+            for k in d_param:
+                self.session.headers[k] = d_param[k]
+        else:
+            d_param = eval(param)
+            for k in d_param:
+                self.session.headers[k] = d_param[k]
         print("header = " + str(self.session.headers))
         return {}
 
@@ -52,10 +60,14 @@ class HTTP:
         if param == '':
             result = self.session.post(testURL, data=None)
         else:
-            if "{$." in param:
+            if "{{" in param:
                 for k in d_var:
-                    if "{" + k + "}" in param:
-                        param = str(param).replace("{" + k + "}", str(d_var[k]))
+                    if "{{" + k + "}}" in param:
+                        param = str(param).replace("{{" + k + "}}", str(d_var[k]))
+            # if "{$." in param:
+            #     for k in d_var:
+            #         if "{" + k + "}" in param:
+            #             param = str(param).replace("{" + k + "}", str(d_var[k]))
                 result = self.session.post(testURL, headers=self.headers, json=param, verify=False)
                 print("request = " + str(param))
             else:
@@ -68,6 +80,32 @@ class HTTP:
             print(e.__traceback__)
         return res
 
+    def put(self, interName, param, d_var):
+
+        ''' put请求'''
+
+        print("header = " + str(self.session.headers))
+        print("参数变量：" + str(param))
+        print("字典变量：" + str(d_var))
+        testURL = self.ip + ":" + self.port + interName
+        if param == '':
+            result = self.session.put(testURL, data=None)
+        else:
+            if "{{" in param:
+                for k in d_var:
+                    if "{{" + k + "}}" in param:
+                        param = str(param).replace("{{" + k + "}}", str(d_var[k]))
+                result = self.session.put(testURL, headers=self.headers, data=param, verify=False)
+                print("request = " + str(param))
+            else:
+                result = self.session.put(testURL, headers=self.headers, data=param, verify=False)
+        print("response = " + str(result.text))
+        res = result.text
+        try:
+            res = res[res.find('{'):res.rfind('}')+1]
+        except Exception as e:
+            print(e.__traceback__)
+        return res
 
     def get(self, interName, param, d_var):
 

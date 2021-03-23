@@ -7,7 +7,7 @@
 # 测试环境接口文档：http://103.25.65.103:4488/doc.html
 # saas高血压: hypertension
 # *****************************************************************
-import unittest
+import unittest,platform,os
 from parameterized import parameterized
 from BeautifulReport import BeautifulReport as bf
 from readConfig import *
@@ -38,10 +38,10 @@ if __name__ == '__main__':
     # runner.report(filename='./report/report_' + str(datetime.now().strftime("%Y%m%d%H%M%S")) + '.html', description='logo的测试报告')
     if platform.system() == 'Darwin':
         os.system("open ./report/report.html")
-        os.system("open ./config/interface.xlsx")
+        os.system("open ./config/" + localReadConfig.get_system("excelName"))
     if platform.system() == 'Windows':
         os.system("start .\\report\\report.html")
-        os.system("start .\\config\\interface.xlsx")
+        os.system("start .\\config\\" + localReadConfig.get_system("excelName"))
 
 
 
