@@ -25,7 +25,7 @@ class XLS:
         if platform.system() == 'Windows':
             self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'\config\\' + localReadConfig.get_system("excelName")
         self.Openpyxl_PO = OpenpyxlPO(self.varExcel)
-        self.Openpyxl_PO.closeExcelPid()   # 关闭所有打开的excel
+        self.Openpyxl_PO.closeExcelPid("EXCEL")   # 关闭所有打开的excel
         l_sheetNames = (self.Openpyxl_PO.wb.sheetnames)   # 所有工作表名列表：如 ['inter', 'case']
         self.sheetInter = l_sheetNames[0]  # inter工作表
         self.sheetCase = l_sheetNames[1]  # case工作表
