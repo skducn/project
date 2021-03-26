@@ -125,15 +125,16 @@ class HTTP:
             print("request = " + str(testURL))
             # result = self.session.get(testURL, data=None)
             result = self.session.get(testURL, headers=self.headers, verify=False)
-
         else:
-            testURL = self.ip + ":" + self.port + interName + "?" + param
+
             if "{{" in param:
                 for k in d_var:
                     if "{{" + k + "}}" in param:
                         param = str(param).replace("{{" + k + "}}", str(d_var[k]))
+                        testURL = self.ip + ":" + self.port + interName + "?" + param
                 result = self.session.get(testURL, headers=self.headers, verify=False)
             else:
+                testURL = self.ip + ":" + self.port + interName + "?" + param
                 result = self.session.get(testURL, headers=self.headers, verify=False)
             print("request = " + str(testURL))
         print("response = " + str(result.text))
