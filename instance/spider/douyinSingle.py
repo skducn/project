@@ -7,10 +7,8 @@
 #***************************************************************
 
 
-import requests, re, os
+import requests, re, os, platform
 from time import sleep
-
-
 
 def downloadSingleVideo(url):
 	session = requests.session()
@@ -31,16 +29,18 @@ def downloadSingleVideo(url):
 	if "?" in str(nickname[0]):
 		nickname = str(nickname[0]).replace("?", "")
 
-	# 下载目录
-	print("下载保存路径：d:\\%s.mp4" % nickname[0])
-
-	# 下载
-	ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
-	open(f'd:/{nickname}.mp4', 'wb').write(ir.content)
-	# open(f'/Users/linghuchong/Downloads/{nickname}.mp4', 'wb').write(ir.content)
-	# test
+	if platform.system() == 'Darwin':
+		# 下载
+		ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] + "&ratio=720p&line=0",headers=headers)
+		open(f'/Users/linghuchong/Downloads/{nickname}.mp4', 'wb').write(ir.content)
+		print("下载保存路径：/Users/linghuchong/Downloads/%s.mp4" % nickname[0])
+	if platform.system() == 'Windows':
+		# 下载
+		ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
+		open(f'd:/{nickname}.mp4', 'wb').write(ir.content)
+		print("下载保存路径：d:\\%s.mp4" % nickname[0])
 
 
 if __name__ == '__main__':
 
-	downloadSingleVideo("https://v.douyin.com/JcF6mYb/")
+	downloadSingleVideo("https://v.douyin.com/eFW2VfN/")
