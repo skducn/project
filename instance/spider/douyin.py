@@ -2,23 +2,19 @@
 #***************************************************************
 # Author     : John
 # Created on : 2020-12-30
-# Description: 获取抖音视频用户列表，批量下载
-# # user_url 用户列表链接的获取方法：右上角...  - 分享 - 复制链接
+# Description: 抖音视频下载（单个，多个（获取抖音视频用户列表进行批量下载））
+# 抖音 user_url 用户列表链接的获取方法：右上角...  - 分享 - 复制链接
 #***************************************************************
 
-import requests, re, os
-from time import sleep
+import requests, re, os, platform
 
-
-sum_url = ""
-
-#todo :123
-def downloadVideo(url, varFromNumDown=0):
+# todo :download douyin
+def getVideoList(url, varFromNumDown=0):
 
 	# varFromNumDown 表示从第几视频开始下载  如：100表示从第100个开始下载，之前视频忽略。
 	session = requests.session()
 	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
-
+	sum_url = ""
 
 	# 分享链接返回url 获取sec_uid
 	res = session.get(url=url, headers=headers)
@@ -98,18 +94,57 @@ def downloadVideo(url, varFromNumDown=0):
 				# print(str(id) + "、视频名称为：{0},点赞数为:{1},评论数为:{2},分享数量为:{3},视频无水印地址为：{4}".format(text, str(dianzan), str(pinglun),str(fenxiang), video_url))
 				print(str(id) + "，{0} {1}".format(text, video_url))
 				ir = session.get(video_url, headers=headers)
-				# 新建用户目录及视频
-				if not os.path.exists("d:/video/" + nickname[0]):
-					os.mkdir("d:/video/" + nickname[0])
-				open(f'd:/video/{nickname[0]}/{text}.mp4', 'wb').write(ir.content)
+
+				if platform.system() == 'Darwin':
+					# 下载（for mac）
+					# 新建用户目录及视频
+					if not os.path.exists("/Users/linghuchong/Downloads/" + nickname[0]):
+						os.mkdir("/Users/linghuchong/Downloads/" + nickname[0])
+					open(f'/Users/linghuchong/Downloads/{nickname[0]}/{text}.mp4', 'wb').write(ir.content)
+				if platform.system() == 'Windows':
+					# 下载（for windows）
+					# 新建用户目录及视频
+					if not os.path.exists("d:/video/" + nickname[0]):
+						os.mkdir("d:/video/" + nickname[0])
+					open(f'd:/video/{nickname[0]}/{text}.mp4', 'wb').write(ir.content)
 			else:
 				print(str(id) + "，{0}".format(text))
 
 		if(int(id) == int(sm_count[0])):
 			break
 
+def getVideoOne(url):
+	session = requests.session()
+	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
+
+	# 解析url
+	res = session.get(url=url, headers=headers)
+	video = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)   # 如：video_id=6912637146767674636
+
+	# 解析url1
+	url1 = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + video[0]
+	res1 = requests.get(url=url1, headers=headers)
+	# print(res1.text)
+	video_id = re.findall(r'/?video_id=(\w+)', res1.text)   # 如：video_id=v0300f3d0000bvn9r1prh6u8gbdusbdg
+	nickname = re.findall('"share_title":"(.+?)"', res1.text)  # 视频标题
+
+	# 视频文件优化，自动去除特殊符合，如?
+	if "?" in str(nickname[0]):
+		nickname = str(nickname[0]).replace("?", "")
+
+	if platform.system() == 'Darwin':
+		# 下载
+		ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] + "&ratio=720p&line=0",headers=headers)
+		open(f'/Users/linghuchong/Downloads/{nickname}.mp4', 'wb').write(ir.content)
+		print("下载保存路径：/Users/linghuchong/Downloads/%s.mp4" % nickname[0])
+	if platform.system() == 'Windows':
+		# 下载
+		ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
+		open(f'd:/{nickname}.mp4', 'wb').write(ir.content)
+		print("下载保存路径：d:\\%s.mp4" % nickname[0])
+
 
 if __name__ == '__main__':
 
-	downloadVideo("https://v.douyin.com/Jp4GEo6/")  # 走遍中国5A景区-大龙
-
+	getVideoList("https://v.douyin.com/Jp4GEo6/")  # 走遍中国5A景区-大龙 抖音列表
+	# getVideoOne("https://v.douyin.com/eFW2VfN/")  # 单个抖音链接
