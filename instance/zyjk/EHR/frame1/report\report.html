@@ -7128,91 +7128,105 @@
 </script>
 <script type="text/javascript">
     var resultData = {
-    "testPass": 6,
+    "testPass": 7,
     "testResult": [
         {
             "className": "runAllEHR",
             "methodName": "test11_0",
-            "description": "[with excelNo=2, interCase='1，正常登录', interUrl='/healthRecord/login', interMethod='postLogin', interParam=\"{'name': 'admin','pass': 'f19b8dc2029cf707939e886e4b164681'}\", interCheck='$.msg', interExpected='成功', d_KeyValueQuote={'myId': '310101198004110000', '...: 'you', 'mytest,myData': '张恋柏'}]",
-            "spendTime": "0.0749 s",
+            "description": "[with excelNo=2, interCase='正常登录', interUrl='/healthRecord/login', interMethod='postLogin', interParam=\"{'name': 'admin','pass': 'f19b8dc2029cf707939e886e4b164681'}\", interCheck='$.msg', interExpected='成功', d_KeyValueQuote={'archiveNum': '310110194511160000'}]",
+            "spendTime": "0.0601 s",
             "status": "成功",
             "log": [
-                "{\"msg\":\"成功\",\"code\":200,\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTIzMzczMTUsImV4cCI6MTYxMjM0NDUxNX0.lg-r0U1E_sx6owmXeHKOdQaZ6KZzDYTws5VTDFvlnEMmYwOJrFtUOdg7MaytbnPO-Pn4oIABtvTjlcuRb5Cb6A\"}",
+                "{\"msg\":\"成功\",\"code\":200,\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTQ4MzYyNDIsImV4cCI6MTYxNDg0MzQ0Mn0.3zDjyt6zJrPn7FrvDUdlV9ruwgydtpR2tzH84D7nx2F6VMG3Nzmth5A_DJaumnYHqhdWAyX_1jLMxLBUQByMrA\"}",
                 ""
             ]
         },
         {
             "className": "runAllEHR",
             "methodName": "test11_1",
-            "description": "[with excelNo=3, interCase='2，获取签约居民人群分类', interUrl='/healthRecord/contentInform/getCrowdClassify', interMethod='get', interParam=None, interCheck='$.msg', interExpected='成功', d_KeyValueQuote={'mycode': '$.code'}]",
-            "spendTime": "0.0484 s",
+            "description": "[with excelNo=3, interCase='获取全部签约医生名单', interUrl='/healthRecord/contentInform/getDocList', interMethod='get', interParam=None, interCheck='$.msg', interExpected='成功', d_KeyValueQuote={'idCardNo': '310110195301232045'}]",
+            "spendTime": "0.039 s",
             "status": "成功",
             "log": [
-                "接口param：None",
-                "字典变量：{'myId': '310101198004110000', 'kill': 'you', 'name': '张恋柏'}",
-                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":{\"hypertensionPercent\":\"31\",\"qyyh\":6741,\"updateDate\":\"1900年1月1日\",\"nonEmphasis\":3324,\"65PeoplePercent\":\"0\",\"hypertension\":2085,\"diabetes\":1988,\"65People\":0,\"diabetesPercent\":\"29\",\"nonEmphasisPercent\":\"49\"},\"token\":\"\"}",
+                "参数变量：None",
+                "字典变量：{'archiveNum': '310110194511160000'}",
+                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":[{\"docName\":\"陈*妍\",\"docCode\":\"1301\"},{\"docName\":\"戴*星\",\"docCode\":\"2039\"},{\"docName\":\"窦*青\",\"docCode\":\"1020\"},{\"docName\":\"古*尔\",\"docCode\":\"0004\"},{\"docName\":\"郭*宇\",\"docCode\":\"0043\"},{\"docName\":\"洪*娟\",\"docCode\":\"0048\"},{\"docName\":\"黄*晨\",\"docCode\":\"0057\"},{\"docName\":\"黄*美\",\"docCode\":\"0039\"},{\"docName\":\"金*明\",\"docCode\":\"0022\"},{\"docName\":\"李*琳\",\"docCode\":\"1015\"},{\"docName\":\"刘*兰\",\"docCode\":\"1036\"},{\"docName\":\"马*佳\",\"docCode\":\"024\"},{\"docName\":\"孟*珺\",\"docCode\":\"0023\"},{\"docName\":\"王*琳\",\"docCode\":\"0026\"},{\"docName\":\"武*茜\",\"docCode\":\"0041\"},{\"docName\":\"严*丽\",\"docCode\":\"1304\"},{\"docName\":\"袁*霞\",\"docCode\":\"0056\"},{\"docName\":\"张*芳\",\"docCode\":\"1026\"},{\"docName\":\"张*琴\",\"docCode\":\"0049\"},{\"docName\":\"张*贤\",\"docCode\":\"1024\"},{\"docName\":\"赵*鲁\",\"docCode\":\"0044\"}],\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTQ4MzYyNDIsImV4cCI6MTYxNDg0MzQ0Mn0.3zDjyt6zJrPn7FrvDUdlV9ruwgydtpR2tzH84D7nx2F6VMG3Nzmth5A_DJaumnYHqhdWAyX_1jLMxLBUQByMrA\"}",
                 ""
             ]
         },
         {
             "className": "runAllEHR",
             "methodName": "test11_2",
-            "description": "[with excelNo=4, interCase='3，获取签约居民电子健康档案指标', interUrl='/healthRecord/contentInform/getRecordIndex', interMethod='get', interParam=None, interCheck='$.msg', interExpected='成功', d_KeyValueQuote={'mytest': '$.code', 'myData': '$.data.emphasisUpdate'}]",
-            "spendTime": "0.045 s",
+            "description": "[with excelNo=4, interCase='获取签约居民电子健康档案指标', interUrl='/healthRecord/contentInform/getRecordIndex', interMethod='get', interParam=None, interCheck='$.msg', interExpected='成功', d_KeyValueQuote={'test': '$.data.use'}]",
+            "spendTime": "0.0409 s",
             "status": "成功",
             "log": [
-                "接口param：None",
-                "字典变量：{'myId': '310101198004110000', 'kill': 'you', 'name': '张恋柏', 'mycode': 200}",
-                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":{\"use\":\"0.0\",\"create\":\"0.0\",\"update\":\"0.0\",\"standardCreate\":\"0.0\",\"emphasisUpdate\":\"0.0\"},\"token\":\"\"}",
+                "参数变量：None",
+                "字典变量：{'archiveNum': '310110194511160000', 'idCardNo': '310110195301232045'}",
+                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":{\"qyyh\":149,\"updateDate\":\"2021年3月4日\",\"use\":\"72.9\",\"createChange\":\"0.0\",\"update\":\"33.3\",\"65PeoplePercent\":\"63.8\",\"standardCreate\":\"15.2\",\"signPercent\":\"0.4\",\"emphasisUpdate\":\"10.6\",\"hypertensionPercent\":\"8.7\",\"targetSignNum\":41661,\"childPercentChange\":\"0.0\",\"signPercentChange\":\"0.0\",\"65PeoplePercentChange\":\"0.0\",\"childPercent\":\"1.3\",\"create\":\"32.2\",\"hypertensionPercentChange\":\"0.0\",\"diabetesPercentChange\":\"0.0\",\"hypertension\":13,\"diabetes\":17,\"65People\":95,\"livePeopleNum\":138873,\"child\":2,\"diabetesPercent\":\"11.4\"},\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTQ4MzYyNDIsImV4cCI6MTYxNDg0MzQ0Mn0.3zDjyt6zJrPn7FrvDUdlV9ruwgydtpR2tzH84D7nx2F6VMG3Nzmth5A_DJaumnYHqhdWAyX_1jLMxLBUQByMrA\"}",
                 ""
             ]
         },
         {
             "className": "runAllEHR",
             "methodName": "test11_3",
-            "description": "[with excelNo=5, interCase='4，获取签约居民电子健康档案问题汇总列表', interUrl='/healthRecord/contentInform/getRecordIssueList', interMethod='get', interParam=None, interCheck='$.msg', interExpected='成功', d_KeyValueQuote={'yy': '吃吃喝喝'}]",
-            "spendTime": "0.0772 s",
+            "description": "[with excelNo=5, interCase='【查询/下载】签约人员列表', interUrl='/healthRecord/contentInform/getSignedUserList', interMethod='get', interParam=None, interCheck='$.msg', interExpected='成功', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0349 s",
             "status": "成功",
             "log": [
-                "接口param：None",
-                "字典变量：{'myId': '310101198004110000', 'kill': 'you', 'name': '张恋柏', 'mycode': 200, 'mytest': '200', 'myData': '0.0'}",
-                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":[{\"lackHrHealthCheckup\":3417,\"noRecord\":6741,\"needEdit\":0,\"orgName\":\"汇总\",\"lackDiabetes\":0,\"orgCode\":\"汇总\",\"needUpdate\":3417,\"error\":6741,\"allNum\":6741,\"lackHypertension\":0},{\"lackHrHealthCheckup\":276,\"noRecord\":563,\"needEdit\":0,\"orgName\":\"上海市青浦区盈浦街道社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118002\",\"needUpdate\":276,\"error\":563,\"allNum\":563,\"lackHypertension\":0},{\"lackHrHealthCheckup\":268,\"noRecord\":565,\"needEdit\":0,\"orgName\":\"上海市青浦区香花桥街道社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118003\",\"needUpdate\":268,\"error\":565,\"allNum\":565,\"lackHypertension\":0},{\"lackHrHealthCheckup\":247,\"noRecord\":523,\"needEdit\":0,\"orgName\":\"上海市青浦区华新镇社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118107\",\"needUpdate\":247,\"error\":523,\"allNum\":523,\"lackHypertension\":0},{\"lackHrHealthCheckup\":260,\"noRecord\":481,\"needEdit\":0,\"orgName\":\"上海市青浦区重固镇社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118109\",\"needUpdate\":260,\"error\":481,\"allNum\":481,\"lackHypertension\":0},{\"lackHrHealthCheckup\":95,\"noRecord\":177,\"needEdit\":0,\"orgName\":\"上海市青浦区徐泾镇社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118106\",\"needUpdate\":95,\"error\":177,\"allNum\":177,\"lackHypertension\":0},{\"lackHrHealthCheckup\":1373,\"noRecord\":2702,\"needEdit\":0,\"orgName\":\"上海市青浦区夏阳街道社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118001\",\"needUpdate\":1373,\"error\":2702,\"allNum\":2702,\"lackHypertension\":0},{\"lackHrHealthCheckup\":196,\"noRecord\":380,\"needEdit\":0,\"orgName\":\"上海市青浦区金泽镇社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118104\",\"needUpdate\":196,\"error\":380,\"allNum\":380,\"lackHypertension\":0},{\"lackHrHealthCheckup\":263,\"noRecord\":499,\"needEdit\":0,\"orgName\":\"上海市青浦区赵巷镇社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118105\",\"needUpdate\":263,\"error\":499,\"allNum\":499,\"lackHypertension\":0},{\"lackHrHealthCheckup\":43,\"noRecord\":86,\"needEdit\":0,\"orgName\":\"上海市青浦区朱家角镇社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118102\",\"needUpdate\":43,\"error\":86,\"allNum\":86,\"lackHypertension\":0},{\"lackHrHealthCheckup\":396,\"noRecord\":765,\"needEdit\":0,\"orgName\":\"上海市青浦区练塘镇社区卫生服务中心\",\"lackDiabetes\":0,\"orgCode\":\"310118103\",\"needUpdate\":396,\"error\":765,\"allNum\":765,\"lackHypertension\":0}],\"token\":\"\"}",
+                "参数变量：None",
+                "字典变量：{'archiveNum': '310110194511160000', 'idCardNo': '310110195301232045', 'test': '72.9'}",
+                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":{\"total\":149,\"size\":10,\"current\":1,\"records\":[{\"lackHtnVisit\":0,\"__row_number__\":1,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"310110195503212843\",\"isRecord\":\"否\",\"docCode\":\"1301\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"陈*妍\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"蔡*华\",\"hrCover\":\"-\",\"category\":\"65岁及以上老年人;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":2,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"310110195505085825\",\"isRecord\":\"否\",\"docCode\":\"1015\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"李*琳\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"陈*萍\",\"hrCover\":\"-\",\"category\":\"65岁及以上老年人;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":3,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"310110194707155022\",\"isRecord\":\"否\",\"docCode\":\"1015\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"李*琳\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"杨*玲\",\"hrCover\":\"-\",\"category\":\"65岁及以上老年人;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":4,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"342301195105201024\",\"isRecord\":\"否\",\"docCode\":\"0041\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"武*茜\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"孙*荣\",\"hrCover\":\"-\",\"category\":\"65岁及以上老年人;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":5,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"310110194310171227\",\"isRecord\":\"否\",\"docCode\":\"1015\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"李*琳\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"路*萍\",\"hrCover\":\"-\",\"category\":\"65岁及以上老年人;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":6,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"31010819620319202X\",\"isRecord\":\"否\",\"docCode\":\"1301\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"陈*妍\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"蒋*英\",\"hrCover\":\"-\",\"category\":\"其他;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":7,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"321284198107150229\",\"isRecord\":\"否\",\"docCode\":\"0022\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"金*明\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"吉*喜\",\"hrCover\":\"-\",\"category\":\"其他;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":8,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"31010119550323283X\",\"isRecord\":\"否\",\"docCode\":\"1026\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"张*芳\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"薛*强\",\"hrCover\":\"-\",\"category\":\"65岁及以上老年人;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":9,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"310110193310300418\",\"isRecord\":\"否\",\"docCode\":\"1015\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"李*琳\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"邓*明\",\"hrCover\":\"-\",\"category\":\"65岁及以上老年人;\",\"lackDmVisit\":0},{\"lackHtnVisit\":0,\"__row_number__\":10,\"noRecordReason\":\"无档案封面和个人基本信息表或儿童未找到新生儿访视服务记录表;\",\"hypertensionVisit\":\"-\",\"idCardNo\":\"310110195301232045\",\"isRecord\":\"否\",\"docCode\":\"1015\",\"hrPersonBasicInfo\":\"-\",\"diabetesVisit\":\"-\",\"lackForm\":\"\",\"docName\":\"李*琳\",\"hrHealthCheckup\":\"-\",\"phone\":\"\",\"name\":\"沈*媛\",\"hrCover\":\"-\",\"category\":\"65岁及以上老年人;\",\"lackDmVisit\":0}],\"pages\":15},\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTQ4MzYyNDIsImV4cCI6MTYxNDg0MzQ0Mn0.3zDjyt6zJrPn7FrvDUdlV9ruwgydtpR2tzH84D7nx2F6VMG3Nzmth5A_DJaumnYHqhdWAyX_1jLMxLBUQByMrA\"}",
                 ""
             ]
         },
         {
             "className": "runAllEHR",
             "methodName": "test11_4",
-            "description": "[with excelNo=6, interCase='5，获取质控结果任务提醒人员列表', interUrl='/healthRecord/contentInform/getRemindUserList', interMethod='get', interParam=None, interCheck='$.msg', interExpected='成功', d_KeyValueQuote={'x': '陈一华'}]",
-            "spendTime": "0.0459 s",
+            "description": "[with excelNo=6, interCase='获取慢病随访缺失信息', interUrl='/healthRecord/contentInform/getChronicVisitMissInfo', interMethod='get', interParam='archiveNum={{archiveNum}}', interCheck='$.msg', interExpected='成功', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.034 s",
             "status": "成功",
             "log": [
-                "接口param：None",
-                "字典变量：{'myId': '310101198004110000', 'kill': 'you', 'name': '张恋柏', 'mycode': 200, 'mytest': '200', 'myData': '0.0', 'yy': '吃吃喝喝'}",
-                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":{\"total\":6741,\"size\":10,\"current\":1,\"records\":[{\"problem\":\"签约未建档;缺健康体检记录;\",\"__row_number__\":1,\"CZRYBM\":\"1301\",\"SFZH\":\"310110195503212843\",\"JMXM\":\"蔡*华\",\"CZRYXM\":\"陈*妍\"},{\"problem\":\"签约未建档;\",\"__row_number__\":2,\"CZRYBM\":\"1015\",\"SFZH\":\"310110194707155022\",\"JMXM\":\"杨*玲\",\"CZRYXM\":\"李*琳\"},{\"problem\":\"签约未建档;\",\"__row_number__\":3,\"CZRYBM\":\"0041\",\"SFZH\":\"342301195105201024\",\"JMXM\":\"孙*荣\",\"CZRYXM\":\"武*茜\"},{\"problem\":\"签约未建档;\",\"__row_number__\":4,\"CZRYBM\":\"1015\",\"SFZH\":\"310110194310171227\",\"JMXM\":\"路*萍\",\"CZRYXM\":\"李*琳\"},{\"problem\":\"签约未建档;缺健康体检记录;\",\"__row_number__\":5,\"CZRYBM\":\"1301\",\"SFZH\":\"31010819620319202X\",\"JMXM\":\"蒋*英\",\"CZRYXM\":\"陈*妍\"},{\"problem\":\"签约未建档;缺健康体检记录;\",\"__row_number__\":6,\"CZRYBM\":\"0022\",\"SFZH\":\"321284198107150229\",\"JMXM\":\"吉*喜\",\"CZRYXM\":\"金*明\"},{\"problem\":\"签约未建档;\",\"__row_number__\":7,\"CZRYBM\":\"1026\",\"SFZH\":\"31010119550323283X\",\"JMXM\":\"薛*强\",\"CZRYXM\":\"张*芳\"},{\"problem\":\"签约未建档;\",\"__row_number__\":8,\"CZRYBM\":\"1015\",\"SFZH\":\"310110193310300418\",\"JMXM\":\"邓*明\",\"CZRYXM\":\"李*琳\"},{\"problem\":\"签约未建档;缺健康体检记录;\",\"__row_number__\":9,\"CZRYBM\":\"1015\",\"SFZH\":\"310110195301232045\",\"JMXM\":\"沈*媛\",\"CZRYXM\":\"李*琳\"},{\"problem\":\"签约未建档;\",\"__row_number__\":10,\"CZRYBM\":\"0044\",\"SFZH\":\"320322199509182549\",\"JMXM\":\"杨*柳\",\"CZRYXM\":\"赵*鲁\"}],\"pages\":675},\"token\":\"\"}",
+                "参数变量：archiveNum={{archiveNum}}",
+                "字典变量：{'archiveNum': '310110194511160000', 'idCardNo': '310110195301232045', 'test': '72.9'}",
+                "请求参数：archiveNum=310110194511160000",
+                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":[],\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTQ4MzYyNDIsImV4cCI6MTYxNDg0MzQ0Mn0.3zDjyt6zJrPn7FrvDUdlV9ruwgydtpR2tzH84D7nx2F6VMG3Nzmth5A_DJaumnYHqhdWAyX_1jLMxLBUQByMrA\"}",
                 ""
             ]
         },
         {
             "className": "runAllEHR",
             "methodName": "test11_5",
-            "description": "[with excelNo=7, interCase='6，根据身份证号，查找治理信息', interUrl='/healthRecord/recommend/getRecommendValueInfo', interMethod='get', interParam='idCardNo={{myId}}&idOfTargetTab...rgetTable=HrCover&id={{mycode}}', interCheck='$.msg', interExpected='成功', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0357 s",
+            "description": "[with excelNo=7, interCase='【查询/下载】医生维度 或 社区维度的 签约居民健康档案指标', interUrl='/healthRecord/contentInform/getOrgOrDocList', interMethod='get', interParam=None, interCheck='$.msg', interExpected='成功', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0765 s",
             "status": "成功",
             "log": [
-                "接口param：idCardNo={{myId}}&idOfTargetTable={{myId}}&targetTable=HrCover&id={{mycode}}",
-                "字典变量：{'myId': '310101198004110000', 'kill': 'you', 'name': '张恋柏', 'mycode': 200, 'mytest': '200', 'myData': '0.0', 'yy': '吃吃喝喝', 'x': '陈一华'}",
-                "请求参数：idCardNo=310101198004110000&idOfTargetTable=310101198004110000&targetTable=HrCover&id=200",
-                "返回值：{\"msg\":\"成功\",\"code\":200,\"list\":[],\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTIzMzczMTUsImV4cCI6MTYxMjM0NDUxNX0.lg-r0U1E_sx6owmXeHKOdQaZ6KZzDYTws5VTDFvlnEMmYwOJrFtUOdg7MaytbnPO-Pn4oIABtvTjlcuRb5Cb6A\"}",
+                "参数变量：None",
+                "字典变量：{'archiveNum': '310110194511160000', 'idCardNo': '310110195301232045', 'test': '72.9'}",
+                "返回值：{\"code\":200,\"msg\":\"成功\",\"data\":{\"total\":10,\"size\":10,\"current\":1,\"records\":[{\"signNum\":52,\"orgName\":\"上海市青浦区夏阳街道社区卫生服务中心\",\"__row_number__\":1,\"orgCode\":\"310118001\",\"use\":\"75.0\",\"create\":\"30.8\",\"update\":\"31.3\",\"standardCreate\":\"15.0\",\"addSignNum\":0},{\"signNum\":13,\"orgName\":\"上海市青浦区盈浦街道社区卫生服务中心\",\"__row_number__\":2,\"orgCode\":\"310118002\",\"use\":\"100.0\",\"create\":\"15.4\",\"update\":\"100.0\",\"standardCreate\":\"11.4\",\"addSignNum\":0},{\"signNum\":12,\"orgName\":\"上海市青浦区香花桥街道社区卫生服务中心\",\"__row_number__\":3,\"orgCode\":\"310118003\",\"use\":\"50.0\",\"create\":\"16.7\",\"update\":\"0.0\",\"standardCreate\":\"10.4\",\"addSignNum\":0},{\"signNum\":4,\"orgName\":\"上海市青浦区朱家角镇社区卫生服务中心\",\"__row_number__\":4,\"orgCode\":\"310118102\",\"use\":\"100.0\",\"create\":\"75.0\",\"update\":\"100.0\",\"standardCreate\":\"33.5\",\"addSignNum\":0},{\"signNum\":20,\"orgName\":\"上海市青浦区练塘镇社区卫生服务中心\",\"__row_number__\":5,\"orgCode\":\"310118103\",\"use\":\"77.8\",\"create\":\"45.0\",\"update\":\"44.4\",\"standardCreate\":\"19.9\",\"addSignNum\":0},{\"signNum\":9,\"orgName\":\"上海市青浦区金泽镇社区卫生服务中心\",\"__row_number__\":6,\"orgCode\":\"310118104\",\"use\":\"50.0\",\"create\":\"44.4\",\"update\":\"0.0\",\"standardCreate\":\"18.0\",\"addSignNum\":0},{\"signNum\":14,\"orgName\":\"上海市青浦区赵巷镇社区卫生服务中心\",\"__row_number__\":7,\"orgCode\":\"310118105\",\"use\":\"66.7\",\"create\":\"21.4\",\"update\":\"0.0\",\"standardCreate\":\"7.2\",\"addSignNum\":0},{\"signNum\":2,\"orgName\":\"上海市青浦区徐泾镇社区卫生服务中心\",\"__row_number__\":8,\"orgCode\":\"310118106\",\"use\":\"0.0\",\"create\":\"0.0\",\"update\":\"0.0\",\"standardCreate\":\"0.0\",\"addSignNum\":0},{\"signNum\":12,\"orgName\":\"上海市青浦区华新镇社区卫生服务中心\",\"__row_number__\":9,\"orgCode\":\"310118107\",\"use\":\"33.3\",\"create\":\"25.0\",\"update\":\"0.0\",\"standardCreate\":\"11.1\",\"addSignNum\":0},{\"signNum\":11,\"orgName\":\"上海市青浦区重固镇社区卫生服务中心\",\"__row_number__\":10,\"orgCode\":\"310118109\",\"use\":\"83.3\",\"create\":\"54.5\",\"update\":\"33.3\",\"standardCreate\":\"17.5\",\"addSignNum\":0}],\"pages\":1},\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTQ4MzYyNDIsImV4cCI6MTYxNDg0MzQ0Mn0.3zDjyt6zJrPn7FrvDUdlV9ruwgydtpR2tzH84D7nx2F6VMG3Nzmth5A_DJaumnYHqhdWAyX_1jLMxLBUQByMrA\"}",
+                ""
+            ]
+        },
+        {
+            "className": "runAllEHR",
+            "methodName": "test11_6",
+            "description": "[with excelNo=8, interCase='根据身份证号，查找治理信息', interUrl='/healthRecord/recommend/getRecommendValueInfo', interMethod='get', interParam='idCardNo={{idCardNo}}&targetTable=HrHealthCheckup', interCheck='$.msg', interExpected='成功', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0367 s",
+            "status": "成功",
+            "log": [
+                "参数变量：idCardNo={{idCardNo}}&targetTable=HrHealthCheckup",
+                "字典变量：{'archiveNum': '310110194511160000', 'idCardNo': '310110195301232045', 'test': '72.9'}",
+                "请求参数：idCardNo=310110195301232045&targetTable=HrHealthCheckup",
+                "返回值：{\"msg\":\"成功\",\"code\":200,\"list\":[],\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJuYW1lXCI6XCLotoXnuqfnrqHnkIblkZhcIixcInJvbGVcIjpcInN1cGVyQWRtaW5cIixcInVpZFwiOjEsXCJ1c2VyTmFtZVwiOlwiYWRtaW5cIn0iLCJpYXQiOjE2MTQ4MzYyNDMsImV4cCI6MTYxNDg0MzQ0M30.zv0slvRzd4k4KHzi336WFuGA038X-2S8GaTG432Q0CoY10dySxKR_ChbgLt6JAj-awZuQ5suCmjf2vKAfRAPmg\"}",
                 ""
             ]
         }
     ],
     "testName": "EHR测试报告",
-    "testAll": 6,
+    "testAll": 7,
     "testFail": 0,
-    "beginTime": "2021-02-03 15:28:33",
-    "totalTime": "1s",
+    "beginTime": "2021-03-04 13:37:21",
+    "totalTime": "0s",
     "testSkip": 0,
     "testError": 0
 };
