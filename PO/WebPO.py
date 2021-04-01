@@ -234,7 +234,7 @@ class WebPO(BasePO):
         if operate == "text":
             return self.driver.switch_to_alert().text
 
-    # 7，多窗口切换
+    # 7，多浏览器窗口切换（指定的网址）
     def switchWindow(self, varURL1, varURL2, varSwitch):
         # 多窗口切换，打开 varURL1，再打开 varURL2，切换窗口到第几个窗口。
         # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 0)   # 切回到第1个窗口
@@ -253,6 +253,12 @@ class WebPO(BasePO):
         # sleep(5)
         # Web_PO.driver.quit() # 关闭所有窗口
 
+
+    # 8，多浏览器窗口切换（不指定那个网址的）
+    def switchBrowser(self,varSwitch):
+        all_handles = self.driver.window_handles
+        sleep(2)
+        self.driver.switch_to.window(all_handles[varSwitch])
 
 if __name__ == '__main__':
 

@@ -26,11 +26,12 @@ class OaPO(object):
     '''打开浏览器'''
     def open(self):
         self.Web_PO = WebPO("chrome")
+        self.Web_PO.closePid("chrome.exe")
         self.Web_PO.openURL(varURL)
         self.Web_PO.driver.maximize_window()  # 全屏
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
 
-    '''登录页'''
+    '''登录'''
     def login(self, varUser):
         self.Web_PO.inputId("name", varUser)
         self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
@@ -111,6 +112,188 @@ class OaPO(object):
                 list2.append(str(i).replace("快速新建\n", ""))
         print("工作流 - 新建工作 - 常用工作 :" + str(list2))
         # print(list2)
+
+
+    '''项目立项'''
+    def flowScheme(self, varTitle, l_content):
+
+        self.open()
+        if l_content[0] == "王磊":
+            self.login(Char_PO.chinese2pinyin("wanglei01"))
+        else:
+            self.login(Char_PO.chinese2pinyin(l_content[0]))
+
+        if varTitle == "项目基础信息":
+            self.memu("工作流", "新建工作")
+            self.Web_PO.iframeId("tabs_130_iframe", 2)
+            self.Web_PO.clickLinktext("全部工作", 1)
+            list1 = self.Web_PO.getXpathsText("//h4/span")
+            for i in range(len(list1)):
+                if "项目立项申请" in list1[i]:
+                    self.Web_PO.clickXpath("//ul[@id='panel-inbox']/li[" + str(i + 1) + "]/div[2]", 1)
+                    break
+            self.Web_PO.iframeQuit(1)
+            # 项目立项申请详情页
+            self.Web_PO.iframeId("tabs_w10000_iframe", 1)
+            varNo = self.Web_PO.getXpathText("//div[@id='run_id_block']")  # 获取当前项目的编号，如 No.7465
+            self.Web_PO.iframeId("work_form_data", 2)
+            self.Web_PO.inputXpath("//input[@name='DATA_2']", l_content[1])  # 项目名称
+            self.Web_PO.inputXpath("//input[@name='DATA_121']", l_content[2])  # 启动日期
+            self.Web_PO.inputXpath("//input[@name='DATA_122']", l_content[3])  # 预计完成
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.clickId("next", 2)  # 提交
+            # 弹框选择审核人
+            self.Web_PO.clickId("chose_user2", 2)  # 选择人员
+            self.Web_PO.switchBrowser(1)  # 切换到弹框浏览器
+            self.Web_PO.iframeId("user", 1)
+            d = self.Web_PO.getXpathsDictTextAttr(u"//td[@name='"+ l_content[4] + "']", u"id")
+            self.Web_PO.clickId("opbox_" + d[l_content[4]], 2)  # 勾选主办人
+            self.Web_PO.iframeSwitch(1)
+            self.Web_PO.iframeId("control", 1)
+            self.Web_PO.clickXpath("//input[@onclick='top.close();']", 1)  # 确定
+            self.Web_PO.switchBrowser(0)  # 切回原浏览器
+            self.Web_PO.iframeId("tabs_w10000_iframe", 1)
+            self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            self.Web_PO.iframeQuit(2)
+            self.Web_PO.quitURL()
+            print("[done]，" + varTitle + "，项目名称：" + l_content[1] + "，发起人：" + l_content[0] + "，流水号：" + str(varNo))
+            return varNo
+        else:
+            self.memu("工作流", "我的工作")
+            # 选择流水号
+            self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
+            self.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
+            varNoRow = self.Web_PO.getXpathsTextPlace("//table[@id='gridTable']/tbody/tr/td[3]/div", l_content[6])
+            self.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[" + str(varNoRow + 1) + "]/td[8]/a", 2)
+            self.Web_PO.iframeQuit(1)
+            # 项目立项申请详情页
+            self.Web_PO.iframeId("tabs_5_iframe", 1)
+            self.Web_PO.iframeId("workflow-form-frame", 1)
+            self.Web_PO.iframeId("work_form_data", 2)
+            if varTitle == "需求分析":
+                self.Web_PO.inputXpathClear("//input[@name='DATA_54']", l_content[1])  # 责任人
+                self.Web_PO.inputXpathClear("//input[@name='DATA_55']", l_content[2])  # 时间节点
+                self.Web_PO.inputXpathClear("//textarea[@name='DATA_128']", l_content[3])  # 产出结果文档
+            elif varTitle == "产品调研":
+                self.Web_PO.inputXpathClear("//input[@name='DATA_83']", l_content[1])  # 责任人
+                self.Web_PO.inputXpathClear("//input[@name='DATA_66']", l_content[2])  # 时间节点
+                self.Web_PO.inputXpathClear("//textarea[@name='DATA_132']", l_content[3])  # 产出结果文档
+            elif varTitle == "竞品分析":
+                self.Web_PO.inputXpathClear("//input[@name='DATA_72']", l_content[1])  # 责任人
+                self.Web_PO.inputXpathClear("//input[@name='DATA_73']", l_content[2])  # 时间节点
+                self.Web_PO.inputXpathClear("//textarea[@name='DATA_130']", l_content[3])  # 产出结果文档
+            elif varTitle == "产品设计":
+                self.Web_PO.inputXpathClear("//input[@name='DATA_78']", l_content[1])  # 责任人
+                self.Web_PO.inputXpathClear("//input[@name='DATA_79']", l_content[2])  # 时间节点
+                self.Web_PO.inputXpathClear("//textarea[@name='DATA_137']", l_content[3])  # 产出结果文档
+            elif varTitle == "研发":
+                self.Web_PO.inputXpathClear("//input[@name='DATA_92']", l_content[1])  # 责任人
+                self.Web_PO.inputXpathClear("//input[@name='DATA_93']", l_content[2])  # 时间节点
+                self.Web_PO.inputXpathClear("//textarea[@name='DATA_139']", l_content[3])  # 产出结果文档
+            elif varTitle == "测试":
+                self.Web_PO.inputXpathClear("//input[@name='DATA_100']", l_content[1])  # 责任人
+                self.Web_PO.inputXpathClear("//input[@name='DATA_101']", l_content[2])  # 时间节点
+                self.Web_PO.inputXpathClear("//textarea[@name='DATA_141']", l_content[3])  # 产出结果文档
+            elif varTitle == "实施":
+                self.Web_PO.inputXpathClear("//input[@name='DATA_104']", l_content[1])  # 责任人
+                self.Web_PO.inputXpathClear("//input[@name='DATA_105']", l_content[2])  # 时间节点
+                self.Web_PO.inputXpathClear("//textarea[@name='DATA_143']", l_content[3])  # 产出结果文档
+            elif varTitle == "交付":
+                self.Web_PO.inputXpath("//input[@name='DATA_109']", l_content[1])  # 责任人
+                self.Web_PO.inputXpath("//input[@name='DATA_110']", l_content[2])  # 时间节点
+                self.Web_PO.inputXpath("//textarea[@name='DATA_145']", l_content[3])  # 产出结果文档
+            else:
+                print("[errorrrrrrrrrr], " + varTitle)
+                exit()
+            self.Web_PO.iframeSwitch(1)
+            if self.Web_PO.isElementXpath("//input[@id='onekey_next' and @type='button']") == True:
+                self.Web_PO.clickXpath("//input[@id='onekey_next']", 2)  # 提交
+                self.Web_PO.alertAccept()
+            elif self.Web_PO.isElementXpath("//input[@id='next' and @type='button']") == True:
+                self.Web_PO.clickId("next", 2)  # 提交
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+            self.Web_PO.iframeQuit(2)
+            self.Web_PO.quitURL()
+
+            # 责任人 登录后直接提交
+            self.open()
+            self.login(Char_PO.chinese2pinyin(l_content[1]))
+
+            self.memu("工作流", "我的工作")
+            # 选择流水号
+            self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
+            self.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
+            varNoRow = self.Web_PO.getXpathsTextPlace("//table[@id='gridTable']/tbody/tr/td[3]/div", l_content[6])
+            self.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[" + str(varNoRow + 1) + "]/td[8]/a", 2)
+            self.Web_PO.iframeQuit(1)
+            # 项目立项申请详情页
+            self.Web_PO.iframeId("tabs_5_iframe", 1)
+            self.Web_PO.iframeId("workflow-form-frame", 1)
+            self.Web_PO.clickId("onekey_next", 2)  # 提交
+            self.Web_PO.alertAccept()
+            self.Web_PO.iframeQuit(2)
+            self.Web_PO.quitURL()
+
+            # 审核人填写完成日期
+            self.open()
+            if l_content[5] == "李晨曦":
+                self.login(Char_PO.chinese2pinyin(l_content[5]))
+
+            else:
+                if l_content[0] == "王磊":
+                    self.login(Char_PO.chinese2pinyin("wanglei01"))
+                else:
+                    self.login(Char_PO.chinese2pinyin(l_content[0]))
+
+            self.memu("工作流", "我的工作")
+            # 选择流水号
+            self.Web_PO.iframeXpath("//iframe[@src='/general/workflow/list/']", 2)  # 第一层
+            self.Web_PO.iframeId("workflow-data-list", 2)  # 第二层
+            varNoRow = self.Web_PO.getXpathsTextPlace("//table[@id='gridTable']/tbody/tr/td[3]/div", l_content[6])
+            self.Web_PO.clickXpaths("//table[@id='gridTable']/tbody/tr[" + str(varNoRow + 1) + "]/td[8]/a", 2)
+            self.Web_PO.iframeQuit(1)
+            # 项目立项申请详情页
+            self.Web_PO.iframeId("tabs_5_iframe", 1)
+            self.Web_PO.iframeId("workflow-form-frame", 1)
+
+            if varTitle == "交付":
+                self.Web_PO.clickId("handle_end", 2)  # 提交
+                self.Web_PO.alertAccept()
+                self.Web_PO.iframeQuit(2)
+                self.Web_PO.quitURL()
+            else:
+                self.Web_PO.clickId("next", 2)  # 提交
+                # 弹框选择审核人
+                if varTitle == "需求分析":
+                    self.Web_PO.clickId("chose_user5", 2)  # 选择人员
+                if varTitle == "产品调研":
+                    self.Web_PO.clickId("chose_user8", 2)  # 选择人员
+                if varTitle == "竞品分析":
+                    self.Web_PO.clickId("chose_user11", 2)  # 选择人员
+                if varTitle == "产品设计":
+                    self.Web_PO.clickId("chose_user14", 2)  # 选择人员
+                if varTitle == "研发":
+                    self.Web_PO.clickId("chose_user17", 2)  # 选择人员
+                if varTitle == "测试":
+                    self.Web_PO.clickId("chose_user20", 2)  # 选择人员
+                if varTitle == "实施":
+                    self.Web_PO.clickId("chose_user23", 2)  # 选择人员
+
+                self.Web_PO.switchBrowser(1)  # 切换到弹框浏览器
+                self.Web_PO.iframeId("user", 1)
+                d = self.Web_PO.getXpathsDictTextAttr(u"//td[@name='" + l_content[5] + "']", u"id")
+                self.Web_PO.clickId("opbox_" + d[l_content[5]], 2)  # 勾选主办人
+                self.Web_PO.iframeSwitch(1)
+                self.Web_PO.iframeId("control", 1)
+                self.Web_PO.clickXpath("//input[@onclick='top.close();']", 1)  # 确定
+                self.Web_PO.switchBrowser(0)  # 切回原浏览器
+                self.Web_PO.iframeId("tabs_5_iframe", 1)
+                self.Web_PO.iframeId("workflow-form-frame", 1)
+                self.Web_PO.clickId("work_run_submit", 2)  # 确定
+                self.Web_PO.iframeQuit(2)
+                self.Web_PO.quitURL()
+            print("[done]，" + varTitle)
+
 
 
 

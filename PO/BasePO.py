@@ -6,7 +6,7 @@
 # # 重新定义find_element, find_elements, send_keys, input，click，get，print，checkbox，select，iframe，js，color，exist,alert
 #***************************************************************
 
-import sys, os, platform
+import sys, os, platform, psutil
 from time import sleep
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -900,6 +900,24 @@ class BasePO(object):
         alert = self.driver.switch_to.alert
         return alert.text
 
+    # 关闭进程
+    def closePid(self, varApplication):
+
+        '''关闭进程
+        os.system 输出如果出现乱码，需将 File->Settings->Editor->File Encodings 中 Global Encoding 设置成 GBK'''
+        pids = psutil.pids()
+        for pid in pids:
+            try:
+                p = psutil.Process(pid)
+                # print('pid=%s,pname=%s' % (pid, p.name()))
+                # 关闭excel进程
+                if p.name() == varApplication:
+                    cmd = 'taskkill /F /IM ' + varApplication
+                    os.system(cmd)
+                    sleep(2)
+            except Exception as e:
+                pass
+
 class alert_is_present(object):
     """判断是否有alert弹窗"""
     def __init__(self, driver):
@@ -915,4 +933,6 @@ class alert_is_present(object):
 
 
 if __name__ == '__main__':
+
     Base_PO = BasePO()
+    # Base_PO.closePid("chrome.exe")
