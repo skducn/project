@@ -11,9 +11,9 @@
 from pyzbar.pyzbar import decode
 from PIL import Image
 
-path = "1.png"   # 二维码图
-img = Image.open(path)
-bar = decode(img)[0]
-result = bar.data.decode()
+   path = "1.png"   # 二维码图
+   img = Image.open(path)
+   bar = decode(img)[0]
+   result = bar.data.decode()
 print(result)
 
