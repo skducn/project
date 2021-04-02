@@ -4,6 +4,7 @@
 # Created on : 2020-12-30
 # Description: 抖音视频下载（单个，多个（获取抖音视频用户列表进行批量下载））
 # 抖音 user_url 用户列表链接的获取方法：右上角...  - 分享 - 复制链接
+# 参数哈 click（）， 参考：https://blog.csdn.net/weixin_33506900/article/details/112187887
 #***************************************************************
 
 import requests, re, os, platform
@@ -115,6 +116,9 @@ def getVideoList(url, varFromNumDown=0):
 			break
 
 
+@click.command()
+@click.option('--url', help='url地址')
+@click.option('--save', help='保存路径')
 def getVideoOne(url,save):
 	session = requests.session()
 	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
@@ -134,22 +138,16 @@ def getVideoOne(url,save):
 	if "?" in str(nickname[0]):
 		nickname = str(nickname[0]).replace("?", "")
 
-	if platform.system() == 'Darwin':
-		# 下载
-		ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] + "&ratio=720p&line=0",headers=headers)
-		open(f'/Users/linghuchong/Downloads/{nickname}.mp4', 'wb').write(ir.content)
-		print("已下载到本地：/Users/linghuchong/Downloads/%s.mp4" % nickname[0])
-	if platform.system() == 'Windows':
-		# 下载
-		ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
-		open(f'{save}/{nickname}.mp4', 'wb').write(ir.content)
-		print("已下载到本地：" + str(save) + "\%s.mp4" % nickname[0])
+	# 下载
+	ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
+	open(f'{save}/{nickname}.mp4', 'wb').write(ir.content)
+	print("已下载到本地：" + str(save) + "\%s.mp4" % nickname[0])
 
 
 if __name__ == '__main__':
 
 	# getVideoList("https://v.douyin.com/Jp4GEo6/")  # 走遍中国5A景区-大龙 抖音列表
-	getVideoOne("https://v.douyin.com/eFW2VfN/")  # 单个抖音链接
-
+	getVideoOne()  # 单个抖音链接
+	# cmd 命令：python douyinCMD.py --url "https://v.douyin.com/eFW2VfN/" --save d:\1
 
 
