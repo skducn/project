@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import jsonpath, requests, urllib3, redis
+import jsonpath, requests, urllib3, redis,json
 from readConfig import *
 localReadConfig = ReadConfig()
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -85,11 +85,13 @@ class HTTP:
         ''' put请求'''
 
         print("header = " + str(self.session.headers))
-        print("参数变量：" + str(param))
-        print("字典变量：" + str(d_var))
+        print("\n")
+        print("\n\n参数变量：" + str(param))
+        print("\n")
+        print("\n\n字典变量：" + str(d_var))
         testURL = self.ip + ":" + self.port + interName
-        if param == '':
-            result = self.session.put(testURL, data=None)
+        if param == '' or param == None:
+            result = self.session.put(testURL, data=None, verify=False)
         else:
             if "{{" in param:
                 for k in d_var:
@@ -98,6 +100,8 @@ class HTTP:
                 result = self.session.put(testURL, headers=self.headers, data=param, verify=False)
                 print("request = " + str(param))
             else:
+                print("request = " + str(param))
+                param = json.dumps(param)
                 result = self.session.put(testURL, headers=self.headers, data=param, verify=False)
         print("response = " + str(result.text))
         res = result.text

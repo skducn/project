@@ -201,7 +201,7 @@ class XLS:
                 if jsonpathValue != interExpected:
                     self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
                     self.setCaseParam(excelNo, "Fail", d_KeyValueQuote, d_jsonres)
-                    assert jsonpathValue == interExpected, "预期值是<" + interExpected + ">，而实测值是<" + jsonpathValue + ">"
+                    # assert jsonpathValue == interExpected, "预期值：" + str(interExpected) + "，实测值：" + str(jsonpathValue)
                 else:
                     self.Openpyxl_PO.setCellColor(excelNo, 2, "00E400", self.sheetCase)
                     self.setCaseParam(excelNo, "OK", d_KeyValueQuote, d_jsonres)
@@ -209,7 +209,8 @@ class XLS:
                 print(e.__traceback__)
                 self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
                 self.setCaseParam(excelNo, "Fail", d_KeyValueQuote, d_jsonres)
-                assert 1 == 0, "接口check " + interCheck + " 不存在!"
+                assert 1 == 0 , "预期值：" + str(interExpected) + "，实测值：" + str(jsonpathValue)
+                # assert 1 == 0, interCheck + " 不存在!"
 
     def setCaseParam(self, excelNo, result, d_KeyValueQuote, d_jsonres):
 
