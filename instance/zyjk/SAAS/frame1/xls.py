@@ -193,6 +193,7 @@ class XLS:
         if jsonres != {}:
             d_jsonres = json.loads(jsonres)
 
+
             # 判断接口check是否存在?
             try:
                 jsonpathValue = jsonpath.jsonpath(d_jsonres, expr=interCheck)
