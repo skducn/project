@@ -12,9 +12,10 @@
 2 判断字符串是否为数字 isNumberByStr()
 3 判断字符串中是否包含中文 isContainChinese()
 4 判断字符串是否全部是中文 isChinese()
+5 判断字符串中数字的位置 indexNumber()
 '''
 
-import sys
+import sys,re
 
 class StrPO():
 
@@ -103,6 +104,42 @@ class StrPO():
         return True
 
 
+    # 5 判断字符串中数字的位置
+    def indexNumber(self, path=''):
+        kv = []
+        nums = []
+        beforeDatas = re.findall('\d', path)
+        for num in beforeDatas:
+            indexV = []
+            times = path.count(num)
+            if (times > 1):
+                if (num not in nums):
+                    indexs = re.finditer(num, path)
+                    for index in indexs:
+                        iV = []
+                        i = index.span()[0]
+                        iV.append(num)
+                        iV.append(i)
+                        kv.append(iV)
+                nums.append(num)
+            else:
+                index = path.find(num)
+                indexV.append(num)
+                indexV.append(index)
+                kv.append(indexV)
+        # 根据数字位置排序
+        indexSort = []
+        resultIndex = []
+        for vi in kv:
+            indexSort.append(vi[1])
+        indexSort.sort()
+        for i in indexSort:
+            for v in kv:
+                if (i == v[1]):
+                    resultIndex.append(v)
+        return resultIndex
+
+
 if __name__ == "__main__":
 
     Str_PO = StrPO()
@@ -154,6 +191,10 @@ if __name__ == "__main__":
     print(Str_PO.isChinese("测123试"))  # False //字符串有非中文字符
 
 
-    print("5，判断字符串某字符串出现的个数".center(100, "-"))
+    print("5，判断字符串中数字的位置".center(100, "-"))
+    print(Str_PO.indexNumber("abc1test2ok"))  #[['1', 3], ['2', 8]]
+
+
+    print("判断字符串某字符串出现的个数".center(100, "-"))
     x = "123%123234%"
     print(x.count("%"))
