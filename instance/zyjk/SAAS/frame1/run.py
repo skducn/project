@@ -23,10 +23,17 @@ class run(unittest.TestCase):
     @parameterized.expand(xls.getCaseParam())
     def test11(self, excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote):
         ' '
-        if interMethod == "header": xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)
-        elif interMethod == "post": xls.result(excelNo, interCase, interUrl, interMethod, dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)
-        elif interMethod == "get": xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)
-        else: xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)   # postget
+        if interMethod == "header":
+            xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)
+        elif interMethod == "post" :
+            xls.result(excelNo, interCase, interUrl, interMethod, dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)
+        elif interMethod == "get":
+            xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)
+        elif interMethod == "put":
+            xls.result(excelNo, interCase, interUrl, interMethod,  dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)
+        else:
+            exit()
+        # else: xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)   # postget
 
 if __name__ == '__main__':
 
