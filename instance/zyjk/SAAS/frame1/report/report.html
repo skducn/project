@@ -7128,20 +7128,20 @@
 </script>
 <script type="text/javascript">
     var resultData = {
-    "testPass": 7,
+    "testPass": 6,
     "testResult": [
         {
             "className": "run",
             "methodName": "test11_0",
             "description": "[with excelNo=2, interCase='医生登录', interUrl='/auth/miniLogin', interMethod='post', interParam='{\\n \"password\": \"123456\",\\n \"userNo\": \"13511111111\"}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'token': '$.data.token'}]",
-            "spendTime": "0.0874 s",
+            "spendTime": "0.092 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json;charset=UTF-8'}",
                 "参数变量：{'password': '123456', 'userNo': '13511111111'}",
                 "字典变量：{}",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA\",\"expire\":86400}}",
-                "success",
+                "request = {'password': '123456', 'userNo': '13511111111'}",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA\",\"expire\":86400}}",
                 ""
             ]
         },
@@ -7152,7 +7152,7 @@
             "spendTime": "0.0 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json;charset=UTF-8', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
                 ""
             ]
         },
@@ -7160,47 +7160,29 @@
             "className": "run",
             "methodName": "test11_2",
             "description": "[with excelNo=35, interCase='转诊患者-转入确认', interUrl='/saasuser/hyReferralRecord/pendingAffirm', interMethod='put', interParam='{\"id\":141}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.061 s",
+            "spendTime": "0.0962 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
-                "",
-                "",
-                "",
-                "",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
                 "参数变量：{'id': 141}",
-                "",
-                "",
-                "",
-                "",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
+                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
                 "request = {'id': 141}",
-                "response = {\"code\":500,\"msg\":\"未知异常，请联系管理员\",\"data\":null}",
-                "success",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":null}",
                 ""
             ]
         },
         {
             "className": "run",
             "methodName": "test11_3",
-            "description": "[with excelNo=36, interCase='转回确认', interUrl='/saasuser/hyReferralRecord/backAffirm', interMethod='put', interParam='{\"id\":141}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.213 s",
+            "description": "[with excelNo=36, interCase='转回确认', interUrl='/saasuser/hyReferralRecord/backAffirm', interMethod='put', interParam='{\"id\":\"141\"}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.12 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
-                "",
-                "",
-                "",
-                "",
-                "参数变量：{'id': 141}",
-                "",
-                "",
-                "",
-                "",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
-                "request = {'id': 141}",
-                "response = {\"code\":500,\"msg\":\"未知异常，请联系管理员\",\"data\":null}",
-                "success",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
+                "参数变量：{'id': '141'}",
+                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
+                "request = {'id': '141'}",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":null}",
                 ""
             ]
         },
@@ -7208,14 +7190,13 @@
             "className": "run",
             "methodName": "test11_4",
             "description": "[with excelNo=42, interCase='一周内待随访患者', interUrl='/saasuser/ecfFollowInfo/queryOneWeekFollow', interMethod='get', interParam='currPage=1&pageSize=10&itemId=60', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0695 s",
+            "spendTime": "0.0678 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
+                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
                 "request = http://192.168.0.213:8801/saasuser/ecfFollowInfo/queryOneWeekFollow?currPage=1&pageSize=10&itemId=60",
                 "response = {\"code\":200,\"msg\":\"success\",\"data\":null}",
-                "success",
                 ""
             ]
         },
@@ -7223,14 +7204,13 @@
             "className": "run",
             "methodName": "test11_5",
             "description": "[with excelNo=43, interCase='逾期未随访患者', interUrl='/saasuser/ecfFollowInfo/queryOverdueFollow', interMethod='get', interParam='currPage=1&pageSize=10&itemId=60', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0651 s",
+            "spendTime": "0.0687 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
+                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
                 "request = http://192.168.0.213:8801/saasuser/ecfFollowInfo/queryOverdueFollow?currPage=1&pageSize=10&itemId=60",
                 "response = {\"code\":200,\"msg\":\"success\",\"data\":null}",
-                "success",
                 ""
             ]
         },
@@ -7238,31 +7218,29 @@
             "className": "run",
             "methodName": "test11_6",
             "description": "[with excelNo=44, interCase='更改患者管理级别', interUrl='/saasuser/ecfFollowInfo/updateManageGrade', interMethod='put', interParam='{\"followUpStatus\":2,\"pId\":\"{{empiId}}\"}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0778 s",
-            "status": "成功",
+            "spendTime": "0.104 s",
+            "status": "失败",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
-                "",
-                "",
-                "",
-                "",
-                "参数变量：{'followUpStatus': 2, 'pId': '{{empiId}}'}",
-                "",
-                "",
-                "",
-                "",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc3ODc3MSwiZXhwIjoxNjE4MzgzNTcxfQ.Qv7TptuF0nBiHsRJrS_tstKmCvQhNgqac1va2wnJ4T0YucPSe-YfUeyx1Sv9xYFHW2mHHqwX0crjwZ-SnoIVTA'}",
-                "request = {'followUpStatus': 2, 'pId': '{{empiId}}'}",
-                "response = {\"code\":500,\"msg\":\"未知异常，请联系管理员\",\"data\":null}",
-                "success",
-                ""
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}\n参数变量：{'followUpStatus': 2, 'pId': '{{empiId}}'}\n字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}\nrequest = {'followUpStatus': 2, 'pId': '{{empiId}}'}\nresponse = {\"code\":500,\"msg\":\"未知异常，请联系管理员\",\"data\":null}\n<traceback object at 0x0000019A0CB86400>\n",
+                "Traceback (most recent call last):\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\xls.py\", line 205, in result\n    assert jsonpathValue == interExpected, \"预期值：\" + str(interExpected) + \"，实测值：\" + str(jsonpathValue)\n",
+                "AssertionError: 预期值：success，实测值：未知异常，请联系管理员\n",
+                "\nDuring handling of the above exception, another exception occurred:\n\n",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 59, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 593, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 550, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python39\\lib\\site-packages\\parameterized\\parameterized.py\", line 533, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\run.py\", line 33, in test11\n    xls.result(excelNo, interCase, interUrl, interMethod,  dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\xls.py\", line 213, in result\n    assert 1 == 0 , \"预期值：\" + str(interExpected) + \"，实测值：\" + str(jsonpathValue)\n",
+                "AssertionError: 预期值：success，实测值：未知异常，请联系管理员\n"
             ]
         }
     ],
     "testName": "SAAS测试报告",
     "testAll": 7,
-    "testFail": 0,
-    "beginTime": "2021-04-07 14:59:31",
+    "testFail": 1,
+    "beginTime": "2021-04-07 15:55:54",
     "totalTime": "1s",
     "testSkip": 0,
     "testError": 0

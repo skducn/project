@@ -18,7 +18,9 @@ class HTTP:
         self.jsonres = {}   # 存放json解析后的结果
         self.params = {}   # 用来保存所需要的数据，实现关联
         self.headers = {"Content-Type": "application/json;charset=UTF-8"}
-        # self.session.headers['Content-type'] = 'application/x-www-form-urlencoded'
+
+        # self.headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        # self.session.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         # self.session.headers['User Agent'] = 'Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/64.0'   # 添加默认UA，模拟chrome浏览器
 
         # 从redis的db0中随机获取一个token
@@ -50,9 +52,9 @@ class HTTP:
 
 
     def post(self, interName, param, d_var):
-
         ''' post请求'''
 
+        self.session.headers['Content-Type'] = 'application/json;charset=UTF-8'
         print("header = " + str(self.session.headers))
         print("参数变量：" + str(param))
         print("字典变量：" + str(d_var))
@@ -64,14 +66,11 @@ class HTTP:
                 for k in d_var:
                     if "{{" + k + "}}" in param:
                         param = str(param).replace("{{" + k + "}}", str(d_var[k]))
-            # if "{$." in param:
-            #     for k in d_var:
-            #         if "{" + k + "}" in param:
-            #             param = str(param).replace("{" + k + "}", str(d_var[k]))
-                result = self.session.post(testURL, headers=self.headers, json=param, verify=False)
                 print("request = " + str(param))
+                result = self.session.post(testURL, headers=self.session.headers, json=param, verify=False)
             else:
-                result = self.session.post(testURL, headers=self.headers, json=param, verify=False)
+                print("request = " + str(param))
+                result = self.session.post(testURL, headers=self.session.headers, json=param, verify=False)
         print("response = " + str(result.text))
         res = result.text
         try:
@@ -80,15 +79,14 @@ class HTTP:
             print(e.__traceback__)
         return res
 
-    def put(self, interName, param, d_var):
 
+    def put(self, interName, param, d_var):
         ''' put请求'''
 
+        self.session.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         print("header = " + str(self.session.headers))
-        print("\n")
-        print("\n\n参数变量：" + str(param))
-        print("\n")
-        print("\n\n字典变量：" + str(d_var))
+        print("参数变量：" + str(param))
+        print("字典变量：" + str(d_var))
         testURL = self.ip + ":" + self.port + interName
         if param == '' or param == None:
             result = self.session.put(testURL, data=None, verify=False)
@@ -97,12 +95,11 @@ class HTTP:
                 for k in d_var:
                     if "{{" + k + "}}" in param:
                         param = str(param).replace("{{" + k + "}}", str(d_var[k]))
-                result = self.session.put(testURL, headers=self.headers, data=param, verify=False)
                 print("request = " + str(param))
+                result = self.session.put(testURL, headers=self.session.headers, data=param, verify=False)
             else:
                 print("request = " + str(param))
-                param = json.dumps(param)
-                result = self.session.put(testURL, headers=self.headers, data=param, verify=False)
+                result = self.session.put(testURL, headers=self.session.headers, data=param, verify=False)
         print("response = " + str(result.text))
         res = result.text
         try:
@@ -111,8 +108,8 @@ class HTTP:
             print(e.__traceback__)
         return res
 
-    def get(self, interName, param, d_var):
 
+    def get(self, interName, param, d_var):
         ''' get 请求'''
 
         print("header = " + str(self.session.headers))
