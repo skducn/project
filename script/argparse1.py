@@ -6,8 +6,15 @@
 # 官网资料：https://docs.python.org/3/howto/argparse.html#introducing-positional-arguments
 # *********************************************************************
 
+# import argparse
+# parser = argparse.ArgumentParser()
+
 import argparse
 parser = argparse.ArgumentParser()
+parser.add_argument("echo", help="echo the string you use here")
+args = parser.parse_args()
+print(args.echo)
+
 
 # # 使用1：使用echo输出内容。
 # 如 python argparse1.py john ，结果输出 john
