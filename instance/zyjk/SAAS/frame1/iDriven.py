@@ -82,8 +82,38 @@ class HTTP:
         return res
 
 
-    def put(self, interName, param, d_var):
-        ''' put请求'''
+    def putJson(self, interName, param, d_var):
+        ''' put请求(application/json)'''
+
+        self.session.headers['Content-Type'] = 'application/json;charset=UTF-8'
+        print("header = " + str(self.session.headers))
+        print("参数变量：" + str(param))
+        print("字典变量：" + str(d_var))
+        testURL = self.ip + ":" + self.port + interName
+        if param == '' or param == None:
+            result = self.session.put(testURL, data=None, verify=False)
+        else:
+            if "{{" in param:
+                for k in d_var:
+                    if "{{" + k + "}}" in param:
+                        param = str(param).replace("{{" + k + "}}", str(d_var[k]))
+                print("request = " + str(param))
+                param = dict(eval(param))
+                result = self.session.put(testURL, headers=self.session.headers, data=param, verify=False)
+            else:
+                print("request = " + str(param))
+                param = dict(eval(param))
+                result = self.session.put(testURL, headers=self.session.headers, data=param, verify=False)
+        print("response = " + str(result.text))
+        res = result.text
+        try:
+            res = res[res.find('{'):res.rfind('}')+1]
+        except Exception as e:
+            print(e.__traceback__)
+        return res
+
+    def putWWW(self, interName, param, d_var):
+        ''' put请求(x-www-form-urlencoded)'''
 
         self.session.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         print("header = " + str(self.session.headers))
@@ -111,7 +141,6 @@ class HTTP:
         except Exception as e:
             print(e.__traceback__)
         return res
-
 
     def get(self, interName, param, d_var):
         ''' get 请求'''
