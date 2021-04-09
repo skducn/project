@@ -7128,120 +7128,254 @@
 </script>
 <script type="text/javascript">
     var resultData = {
-    "testPass": 6,
+    "testPass": 15,
     "testResult": [
         {
             "className": "run",
-            "methodName": "test11_0",
-            "description": "[with excelNo=2, interCase='医生登录', interUrl='/auth/miniLogin', interMethod='post', interParam='{\\n \"password\": \"123456\",\\n \"userNo\": \"13511111111\"}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'token': '$.data.token'}]",
-            "spendTime": "0.092 s",
-            "status": "成功",
-            "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json;charset=UTF-8'}",
-                "参数变量：{'password': '123456', 'userNo': '13511111111'}",
-                "字典变量：{}",
-                "request = {'password': '123456', 'userNo': '13511111111'}",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA\",\"expire\":86400}}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_1",
-            "description": "[with excelNo=3, interCase=None, interUrl=None, interMethod='header', interParam='{\"deviceTag\": \"app\",\"token\":\"{{token}}\"}', interCheck=None, interExpected=None, d_KeyValueQuote={None: None}]",
+            "methodName": "test11_00",
+            "description": "[with excelNo=2, interCase='患者登录', interUrl=None, interMethod='header', interParam='{\"deviceTag\": \"cuser\",\"token\":\"...5555ae2794728a49f029660c27229\"}', interCheck=None, interExpected=None, d_KeyValueQuote={None: None}]",
             "spendTime": "0.0 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json;charset=UTF-8', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_2",
-            "description": "[with excelNo=35, interCase='转诊患者-转入确认', interUrl='/saasuser/hyReferralRecord/pendingAffirm', interMethod='put', interParam='{\"id\":141}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0962 s",
+            "methodName": "test11_01",
+            "description": "[with excelNo=3, interCase='查询当前登录用户', interUrl='/cuser/wxPatientLoginInfo/queryUserNow', interMethod='get', interParam=None, interCheck='$.msg', interExpected='success', d_KeyValueQuote={'patientId': '$.data.patientId', 'patientName': '$.data.name'}]",
+            "spendTime": "0.116 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
-                "参数变量：{'id': 141}",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
-                "request = {'id': 141}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
+                "request = http://192.168.0.213:8801/cuser/wxPatientLoginInfo/queryUserNow",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":29,\"openId\":null,\"unionId\":null,\"name\":\"上官婉儿\",\"sex\":null,\"idCardNo\":\"34040419900706803X\",\"socialSecurityNo\":null,\"phoneNumber\":\"17521085937\",\"birthdayDate\":null,\"patientId\":\"265369494214254594\",\"age\":\"31\",\"createId\":null,\"createTime\":\"2021-03-03 10:43:02\",\"updateId\":29,\"updateTime\":\"2021-03-19 15:43:38\"}}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_02",
+            "description": "[with excelNo=4, interCase='判断患者是否加入医生管理组', interUrl='/hypertension/tPatientInfo/judgePatient', interMethod='get', interParam=None, interCheck='$.msg', interExpected='success', d_KeyValueQuote={'idCardNo': '$.data.idCardNo'}]",
+            "spendTime": "0.0558 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿'}",
+                "request = http://192.168.0.213:8801/hypertension/tPatientInfo/judgePatient",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"empiId\":\"265369494214254594\",\"name\":\"上官婉儿\",\"belongDocId\":150,\"sex\":\"0\",\"birthday\":\"1990-07-06\",\"age\":\"31\",\"idCardNo\":\"34040419900706803X\",\"code\":null,\"phone\":\"17521085937\",\"grading\":\"0\",\"followId\":1,\"status\":\"2\",\"avatar\":null,\"dateAdded\":\"2021-03-19 16:50:34\",\"itemId\":null}}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_03",
+            "description": "[with excelNo=6, interCase='根据患者id查询宣教文章', interUrl='/cuser/sysPatientMissionHistory/queryPatientByMissionArticle', interMethod='get', interParam='currPage=1&pageSize=1', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'missionId': '$.data.list[0].id'}]",
+            "spendTime": "0.165 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X'}",
+                "request = http://192.168.0.213:8801/cuser/sysPatientMissionHistory/queryPatientByMissionArticle?currPage=1&pageSize=1",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"list\":[{\"id\":60,\"empiId\":null,\"articleIntroId\":null,\"issueTime\":\"2021-03-19 16:54:08\",\"issuer\":null,\"projectId\":null,\"state\":null,\"articleName\":\"身体哪部位疼痛是心梗的前兆？提前多注意\",\"author\":null,\"articleIntro\":null,\"cover\":\"ab7a1dc6eb734970b7c5/img/c8/c80f5a9f4eccbf8ae39e32b6f95475b2439da800555eab85a93102819cfd550e.jpeg\",\"articleContent\":null,\"editTime\":null,\"editName\":null,\"viewCount\":null}],\"total\":2,\"pageSize\":1,\"currPage\":0}}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_04",
+            "description": "[with excelNo=7, interCase='通过id获取一条数据（查看文章详情）', interUrl='/cuser/sysPatientMissionHistory/read/{{missionId}}', interMethod='get', interParam=None, interCheck='$.data.articleName', interExpected='身体哪部位疼痛是心梗的前兆？提前多注意', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0997 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60}",
+                "request = http://192.168.0.213:8801/cuser/sysPatientMissionHistory/read/60",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":60,\"articleName\":\"身体哪部位疼痛是心梗的前兆？提前多注意\",\"author\":\"小王\",\"articleIntro\":\"作品说明\",\"cover\":\"ab7a1dc6eb734970b7c5/img/c8/c80f5a9f4eccbf8ae39e32b6f95475b2439da800555eab85a93102819cfd550e.jpeg\",\"articleContent\":\"<p style=\\\"margin-left:0px;text-align:justify;\\\">一、心口疼痛</p><p style=\\\"margin-left:0px;text-align:justify;\\\">当心梗发作之前，患者会突然在心前区部位感觉到疼痛，并且带有憋闷感，这也是心梗的一种典型症状表现。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">疼痛部位在胸骨后方，疼痛的时间较长，一般会维持在30分钟以上。疼痛严重时，患者同时还会出现恶心呕吐的现象。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">所以说，当患者心口处突然出现莫名其妙的疼痛与憋闷感的时候，应尽快入院进行相关检查，以防延误病情。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">二、左肩部位疼痛</p><p style=\\\"margin-left:0px;text-align:justify;\\\">当心梗发作之前，除了心脏部位出现疼痛感之外，还会在左肩的部位感觉到钝痛感。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">这种痛感会放射至左侧前臂，以及手指部位，尤其是无名指与小指。痛感并不强烈，只是出现一种钝痛，并且还伴有气急、胸闷等症状。</p><figure class=\\\"image\\\"><img src=\\\"https://pics2.baidu.com/feed/622762d0f703918f8bad0a2de318699058eec481.jpeg?token=9cb4a9cabf9c45379491faaf3dd81f08\\\"></figure><p style=\\\"margin-left:0px;text-align:justify;\\\">三、颈部疼痛</p><p style=\\\"margin-left:0px;text-align:justify;\\\">在出现颈部疼痛的时候，颈部同时还会出现压迫症状。并且，还会感觉到喉咙部位的疼痛以及辛辣感。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">而且，在喉咙部位有一种堵塞感，会导致患者呼吸不畅，并且伴有冷汗的现象。这些部位的疼痛往往伴随着心脏处的疼痛，或在心脏疼痛之后发生。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">四、后背放射疼痛</p><p style=\\\"margin-left:0px;text-align:justify;\\\">如果后背突然出现放射状疼痛时，并且伴有强烈的恶心感，还会引起呕吐，那么可能与患有心梗有关。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">同时，在上腹部也会出现这种放射疼痛，并且伴有恶心。如果是心梗引起的这种疼痛，那么，上腹部与后背处的疼痛一般会同时出现。</p><figure class=\\\"image\\\"><img src=\\\"https://pics4.baidu.com/feed/908fa0ec08fa513d380b4c1c92481afcb3fbd97f.jpeg?token=bcccc0c2ba5ddd5a6eb377da800b8f29\\\"></figure><p style=\\\"margin-left:0px;text-align:justify;\\\">五、头痛</p><p style=\\\"margin-left:0px;text-align:justify;\\\">当心脏受到损伤的时候，血液循环就会出现障碍，而大脑也会因此得不到足够的血液，从而出现缺氧缺血症状，从而使得脑血管出现痉挛，导致患者发生头晕以及头痛的现象。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">但是，一般在发生心梗的时候，头痛症状很容易被忽视，因为相比心脏部位的疼痛，头痛症状并不算是特别的明显。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">除此之外，当心梗发作之前，也会出现一种牙痛的现象。这是因为心梗导致的放射疼痛，会延伸到下颌骨位置，从而引起牙痛。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">综上所述，心梗虽然发病急，但在到来之前并不是悄无声息的，身体某些部位出现剧烈的疼痛感。这包括心脏部位、颈部、后背、左肩、头部、上腹部等。</p><p style=\\\"margin-left:0px;text-align:justify;\\\">如果出现这些部位的疼痛，并且伴有呼吸困难心律失常、心悸、烦躁、乏力、冷汗、恶心等症状时，应以最快的时间入院进行相关检查。</p>\",\"editTime\":\"2020-09-21 15:31:06\",\"editName\":\"赵云\",\"issueTime\":\"2020-09-21 15:31:06\",\"issuer\":\"赵云\",\"state\":2,\"viewCount\":6,\"createId\":88,\"createTime\":\"2020-09-21 15:31:06\",\"updateId\":29,\"updateTime\":\"2021-03-19 16:54:29\",\"projectId\":null}}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_05",
+            "description": "[with excelNo=8, interCase='查询患者最近一条血压记录', interUrl='/hypertension/hyBloodPressureRecord/queryRecently', interMethod='get', interParam=None, interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.103 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60}",
+                "request = http://192.168.0.213:8801/hypertension/hyBloodPressureRecord/queryRecently",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":64,\"empiId\":\"265369494214254594\",\"measurementDate\":\"2021-03-23\",\"measuringTime\":\"17:01\",\"systolicPressure\":121,\"diastolicBloodPressure\":91,\"heartRate\":66,\"rank\":\"3\",\"state\":null,\"isDelete\":null}}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_06",
+            "description": "[with excelNo=9, interCase='查看患者历史数据（趋势图）', interUrl='/hypertension/hyBloodPressureRecord/queryBloodPressureTrend', interMethod='get', interParam='endTime=2021-03-18&startTime=2021-03-11', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0579 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60}",
+                "request = http://192.168.0.213:8801/hypertension/hyBloodPressureRecord/queryBloodPressureTrend?endTime=2021-03-18&startTime=2021-03-11",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"systolic\":[{\"id\":null,\"empiId\":null,\"measurementDate\":\"2021-03-11\",\"measuringTime\":\"13:34\",\"systolicPressure\":136,\"diastolicBloodPressure\":null,\"heartRate\":null,\"rank\":null,\"state\":null,\"isDelete\":null},{\"id\":null,\"empiId\":null,\"measurementDate\":\"2021-03-15\",\"measuringTime\":\"18:32\",\"systolicPressure\":104,\"diastolicBloodPressure\":null,\"heartRate\":null,\"rank\":null,\"state\":null,\"isDelete\":null},{\"id\":null,\"empiId\":null,\"measurementDate\":\"2021-03-17\",\"measuringTime\":\"16:12\",\"systolicPressure\":118,\"diastolicBloodPressure\":null,\"heartRate\":null,\"rank\":null,\"state\":null,\"isDelete\":null},{\"id\":null,\"empiId\":\"265369494214254594\",\"measurementDate\":\"2021-03-18\",\"measuringTime\":\"17:01\",\"systolicPressure\":120,\"diastolicBloodPressure\":null,\"heartRate\":null,\"rank\":null,\"state\":null,\"isDelete\":null}],\"diastolic\":[{\"id\":null,\"empiId\":null,\"measurementDate\":\"2021-03-11\",\"measuringTime\":\"13:34\",\"systolicPressure\":null,\"diastolicBloodPressure\":96,\"heartRate\":null,\"rank\":null,\"state\":null,\"isDelete\":null},{\"id\":null,\"empiId\":null,\"measurementDate\":\"2021-03-15\",\"measuringTime\":\"18:32\",\"systolicPressure\":null,\"diastolicBloodPressure\":86,\"heartRate\":null,\"rank\":null,\"state\":null,\"isDelete\":null},{\"id\":null,\"empiId\":null,\"measurementDate\":\"2021-03-17\",\"measuringTime\":\"16:12\",\"systolicPressure\":null,\"diastolicBloodPressure\":81,\"heartRate\":null,\"rank\":null,\"state\":null,\"isDelete\":null},{\"id\":null,\"empiId\":\"265369494214254594\",\"measurementDate\":\"2021-03-18\",\"measuringTime\":\"17:01\",\"systolicPressure\":null,\"diastolicBloodPressure\":90,\"heartRate\":null,\"rank\":null,\"state\":null,\"isDelete\":null}]}}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_07",
+            "description": "[with excelNo=10, interCase='查看患者历史数据（趋势图统计项目）', interUrl='/hypertension/hyBloodPressureRecord/queryBloodPressureItem', interMethod='get', interParam='endTime=2021-03-18&startTime=2021-03-11', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0532 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60}",
+                "request = http://192.168.0.213:8801/hypertension/hyBloodPressureRecord/queryBloodPressureItem?endTime=2021-03-18&startTime=2021-03-11",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"empiId\":null,\"totalCount\":7,\"normal\":3,\"hypertension\":3,\"systolic\":136,\"diastolic\":96,\"totalSystolic\":832,\"totalDiastolic\":582,\"average\":\"118/83\",\"pulsePressure\":35}}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_08",
+            "description": "[with excelNo=13, interCase='添加患者血压记录', interUrl='/hypertension/hyBloodPressureRecord/addBloodPressure', interMethod='post', interParam='{\\n \"diastolicBloodPressure\": 9...icPressure\": 121,\\n \"id\": \"\"\\n}', interCheck='$.msg', interExpected='血压测量时间重复，请重填时间', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0525 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
+                "参数变量：{",
+                " \"diastolicBloodPressure\": 91,",
+                " \"heartRate\": 66,",
+                " \"measurementDate\": \"2021-03-23 17:01\",",
+                " \"systolicPressure\": 121,",
+                " \"id\": \"\"",
+                "}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60}",
+                "request = {",
+                " \"diastolicBloodPressure\": 91,",
+                " \"heartRate\": 66,",
+                " \"measurementDate\": \"2021-03-23 17:01\",",
+                " \"systolicPressure\": 121,",
+                " \"id\": \"\"",
+                "}",
+                "response = {\"code\":500,\"msg\":\"血压测量时间重复，请重填时间\",\"data\":null}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_09",
+            "description": "[with excelNo=14, interCase='查看患者历史数据（列表）', interUrl='/hypertension/hyBloodPressureRecord/queryBloodPressureList', interMethod='get', interParam='currPage=1&pageSize=10', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'bloodId1': '$.data.records[0].id'}]",
+            "spendTime": "0.0553 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60}",
+                "request = http://192.168.0.213:8801/hypertension/hyBloodPressureRecord/queryBloodPressureList?currPage=1&pageSize=10",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":{\"records\":[{\"id\":64,\"empiId\":\"265369494214254594\",\"userId\":29,\"measurementDate\":\"2021-03-23\",\"measuringTime\":\"17:01\",\"systolicPressure\":121,\"diastolicBloodPressure\":91,\"heartRate\":66,\"rank\":\"3\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-04-09 10:48:09\",\"updateId\":null,\"updateTime\":null},{\"id\":53,\"empiId\":\"265369494214254594\",\"userId\":29,\"measurementDate\":\"2021-03-23\",\"measuringTime\":\"09:40\",\"systolicPressure\":166,\"diastolicBloodPressure\":101,\"heartRate\":88,\"rank\":\"4\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-22 13:40:45\",\"updateId\":29,\"updateTime\":\"2021-03-23 15:10:53\"},{\"id\":55,\"empiId\":\"265369494214254594\",\"userId\":29,\"measurementDate\":\"2021-03-22\",\"measuringTime\":\"16:01\",\"systolicPressure\":120,\"diastolicBloodPressure\":90,\"heartRate\":66,\"rank\":\"3\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-23 09:43:03\",\"updateId\":null,\"updateTime\":null},{\"id\":52,\"empiId\":\"265369494214254594\",\"userId\":29,\"measurementDate\":\"2021-03-22\",\"measuringTime\":\"13:36\",\"systolicPressure\":125,\"diastolicBloodPressure\":76,\"heartRate\":73,\"rank\":\"1\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-22 13:40:30\",\"updateId\":null,\"updateTime\":null},{\"id\":56,\"empiId\":\"265369494214254594\",\"userId\":29,\"measurementDate\":\"2021-03-18\",\"measuringTime\":\"17:01\",\"systolicPressure\":120,\"diastolicBloodPressure\":90,\"heartRate\":66,\"rank\":\"3\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-23 16:30:21\",\"updateId\":null,\"updateTime\":null},{\"id\":54,\"empiId\":\"265369494214254594\",\"userId\":29,\"measurementDate\":\"2021-03-18\",\"measuringTime\":\"16:01\",\"systolicPressure\":120,\"diastolicBloodPressure\":90,\"heartRate\":66,\"rank\":\"3\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-23 09:29:43\",\"updateId\":null,\"updateTime\":null},{\"id\":48,\"empiId\":null,\"userId\":29,\"measurementDate\":\"2021-03-18\",\"measuringTime\":\"15:44\",\"systolicPressure\":126,\"diastolicBloodPressure\":72,\"heartRate\":73,\"rank\":\"1\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-18 15:44:16\",\"updateId\":29,\"updateTime\":\"2021-03-18 16:35:30\"},{\"id\":40,\"empiId\":null,\"userId\":29,\"measurementDate\":\"2021-03-18\",\"measuringTime\":\"09:30\",\"systolicPressure\":108,\"diastolicBloodPressure\":67,\"heartRate\":80,\"rank\":\"0\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-18 09:58:18\",\"updateId\":null,\"updateTime\":null},{\"id\":39,\"empiId\":null,\"userId\":29,\"measurementDate\":\"2021-03-17\",\"measuringTime\":\"16:12\",\"systolicPressure\":118,\"diastolicBloodPressure\":81,\"heartRate\":80,\"rank\":\"1\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-17 16:12:29\",\"updateId\":29,\"updateTime\":\"2021-03-18 09:57:38\"},{\"id\":41,\"empiId\":null,\"userId\":29,\"measurementDate\":\"2021-03-15\",\"measuringTime\":\"18:32\",\"systolicPressure\":104,\"diastolicBloodPressure\":86,\"heartRate\":75,\"rank\":\"1\",\"state\":null,\"isDelete\":null,\"createId\":29,\"createTime\":\"2021-03-18 09:58:43\",\"updateId\":null,\"updateTime\":null}],\"total\":14,\"size\":10,\"current\":1,\"searchCount\":true,\"pages\":2}}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_10",
+            "description": "[with excelNo=16, interCase='根据患者id，查询当前患者所属机构、所属项目下的所有医生列表', interUrl='/cuser/afPreoperativeCounselingInfo/queryItemDocList', interMethod='get', interParam='patientId={{patientId}}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.0891 s",
+            "status": "成功",
+            "log": [
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60, 'bloodId1': 64}",
+                "request = http://192.168.0.213:8801/cuser/afPreoperativeCounselingInfo/queryItemDocList?patientId=265369494214254594",
                 "response = {\"code\":200,\"msg\":\"success\",\"data\":null}",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_3",
-            "description": "[with excelNo=36, interCase='转回确认', interUrl='/saasuser/hyReferralRecord/backAffirm', interMethod='put', interParam='{\"id\":\"141\"}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.12 s",
+            "methodName": "test11_11",
+            "description": "[with excelNo=17, interCase='根据患者id，查询高血压项目下的所有医生列表', interUrl='/cuser/afPreoperativeCounselingInfo/queryHbpItemDocList', interMethod='get', interParam='patientId={{patientId}}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.207 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
-                "参数变量：{'id': '141'}",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
-                "request = {'id': '141'}",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":null}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60, 'bloodId1': 64}",
+                "request = http://192.168.0.213:8801/cuser/afPreoperativeCounselingInfo/queryHbpItemDocList?patientId=265369494214254594",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":[{\"docId\":150,\"patientId\":null,\"name\":\"张仲景\",\"title\":\"副主任医师\",\"hospital\":\"普陀中心医院\",\"isPatientRead\":null,\"deptName\":\"心内科\",\"profilePicture\":\"ab7a1dc6eb734970b7c5/img/c5/c5bfa7a2023a766b538241bde4f1fd08fd3a348d37cafdaa39f9e1e02bfef4b8.jpg\",\"messageTime\":null}]}",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_4",
-            "description": "[with excelNo=42, interCase='一周内待随访患者', interUrl='/saasuser/ecfFollowInfo/queryOneWeekFollow', interMethod='get', interParam='currPage=1&pageSize=10&itemId=60', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0678 s",
+            "methodName": "test11_12",
+            "description": "[with excelNo=18, interCase='根据登录患者id，查询当前患者所有交流过的医生列表', interUrl='/cuser/afPreoperativeCounselingInfo/queryDocList', interMethod='get', interParam='patientId={{patientId}}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'docId': '$.data[0].docId', 'docName': '$.data[0].name'}]",
+            "spendTime": "0.0521 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
-                "request = http://192.168.0.213:8801/saasuser/ecfFollowInfo/queryOneWeekFollow?currPage=1&pageSize=10&itemId=60",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":null}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60, 'bloodId1': 64}",
+                "request = http://192.168.0.213:8801/cuser/afPreoperativeCounselingInfo/queryDocList?patientId=265369494214254594",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":[{\"docId\":150,\"patientId\":null,\"name\":\"张仲景\",\"title\":\"副主任医师\",\"hospital\":\"普陀中心医院\",\"isPatientRead\":1,\"deptName\":\"心内科\",\"profilePicture\":\"ab7a1dc6eb734970b7c5/img/c5/c5bfa7a2023a766b538241bde4f1fd08fd3a348d37cafdaa39f9e1e02bfef4b8.jpg\",\"messageTime\":\"2021-04-09 14:35:02\"},{\"docId\":91,\"patientId\":null,\"name\":\"jinhao\",\"title\":\"住院医师\",\"hospital\":\"普陀区中心医院\",\"isPatientRead\":1,\"deptName\":\"心内科\",\"profilePicture\":\"ab7a1dc6eb734970b7c5\\\\img\\\\be\\\\be7519911b6f8602857a0862ca2a8c8575a047d013f5d29269e865c9c248d850.png\",\"messageTime\":\"2021-03-23 09:23:51\"}]}",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_5",
-            "description": "[with excelNo=43, interCase='逾期未随访患者', interUrl='/saasuser/ecfFollowInfo/queryOverdueFollow', interMethod='get', interParam='currPage=1&pageSize=10&itemId=60', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0687 s",
+            "methodName": "test11_13",
+            "description": "[with excelNo=19, interCase='查询当前医生与某位患者聊天记录总条数\\n', interUrl='/cuser/afPreoperativeCounselingInfo/queryDocTotal', interMethod='get', interParam='docId={{docId}}&patientId={{patientId}}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.053 s",
             "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
-                "字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}",
-                "request = http://192.168.0.213:8801/saasuser/ecfFollowInfo/queryOverdueFollow?currPage=1&pageSize=10&itemId=60",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":null}",
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60, 'bloodId1': 64, 'docId': '150', 'docName': '张仲景'}",
+                "request = http://192.168.0.213:8801/cuser/afPreoperativeCounselingInfo/queryDocTotal?docId=150&patientId=265369494214254594",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":44}",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_6",
-            "description": "[with excelNo=44, interCase='更改患者管理级别', interUrl='/saasuser/ecfFollowInfo/updateManageGrade', interMethod='put', interParam='{\"followUpStatus\":2,\"pId\":\"{{empiId}}\"}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.104 s",
-            "status": "失败",
+            "methodName": "test11_14",
+            "description": "[with excelNo=20, interCase='高血压小程序发送消息（文字内容）', interUrl='/cuser/afPreoperativeCounselingInfo/addHbpAppMessage', interMethod='post', interParam='{\\n\"isLoad\": False,\\n\"createTyp...ientName\": \"{{patientName}}\"\\n}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
+            "spendTime": "0.152 s",
+            "status": "成功",
             "log": [
-                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/x-www-form-urlencoded', 'deviceTag': 'app', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}\n参数变量：{'followUpStatus': 2, 'pId': '{{empiId}}'}\n字典变量：{'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NSIsImlhdCI6MTYxNzc4MjE1NCwiZXhwIjoxNjE4Mzg2OTU0fQ.BPTfE9ZX8DAbTzgQF9weOp_hugaYRifw0gs_qeLJgUD5pCd55GcgrAHOQyonXigrFvqqrLaTRQaVwIyHMeTHvA'}\nrequest = {'followUpStatus': 2, 'pId': '{{empiId}}'}\nresponse = {\"code\":500,\"msg\":\"未知异常，请联系管理员\",\"data\":null}\n<traceback object at 0x0000019A0CB86400>\n",
-                "Traceback (most recent call last):\n",
-                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\xls.py\", line 205, in result\n    assert jsonpathValue == interExpected, \"预期值：\" + str(interExpected) + \"，实测值：\" + str(jsonpathValue)\n",
-                "AssertionError: 预期值：success，实测值：未知异常，请联系管理员\n",
-                "\nDuring handling of the above exception, another exception occurred:\n\n",
-                "Traceback (most recent call last):\n",
-                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 59, in testPartExecutor\n    yield\n",
-                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 593, in run\n    self._callTestMethod(testMethod)\n",
-                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 550, in _callTestMethod\n    method()\n",
-                "  File \"C:\\Python39\\lib\\site-packages\\parameterized\\parameterized.py\", line 533, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
-                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\run.py\", line 33, in test11\n    xls.result(excelNo, interCase, interUrl, interMethod,  dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)\n",
-                "  File \"D:\\51\\python\\project\\instance\\zyjk\\SAAS\\frame1\\xls.py\", line 213, in result\n    assert 1 == 0 , \"预期值：\" + str(interExpected) + \"，实测值：\" + str(jsonpathValue)\n",
-                "AssertionError: 预期值：success，实测值：未知异常，请联系管理员\n"
+                "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
+                "参数变量：{",
+                "\"isLoad\": False,",
+                "\"createType\": 1,",
+                "\"messageType\": 1,",
+                "\"docId\": {{docId}},",
+                "\"docName\": \"{{docName}}\",",
+                "\"messageContent\": \"123\",",
+                "\"messageTime\": \"2021-04-19 14:50:02\",",
+                "\"patientId\": \"{{patientId}}\",",
+                "\"patientName\": \"{{patientName}}\"",
+                "}",
+                "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60, 'bloodId1': 64, 'docId': '150', 'docName': '张仲景'}",
+                "request = {",
+                "\"isLoad\": False,",
+                "\"createType\": 1,",
+                "\"messageType\": 1,",
+                "\"docId\": 150,",
+                "\"docName\": \"张仲景\",",
+                "\"messageContent\": \"123\",",
+                "\"messageTime\": \"2021-04-19 14:50:02\",",
+                "\"patientId\": \"265369494214254594\",",
+                "\"patientName\": \"上官婉儿\"",
+                "}",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":true}",
+                ""
             ]
         }
     ],
     "testName": "SAAS测试报告",
-    "testAll": 7,
-    "testFail": 1,
-    "beginTime": "2021-04-07 15:55:54",
-    "totalTime": "1s",
+    "testAll": 15,
+    "testFail": 0,
+    "beginTime": "2021-04-09 14:36:22",
+    "totalTime": "2s",
     "testSkip": 0,
     "testError": 0
 };

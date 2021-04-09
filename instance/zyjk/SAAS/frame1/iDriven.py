@@ -67,9 +67,11 @@ class HTTP:
                     if "{{" + k + "}}" in param:
                         param = str(param).replace("{{" + k + "}}", str(d_var[k]))
                 print("request = " + str(param))
+                param = dict(eval(param))
                 result = self.session.post(testURL, headers=self.session.headers, json=param, verify=False)
             else:
                 print("request = " + str(param))
+                param = dict(eval(param))
                 result = self.session.post(testURL, headers=self.session.headers, json=param, verify=False)
         print("response = " + str(result.text))
         res = result.text
@@ -96,9 +98,11 @@ class HTTP:
                     if "{{" + k + "}}" in param:
                         param = str(param).replace("{{" + k + "}}", str(d_var[k]))
                 print("request = " + str(param))
+                param = dict(eval(param))
                 result = self.session.put(testURL, headers=self.session.headers, data=param, verify=False)
             else:
                 print("request = " + str(param))
+                param = dict(eval(param))
                 result = self.session.put(testURL, headers=self.session.headers, data=param, verify=False)
         print("response = " + str(result.text))
         res = result.text
