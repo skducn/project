@@ -7145,7 +7145,7 @@
             "className": "run",
             "methodName": "test11_01",
             "description": "[with excelNo=3, interCase='查询当前登录用户', interUrl='/cuser/wxPatientLoginInfo/queryUserNow', interMethod='get', interParam=None, interCheck='$.msg', interExpected='success', d_KeyValueQuote={'patientId': '$.data.patientId', 'patientName': '$.data.name'}]",
-            "spendTime": "0.116 s",
+            "spendTime": "0.065 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
@@ -7158,7 +7158,7 @@
             "className": "run",
             "methodName": "test11_02",
             "description": "[with excelNo=4, interCase='判断患者是否加入医生管理组', interUrl='/hypertension/tPatientInfo/judgePatient', interMethod='get', interParam=None, interCheck='$.msg', interExpected='success', d_KeyValueQuote={'idCardNo': '$.data.idCardNo'}]",
-            "spendTime": "0.0558 s",
+            "spendTime": "0.0579 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
@@ -7172,7 +7172,7 @@
             "className": "run",
             "methodName": "test11_03",
             "description": "[with excelNo=6, interCase='根据患者id查询宣教文章', interUrl='/cuser/sysPatientMissionHistory/queryPatientByMissionArticle', interMethod='get', interParam='currPage=1&pageSize=1', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'missionId': '$.data.list[0].id'}]",
-            "spendTime": "0.165 s",
+            "spendTime": "0.192 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
@@ -7186,7 +7186,7 @@
             "className": "run",
             "methodName": "test11_04",
             "description": "[with excelNo=7, interCase='通过id获取一条数据（查看文章详情）', interUrl='/cuser/sysPatientMissionHistory/read/{{missionId}}', interMethod='get', interParam=None, interCheck='$.data.articleName', interExpected='身体哪部位疼痛是心梗的前兆？提前多注意', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0997 s",
+            "spendTime": "0.0645 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
@@ -7200,7 +7200,7 @@
             "className": "run",
             "methodName": "test11_05",
             "description": "[with excelNo=8, interCase='查询患者最近一条血压记录', interUrl='/hypertension/hyBloodPressureRecord/queryRecently', interMethod='get', interParam=None, interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.103 s",
+            "spendTime": "0.0533 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
@@ -7214,7 +7214,7 @@
             "className": "run",
             "methodName": "test11_06",
             "description": "[with excelNo=9, interCase='查看患者历史数据（趋势图）', interUrl='/hypertension/hyBloodPressureRecord/queryBloodPressureTrend', interMethod='get', interParam='endTime=2021-03-18&startTime=2021-03-11', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0579 s",
+            "spendTime": "0.0933 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
@@ -7228,7 +7228,7 @@
             "className": "run",
             "methodName": "test11_07",
             "description": "[with excelNo=10, interCase='查看患者历史数据（趋势图统计项目）', interUrl='/hypertension/hyBloodPressureRecord/queryBloodPressureItem', interMethod='get', interParam='endTime=2021-03-18&startTime=2021-03-11', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0532 s",
+            "spendTime": "0.051 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229'}",
@@ -7242,7 +7242,7 @@
             "className": "run",
             "methodName": "test11_08",
             "description": "[with excelNo=13, interCase='添加患者血压记录', interUrl='/hypertension/hyBloodPressureRecord/addBloodPressure', interMethod='post', interParam='{\\n \"diastolicBloodPressure\": 9...icPressure\": 121,\\n \"id\": \"\"\\n}', interCheck='$.msg', interExpected='血压测量时间重复，请重填时间', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0525 s",
+            "spendTime": "0.0533 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
@@ -7269,7 +7269,7 @@
             "className": "run",
             "methodName": "test11_09",
             "description": "[with excelNo=14, interCase='查看患者历史数据（列表）', interUrl='/hypertension/hyBloodPressureRecord/queryBloodPressureList', interMethod='get', interParam='currPage=1&pageSize=10', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'bloodId1': '$.data.records[0].id'}]",
-            "spendTime": "0.0553 s",
+            "spendTime": "0.0563 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
@@ -7283,7 +7283,7 @@
             "className": "run",
             "methodName": "test11_10",
             "description": "[with excelNo=16, interCase='根据患者id，查询当前患者所属机构、所属项目下的所有医生列表', interUrl='/cuser/afPreoperativeCounselingInfo/queryItemDocList', interMethod='get', interParam='patientId={{patientId}}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.0891 s",
+            "spendTime": "0.163 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
@@ -7297,7 +7297,7 @@
             "className": "run",
             "methodName": "test11_11",
             "description": "[with excelNo=17, interCase='根据患者id，查询高血压项目下的所有医生列表', interUrl='/cuser/afPreoperativeCounselingInfo/queryHbpItemDocList', interMethod='get', interParam='patientId={{patientId}}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.207 s",
+            "spendTime": "0.165 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
@@ -7311,13 +7311,13 @@
             "className": "run",
             "methodName": "test11_12",
             "description": "[with excelNo=18, interCase='根据登录患者id，查询当前患者所有交流过的医生列表', interUrl='/cuser/afPreoperativeCounselingInfo/queryDocList', interMethod='get', interParam='patientId={{patientId}}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={'docId': '$.data[0].docId', 'docName': '$.data[0].name'}]",
-            "spendTime": "0.0521 s",
+            "spendTime": "0.134 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
                 "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60, 'bloodId1': 64}",
                 "request = http://192.168.0.213:8801/cuser/afPreoperativeCounselingInfo/queryDocList?patientId=265369494214254594",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":[{\"docId\":150,\"patientId\":null,\"name\":\"张仲景\",\"title\":\"副主任医师\",\"hospital\":\"普陀中心医院\",\"isPatientRead\":1,\"deptName\":\"心内科\",\"profilePicture\":\"ab7a1dc6eb734970b7c5/img/c5/c5bfa7a2023a766b538241bde4f1fd08fd3a348d37cafdaa39f9e1e02bfef4b8.jpg\",\"messageTime\":\"2021-04-09 14:35:02\"},{\"docId\":91,\"patientId\":null,\"name\":\"jinhao\",\"title\":\"住院医师\",\"hospital\":\"普陀区中心医院\",\"isPatientRead\":1,\"deptName\":\"心内科\",\"profilePicture\":\"ab7a1dc6eb734970b7c5\\\\img\\\\be\\\\be7519911b6f8602857a0862ca2a8c8575a047d013f5d29269e865c9c248d850.png\",\"messageTime\":\"2021-03-23 09:23:51\"}]}",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":[{\"docId\":150,\"patientId\":null,\"name\":\"张仲景\",\"title\":\"副主任医师\",\"hospital\":\"普陀中心医院\",\"isPatientRead\":1,\"deptName\":\"心内科\",\"profilePicture\":\"ab7a1dc6eb734970b7c5/img/c5/c5bfa7a2023a766b538241bde4f1fd08fd3a348d37cafdaa39f9e1e02bfef4b8.jpg\",\"messageTime\":\"2021-04-09 14:58:49\"},{\"docId\":91,\"patientId\":null,\"name\":\"jinhao\",\"title\":\"住院医师\",\"hospital\":\"普陀区中心医院\",\"isPatientRead\":1,\"deptName\":\"心内科\",\"profilePicture\":\"ab7a1dc6eb734970b7c5\\\\img\\\\be\\\\be7519911b6f8602857a0862ca2a8c8575a047d013f5d29269e865c9c248d850.png\",\"messageTime\":\"2021-03-23 09:23:51\"}]}",
                 ""
             ]
         },
@@ -7325,13 +7325,13 @@
             "className": "run",
             "methodName": "test11_13",
             "description": "[with excelNo=19, interCase='查询当前医生与某位患者聊天记录总条数\\n', interUrl='/cuser/afPreoperativeCounselingInfo/queryDocTotal', interMethod='get', interParam='docId={{docId}}&patientId={{patientId}}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.053 s",
+            "spendTime": "0.054 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
                 "字典变量：{'patientId': '265369494214254594', 'patientName': '上官婉儿', 'idCardNo': '34040419900706803X', 'missionId': 60, 'bloodId1': 64, 'docId': '150', 'docName': '张仲景'}",
                 "request = http://192.168.0.213:8801/cuser/afPreoperativeCounselingInfo/queryDocTotal?docId=150&patientId=265369494214254594",
-                "response = {\"code\":200,\"msg\":\"success\",\"data\":44}",
+                "response = {\"code\":200,\"msg\":\"success\",\"data\":46}",
                 ""
             ]
         },
@@ -7339,7 +7339,7 @@
             "className": "run",
             "methodName": "test11_14",
             "description": "[with excelNo=20, interCase='高血压小程序发送消息（文字内容）', interUrl='/cuser/afPreoperativeCounselingInfo/addHbpAppMessage', interMethod='post', interParam='{\\n\"isLoad\": False,\\n\"createTyp...ientName\": \"{{patientName}}\"\\n}', interCheck='$.msg', interExpected='success', d_KeyValueQuote={None: None}]",
-            "spendTime": "0.152 s",
+            "spendTime": "0.111 s",
             "status": "成功",
             "log": [
                 "header = {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'deviceTag': 'cuser', 'token': '0245555ae2794728a49f029660c27229', 'Content-Type': 'application/json;charset=UTF-8'}",
@@ -7374,7 +7374,7 @@
     "testName": "SAAS测试报告",
     "testAll": 15,
     "testFail": 0,
-    "beginTime": "2021-04-09 14:36:22",
+    "beginTime": "2021-04-09 15:32:38",
     "totalTime": "2s",
     "testSkip": 0,
     "testError": 0
