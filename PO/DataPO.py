@@ -14,6 +14,12 @@
 # m.update('12345'.encode('utf-8'))
 # m.update('6'.encode('utf-8'))
 # print(m.hexdigest())  # e10adc3949ba59abbe56e057f20f883e
+
+# Description: # 二维码生成和识别
+# 参考：https://www.bilibili.com/read/cv7761473/
+# pip install myqr
+# pip install pyzbr
+# pip install pil 报错请切换 pip install pillow
 # ***************************************************************
 '''
 1，随机生成中文用户名
@@ -38,8 +44,10 @@
 8.2，MD5分段加密
 
 9，获取文档里某个单词出现的数量
-
 10，生成uuid
+
+11.1, 生成二维码
+11.2 获取二维码的地址
 '''
 
 import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid
@@ -434,7 +442,22 @@ class DataPO():
             return (uuid.uuid5(uuid.uuid1(), varName).hex)
 
 
+    # 11.1 生成二维码
+    def getTwoDimensionCode(self, varURL, varSavePic):
+        from MyQR import myqr
+        # 扫描二维码，直接访问words网址
+        myqr.run(words=varURL, colorized=False, save_name=varSavePic)
 
+
+    # 11.2 获取二维码地址
+    def getURL(self,varTwoDimensionCodePic):
+        # 二维码识别
+        from pyzbar.pyzbar import decode
+        from PIL import Image
+        img = Image.open(varTwoDimensionCodePic)
+        bar = decode(img)[0]
+        result = bar.data.decode()
+        print(result)
 
 if __name__ == '__main__':
 
@@ -492,3 +515,9 @@ if __name__ == '__main__':
     print(Data_PO.autoUuid("md5"))
     print(Data_PO.autoUuid("random"))
     print(Data_PO.autoUuid("sh1"))
+
+    print("11.1 生成二维码".center(100, "-"))
+    Data_PO.getTwoDimensionCode("https://www.baidu.com", "./DataPO/baidu.jpg")
+
+    print("11.2 获取二维码地址".center(100, "-"))
+    Data_PO.getURL("./DataPO/baidu.jpg")
