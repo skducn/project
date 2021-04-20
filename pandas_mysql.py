@@ -51,11 +51,11 @@ print(df["USER_NAME"][0])
 # )
 #
 # # 写表方法3，原表是数据库表，将DATAFRAME to_sql成新表。（多了一个index字段，或通过index=False不创建索引）
-# # Copy table structure
-# with engine.connect() as con:
-#     con.execute('DROP TABLE if exists user_jh')
-#     con.execute('CREATE TABLE user_jh LIKE user;')  # 复制新表 user_jh
-#
+# Copy table structure
+with engine.connect() as con:
+    con.execute('DROP TABLE if exists user_jh')
+    con.execute('CREATE TABLE user_jh LIKE user;')  # 复制新表 user_jh
+
 # # print(df.shape)
 # # print(df.info())
 # # print(df.columns)
