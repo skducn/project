@@ -48,12 +48,22 @@
 
 11.1, 生成二维码
 11.2 获取二维码的地址
+
+12，获取国内高匿ip代理
+
+13.1 通过fake版本随机获取用户代理
+13.2 将fake包用户代理信息写入文档
+13.3 从fake文件中获取用户代理
+13.4 获取用户代理
+
 '''
 
-import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid
+import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid, requests
 from datetime import date
 from datetime import timedelta
-
+from fake_useragent import UserAgent
+from bs4 import BeautifulSoup
+import pandas as pd
 
 class DataPO():
 
@@ -376,12 +386,10 @@ class DataPO():
 
 
     # 7，解析json
-    def getJsonPath(self, varJson, varKey):
-        # 解析json
-        # 如：{"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}' 获取 token的值
-        # print(Net_PO.getJsonPath('{"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}', '$.token'))
+    def getJsonPath(self, varDictStr, varKey):
+        # 如：获取字符串中 token的值 {"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}'
         try:
-            return jsonpath.jsonpath(json.loads(varJson), expr=varKey)
+            return jsonpath.jsonpath(json.loads(varDictStr), expr=varKey)
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
@@ -459,6 +467,96 @@ class DataPO():
         result = bar.data.decode()
         print(result)
 
+
+    # 12，获取国内高匿ip代理(ip代理池)
+    def getIpAgent(self):
+        # 爬取 https://www.kuaidaili.com/free/inha/1/ 的IP地址 ，然后进行随机获取
+        baseURL = "https://www.kuaidaili.com/free/inha/1/"
+
+        # 生成字典
+        html = requests.get(baseURL)
+        html.encoding = 'gb2312'
+        bsop = BeautifulSoup(html.text, 'html.parser')
+
+        # 获取 IP 列表
+        l_ips = bsop.findAll('td', {'data-title': 'IP'})
+        l_ip = []
+        for l in l_ips:
+            l_ip.append(str(l).replace('<td data-title="IP">', '').replace('</td>', ''))
+        # print(l_ip)
+
+        # 获取 端口 列表
+        l_ports = bsop.findAll('td', {'data-title': 'PORT'})
+        l_port = []
+        for l in l_ports:
+            l_port.append(str(l).replace('<td data-title="PORT">', '').replace('</td>', ''))
+        # print(l_port)
+
+        l_ipPort = []
+        for i in range(len(l_ip)):
+            l_ipPort.append("http://" + l_ip[i] + ":" + l_port[i])
+
+        return(l_ipPort[random.randint(0, len(l_ipPort)-1)])
+
+
+    # 13.1 通过fake版本随机获取用户代理
+    def getUserAgentFromFakeUrl(self, varVersionUrl):
+        my_user_agent = requests.get(varVersionUrl)
+        agent_json = json.loads(my_user_agent.text)
+        # print(agent_json)
+        l_browsers = agent_json["browsers"]
+        # print(l_browsers)
+        i = random.randint(0, len(l_browsers))
+        browsers_name = ""
+        if i == 0:
+            browsers_name = "chrome"
+        elif i == 1:
+            browsers_name = "opera"
+        elif i == 2:
+            browsers_name = "firefox"
+        elif i == 3:
+            browsers_name = "internetexplorer"
+        elif i == 4:
+            browsers_name = "safari"
+        final_browser = l_browsers[browsers_name][random.randint(0, len(l_browsers[browsers_name])-1)]
+        return final_browser
+
+
+    # 13.2 将fake包用户代理信息写入文档
+    def setUserAgentFromFakeUrlToFile(self, varVersionUrl,toFile):
+        my_user_agent = requests.get(varVersionUrl)
+        with open(toFile, "w") as f:
+            json.dump(my_user_agent.text, f)
+            # json.dump(my_user_agent.text, f, ensure_ascii=False)  # 将翻译成中文。
+
+
+    # 13.3 从fake文件中获取用户代理
+    def getUserAgentFromFile(self, jsonFile):
+        # 获取最佳读取速度
+        with open(jsonFile,"r") as f:
+            browsers_json = json.load(f)
+            browsers_json = json.loads(browsers_json)
+            l_browsers = browsers_json["browsers"]
+            i = random.randint(0, len(l_browsers))
+            browsers_name = ""
+            if i == 0:
+                browsers_name = "chrome"
+            elif i == 1:
+                browsers_name = "opera"
+            elif i == 2:
+                browsers_name = "firefox"
+            elif i == 3:
+                browsers_name = "internetexplorer"
+            elif i == 4:
+                browsers_name = "safari"
+            final_browser = l_browsers[browsers_name][random.randint(0, len(l_browsers[browsers_name]) - 1)]
+            return final_browser
+
+    # 13.4 随机获取用户代理
+    def getUserAgent(self):
+        # 如报错，则更新 pip3 install -U fake-useragent
+        return (str(UserAgent().random))
+
 if __name__ == '__main__':
 
     Data_PO = DataPO()
@@ -516,8 +614,28 @@ if __name__ == '__main__':
     print(Data_PO.autoUuid("random"))
     print(Data_PO.autoUuid("sh1"))
 
-    print("11.1 生成二维码".center(100, "-"))
-    Data_PO.getTwoDimensionCode("https://www.baidu.com", "./DataPO/baidu.jpg")
+    # print("11.1 生成二维码".center(100, "-"))
+    # Data_PO.getTwoDimensionCode("https://www.baidu.com", "./DataPO/baidu.jpg")
 
-    print("11.2 获取二维码地址".center(100, "-"))
-    Data_PO.getURL("./DataPO/baidu.jpg")
+    # print("11.2 获取二维码地址".center(100, "-"))
+    # Data_PO.getURL("./DataPO/baidu.jpg")
+
+    print("12 获取国内高匿ip代理(ip代理池)".center(100, "-"))
+    print(Data_PO.getIpAgent())
+
+    # print("13.1 通过fake版本随机获取用户代理".center(100, "-"))
+    # Data_PO.getUserAgentFromFakeUrl("https://fake-useragent.herokuapp.com/browsers/0.1.11")
+    #
+    # print("13.2 将fake包用户代理信息写入文档".center(100, "-"))
+    # Data_PO.setUserAgentFromFakeUrlToFile("https://fake-useragent.herokuapp.com/browsers/0.1.11", "userAgent.json")
+    #
+    # print("13.3 从fake文件中获取用户代理".center(100, "-"))
+    # print(Data_PO.getUserAgentFromFile("userAgent.json"))
+    #
+    # print("13.4 获取用户代理".center(100, "-"))
+    # print(Data_PO.getUserAgent())
+
+
+    # df = pd.read_json("browser_info.json",lines = True)
+    # print(df)
+    # df.to_excel("browser.xlsx")

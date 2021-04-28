@@ -8,17 +8,20 @@
 
 import requests, re, os, platform
 import click
+from PO.DataPO import *
+Data_PO = DataPO()
 
 # todo :download douyin
 def getVideoList(url, varFromNumDown=0):
 
 	# varFromNumDown 表示从第几视频开始下载  如：100表示从第100个开始下载，之前视频忽略。
 	session = requests.session()
-	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
+	proxies = {"url": Data_PO.getIpAgent()}
+	headers = {'User-Agent': Data_PO.getUserAgent()}
 	sum_url = ""
 
 	# 分享链接返回url 获取sec_uid
-	res = session.get(url=url, headers=headers)
+	res = session.get(url=url, headers = headers, proxies = proxies)
 	seu_udi = re.findall(r'sec_uid=(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)
 
 	# 获取视频数量总数  用户名
@@ -115,12 +118,13 @@ def getVideoList(url, varFromNumDown=0):
 			break
 
 
-def getVideoOne(url,save):
+def getVideoOne(url, save):
 	session = requests.session()
-	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
+	proxies = {"url": Data_PO.getIpAgent()}
+	headers = {'User-Agent': Data_PO.getUserAgent()}
 
 	# 解析url
-	res = session.get(url=url, headers=headers)
+	res = session.get(url=url, headers=headers, proxies=proxies)
 	video = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)   # 如：video_id=6912637146767674636
 
 	# 解析url1
@@ -149,7 +153,7 @@ def getVideoOne(url,save):
 if __name__ == '__main__':
 
 	# getVideoList("https://v.douyin.com/Jp4GEo6/")  # 走遍中国5A景区-大龙 抖音列表
-	getVideoOne("https://v.douyin.com/eFW2VfN/")  # 单个抖音链接
+	getVideoOne("https://v.douyin.com/eFW2VfN/","d:\\")  # 单个抖音链接
 
 
 
