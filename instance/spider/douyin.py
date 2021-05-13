@@ -122,6 +122,7 @@ def getVideoOne(url, save):
 	session = requests.session()
 	proxies = {"url": Data_PO.getIpAgent()}
 	headers = {'User-Agent': Data_PO.getUserAgent()}
+	print(headers)
 
 	# 解析url
 	res = session.get(url=url, headers=headers, proxies=proxies)
@@ -153,7 +154,7 @@ def getVideoOne(url, save):
 if __name__ == '__main__':
 
 	# getVideoList("https://v.douyin.com/Jp4GEo6/")  # 走遍中国5A景区-大龙 抖音列表
-	getVideoOne("https://v.douyin.com/eFW2VfN/","d:\\")  # 单个抖音链接
+	getVideoOne("https://v.douyin.com/eDSwF3H/", "d:\\")  # 单个抖音链接
 
 
 
