@@ -622,10 +622,115 @@ print(arr.swapaxes(1, 2))  # 等同于 print(arr.transpose((0, 2, 1)))
 #   [ 9 13]
 #   [10 14]
 #   [11 15]]]
-
 print(arr)
 
 
+print("18, ones_like(数组)".center(100, "-"))
+arr = np.arange(6)  # array([0, 1, 2, 3, 4, 5])
+print(np.ones_like(arr))  # array([1, 1, 1, 1, 1, 1])
 
 
+print("19, reshape() 将ndarray转化为N*M*...的多维ndarray（非copy）".center(100, "-"))
+# 通过reshape生成的新数组和原始数组公用一个内存，也就是说，假如更改一个数组的元素，另一个数组也将发生改变
+
+arr = np.arange(8, dtype=np.float64) # [0. 1. 2. 3. 4. 5. 6. 7.]
+r = arr.reshape((2,4))
+print(r)
+# [[0. 1. 2. 3.]
+#  [4. 5. 6. 7.]]
+arr[1] = 100  # 修改源数组值
+print(r)
+# [[  0. 100.   2.   3.]
+#  [  4.   5.   6.   7.]]
+
+print("20, eye() 生成对角线的矩阵(返回对角线的为1其余为0的二维的数组)".center(100, "-"))
+# N:int型，表示的是输出的行数
+# M：int型，可选项，输出的列数，如果没有就默认为N
+# k：int型，可选项，对角线的下标，默认为0表示的是主对角线，负数表示的是低对角，正数表示的是高对角。
+# dtype：数据的类型，可选项，返回的数据的数据类型
+a = np.eye(4,2)
+print(a)
+# [[1. 0.]
+#  [0. 1.]
+#  [0. 0.]
+#  [0. 0.]]
+
+# 如果 N=M 就相当于 np.identity() 创建方阵，也就是N=M
+a = np.eye(4)
+print(a)
+# [[1. 0. 0. 0.]
+# #  [0. 1. 0. 0.]
+# #  [0. 0. 1. 0.]
+# #  [0. 0. 0. 1.]]
+
+# 参数k，int类型可选项，对角线的下标，默认为0表示的是主对角线，负数表示的是低对角，正数表示的是高对角。
+b = np.eye(4, k=1)
+print(b)
+# [[0. 1. 0. 0.]
+#  [0. 0. 1. 0.]
+#  [0. 0. 0. 1.]
+#  [0. 0. 0. 0.]]
+
+b = np.eye(4, k=-1)
+print(b)
+# [[0. 0. 0. 0.]
+#  [1. 0. 0. 0.]
+#  [0. 1. 0. 0.]
+#  [0. 0. 1. 0.]]
+
+
+print("21, 利用numpy 生成one_hot 数组".center(100, "-"))
+# one_hot数组
+test_labels=[1,2,3,4,5,6,7]
+print(test_labels)
+adata = np.array(test_labels)
+print(adata)
+def make_one_hot(data1):
+    return (np.arange(8) == data1[:,None]).astype(np.integer)
+
+my_one_hot = make_one_hot(adata)
+print(my_one_hot)
+# [[0 1 0 0 0 0 0 0]
+#  [0 0 1 0 0 0 0 0]
+#  [0 0 0 1 0 0 0 0]
+#  [0 0 0 0 1 0 0 0]
+#  [0 0 0 0 0 1 0 0]
+#  [0 0 0 0 0 0 1 0]
+#  [0 0 0 0 0 0 0 1]]
+
+
+print("23, 生成对角线的矩阵方阵".center(100, "-"))
+# np.identity(n,dtype=None)
+# 参数：n，int型表示的是输出的矩阵的行数和列数都是n
+# dtype：表示的是输出的类型，默认是float
+print(np.identity(3))
+# [[1. 0. 0.]
+#  [0. 1. 0.]
+#  [0. 0. 1.]]
+
+
+print("24， full() , 创建一个由常数填充的数组,第一个参数是数组的形状，第二个参数是数组中填充的常数".center(100, "-"))
+print(np.full((3,2), 5))
+# [[5 5]
+#  [5 5]
+#  [5 5]]
+
+
+
+print("25， empty() 创建任意空数组； ramdon() 创建随机数组".center(100, "-"))
+# 用法：numpy.empty(shape, dtype=float, order='C')
+# 返回：给定shape，dtype 和 order的任意空数组，shape 为整型数据或整型tuple
+print(np.empty([3, 2]))
+# [[1.         0.5       ]
+#  [0.33333333 0.25      ]
+#  [0.2        0.16666667]]
+print(np.empty([3, 2], dtype=int))
+# [[5 5]
+#  [5 5]
+#  [5 5]]
+
+print(np.random.random((3,2)))
+# [[0.69811308 0.20604495]
+#  [0.00798681 0.94517262]
+#  [0.63325742 0.21761745]]
 
