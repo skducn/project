@@ -48,6 +48,7 @@
 '''
 
 import numpy as np
+import pandas as pd
 
 print("1.1 数据源是list时，array和asarray一样，复制一个副本，占用新的内存。".center(100, "-"))
 list1 = [[1], [2], [3]]
@@ -734,3 +735,199 @@ print(np.random.random((3,2)))
 #  [0.00798681 0.94517262]
 #  [0.63325742 0.21761745]]
 
+
+print("26， linspace()创建等差数列。".center(100, "-"))
+# numpy.linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None)
+# 产生从start到stop的等差数列，num为元素个数，默认50个
+# 多用于模型训练,如：从0到50，生成5个等值
+a = np.linspace(0, 50, 5)
+print(a)  # [ 0.  12.5 25.  37.5 50. ]
+
+a = np.linspace(0, 50, 5, endpoint=False)  # 不包含 stop
+print(a)  # [ 0. 10. 20. 30. 40.]
+
+a = np.linspace(0, 50, 5, endpoint=False,  retstep=True)
+print(a)  # (array([ 0., 10., 20., 30., 40.]), 10.0)
+print(a[0])  # [ 0. 10. 20. 30. 40.]
+print(a[1])  # 10.0  //输出等差间隔数
+
+# import matplotlib.pyplot as plt
+# N = 8
+# y = np.zeros(N)
+# x1 = np.linspace(0, 10, N, endpoint=True)
+# x2 = np.linspace(0, 10, N, endpoint=False)
+# plt.plot(x1, y, 'o')
+# plt.plot(x2, y + 0.5, 'o')
+# plt.ylim([-0.5, 1])
+# plt.show()
+
+
+print("27， np.where(condition, x, y) 满足条件(condition)，输出x，不满足输出y".center(100, "-"))
+aa = np.arange(10)
+print(np.where(aa, 5, -1))  # [-1  5  5  5  5  5  5  5  5  5]   //# 0为False，所以第一个输出-1
+print(np.where(aa > 5, 2, -1))  # [-1 -1 -1 -1 -1 -1  2  2  2  2]
+print(np.where([[True, False], [True, True]],
+               [[1, 2], [3, 4]],
+               [[9, 8], [7, 6]]))
+# [[1 8]
+#  [3 4]]
+# 分析：True取 [[1, 2], [3, 4]] ； False取[[9, 8], [7, 6]]
+# 分析：[True, False] 从[1, 2][9, 8]中判断，得到[1, 8]；[True, True] 从[3, 4][7, 6]中判断，得到[3, 4]；
+
+a = 10
+b = np.where([[a > 5,a < 5], [a == 7, a == 10]],
+             [["a1", "apple"], ["b1", "bananan"]],
+             [["c1", "cherry"], ["d1", "Damson"]])
+print(b)
+# [['a1' 'cherry']
+#  ['d1' 'bananan']]
+# 分析：True取 [["a1", "apple"], ["b1", "bananan"]] ； False取[["c1", "cherry"], ["d1", "Damson"]]
+# 分析：[a > 5,a < 5]得到[a1, cherry]；[a == 7, a == 10]得到[d1.banana]；
+
+
+print("28，np.where(condition) 没有x和y，则输出满足条件 (即非0) 元素的坐标".center(100, "-"))
+# 等价于numpy.nonzero, 这里的坐标以tuple的形式给出，通常原数组有多少维，输出的tuple中就包含几个数组，分别对应符合条件元素的各维坐标。
+a = np.array([12, 14, 16, 18, 110])
+print(np.where(a > 15))  # (array([2, 3, 4], dtype=int64),)   //返回索引
+print(a[a > 15])  # [ 16  18 110]  //返回值
+print(np.where([[0, 0, 10], [31, 0, 0]]))  # (array([0, 1], dtype=int64), array([2, 0], dtype=int64))
+# 分析：
+# [[0, 0, 10]    //一维是0
+# [31, 0, 0]]    //一维是1
+# 先一维坐标，再二维以此类推
+# [0, 0, 10] 一维度的非0有效值坐标是2 即
+# 0
+# 2
+# [31, 0, 0]一维度的非0有效值坐标是0 即
+# 1
+# 0
+# 竖列排列在一起：
+# 0 1
+# 2 0
+# 横向组成列表即 [0,1][2,0]
+
+print(np.where([[0, 0, 10, 11], [31, 0, 0, 0]]))  # (array([0, 0, 1], dtype=int64), array([2, 3, 0], dtype=int64))
+print(np.where([1, 11, 21, 0]))  # (array([0, 1, 2], dtype=int64),)
+print(np.where([[111211, 0], [21, 0]]))  # (array([0, 1], dtype=int64), array([0, 0], dtype=int64))
+print(np.where([[1,2,3,0,5], [7,0,0,4,4]]))  # (array([0, 0, 0, 0, 1, 1, 1], dtype=int64), array([0, 1, 2, 4, 0, 3, 4], dtype=int64))
+x = np.where([[1,2,3,0,5], [7,0,0,4,4]])
+print(x[0])
+print(x[1])
+print(x[1][2])
+print(np.where([[1, 0, 3], [0, 4, 7], [9, 7, 0]]))  # (array([0, 0, 1, 1, 2, 2], dtype=int64), array([0, 2, 1, 2, 0, 1], dtype=int64))
+print(np.where([[[1, 0, 3], [0, 4, 7]]]))  # (array([0, 0, 0, 0], dtype=int64), array([0, 0, 1, 1], dtype=int64), array([0, 2, 1, 2], dtype=int64))
+print(np.where([[[1, 0, 3], [0, 4, 7], [9, 7, 0]]]))  # (array([0, 0, 0, 0, 0, 0], dtype=int64), array([0, 0, 1, 1, 2, 2], dtype=int64), array([0, 2, 1, 2, 0, 1], dtype=int64))
+
+
+print("29，np.ogrid() 整数步长".center(100, "-"))
+# 1、arange函数产生的是一维数组，而ogrid函数产生的是二维数组
+# 2、arange函数产生的是一个数组，而ogrid函数产生的是二个数组
+# 3、ogrid函数产生的数组，第一个数组是以纵向产生的，即数组第二维的大小始终为1。第二个数组是以横向产生的，即数组第一维的大小始终为1。
+
+x,y = np.ogrid[:3, :4]
+print(x)
+# [[0]
+#  [1]
+#  [2]]
+print(np.shape(x))  # (3, 1)
+print(y)
+# [[0 1 2 3]]
+print(np.shape(y))  # (1, 4)
+
+# 第一个数组的步长为1，第二数组的步长为2
+x,y = np.ogrid[0:10:1,0:10:2]
+print(x,np.shape(x))
+print(y,np.shape(y))
+# [[0]
+#  [1]
+#  [2]
+#  [3]
+#  [4]
+#  [5]
+#  [6]
+#  [7]
+#  [8]
+#  [9]] (10, 1)
+# [[0 2 4 6 8]] (1, 5)
+
+
+print("29，np.ogrid() 复数步长的设置是通过j进行设置的，复数用几个数值来等分整个区间。 ".center(100, "-"))
+x,y = np.ogrid[0:10:6j,0:10:5j]
+print(x,np.shape(x))
+print(y,np.shape(y))
+# [[ 0.]
+#  [ 2.]
+#  [ 4.]
+#  [ 6.]
+#  [ 8.]
+#  [10.]] (6, 1)
+# [[ 0.   2.5  5.   7.5 10. ]] (1, 5)
+# 分析：[0:10:6j]，的意思是将[0,10]这个区间等分为5(6-1)个区间，也就是说会产生6个端点位置。
+
+
+print("29，np.ogrid() ".center(100, "-"))
+print(np.ogrid[0:10:2])  # [0 2 4 6 8]
+print(np.ogrid[0:10:2j])  # [ 0. 10.]
+
+
+print("30，np.mgrid[ 第1维，第2维 ，第3维 ， …]  返回多维结构，常见的如2D图形，3D图形".center(100, "-"))
+x,y = np.mgrid[0:10:6j,0:10:5j]
+print(x)
+print(y)
+# [[ 0.  0.  0.  0.  0.]
+#  [ 2.  2.  2.  2.  2.]
+#  [ 4.  4.  4.  4.  4.]
+#  [ 6.  6.  6.  6.  6.]
+#  [ 8.  8.  8.  8.  8.]
+#  [10. 10. 10. 10. 10.]]
+# [[ 0.   2.5  5.   7.5 10. ]
+#  [ 0.   2.5  5.   7.5 10. ]
+#  [ 0.   2.5  5.   7.5 10. ]
+#  [ 0.   2.5  5.   7.5 10. ]
+#  [ 0.   2.5  5.   7.5 10. ]
+#  [ 0.   2.5  5.   7.5 10. ]]
+
+x = np.mgrid[0:10:2]
+print(x)
+
+
+print("31，np.nan 在ndarray中显示时 np.nan会显示nan，如果进行计算 结果会显示为NAN".center(100, "-"))
+array = np.array([[1, np.nan, 3], [4, 5, np.nan]])
+print(array)
+# [[ 1. nan  3.]
+#  [ 4.  5. nan]]
+
+print("31.2，pd.isna() 判断缺省值是nan，返回布尔值".center(100, "-"))
+print(pd.isna(array))
+# [[False  True False]
+#  [False False  True]]
+
+print("31.3，pd.notna() 判断缺省值不是nan，返回布尔值".center(100, "-"))
+print(pd.notna(array))
+# [[ True False  True]
+#  [ True  True False]]
+
+print("31.4，np.isnan() 遍历将nan替换成一个默认值".center(100, "-"))
+array[np.isnan(array)] = 100
+print(array)
+# [[  1. 100.   3.]
+#  [  4.   5. 100.]]
+
+
+print("31.5 缺省值判断,NA值如None或np.nan, NaT将映射True值。''或np.inf不被视为NA值".center(100, "-"))
+print(pd.isna(None))  # True
+print(pd.isna(np.nan))  # True
+# 索引，返回一个布尔值的ndarray
+index = pd.DatetimeIndex(["2019-12-12", "2021-05-12", None])
+print(index)  # DatetimeIndex(['2019-12-12', '2021-05-12', 'NaT'], dtype='datetime64[ns]', freq=None)
+print(pd.isna(index))  # [False False  True]
+
+s= pd.Series([1, 2,np.nan,np.inf,''])
+print(s)
+df = pd.DataFrame([s.tolist()],columns=list('ABCDE'))
+print(df)
+print(s.isna().tolist())  # [False, False, True, False, False]
+print(df.isna().values.tolist())  # [[False, False, True, False, False]]
+
+
+print(np.nan != np.nan)  # True
