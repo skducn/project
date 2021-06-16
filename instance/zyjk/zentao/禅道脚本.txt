@@ -12,8 +12,8 @@ INNER JOIN zt_project ON zt_task.project = zt_project.id
 INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story
 LEFT JOIN zt_module ON zt_task.module = zt_module.id
 LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id
-WHERE zt_task.finishedDate BETWEEN '2021-3-11' AND '2021-3-11 23:59:59'
-AND zt_effort.date BETWEEN '2021-3-11' AND '2021-3-11 23:59:59'
+WHERE zt_task.finishedDate BETWEEN '2021-3-1' AND '2021-3-31 23:59:59'
+AND zt_effort.date BETWEEN '2021-3-1' AND '2021-3-31 23:59:59'
 AND zt_effort.objectType = 'task' 
 AND zt_effort.account != 'admin' 
 AND zt_effort.consumed > 0 

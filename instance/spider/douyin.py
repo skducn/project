@@ -154,7 +154,7 @@ def getVideoOne(url, save):
 if __name__ == '__main__':
 
 	# getVideoList("https://v.douyin.com/Jp4GEo6/")  # 走遍中国5A景区-大龙 抖音列表
-	getVideoOne("https://v.douyin.com/eDSwF3H/", "d:\\")  # 单个抖音链接
+	getVideoOne("https://v.douyin.com/e9Kt91H/", "d:\\")  # 单个抖音链接
 
 
 
