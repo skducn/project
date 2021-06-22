@@ -64,7 +64,14 @@ print(array.typecode)  # <attribute 'typecode' of 'array.array' objects>
 
 # 构造一个空的int类型数组
 arr = array('i')
-
 arr = array('i', [0, 1, 2, 3, 4, 6, 7, 8, 9, 100])
 print(arr.typecode)  # i  //类型代码的字符串
 print(arr.itemsize)  # 4  //一个数组项的字节长度。
+
+
+# 使用数据count方法获取列表中数字出现的次数,没有该元素则返回0
+b = array('i', [1, 12, 45, 1, 1, 1, 0, 12, 1, 4])
+print(b.count(1))  # 5
+
+print(b.remove(12))  # 删除第一个找到的值
+print(b)  # array('i', [1, 45, 1, 1, 1, 0, 12, 1, 4])
