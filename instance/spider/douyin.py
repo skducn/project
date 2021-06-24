@@ -45,7 +45,7 @@ def getOne(copyURL, toSave):
 	print(str(toSave) + "\%s.mp4 (%s)" % (varTitle[0], videoURL))
 
 # 2，手机端抖音列表视频下载（批量）
-def getList(copyURL, toSave, varFromNumDown=0):
+def getList(copyURL, toSave, varFromNumDown=0, keyword=""):
 
 	# varFromNumDown 表示从第几视频开始下载  如：100表示从第100个开始下载，之前视频忽略。
 	session = requests.session()
@@ -125,16 +125,23 @@ def getList(copyURL, toSave, varFromNumDown=0):
 					# fenxiang = s['statistics']["share_count"]
 
 					# 视频下载
-					# 如果toSave指定的目录不存在，则自动创建目录
 					if id >= int(varFromNumDown):
-						ir = session.get(videoURL, headers=headers)
 						# 如果toSave指定的目录不存在，则自动创建目录
 						if not os.path.exists(toSave + "//" + nickname[0]):
 							os.mkdir(toSave + "//" + nickname[0])
-						open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
-						print(str(id) + ", " + str(toSave) + "\\" + str(nickname[0]) + "\%s.mp4 (%s)" % (varTitle, str(videoURL)))
 
-						# print(str(id) + "、视频名称为：{0},点赞数为:{1},评论数为:{2},分享数量为:{3},视频无水印地址为：{4}".format(text, str(dianzan), str(pinglun),str(fenxiang), video_url))
+						# 搜索标题中的关键字
+						if keyword != "":
+							if keyword in varTitle:
+								ir = session.get(videoURL, headers=headers)
+								open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
+								print(str(id) + ", " + str(toSave) + "\\" + str(nickname[0]) + "\%s.mp4 (%s)" % (varTitle, str(videoURL)))
+						else:
+							ir = session.get(videoURL, headers=headers)
+							open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
+							print(str(id) + ", " + str(toSave) + "\\" + str(nickname[0]) + "\%s.mp4 (%s)" % (varTitle, str(videoURL)))
+							# print(str(id) + "、视频名称为：{0},点赞数为:{1},评论数为:{2},分享数量为:{3},视频无水印地址为：{4}".format(text, str(dianzan), str(pinglun),str(fenxiang), video_url))
+
 					else:
 						print(str(id) + "，{0}".format(varTitle))
 				break
@@ -166,8 +173,9 @@ def getOneFromWeb(videoId, toSave):
 	print(str(toSave) + "\%s.mp4 (%s)" % (varTitle[0], videoURL))
 
 # 4，网页版抖音列表视频下载（批量）
-def getListFromWeb(sec_id, toSave,varFromNumDown=0):
-
+def getListFromWeb(sec_id, toSave,varFromNumDown=0, keyword=""):
+	# 参数3：从指定位置往后开始下载
+	# 参数4：按名字中关键字进行下载
 	session = requests.session()
 	proxies = {"url": Data_PO.getIpAgent()}
 	headers = {'User-Agent': Data_PO.getUserAgent()}
@@ -208,17 +216,23 @@ def getListFromWeb(sec_id, toSave,varFromNumDown=0):
 						videoURL = s['video']['play_addr_lowbr']['url_list'][1]
 
 					# 视频下载
-					# 如果toSave指定的目录不存在，则自动创建目录
 					if id >= int(varFromNumDown):
-						ir = session.get(videoURL, headers=headers)
 						# 如果toSave指定的目录不存在，则自动创建目录
 						if not os.path.exists(toSave + "//" + nickname):
 							os.mkdir(toSave + "//" + nickname)
-						open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
-						print(str(id) + ", " + str(toSave) + "\\" + str(nickname) + "\%s.mp4 (%s)" % (varTitle, str(videoURL)))
+
+						# 搜索标题中的关键字
+						if keyword != "":
+							if keyword in varTitle:
+								ir = session.get(videoURL, headers=headers)
+								open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
+								print(str(id) + ", " + str(toSave) + "\\" + str(nickname) + "\%s.mp4 (%s)" % (varTitle, str(videoURL)))
+						else:
+							ir = session.get(videoURL, headers=headers)
+							open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
+							print(str(id) + ", " + str(toSave) + "\\" + str(nickname) + "\%s.mp4 (%s)" % (varTitle, str(videoURL)))
 					else:
 						print(str(id) + "，{0}".format(varTitle))
-
 				break
 
 
@@ -233,19 +247,21 @@ if __name__ == '__main__':
 
 	# 2，手机端抖音列表视频下载（批量）
 	# 参数1：用户列表页链接：右上角... - 分享 - 复制链接
-	# getList("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 走遍中国5A景区-大龙 抖音列表
+	# getList("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 走遍中国5A景区-大龙
 	# getList("https://v.douyin.com/Jp4GEo6/", "d:\\4", 10)
+	# getList("https://v.douyin.com/Jp4GEo6/", "d:\\4", keyword="节日快乐")
 	# getList("https://v.douyin.com/Jp4GEo6/", "/Users/linghuchong/Downloads/")  # 走遍中国5A景区-大龙 抖音列表
 
 
 	# 3，网页版抖音视频下载（单个）
 	# 参数1：https://www.douyin.com/video/6974964160962530591 地址最后 videoId
-	# getOneFromWeb("6974964160962530591", "d:\\3")
+	# getOneFromWeb("6974964160962530591", "d:\\3")\
 	# getOneFromWeb("6974964160962530591", "/Users/linghuchong/Downloads/")
 
 
 	# 4，网页版抖音列表视频下载（批量）
 	# 参数1：https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg 地址最后的 sec_id
 	getListFromWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3")
-	# getListFromWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3")
+	# getListFromWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3", 10)
+	# getListFromWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3", keyword="看美国")
 	# getListFromWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "/Users/linghuchong/Downloads/")
