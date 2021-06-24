@@ -2,33 +2,68 @@
 #***************************************************************
 # Author     : John
 # Created on : 2020-12-30
-# Description: 抖音视频下载（单个，多个（获取抖音视频用户列表进行批量下载））
+# Description: 抖音视频下载（手机端，Web端，支持单个视频、视频列表批量下载
 # 抖音 user_url 用户列表链接的获取方法：右上角...  - 分享 - 复制链接
+# https://www.douyin.com/
 #***************************************************************
 
 import requests, re, os, platform
-import click
 from PO.DataPO import *
 Data_PO = DataPO()
 
-# todo :download douyin
-def getVideoList(url, varFromNumDown=0):
+
+# 1，手机版抖音视频下载（单个）
+def getOne(copyURL, toSave):
+
+	session = requests.session()
+	proxies = {"url": Data_PO.getIpAgent()}
+	headers = {'User-Agent': Data_PO.getUserAgent()}
+
+	# 解析复制链接及API地址并获取视频ID
+	res = session.get(url=copyURL, headers=headers, proxies=proxies)
+	# print(res.url)  # https://www.douyin.com/video/6976835684271279400?previous_page=app_code_link
+	videoId = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)
+	# print(videoId)  # ['6976835684271279400']
+	url1 = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + videoId[0]
+	res1 = requests.get(url=url1, headers=headers)
+	video_id = re.findall(r'/?video_id=(\w+)', res1.text)
+	# print(video_id)  # v0300f3d0000bvn9r1prh6u8gbdusbdg
+
+	# 视频标题
+	varTitle = re.findall('"share_title":"(.+?)"', res1.text)  # 视频标题
+	# 视频文件优化，自动去除特殊符合，如?
+	if "?" in str(varTitle[0]):
+		varTitle = str(varTitle[0]).replace("?", "")
+
+	# 视频下载（API地址）
+	videoURL = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] + "&ratio=720p&line=0"
+	# 如果toSave指定的目录不存在，则自动创建目录
+	if not os.path.exists(toSave):
+		os.mkdir(toSave)
+	ir = session.get(videoURL, headers=headers)
+	open(f'{toSave}/{varTitle}.mp4', 'wb').write(ir.content)
+	print(str(toSave) + "\%s.mp4 (%s)" % (varTitle[0], videoURL))
+
+# 2，手机端抖音列表视频下载（批量）
+def getList(copyURL, toSave, varFromNumDown=0):
 
 	# varFromNumDown 表示从第几视频开始下载  如：100表示从第100个开始下载，之前视频忽略。
 	session = requests.session()
 	proxies = {"url": Data_PO.getIpAgent()}
 	headers = {'User-Agent': Data_PO.getUserAgent()}
 	sum_url = ""
+	max_cursor = 0
+	id = 0
 
-	# 分享链接返回url 获取sec_uid
-	res = session.get(url=url, headers = headers, proxies = proxies)
+	# 解析复制链接及API地址并获取视频ID 获取sec_uid
+	res = session.get(url=copyURL, headers=headers, proxies=proxies)
 	seu_udi = re.findall(r'sec_uid=(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)
-
-	# 获取视频数量总数  用户名
+	# print(seu_udi)  # ['MS4wLjABAAAA641dgYSbDRfR9YDDe3ve46BGVqE0doMTy0uDK10CYBw']
 	sum_url = 'https://www.iesdouyin.com/web/api/v2/user/info/?sec_uid={0}'.format(seu_udi[0])
 	# print(sum_url)  # https://www.iesdouyin.com/web/api/v2/user/info/?sec_uid=MS4wLjABAAAA641dgYSbDRfR9YDDe3ve46BGVqE0doMTy0uDK10CYBw
 	se = session.get(sum_url)
 
+	# 获取用户名、抖音号、视频数、粉丝、关注
 	# 用户名
 	nickname = re.findall('"nickname":"(.+?)"', se.text)
 	print("用户名：%s" % nickname[0])
@@ -41,120 +76,176 @@ def getVideoList(url, varFromNumDown=0):
 	sm_count = re.findall('"aweme_count":(\w+)', se.text)
 	print("视频数：%s" % sm_count[0])
 
-	# 下载目录
-	print("下载目录：d:\\%s" % nickname[0])
+	# 粉丝量
+	fensi = re.findall('"follower_count":(\w+)', se.text)
+	print("粉丝数量：%s" % fensi[0])
 
-	# # 粉丝数量
-	# fensi = re.findall('"follower_count":(\w+)', se.text)
-	# print("粉丝数量:%s" % fensi[0])
-	#
-	# # 关注数
-	# guanzhu = re.findall('"following_count":(\w+)', se.text)
-	# print("本人关注:%s" % guanzhu[0])
+	# 关注量
+	guanzhu = re.findall('"following_count":(\w+)', se.text)
+	print("关注：%s" % guanzhu[0])
 
-	max_cursor = 0
-	id = 0
-	list1 = []
 
+	# 分页功能
 	while True:
 		while True:
 			if (max_cursor == 0):
 				sec_id_url = "https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid={0}&count=21&max_cursor=0&aid=1128&_signature=dF8skQAAK0iTKNSXi9av.XRfLI&dytk=".format(seu_udi[0])
 			else:
 				sec_id_url = "https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid={0}&count=21&max_cursor={1}&aid=1128&_signature=dF8skQAAK0iTKNSXi9av.XRfLI&dytk=".format(seu_udi[0], max_cursor)
-
 			sec_respone = session.get(url=sec_id_url, headers=headers)
 			comment = sec_respone.json()
+
 			if (len(comment['aweme_list']) == 0):
-				continue
+				os._exit(0)
 			else:
+				# 下一页最大下标
+				max_cursor = comment['max_cursor']
+				for s in comment['aweme_list']:
+					id += 1
+
+					# 视频标题
+					varTitle = s['desc']
+					# 视频标题中非法字符处理，如 ?
+					if "?" in str(varTitle):
+						varTitle = str(varTitle).replace("?", "")
+					# 过滤掉#后的广告
+					varTitle = re.sub("(\#\w+)|(\@\w+)", '', varTitle)
+					# print(varTitle)
+
+					# 视频地址
+					videoURL = s['video']['play_addr_lowbr']['url_list'][0]
+					if "http://v5-" in videoURL:
+						videoURL = s['video']['play_addr_lowbr']['url_list'][1]
+
+					# # 点赞数
+					# dianzan = s['statistics']["digg_count"]
+					# # 评论数
+					# pinglun = s['statistics']["comment_count"]
+					# # 分享数
+					# fenxiang = s['statistics']["share_count"]
+
+					# 视频下载
+					# 如果toSave指定的目录不存在，则自动创建目录
+					if id >= int(varFromNumDown):
+						ir = session.get(videoURL, headers=headers)
+						# 如果toSave指定的目录不存在，则自动创建目录
+						if not os.path.exists(toSave + "//" + nickname[0]):
+							os.mkdir(toSave + "//" + nickname[0])
+						open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
+						print(str(id) + ", " + str(toSave) + "\\" + str(nickname[0]) + "\%s.mp4 (%s)" % (varTitle, str(videoURL)))
+
+						# print(str(id) + "、视频名称为：{0},点赞数为:{1},评论数为:{2},分享数量为:{3},视频无水印地址为：{4}".format(text, str(dianzan), str(pinglun),str(fenxiang), video_url))
+					else:
+						print(str(id) + "，{0}".format(varTitle))
 				break
 
-		# 下一页下标
-		max_cursor = comment['max_cursor']
-		list1.append(max_cursor)
 
-		url = []
-		for s in comment['aweme_list']:
-			id += 1
+# 3，网页版抖音视频下载（单个）
+def getOneFromWeb(videoId, toSave):
 
-			# 视频名称
-			text = s['desc']
-			# # 点赞数
-			# dianzan = s['statistics']["digg_count"]
-			# # 评论数
-			# pinglun = s['statistics']["comment_count"]
-			# # 分享数
-			# fenxiang = s['statistics']["share_count"]
-			# 无水印视频链接地址
-			video_url = s['video']['play_addr_lowbr']['url_list'][0]
-			text = re.sub("(\#\w+)|(\@\w+)", '', text)
-
-			# 视频文件优化，自动去除特殊符合，如?
-			if "?" in str(text):
-				text = str(text).replace("?", "")
-
-			if id >= int(varFromNumDown):
-				# print(str(id) + "、视频名称为：{0},点赞数为:{1},评论数为:{2},分享数量为:{3},视频无水印地址为：{4}".format(text, str(dianzan), str(pinglun),str(fenxiang), video_url))
-				print(str(id) + "，{0} {1}".format(text, video_url))
-				ir = session.get(video_url, headers=headers)
-
-				if platform.system() == 'Darwin':
-					# 下载（for mac）
-					# 新建用户目录及视频
-					if not os.path.exists("/Users/linghuchong/Downloads/" + nickname[0]):
-						os.mkdir("/Users/linghuchong/Downloads/" + nickname[0])
-					open(f'/Users/linghuchong/Downloads/{nickname[0]}/{text}.mp4', 'wb').write(ir.content)
-				if platform.system() == 'Windows':
-					# 下载（for windows）
-					# 新建用户目录及视频
-					if not os.path.exists("d:/video/" + nickname[0]):
-						os.mkdir("d:/video/" + nickname[0])
-					open(f'd:/video/{nickname[0]}/{text}.mp4', 'wb').write(ir.content)
-			else:
-				print(str(id) + "，{0}".format(text))
-
-		if(int(id) == int(sm_count[0])):
-			break
-
-
-def getVideoOne(url, save):
 	session = requests.session()
 	proxies = {"url": Data_PO.getIpAgent()}
 	headers = {'User-Agent': Data_PO.getUserAgent()}
-	print(headers)
 
-	# 解析url
-	res = session.get(url=url, headers=headers, proxies=proxies)
-	video = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)   # 如：video_id=6912637146767674636
+	# API解析地址
+	url1 = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + videoId
+	res1 = requests.get(url=url1, headers=headers, proxies=proxies)
+	video_id = re.findall(r'/?video_id=(\w+)', res1.text)
+	# print(video_id)  # v0300f3d0000bvn9r1prh6u8gbdusbdg
 
-	# 解析url1
-	url1 = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + video[0]
-	res1 = requests.get(url=url1, headers=headers)
-	# print(res1.text)
-	video_id = re.findall(r'/?video_id=(\w+)', res1.text)   # 如：video_id=v0300f3d0000bvn9r1prh6u8gbdusbdg
-	nickname = re.findall('"share_title":"(.+?)"', res1.text)  # 视频标题
-
+	# 视频标题
+	varTitle = re.findall('"share_title":"(.+?)"', res1.text)  # 视频标题
 	# 视频文件优化，自动去除特殊符合，如?
-	if "?" in str(nickname[0]):
-		nickname = str(nickname[0]).replace("?", "")
+	if "?" in str(varTitle[0]):
+		varTitle = str(varTitle[0]).replace("?", "")
 
-	if platform.system() == 'Darwin':
-		# 下载
-		ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] + "&ratio=720p&line=0",headers=headers)
-		open(f'/Users/linghuchong/Downloads/{nickname}.mp4', 'wb').write(ir.content)
-		print("已下载到本地：/Users/linghuchong/Downloads/%s.mp4" % nickname[0])
-	if platform.system() == 'Windows':
-		# 下载
-		ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
-		open(f'{save}/{nickname}.mp4', 'wb').write(ir.content)
-		print("已下载到本地：" + str(save) + "\%s.mp4" % nickname[0])
+	# 视频下载（API地址）
+	videoURL = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] + "&ratio=720p&line=0"
+	ir = session.get(videoURL, headers=headers)
+	open(f'{toSave}/{varTitle}.mp4', 'wb').write(ir.content)
+	print(str(toSave) + "\%s.mp4 (%s)" % (varTitle[0], videoURL))
+
+# 4，网页版抖音列表视频下载（批量）
+def getListFromWeb(sec_id, toSave,varFromNumDown=0):
+
+	session = requests.session()
+	proxies = {"url": Data_PO.getIpAgent()}
+	headers = {'User-Agent': Data_PO.getUserAgent()}
+	max_cursor = 0
+	id = 0
+
+	# 分页功能
+	while True:
+		while True:
+			if (max_cursor == 0):
+				sec_id_url = "https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid={0}&count=50&max_cursor=0&aid=1128&_signature=dF8skQAAK0iTKNSXi9av.XRfLI&dytk=".format(sec_id)
+			else:
+				sec_id_url = "https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid={0}&count=50&max_cursor={1}&aid=1128&_signature=dF8skQAAK0iTKNSXi9av.XRfLI&dytk=".format(sec_id, max_cursor)
+			sec_respone = session.get(url=sec_id_url, headers=headers, proxies=proxies)
+			comment = sec_respone.json()
+			if (len(comment['aweme_list']) == 0):
+				os._exit(0)
+			else:
+				# 下一页最大下标
+				max_cursor = comment['max_cursor']
+				for s in comment['aweme_list']:
+					id += 1
+
+					# 用户名
+					nickname = s['author']['nickname']
+
+					# 视频标题
+					varTitle = s['desc']
+					# 视频标题中非法字符处理，如 ?
+					if "?" in str(varTitle):
+						varTitle = str(varTitle).replace("?", "")
+					# 过滤掉#后的广告
+					varTitle = re.sub("(\#\w+)|(\@\w+)", '', varTitle)
+
+					# 视频地址
+					videoURL = s['video']['play_addr_lowbr']['url_list'][0]
+					if "http://v5-" in videoURL:
+						videoURL = s['video']['play_addr_lowbr']['url_list'][1]
+
+					# 视频下载
+					# 如果toSave指定的目录不存在，则自动创建目录
+					if id >= int(varFromNumDown):
+						ir = session.get(videoURL, headers=headers)
+						# 如果toSave指定的目录不存在，则自动创建目录
+						if not os.path.exists(toSave + "//" + nickname):
+							os.mkdir(toSave + "//" + nickname)
+						open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
+						print(str(id) + ", " + str(toSave) + "\\" + str(nickname) + "\%s.mp4 (%s)" % (varTitle, str(videoURL)))
+					else:
+						print(str(id) + "，{0}".format(varTitle))
+
+				break
+
 
 
 if __name__ == '__main__':
 
-	# getVideoList("https://v.douyin.com/Jp4GEo6/")  # 走遍中国5A景区-大龙 抖音列表
-	getVideoOne("https://v.douyin.com/e9Kt91H/", "d:\\")  # 单个抖音链接
+	# 1，手机版抖音视频下载（单个）
+	# 参数1：用户页链接 - 分享 - 复制链接
+	# getOne(" https://v.douyin.com/eXmTAdU/", "d:\\11")
+	# getOne(" https://v.douyin.com/eXmTAdU/", "/Users/linghuchong/Downloads/")
 
 
+	# 2，手机端抖音列表视频下载（批量）
+	# 参数1：用户列表页链接：右上角... - 分享 - 复制链接
+	# getList("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 走遍中国5A景区-大龙 抖音列表
+	# getList("https://v.douyin.com/Jp4GEo6/", "d:\\4", 10)
+	# getList("https://v.douyin.com/Jp4GEo6/", "/Users/linghuchong/Downloads/")  # 走遍中国5A景区-大龙 抖音列表
 
+
+	# 3，网页版抖音视频下载（单个）
+	# 参数1：https://www.douyin.com/video/6974964160962530591 地址最后 videoId
+	# getOneFromWeb("6974964160962530591", "d:\\3")
+	# getOneFromWeb("6974964160962530591", "/Users/linghuchong/Downloads/")
+
+
+	# 4，网页版抖音列表视频下载（批量）
+	# 参数1：https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg 地址最后的 sec_id
+	getListFromWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3")
+	# getListFromWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3")
+	# getListFromWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "/Users/linghuchong/Downloads/")
