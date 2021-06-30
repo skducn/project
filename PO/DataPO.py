@@ -475,7 +475,8 @@ class DataPO():
 
         # 生成字典
         html = requests.get(baseURL)
-        html.encoding = 'gb2312'
+        # html.encoding = 'gb2312'
+        html.encoding = 'utf-8'
         bsop = BeautifulSoup(html.text, 'html.parser')
 
         # 获取 IP 列表
@@ -483,18 +484,22 @@ class DataPO():
         l_ip = []
         for l in l_ips:
             l_ip.append(str(l).replace('<td data-title="IP">', '').replace('</td>', ''))
-        # print(l_ip)
 
-        # 获取 端口 列表
+        # 获取 PORT 列表
         l_ports = bsop.findAll('td', {'data-title': 'PORT'})
         l_port = []
         for l in l_ports:
             l_port.append(str(l).replace('<td data-title="PORT">', '').replace('</td>', ''))
-        # print(l_port)
+
+        # 获取 类型 列表
+        l_types = bsop.findAll('td', {'data-title': '类型'})
+        l_type = []
+        for l in l_types:
+            l_type.append(str(l).replace('<td data-title="类型">', '').replace('</td>', ''))
 
         l_ipPort = []
         for i in range(len(l_ip)):
-            l_ipPort.append("http://" + l_ip[i] + ":" + l_port[i])
+            l_ipPort.append(l_type[i] + "://" + l_ip[i] + ":" + l_port[i])
 
         return(l_ipPort[random.randint(0, len(l_ipPort)-1)])
 
