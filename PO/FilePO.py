@@ -369,7 +369,7 @@ if __name__ == "__main__":
     # print(File_PO.getUpPathSlash())  # D:/51/python/project
     #
     # print("2.5 获取自定义上层目录路径".center(100, "-"))
-    print(File_PO.getLayerPath("../../tools"))  # D:\51\python\tools
+    # print(File_PO.getLayerPath("../../tools"))  # D:\51\python\tools
     # print(File_PO.getLayerPath("/"))  # D:\
     #
     # print("2.6 切换路径，影响os.getcwd()".center(100, "-"))
@@ -467,7 +467,7 @@ if __name__ == "__main__":
     #
     # print("4.2 新建多级目录".center(100, "-"))
     # # File_PO.newLayerFolder(os.getcwd() + "/filepo/filepo2/h1/h2")  # 新建 filepo1/h1/h2 三层目录，目录存在则忽略
-    # # File_PO.newLayerFolder(os.getcwd() + "/filepo/filepo3/h3/h4")
+    File_PO.newLayerFolder("d:\\999\\苹果")
     #
     # print("4.3 复制目录".center(100, "-"))
     # # File_PO.copyFolder(os.getcwd() + "/filepo/filepo1", os.getcwd() + "/filepo/filepo2")  # 如果目标目录已存在则忽略。

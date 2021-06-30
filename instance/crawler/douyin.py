@@ -16,8 +16,9 @@ Data_PO = DataPO()
 def getOne(copyURL, toSave):
 
 	session = requests.session()
-	proxies = {"url": Data_PO.getIpAgent()}
 	headers = {'User-Agent': Data_PO.getUserAgent()}
+	varIp = Data_PO.getIpAgent()
+	proxies = {str(varIp).split("://")[0]:str(varIp).split("://")[1]}
 
 	# 解析复制链接及API地址并获取视频ID
 	res = session.get(url=copyURL, headers=headers, proxies=proxies)
