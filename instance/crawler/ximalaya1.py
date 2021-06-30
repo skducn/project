@@ -6,9 +6,10 @@
 # https://www.ximalaya.com/
 # 获取index，专辑音频总数，页数 https://www.ximalaya.com/revision/album/getTracksList?albumId=13738175&pageNum=1
 # 获取src，https://www.ximalaya.com/revision/play/album?albumId=13738175&pageNum=1
-#***************************************************************
+# 参考：https://blog.csdn.net/weixin_40873462/article/details/89706555
+#******************************************************************************************************************
 
-import requests, re, os, platform
+
 from PO.DataPO import *
 from PO.FilePO import *
 Data_PO = DataPO()
@@ -18,6 +19,7 @@ File_PO = FilePO()
 class Ximalaya:
 
 	def __init__(self):
+		# 初始化
 		self.session = requests.session()
 		self.headers = {'User-Agent': Data_PO.getUserAgent()}
 		varIp = Data_PO.getIpAgent()
@@ -27,6 +29,7 @@ class Ximalaya:
 		chtml = requests.get(url=varUrl, headers=self.headers, proxies=self.proxies)
 		cjson = chtml.json()
 		return cjson
+
 
 	# 1，获取音频列表
 	def getAudioList(self, albumId):
@@ -277,13 +280,13 @@ if __name__ == '__main__':
 
 
 	# 2，下载专辑所有音频
-	ximalaya.downAll("46246212", "d:\\500", "all")
+	# ximalaya.downAll("46246212", "d:\\500", "all")
 	# ximalaya.downAll("13738175", "d:\\500", varRange=169)  # 从169开始往前下载
 
 
 	# 3，下载专辑单个音频
 	# ximalaya.downOne("13738175", 173, "d:\\500")   # 下载音频编号170的视频
-	# downOne("13738175", "为什么", "d:\\5")   # 下载音频标题中带“为什么”关键字的视频
+	# ximalaya.downOne("13738175", "为什么", "d:\\5")   # 下载音频标题中带“为什么”关键字的视频
 
 
 
