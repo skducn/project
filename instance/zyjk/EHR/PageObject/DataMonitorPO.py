@@ -5,7 +5,7 @@
 # Description:  电子健康档案数据监控中心（PC端）EHR对象库
 # *****************************************************************
 
-from PO.WebPO import *
+from PO.HtmlPO import *
 from PO.ListPO import *
 from PO.ColorPO import *
 from instance.zyjk.EHR.config.config import *
