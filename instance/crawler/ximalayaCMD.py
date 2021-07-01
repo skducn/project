@@ -173,14 +173,17 @@ class Ximalaya:
 					l_indexTitle[i].append(l_titleSrc[i][1])
 			# print(l_indexTitle)
 
+			# 生成目录
+			File_PO.newLayerFolder(toSave + "\\" + albumTitle)
+
 			# 下载
-			File_PO.newLayerFolder(toSave + "\\" + albumTitle)  # 自动创建目录
 			for i in range(len(l_indexTitle)):
 				# 下载从指定序号开始往前音频
 				if isinstance(scope, int):
 					if scope >= l_indexTitle[i][0]:
 						ir = Html_PO.sessionGet(l_indexTitle[i][2])
-						varTitle = str(l_indexTitle[i][1]).replace("?", "").replace("/", "").replace("|", "").replace(":", "")
+						# 优化文件名不支持的9个字符
+						varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
 						varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 						open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 						print(l_indexTitle[i])
@@ -189,7 +192,8 @@ class Ximalaya:
 					if scope in l_indexTitle[i][1]:
 						if l_indexTitle[i][2] != None:
 							ir = Html_PO.sessionGet(l_indexTitle[i][2])
-							varTitle = str(l_indexTitle[i][1]).replace("?", "").replace("/", "").replace("|","").replace(":", "")
+							# 优化文件名不支持的9个字符
+							varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 							print(l_indexTitle[i])
@@ -198,7 +202,8 @@ class Ximalaya:
 				# 下载所有视频
 				if scope == "all":
 					ir = Html_PO.sessionGet(l_indexTitle[i][2])
-					varTitle = str(l_indexTitle[i][1]).replace("?", "").replace("/", "").replace("|", "").replace(":","")
+					# 优化文件名不支持的9个字符
+					varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
 					varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 					open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 					print(l_indexTitle[i])
@@ -272,14 +277,17 @@ class Ximalaya:
 					l_indexTitle[i].append(l_titleSrc[i][1])
 			# print(l_indexTitle)
 
+			# 生成目录
+			File_PO.newLayerFolder(toSave + "\\" + albumTitle)
+
 			# 下载
-			File_PO.newLayerFolder(toSave + "\\" + albumTitle)  # 自动创建目录
 			for i in range(len(l_indexTitle)):
 				if isinstance(varKeyword, int):
 					if l_indexTitle[i][0] == varKeyword :
 						if l_indexTitle[i][2] != None:
 							ir = Html_PO.sessionGet(l_indexTitle[i][2])
-							varTitle = str(l_indexTitle[i][1]).replace("?", "").replace("/", "").replace("|", "").replace(":", "")
+							# 优化文件名不支持的9个字符
+							varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 							print(l_indexTitle[i])
