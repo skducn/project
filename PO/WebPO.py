@@ -19,6 +19,7 @@
 # *******************************************************************************************************************************
 
 '''
+
 1.1，打开网站
 1.2，关闭网站
 
@@ -38,7 +39,12 @@
 
 6，弹出框(未测试)
 
-7，切换窗口'''
+7，切换窗口
+8，多浏览器窗口切换（不指定那个网址的）
+
+
+'''
+
 
 from PO.BasePO import *
 from selenium import webdriver
@@ -47,11 +53,14 @@ from selenium import webdriver
 # from selenium.webdriver.support.wait import WebDriverWait
 # from selenium.webdriver.support import expected_conditions as EC
 from PIL import ImageGrab
-import cv2
+import cv2,requests
 from pytesseract import *
 from PIL import Image, ImageDraw, ImageGrab
+from PO.DataPO import *
+Data_PO = DataPO()
 
 class WebPO(BasePO):
+
 
     # 1.1，打开网站
     def _openURL(self, varURL):
@@ -260,6 +269,8 @@ class WebPO(BasePO):
         sleep(2)
         self.driver.switch_to.window(all_handles[varSwitch])
 
+
+
 if __name__ == '__main__':
 
     Web_PO = WebPO("chrome")
@@ -275,14 +286,14 @@ if __name__ == '__main__':
     # print(Web_PO.getBrowserSize())  # (1920, 1040)
     #
     # print("3.1，截取全屏".center(100, "-"))
-    Web_PO.captureScreen('d:\\fullScreen.jpg')  # 1920,1080
+    # Web_PO.captureScreen('d:\\fullScreen.jpg')  # 1920,1080
     #
     # print("3.2，截取浏览器内屏幕".center(100, "-"))
     # Web_PO.openURL('https://www.baidu.com/')
     # Web_PO.captureBrowser(u"d:\\browserScreen.png")  # 1920,926
 
-    print("3.3，截屏指定图片中某一区域".center(100, "-"))
-    Web_PO.capturePicturePart("d:\\fullScreen.jpg", "d:\\test.jpg", 500, 700, 750, 1050)
+    # print("3.3，截屏指定图片中某一区域".center(100, "-"))
+    # Web_PO.capturePicturePart("d:\\fullScreen.jpg", "d:\\test.jpg", 500, 700, 750, 1050)
 
 
     # print("7，多窗口切换".center(100, "-"))

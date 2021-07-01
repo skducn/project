@@ -7,7 +7,7 @@
 
 import string, numpy
 from string import digits
-from PO.WebPO import *
+from PO.HtmlPO import *
 from PO.ListPO import *
 from PO.TimePO import *
 from PO.ColorPO import *
