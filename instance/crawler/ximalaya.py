@@ -21,6 +21,9 @@ File_PO = FilePO()
 from PO.HtmlPO import *
 Html_PO = HtmlPO()
 
+from PO.StrPO import *
+Str_PO = StrPO()
+
 
 class Ximalaya:
 
@@ -40,7 +43,7 @@ class Ximalaya:
 		else:
 			trackTotalCount = int(cjson["data"]["trackTotalCount"])
 			albumTitle = cjson['data']['tracks'][0]['albumTitle']
-			print("专辑名：{}".format(albumTitle))
+			print("专辑名：{}({})".format(albumTitle, "https://www.ximalaya.com/gerenchengzhang/" + str(albumId)))
 			print("音频数：" + str(trackTotalCount))
 			if trackTotalCount < 30 or trackTotalCount == 30:
 				pageNum = 1
@@ -98,8 +101,93 @@ class Ximalaya:
 				print(l_indexTitle[i])
 
 
+	# 2，单音频下载
+	def downSingle(self, albumId, varKeyword, toSave):
 
-	# 2，下载专辑所有音频
+		# 获取专辑音频总数
+		cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId))
+		if cjson["ret"] != 200 :
+			print("[errorrrrrrrrr] albumId不存在！")
+			os._exit(0)
+		else:
+			albumTitle = cjson['data']['tracks'][0]['albumTitle']
+			print("专辑名：{}({})".format(albumTitle, "https://www.ximalaya.com/gerenchengzhang/" + str(albumId)))
+			trackTotalCount = int(cjson["data"]["trackTotalCount"])
+			print("音频数：" + str(trackTotalCount))
+			print("保存至：{}\{}".format(toSave, albumTitle))
+			if trackTotalCount < 30 or trackTotalCount == 30:
+				pageNum = 1
+			else:
+				if trackTotalCount % 30 == 0 :
+					pageNum = trackTotalCount // 30
+				else:
+					pageNum = trackTotalCount // 30 + 1
+
+			# 生成列表1，[index,标题]
+			l_indexTitle = []
+			l_tmp = []
+			for num in range(1, pageNum + 1):
+				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum={}".format(albumId, num))
+				countByPage = len(cjson['data']['tracks'])
+				if countByPage == 30:
+					for i in range(30):
+						index = cjson['data']['tracks'][i]['index']
+						title = cjson['data']['tracks'][i]['title']
+						l_tmp.append(index)
+						l_tmp.append(title)
+						l_indexTitle.append(l_tmp)
+						l_tmp = []
+				else:
+					for i in range(countByPage):
+						index = cjson['data']['tracks'][i]['index']
+						title = cjson['data']['tracks'][i]['title']
+						l_tmp.append(index)
+						l_tmp.append(title)
+						l_indexTitle.append(l_tmp)
+						l_tmp = []
+
+			# 生成列表2，[标题，地址]
+			l_titleSrc = []
+			l_tmp = []
+			for num in range(1, pageNum + 1):
+				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num))
+				for i in range(30):
+					try:
+						trackName = cjson['data']['tracksAudioPlay'][i]['trackName']  # 音频标题
+						src = cjson['data']['tracksAudioPlay'][i]['src']  # 下载链接
+						l_tmp.append(trackName)
+						l_tmp.append(src)
+						l_titleSrc.append(l_tmp)
+						l_tmp = []
+					except IndexError:
+						break
+
+			# 两列表合并，输出结果
+			for i in range(len(l_indexTitle)):
+				if l_indexTitle[i][1] == l_titleSrc[i][0] :
+					l_indexTitle[i].append(l_titleSrc[i][1])
+			# print(l_indexTitle)
+
+			# 生成目录
+			File_PO.newLayerFolder(toSave + "\\" + albumTitle)
+
+			# 下载
+			for i in range(len(l_indexTitle)):
+				if isinstance(varKeyword, int):
+					if l_indexTitle[i][0] == varKeyword :
+						if l_indexTitle[i][2] != None:
+							ir = Html_PO.sessionGet(l_indexTitle[i][2])
+							# 优化文件名不支持的9个字符
+							varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
+							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
+							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
+							print(l_indexTitle[i])
+						else:
+							print("[warning] => 空地址可能是付费音频，无法下载")
+						break
+
+
+	# 3，多视频下载
 	def downRange(self, albumId, toSave, scope="all"):
 
 		# 获取专辑音频总数
@@ -109,7 +197,7 @@ class Ximalaya:
 			os._exit(0)
 		else:
 			albumTitle = cjson['data']['tracks'][0]['albumTitle']
-			print("专辑名：{}".format(albumTitle))
+			print("专辑名：{}({})".format(albumTitle, "https://www.ximalaya.com/gerenchengzhang/" + str(albumId)))
 			trackTotalCount = int(cjson["data"]["trackTotalCount"])
 			print("音频数：" + str(trackTotalCount))
 			if trackTotalCount < 30 or trackTotalCount == 30:
@@ -171,14 +259,17 @@ class Ximalaya:
 					l_indexTitle[i].append(l_titleSrc[i][1])
 			# print(l_indexTitle)
 
+			# 生成目录
+			File_PO.newLayerFolder(toSave + "\\" + albumTitle)
+
 			# 下载
-			File_PO.newLayerFolder(toSave + "\\" + albumTitle)  # 自动创建目录
 			for i in range(len(l_indexTitle)):
 				# 下载从序号之前的音频
 				if isinstance(scope, int):
 					if scope >= l_indexTitle[i][0]:
 						ir = Html_PO.sessionGet(l_indexTitle[i][2])
-						varTitle = str(l_indexTitle[i][1]).replace("?", "").replace("/", "").replace("|", "").replace(":", "")
+						# 优化文件名不支持的9个字符
+						varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
 						varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 						open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 						print(l_indexTitle[i])
@@ -187,7 +278,8 @@ class Ximalaya:
 					if scope in l_indexTitle[i][1]:
 						if l_indexTitle[i][2] != None:
 							ir = Html_PO.sessionGet(l_indexTitle[i][2])
-							varTitle = str(l_indexTitle[i][1]).replace("?", "").replace("/", "").replace("|", "").replace(":", "")
+							# 优化文件名不支持的9个字符
+							varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 							print(l_indexTitle[i])
@@ -196,94 +288,13 @@ class Ximalaya:
 				# 下载所有视频
 				if scope == "all":
 					ir = Html_PO.sessionGet(l_indexTitle[i][2])
-					varTitle = str(l_indexTitle[i][1]).replace("?", "").replace("/", "").replace("|", "").replace(":", "")
+					# 优化文件名不支持的9个字符
+					varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
 					varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 					open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 					print(l_indexTitle[i])
 
 
-
-	# 3，下载专辑单个音频
-	def downSingle(self, albumId, varKeyword, toSave):
-
-		# 获取专辑音频总数
-		cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId))
-		if cjson["ret"] != 200 :
-			print("[errorrrrrrrrr] albumId不存在！")
-			os._exit(0)
-		else:
-			albumTitle = cjson['data']['tracks'][0]['albumTitle']
-			print("专辑名：{}".format(albumTitle))
-			trackTotalCount = int(cjson["data"]["trackTotalCount"])
-			print("音频数：" + str(trackTotalCount))
-			print("保存至：{}\{}".format(toSave, albumTitle))
-			if trackTotalCount < 30 or trackTotalCount == 30:
-				pageNum = 1
-			else:
-				if trackTotalCount % 30 == 0 :
-					pageNum = trackTotalCount // 30
-				else:
-					pageNum = trackTotalCount // 30 + 1
-
-			# 生成列表1，[index,标题]
-			l_indexTitle = []
-			l_tmp = []
-			for num in range(1, pageNum + 1):
-				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum={}".format(albumId, num))
-				countByPage = len(cjson['data']['tracks'])
-				if countByPage == 30:
-					for i in range(30):
-						index = cjson['data']['tracks'][i]['index']
-						title = cjson['data']['tracks'][i]['title']
-						l_tmp.append(index)
-						l_tmp.append(title)
-						l_indexTitle.append(l_tmp)
-						l_tmp = []
-				else:
-					for i in range(countByPage):
-						index = cjson['data']['tracks'][i]['index']
-						title = cjson['data']['tracks'][i]['title']
-						l_tmp.append(index)
-						l_tmp.append(title)
-						l_indexTitle.append(l_tmp)
-						l_tmp = []
-
-			# 生成列表2，[标题，地址]
-			l_titleSrc = []
-			l_tmp = []
-			for num in range(1, pageNum + 1):
-				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num))
-				for i in range(30):
-					try:
-						trackName = cjson['data']['tracksAudioPlay'][i]['trackName']  # 音频标题
-						src = cjson['data']['tracksAudioPlay'][i]['src']  # 下载链接
-						l_tmp.append(trackName)
-						l_tmp.append(src)
-						l_titleSrc.append(l_tmp)
-						l_tmp = []
-					except IndexError:
-						break
-
-			# 两列表合并，输出结果
-			for i in range(len(l_indexTitle)):
-				if l_indexTitle[i][1] == l_titleSrc[i][0] :
-					l_indexTitle[i].append(l_titleSrc[i][1])
-			# print(l_indexTitle)
-
-			# 下载
-			File_PO.newLayerFolder(toSave + "\\" + albumTitle)  # 自动创建目录
-			for i in range(len(l_indexTitle)):
-				if isinstance(varKeyword, int):
-					if l_indexTitle[i][0] == varKeyword :
-						if l_indexTitle[i][2] != None:
-							ir = Html_PO.sessionGet(l_indexTitle[i][2])
-							varTitle = str(l_indexTitle[i][1]).replace("?", "").replace("/", "").replace("|", "").replace(":", "")
-							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
-							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
-							print(l_indexTitle[i])
-						else:
-							print("[warning] => 空地址可能是付费音频，无法下载")
-						break
 
 
 
@@ -296,13 +307,13 @@ if __name__ == '__main__':
 	# ximalaya.getAlbumList("13738175")
 
 
-	# 2，多音频下载
+	# 2，单音频下载
+	# ximalaya.downSingle("13738175", 173, "d:\\500")   # 下载序号《173》的音频
+
+
+	# 3，多音频下载
 	# ximalaya.downRange("13738175", "d:\\500")   # 下载所有音频
-	ximalaya.downRange("13738175", "d:\\500", 3)  # #下载从序号《3》之前的音频
+	# ximalaya.downRange("13738175", "d:\\500", 3)  # 下载从序号《3》之前的音频
 	# ximalaya.downRange("13738175", "d:\\500", "为什么")   # 下载标题中带“为什么”关键字的音频
-
-
-	# 3，单音频下载
-	ximalaya.downSingle("13738175", 173, "d:\\500")   # 下载序号《173》的音频
 
 
