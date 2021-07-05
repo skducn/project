@@ -37,7 +37,8 @@ def is_login():
     response = session.get("https://www.zhihu.com/inbox", headers=header, allow_redirects=False)
     if response.status_code != 200:
         # zhihu_login("+8618511693445", "123*asd")
-        zhihu_login("13816109050", "jinhao80")
+        password = input('输入密码:')
+        zhihu_login("13816109050", password)
     else:
         print("你已经登陆了")
 
@@ -110,7 +111,7 @@ def zhihu_login(account, password):
         "source": "com.zhihu.web",
         "password": password,
         "username": account,
-        "captcha": "",
+        # "captcha": "",
         "lang": "en",
         "ref_source": "homepage",
         "utm_source": "",

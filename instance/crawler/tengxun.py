@@ -1,73 +1,112 @@
 # coding=utf-8
 #***************************************************************
 # Author     : John
-# Created on : 2021-1-4
+# Created on : 2021-7-1
 # Description: 下载腾讯视频(非vip)
+# 参考：https://www.cnblogs.com/blogsxyz/p/12811236.html
+# pip install moviepy　
+# 获取视频地址方法，打开视频连接，F12切换到Application ,storage - local storage - https://v.qq.com - txp-playtime
+# 视频的真实地址 保存session中, 通过 https://www.sojson.com/simple_json.html 在线解析json ,定位到 vurl 这就是真实地址。
 #***************************************************************
 
-import re
-import os,shutil
-import requests,threading
-from urllib.request import urlretrieve
-from pyquery import PyQuery as pq
-from multiprocessing import Pool
-import random
-import time
-import requests, re, os
-import jsonpath
-from time import sleep
+import os
+import sys
+import requests
+import datetime
+from moviepy.editor import *
 
-#
-class video_down():
 
-    def __init__(self, url):
-        session = requests.session()
-        self.headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
-        sec_respone = session.get(url="http://vv.video.qq.com/getinfo?vids=" + url + "&platform=101001&charge=0&otype=json", headers=self.headers)
-        print(sec_respone.text)
+def LoadVideo(url, toSave):
+    """
+    腾讯视频下载
+    :param url: 视频m3u8地址
+    """
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"
+    }
+    download_path = toSave + "\download"
+    if not os.path.exists(download_path):
+        os.mkdir(download_path)
+    # 新建日期文件夹
+    download_path = os.path.join(download_path, datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
+    os.mkdir(download_path)
+    # 获取第一层M3U8文件内容
+    all_content = requests.get(url).text
+    if "#EXTM3U" not in all_content:
+        raise BaseException("非M3U8的链接")
+    if "EXT-X-STREAM-INF" in all_content:  # 第一层
+        file_line = all_content.split("\n")
+        for line in file_line:
+            if '.m3u8' in line:
+                # 拼出第二层m3u8的URL
+                url = url.rsplit("/", 1)[0] + "/" + line
+                all_content = requests.get(url, headers=headers).text
+    file_line = all_content.split("\n")
+    file_index = 0
+    for index, line in enumerate(file_line):  # 第二层
+        if "#EXT-X-KEY" in line:  # 找解密Key
+            method_pos = line.find("METHOD")
+            comma_pos = line.find(",")
+            method = line[method_pos:comma_pos].split('=')[1]
+            uri_pos = line.find("URI")
+            quotation_mark_pos = line.rfind('"')
+            key_path = line[uri_pos:quotation_mark_pos].split('"')[1]
+            key_url = url.rsplit("/", 1)[0] + "/" + key_path  # 拼出key解密密钥URL
+            res = requests.get(key_url)
+            key = res.content
+        # 找ts地址并下载
+        if "EXTINF" in line:
+            unknow = False
+            # 拼出ts片段的URL
+            pd_url = url.rsplit("/", 1)[0] + "/" + file_line[index + 1]
+            file_index = file_index + 1;
+            res = requests.get(pd_url)
+            c_fule_name = str(file_index)
+            with open(os.path.join(download_path, c_fule_name + ".mp4"), 'ab') as file:
+                file.write(res.content)
+                file.flush()
+    merge_file(download_path, toSave)
 
-        fn = re.findall('"fn":"(.+?)"', sec_respone.text)
-        # print("fn：%s" % fn[0])
 
-        fvkey = re.findall('"fvkey":"(.+?)"', sec_respone.text)
-        # print("fvkey：%s" % fvkey[0])
+def merge_file(path, toSave):
+    """拼接视频
+    :param path: 相对路劲
+    """
+    # 定义一个数组
+    video_list = []
+    # 访问 video 文件夹 (假设视频都放在这里面)
+    for root, dirs, files in os.walk(path):
+        # 按文件名排序
+        files.sort()
+        # 遍历所有文件
+        index = 0
+        for key in range(1, len(files) + 1):
+            for file in files:
+                if os.path.splitext(file)[0] == str(key):
+                    # 拼接成完整路径
+                    file_path = os.path.join(root, file)
+                    # 载入视频
+                    video = VideoFileClip(file_path)
+                    # 添加到数组
+                    video_list.append(video)
+                else:
+                    continue
 
-        url3 = re.findall('"url":"(.+?)"', sec_respone.text)
-        # print("url3：%s" % url3[-1])
-
-        downURL = url3[-1] + fn[0] + "?fvkey=" + fvkey[0]
-        print(downURL)
+    # 拼接视频
+    final_clip = concatenate_videoclips(video_list)
+    # 生成目标视频文件
+    video_path = toSave
+    if not os.path.exists(video_path):
+        os.mkdir(video_path)
+    video_path += datetime.datetime.now().strftime('%Y%m%d_%H%M%S') + '.mp4'
+    final_clip.to_videofile(video_path, fps=24, remove_temp=False)
 
 
 if __name__ == '__main__':
 
-    v = video_down("q0035hvwowd")
+    url = "https://apd-7ac4ecd38258778025a7fb3679879508.v.smtcdns.com/moviets.tc.qq.com/AtQpzEiykAnPWmnPrER3GejxhNlnnu1kf9M6p0tvRbiQ/uwMROfz2r5zAoaQXGdGnC2df644E7D3uP8M8pmtgwsRK9nEL/5xfHHTHBjYZ2c-Z9RNiWtwy7Z6nF9FA4j-VCIbWmEnb-5eLfsmIFYWlAFPtQZRJQAbnxDGB9a_5mAmOZYF6YxD7wNvsyYaIoqSmsCjrfIEUyJrRC-oBJvTEl0cBYNB9XNqYX7FZTq72WkpRX-r4qpqIi0BuW_RQLxXBLiZDruzkD6iVSzv1kAw/p003665x6pf.321002.ts.m3u8?ver=4"
+    LoadVideo(url, "d:\\3\\")
 
-    #电影目标url：狄仁杰之四大天王
-    # url='https://v.qq.com/x/cover/r6ri9qkcu66dna8.html'
-#     # ["x0027oqrq20", "o0030i760lp", "t0030kxu4lv", "k0030ek22hk", "o0030cmw34o", "m0780ds6f42", "i07367x9do4",
-#     #  "f07252jefce", "g07426brd7g", "a0739m9r4rn", "w074487otra", "m0737sygu6f", "y07359kt80w", "h07406k0nwm",
-#     #  "n0734rbwciv", "y073321aeqe", "b0735xxvtqf", "s0728s5zzd1", "f0711g224s1", "w0734id0oyc", "w0724itdqej",
-#     #  "h07230iz1ug", "z0726lkdiqg", "b0720m6iwai", "f0718aiuft6", "e0712a5hpi0", "w06979zdu7s", "a0705zanx7r",
-#     #  "h0637zx1wc8", "x0692tlysax", "r0663ocag8m", "b0552p30m20"]
-#     # #电影碟中谍5：神秘国度
-#     # url1='https://v.qq.com/x/cover/5c58griiqftvq00.html'
-#     # #电视剧斗破苍穹
-#     # url2='https://v.qq.com/x/cover/lcpwn26degwm7t3/z0027injhcq.html'
-#     # url3='https://v.qq.com/x/cover/33bfp8mmgakf0gi.html'
-
-
-# def qq_vedio(vid):
-#     headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
-#     appver = '3.2.19.333'
-#     # try:
-#     #     vid = url.split("/")[-1].split(".")[0]
-#     # except:
-#     #     vid = url
-#     #     print(vid)
-#     url = "http://vv.video.qq.com/getinfo?otype=json@platform=11&defnpayver=1&appver=" + appver + "&defn=fhd&vid=" + vid
-#     html = requests.get(url,headers=headers)
-#     html_text = html.text
-#     print(html.text)
-#
-# qq_vedio("y0029h6miip")
+    # video=VideoFileClip("./download/20200416_140017/1.mp4")
+    # videoClip = video.subclip(7,)
+    # videoClip.to_videofile("./download/20200416_140017/01.mp4", fps=20)#输出文件
