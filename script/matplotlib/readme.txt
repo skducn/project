@@ -10,8 +10,7 @@ plt.rcParams['axes.unicode_minus'] = False
 //脚本
 
 # 文件保存路径
-savefig("test.png")
-
+plt.savefig("d:\\1\\222.png")
 
 
 具体实例参考：https://matplotlib.org/gallery/index.html
