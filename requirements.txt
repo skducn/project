@@ -88,7 +88,7 @@ poolmanager==0.1.0
 Protego==0.1.15
 psutil==5.7.2
 ptyprocess==0.5.1
-py==1.8.1
+py==1.10.0
 py2app==0.7.3
 pyasn1==0.2.3
 pyasn1-modules==0.0.9
