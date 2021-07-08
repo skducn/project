@@ -30,7 +30,7 @@ ax.set_title('小组成绩单')
 ax.legend()
 
 # 直接打印
-plt.show()
+# plt.show()
 
 # # 文件保存路径
-# savefig("test.png")
+plt.savefig("d:\\1\\test.jpg")
