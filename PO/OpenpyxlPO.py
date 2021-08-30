@@ -54,7 +54,7 @@ Char_PO = CharPO()
 19 添加工作表（工作表名重复时，覆盖原工作表）
 20 删除工作表
 21 初始化数据
-22 get_column_letter得到表格列的字母编号
+22 get_column_letter 得到表格列的字母编号
 '''
 
 class OpenpyxlPO():
