@@ -59,6 +59,7 @@
 '''
 
 import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid, requests
+import random
 from datetime import date
 from datetime import timedelta
 from fake_useragent import UserAgent
@@ -562,6 +563,13 @@ class DataPO():
         # 如报错，则更新 pip3 install -U fake-useragent
         return (str(UserAgent().random))
 
+
+    # 14, 随机生成一批整数
+    def getRandomInt(self, varEndInt, varNum):
+        # random.sample()生成不相同的随机数
+        return random.sample(range(1, varEndInt), varNum)
+
+
 if __name__ == '__main__':
 
     Data_PO = DataPO()
@@ -629,7 +637,7 @@ if __name__ == '__main__':
     print(Data_PO.getIpAgent())
 
     # print("13.1 通过fake版本随机获取用户代理".center(100, "-"))
-    # Data_PO.getUserAgentFromFakeUrl("https://fake-useragent.herokuapp.com/browsers/0.1.11")
+    # print(Data_PO.getUserAgentFromFakeUrl("https://fake-useragent.herokuapp.com/browsers/0.1.11"))
     #
     # print("13.2 将fake包用户代理信息写入文档".center(100, "-"))
     # Data_PO.setUserAgentFromFakeUrlToFile("https://fake-useragent.herokuapp.com/browsers/0.1.11", "userAgent.json")
@@ -644,3 +652,6 @@ if __name__ == '__main__':
     # df = pd.read_json("browser_info.json",lines = True)
     # print(df)
     # df.to_excel("browser.xlsx")
+
+    print("14 随机获取1-101之间的20个整数".center(100, "-"))
+    print(random.sample(range(1, 101), 20))  # random.sample()生成不相同的随机数

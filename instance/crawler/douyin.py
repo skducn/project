@@ -34,7 +34,6 @@ class Douyin:
 		# 初始化代理
 		Html_PO.getHeadersProxies()
 
-
 	# 1，单视频下载（手机版）
 	def downSingle(self, copyURL, toSave):
 		# 参数：用户页链接 - 分享 - 复制链接
@@ -328,7 +327,7 @@ if __name__ == '__main__':
 	douyin = Douyin()
 
 	# 1，单视频下载（手机版）
-	douyin.downSingle(" https://v.douyin.com/eXmTAdU/", "d:\\600")
+	douyin.downSingle("https://v.douyin.com/eoCXSHj/", "d:\\600")
 
 
 	# 2，多视频下载（手机版）
@@ -338,7 +337,7 @@ if __name__ == '__main__':
 
 
 	# 3，单视频下载（网页版）
-	douyin.downSingelWeb("6974964160962530591", "d:\\4")
+	# douyin.downSingelWeb("6974964160962530591", "d:\\4")
 
 
 
