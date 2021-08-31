@@ -108,7 +108,7 @@ for i in range(len(r_itf_ITF_TB_EHR_MAIN_INFO_icCardNo)):
 # 将结果保存到git
 currDate = Time_PO.getDate()
 currDate = "EHR_itf与dc数据比对表_" + str(currDate) + ".xlsx"
-print(currDate)
+# print(currDate)
 os.system('copy EHR_itf与dc数据比对表.xlsx D:\\myGit\\testTeam\\EHR\\comparison\\result\\' + currDate + '&& git add . && git commit -m "add result" && git push')
 
 # os.system('copy EHR_itf与dc数据比对表.xlsx c:\\myGit\\testTeam\\ehr\comparion\\result\\' currDate  && d: && cd /myGit/testTeam/ && git push')
