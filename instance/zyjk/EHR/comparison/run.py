@@ -5,6 +5,8 @@
 # Description: 电子健康档案数据比对自动化，ITF与DC库中表字段数据比对。
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+import os,sys
+sys.path.append("../../../../")
 from PO.OpenpyxlPO import *
 from PO.SqlserverPO import *
 from PO.DataPO import *
@@ -13,11 +15,6 @@ from PO.TimePO import *
 List_PO = ListPO()
 Time_PO = TimePO()
 from time import sleep
-import os
-
-
-
-
 
 
 # 初始化数据
@@ -108,7 +105,5 @@ for i in range(len(r_itf_ITF_TB_EHR_MAIN_INFO_icCardNo)):
 # 将结果保存到git
 currDate = Time_PO.getDate()
 currDate = "EHR_itf与dc数据比对表_" + str(currDate) + ".xlsx"
-# print(currDate)
-os.system('copy EHR_itf与dc数据比对表.xlsx D:\\myGit\\testTeam\\EHR\\comparison\\result\\' + currDate + '&& git add . && git commit -m "add result" && git push')
+os.system('copy EHR_itf与dc数据比对表.xlsx D:\\myGit\\testTeam\\EHR\\comparison\\result\\' + currDate + '&& cd D:\\myGit\\testTeam\ && git add . && git commit -m "add result" && git push')
 
-# os.system('copy EHR_itf与dc数据比对表.xlsx c:\\myGit\\testTeam\\ehr\comparion\\result\\' currDate  && d: && cd /myGit/testTeam/ && git push')
