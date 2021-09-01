@@ -21,7 +21,7 @@
 
 #***************************************************************
 
-import pymssql,uuid
+import pymssql, uuid
 # print(pymssql.__version__)
 from adodbapi import connect
 
