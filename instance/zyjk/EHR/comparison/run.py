@@ -2,7 +2,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Author     : John
 # Created on : 2021-8-31
-# Description: 电子健康档案数据比对自动化，ITF与DC库中表字段数据比对。
+# Description: 电子健康档案数据比对自动化，ITF与DC库中表字段数据比对。（现场用）
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 import os,sys
@@ -11,22 +11,20 @@ from PO.OpenpyxlPO import *
 from PO.SqlserverPO import *
 from PO.DataPO import *
 from PO.ListPO import *
-from PO.TimePO import *
 List_PO = ListPO()
-Time_PO = TimePO()
 from time import sleep
 
 
 # 初始化数据
-os.system('d: && cd /myGit/testTeam/ehr/comparison && git pull &&  copy EHR_itf与dc数据比对表.xlsx D:\\51\\python\\project\\instance\\zyjk\\EHR\\comparison')
 Openpyxl_PO = OpenpyxlPO("EHR_itf与dc数据比对表.xlsx")
 Openpyxl_PO.clsColData(4)
 Sqlserver_PO_itf = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRITF")
 Sqlserver_PO_dc = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")
-varRandomIdCard = 15  # 随机获取N条身份证
+
 
 
 # 随机从 ITF_TB_EHR_MAIN_INFO 库获取 N 条身份证
+varRandomIdCard = 2  # 随机获取N条身份证
 r_itf_ITF_TB_EHR_MAIN_INFO_icCardNo = Sqlserver_PO_itf.ExecQuery("SELECT idCardNo  FROM ITF_TB_EHR_MAIN_INFO")
 suiji = random.sample(range(1, len(r_itf_ITF_TB_EHR_MAIN_INFO_icCardNo)), varRandomIdCard)
 suiji.sort()
@@ -100,10 +98,3 @@ for i in range(len(r_itf_ITF_TB_EHR_MAIN_INFO_icCardNo)):
                               + str(l_all[i][1]).split(".")[0] + "." + str(l_all[i][1]).split(".")[1] + "(" + str(right) + ")")
                     c = c + 1
                     Openpyxl_PO.save()
-
-
-# 将结果保存到git
-currDate = Time_PO.getDate()
-currDate = "EHR_itf与dc数据比对表_" + str(currDate) + ".xlsx"
-os.system('copy EHR_itf与dc数据比对表.xlsx D:\\myGit\\testTeam\\EHR\\comparison\\result\\' + currDate + '&& cd D:\\myGit\\testTeam\ && git add . && git commit -m "add result" && git push')
-
