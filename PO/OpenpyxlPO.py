@@ -5,6 +5,8 @@
 # Description   : openpyxl 对象层
 # openpyxl 官网 （http://openpyxl.readthedocs.org/en/latest/），支持Excel 2010 xlsx/xlsm/xltx/xltm 的读写，最新版本3.0.6（Oct 23, 2020）
 # 1，请安装 openpyxl 3.0.0，其他版本如3.0.2使用中会报错。 pip3 install openpyxl == 3.0.0
+# 报错：File "src\lxml\serializer.pxi", line 1652, in lxml.etree._IncrementalFileWriter.write TypeError: got invalid input value of type <class 'xml.etree.ElementTree.Element'>, expected string or Element
+# 解决方法: pip uninstall lxml   或更新最新openpyxl 3.0.7以上版本
 # 2，如果文字编码是“gb2312” 读取后就会显示乱码，请先转成Unicode
 # 3，openpyxl 的首行、首列 是 （1,1）而不是（0,0）
 # 4，openpyxl 的NULL空值对应于python中的None，表示这个cell里面没有数据。
@@ -413,104 +415,106 @@ class OpenpyxlPO():
 if __name__ == "__main__":
 
     Openpyxl_PO = OpenpyxlPO("d:\\1.xlsx")
-    # Openpyxl_PO.closeExcelPid('EXCEL.EXE')
-    print(Openpyxl_PO.wb.sheetnames)
-
-    print("1 新建excel".center(100, "-"))
-    # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel，默认生成一个工作表Sheet1
-    # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
-
-    print("2 获取总行数和总列数".center(100, "-"))
-    # print(Openpyxl_PO.l_getTotalRowCol())  # [4,3] //返回第1个工作表的总行数和总列数
-    # print(Openpyxl_PO.l_getTotalRowCol(1))  # [4,3] //返回第2个工作表的总行数和总列数
-    # print(Openpyxl_PO.l_getTotalRowCol("python"))  # [4,3] //返回python工作表的总行数和总列数
-
-    print("3 设置单元格的值".center(100, "-"))
-    # Openpyxl_PO.setCellValue(5, 3, "jinhao")  # 对第一个sheet表的第5行第3列写入数据
-    # Openpyxl_PO.setCellValue(5, 3, "12345678", "python")  # 对python工作表的的第5行第3列写入数据
-    # Openpyxl_PO.save()
-
-    print("4 批量设置单元格的值".center(100, "-"))
-    # Openpyxl_PO.setMoreCellValue([[7, "你好", "测试", "报告"], [9, "再见", "", "好了"]])  # 对第7行第9行分别写入内容
-    # Openpyxl_PO.setMoreCellValue([[2, "a", "b", "c"], [3, "d", "", "f"]], -1)  # 对最后一个sheet表第2行第3行分别写入内容
-    # Openpyxl_PO.save()
-
-    print("5 获取每行数据".center(100, "-"))
-    # print(Openpyxl_PO.l_getRowData())
-    # print(Openpyxl_PO.l_getRowData("python"))
-
-    print("6 获取每列数据".center(100, "-"))
-    # print(Openpyxl_PO.l_getColData())
-    # print(Openpyxl_PO.l_getColData("python"))
-
-    print("7 获取指定列的行数据".center(100, "-"))
-    # print(Openpyxl_PO.l_getRowDataByPartCol([1, 2, 4]))   # 获取第1，2，4列的行数据
-    # print(Openpyxl_PO.l_getRowDataByPartCol([1, 2, 4], -1))   # 获取最后一个工作表的第1，2，4列的行数据
-
-    print("8 获取某些列的列数据，可忽略多行".center(100, "-"))
-    # print(Openpyxl_PO.l_getColDataByPartCol([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
-    # print(Openpyxl_PO.l_getColDataByPartCol([2], [], "python"))  # 获取第2列所有值。
-
-    print("9 设置单元格背景色".center(100, "-"))
-    Openpyxl_PO.setCellColor(11, 1, "00E400")
     Openpyxl_PO.save()
 
-    print("10 删除行".center(100, "-"))
-    # Openpyxl_PO.delRowData(2, 3)  # 删除第2行之连续3行（删除2，3，4行）
+    # # Openpyxl_PO.closeExcelPid('EXCEL.EXE')
+    # print(Openpyxl_PO.wb.sheetnames)
+    #
+    # print("1 新建excel".center(100, "-"))
+    # # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel，默认生成一个工作表Sheet1
+    # # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
+    #
+    # print("2 获取总行数和总列数".center(100, "-"))
+    # # print(Openpyxl_PO.l_getTotalRowCol())  # [4,3] //返回第1个工作表的总行数和总列数
+    # # print(Openpyxl_PO.l_getTotalRowCol(1))  # [4,3] //返回第2个工作表的总行数和总列数
+    # # print(Openpyxl_PO.l_getTotalRowCol("python"))  # [4,3] //返回python工作表的总行数和总列数
+    #
+    # print("3 设置单元格的值".center(100, "-"))
+    # # Openpyxl_PO.setCellValue(5, 3, "jinhao")  # 对第一个sheet表的第5行第3列写入数据
+    # # Openpyxl_PO.setCellValue(5, 3, "12345678", "python")  # 对python工作表的的第5行第3列写入数据
+    # # Openpyxl_PO.save()
+    #
+    # print("4 批量设置单元格的值".center(100, "-"))
+    # # Openpyxl_PO.setMoreCellValue([[7, "你好", "测试", "报告"], [9, "再见", "", "好了"]])  # 对第7行第9行分别写入内容
+    # # Openpyxl_PO.setMoreCellValue([[2, "a", "b", "c"], [3, "d", "", "f"]], -1)  # 对最后一个sheet表第2行第3行分别写入内容
+    # # Openpyxl_PO.save()
+    #
+    # print("5 获取每行数据".center(100, "-"))
+    # # print(Openpyxl_PO.l_getRowData())
+    # # print(Openpyxl_PO.l_getRowData("python"))
+    #
+    # print("6 获取每列数据".center(100, "-"))
+    # # print(Openpyxl_PO.l_getColData())
+    # # print(Openpyxl_PO.l_getColData("python"))
+    #
+    # print("7 获取指定列的行数据".center(100, "-"))
+    # # print(Openpyxl_PO.l_getRowDataByPartCol([1, 2, 4]))   # 获取第1，2，4列的行数据
+    # # print(Openpyxl_PO.l_getRowDataByPartCol([1, 2, 4], -1))   # 获取最后一个工作表的第1，2，4列的行数据
+    #
+    # print("8 获取某些列的列数据，可忽略多行".center(100, "-"))
+    # # print(Openpyxl_PO.l_getColDataByPartCol([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
+    # # print(Openpyxl_PO.l_getColDataByPartCol([2], [], "python"))  # 获取第2列所有值。
+    #
+    # print("9 设置单元格背景色".center(100, "-"))
+    # Openpyxl_PO.setCellColor(11, 1, "00E400")
     # Openpyxl_PO.save()
-
-    print("11 删除列".center(100, "-"))
-    # Openpyxl_PO.delColData(1, 2)  # 删除第1列之连续2列（删除1，2列）
-    # Openpyxl_PO.delColData(2, 1, "python")  # 删除第2列之连续1列（删除2列）
-    # Openpyxl_PO.save()
-
-    print("12 清空行".center(100, "-"))
-    # Openpyxl_PO.clsRowData(2)  # 清空第2行
-    # Openpyxl_PO.save()
-
-    print("13 清空列".center(100, "-"))
-    # Openpyxl_PO.clsColData(2)  # 清空第2列
-    # Openpyxl_PO.clsColData(1, "python")  # 清空第2列
-    # Openpyxl_PO.save()
-
-    print("14 两表比较，输出差异".center(100, "-"))
-    # file1,list1,file2,list2 = Openpyxl_PO.cmpExcel("d:\\test1.xlsx", "mySheet1", "d:\\test2.xlsx", "mySheet1")
-    # print(file1 + ">"*50)
-    # for l in list1:
-    #     print(l)
-    # print("\n" + file2 + ">"*50)
-    # for l in list2:
-    #     print(l)
-
-    print("15 获取单元格值".center(100, "-"))
-    print(Openpyxl_PO.getCellValue(3, 2))  # 获取第3行第2列的值
-
-    print("16 设置工作表标题选项卡背景颜色".center(100, "-"))
-    # Openpyxl_PO.setSheetColor("FF0000")
-    # Openpyxl_PO.save()
-
-    print("17 关闭excel进程".center(100, "-"))
-    # Openpyxl_PO.closeExcelPid('EXCEL.EXE')
-
-    print("18 添加工作表（工作表名重复时，保留原工作表）".center(100, "-"))
-    # Openpyxl_PO.addSheet("test1")  # 默认在左侧第一个位置上添加工作表，如果工作表名已存在，第一次重名时自动更名为原有名字后加1，第二次重名时自动更名为第一次更名后数字运算加1。如 test1工作表添加了2次后，生成test11,test12两个工作表。
-    # Openpyxl_PO.addSheet("haha12", 99)   # 当index足够大时，则在最后一个位置添加工作表
-    # Openpyxl_PO.addSheet("7894", -1)   # 则倒数第二个位置添加工作表。
-
-    print("19 添加工作表（工作表名重复时，删除旧的工作表，谨慎！）".center(100, "-"))
-    # Openpyxl_PO.addSheetByCover("haha12", 99)   # 当index足够大时，则在最后一个位置添加工作表
-    # Openpyxl_PO.addSheetByCover("7894", -1)   # 则倒数第二个位置添加工作表。
-
-    print("20 删除工作表".center(100, "-"))
-    # Openpyxl_PO.delSheet("test1")  # 删除test1工作表
-
-
-    print("21 初始化数据".center(100, "-"))
-    # Openpyxl_PO.initData([['姓名', '电话', '成绩', '学科'], ['毛泽东', 15266606298, 14, '化学'], ['周恩来', 15201077791, 78, '美术']])   # 初始化数据，一般用于空工作表，如果工作表里有内容则在原有内容下面生成。
-    # Openpyxl_PO.initData([['姓名', '电话', '成绩', '学科'], ['金浩', 13816109050, 119, '语文'], ['Marry', 15201062191, 28, '数学']], "haha")  # 在haha工作表中初始化数据
-
-
-    print("22 get_column_letter得到表格列的字母编号".center(100, "-"))
-    # Openpyxl_PO.get_column_letter(10, 20, 3, 10)
-
-    Openpyxl_PO.open()
+    #
+    # print("10 删除行".center(100, "-"))
+    # # Openpyxl_PO.delRowData(2, 3)  # 删除第2行之连续3行（删除2，3，4行）
+    # # Openpyxl_PO.save()
+    #
+    # print("11 删除列".center(100, "-"))
+    # # Openpyxl_PO.delColData(1, 2)  # 删除第1列之连续2列（删除1，2列）
+    # # Openpyxl_PO.delColData(2, 1, "python")  # 删除第2列之连续1列（删除2列）
+    # # Openpyxl_PO.save()
+    #
+    # print("12 清空行".center(100, "-"))
+    # # Openpyxl_PO.clsRowData(2)  # 清空第2行
+    # # Openpyxl_PO.save()
+    #
+    # print("13 清空列".center(100, "-"))
+    # # Openpyxl_PO.clsColData(2)  # 清空第2列
+    # # Openpyxl_PO.clsColData(1, "python")  # 清空第2列
+    # # Openpyxl_PO.save()
+    #
+    # print("14 两表比较，输出差异".center(100, "-"))
+    # # file1,list1,file2,list2 = Openpyxl_PO.cmpExcel("d:\\test1.xlsx", "mySheet1", "d:\\test2.xlsx", "mySheet1")
+    # # print(file1 + ">"*50)
+    # # for l in list1:
+    # #     print(l)
+    # # print("\n" + file2 + ">"*50)
+    # # for l in list2:
+    # #     print(l)
+    #
+    # print("15 获取单元格值".center(100, "-"))
+    # # print(Openpyxl_PO.getCellValue(3, 2))  # 获取第3行第2列的值
+    #
+    # print("16 设置工作表标题选项卡背景颜色".center(100, "-"))
+    # # Openpyxl_PO.setSheetColor("FF0000")
+    # # Openpyxl_PO.save()
+    #
+    # print("17 关闭excel进程".center(100, "-"))
+    # # Openpyxl_PO.closeExcelPid('EXCEL.EXE')
+    #
+    # print("18 添加工作表（工作表名重复时，保留原工作表）".center(100, "-"))
+    # # Openpyxl_PO.addSheet("test1")  # 默认在左侧第一个位置上添加工作表，如果工作表名已存在，第一次重名时自动更名为原有名字后加1，第二次重名时自动更名为第一次更名后数字运算加1。如 test1工作表添加了2次后，生成test11,test12两个工作表。
+    # # Openpyxl_PO.addSheet("haha12", 99)   # 当index足够大时，则在最后一个位置添加工作表
+    # # Openpyxl_PO.addSheet("7894", -1)   # 则倒数第二个位置添加工作表。
+    #
+    # print("19 添加工作表（工作表名重复时，删除旧的工作表，谨慎！）".center(100, "-"))
+    # # Openpyxl_PO.addSheetByCover("haha12", 99)   # 当index足够大时，则在最后一个位置添加工作表
+    # # Openpyxl_PO.addSheetByCover("7894", -1)   # 则倒数第二个位置添加工作表。
+    #
+    # print("20 删除工作表".center(100, "-"))
+    # # Openpyxl_PO.delSheet("test1")  # 删除test1工作表
+    #
+    #
+    # print("21 初始化数据".center(100, "-"))
+    # # Openpyxl_PO.initData([['姓名', '电话', '成绩', '学科'], ['毛泽东', 15266606298, 14, '化学'], ['周恩来', 15201077791, 78, '美术']])   # 初始化数据，一般用于空工作表，如果工作表里有内容则在原有内容下面生成。
+    # # Openpyxl_PO.initData([['姓名', '电话', '成绩', '学科'], ['金浩', 13816109050, 119, '语文'], ['Marry', 15201062191, 28, '数学']], "haha")  # 在haha工作表中初始化数据
+    #
+    #
+    # print("22 get_column_letter得到表格列的字母编号".center(100, "-"))
+    # # Openpyxl_PO.get_column_letter(10, 20, 3, 10)
+    #
+    # Openpyxl_PO.open()

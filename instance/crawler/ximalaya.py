@@ -304,7 +304,7 @@ if __name__ == '__main__':
 
 
 	# 1，获取音频列表
-	# ximalaya.getAlbumList("13738175")
+	ximalaya.getAlbumList("43576130")
 
 
 	# 2，单音频下载
