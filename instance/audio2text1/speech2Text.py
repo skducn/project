@@ -30,7 +30,7 @@ import json
 from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-authenticator = IAMAuthenticator('Ui7RPYwxGu-BDzKT10rGxMweFAECVJHg97z7WJ41RmoG')
+authenticator = IAMAuthenticator('Ui7RPYwxGu-BDzKT10rGxMweFAECVJHg97z7WJ41RmoG') 
 speech_to_text = SpeechToTextV1(
     authenticator=authenticator
 )
