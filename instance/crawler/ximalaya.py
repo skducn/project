@@ -295,16 +295,15 @@ class Ximalaya:
 					print(l_indexTitle[i])
 
 
-
-
-
 if __name__ == '__main__':
 
 	ximalaya = Ximalaya()
 
 
 	# 1，获取音频列表
-	ximalaya.getAlbumList("43576130")
+	# ximalaya.getAlbumList("43576130")  # 超级演说家刘媛媛说高效学习法
+	ximalaya.getAlbumList("50196927")  # 超级演说家刘媛媛说高效学习法、提升记忆力
+
 
 
 	# 2，单音频下载

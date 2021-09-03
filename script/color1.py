@@ -8,7 +8,7 @@
 
 import ctypes, sys
 
-STD_INPUT_HANDLE = -10c
+STD_INPUT_HANDLE = -10
 STD_OUTPUT_HANDLE = -11
 STD_ERROR_HANDLE = -12
 

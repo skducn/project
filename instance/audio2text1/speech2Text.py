@@ -30,7 +30,7 @@ import json
 from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-authenticator = IAMAuthenticator('Ui7RPYwxGu-BDzKT10rGxMweFAECVJHg97z7WJ41RmoG') 
+authenticator = IAMAuthenticator('Ui7RPYwxGu-BDzKT10rGxMweFAECVJHg97z7WJ41RmoG')
 speech_to_text = SpeechToTextV1(
     authenticator=authenticator
 )
@@ -47,7 +47,10 @@ with open(join(dirname(__file__), './.', 'test.fixed.wav'),
         # keywords=['colorado', 'tornado', 'tornadoes'],
         # keywords_threshold=0.5
     ).get_result()
-print(speech_recognition_results)
-# print(json.dumps(speech_recognition_results, indent=2))
+print(speech_recognition_results)   # 字典
+print((speech_recognition_results['results'][0]['alternatives'][0]['transcript']).replace(" ", "") + (speech_recognition_results['results'][1]['alternatives'][0]['transcript']).replace(" ", ""))
+
+# print(json.dumps(speech_recognition_results, indent=2))   # 转换Json字符串
+
 
 # {'result_index': 0, 'results': [{'final': True, 'alternatives': [{'transcript': '就是 加速度 有数 的 舒 勇 大家 好 我 是 媛媛 ', 'confidence': 0.85}]}, {'final': True, 'alternatives': [{'transcript': '马 过年 回家 的 时候 呢 我 妈妈 的 朋友 的 女儿 读 高二 学习 不好 就来 找 我 请教 经验 我 就 问他 我说 你 为什么 学习 不太好 他说 我 觉得 我的 学习 方法 有问题 我 挺 努力 的 但是 我的 成绩 就是 提高 表 然后 就 问 他说 那 你 现在 的 ', 'confidence': 0.88}]}]}
