@@ -3,6 +3,7 @@
 # Author     : John
 # Created on : 2021-9-2
 # Description: mp3 2 wav  , mp3转wav
+# 安装 pip3 install ffmpeg
 #***************************************************************
 
 
