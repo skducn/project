@@ -327,7 +327,7 @@ if __name__ == '__main__':
 	douyin = Douyin()
 
 	# 1，单视频下载（手机版）
-	douyin.downSingle("https://v.douyin.com/eoCXSHj/", "d:\\600")
+	douyin.downSingle("https://v.douyin.com/d6x4QLT/", "d:\\600")
 
 
 	# 2，多视频下载（手机版）
