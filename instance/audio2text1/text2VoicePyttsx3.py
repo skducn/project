@@ -14,5 +14,5 @@
 import pyttsx3
 tts = pyttsx3.init()
 tts.setProperty('voice', tts.getProperty('voice')[1])
-tts.save_to_file("我想测试一下这个系统？不知道明天天气如何", "./text2VoicePyttsx3.mp3")
+tts.save_to_file("我想测试一下这个系统？不知道明天天气如何", "D:\\voice\\test\\text2VoicePyttsx3.mp3")
 tts.runAndWait()
