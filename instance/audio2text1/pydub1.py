@@ -20,4 +20,8 @@ def divideAudio(varSourcePath, varTargetPath, varTargetName, milliseconds):
 
 
 # 将bulues0.wav文件平均分割若干个5s文件，并另存于d:\\voice\\test\\
-divideAudio("d:\\voice\\test\\bulues0.wav", "d:\\voice\\test\\", "test", 5000)
+# divideAudio("d:\\voice\\test\\bulues0.wav", "d:\\voice\\test\\", "test", 5000)
+
+x = 3.1015926
+print("{:+.2f}".format(x))
+print("{:,}".format(10000000))
