@@ -2,9 +2,53 @@
 #***************************************************************
 # Author     : John
 # Created on : 2021-7-1
-# Description: 爬取 youtube
-
+# Description: 爬取 youtube(未测试通过)
 #***************************************************************
+
+
+#
+# import re
+# import urllib.request
+# def getHtml(url):
+#
+#     page = urllib.request.urlopen(url)
+#
+#     html = page.read()
+#
+#     return html
+#
+# def getUrl(html):
+#
+#     reg = r"(?<=a\shref=\"/watch).+?(?=\")"
+#
+#     urlre = re.compile(reg)
+#
+#     urllist = re.findall(urlre,html.decode('utf-8'))
+#
+#     format = "https://www.youtube.com/watch%s\n"
+#
+#     f = open("F:\output.txt", 'a')
+#
+#     for url in urllist:
+#
+#         result = (format % url)
+#
+#         f.write(result)
+#
+#         f.close()
+#
+#         pages = 10
+#
+#     for i in range(1,pages):
+#
+#         html = getHtml("https://www.youtube.com/results?search_query=lion+king&lclk=short&filters=short&page=%s" % i)
+#
+#         print (getUrl(html))
+#
+#         i += 1
+#
+# getUrl('https://www.youtube.com/v/j7KYm08ZFm4?rel=0&version=3&autohide=1')
+#
 
 # from pytube import YouTube
 # yt = YouTube('https://www.youtube.com/watch?v=92h4F7h2Xik')
@@ -13,16 +57,16 @@
 # yt.download('./')
 
 
-from __future__ import unicode_literals
-import youtube_dl
-import urllib
-import shutil
-ydl_opts = {}
-with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    ydl.download(['https://www.youtube.com/watch?v=92h4F7h2Xik'])
-    # ydl.download(['https://www.youtube.com/watch?v=x9kSOBtVQUc&t=32s'])
-
+# from __future__ import unicode_literals
+# import youtube_dl
+# import urllib
+# import shutil
+# ydl_opts = {}
+# with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+#     ydl.download(['https://www.youtube.com/watch?v=92h4F7h2Xik'])
+#     # ydl.download(['https://www.youtube.com/watch?v=x9kSOBtVQUc&t=32s'])
 #
+# #
 #
 # import youtube_dl
 #
