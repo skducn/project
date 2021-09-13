@@ -117,8 +117,8 @@ def getVideoList(url, varFromNumDown=0):
 
 
 @click.command()
-@click.option('--url', help='url地址')
-@click.option('--save', help='保存路径')
+@click.option('-u',"--url", help='url地址')
+@click.option("-s", '--save', help='保存路径')
 def getVideoOne(url,save):
 	session = requests.session()
 	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
@@ -147,7 +147,8 @@ def getVideoOne(url,save):
 if __name__ == '__main__':
 
 	# getVideoList("https://v.douyin.com/Jp4GEo6/")  # 走遍中国5A景区-大龙 抖音列表
+
 	getVideoOne()  # 单个抖音链接
-	# cmd 命令：python douyinCMD.py --url "https://v.douyin.com/eFW2VfN/" --save d:\1
+	# cmd 命令：python dy.py -u "https://v.douyin.com/eFW2VfN/" -s d:\1
 
 
