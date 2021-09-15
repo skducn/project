@@ -15,13 +15,16 @@ import os, subprocess
 def mp32wav(mp3Path, wavPath):
     MP3_File = AudioSegment.from_mp3(file=mp3Path)
     MP3_File.export(wavPath, format="wav")
-mp32wav('D:\\600\\test1.mp3','d:\\600\\17.wav')
+
 
 
 # mp4转wav
 def mp42wav(mp4Path, wavPath):
     subprocess.call("ffmpeg -i " + mp4Path + " -ar 16000 -vn " + wavPath, shell=True)
-# mp42wav("D:\\600\\test.mp4", "D:\\600\\test.wav")
+
+
+# mp32wav('D:\\600\\test1.mp3','d:\\600\\17.wav')
+mp42wav("D:\\600\\test.mp4", "D:\\600\\test.wav")
 
 
 

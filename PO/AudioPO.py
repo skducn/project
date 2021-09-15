@@ -95,17 +95,18 @@ if __name__ == "__main__":
     # print(Audio_PO.mp32wav('D:\\600\\test1.mp3', 'd:\\600\\test1.wav'))
 
     # print("1.2 mp4转wav".center(100, "-"))
-    # Audio_PO.mp42wav("D:\\600\\test2.mp4", "D:\\600\\test2.wav")
-    #
-    #
+    # Audio_PO.mp42wav("D:\\1\\123.mp4", "D:\\1\\test2.wav")
+
+
     # print("2 将音频文件进行平均分割".center(100, "-"))
     # Audio_PO.divideAudio("d:\\600\\bulues0.wav", "d:\\600\\", "haha", 5000)   # 将bulues0.wav文件平均分割若干个5s文件，并另存于d:\\voice\\test\\
-    #
+
+
     # print("3 pyttsx3文字转语音".center(100, "-"))
     # Audio_PO.text2mp3("我想测试一下这个系统？不知道明天天气如何", "D:\\600\\text2VoicePyttsx3.mp3")
 
 
     print("4 speech2Text音频转文字".center(100, "-"))
-    print(Audio_PO.speech2Text('d:/600/', 'speech2Text.wav'))
+    print(Audio_PO.speech2Text('d:/1/', 'test2.wav'))
 
 
