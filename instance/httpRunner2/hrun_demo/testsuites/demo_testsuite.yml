@@ -9,6 +9,8 @@ testcases:
 -
     name: call demo_testcase with data 1
     testcase: path/to/demo_testcase.yml
+    parameters:
+        user_id: [1001, 1002, 1003, 1004]
     variables:
         device_sn: $device_sn
 -
