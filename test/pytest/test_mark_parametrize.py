@@ -16,9 +16,9 @@ def start():
 
 names = ["羡鱼", "abc123", "admin@123.com"]
 @pytest.mark.usefixtures("start")
-@pytest.mark.parametrize("name", names)
-def test_user_reg(name):  # 接收的变量名要和parametrize的"name"一致
-    print(name)
+@pytest.mark.parametrize("name11", names)
+def test_user_reg(name11):  # 接收的变量名要和parametrize的"name11"一致
+    print(name11)
 
 # ------start--------
 # 羡鱼

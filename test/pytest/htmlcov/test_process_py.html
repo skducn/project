@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+    <title>Coverage for test_process.py: 50%</title>
+    <link rel="icon" sizes="32x32" href="favicon_32.png">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="jquery.isonscreen.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.pyfile_ready);
+    </script>
+</head>
+<body class="pyfile">
+<div id="header">
+    <div class="content">
+        <h1>Coverage for <b>test_process.py</b> :
+            <span class="pc_cov">50%</span>
+        </h1>
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <h2 class="stats">
+            18 statements &nbsp;
+            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">9 run</button>
+            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">9 missing</button>
+            <button type="button" class="exc show_exc shortkey_x button_toggle_exc" title="Toggle lines excluded">0 excluded</button>
+        </h2>
+    </div>
+</div>
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">r</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        <span class="key">p</span> &nbsp; toggle line displays
+    </p>
+    <p class="keyhelp">
+        <span class="key">j</span>
+        <span class="key">k</span> &nbsp; next/prev highlighted chunk
+    </p>
+    <p class="keyhelp">
+        <span class="key">0</span> &nbsp; (zero) top of page
+    </p>
+    <p class="keyhelp">
+        <span class="key">1</span> &nbsp; (one) first highlighted chunk
+    </p>
+    </div>
+</div>
+<div id="source">
+    <p id="t1" class="pln"><span class="n"><a href="#t1">1</a></span><span class="t"><span class="com"># coding: utf-8</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t2" class="pln"><span class="n"><a href="#t2">2</a></span><span class="t"><span class="com"># ********************************************************************************************************************</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t3" class="pln"><span class="n"><a href="#t3">3</a></span><span class="t"><span class="com"># Author     : John</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t4" class="pln"><span class="n"><a href="#t4">4</a></span><span class="t"><span class="com"># Date       : 2020-10-27</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t5" class="pln"><span class="n"><a href="#t5">5</a></span><span class="t"><span class="com"># Description: pytest</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t6" class="pln"><span class="n"><a href="#t6">6</a></span><span class="t"><span class="com"># &#26174;&#31034;&#23433;&#35013;&#21253;&#29256;&#26412;&#65292;pip3 show pytest , 6.1.1</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t7" class="pln"><span class="n"><a href="#t7">7</a></span><span class="t"><span class="com"># https://www.jianshu.com/p/b07d897cb10c</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t8" class="pln"><span class="n"><a href="#t8">8</a></span><span class="t"><span class="com"># Full pytest documentation   https://docs.pytest.org/en/stable/contents.html#toc</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t9" class="pln"><span class="n"><a href="#t9">9</a></span><span class="t"><span class="com"># pytest&#21442;&#25968;&#21015;&#34920;&#65292;https://www.cnblogs.com/wtfm/p/10824461.html</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t10" class="pln"><span class="n"><a href="#t10">10</a></span><span class="t"><span class="com"># https://www.pythonf.cn/read/21629   &#26500;&#24314;pytest+allure&#29615;&#22659;&#24182;&#35760;&#24405;&#38382;&#39064;,&#25645;&#24314;,pytestallure</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t11" class="pln"><span class="n"><a href="#t11">11</a></span><span class="t"><span class="com"># https://pan.baidu.com/s/1YkgYpvfmH_I26ZPAJ1OF0A#list/path=%2Fallure%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7   allure-commandline-2.12.1.zip</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t12" class="pln"><span class="n"><a href="#t12">12</a></span><span class="t"><span class="com"># ********************************************************************************************************************</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t13" class="pln"><span class="n"><a href="#t13">13</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t14" class="pln"><span class="n"><a href="#t14">14</a></span><span class="t"><span class="com"># &#23618;&#32423;&#20851;&#31995;&#65306;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t15" class="pln"><span class="n"><a href="#t15">15</a></span><span class="t"><span class="com"># 1.&#29992;&#20363;&#65306;setup/teardown</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t16" class="pln"><span class="n"><a href="#t16">16</a></span><span class="t"><span class="com"># 2.&#31867;&#22871;&#20214;&#65306;setup_class/teardown_class</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t17" class="pln"><span class="n"><a href="#t17">17</a></span><span class="t"><span class="com"># 3.&#27169;&#22359;&#22871;&#20214;&#65306;setup_module/teardown_module</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t18" class="pln"><span class="n"><a href="#t18">18</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t19" class="run"><span class="n"><a href="#t19">19</a></span><span class="t"><span class="key">import</span> <span class="nam">pytest</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t20" class="pln"><span class="n"><a href="#t20">20</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t21" class="pln"><span class="n"><a href="#t21">21</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t22" class="pln"><span class="n"><a href="#t22">22</a></span><span class="t"><span class="com"># def test_case01():</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t23" class="pln"><span class="n"><a href="#t23">23</a></span><span class="t"><span class="com">#     print("&#25191;&#34892;&#20989;&#25968;&#32423;&#31532;&#19968;&#26465;&#27979;&#35797;&#29992;&#20363;")</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t24" class="pln"><span class="n"><a href="#t24">24</a></span><span class="t"><span class="com">#     num = 1</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t25" class="pln"><span class="n"><a href="#t25">25</a></span><span class="t"><span class="com">#     assert 1 == num#&#36827;&#34892;&#29992;&#20363;&#32467;&#26524;&#21028;&#26029;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t26" class="pln"><span class="n"><a href="#t26">26</a></span><span class="t"><span class="com">#</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t27" class="pln"><span class="n"><a href="#t27">27</a></span><span class="t"><span class="com"># def test_case02():</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t28" class="pln"><span class="n"><a href="#t28">28</a></span><span class="t"><span class="com">#     print("&#25191;&#34892;&#20989;&#25968;&#32423;&#31532;&#20108;&#26465;&#27979;&#35797;&#29992;&#20363;")</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t29" class="pln"><span class="n"><a href="#t29">29</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t30" class="pln"><span class="n"><a href="#t30">30</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t31" class="pln"><span class="n"><a href="#t31">31</a></span><span class="t"><span class="com">#&#31867;&#22871;&#20214;&#27979;&#35797;&#29992;&#20363;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t32" class="run"><span class="n"><a href="#t32">32</a></span><span class="t"><span class="key">class</span> <span class="nam">Test_login</span><span class="op">(</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t33" class="pln"><span class="n"><a href="#t33">33</a></span><span class="t">    <span class="com">#&#31867;&#22871;&#20214;&#21021;&#22987;&#21270;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t34" class="run"><span class="n"><a href="#t34">34</a></span><span class="t">    <span class="key">def</span> <span class="nam">setup_class</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="com">#&#21482;&#20250;&#22312;&#31867;&#25191;&#34892;&#21069;&#25191;&#34892;&#19968;&#27425;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t35" class="mis show_mis"><span class="n"><a href="#t35">35</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"&#31867;&#21021;&#22987;&#21270;&#24320;&#22987;&#25805;&#20316;&#65306;&#25171;&#24320;&#27983;&#35272;&#22120;"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t36" class="run"><span class="n"><a href="#t36">36</a></span><span class="t">    <span class="key">def</span> <span class="nam">teardown_class</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t37" class="mis show_mis"><span class="n"><a href="#t37">37</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"&#31867;&#21021;&#22987;&#21270;&#28165;&#38500;&#25805;&#20316;&#65306;&#20851;&#38381;&#27983;&#35272;&#22120;"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t38" class="pln"><span class="n"><a href="#t38">38</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t39" class="pln"><span class="n"><a href="#t39">39</a></span><span class="t">    <span class="com">#&#20989;&#25968;&#21021;&#22987;&#21270;&#25805;&#20316;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t40" class="pln"><span class="n"><a href="#t40">40</a></span><span class="t">    <span class="com">#pytest&#35268;&#21017;&#65306;&#20837;&#21475;&#20889;&#27861;&#65306;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t41" class="run"><span class="n"><a href="#t41">41</a></span><span class="t">    <span class="key">def</span> <span class="nam">setup</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="com">#&#27599;&#19968;&#26465;&#27979;&#35797;&#29992;&#20363;&#22312;&#25191;&#34892;&#30340;&#26102;&#20505;&#37117;&#20250;&#20808;&#25191;&#34892;&#19968;&#27425;&#36825;&#20010;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t42" class="mis show_mis"><span class="n"><a href="#t42">42</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"&#31383;&#21475;&#30340;&#25171;&#24320;"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t43" class="pln"><span class="n"><a href="#t43">43</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t44" class="pln"><span class="n"><a href="#t44">44</a></span><span class="t">    <span class="com"># pytest&#35268;&#21017;&#65306;&#32467;&#26463;&#20889;&#27861;&#65306;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t45" class="run"><span class="n"><a href="#t45">45</a></span><span class="t">    <span class="key">def</span> <span class="nam">teardown</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t46" class="mis show_mis"><span class="n"><a href="#t46">46</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"&#31383;&#21475;&#30340;&#20851;&#38381;"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t47" class="pln"><span class="n"><a href="#t47">47</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t48" class="pln"><span class="n"><a href="#t48">48</a></span><span class="t">    <span class="com">#&#27979;&#35797;&#29992;&#20363;&#24320;&#22987;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t49" class="run"><span class="n"><a href="#t49">49</a></span><span class="t">    <span class="key">def</span> <span class="nam">test_case01</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t50" class="mis show_mis"><span class="n"><a href="#t50">50</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"&#25191;&#34892;&#31532;01&#26465;&#30331;&#24405;&#27979;&#35797;&#29992;&#20363;"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t51" class="mis show_mis"><span class="n"><a href="#t51">51</a></span><span class="t">        <span class="nam">a</span> <span class="op">=</span> <span class="num">3</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t52" class="mis show_mis"><span class="n"><a href="#t52">52</a></span><span class="t">        <span class="key">assert</span> <span class="num">3</span> <span class="op">==</span> <span class="nam">a</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t53" class="pln"><span class="n"><a href="#t53">53</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t54" class="run"><span class="n"><a href="#t54">54</a></span><span class="t">    <span class="key">def</span> <span class="nam">test_case02</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t55" class="mis show_mis"><span class="n"><a href="#t55">55</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"&#25191;&#34892;&#31532;02&#26465;&#30331;&#24405;&#27979;&#35797;&#29992;&#20363;"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t56" class="pln"><span class="n"><a href="#t56">56</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t57" class="pln"><span class="n"><a href="#t57">57</a></span><span class="t"><span class="com">#&#29992;&#20363;&#30340;&#25191;&#34892; -s &#34920;&#31034;&#36755;&#20986;&#29992;&#20363;&#37324;&#38754;&#30340;&#25171;&#21360;&#65292;&#38745;&#40664;&#36755;&#20986;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t58" class="pln"><span class="n"><a href="#t58">58</a></span><span class="t"><span class="com">#&#31532;&#19968;&#31181;&#26041;&#24335;&#65306;&#22312;DOS&#31383;&#21475;&#31227;&#21160;&#21040;&#27979;&#35797;&#25991;&#20214;&#36335;&#24452;: pytest &#25991;&#20214;&#21517;.py -s &#26469;&#25191;&#34892;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t59" class="pln"><span class="n"><a href="#t59">59</a></span><span class="t"><span class="com">#&#31532;&#20108;&#31181;&#26041;&#24335;&#65306;&#22914;&#26524;&#25991;&#20214;&#26159;&#20197;test&#24320;&#22836;&#65292;&#30452;&#25509;&#25191;&#34892; pytest -s</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t60" class="pln"><span class="n"><a href="#t60">60</a></span><span class="t"><span class="com">#&#31532;&#19977;&#31181;&#26041;&#24335;&#65306;&#30452;&#25509;&#22312;&#20195;&#30721;&#37324;&#20889;&#25191;&#34892;&#20837;&#21475;:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t61" class="pln"><span class="n"><a href="#t61">61</a></span><span class="t"><span class="com"># if __name__ == '__main__':</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t62" class="pln"><span class="n"><a href="#t62">62</a></span><span class="t"><span class="com">#     pytest.main(['test.py','-s'])</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t63" class="pln"><span class="n"><a href="#t63">63</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t64" class="pln"><span class="n"><a href="#t64">64</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t65" class="run"><span class="n"><a href="#t65">65</a></span><span class="t"><span class="key">if</span> <span class="nam">__name__</span> <span class="op">==</span> <span class="str">'__main__'</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t66" class="mis show_mis"><span class="n"><a href="#t66">66</a></span><span class="t">    <span class="nam">pytest</span><span class="op">.</span><span class="nam">main</span><span class="op">(</span><span class="op">[</span><span class="str">'test_process.py'</span><span class="op">,</span><span class="str">'-s'</span><span class="op">]</span><span class="op">)</span><span class="com">#&#20195;&#30721;&#20869;&#25191;&#34892;</span>&nbsp;</span><span class="r"></span></p>
+</div>
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.5</a>,
+            created at 2021-09-17 09:49 +0800
+        </p>
+    </div>
+</div>
+</body>
+</html>
