@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+    <title>Coverage for test_showPrint.py: 100%</title>
+    <link rel="icon" sizes="32x32" href="favicon_32.png">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="jquery.isonscreen.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.pyfile_ready);
+    </script>
+</head>
+<body class="pyfile">
+<div id="header">
+    <div class="content">
+        <h1>Coverage for <b>test_showPrint.py</b> :
+            <span class="pc_cov">100%</span>
+        </h1>
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <h2 class="stats">
+            0 statements &nbsp;
+            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">0 run</button>
+            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">0 missing</button>
+            <button type="button" class="exc show_exc shortkey_x button_toggle_exc" title="Toggle lines excluded">0 excluded</button>
+        </h2>
+    </div>
+</div>
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">r</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        <span class="key">p</span> &nbsp; toggle line displays
+    </p>
+    <p class="keyhelp">
+        <span class="key">j</span>
+        <span class="key">k</span> &nbsp; next/prev highlighted chunk
+    </p>
+    <p class="keyhelp">
+        <span class="key">0</span> &nbsp; (zero) top of page
+    </p>
+    <p class="keyhelp">
+        <span class="key">1</span> &nbsp; (one) first highlighted chunk
+    </p>
+    </div>
+</div>
+<div id="source">
+    <p id="t1" class="pln"><span class="n"><a href="#t1">1</a></span><span class="t"><span class="com"># coding: utf-8</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t2" class="pln"><span class="n"><a href="#t2">2</a></span><span class="t"><span class="com"># >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></span>&nbsp;</span><span class="r"></span></p>
+    <p id="t3" class="pln"><span class="n"><a href="#t3">3</a></span><span class="t"><span class="com"># Author     : John</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t4" class="pln"><span class="n"><a href="#t4">4</a></span><span class="t"><span class="com"># Date       : 2021/9/16</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t5" class="pln"><span class="n"><a href="#t5">5</a></span><span class="t"><span class="com"># Description: pytest &#26174;&#31034;print&#20869;&#23481;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t6" class="pln"><span class="n"><a href="#t6">6</a></span><span class="t"><span class="com"># pip3 install -U pytest</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t7" class="pln"><span class="n"><a href="#t7">7</a></span><span class="t"><span class="com"># &#22312;&#36816;&#34892;&#27979;&#35797;&#33050;&#26412;&#26102;&#65292;&#20026;&#20102;&#35843;&#35797;&#25110;&#25171;&#21360;&#19968;&#20123;&#20869;&#23481;&#65292;&#25105;&#20204;&#20250;&#22312;&#20195;&#30721;&#20013;&#21152;&#19968;&#20123;print&#20869;&#23481;&#65292;&#20294;&#26159;&#22312;&#36816;&#34892;pytest&#26102;&#65292;&#36825;&#20123;&#20869;&#23481;&#19981;&#20250;&#26174;&#31034;&#20986;&#26469;&#12290;&#22914;&#26524;&#24102;&#19978;-s&#65292;&#23601;&#21487;&#20197;&#26174;&#31034;&#20102;&#12290;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t8" class="pln"><span class="n"><a href="#t8">8</a></span><span class="t"><span class="com"># >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></span>&nbsp;</span><span class="r"></span></p>
+    <p id="t9" class="pln"><span class="n"><a href="#t9">9</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t10" class="pln"><span class="n"><a href="#t10">10</a></span><span class="t"><span class="com"># &#22914;&#26524;&#24102;&#19978;-s&#65292;&#23601;&#21487;&#20197;&#26174;&#31034;print&#20869;&#23481;&#12290;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t11" class="pln"><span class="n"><a href="#t11">11</a></span><span class="t"><span class="com"># pytest test_se.py -s</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t12" class="pln"><span class="n"><a href="#t12">12</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t13" class="pln"><span class="n"><a href="#t13">13</a></span><span class="t"><span class="com"># pytest&#30340;&#22810;&#31181;&#36816;&#34892;&#27169;&#24335;&#26159;&#21487;&#20197;&#21472;&#21152;&#25191;&#34892;&#30340;&#65292;&#22914;&#65292;&#20320;&#24819;&#21516;&#26102;&#36816;&#34892;4&#20010;&#36827;&#31243;&#65292;&#21448;&#24819;&#25171;&#21360;&#20986;print&#30340;&#20869;&#23481;&#12290;&#21487;&#20197;&#29992;&#65306;</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t14" class="pln"><span class="n"><a href="#t14">14</a></span><span class="t"><span class="com"># pytest test_se.py -s -n 4</span>&nbsp;</span><span class="r"></span></p>
+</div>
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.5</a>,
+            created at 2021-09-17 09:49 +0800
+        </p>
+    </div>
+</div>
+</body>
+</html>

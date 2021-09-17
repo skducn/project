@@ -19,7 +19,7 @@
 
 import pytest
 
-def test_03(login):
+@pytest.mark.usefixtures("login")
+def test_03():
     print('case test_03')
-
 

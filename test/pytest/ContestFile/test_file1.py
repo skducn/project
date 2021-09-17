@@ -19,9 +19,12 @@
 
 import pytest
 
-def test_01(login):
-    print('case test_01')
 
-def test_02(login):
-    print('case test_02')
+@pytest.mark.usefixtures("login")
+class TestJohn():
+    def test_01(self):
+        print('case test_01')
+
+    def test_02(self):
+        print('case test_02')
 
