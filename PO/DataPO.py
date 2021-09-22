@@ -66,6 +66,8 @@ from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 import pandas as pd
 
+
+
 class DataPO():
 
     # 1，随机生成中文用户名
@@ -502,7 +504,8 @@ class DataPO():
         for i in range(len(l_ip)):
             l_ipPort.append(l_type[i] + "://" + l_ip[i] + ":" + l_port[i])
 
-        return(l_ipPort[random.randint(0, len(l_ipPort)-1)])
+        return(l_ipPort[random.randint(0, len(l_ipPort)-1)])   # HTTP://223.243.255.4:65309
+
 
 
     # 13.1 通过fake版本随机获取用户代理
@@ -561,7 +564,13 @@ class DataPO():
     # 13.4 随机获取用户代理
     def getUserAgent(self):
         # 如报错，则更新 pip3 install -U fake-useragent
+        # ua = UserAgent(use_cache_server=False)  # 禁用服务器缓存
+        # ua = UserAgent(cache=False)  # 不缓存数据
+        # ua = UserAgent(verify_ssl=False)  # 忽略ssl验证
+        # print(ua.chrome)
         return (str(UserAgent().random))
+       # Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36
+       # Mozilla/5.0 (X11; CrOS i686 3912.101.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
 
 
     # 14, 随机生成一批整数
@@ -645,13 +654,14 @@ if __name__ == '__main__':
     # print("13.3 从fake文件中获取用户代理".center(100, "-"))
     # print(Data_PO.getUserAgentFromFile("userAgent.json"))
     #
-    # print("13.4 获取用户代理".center(100, "-"))
-    # print(Data_PO.getUserAgent())
+    print("13.4 获取用户代理".center(100, "-"))
+    print(Data_PO.getUserAgent())
 
 
     # df = pd.read_json("browser_info.json",lines = True)
     # print(df)
-    # df.to_excel("browser.xlsx")
+    # # df.to_excel("browser.xlsx")
+    #
+    # print("14 随机获取1-101之间的20个整数".center(100, "-"))
+    # print(random.sample(range(1, 101), 20))  # random.sample()生成不相同的随机数
 
-    print("14 随机获取1-101之间的20个整数".center(100, "-"))
-    print(random.sample(range(1, 101), 20))  # random.sample()生成不相同的随机数
