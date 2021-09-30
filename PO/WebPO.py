@@ -62,7 +62,7 @@ Data_PO = DataPO()
 class WebPO(BasePO):
 
 
-    # 1.1，打开网站
+    # 1.1 打开
     def _openURL(self, varURL):
         if self.driver == "firefox" :
             if platform.system() == 'Windows':
@@ -97,26 +97,26 @@ class WebPO(BasePO):
             self.driver = webdriver.Chrome(options=option)
             self.driver.get(varURL)
         return self.driver
-
     def openURL(self, varURL):
         self._openURL(varURL)
 
-    # 1.2，关闭网站
+    # 1.2 关闭（当前窗口）
     def closeURL(self):
-        # 关闭当前窗口
         self.driver.close()
 
+    # 1.3 关闭所有窗口（退出驱动）
     def quitURL(self):
-        # 退出驱动并关闭所有关联的窗口
         self.driver.quit()
 
-    # 获取当前全屏浏览器宽高
+    # todo [screen]
+
+    # 2.1 获取当前全屏浏览器宽高
     def getBrowserSize(self):
         self.driver.maximize_window()  # 全屏
         size_Dict = self.driver.get_window_size()
         return(size_Dict['width']-16, size_Dict['height']-16)
 
-    # 2，获取当前屏幕分辨率
+    # 2.2 获取当前屏幕分辨率
     def getScreenWidthHeight(self):
         js = 'var winW = window.screen.width;var winH = window.screen.height;alert(winW+","+winH)'
         self.driver.execute_script(js)
@@ -125,20 +125,19 @@ class WebPO(BasePO):
         size = line.split(',')
         return int(size[0]), int(size[1])
 
-    # 3.1，截取全屏
+    # 2.3 截取全屏
     def captureScreen(self, varImageFile):
-        # 截取全屏
         # self.Web_PO.captureScreen('d:\\allscreen.png')
         im = ImageGrab.grab()
         im.save(varImageFile)
 
-    # 3.2，截取浏览器屏幕，保存文件png
+    # 2.4 截取浏览器屏幕
     def captureBrowser(self, varImageFile):
-        # 注意必须使用openURL打开浏览器后才能截屏 ，如：Web_PO.openURL('https://www.baidu.com/')
+        # 前置条件：先openURL打开浏览器后才能截屏，否则报错，如：Web_PO.openURL('https://www.baidu.com/')
         # self.Web_PO.captureBrowser("d:\\screenshot.png")
         self.driver.get_screenshot_as_file(varImageFile)
 
-    # 3.3，截屏指定图片中某一区域
+    # 2.5 截屏指定图片中某一区域
     def capturePicturePart(self, varSourceImageFile, varTargetImageFile, varHighStart, varHighEnd, varWidthStart, varWidthEnd):
         # 截指定图片中某一区域
         # img = cv2.imread(varSourceImageFile, 0)  # 截图后灰色
@@ -148,34 +147,35 @@ class WebPO(BasePO):
         # cv2.imshow("image", crop_img)
         # cv2.waitKey(0)
 
-
-    # 4.1，屏幕左移
+    # 2.6 屏幕左移
     def scrollLeft(self, location, t):
         # 如：Web_PO.scrollLeft('1000', 2)  # 屏幕向左移动1000个像素
         self.driver.execute_script("var q=document.documentElement.scrollLeft=" + location)
         sleep(t)
 
-    # 4.2，屏幕上移
+    # 2.7 屏幕上移
     def scrollTop(self, location, t):
         # 屏幕上移 self.Web_PO.scrollTop("10000",2)
         # js = "var q=document.body.scrollTop=" + location
         self.driver.execute_script("var q=document.documentElement.scrollTop=" + location)
         sleep(t)
 
-    # 4.3，屏幕下移
+    # 2.8 屏幕下移
     def scrollDown(self, location, t):
         # 屏幕下移
         self.driver.execute_script("var q=document.documentElement.scrollDown=" + location)
         sleep(t)
 
-    # 4.4，元素拖动到可见的元素
+
+    # 3 元素拖动到可见的元素
     def scrollIntoView(self, varXpath, t):
         # 元素拖动到可见的元素
         element = self.driver.find_element_by_xpath(varXpath)
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
         sleep(t)
 
-    # 4.5，内嵌窗口中滚动条操作
+
+    # 4 内嵌窗口中滚动条操作
     def scrollTopById(self, varId, t):
         # 若要对页面中的内嵌窗口中的滚动条进行操作，要先定位到该内嵌窗口，在进行滚动条操作
         # self.screenTopId("zy.android.healthstatisticssystem:id/vp_content",2)
@@ -183,7 +183,8 @@ class WebPO(BasePO):
         self.driver.execute_script(js)
         sleep(t)
 
-    # 5，获取验证码
+
+    # 5 获取验证码
     def getCode(self, capScrnPic, xStart, yStart, xEnd, yEnd):
         # Level_PO.getCode(u"test.jpg",2060, 850, 2187, 900）
         # 注：地址是图片元素中的位置。
@@ -223,10 +224,10 @@ class WebPO(BasePO):
         img.save(capScrnPic)
         im = Image.open(capScrnPic)
         imgry = im.resize((1000, 500), Image.NEAREST)
-
         return image_to_string(imgry)
 
-    # 6，弹出框(未测试)
+
+    # 6 弹出框(未测试)
     def popupAlert(self, operate, t):
         # 弹出框 (未测试)
         # self.Level_PO.popupAlert("accept", 2)
@@ -243,28 +244,33 @@ class WebPO(BasePO):
         if operate == "text":
             return self.driver.switch_to_alert().text
 
-    # 7，多浏览器窗口切换（指定的网址）
-    def switchWindow(self, varURL1, varURL2, varSwitch):
-        # 多窗口切换，打开 varURL1，再打开 varURL2，切换窗口到第几个窗口。
-        # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 0)   # 切回到第1个窗口
-        # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 1)   # 切回到第2个窗口
 
+    # todo [browser]
+
+    # 7 浏览器中多个标签页切换（同时打开2个标签页）
+    def openSwitchLabel(self, varURL1, varURL2, varSwitch):
+        # 如：先打开 varURL1，再打开 varURL2，且激活第一个标签页
+        # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 0)   # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页
         self.openURL(varURL1)
-        self.driver.execute_script('window.open("' + varURL2 + '");')  # 2147483656
+        self.driver.execute_script('window.open("' + varURL2 + '");')  # 新建标签2
         all_handles = self.driver.window_handles
-
-        # 切回到第几个窗口
         sleep(2)
         self.driver.switch_to.window(all_handles[varSwitch])
-
         # Web_PO.driver.close()  # 关闭当前窗口
         # Web_PO.driver.switch_to.window(all_handles[1])  # 切换回url2
         # sleep(5)
         # Web_PO.driver.quit() # 关闭所有窗口
 
 
-    # 8，多浏览器窗口切换（不指定那个网址的）
-    def switchBrowser(self,varSwitch):
+    # 8 浏览器中新建标签页（激活状态）
+    def openNewLabel(self, varURL):
+        self.openURL(varURL)
+        self.driver.execute_script('window.open("' + varURL + '");')
+
+
+    # 9 浏览器中多个标签页切换
+    def switchLabel(self, varSwitch):
+        # self.Web_PO.switchLabel(0) # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页 , 以此类推。
         all_handles = self.driver.window_handles
         sleep(2)
         self.driver.switch_to.window(all_handles[varSwitch])
@@ -296,5 +302,4 @@ if __name__ == '__main__':
     # Web_PO.capturePicturePart("d:\\fullScreen.jpg", "d:\\test.jpg", 500, 700, 750, 1050)
 
 
-    # print("7，多窗口切换".center(100, "-"))
-    # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 1)
+

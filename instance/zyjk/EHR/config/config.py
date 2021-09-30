@@ -9,7 +9,7 @@ import os, datetime, xlrd, xlwt
 from xlutils.copy import copy
 
 # 测试环境
-varURL = "http://192.168.0.36:19090/test_ehr_admin/#/login"
+varURL = "http://192.168.0.243:8082/"
 # dimUsername = "admin"
 # dimPassword = "admin@123456"
 

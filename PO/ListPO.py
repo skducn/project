@@ -239,6 +239,12 @@ class ListPO():
             count = len(varList) % varNum
             end_list.append(varList[-count:]) if count != 0 else end_list
             return end_list
+
+            # 方法2：通过切片可以一次append添加多个元素，如 list.append(varList[0:2]),即一条命令可以添加2个元素
+            # l_valueAll = []
+            # for i in range(0, len(varList), varNum):
+            #     l_valueAll.append(varList[i:i+varNum])
+            # return (l_valueAll)
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
@@ -464,14 +470,14 @@ if __name__ == "__main__":
     #
     #
     #
-    print("2.1，列表中数字与数字字符串互转（默认转数字字符）".center(100, "-"))
-    print(List_PO.str2Digit2str([123]))  # ['123']
-    print(List_PO.str2Digit2str([123], "str"))  # ['123']
-    print(List_PO.str2Digit2str(["a", 123.56, 0.12], "str"))  # ['a', '123.56', '0.12']
-    print(List_PO.str2Digit2str(['123'], "digit"))  # [123]
-    print(List_PO.str2Digit2str(["a", "123", "555"], "digit"))  # ['a', 123, 555]
-    print(List_PO.str2Digit2str([1, 3, '13', "一", 20], "digit"))  # [1, 3, 13, '一', 20]
-    print(List_PO.str2Digit2str(["a", "0.123", "123.00", "56.0", "555.455678"], "digit"))  # ['a', 0.123, 123.0, 56.0, 555.455678]
+    # print("2.1，列表中数字与数字字符串互转（默认转数字字符）".center(100, "-"))
+    # print(List_PO.str2Digit2str([123]))  # ['123']
+    # print(List_PO.str2Digit2str([123], "str"))  # ['123']
+    # print(List_PO.str2Digit2str(["a", 123.56, 0.12], "str"))  # ['a', '123.56', '0.12']
+    # print(List_PO.str2Digit2str(['123'], "digit"))  # [123]
+    # print(List_PO.str2Digit2str(["a", "123", "555"], "digit"))  # ['a', 123, 555]
+    # print(List_PO.str2Digit2str([1, 3, '13', "一", 20], "digit"))  # [1, 3, 13, '一', 20]
+    # print(List_PO.str2Digit2str(["a", "0.123", "123.00", "56.0", "555.455678"], "digit"))  # ['a', 0.123, 123.0, 56.0, 555.455678]
     #
     # print("2.2，列表中字符串元素连接".center(100, "-"))
     # print(List_PO.listJointStr(["a", "b", "c", "d"], 4))  # ['abcd']   //列表中每4个元素链接在一起组成一个元素

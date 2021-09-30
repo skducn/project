@@ -7,10 +7,16 @@
 
 from PO.HtmlPO import *
 from PO.ListPO import *
+List_PO=ListPO()
+from PO.StrPO import *
+Str_PO = StrPO()
+from PO.TimePO import *
+Time_PO = TimePO()
 from PO.ColorPO import *
 from instance.zyjk.EHR.config.config import *
 import string,numpy
 from string import digits
+from PO.WebPO import *
 
 class DataMonitorPO():
 
@@ -26,67 +32,194 @@ class DataMonitorPO():
 
         ''' 登录 '''
 
-        global varUser_session
-        varUser_session = varUser
+        # global varUser_session
+        # varUser_session = varUser
 
         self.Web_PO.inputXpath("//input[@type='text']", varUser)
         self.Web_PO.inputXpath("//input[@type='password']", varPass)
         self.Web_PO.clickXpath("//button[@type='button']", 2)
 
-        # 获取所属社区
-        self.getCommunity(varUser)
+        # # 获取所属社区
+        # self.getCommunity(varUser)
+        #
+        # # 获取数据更新截止至时间
+        # self.getUpdateDate(varUser)
 
-        # 获取数据更新截止至时间
-        self.getUpdateDate(varUser)
-
-
-    def clickMenu(self, varName, varSubName=""):
+    def clickMenu(self, varMenu1, varMenu2=""):
 
         ''' 点击左侧菜单 '''
 
-        # 获取菜单名称及对应href
-        list1 = self.Web_PO.getXpathsText("//li[@tabindex='-1']")
+        # 获取一级菜单列表(只有一级菜单)
+        l_menu1 = self.Web_PO.getXpathsText("//li[@tabindex='-1']")
+        # print(l_menu1)  # ['首页', '', '', '', '', '', '数据质量测评分析', '质控分析报告（社区）']
+        if varMenu1 in str(l_menu1):
+            d_menuOneLevel = self.List_PO.lists2dict(self.List_PO.listDel(l_menu1, ""), self.Web_PO.getXpathsAttr("//div/ul/li/a", "href"))
+            # print(d_menuOneLevel)  # {'首页': 'http://192.168.0.243:8082/#/index', '数据质量测评分析': 'http://192.168.0.243:8082/#/appraisal', '质控分析报告（社区）': 'http://192.168.0.243:8082/#/healthReport'}
+            for k in d_menuOneLevel:
+                if k == varMenu1:
+                    self.Web_PO.clickXpathsContain("//a", "href", str(d_menuOneLevel[k]), 1)
+            # self.Color_PO.consoleColor("31", "36", "[" + varMenu1 + "]", "")
+            print("[" + varMenu1 + "]")
 
-        # 只有一层菜单
-        if varName in str(list1):
-            dict1 = self.List_PO.lists2dict(self.List_PO.listDel(list1, ""), self.Web_PO.getXpathsAttr("//div/ul/li/a", "href"))
-            # print(dict1)
-            for k in dict1:
-                if k == varName:
-                    self.Web_PO.clickXpathsContain("//a", "href", str(dict1[k]).replace("http://192.168.0.36:19090/test_ehr_admin/", ""), 1)
-            self.Color_PO.consoleColor("31", "36", "[" + varName + "]", "")
         else:
-            # 有第二层菜单
-            list3 = self.Web_PO.getXpathsText("//li")
-            list3 = self.List_PO.listDel(list3, "")
-            for l in range(len(list3)):
-                if varName == list3[l]:
+            # 获取一二级菜单列表（必须有第二级菜单）
+            l_tmp = self.Web_PO.getXpathsText("//li")
+            l_menu1 = self.List_PO.listDel(l_tmp, "")
+            # print(l_menu1)  # ['首页', '质控结果分析', '数据质量测评分析', '质控分析报告（社区）']
+            for l in range(len(l_menu1)):
+                if varMenu1 == l_menu1[l]:
                     self.Web_PO.clickXpath("//div[@class='el-scrollbar__view']/ul/li[" + str(l+1) + "]", 2)
-
-                    list4 = self.Web_PO.getXpathsText("//li")
-                    list5 = self.Web_PO.getXpathsAttr("//li[@aria-expanded='true']/ul/li//a", "href")
-                    for p in list4:
-                        if varName in p and varSubName in p :
-                            list4 = (p.split("\n"))
-                            list4.pop(0)
+                    l_menuTwoName = self.Web_PO.getXpathsText("//li")
+                    l_menuTwoHref = self.Web_PO.getXpathsAttr("//li[@aria-expanded='true']/ul/li//a", "href")
+                    for p in l_menuTwoName:
+                        if varMenu1 in p and varMenu2 in p :
+                            l_menuTwoName = (p.split("\n"))
+                            l_menuTwoName.pop(0)
                             # break
-                    # print(list4)
-                    # print(list5)
-                    dict6 = self.List_PO.lists2dict(list4, list5)
-                    # print(dict6)
-                    for k2 in dict6:
-                        if k2 == varSubName:
-                            self.Web_PO.clickXpathsContain("//a", "href", str(dict6[k2]).replace("http://192.168.0.36:19090/test_ehr_admin/", ""), 1)
-            self.Color_PO.consoleColor("31", "36", "[" + varName + "] - [" + varSubName + "]", "")
+                    # print(l_menuTwoName)
+                    # print(l_menuTwoHref)
+                    d_menuTwo = self.List_PO.lists2dict(l_menuTwoName, l_menuTwoHref)
+                    # print(d_menuTwo)  # {'区级': 'http://192.168.0.243:8082/#/recordService/district', '社区': 'http://192.168.0.243:8082/#/recordService/community'}
+                    for k2 in d_menuTwo:
+                        if k2 == varMenu2:
+                            self.Web_PO.clickXpathsContain("//a", "href", str(d_menuTwo[k2]), 1)
+            # self.Color_PO.consoleColor("31", "36", "[" + varMenu1 + "] - [" + varMenu2 + "]", "")
+            print("[" + varMenu1 + "] - [" + varMenu2 + "]")
 
-    def getUpdateDate(self,varUser):
+    def getUpdateDate(self):
+        ''' 获取质控数据截止日期 '''
+        s_tmp = self.Web_PO.getXpathText("//div[@class='content_left']")
+        updateDate = s_tmp.split("质控数据截止日期")[1]
+        return updateDate.strip()  # 返回字符串日期
 
-        ''' 获取数据更新截止至时间 '''
 
-        if varUser != "admin":
-            l_text = self.Web_PO.getXpathsTextPart("//div", "\nCopyright")
-            varDate = l_text[0].split("数据更新截止至时间：")[1].split("\n")[0]
-            print("数据更新截止至时间：" + varDate)
+    def isDate(self,varStrDate):
+        ''' 判断是有效日期 '''
+        if Str_PO.str2date(varStrDate):
+            return Str_PO.str2date(varStrDate)
+        else:
+            None
+
+
+    def checkDate(self, varStrDate):
+        ''' 判断日期质控日期不能早于 varDate '''
+        if Time_PO.isDate1GTdate2(varStrDate, "2000-1-5"):
+            # print("ok, 质控数据截止日期：" + varStrDate)
+            self.Color_PO.consoleColor("31", "36", "ok, 质控数据截止日期：" + str(varStrDate) + "", "")
+        else:
+            # print("error, 质控数据截止日期：" + str(varStrDate))
+            self.Color_PO.consoleColor("31", "31", "error, 质控数据截止日期：" + str(varStrDate) + "", "")
+
+
+    def getResident(self):
+        ''' 获取辖区常住人口（人）'''
+        strTmp = self.Web_PO.getXpathText("//div[@class='resident']")
+        # print(strTmp)
+        # print("-------------------------")
+        a = str(strTmp).split("辖区常住人口（人）\n")[1].split("\n建档率：")[0]
+        print("辖区常住人口（人）：" + str(a))
+        b = str(strTmp).split("建档率：")[1].split("\n截止日期：")[0]
+        print("建档率：" + str(b))
+        c = str(strTmp).split("截止日期：")[1].strip()
+        print("截止日期：" + str(c))
+        return a, b, c
+
+    def getContract(self):
+        ''' 1+1+1签约居民人数（人）'''
+        strTmp = self.Web_PO.getXpathText("//div[@class='contract']")
+        # print(strTmp)
+        # print("-------------------------")
+        a = str(strTmp).split("?\n")[1].split("\n签约率")[0]
+        print("1+1+1签约居民人数（人）：" + str(a))
+        b = str(strTmp).split("签约率 ")[1].split("\n签约完成率")[0]
+        print("签约率：" + str(b))
+        c = str(strTmp).split("签约完成率 ")[1].split("\n签约机构与档案管理机构不一致人数：")[0]
+        print("签约完成率：" + str(c))
+        d = str(strTmp).split("签约机构与档案管理机构不一致人数：")[1].split("\n人")[0]
+        print("签约机构与档案管理机构不一致人数：" + str(d))
+        return a, b, c, d
+
+    def getProgress(self):
+        ''' 签约居民分类（重点人群，非重点人群）'''
+        emphasis = self.Web_PO.getXpathText("//div[@class='left_content']")
+        print("重点人群：" + str(emphasis))
+        noEmphasis = self.Web_PO.getXpathText("//div[@class='right_content']")
+        print("非重点人群：" + str(noEmphasis))
+        return emphasis, noEmphasis
+
+
+    def openNewLabel(self, varURL):
+        self.Web_PO.openNewLabel(varURL)
+        self.Web_PO.switchLabel(1)  # 切换到新Label
+
+
+    def recordService(self, varLabel):
+        '''切换页面中的标签'''
+
+        print("[" + varLabel + "]")
+        if varLabel == "签约医生":
+            self.Web_PO.clickId("tab-doctor")
+            list1 = self.Web_PO.getXpathsText("//div")
+            # print(str(list1[0]).replace("\n", ","))
+            str1 = str(list1[0]).replace("\n", ",")
+            title = str1.split("导出,")[1].split("归属医疗机构名称,")[0]
+            value = str1.rsplit("归属医疗机构名称,",1)[1].split("签约医生,")[0]
+            org = str1.rsplit("签约医生,", 1)[1].split(",共")[0]
+            l_title = []
+            for i in range(len(title.split(",")) - 1):
+                l_title.append(title.split(",")[i])
+            l_title.insert(0, "签约医生")
+            l_title.append("归属医疗机构名称")
+            print(l_title)
+            fields = 15
+
+        elif varLabel == "医疗机构名称":
+            self.Web_PO.clickId("tab-org")
+            list1 = self.Web_PO.getXpathsText("//div")
+            str1 = str(list1[0]).replace("\n", ",")
+            title = str1.split("导出,")[1].split("档案利用率(%),")[0]
+            value = str1.split("档案利用率(%),")[1].split("医疗机构名称,")[0]
+            org = str1.split("医疗机构名称,")[1].split(",共")[0]
+            l_title = []
+            for i in range(len(title.split(","))-1):
+                l_title.append(title.split(",")[i])
+            l_title.insert(0, "医疗机构名称")
+            l_title.append("档案利用率(%)")
+            print(l_title)
+            fields = 6
+
+        l_org = []
+        for i in range(len(org.split(","))):
+            l_org.append(org.split(",")[i])
+        # print(l_org)  # ['上海市青浦区夏阳街道社区卫生服务中心', '上海市青浦区练塘镇社区卫生服务中心']
+
+        l_value = []
+        for i in range(len(value.split(","))-1):
+            l_value.append(value.split(",")[i])
+        l_valueAll = (List_PO.listSplitSubList(l_value, fields))
+        # print(l_valueAll)  # [['2702', '0', '88.9', '27.3', '95.6', '0'], ['765', '0', '89.5', '4.1', '15.9', '0']]
+
+        for i in range(len(l_org)):
+            l_valueAll[i].insert(0, l_org[i])
+        for i in range(len(l_org)):
+            print(l_valueAll[i])  # [['上海市青浦区夏阳街道社区卫生服务中心', '2702', '0', '88.9', '27.3', '95.6', '0'], ['上海市青浦区练塘镇社区卫生服务中心', '765', '0', '89.5', '4.1', '15.9', '0']]
+
+        # 合并标题
+        l_valueAll.insert(0, l_title)
+        return l_valueAll
+
+
+    def getRecordServiceValue(self, l_all, varOrg, varTitle):
+        for i in range(len(l_all[0])):
+            if varTitle == l_all[0][i]:
+                sign = i
+                break
+        # print(sign)
+        for i in range(len(l_all)):
+            if l_all[i][0] == varOrg:
+                return l_all[i][sign]
+
+
 
     def getCommunity(self, varUser):
 
