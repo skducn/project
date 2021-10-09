@@ -7,7 +7,7 @@
 
 from PO.HtmlPO import *
 from PO.ListPO import *
-List_PO=ListPO()
+List_PO = ListPO()
 from PO.StrPO import *
 Str_PO = StrPO()
 from PO.TimePO import *
@@ -60,6 +60,7 @@ class DataMonitorPO():
                     self.Web_PO.clickXpathsContain("//a", "href", str(d_menuOneLevel[k]), 1)
             # self.Color_PO.consoleColor("31", "36", "[" + varMenu1 + "]", "")
             print("[" + varMenu1 + "]")
+            print('\033[1;34;40m', '[' + varMenu1 + "]", '\033[0m')
 
         else:
             # 获取一二级菜单列表（必须有第二级菜单）
@@ -84,7 +85,8 @@ class DataMonitorPO():
                         if k2 == varMenu2:
                             self.Web_PO.clickXpathsContain("//a", "href", str(d_menuTwo[k2]), 1)
             # self.Color_PO.consoleColor("31", "36", "[" + varMenu1 + "] - [" + varMenu2 + "]", "")
-            print("[" + varMenu1 + "] - [" + varMenu2 + "]")
+            # print("[" + varMenu1 + "] - [" + varMenu2 + "]")
+            print('\033[1;34;40m', '[' + varMenu1 + '] - [' + varMenu2 + ']', '\033[0m')
 
     def getUpdateDate(self):
         ''' 获取质控数据截止日期 '''
@@ -153,25 +155,61 @@ class DataMonitorPO():
         self.Web_PO.switchLabel(1)  # 切换到新Label
 
 
-    def recordService(self, varLabel):
-        '''切换页面中的标签'''
+    def recordService(self, varLabel, varArea):
+        ''' 质控结果分析 - 区级 - 医疗机构名称 '''
+        ''' 质控结果分析 - 区级 - 签约医生 '''
+        ''' 质控结果分析 - 社区 - 签约医生 '''
 
-        print("[" + varLabel + "]")
+        # print("[" + varLabel + "]")
+        print("-" * 150)
+        print('\033[1;34;40m', '[' + varLabel + "]", '\033[0m')
         if varLabel == "签约医生":
             self.Web_PO.clickId("tab-doctor")
             list1 = self.Web_PO.getXpathsText("//div")
             # print(str(list1[0]).replace("\n", ","))
             str1 = str(list1[0]).replace("\n", ",")
-            title = str1.split("导出,")[1].split("归属医疗机构名称,")[0]
-            value = str1.rsplit("归属医疗机构名称,",1)[1].split("签约医生,")[0]
-            org = str1.rsplit("签约医生,", 1)[1].split(",共")[0]
+
+            if varArea == "区级":
+                title = str1.split("导出,")[1].split("归属医疗机构名称,")[0]
+                value = str1.rsplit("归属医疗机构名称,",1)[1].split("签约医生,")[0]
+                org = str1.rsplit("签约医生,", 1)[1].split(",共")[0]
+            else:
+                # 社区
+                title = str1.split("导出,")[1].split("糖尿病随访表错误项目总数占比(%),")[0]
+                value = str1.rsplit("糖尿病随访表错误项目总数占比(%)", 1)[1].split("签约医生,")[0]
+                org = str1.rsplit("签约医生,", 1)[1].split(",共")[0]
             l_title = []
             for i in range(len(title.split(",")) - 1):
                 l_title.append(title.split(",")[i])
             l_title.insert(0, "签约医生")
             l_title.append("归属医疗机构名称")
-            print(l_title)
-            fields = 15
+            # print(l_title)
+            fields = 14
+
+            # 签约医生字段
+            l_org = []
+            for i in range(len(org.split(","))):
+                l_org.append(org.split(",")[i])
+            # print(l_org)  # ['武*茜', '李*琳', '窦*青', '洪*娟', '孟*珺', '马*佳', '金*明', '张*琴', '黄*美', '张*芳']
+
+            l_value = []
+            # print(value)
+            for i in range(len(value.split(",")) - 1):
+                l_value.append(value.split(",")[i])
+            l_value.pop(0)
+            l_valueAll = (List_PO.listSplitSubList(l_value, fields))
+            # print(l_valueAll)  # 签约医生后面14个字段的值
+
+            for i in range(len(l_org)):
+                l_valueAll[i].insert(0, l_org[i])
+            for i in range(len(l_org)):
+                print(l_valueAll[i])
+                # ['武*茜', '281', '0', '73.3', '48.6', '99.5', '0', '9425', '68.5', '13725', '39.7', '5569', '109.8', '2490','118.6']
+                # ['李*琳', '277', '0', '77.3', '50.4', '98.6', '0', '9081', '66.9', '12009', '36.5', '4918', '110', '3735','118.6']
+                # ['窦*青', '262', '0', '79', '6.3', '35.3', '0', '9566', '74.5', '30316', '100', '6364', '100', '2450', '100']
+            # 合并标题
+            l_valueAll.insert(0, l_title)
+            return l_valueAll
 
         elif varLabel == "医疗机构名称":
             self.Web_PO.clickId("tab-org")
@@ -185,28 +223,37 @@ class DataMonitorPO():
                 l_title.append(title.split(",")[i])
             l_title.insert(0, "医疗机构名称")
             l_title.append("档案利用率(%)")
-            print(l_title)
+            # print(l_title)
             fields = 6
 
-        l_org = []
-        for i in range(len(org.split(","))):
-            l_org.append(org.split(",")[i])
-        # print(l_org)  # ['上海市青浦区夏阳街道社区卫生服务中心', '上海市青浦区练塘镇社区卫生服务中心']
+            l_org = []
+            for i in range(len(org.split(","))):
+                l_org.append(org.split(",")[i])
+            print(l_org)
+            # ['武*茜', '李*琳', '窦*青', '洪*娟', '孟*珺', '马*佳', '金*明', '张*琴', '黄*美', '张*芳']
+            # ['上海市青浦区夏阳街道社区卫生服务中心', '上海市青浦区练塘镇社区卫生服务中心']
 
-        l_value = []
-        for i in range(len(value.split(","))-1):
-            l_value.append(value.split(",")[i])
-        l_valueAll = (List_PO.listSplitSubList(l_value, fields))
-        # print(l_valueAll)  # [['2702', '0', '88.9', '27.3', '95.6', '0'], ['765', '0', '89.5', '4.1', '15.9', '0']]
+            l_value = []
+            # print(value)
+            for i in range(len(value.split(",")) - 1):
+                l_value.append(value.split(",")[i])
+            l_valueAll = (List_PO.listSplitSubList(l_value, fields))
+            # print(l_valueAll)  # [['2702', '0', '88.9', '27.3', '95.6', '0'], ['765', '0', '89.5', '4.1', '15.9', '0']]
 
-        for i in range(len(l_org)):
-            l_valueAll[i].insert(0, l_org[i])
-        for i in range(len(l_org)):
-            print(l_valueAll[i])  # [['上海市青浦区夏阳街道社区卫生服务中心', '2702', '0', '88.9', '27.3', '95.6', '0'], ['上海市青浦区练塘镇社区卫生服务中心', '765', '0', '89.5', '4.1', '15.9', '0']]
+            for i in range(len(l_org)):
+                l_valueAll[i].insert(0, l_org[i])
+            for i in range(len(l_org)):
+                print(l_valueAll[
+                          i])  # [['上海市青浦区夏阳街道社区卫生服务中心', '2702', '0', '88.9', '27.3', '95.6', '0'], ['上海市青浦区练塘镇社区卫生服务中心', '765', '0', '89.5', '4.1', '15.9', '0']]
 
-        # 合并标题
-        l_valueAll.insert(0, l_title)
-        return l_valueAll
+            # 合并标题
+            l_valueAll.insert(0, l_title)
+            return l_valueAll
+
+        elif varLabel == "签约居民列表":
+            pass
+
+
 
 
     def getRecordServiceValue(self, l_all, varOrg, varTitle):
@@ -219,16 +266,135 @@ class DataMonitorPO():
             if l_all[i][0] == varOrg:
                 return l_all[i][sign]
 
+    def recordServiceCommunity(self, varLabel):
+
+        ''' 质控结果分析 - 社区 - 签约居民列表 '''
+        print("-" * 150)
+        # print("[" + varLabel + "]")
+        print('\033[1;34;40m', '[' + varLabel + "]", '\033[0m')
+        self.Web_PO.clickId("tab-personnel")
+
+        # 切换到第2页 li[2]
+        self.Web_PO.clickXpath("//*[@id='pane-personnel']/div/div[1]/div[3]/div[2]/ul/li[2]", 2)
+        l_groupDeficiency = (self.Web_PO.getXpathsText("//div[@class='ellipsis el-popover__reference']"))
+
+        # l_groupDeficiency = [i for i in l_groupDeficiency if i != '']  # 去掉空元素 ,如 [, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+        # l_groupDeficiency = [str(i).replace("\n", "") for i in l_groupDeficiency if i != '']  # 去掉空元素 ,如 [, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+        # print(l_groupDeficiency)
+        # ['老', '', '老 糖', '糖\n1', '老', '', '糖', '糖\n1', '糖', '', '老 高', '高\n2', '老', '', '老 高', '高\n2', '老 高 糖',
+        #  '高\n1\n糖\n1', '老 高', '高\n2', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+        l_deficiency = []
+        for i in range(20):
+            if l_groupDeficiency[i] == '':
+                l_deficiency.append("空")
+            else:
+                l_deficiency.append(l_groupDeficiency[i])
+        print(l_deficiency) # ['老', '空', '老 糖', '糖\n1', '老', '空', '糖', '糖\n1', '糖', '空', '老 高', '高\n2', '老', '空', '老 高', '高\n2', '老 高 糖', '高\n1\n糖\n1', '老 高', '高\n2']
 
 
-    def getCommunity(self, varUser):
+        list1 = self.Web_PO.getXpathsText("//div")
+        # print(str(list1[0]).replace("\n", ","))
+        str1 = str(list1[0]).replace("\n", ",")
+        # print(str1)
+        title = str1.split("导出,")[1].split("糖尿病随访表,")[0]
+        value = str1.split("糖尿病随访表,")[1].split("签约医生")[0]
+        org = str1.split("签约医生 身份证号")[1].split(",共")[0]
+        l_title = []
+        for i in range(len(title.split(",")) - 1):
+            l_title.append(title.split(",")[i])
+        # print(l_title)
+        l_1 = l_title.pop(0).split(" ")  # ['联系电话 姓名 人群分类 档案问题 规范建档占比(%)'
+        l_1.insert(0, "身份证号")
+        l_1.insert(0, "签约医生")
 
-        ''' 获取所属社区 '''
+        l_2 = [i for i in l_title if i != '']   # 删除列表中空白元素，不能使用for，
+        l_2.append("糖尿病随访表")
+        l_2.remove("各表单质控错误项目数量（个）")
+        # print(l_2)  # ['档案封面', '个人基本信息表', '健康体检表', '高血压随访表', '糖尿病随访表']
+        l_title = []
+        l_title = l_1 + l_2
+        l_title.append("缺失表单类型")
+        print(l_title)
+        fields = 10
 
-        if varUser != "admin":
-            l_text = self.Web_PO.getXpathsTextPart("//div", "\nCopyright")
-            s_text = l_text[0].split("档案更新监控\n")[1].split("\n")[0]
-            print("所属社区：" + s_text)
+        # ['签约医生', '身份证号']
+        l_org = []
+        for i in range(len(org.split(","))):
+            l_org.append(org.split(",")[i].replace(" ", ""))
+        l_org = [i for i in l_org if i != '']
+        # print(l_org)  # ['古*尔', '000000000000000000', '戴*星', '110108195005133414', '戴*星', '130102197708161811', '马*佳', '130206194905170351', '洪*娟', '130602195509150931', '张*琴']
+
+        # l_value = []
+        # print(value)
+        l_33 = [i for i in str(value).split(",") if i != '']  # 等同于 # l_33 = str(value).split(",")   # l_33 = [i for i in l_33 if i != '']
+        # print(l_33)
+        l4 = []
+        for i in range(len(l_33)):
+            if "*" in l_33[i] and i == 0:
+                l4.append("空")
+                l4.append(l_33[i])
+                l4.append(l_33[i + 1])
+                l4.append(l_33[i + 2])
+                l4.append(l_33[i + 3])
+                l4.append(l_33[i + 4])
+                l4.append(l_33[i + 5])
+                l4.append(l_33[i + 6])
+                l4.append(l_33[i + 7])
+                l4.append(l_33[i + 8])
+            elif "*" in l_33[i]:
+                if len(l_33[i - 1]) < 7:
+                    l4.append("空")
+                else:
+                    l4.append(l_33[i - 1])
+                l4.append(l_33[i])
+                l4.append(l_33[i + 1])
+                l4.append(l_33[i + 2])
+                l4.append(l_33[i + 3])
+                l4.append(l_33[i + 4])
+                l4.append(l_33[i + 5])
+                l4.append(l_33[i + 6])
+                l4.append(l_33[i + 7])
+                l4.append(l_33[i + 8])
+        # print(l4)
+
+        # 签约居民列表明细
+        for i in range(int(len(l_org)/2)):
+            l_value = List_PO.listSplitSubList(l_org, 2)[i] + List_PO.listSplitSubList(l4, 10)[i]
+            l_value.append(l_deficiency[i*2+1])
+            print(l_value)
+
+        # l_valueAll = (List_PO.listSplitSubList(l4, fields))
+        # for i in range(len(l_33)):
+        #     if "*" in l_33[i] and i==0:
+        #         l_33.insert(0, "空")
+        #     elif "*" in l_33[i]:
+        #         print(i)
+        #         # if len(l_33[i-1]) < 7:
+        #         # l_33.insert(i, "空1")
+        # print(l_33)
+
+
+
+
+        # l_valueAll = (List_PO.listSplitSubList(l_value, fields))
+        # print(l_valueAll)  # [['2702', '0', '88.9', '27.3', '95.6', '0'], ['765', '0', '89.5', '4.1', '15.9', '0']]
+
+        # for i in range(len(l_org)):
+        #     l_valueAll[i].insert(0, l_org[i])
+        # for i in range(len(l_org)):
+        #     print(l_valueAll[i])  # [['上海市青浦区夏阳街道社区卫生服务中心', '2702', '0', '88.9', '27.3', '95.6', '0'], ['上海市青浦区练塘镇社区卫生服务中心', '765', '0', '89.5', '4.1', '15.9', '0']]
+
+        # # 合并标题
+        # l_valueAll.insert(0, l_title)
+        # return l_valueAll
+
+
+
+
+
+
+
+
 
     def homePage_indicator(self):
 
