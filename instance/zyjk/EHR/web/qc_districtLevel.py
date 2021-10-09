@@ -34,15 +34,15 @@ emphasis, noEmphasis = dataMonitor_PO.getProgress()
 
 # 3.5, 各社区签约居民电子健康档案指标 - 详细
 dataMonitor_PO.openNewLabel("http://192.168.0.243:8082/#/recordService/list?docCode=0041&orgCode=310118001&isDistrict=true")
-l_all = dataMonitor_PO.recordService("医疗机构名称", "区级")  # 获取字段与所有值列表
-# print(l_all)
+
+l_all = dataMonitor_PO.recordService("医疗机构名称")  # 获取字段与所有值列表
+print(l_all)
 # value = dataMonitor_PO.getRecordServiceValue(l_all, "上海市青浦区练塘镇社区卫生服务中心", "档案更新率(%)")   # 获取某机构的某个字段值。
 # print(value)
 
-
-l_all = dataMonitor_PO.recordService("签约医生", "区级")
-# print(l_all)
-# value = dataMonitor_PO.getRecordServiceValue(l_all, "李*琳", "建档率(%)")   # 获取某医生的某个字段值。
+l_all = dataMonitor_PO.recordService("签约医生", 4)
+print(l_all)
+# value = dataMonitor_PO.getRecordServiceValue(l_all, "黄*美", "建档率(%)")   # 获取某医生的某个字段值。
 # print(value)
 
 

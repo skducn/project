@@ -32,15 +32,23 @@ print("-" * 50)
 emphasis, noEmphasis = dataMonitor_PO.getProgress()
 
 
-# # 3.5, 家庭医生团队电子健康档案指标 - 详细
+# 3.5, 家庭医生团队电子健康档案指标 - 详细
 dataMonitor_PO.openNewLabel("http://192.168.0.243:8082/#/recordService/list?orgCode=310118001")
-l_all = dataMonitor_PO.recordService("签约医生", "社区")  # 获取字段与所有值列表
-# print(l_all)
-# value = dataMonitor_PO.getRecordServiceValue(l_all, "李*琳", "档案更新率(%)")   # 获取某机构的某个字段值。
-# print(value)
 
-l_all = dataMonitor_PO.recordServiceCommunity("签约居民列表")
-# print(l_all)
-# # value = dataMonitor_PO.getRecordServiceValue(l_all, "李*琳", "建档率(%)")   # 获取某医生的某个字段值。
-# # print(value)
+l_all = dataMonitor_PO.recordServiceCommunity("签约医生", 6)
+print(l_all)
 
+# 检查所有包含%字段的值是否大于100，输出错误的字段与值，如 error, 建档率(%) - ['197.5', '195', '1100']
+dataMonitor_PO.testPercentage(l_all)
+
+# 获取某一列的值
+l_dagxl = dataMonitor_PO.recordServiceCommunityCol(l_all, "档案更新率(%)")
+print(l_dagxl)  # ['90.9', '87.2', '94.7', '91.4', '81.3', '93.5', '71', '83.3', '86.5', '76.7']
+
+
+l_all = dataMonitor_PO.recordServiceCommunity("签约居民列表", 3)   # 获取 签约居民列表详情页第三页的数据
+print(l_all)
+
+# 获取某一列的值
+l_dagxl = dataMonitor_PO.recordServiceCommunityCol(l_all, "规范建档占比(%)")
+print(l_dagxl)  # ['90.9', '87.2', '94.7', '91.4', '81.3', '93.5', '71', '83.3', '86.5', '76.7']
