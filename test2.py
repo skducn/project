@@ -62,6 +62,7 @@ for index, url1 in enumerate(list):    # 遍历索引和值
         continue
     time.sleep(5)
 
+
     ###处理URI资源名，准备截图保存
     file = url1.rsplit("/", 1)[1]
     if "." in file:

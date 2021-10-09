@@ -16,6 +16,9 @@
 
 # Q2：MAC 移动chromedriver时报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
 # A2: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable , 重启电脑。
+
+# https://blog.csdn.net/xc_zhou/article/details/82415870 chrome浏览器的options参数
+# https://npm.taobao.org/mirrors/chromedriver  chrome驱动 , C:\Python38\Scripts\chromedrive.exe
 # *******************************************************************************************************************************
 
 '''
