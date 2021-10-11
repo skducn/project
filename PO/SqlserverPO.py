@@ -1,4 +1,5 @@
 #-- coding: utf-8 --
+
 #***************************************************************
 # Author     : John
 # Revise on : 2019-04-16
@@ -51,7 +52,8 @@ class SqlServerPO():
         # 得到数据库连接信息，返回conn.cursor()
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
-        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf8', autocommit=True)
+        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf8', autocommit=True)
+        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
         cur = self.conn.cursor()  # 创建一个游标对象
         if not cur:
             raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
@@ -556,9 +558,18 @@ if __name__ == '__main__':
     # print(tmpList)
 
     Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")  # EHR 测试环境
+    l_result = Sqlserver_PO.ExecQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
+    print(l_result)
+
+    # l_result = Sqlserver_PO.ExecQuery('select ehrNum from HrCover where id=%s ' % (1))
+    # l_result = Sqlserver_PO.ExecQuery('select convert(nvarchar(20), Name) from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
+    # l_result = Sqlserver_PO.ExecQuery('select Name from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
+    #
+    # print(l_result)
+
 
     # Sqlserver_PO.dbDesc()  # 1，所有表结构
-    Sqlserver_PO.dbDesc('HrCover')   # 2，某个表结构
+    # Sqlserver_PO.dbDesc('HrCover')   # 2，某个表结构
     # Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，某表的部分字段
     # Sqlserver_PO.dbDesc('tb*')  # 4，查看所有b开头的表结构（通配符*）
     # Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，查看所有b开头的表中id字段的结构（通配符*）
@@ -569,7 +580,7 @@ if __name__ == '__main__':
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
     # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
 
-    l = Sqlserver_PO.getAllFields('HrCover')  # 获取某表结构字段
-    print(l)
+    # l = Sqlserver_PO.getAllFields('HrCover')  # 获取某表结构字段
+    # print(l)
 
 
