@@ -5,6 +5,10 @@
 # Description:  电子健康档案数据监控中心（PC端）EHR对象库
 # *****************************************************************
 
+from instance.zyjk.EHR.config.config import *
+import string,numpy
+from string import digits
+
 from PO.HtmlPO import *
 from PO.ListPO import *
 List_PO = ListPO()
@@ -13,10 +17,16 @@ Str_PO = StrPO()
 from PO.TimePO import *
 Time_PO = TimePO()
 from PO.ColorPO import *
-from instance.zyjk.EHR.config.config import *
-import string,numpy
-from string import digits
+Color_PO = ColorPO()
+
 from PO.WebPO import *
+
+from PO.SqlserverPO import *
+Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")
+
+
+
+
 
 class DataMonitorPO():
 
@@ -27,6 +37,7 @@ class DataMonitorPO():
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
         self.List_PO = ListPO()
         self.Color_PO = ColorPO()
+
 
     def login(self, varUser, varPass):
 
@@ -90,6 +101,7 @@ class DataMonitorPO():
 
     def getUpdateDate(self):
         ''' 获取质控数据截止日期 '''
+        print("-" * 50)
         s_tmp = self.Web_PO.getXpathText("//div[@class='content_left']")
         updateDate = s_tmp.split("质控数据截止日期")[1]
         return updateDate.strip()  # 返回字符串日期
@@ -113,41 +125,147 @@ class DataMonitorPO():
             self.Color_PO.consoleColor("31", "31", "error, 质控数据截止日期：" + str(varStrDate) + "", "")
 
 
-    def getResident(self):
-        ''' 获取辖区常住人口（人）'''
-        strTmp = self.Web_PO.getXpathText("//div[@class='resident']")
-        # print(strTmp)
-        # print("-------------------------")
-        a = str(strTmp).split("辖区常住人口（人）\n")[1].split("\n建档率：")[0]
-        print("辖区常住人口（人）：" + str(a))
-        b = str(strTmp).split("建档率：")[1].split("\n截止日期：")[0]
-        print("建档率：" + str(b))
-        c = str(strTmp).split("截止日期：")[1].strip()
-        print("截止日期：" + str(c))
-        return a, b, c
 
-    def getContract(self):
+    def getDistrictLevel(self):
+
+        ''' 获取辖区常住人口（人）'''
+        print("-" * 50)
+        strTmp = self.Web_PO.getXpathText("//div[@class='resident']")
+        getResident1 = str(strTmp).split("辖区常住人口（人）\n")[1].split("\n建档率：")[0]
+        print("辖区常住人口（人）：" + str(getResident1))
+        getResident2 = str(strTmp).split("建档率：")[1].split("\n截止日期：")[0]
+        print("建档率：" + str(getResident2))
+        getResident3 = str(strTmp).split("截止日期：")[1].strip()
+        print("截止日期：" + str(getResident3))
+
         ''' 1+1+1签约居民人数（人）'''
+        print("-" * 50)
         strTmp = self.Web_PO.getXpathText("//div[@class='contract']")
         # print(strTmp)
-        # print("-------------------------")
-        a = str(strTmp).split("?\n")[1].split("\n签约率")[0]
-        print("1+1+1签约居民人数（人）：" + str(a))
-        b = str(strTmp).split("签约率 ")[1].split("\n签约完成率")[0]
-        print("签约率：" + str(b))
-        c = str(strTmp).split("签约完成率 ")[1].split("\n签约机构与档案管理机构不一致人数：")[0]
-        print("签约完成率：" + str(c))
-        d = str(strTmp).split("签约机构与档案管理机构不一致人数：")[1].split("\n人")[0]
-        print("签约机构与档案管理机构不一致人数：" + str(d))
-        return a, b, c, d
+        getContract1 = str(strTmp).split("?\n")[1].split("\n签约率")[0]
+        print("1+1+1签约居民人数（人）：" + str(getContract1))
+        getContract2 = str(strTmp).split("签约率 ")[1].split("\n签约完成率")[0]
+        print("签约率：" + str(getContract2))
+        getContract3 = str(strTmp).split("签约完成率 ")[1].split("\n签约机构与档案管理机构不一致人数：")[0]
+        print("签约完成率：" + str(getContract3))
+        getContract4 = str(strTmp).split("签约机构与档案管理机构不一致人数：")[1].split("\n人")[0]
+        print("签约机构与档案管理机构不一致人数：" + str(getContract4))
 
-    def getProgress(self):
         ''' 签约居民分类（重点人群，非重点人群）'''
+        print("-" * 50)
         emphasis = self.Web_PO.getXpathText("//div[@class='left_content']")
         print("重点人群：" + str(emphasis))
         noEmphasis = self.Web_PO.getXpathText("//div[@class='right_content']")
         print("非重点人群：" + str(noEmphasis))
-        return emphasis, noEmphasis
+
+        return getResident1, getResident2, getResident3, getContract1, getContract2, getContract3, getContract4, emphasis, noEmphasis
+
+    def getCommunity(self):
+
+        ''' 获取辖区常住人口（人）'''
+        print("-" * 50)
+        strTmp = self.Web_PO.getXpathText("//div[@class='resident']")
+        getResident1 = str(strTmp).split("辖区常住人口（人）\n")[1].split("\n建档率：")[0]
+        print("辖区常住人口（人）：" + str(getResident1))
+        getResident2 = str(strTmp).split("建档率：")[1].split("\n截止日期：")[0]
+        print("建档率：" + str(getResident2))
+        getResident3 = str(strTmp).split("截止日期：")[1].strip()
+        print("截止日期：" + str(getResident3))
+
+        ''' 1+1+1签约居民人数（人）'''
+        print("-" * 50)
+        strTmp = self.Web_PO.getXpathText("//div[@class='contract']")
+        # print(strTmp)
+        getContract1 = str(strTmp).split("?\n")[1].split("\n签约率")[0]
+        print("1+1+1签约居民人数（人）：" + str(getContract1))
+        getContract2 = str(strTmp).split("签约率 ")[1].split("\n签约完成率")[0]
+        print("签约率：" + str(getContract2))
+        getContract3 = str(strTmp).split("签约完成率 ")[1].split("\n签约机构与档案管理机构不一致人数：")[0]
+        print("签约完成率：" + str(getContract3))
+        getContract4 = str(strTmp).split("签约机构与档案管理机构不一致人数：")[1].split("\n人")[0]
+        print("签约机构与档案管理机构不一致人数：" + str(getContract4))
+
+        ''' 签约居民分类（重点人群，非重点人群）'''
+        print("-" * 50)
+        emphasis = self.Web_PO.getXpathText("//div[@class='left_content']")
+        print("重点人群：" + str(emphasis))
+        noEmphasis = self.Web_PO.getXpathText("//div[@class='right_content']")
+        print("非重点人群：" + str(noEmphasis))
+
+        return getResident1, getResident2, getResident3, getContract1, getContract2, getContract3, getContract4, emphasis, noEmphasis
+
+    def getDoctor(self):
+
+        ''' 1+1+1签约居民人数（人）'''
+        print("-" * 50)
+        strTmp = self.Web_PO.getXpathText("//div[@class='resident']")
+        # print(strTmp)
+        getContract1 = str(strTmp).split("1+1+1签约居民人数（人）\n")[1].split("\n签约机构与档案管理机构不一致人数：")[0]
+        print("1+1+1签约居民人数（人）：" + str(getContract1))
+
+        ''' 签约居民分类（重点人群，非重点人群）'''
+        print("-" * 50)
+        emphasis = self.Web_PO.getXpathText("//div[@class='left_content']")
+        print("重点人群：" + str(emphasis))
+        noEmphasis = self.Web_PO.getXpathText("//div[@class='right_content']")
+        print("非重点人群：" + str(noEmphasis))
+
+        return getContract1, emphasis, noEmphasis
+
+    def getCommunityNew(self):
+
+        print("-" * 50)
+        strTmp = self.Web_PO.getXpathText("//div")
+        # print(strTmp)
+        a = str(strTmp).split("签约居民中重点人群\n")[1].split(" 人")[0]
+        print("签约居民中重点人群：" + str(a))
+
+        b = str(strTmp).split("签约未建档人数：")[1].split("人")[0]
+        print("签约未建档人数：" + str(b))
+
+        c = str(strTmp).split("签约未建档人数：")[1].split("老年人")[0]
+        # print(c)
+        list1 = c.replace("\n",",").replace("人","").split(",")
+        list1.pop(0)
+        list1.pop(-1)
+        # print(list1)
+        print("老年人:" + list1[0])
+        print("糖尿病:" + list1[1])
+        print("高血压:" + list1[2])
+        print("老年人与糖尿病:" + list1[3])
+        print("既是老年人又是高血压与糖尿病:" + list1[4])
+        print("老年人与高血压:" + list1[5])
+        print("糖尿病与高血压:" + list1[6])
+
+
+        d = str(strTmp).split("60岁以上签约居民\n")[1].split(" 人")[0]
+        print("60岁以上签约居民：" + str(d))
+        e = str(strTmp).split("签约率：")[1].split("%")[0]
+        print("签约率：" + str(e) + "%")
+        f = str(strTmp).split("签约建档率：")[1].split("%")[0]
+        print("签约建档率：" + str(f) + "%")
+
+
+        g = str(strTmp).split("签约居民中非重点人群\n")[1].split(" 人")[0]
+        print("签约居民中非重点人群：" + str(g))
+        h = str(strTmp).split("签约未建档人数：")[2].split("人")[0]
+        print("签约未建档人数：" + str(h))
+
+        i = str(strTmp).split("签约率\n")[1].split("%")[0]
+        print("签约率：" + str(i) + "%")
+
+        j = str(strTmp).split("签约建档率\n")[1].split("%")[0]
+        print("签约建档率：" + str(j) + "%")
+
+        k = str(strTmp).split("规范建档占比\n")[1].split("%")[0]
+        print("规范建档占比：" + str(k)+ "%")
+
+        l = str(strTmp).split("更新率\n")[1].split("%")[0]
+        print("更新率：" + str(l) + "%")
+
+        m = str(strTmp).split("利用率\n")[1].split("%")[0]
+        print("利用率：" + str(m) + "%")
+
 
 
     def openNewLabel(self, varURL):
@@ -161,7 +279,7 @@ class DataMonitorPO():
         ''' 质控结果分析 - 社区 - 签约医生 '''
 
         print("-" * 150)
-        print('\033[1;34;40m', '[' + varLabel + "]", '\033[0m')
+        print('\033[1;34;40m', '[' + varLabel + "]" + " - 第" + str(varPage) + "页", '\033[0m')
 
         if varLabel == "签约医生":
             self.Web_PO.clickId("tab-doctor")
@@ -261,7 +379,7 @@ class DataMonitorPO():
         ''' 质控结果分析 - 社区  '''
 
         print("-" * 150)
-        print('\033[1;34;40m', '[' + varLabel + "]", '\033[0m')
+        print('\033[1;34;40m', '[' + varLabel + "]" + " - 第" + str(varPage) + "页", '\033[0m')
 
         if varLabel == "签约医生":
             self.Web_PO.clickId("tab-doctor")
@@ -440,7 +558,9 @@ class DataMonitorPO():
                 l_tmp = []
 
 
-
+    def testSql(self, varSql):
+        l_result = Sqlserver_PO.ExecQuery(varSql)
+        return (l_result[0][0])
 
 
 
@@ -465,7 +585,6 @@ class DataMonitorPO():
         del d_overallIndex2["标准"]
         d_overallIndex2 = {value: key for key, value in d_overallIndex2.items()}
         print(d_overallIndex2)  # {'户籍人口占比': '1.09%', '实际建档率': '18%', '问题档案占比': '100%', '档案更新率': '0%'}
-
     def homePage_EhrMap(self):
 
         '''电子健康档案分布图'''
@@ -478,7 +597,6 @@ class DataMonitorPO():
         x = (self.List_PO.listSplitSubList(l_ehrMap, 4))  # [['团队', '建档数量(份)', '问题档案数量(份）', '问题档案占比'], ['王敬丽团队', '1959', '1959', '100.00%'], ['周坤团队', '1754', '1754', '100.00%'], ['中心团队', '1116', '1116', '100.00%'], ['郁红娟团队', '955', '955', '100.00%'], ['严慧艳团队', '945', '945', '100.00%'], ['12']]
         for i in x:
             print(i)
-
     def homePage_signDoctor(self):
 
         '''签约医生分布'''
@@ -491,7 +609,6 @@ class DataMonitorPO():
         x = (self.List_PO.listSplitSubList(l_signDoctor, 6))
         for i in x:
             print(i)
-
     def homePage_age(self):
 
         '''年龄分布'''
@@ -504,7 +621,6 @@ class DataMonitorPO():
         x = (self.List_PO.listSplitSubList(l_age, 4))  # [['年龄', '建档数量(份)', '问题档案数量(份)', '问题档案占比'], ['7-64岁', '12727', '12727', '100.00%'], ['65岁以上', '4496', '4496', '100.00%'], ['0-6岁', '2776', '2776', '100.00%']]
         for i in x:
             print(i)
-
     def homePage_disease(self):
 
         '''疾病分布'''
@@ -517,7 +633,6 @@ class DataMonitorPO():
         x = (self.List_PO.listSplitSubList(l_disease, 4))  # [['疾病', '建档数量(份)', '问题档案数量(份)', '问题档案占比']]
         for i in x:
             print(i)
-
     def homePage_specialPeople(self):
 
         '''特殊人群分布'''
@@ -530,8 +645,6 @@ class DataMonitorPO():
         x = (self.List_PO.listSplitSubList(l_specialPeople, 4))  # [['疾病', '建档数量(份)', '问题档案数量(份)', '问题档案占比']]
         for i in x:
             print(i)
-
-
     def qcAnalysis_dropDownList1(self, varSelectName):
 
         ''' 档案质控分析 - 档案质控总体情况 - 下拉框选值'''
@@ -558,7 +671,6 @@ class DataMonitorPO():
         for i in x:
             print(i)
             list3.append(i[0])
-
     def qcAnalysis_dropDownList1_opr(self, varKey, varOpr, varRule="", varPageNum=1):
 
         ''' 档案质控分析 - 档案质控总体情况 - 操作（详情，规范建档率提升分析）'''
@@ -617,7 +729,6 @@ class DataMonitorPO():
             for i in l_problemList1:
                 print(i)
             return l_problemList1
-
     def qcAnalysis_problem_opr(self,varList1, varIdCard):
 
         ''' 档案质控分析 - 问题档案列表 - 操作（患者身份证）
@@ -668,15 +779,12 @@ class DataMonitorPO():
                 print(k, d_basic_format[k])
         except:
             self.Color_PO.consoleColor("31", "31", "[ERROR]", "身份证号(" + str(varIdCard) + ")有误，请检查！")
-
     def qcAnalysis_problem_page(self, varPageNum):
 
         ''' 档案质控分析 - 问题档案列表 - 翻页 '''
 
         self.Web_PO.scrollIntoView("//input[@placeholder='请选择']", 2)
         self.Web_PO.inputXpathClearEnter("//div[@class='block']/div[2]/span/div/input", varPageNum)
-
-
     def sys_userList(self):
 
         '''用户列表'''
@@ -693,7 +801,6 @@ class DataMonitorPO():
                 l_userList2.append(l_userList[i])
         for i in l_userList2:
             print(i)
-
     def sys_user_search(self, varType, varValue):
 
         ''' 系统管理 - 用户管理 - 搜索（用户名、昵称、手机号）'''
@@ -721,7 +828,6 @@ class DataMonitorPO():
                 return False
         except:
             exit()
-
     def sys_user_add(self, varAccount, varNickName, varPhone, varAttr, varCommunity=""):
 
         '''系统公里 - 用户管理 - 增加用户'''
@@ -769,7 +875,6 @@ class DataMonitorPO():
                 print("[已存在] => " + varAccount)
         except:
             exit()
-
     def sys_user_edit(self, varAccountOld, varAccount, varNickName, varPhone, varAttr):
 
         '''系统管理 - 用户管理 - 编辑'''
@@ -795,7 +900,6 @@ class DataMonitorPO():
                 print("[未找到] => " + varAccountOld)
         except:
             exit()
-
     def sys_user_role(self, varAccount, *t_role):
 
         '''系统管理 - 用户管理 - 角色'''
@@ -823,7 +927,6 @@ class DataMonitorPO():
                 print("[未找到] => " + str(varAccount))
         except:
             exit()
-
     def sys_user_del(self, varAccount):
 
         '''系统管理 - 用户管理 - 删除'''
@@ -839,9 +942,6 @@ class DataMonitorPO():
                 print("[未找到] => " + str(varAccount))
         except:
             exit()
-
-
-
     def sys_user_admin_add(self):
         pass
         # if varType == "建档专员":

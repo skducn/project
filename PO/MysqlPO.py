@@ -525,14 +525,15 @@ class MysqlPO():
 
 if __name__ == '__main__':
 
+    pass
     # 195_saas_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
-    Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)
-    Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % ("陈一机构"))
-    tmpTuple = Mysql_PO.cur.fetchall()
-    print(tmpTuple[0][0])
-    Mysql_PO.cur.execute('select id from sys_dept where localName="%s" and orgId="%s"' % ("阿里巴巴999",279))
-    id = Mysql_PO.cur.fetchall()
-    print(id)
+    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)
+    # Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % ("陈一机构"))
+    # tmpTuple = Mysql_PO.cur.fetchall()
+    # print(tmpTuple[0][0])
+    # Mysql_PO.cur.execute('select id from sys_dept where localName="%s" and orgId="%s"' % ("阿里巴巴999",279))
+    # id = Mysql_PO.cur.fetchall()
+    # print(id)
 
     # 195_患者360_test   (开发环境)
     # mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)
@@ -584,7 +585,7 @@ if __name__ == '__main__':
 
 
     # 35_ehr_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # mysql_PO = MysqlPO("192.168.0.35", "test", "123456", "healthrecord_test", 3336)  # 测试环境
+    # mysql_PO = MysqlPO("192.168.0.234", "sa", "Zy@123456", "healthrecord_test", 3336)  # 测试环境
     # mysql_PO = MysqlPO("192.168.0.35", "test", "123456", "healthrecord", 3336)  # 开发环境
 
 

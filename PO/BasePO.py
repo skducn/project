@@ -18,14 +18,13 @@ from selenium.webdriver.support.abstract_event_listener	import *
 from selenium.webdriver.support.event_firing_webdriver import *
 from selenium.webdriver.support.expected_conditions	import *
 from PO.ColorPO import *
-
+Color_PO = ColorPO()
 
 class BasePO(object):
 
     def __init__(self, driver):
         # driver 是BasePage类的入参。
         self.driver = driver
-        self.Color_PO = ColorPO()
 
 
     def find_element(self, *loc):
@@ -84,18 +83,19 @@ class BasePO(object):
             else:
                 print(errMsg)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def assertEqual(self, expected, actual, okMsg, errMsg):
         try:
             if expected == actual:
-                print(okMsg)
+                # print(okMsg)
+                Color_PO.consoleColor("31", "36", "[OK]", str(okMsg))
             else:
-                print(errMsg)
-                # self.Color_PO.consoleColor("31", "38", errMsg, "")
+                # print(errMsg)
+                Color_PO.consoleColor("31", "38", "[ERROR]", str(errMsg))
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
 
@@ -106,7 +106,7 @@ class BasePO(object):
             else:
                 print(errMsg)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def assertEqualgetValue(self, expected, actual):
@@ -116,7 +116,7 @@ class BasePO(object):
             else:
                 return 0
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def assertEqualNotNone(self, expected, actual):
@@ -126,7 +126,7 @@ class BasePO(object):
             else:
                 return 0,0
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     '''[ERROR TIPS]'''
@@ -153,7 +153,7 @@ class BasePO(object):
         try:
             self.find_element(*(By.ID, varId)).send_keys(vatContent)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def inputIdClear(self, varId, varContent):
@@ -161,14 +161,14 @@ class BasePO(object):
             self.find_element(*(By.ID, varId)).clear()
             self.find_element(*(By.ID, varId)).send_keys(varContent)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def inputName(self, varName, varContent):
         try:
             self.find_element(*(By.NAME, varName)).send_keys(varContent)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def inputNameClear(self, varName, varContent):
@@ -176,14 +176,14 @@ class BasePO(object):
             self.find_element(*(By.NAME, varName)).clear()
             self.find_element(*(By.NAME, varName)).send_keys(varContent)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def inputXpath(self, varPath, varContent):
         try:
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
 
@@ -192,7 +192,7 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).clear()
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def inputXpathEnter(self, varPath, varContent):
@@ -200,7 +200,7 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def inputXpathClearEnter(self, varPath, varContent):
@@ -210,7 +210,7 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
             sleep(2)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
 
@@ -223,7 +223,7 @@ class BasePO(object):
             self.find_element(*(By.ID, varId)).click()
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickLinktext(self, varContent, t=0):
@@ -231,7 +231,7 @@ class BasePO(object):
             self.find_element(*(By.LINK_TEXT, varContent)).click()
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickLinkstext(self, varContent, t=0):
@@ -240,7 +240,7 @@ class BasePO(object):
                 a.click()
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickTagname(self, varContent, t=0):
@@ -249,7 +249,7 @@ class BasePO(object):
             self.find_element(*(By.TAG_NAME, varContent)).click()
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickXpath(self, varPath, t=0):
@@ -258,7 +258,7 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).click()
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickXpathEnter(self, varPath, t=0):
@@ -266,7 +266,7 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
 
@@ -278,7 +278,7 @@ class BasePO(object):
                 a.click()
                 sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickXpathsNum(self, varPaths, varNum, t=0):
@@ -293,7 +293,7 @@ class BasePO(object):
                     break
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickXpathsTextContain(self, varPaths, varContain, t=0):
@@ -306,7 +306,7 @@ class BasePO(object):
                     break
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickXpathsContain(self, varPaths, varAttr, varContain, t=0):
@@ -320,7 +320,7 @@ class BasePO(object):
                     break
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickXpathsXpath(self, varPaths, varPaths2, t=0):
@@ -333,7 +333,7 @@ class BasePO(object):
                 self.find_element(*(By.XPATH, varPaths2)).click()
                 sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickXpathXpath(self, varPath, varPath2, t=0):
@@ -346,7 +346,7 @@ class BasePO(object):
             yy.click()
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def clickXpathRight(self, varPath, varId):
@@ -362,7 +362,7 @@ class BasePO(object):
             # ActionChains(self.driver).click
             ActionChains(self.driver).move_to_element(self.find_element(*(By.ID, varId)))
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
 
@@ -374,7 +374,7 @@ class BasePO(object):
         try:
             return self.find_element(*(By.XPATH, varPath)).text
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsText(self, varPaths):
         # 获取文本列表
@@ -386,7 +386,7 @@ class BasePO(object):
             return list1
         except:
             return None
-            # self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            # Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def getXpathsTextPart(self, varPaths, varText):
@@ -402,7 +402,7 @@ class BasePO(object):
                     list1.append(a.text)
             return list1
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsTextPlace(self, varPaths, varContent):
         # 获取文本所在的位置
@@ -415,7 +415,7 @@ class BasePO(object):
                     return r
             return None
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsPartTextPlace(self, varPaths, dimPartContent):
         # 获取模糊文本所在的位置
@@ -430,7 +430,7 @@ class BasePO(object):
                     return r
             return None
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsAttrPlace(self, varPaths, varAttr, varValue):
         # 获取某属性值所在的位置
@@ -444,7 +444,7 @@ class BasePO(object):
                     return r
             return None
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def getXpathAttr(self, varPath, varAttr):
@@ -453,7 +453,7 @@ class BasePO(object):
         try:
             return self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsQty(self, varPaths):
         # 获取遍历路径数量
@@ -464,7 +464,7 @@ class BasePO(object):
                 s = s + 1
             return s
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsAttr(self, varPaths, varAttr):
         # 获取属性列表
@@ -475,7 +475,7 @@ class BasePO(object):
                 l.append(a.get_attribute(varAttr))
             return l
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsDictTextAttr(self, varPaths, varAttr):
         # 获取遍历路径字典{文本：属性值}
@@ -490,7 +490,7 @@ class BasePO(object):
             dict1 = dict(zip(list1, list2))
             return dict1
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getLinktextAttr(self, varContent, varAttr):
         # 获取连接文本的属性
@@ -498,7 +498,7 @@ class BasePO(object):
         try:
             return self.find_element(*(By.LINK_TEXT, varContent)).get_attribute(varAttr)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     '''[ 4print ]'''
@@ -508,14 +508,14 @@ class BasePO(object):
         try:
             return self.find_element(*(By.LINK_TEXT, varContent)).get_attribute(varAttr)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def printIdTagnameText(self, varId, dimTagname):
         # Level_PO.printIdTagnameText('navbar', "button")
         try:
             print(self.find_element(*(By.ID, varId)).a.find_element_by_tag_name(dimTagname).text)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def printIdTagnamesText(self, varId, dimTagname):
         # Level_PO.printIdTagnamesText('navbar', "dl")
@@ -525,14 +525,14 @@ class BasePO(object):
             for i in varContents:
                 print(i.text)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def printXpathText(self, varPath):
         # Level_PO.printXpathText("//h5")
         try:
             print(self.find_element(*(By.XPATH, varPath)).text)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def printXpathsText(self, varPaths):
@@ -541,7 +541,7 @@ class BasePO(object):
             for a in self.find_elements(*(By.XPATH, varPaths)):
                 print(a.text)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def printXpathAttr(self, varPath, varAttr):
@@ -549,7 +549,7 @@ class BasePO(object):
         try:
             print(self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr))
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def printXpathsAttr(self, varPaths, varAttr):
@@ -558,7 +558,7 @@ class BasePO(object):
             for a in self.find_elements(*(By.XPATH, varPaths)):
                 print(a.get_attribute(varAttr))
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
 
@@ -591,7 +591,7 @@ class BasePO(object):
         try:
             Select(self.driver.find_element_by_id(varId)).select_by_value(dimValue)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def selectIdText(self, varId, varText):
@@ -600,7 +600,7 @@ class BasePO(object):
         try:
             Select(self.driver.find_element_by_id(varId)).select_by_visible_text(varText)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def selectNameText(self, varName, varText):
@@ -609,7 +609,7 @@ class BasePO(object):
         try:
             Select(self.driver.find_element_by_name(varName)).select_by_visible_text(varText)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def selectNameValue(self, varName, dimValue):
@@ -618,7 +618,7 @@ class BasePO(object):
         try:
             Select(self.driver.find_element_by_name(varName)).select_by_value(dimValue)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def selectXpathText(self, varPath, varText):
@@ -659,7 +659,7 @@ class BasePO(object):
                     Select(s1).select_by_value(sorted(d_total1.items())[i][1])
                     break
         else:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def selectXpathsMenu1Menu2(self, varPaths1, varMenu, varPaths2, varMenu2, t):
@@ -677,7 +677,7 @@ class BasePO(object):
                             break
                     break
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
     def get_selectNAMEvalue(self, varByname, varContent):
@@ -880,7 +880,7 @@ class BasePO(object):
             actions.move_to_element(elements).perform()
             sleep(t)
         except:
-            self.Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
 
 
@@ -935,4 +935,5 @@ class alert_is_present(object):
 if __name__ == '__main__':
 
     Base_PO = BasePO()
+    Base_PO.assertEqual(1,1,"555","7777")
     # Base_PO.closePid("chrome.exe")

@@ -18,21 +18,16 @@ dataMonitor_PO.login("test", "Qa@123456")
 # 2，菜单
 dataMonitor_PO.clickMenu("质控结果分析", "社区")
 
-# 3.1，检查质控数据截止日期
-# 3.1.1，日期不能早于2000.1.5
+# 3.1，检查质控数据截止日期，日期不能早于2000.1.5
 dataMonitor_PO.checkDate(dataMonitor_PO.getUpdateDate())
-print("-" * 50)
+
 # 3.2, 辖区常住人口（人） - 人数、建档率、截止日期
-resident, createRate, endDate = dataMonitor_PO.getResident()
-print("-" * 50)
-# 3.3, 1+1+1签约居民人数（人） - 人数、签约率、签约完成率、签约人数、签约机构与档案管理机构不一致人数
-contract, signRate, finishRate, differP = dataMonitor_PO.getContract()
-print("-" * 50)
-# 3.4, 签约居民分类（重点人群，非重点人群）
-emphasis, noEmphasis = dataMonitor_PO.getProgress()
+# 1+1+1签约居民人数（人） - 人数、签约率、签约完成率、签约人数、签约机构与档案管理机构不一致人数
+# 签约居民分类（重点人群，非重点人群）
+getResident1, getResident2, getResident3, getContract1, getContract2, getContract3, getContract4, emphasis, noEmphasis = dataMonitor_PO.getCommunity()
 
 
-# 3.5, 家庭医生团队电子健康档案指标 - 详细
+# 3.3，家庭医生团队电子健康档案指标 - 详细
 dataMonitor_PO.openNewLabel("http://192.168.0.243:8082/#/recordService/list?orgCode=310118001")
 
 l_all = dataMonitor_PO.recordServiceCommunity("签约医生", 6)
