@@ -52,7 +52,7 @@ class Douyin:
 		# 视频标题
 		varTitle = re.findall('"share_title":"(.+?)"', res1.text)
 		# 优化文件名不支持的9个字符
-		varTitle = Str_PO.nonsupportChar(str(varTitle[0]))
+		varTitle = Str_PO.escapeSpecialCharacters(str(varTitle[0]))
 		# 生成目录
 		File_PO.newLayerFolder(toSave + "\\" + nickname[0])
 		varFolder = str(toSave) + "\\" + nickname[0]
@@ -121,7 +121,7 @@ class Douyin:
 						varTitle = s['desc']
 
 						# 优化文件名不支持的9个字符
-						varTitle = Str_PO.nonsupportChar(str(varTitle))
+						varTitle = Str_PO.escapeSpecialCharacters(str(varTitle))
 
 						# 过滤掉#后的广告
 						varTitle = re.sub("(\#\w+)|(\@\w+)", '', varTitle)
@@ -199,7 +199,7 @@ class Douyin:
 		# 视频标题
 		varTitle = re.findall('"share_title":"(.+?)"', res1.text)  # 视频标题
 		# 优化文件名不支持的9个字符
-		varTitle = Str_PO.nonsupportChar(str(varTitle[0]))
+		varTitle = Str_PO.escapeSpecialCharacters(str(varTitle[0]))
 		# 生成目录
 		File_PO.newLayerFolder(toSave + "\\" + nickname[0])
 		varFolder = str(toSave) + "\\" + nickname[0]
@@ -269,7 +269,7 @@ class Douyin:
 						varTitle = s['desc']
 
 						# 优化文件名不支持的9个字符
-						varTitle = Str_PO.nonsupportChar(str(varTitle))
+						varTitle = Str_PO.escapeSpecialCharacters(str(varTitle))
 
 						# 过滤掉#后的广告
 						# varTitle = re.sub("(\#\w+)|(\@\w+)", '', varTitle)
@@ -327,7 +327,7 @@ if __name__ == '__main__':
 	douyin = Douyin()
 
 	# 1，单视频下载（手机版）
-	douyin.downSingle("https://v.douyin.com/dhcD9HP/", "d:\\600")
+	douyin.downSingle("https://v.douyin.com/dghEdFX/", "d:\\600")
 
 
 	# 2，多视频下载（手机版）

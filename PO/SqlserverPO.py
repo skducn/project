@@ -68,18 +68,39 @@ class SqlServerPO():
 
         cur = self.__GetConnect()
         self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
-        cur.execute(sql)  # 执行查询语句
+        cur.execute(sql)
 
         try:
-            result = cur.fetchall()  # fetchall()获取查询结果
+            result = cur.fetchall()
         except:
             self.conn.commit()
-            cur.close()  # 关闭游标
-            self.conn.close()  # 关闭连接
+            cur.close()
+            self.conn.close()
             return
         self.conn.commit()
-        cur.close()  # 关闭游标
-        self.conn.close()  # 关闭连接
+        cur.close()
+        self.conn.close()
+        return result
+    def ExecQuery2(self, sql, param):
+        '''
+        执行查询语句
+        返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
+        '''
+
+        cur = self.__GetConnect()
+        self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
+        cur.execute(sql, param)
+
+        try:
+            result = cur.fetchall()
+        except:
+            self.conn.commit()
+            cur.close()
+            self.conn.close()
+            return
+        self.conn.commit()
+        cur.close()
+        self.conn.close()
         return result
 
     def ExecProcedure(self, varProcedureName):
