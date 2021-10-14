@@ -24,12 +24,26 @@ dataMonitor_PO.checkDate(dataMonitor_PO.getUpdateDate())
 # 3.2, 辖区常住人口（人） - 人数、建档率、截止日期
 # 1+1+1签约居民人数（人） - 人数、签约率、签约完成率、签约人数、签约机构与档案管理机构不一致人数
 # 签约居民分类（重点人群，非重点人群）
-getResident1, getResident2, getResident3, getContract1, getContract2, getContract3, getContract4, emphasis, noEmphasis = dataMonitor_PO.getDistrictLevel()
-sqlResident1 = dataMonitor_PO.testSql('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
+czrk, jdl, jzrq, qyjmrs, qyl, qywcl, byzrs, zdrq, fzdrq = dataMonitor_PO.getDistrictLevel()
 
-print("testSql".center(100, "-"))
-WebPO.assertEqual("",int(getResident1), int(sqlResident1), "ok,辖区常住人口（人）", "errorrrrrrrrrr,辖区常住人口（人）")
+# sql测试
+print("辖区常住人口（人）".center(100, "-"))
+sql_czrk = dataMonitor_PO.testSql('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
+WebPO.assertEqual("",int(czrk), int(sql_czrk), "ok,辖区常住人口（人）", "errorrrrrrrrrr,辖区常住人口（人）")
 
+print("建档率".center(100, "-"))
+sql_jdl = dataMonitor_PO.testSql('SELECT count(*) FROM report_qyyh WHERE A4="1"')
+x = sql_jdl / sql_czrk * 100
+print(str(x) + "%")
+WebPO.assertEqual("",int(jdl), int(x), "ok,建档率", "errorrrrrrrrrr,建档率")
+
+
+
+
+
+print("1+1+1签约居民人数（人）".center(100, "-"))
+sql_qyjmrs = dataMonitor_PO.testSql('SELECT count(*) FROM report_qyyh')
+WebPO.assertEqual("",int(qyjmrs), int(sql_qyjmrs), "ok,1+1+1签约居民人数（人）", "errorrrrrrrrrr,1+1+1签约居民人数（人）")
 
 
 
