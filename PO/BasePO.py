@@ -97,7 +97,16 @@ class BasePO(object):
         except:
             Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
-
+    def assertEqualValue(self, expected, actual, okMsg, errMsg):
+        try:
+            if expected == actual:
+                Color_PO.consoleColor("31", "36", "[OK]", str(okMsg) + ", " + str(expected))
+            else:
+                Color_PO.consoleColor("31", "38", "[ERROR]", str(errMsg) + ", 预期值：" + str(expected) + ", 实测值：" + str(actual))
+        except:
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(
+                sys._getframe(1).f_lineno) + ", call " + sys._getframe(
+                0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')", "")
 
     def assertContain(self, one, allcontain, okMsg, errMsg):
         try:
