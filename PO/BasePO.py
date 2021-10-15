@@ -76,12 +76,23 @@ class BasePO(object):
 
     '''[ASSERT]'''
 
-    def assertTrue(self, expected, okMsg, errMsg):
+    def assertTrue(self, testValue, errMsg):
         try:
-            if expected == True :
-                print(okMsg)
+            if testValue == True :
+                return True
             else:
                 print(errMsg)
+                return False
+        except:
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+
+
+    def assertEqualTrue(self, expected, actual):
+        try:
+            if expected == actual:
+                return True
+            else:
+                return False
         except:
             Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
@@ -91,9 +102,11 @@ class BasePO(object):
             if expected == actual:
                 # print(okMsg)
                 Color_PO.consoleColor("31", "36", "[OK]", str(okMsg))
+                return True
             else:
                 # print(errMsg)
                 Color_PO.consoleColor("31", "38", "[ERROR]", str(errMsg))
+                return False
         except:
             Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
@@ -101,29 +114,21 @@ class BasePO(object):
         try:
             if expected == actual:
                 Color_PO.consoleColor("31", "36", "[OK]", str(okMsg) + ", " + str(expected))
+                return True
             else:
                 Color_PO.consoleColor("31", "38", "[ERROR]", str(errMsg) + ", 预期值：" + str(expected) + ", 实测值：" + str(actual))
+                return False
         except:
-            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(
-                sys._getframe(1).f_lineno) + ", call " + sys._getframe(
-                0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')", "")
+            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')", "")
 
-    def assertContain(self, one, allcontain, okMsg, errMsg):
+    def assertContain(self, one, all, okMsg, errMsg):
         try:
-            if one in allcontain:
+            if one in all:
                 print(okMsg)
+                return True
             else:
                 print(errMsg)
-        except:
-            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
-
-
-    def assertEqualgetValue(self, expected, actual):
-        try:
-            if expected == actual:
-                return 1
-            else:
-                return 0
+                return False
         except:
             Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
@@ -764,6 +769,12 @@ class BasePO(object):
         # varJs = 'document.querySelector("input[type=number]").value="";    //清除input输入框内哦那个
         self.driver.execute_script(varJs)
         sleep(t)
+
+    def jsXpathReadonly(self, varXpath, t=0):
+        d = self.driver.find_element_by_xpath(varXpath)
+        self.driver.execute_script('arguments[0].removeAttribute("readonly")', d)
+        sleep(t)
+
 
     def jsIdReadonly(self, varId, t=0):
         # 通过id去掉控件只读属性，一般用于第三方日期控件
