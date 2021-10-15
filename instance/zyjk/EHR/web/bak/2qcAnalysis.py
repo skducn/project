@@ -5,6 +5,7 @@
 # Description: 电子健康档案数据监控中心（PC端）之 质控分析
 # 技巧：去掉字符串两端的数字， astring.strip(string.digits) ,如 123姓名，输出：姓名
 # 扩展：astring.lstrip(string.digits) 去掉左侧数字  , astring.rstrip(string.digits) 去掉右侧数字
+# admin/ admin@123456
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 

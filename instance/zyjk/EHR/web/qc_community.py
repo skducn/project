@@ -12,10 +12,10 @@ from instance.zyjk.EHR.PageObject.DataMonitorPO import *
 dataMonitor_PO = DataMonitorPO()
 
 # *****************************************************************
-# 1，登录
+# 登录
 dataMonitor_PO.login("test", "Qa@123456")
 
-# 2，菜单
+# 菜单
 dataMonitor_PO.clickMenu("质控结果分析", "社区")
 
 # *****************************************************************
