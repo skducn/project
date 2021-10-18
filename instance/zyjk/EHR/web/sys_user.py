@@ -40,7 +40,7 @@ dataMonitor_PO.sys_user_edit("linghuchong100", "linghuchong1", "提提2", "13012
 
 # 8，编辑用户角色(可多选)
 # 角色：['社区管理员', '家庭医生', '区级管理员', '规则和指标强度管理', '系统管理模块权限', '数据评测质量分析','test']
-# dataMonitor_PO.sys_user_role("linghuchong1", "区级管理员", "系统管理模块权限", "test")
+dataMonitor_PO.sys_user_role("linghuchong1", "区级管理员", "系统管理模块权限", "test")
 # dataMonitor_PO.sys_user_role("linghuchong1")  # 清空所有角色
 
 
