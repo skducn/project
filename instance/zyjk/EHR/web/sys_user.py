@@ -25,7 +25,7 @@ dataMonitor_PO.sys_user_search("用户名", "lh")
 # dataMonitor_PO.sys_user_search("手机", "13816109050")
 
 # 5，删除用户（删除前先搜索用户）
-dataMonitor_PO.sys_user_del("linghuchong1")
+# dataMonitor_PO.sys_user_del("linghuchong1")
 # dataMonitor_PO.sys_user_del("lh")
 
 # 6，新增用户（用户名，昵称，手机，第三方用户编码，用户属性，所属社区）
@@ -36,11 +36,11 @@ dataMonitor_PO.sys_user_del("linghuchong1")
 # dataMonitor_PO.sys_user_add("linghuchong12", "令狐冲", "13816109050", "123123", "护士", "上海市青浦区朱家角镇社区卫生服务中心")
 
 # 7，编辑用户（旧用户名，新用户名，新昵称，新手机，新第三方用户编码，新用户属性，新所属社区）
-dataMonitor_PO.sys_user_edit("linghuchong100", "linghuchong1", "提提2", "13012345679", "2121277777", "院长", "上海市青浦区金泽镇社区卫生服务中心")
+# dataMonitor_PO.sys_user_edit("linghuchong100", "linghuchong1", "提提2", "13012345679", "2121277777", "院长", "上海市青浦区金泽镇社区卫生服务中心")
 
 # 8，编辑用户角色(可多选)
 # 角色：['社区管理员', '家庭医生', '区级管理员', '规则和指标强度管理', '系统管理模块权限', '数据评测质量分析','test']
-dataMonitor_PO.sys_user_role("linghuchong1", "区级管理员", "系统管理模块权限", "test")
+# dataMonitor_PO.sys_user_role("linghuchong1", "区级管理员", "系统管理模块权限", "test")
 # dataMonitor_PO.sys_user_role("linghuchong1")  # 清空所有角色
 
 
