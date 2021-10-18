@@ -1016,15 +1016,19 @@ class DataMonitorPO():
             varResult, l_result = self.sys_power_search("菜单名称", varMenu)
             # print(l_result)
             if varResult == True:
-                for i in range(len(l_result)):
-                    if l_result[i][1] == varMenu:
-                        Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div[2]/table/tbody/tr[' + str(i+1) + ']/td[15]/div/button[2]', 2)  # 删除
-                        Web_PO.clickXpath('/html/body/div[3]/div/div[3]/button[2]/span', 2)  # 二次确定。
-                        self.Color_PO.consoleColor("31", "36", "[OK] 已删除菜单名称（" + str(varMenu) + "）", "")
-                        exit()
-                    count += 1
-                if count > 0 :
-                    self.Color_PO.consoleColor("31", "33", "[WARNING]", "菜单名称（" + str(varMenu) + "）不存在，无法删除！")
+                if len(l_result) == 1:
+                    Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div[2]/table/tbody/tr/td[15]/div/button[2]', 2)  # 删除
+                    Web_PO.clickXpath('/html/body/div[3]/div/div[3]/button[2]', 2)  # 二次确定。
+                else:
+                    for i in range(len(l_result)):
+                        if l_result[i][1] == varMenu:
+                            Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div[2]/table/tbody/tr[' + str(i+1) + ']/td[15]/div/button[2]', 2)  # 删除
+                            Web_PO.clickXpath('/html/body/div[3]/div/div[3]/button[2]', 2)  # 二次确定。
+                            self.Color_PO.consoleColor("31", "36", "[OK] 已删除菜单名称（" + str(varMenu) + "）", "")
+                            exit()
+                        count += 1
+                    if count > 0 :
+                        self.Color_PO.consoleColor("31", "33", "[WARNING]", "菜单名称（" + str(varMenu) + "）不存在，无法删除！")
             else:
                 self.Color_PO.consoleColor("31", "33", "[WARNING]", "菜单名称（" + str(varMenu) + "）不存在，无法删除！")
         except:
@@ -1155,475 +1159,165 @@ class DataMonitorPO():
                             Web_PO.inputXpathClear("//input[@placeholder='排序']", varSort)
                             Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div[2]/table/tbody/tr[1]/td[6]/div/button[2]', 2)  # 保存
 
-                            Color_PO.consoleColor("31", "36","[OK] 编辑名称（" + varNameOld + "）信息后：" + str(varName) + ", " + str(varTitle) + ", " + str(varInfo) + ", " + str(varSort), "")
+                            Color_PO.consoleColor("31", "36", "[OK] 编辑名称（" + varMameOld + "）信息后：" + str(varName) + ", " + str(varTitle) + ", " + str(varInfo) + ", " + str(varSort), "")
                         else:
-                            Color_PO.consoleColor("31", "33", "[WARNING]", "名称（" + str(varNameOld) + "）未找到，无法编辑！")
+                            Color_PO.consoleColor("31", "33",  "[WARNING]", "名称（" + str(varMameOld) + "）未找到，无法编辑！")
+        except:
+            exit()
+
+    def sys_role_del(self, varMenu):
+        '''系统管理 - 用户管理 - 删除'''
+
+        try:
+            count = 0
+            varResult, l_result = self.sys_role_search("名称", varMenu)
+            print(l_result)
+            if varResult == True:
+                if len(l_result) == 1:
+                    Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div[2]/table/tbody/tr/td[6]/div/button[3]', 2)  # 删除
+                    Web_PO.clickXpath('/html/body/div[3]/div/div[3]/button[2]', 2)  # 二次确定。
+                else:
+                    for i in range(len(l_result)):
+                        if l_result[i][1] == varMenu:
+                            Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div[2]/table/tbody/tr[' + str(i+1) + ']/td[6]/div/button[3]', 2)  # 删除
+                            Web_PO.clickXpath('/html/body/div[3]/div/div[3]/button[2]', 2)  # 二次确定。
+                            self.Color_PO.consoleColor("31", "36", "[OK] 已删除菜单名称（" + str(varMenu) + "）", "")
+                            exit()
+                        count += 1
+                    if count > 0 :
+                        self.Color_PO.consoleColor("31", "33", "[WARNING]", "菜单名称（" + str(varMenu) + "）不存在，无法删除！")
+            else:
+                self.Color_PO.consoleColor("31", "33", "[WARNING]", "菜单名称（" + str(varMenu) + "）不存在，无法删除！")
+        except:
+            exit()
+
+    def sys_role_power(self, varName, *t_power):
+        '''系统管理 - 角色管理 - 权限'''
+
+        try:
+            Web_PO.driver.refresh()
+            varResult, varValue = self.sys_role_search("名称", varName)  # 搜索名称
+            list3 = []
+            # print(varResult)
+            if varResult == True :
+                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div[2]/table/tbody/tr/td[6]/div/button[1]', 2)  # 点击 权限
+                l_power = Web_PO.getXpathsText('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[2]')  # 获取权限管理数据
+                list2 = str(l_power[0]).split("\n")
+                # print(list2) # ['循环质量测评分析', '质控分析报告详情', '质控分析报告（社区）', '质控结果分析', '指标强度管理', '质控规则管理', '数据质量测评分析', '系统管理', '首页']
+                # 先清空所有勾选框
+                if Web_PO.isElementXpath("//span[@class='el-checkbox__input is-checked']"):
+                    Web_PO.clickXpaths("//span[@class='el-checkbox__input is-checked']", 2)
+                # 没有权限则直接确认
+                if len(t_power) == 0:
+                    Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[3]/span/button[3]', 2)  # 确认
+                    Color_PO.consoleColor("31", "36", "[OK] 已清空所有权限", "")
+                # 勾选参数中的权限项
+                else:
+
+                    for i in range(len(t_power)):
+                        for j in range(len(list2)):
+                            # 主权限中部分子权限
+                            if isinstance(t_power[i], list):
+                                if list2[j] == t_power[i][0]:
+                                    Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[2]/div/div/div[' + str(j + 1) + ']/div[1]/span[1]', 2)  # 展开主权限
+                                    sub_power_total = Web_PO.getXpathsQty('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[2]/div/div/div['+ str(j + 1) + ']/div[2]/div')  # 获取展开后子权限的数量
+                                    # print(sub_power_total)
+                                    for l in range(sub_power_total):
+                                        for m in range(len(t_power[i])):
+                                            web_sub_power = Web_PO.getXpathText('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[2]/div/div/div[' + str(j + 1) + ']/div[2]/div[' + str(l + 1) + ']/div/span[2]')
+                                            # print(web_sub_power)
+                                            if web_sub_power == t_power[i][m]:
+                                                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[2]/div/div/div[' + str(j + 1) + ']/div[2]/div[' + str(l+1) + ']/div/label/span/span', 2)  # 点击 子权限
+                            # 主权限
+                            elif list2[j] == t_power[i]:
+                                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[2]/div/div/div[' + str(j+1) + ']/div/label/span/span', 2)
+                    Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[3]/span/button[3]', 2)  # 确认
+                    Color_PO.consoleColor("31", "36", "[OK] 已选权限" + str(t_power), "")
         except:
             exit()
 
 
+    # 日志查询
 
+    def sys_logList(self):
+        '''日志查询详情页'''
 
+        self.Color_PO.consoleColor("31", "31", "\n[日志查询列表]", "")
+        l_text = Web_PO.getXpathsText("//td/div")
+        # print(l_text)
+        l_roleList = (self.List_PO.listSplitSubList(l_text, 4))
+        # print(l_roleList)
+        l_roleList2 = []
+        for i in range(len(l_roleList)):
+            if l_roleList[i][0] != "":
+                l_roleList2.append(l_roleList[i])
+        for i in range(len(l_roleList2)):
+            # l_roleList2[i].pop()
+            print(l_roleList2[i])
+        print()
 
+        return l_roleList2
 
-
-
-
-
-    def homePage_indicator(self):
-
-        '''总体指标分布'''
-
-        l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-        l_overallIndex = l_text[0].split("总体指标分布\n")[1].split("\n更新档案总数(份)")[0]
-        l_overallIndex = l_overallIndex.split('\n')
-        self.Color_PO.consoleColor("31", "36", l_overallIndex.pop(0), "\n")  # 数据更新截止至时间：2020年07月15日
-        l_overallIndex.append("更新档案总数(份)")
-        d_overallIndex = (self.List_PO.list2dictBySerial(l_overallIndex))
-        d_overallIndex = {value: key for key, value in d_overallIndex.items()}
-        self.Color_PO.consoleColor("31", "31", "[总体指标分布]", "")  # [总体指标分布]
-        print(d_overallIndex)  # {'常住人口(人)': '111111', '户籍人口(人)': '1212', '目标建档总数(份)': '83334', '问题档案数量(份)': '20000', '更新档案总数(份)': '0'}
-        l_overallIndex2 = l_text[0].split("更新档案总数(份)\n")[1].split("\n电子健康档案分布图")[0]
-        l_overallIndex2 = l_overallIndex2.split('\n')
-        d_overallIndex2 = (self.List_PO.list2dictBySerial(l_overallIndex2))
-        del d_overallIndex2["标准"]
-        d_overallIndex2 = {value: key for key, value in d_overallIndex2.items()}
-        print(d_overallIndex2)  # {'户籍人口占比': '1.09%', '实际建档率': '18%', '问题档案占比': '100%', '档案更新率': '0%'}
-    def homePage_EhrMap(self):
-
-        '''电子健康档案分布图'''
-
-        l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-        self.Color_PO.consoleColor("31", "31", "\n[电子健康档案分布图]", "")  # [电子健康档案分布图]
-        l_ehrMap = l_text[0].split("家庭医生团队分布\n")[1].split("\n前往页")[0]
-        l_ehrMap = l_ehrMap.split('\n')
-        l_ehrMap.pop(-1)
-        x = (self.List_PO.listSplitSubList(l_ehrMap, 4))  # [['团队', '建档数量(份)', '问题档案数量(份）', '问题档案占比'], ['王敬丽团队', '1959', '1959', '100.00%'], ['周坤团队', '1754', '1754', '100.00%'], ['中心团队', '1116', '1116', '100.00%'], ['郁红娟团队', '955', '955', '100.00%'], ['严慧艳团队', '945', '945', '100.00%'], ['12']]
-        for i in x:
-            print(i)
-    def homePage_signDoctor(self):
-
-        '''签约医生分布'''
-
-        l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-        self.Color_PO.consoleColor("31", "31", "\n[签约医生分布]", "")  # [签约医生分布]
-        l_signDoctor = l_text[0].split("问题统计列表\n")[1].split("\n前往页")[0]
-        l_signDoctor = l_signDoctor.split('\n')
-        l_signDoctor.pop(-1)
-        x = (self.List_PO.listSplitSubList(l_signDoctor, 6))
-        for i in x:
-            print(i)
-    def homePage_age(self):
-
-        '''年龄分布'''
-
-        l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-        self.Color_PO.consoleColor("31", "31", "\n[年龄分布]", "")  # [年龄分布]
-        l_age = l_text[0].split("年龄分布\n")[1].split("\n前往页")[0]
-        l_age = l_age.split('\n')
-        l_age.pop(-1)
-        x = (self.List_PO.listSplitSubList(l_age, 4))  # [['年龄', '建档数量(份)', '问题档案数量(份)', '问题档案占比'], ['7-64岁', '12727', '12727', '100.00%'], ['65岁以上', '4496', '4496', '100.00%'], ['0-6岁', '2776', '2776', '100.00%']]
-        for i in x:
-            print(i)
-    def homePage_disease(self):
-
-        '''疾病分布'''
-
-        l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-        self.Color_PO.consoleColor("31", "31", "\n[疾病分布]", "")  # [疾病分布]
-        l_disease = l_text[0].split("疾病分布\n")[1].split("\n前往页")[0]
-        l_disease = l_disease.split('\n')
-        l_disease.pop(-1)
-        x = (self.List_PO.listSplitSubList(l_disease, 4))  # [['疾病', '建档数量(份)', '问题档案数量(份)', '问题档案占比']]
-        for i in x:
-            print(i)
-    def homePage_specialPeople(self):
-
-        '''特殊人群分布'''
-
-        l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-        self.Color_PO.consoleColor("31", "31", "\n[特殊人群分布]", "")  # [特殊人群分布]
-        l_specialPeople = l_text[0].split("特殊人群分布\n")[1].split("\n前往页")[0]
-        l_specialPeople = l_specialPeople.split('\n')
-        l_specialPeople.pop(-1)
-        x = (self.List_PO.listSplitSubList(l_specialPeople, 4))  # [['疾病', '建档数量(份)', '问题档案数量(份)', '问题档案占比']]
-        for i in x:
-            print(i)
-    def qcAnalysis_dropDownList1(self, varSelectName):
-
-        ''' 档案质控分析 - 档案质控总体情况 - 下拉框选值'''
-
-        self.Color_PO.consoleColor("31", "31", "\n[档案质控总体情况 - 查询 - " + varSelectName + "]", "")
-        Web_PO.clickXpath("//input[@placeholder='请选择质控时间']", 2)
-        l_text2 = Web_PO.getXpathsTextPart("//body/div[2]/div/div/ul/li/span", "Copyright © 2019上海智赢健康科技有限公司出品")
-        l_text2 = self.List_PO.listSerialNumber(l_text2, 1)
-        d_text2 = self.List_PO.list2dictByTuple(l_text2)
-        d_text2 = {v: k for k, v in d_text2.items()}
-        for k in d_text2:
-            if k == varSelectName:
-                Web_PO.clickXpath("//div[@x-placement='bottom-start']/div/div/ul/li[" + str(d_text2[k]) + "]", 2)
-
-        # 显示搜索结果
-        l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")
-        l_qcOverall = l_text[0].split("重置\n")[1].split("\n本页")[0]
-        l_qcOverall = l_qcOverall.split('\n')
-        str1 = l_qcOverall.pop(0)
-        print(str1)  # '质控时间 质控档案总数量 问题档案数量 规范建档率 操作'
-        global list3
-        list3 = []
-        x = (self.List_PO.listSplitSubList(l_qcOverall, 6))
-        for i in x:
-            print(i)
-            list3.append(i[0])
-    def qcAnalysis_dropDownList1_opr(self, varKey, varOpr, varRule="", varPageNum=1):
-
-        ''' 档案质控分析 - 档案质控总体情况 - 操作（详情，规范建档率提升分析）'''
-
-        a = [list3.index(x) for x in list3 if x == varKey][0]
-        if varOpr == "规范建档率提升分析":
-            self.Color_PO.consoleColor("31", "31", "\n[规范建档率提升分析]", "")
-            Web_PO.clickXpath("//div[@class='el-table__body-wrapper is-scrolling-none']/table/tbody/tr[" + str(a + 1) + "]/td[5]/div/div/div[2]/button", 2)  # 点击 记录规范建档率提升分析
-            l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-            l_standardAnalysis = l_text[0].split("规范建档率提升分析\n序")[1].split("\n问题档案列表")[0]
-            l_standardAnalysis = l_standardAnalysis.split('\n')
-            tmp1 = l_standardAnalysis.pop(0)
-            print("序" + tmp1)  # '序号 规则类型 问题档案数量(份) 规范建档率提升至'
-            x = (self.List_PO.listSplitSubList(l_standardAnalysis, 4))
-            x.pop(-1)
-            for i in x:
-                print(i)
-        elif varOpr == "详情":
-            # 点击 档案质控总体情况列表中的详情
-            Web_PO.clickXpath("//div[@class='el-table__body-wrapper is-scrolling-none']/table/tbody/tr[" + str(a + 1) + "]/td[5]/div/div/div[1]/button", 2)
-            if varRule == "":   # 默认不勾选规则类型
-                self.Color_PO.consoleColor("31", "31", "\n[问题档案列表]", "")
-            else:
-                self.Color_PO.consoleColor("31", "31", "\n[问题档案列表 - " + varRule + "]", "")
-                Web_PO.scrollIntoView("//div[@class='el-checkbox-group']/label[1]", 2)
-                l_rule = Web_PO.getXpathsText("//div[@class='el-checkbox-group']/label")  # ['规范性 (10.99%)', '完整性 (59.47%)', '有效性 (29.54%)']
-                l_rule = self.List_PO.listSerialNumber(l_rule, 1)
-                d_rule = self.List_PO.list2dictByTuple(l_rule)
-                d_rule = {value: key for key, value in d_rule.items()}
-
-                # 选择规则类型
-                varQty = varRule.split(",")
-                if len(varQty) == 1:
-                    for k in d_rule:
-                        if varRule in k:
-                            Web_PO.clickXpath("//div[@class='el-checkbox-group']/label[" + str(d_rule[k]) + "]", 2)
-                else:
-                    for i in range(len(varQty)):
-                        for k in d_rule:
-                            if varQty[i] in k:
-                                Web_PO.clickXpath("//div[@class='el-checkbox-group']/label[" + str(d_rule[k]) + "]", 2)
-
-            # 前往第几页（默认第一页）
-            Web_PO.scrollIntoView("//input[@placeholder='请选择']", 2)
-            Web_PO.inputXpathClearEnter("//div[@class='block']/div[2]/span/div/input", varPageNum)
-
-            l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-            l_problemList = l_text[0].split("问题档案列表\n")[1].split("\n操作")[0]
-            l_problemList = l_problemList.split('\n')
-            # x = (self.List_PO.listSplitSubList(l_problemList, 5))
-            for i in l_problemList:
-                print(i)  # ['规则类型:', '规范性 (10.99%)', '完整性 (59.47%)', '有效性 (29.54%)']
-            l_problemList = l_text[0].split("错误描述\n")[1].split("\n选择当前页数显示")[0]
-            l_problemList = l_problemList.split('\n')
-            l_problemList1 = (self.List_PO.listSplitSubList(l_problemList, 8))
-            for i in l_problemList1:
-                print(i)
-            return l_problemList1
-    def qcAnalysis_problem_opr(self,varList1, varIdCard):
-
-        ''' 档案质控分析 - 问题档案列表 - 操作（患者身份证）
-        获取患者质控项目汇总列表（健康档案封面 和 个人基本信息表）'''
+    def sys_log_search(self, *varValue):
+        ''' 系统管理 - 日志查询 - 查询账号、记录类型、起始日期'''
 
         try:
-            for i in range(len(varList1)):
-                if varIdCard == varList1[i][1]:
-                    varPatient = Web_PO.getXpathText("//div[@class='tableEHRss']/div/div/div[" + str(i + 1) + "]/div[3]")
-                    Web_PO.clickXpath("//div[@class='tableEHRss']/div/div/div[" + str(i + 1) + "]/div[1]/div/span", 2)
-                    break
-            self.Color_PO.consoleColor("31", "31", "\n[质控项目汇总 - " + str(varIdCard) + "（" + varPatient + ")]", "")
-            self.Color_PO.consoleColor("31", "33", "\n[健康档案封面]", "")
-            l_text = Web_PO.getXpathsTextPart("//div", "Copyright © 2019上海智赢健康科技有限公司出品")  # 获取当前页全部内容
-            l_cover = l_text[0].split("健康档案封面\n")[1].split("\n个人基本信息表")[0]
-            l_cover = l_cover.split('\n')
-            # print(l_cover)
-            # 格式化 健康档案封面
-            l_cover_format = []
-            for i in range(len(l_cover)):
-                if i < len(l_cover):
-                    if ":" in l_cover[i] and "（" not in l_cover[i + 1]:
-                        l_cover_format.append(l_cover[i] + l_cover[i + 1])
-                        l_cover.pop(i + 1)
-                    else:
-                        l_cover_format.append(l_cover[i])
-            print(l_cover_format.pop(0))  # 问题数：1
-            d_cover_format = self.List_PO.list2dictBySerial(l_cover_format)
-            for k in d_cover_format:
-                print(k, d_cover_format[k])
+            Web_PO.driver.refresh()
+            if len(varValue) == 1:
+                Web_PO.inputXpathClear("//input[@placeholder='请输入账号']", varValue[0])  # 输入账号
+                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[1]/div[4]/div/div/button[1]/span', 2)  #  查询
+                l_text = Web_PO.getXpathsText("//td/div")
+                l_tmp = (self.List_PO.listSplitSubList(l_text, 4))
+                Color_PO.consoleColor("31", "36", "[OK]", "搜索账号（" + str(varValue[0]) + "） => " + str(l_tmp))
+            elif len(varValue) == 2:
+                Web_PO.inputXpathClear("//input[@placeholder='请输入账号']", varValue[0])  # 输入账号
+                Web_PO.inputXpathClear("//input[@placeholder='请输入记录类型']", varValue[1])  # 输入记录类型
+                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[1]/div[4]/div/div/button[1]/span', 2)  # 查询
+                l_text = Web_PO.getXpathsText("//td/div")
+                l_tmp = (self.List_PO.listSplitSubList(l_text, 4))
+                Color_PO.consoleColor("31", "36", "[OK]", "搜索账号（" + str(varValue[0]) + "）、记录类型（" + str(varValue[1]) + "） => " + str(l_tmp))
+            elif len(varValue) == 3:
+                Web_PO.inputXpathClear("//input[@placeholder='请输入账号']", varValue[0])  # 输入账号
+                Web_PO.inputXpathClear("//input[@placeholder='请输入记录类型']", varValue[1])  # 输入记录类型
+                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[1]/div[3]/div/input[1]', 2)  # 点击 开始日期-结束日期
+                Web_PO.inputXpathClear('/html/body/div[2]/div[1]/div/div[1]/span[1]/span[1]/div/input', varValue[2])  # 输入开始日期
+                Web_PO.inputXpathClear('/html/body/div[2]/div[1]/div/div[1]/span[1]/span[2]/div[1]/input', "00:00:00")  # 输入开始时间
+                Web_PO.clickXpath('/html/body/div[2]/div[1]/div/div[1]/span[1]/span[2]/div[2]/div[2]/button[2]', 1)  # 确定
+                Web_PO.inputXpathClear('/html/body/div[2]/div[1]/div/div[1]/span[3]/span[2]/div[1]/input', "23:59:59")  # 输入开始时间
+                Web_PO.clickXpath('/html/body/div[2]/div[1]/div/div[1]/span[3]/span[2]/div[2]/div[2]/button[2]', 1)  # 确定
 
-            self.Color_PO.consoleColor("31", "33", "\n[个人基本信息表]", "")
-            l_basic = l_text[0].split("个人基本信息表\n")[1].split("\n健康档案封面")[0]
-            l_basic = l_basic.split('\n')
-            # print(l_basic)
-            # 格式化 个人基本信息表
-            l_basic_format = []
-            for i in range(len(l_basic)):
-                if i < len(l_basic):
-                    if ":" in l_basic[i] and "（" not in l_basic[i + 1]:
-                        l_basic_format.append(l_basic[i] + l_basic[i + 1])
-                        l_basic.pop(i + 1)
-                    else:
-                        l_basic_format.append(l_basic[i])
-            print(l_basic_format.pop(0))  # 问题数：19
-            d_basic_format = self.List_PO.list2dictBySerial(l_basic_format)
-            for k in d_basic_format:
-                print(k, d_basic_format[k])
+                Web_PO.clickXpath('/html/body/div[2]/div[2]/button[2]/span', 2)
+                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[1]/div[4]/div/div/button[1]/span', 2)  # 查询
+                l_text = Web_PO.getXpathsText("//td/div")
+                if l_text == None:
+                    Color_PO.consoleColor("31", "33", "[WARNING]", "搜索账号（" + str(varValue[0]) + "）、记录类型（" + str(varValue[1]) + "）、起始日期（" + str(varValue[2]) + " 至 " + str(varValue[2]) + "） => 无结果！")
+                    return False
+                else:
+                    l_tmp = (self.List_PO.listSplitSubList(l_text, 4))
+                    # print(l_tmp)
+                    l_tmp2 = []
+                    for i in range(len(l_tmp)):
+                        if l_tmp[i][0] != "":
+                            l_tmp2.append(l_tmp[i])
+                    # print(l_tmp2)
+                    Color_PO.consoleColor("31", "36", "[OK]", "搜索账号（" + str(varValue[0]) + "）、记录类型（" + str(varValue[1]) + "）、起始日期（" + str(varValue[2]) + " 至 " + str(varValue[2]) + "） => " + str(l_tmp2[0]))
+            elif len(varValue) == 4:
+                Web_PO.inputXpathClear("//input[@placeholder='请输入账号']", varValue[0])  # 输入账号
+                Web_PO.inputXpathClear("//input[@placeholder='请输入记录类型']", varValue[1])  # 输入记录类型
+                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[1]/div[3]/div/input[1]', 2)  # 点击 开始日期-结束日期
+                Web_PO.inputXpath('/html/body/div[2]/div[1]/div/div[1]/span[1]/span[1]/div/input', varValue[2])  # 输入开始日期
+                Web_PO.inputXpathClear('/html/body/div[2]/div[1]/div/div[1]/span[1]/span[2]/div[1]/input', "00:00:00")  # 输入开始时间
+                Web_PO.inputXpathClear('/html/body/div[2]/div[1]/div/div[1]/span[3]/span[1]/div/input', varValue[3])  # 输入结束日期
+                Web_PO.inputXpathClear('/html/body/div[2]/div[1]/div/div[1]/span[3]/span[2]/div[1]/input', "00:00:00")  # 输入开始时间
+                Web_PO.clickXpath('/html/body/div[2]/div[2]/button[2]/span', 2)
+                Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[1]/div[4]/div/div/button[1]/span', 2)  # 查询
+                l_text = Web_PO.getXpathsText("//td/div")
+                l_tmp = (self.List_PO.listSplitSubList(l_text, 4))
+                l_tmp2 = []
+                for i in range(len(l_tmp)):
+                    if l_tmp[i][0] != "":
+                        l_tmp2.append(l_tmp[i])
+                Color_PO.consoleColor("31", "36", "[OK]", "搜索账号（" + str(varValue[0]) + "）、记录类型（" + str(varValue[1]) + "）、起始日期（" + str(varValue[2]) + " 至 " + str(varValue[3]) + "） => " + str(l_tmp2))
+
         except:
-            self.Color_PO.consoleColor("31", "31", "[ERROR]", "身份证号（" + str(varIdCard) + "）有误，请检查！")
-    def qcAnalysis_problem_page(self, varPageNum):
-
-        ''' 档案质控分析 - 问题档案列表 - 翻页 '''
-
-        Web_PO.scrollIntoView("//input[@placeholder='请选择']", 2)
-        Web_PO.inputXpathClearEnter("//div[@class='block']/div[2]/span/div/input", varPageNum)
-
-
-    # def searchField(self, varName):
-    #
-    #     ''' 查找字段名称,返回找到的数量及字段列表 '''
-    #
-    #     self.Web_PO.clickXpath("//input[@placeholder='请选择']", 2)  # 定位第一下拉框
-    #     self.Web_PO.clickXpath("//div[@class='el-select-dropdown__wrap el-scrollbar__wrap']/ul/li[1]", 2)  # 选择字段名称
-    #     self.Web_PO.inputXpath("//input[@placeholder='请输入字段名']", varName)  # 第二输入框输入身高
-    #     self.Web_PO.clickXpath("//button[@type='button']", 2)  # 点击查找
-    #     # 将查找结果保存到列表[字段名称，更新渠道，设置]
-    #     l_result = []
-    #     varList = Web_PO.getXpathsText("//table[@class='el-table__body']")
-    #     if varList != "error":
-    #         x = str(varList[0])
-    #         y = x.replace("编辑 ", "").split("\n")
-    #         for i in range(len(y)):
-    #             l_result.append(y[i].strip(string.digits))
-    #         for i in l_result:
-    #             if i == '':
-    #                 l_result.remove(i)
-    #         # print(l_result)  # ['身高', '预检', '停用']
-    #         l_result2 = numpy.array_split(l_result, int(len(l_result) / 3))
-    #         return l_result2, int(len(l_result)/3)
-    #     else:
-    #         exit()
-    #
-    #     # [4, ['体温', '预检', '停用', '体重', '预检', '停用', '体质指数', '预检', '停用', '体育锻炼', '预检', '停用']]
-    #
-    # def getAllFieldByChannel(self, varChannel):
-    #
-    #     ''' 获取某更新渠道下所有字段名称的列表 '''
-    #
-    #     Web_PO.clickXpath("//input[@placeholder='请选择']", 2)  # 定位第一下拉框
-    #     Web_PO.clickXpath("//div[@class='el-select-dropdown__wrap el-scrollbar__wrap']/ul/li[2]", 2)  # 选择更新渠道
-    #     Web_PO.clickXpath("//input[@placeholder='请选择更新渠道']", 2)  # 定位第二下拉框
-    #     if varChannel == "预检":
-    #         Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[1]", 2)  # 预检
-    #     elif varChannel == "挂号":
-    #         Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[2]", 2)  # 挂号
-    #     elif varChannel == "诊前":
-    #         Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[3]", 2)  # 诊前
-    #     elif varChannel == "门诊":
-    #         Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[4]", 2)  # 门诊
-    #     else:
-    #         return []
-    #     Web_PO.clickXpath("//button[@type='button']", 2)  # 点击查找
-    #     # 将所有字段名称保存到列表
-    #     l_AllField = []
-    #     varList = Web_PO.getXpathsText("//table[@class='el-table__body']")
-    #     x = str(varList[0])
-    #     y = x.replace("\n", "").replace("编辑 启用", "").replace("编辑 停用", "").split(varChannel)
-    #     for i in range(len(y) - 1):
-    #         l_AllField.append(y[i].strip(string.digits))
-    #     # print(l_fieldName)  # ['姓名', '现住址', '户籍地址', '联系电话', '联系人姓名', '联系人电话']
-    #
-    #     return l_AllField,len(y)-1
-    #
-    # def getFieldSetupByChannel(self, varChannel):
-    #
-    #     ''' 获取某更新渠道下所有字段名称、渠道的列表 '''
-    #
-    #     Web_PO.clickXpath("//input[@placeholder='请选择']", 2)  # 定位第一下拉框
-    #     Web_PO.clickXpath("//div[@class='el-select-dropdown__wrap el-scrollbar__wrap']/ul/li[2]", 2)  # 选择更新渠道
-    #     Web_PO.clickXpath("//input[@placeholder='请选择更新渠道']", 2)  # 定位第二下拉框
-    #     if varChannel == "预检":
-    #         Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[1]", 2)  # 预检
-    #     elif varChannel == "挂号":
-    #         Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[2]", 2)  # 挂号
-    #     elif varChannel == "诊前":
-    #         Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[3]", 2)  # 诊前
-    #     elif varChannel == "门诊":
-    #         Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[4]", 2)  # 门诊
-    #     else:
-    #         return []
-    #     Web_PO.clickXpath("//button[@type='button']", 2)  # 点击查找
-    #     list2 = []
-    #     varList = Web_PO.getXpathsText("//table[@class='el-table__body']")
-    #     x = str(varList[0])
-    #     z = x.replace("启用\n", "启用??").replace("停用\n", "停用??").replace("\n" + varChannel + "\n编辑", "").split("??")
-    #     for i in range(0, len(z)):
-    #         remove_digits = str.maketrans('', '', digits)  # 去掉数字编号
-    #         d = z[i].translate(remove_digits).replace("\n", "").split(" ")  # 去掉数字编号
-    #         list2.append(d[0])
-    #         list2.append(d[1])
-    #     d_fieldstatus = {}
-    #     if len(list2) % 2 == 0:
-    #         for i in range(0, len(list2), 2):
-    #             d_fieldstatus.update({list2[i]: list2[i + 1]})
-    #         # print(d_fieldstatus)  # {'姓名': '启用', '现住址': '启用', '户籍地址': '启用', '联系电话': '启用', '联系人姓名': '启用', '联系人电话': '启用'}
-    #     return len(z),d_fieldstatus
-    #
-    # def updateChannel(self, varChannel, varFieldName, varToChannel, l_FieldName):
-    #
-    #     ''' # 遍历编辑更新渠道 ，如 将联系电话 的 挂号 改为 诊前 '''
-    #
-    #     # 先判断 l_FieldName 中是否有 varFieldName
-    #     if (varFieldName not in l_FieldName):
-    #         print("error，" + str(l_FieldName) + "中没有找到‘" +  str(varFieldName) + "’字段，程序中断！")
-    #         exit()
-    #
-    #     if varChannel == "预检":
-    #         if varToChannel == '诊前':
-    #             varU = '2'
-    #         else:
-    #             return []
-    #     elif varChannel == "挂号":
-    #         if varToChannel == '预检':
-    #             varU = '1'
-    #         elif varToChannel == '诊前':
-    #             varU = '3'
-    #         else:
-    #             return []
-    #     elif varChannel == "诊前":
-    #         if varToChannel == '预检':
-    #             varU = '1'
-    #         else:
-    #             return []
-    #     elif varChannel == "门诊":
-    #         if varToChannel == '预检':
-    #             varU = '1'
-    #         elif varToChannel == '诊前':
-    #             varU = '2'
-    #         else:
-    #             return []
-    #     else:
-    #         return []
-    #
-    #     Web_PO.clickXpathsNum("//tr[@class='el-table__row']/td[4]/div/button[1]", l_FieldName.index(varFieldName) + 1, 2)  # 编辑
-    #     Web_PO.clickXpathsNum("//input[@placeholder='请选择']", 2, 2)  # 定位 更新渠道
-    #     Web_PO.clickXpath("//body//div[4]/div/div[1]/ul/li[" + varU + "]", 2)  # 选择 诊前
-    #     Web_PO.clickXpathsNum("//tr[@class='el-table__row']/td[4]/div/button[2]", l_FieldName.index(varFieldName) + 1, 2)  # 保存
-    #
-    #     # 检查更新渠道转移后是否更新成功，如将 联系电话 转移到 诊前
-    #     Web_PO.clickXpath("//input[@placeholder='请选择更新渠道']", 2)  # 定位第二下拉框
-    #     if varToChannel == "预检":
-    #         varU1 = '1'
-    #     elif varToChannel == "挂号":
-    #         varU1 = '2'
-    #     elif varToChannel == "诊前":
-    #         varU1 = '3'
-    #     elif varToChannel == "门诊":
-    #         varU1 = '4'
-    #     Web_PO.clickXpath("//body//div[3]/div/div[1]/ul/li[" + varU1 + "]", 2)  # 选择 更新渠道
-    #     Web_PO.clickXpath("//button[@type='button']", 2)  # 点击查找
-    #
-    #     # # 遍历所有诊前字段名称保存到列表
-    #     l_fieldname = []
-    #     varList = Web_PO.getXpathsText("//table[@class='el-table__body']")
-    #     x = str(varList[0])
-    #     y = x.replace("\n", "").replace("编辑 启用", "").replace("编辑 停用", "").split(varToChannel)
-    #     for i in range(len(y) - 1):
-    #         l_fieldname.append(y[i].strip(string.digits))
-    #     # print(l_fieldname)  # ['姓名', '现住址', '户籍地址', '联系电话', '联系人姓名', '联系人电话']
-    #     return l_fieldname
-    #
-    # def getAllFieldStatus(self, varChannel):
-    #
-    #     ''' 将某个更新渠道中所有字段及状态（启用或停用）保存到字典 ，如 {'姓名': '启用', '现住址': '启用'}'''
-    #
-    #     list2 = []
-    #     varList = Web_PO.getXpathsText("//table[@class='el-table__body']")
-    #     x = str(varList[0])
-    #     z = x.replace("启用\n", "启用??").replace("停用\n", "停用??").replace("\n" + varChannel + "\n编辑", "").split("??")
-    #     for i in range(0, len(z)):
-    #         remove_digits = str.maketrans('', '', digits)     # 去掉数字编号
-    #         d = z[i].translate(remove_digits).replace("\n", "").split(" ")   # 去掉数字编号
-    #         list2.append(d[0])
-    #         list2.append(d[1])
-    #     d_AllFieldStatus = {}
-    #     if len(list2) % 2 == 0:
-    #         for i in range(0, len(list2), 2):
-    #             d_AllFieldStatus.update({list2[i]:list2[i+1]})
-    #         return (d_AllFieldStatus)   # {'姓名': '启用', '现住址': '启用', '户籍地址': '启用', '联系电话': '启用', '联系人姓名': '启用', '联系人电话': '启用'}
-    #     else:
-    #         exit()
-    #
-    # def setSingleFieldStatus(self, d_AllFieldStatus,varFieldName,varStatus,l_fieldName):
-    #
-    #     ''' 遍历所有字段，对指定字段设置启用或停用'''
-    #     # self.setSingleFieldStatus(d_AllFieldStatus, "户籍地址", "停用", l_AllField)
-    #     for key in d_AllFieldStatus:
-    #         if key == varFieldName and d_AllFieldStatus[key] != varStatus:
-    #             Web_PO.clickXpathsNum("//tr[@class='el-table__row']/td[4]/div/button[2]", l_fieldName.index(varFieldName) + 1, 2)
-    #
-    #     print("[OK] 已" + varStatus + varFieldName)
-    #
-    # def setAllFieldStatus(self, varStatus):
-    #
-    #     ''' 遍历所有字段，设置所有字段全部 启用或停用'''
-    #     # self.setAllFieldStatus("启用")
-    #     x = Web_PO.getXpathsText("//tr[@class='el-table__row']/td[4]/div/button[2]/span")
-    #     for i in range(len(x)):
-    #         if x[i] != varStatus:
-    #             Web_PO.clickXpathsNum("//tr[@class='el-table__row']/td[4]/div/button[2]", i+1, 2)
-    #     print("[OK] 已" + varStatus + "所有字段")
-    #
-    # def ruleManage_getRuleList(self):
-    #
-    #     ''' 规则管理 - 获取规则列表（包括编号、规则名称、状态）'''
-    #     l_rule = []
-    #     l_tmp = Web_PO.getXpathsText("//tr")
-    #     l_tmp = [''.join([i.strip() for i in price.strip().replace("\n", ", ")]) for price in l_tmp]
-    #     for i in range(len(l_tmp)):
-    #         if l_tmp[i] != '操作' and l_tmp[i] != '编辑停用' and l_tmp[i] != '编辑使用' and l_tmp[i] != '编号规则名称':
-    #             l_rule.append(l_tmp[i])
-    #     # print(l_rule)
-    #     l_status = Web_PO.getXpathsText("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr")
-    #     l_status = [''.join([i.strip() for i in price.strip().replace("编辑", "")]) for price in l_status]
-    #     # print(l_status)
-    #     l_merge = []
-    #     for i in range(len(l_rule)):
-    #         x = str(l_status[i]) + " => " + str(l_rule[i])
-    #         l_merge.append(x)
-    #         x = ""
-    #     return(l_merge)
-
-    # def permission_printList(self, varPage):
-    #
-    #     ''' 权限管理 - 输出某一页的权限列表（包括编号、菜单名称、权限值、路径、是否显示、模块、状态、图标、所属系统、所属上级）'''
-    #     Web_PO.script('document.querySelector("input[type=number]").value="";', 2)  # js方式清空输入框
-    #     Web_PO.inputXpathClearEnter("//input[@type='number']", varPage)
-    #     l_permission = []
-    #     l_tmp = []
-    #     l_tmp = Web_PO.getXpathsText("//tr")
-    #     l_tmp = [''.join([i.strip() for i in price.strip().replace("\n", ", ")]) for price in l_tmp]
-    #     varPage = str(varPage) + " - "
-    #     for i in range(len(l_tmp)):
-    #         if l_tmp[i] != '编号菜单名称权限值路径是否显示模块状态图标所属系统所属上级' and l_tmp[i] != '编辑删除' and l_tmp[i] != '操作':
-    #             c = varPage + l_tmp[i]
-    #             l_permission.append(c)
-    #     for i in range(len(l_permission)):
-    #         print(l_permission[i])
-    #     print("\n")
-
-
-
-
+            exit()

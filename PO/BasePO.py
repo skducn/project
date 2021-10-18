@@ -386,9 +386,11 @@ class BasePO(object):
         # 获取路径的文本
         # Level_PO.getXpathText(u"//input[@class='123']")
         try:
+
             return self.find_element(*(By.XPATH, varPath)).text
         except:
             Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
+
 
     def getXpathsText(self, varPaths):
         # 获取文本列表
@@ -462,7 +464,7 @@ class BasePO(object):
 
 
     def getXpathAttr(self, varPath, varAttr):
-        # 获取属性
+        # 获取属性的值
         # Level_PO.getXpathAttr(u"//input[@class='123']",u"value")
         try:
             return self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr)
@@ -470,8 +472,8 @@ class BasePO(object):
             Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')","")
 
     def getXpathsQty(self, varPaths):
-        # 获取遍历路径数量
-        # Level_PO.getXpathsNums("//tr")
+        # 遍历路径数量
+        # 如：获取tr下有多少个div标签， Web_PO.getXpathsQty('//*[@id="app"]/tr/div')
         s = 0
         try:
             for a in self.find_elements(*(By.XPATH, varPaths)):
