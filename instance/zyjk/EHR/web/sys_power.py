@@ -17,11 +17,11 @@ dataMonitor_PO.login("admin", "admin@123456")  # 超级管理员
 dataMonitor_PO.clickMenu("系统管理", "权限管理")
 
 # 3，搜索(菜单名称、权限值、路径、模块、位置排序)
-# dataMonitor_PO.sys_power_search("菜单名称", "居民")
-# dataMonitor_PO.sys_power_search("权限值", "newContractEcharts")
-# dataMonitor_PO.sys_power_search("路径", "recordService")
-# dataMonitor_PO.sys_power_search("模块", "crowdClassift")
-# dataMonitor_PO.sys_power_search("位置排序", "30")  # 未开发
+dataMonitor_PO.sys_power_search("菜单名称", "居民")
+dataMonitor_PO.sys_power_search("权限值", "newContractEcharts")
+dataMonitor_PO.sys_power_search("路径", "recordService")
+dataMonitor_PO.sys_power_search("模块", "crowdClassift")
+dataMonitor_PO.sys_power_search("位置排序", "30")  # 未开发
 
 # 4，新增菜单（菜单名称，权限值，路径，是否显示，模块，状态，是否缓存，图标，位置排序，所属上级，菜单ID，类型，所属系统）
 # 条件：先搜索菜单名称是否存在，不存在则增加

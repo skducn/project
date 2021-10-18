@@ -39,7 +39,7 @@ dataMonitor_PO.sys_role_search("描述", "勾选此模块，显示数据测评�
 # dataMonitor_PO.sys_role_power("tianmao", "首页", "系统管理", "质控结果分析")    # 只有主权限
 # dataMonitor_PO.sys_role_power("tianmao", "首页", ["质控结果分析", "问题编辑", "家庭医生"], "系统管理")   # 有主权限和子权限
 # dataMonitor_PO.sys_role_power("tianmao")  # 清空所有角色
-dataMonitor_PO.sys_role_power("tianmao", ["质控规则管理", "个人基本信息表规则", "糖尿病随访表规则", "档案封面规则"])   # 有主权限和子权限
+# dataMonitor_PO.sys_role_power("tianmao", ["质控规则管理", "个人基本信息表规则", "糖尿病随访表规则", "档案封面规则"])   # 有主权限和子权限
 
 
 
