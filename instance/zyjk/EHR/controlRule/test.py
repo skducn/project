@@ -9,6 +9,7 @@
 from instance.zyjk.EHR.controlRule.PageObject.RulePO import *
 Rule_PO = RulePO()
 
-Rule_PO.test2("17a7929801e54f1ca8ab69f18c086b00", "com.benetech.rules.modules.myrules.integrity.DiabetesVisit2412", "310110193902060067", "K0616970X")
 
-# Rule_PO.test3("ac849eaa074545bd862680bf8b76242f", "com.benetech.rules.modules.myrules.availability.DiabetesVisit3995", "310110193902060067", "K0616970X")
+# Rule_PO.test2("com.benetech.rules.modules.myrules.integrity.DiabetesVisit2412", "310110193902060067")
+Rule_PO.test3("com.benetech.rules.modules.myrules.availability.DiabetesVisit3995", "310110193902060067")
+
