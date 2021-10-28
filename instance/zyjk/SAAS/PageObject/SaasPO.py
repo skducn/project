@@ -5,26 +5,52 @@
 # Description: SAAS库
 # *****************************************************************
 
-import sys, unittest
-
-sys.path.append("../../../../")
-import instance.zyjk.SAAS.PageObject.ReadConfigPO as readConfig
-localReadConfig = readConfig.ReadConfigPO()
-from PO.LogPO import *
-from PO.NetPO import *
-from PO.DevicePO import *
-from PO.ColorPO import *
-from PO.ExcelPO.ExcelPO import *
-from PO.TimePO import *
-from PO.SqlserverPO import *
-from PO.FilePO import *
+from instance.zyjk.SAAS.config.config import *
+import string, numpy
+from string import digits
 from PO.HtmlPO import *
-from PO.ListPO import *
-from PO.MysqlPO import *
 
-from time import sleep
-from BeautifulReport import BeautifulReport as bf
-from BeautifulReport import BeautifulReport
+from PO.ListPO import *
+List_PO = ListPO()
+
+from PO.StrPO import *
+Str_PO = StrPO()
+
+from PO.TimePO import *
+Time_PO = TimePO()
+
+from PO.ColorPO import *
+Color_PO = ColorPO()
+
+from PO.SqlserverPO import *
+Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")
+
+from PO.WebPO import *
+Web_PO = WebPO("chrome")
+Web_PO.openURL(varURL)
+Web_PO.driver.maximize_window()  # 全屏
+# Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
+
+# import sys, unittest
+#
+# sys.path.append("../../../../")
+# import instance.zyjk.SAAS.PageObject.ReadConfigPO as readConfig
+# localReadConfig = readConfig.ReadConfigPO()
+# from PO.LogPO import *
+# from PO.NetPO import *
+# from PO.DevicePO import *
+# from PO.ColorPO import *
+# # from PO.ExcelPO.ExcelPO import *
+# from PO.TimePO import *
+# from PO.SqlserverPO import *
+# from PO.FilePO import *
+# from PO.HtmlPO import *
+# from PO.ListPO import *
+# from PO.MysqlPO import *
+#
+# from time import sleep
+# from BeautifulReport import BeautifulReport as bf
+# from BeautifulReport import BeautifulReport
 
 
 class CustomizeError(BaseException):
@@ -36,7 +62,7 @@ class CustomizeError(BaseException):
         return self.msg
 
 
-class SaasPO(unittest.TestCase):
+class SaasPO():
 
     # def save_img(self, img_name):
     #     self.Web_PO.captureBrowser('{}/{}.png'.format(os.path.abspath('d:\\'), img_name))
@@ -56,30 +82,31 @@ class SaasPO(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        global ruleType, isRun, caseFrom, caseTo, curl, rulesApi, archiveNum, jar, excel, excelSheet1
-        self.Time_PO = TimePO()
-        self.File_PO = FilePO()
-        self.Excel_PO = ExcelPO()
-        self.Device_PO = DevicePO()
-        self.List_PO = ListPO()
-        self.Color_PO = ColorPO()
-        self.excelFile = localReadConfig.get_excel("webFile")
-        self.Mysql_PO = MysqlPO(localReadConfig.get_db("host"), localReadConfig.get_db("username"), localReadConfig.get_db("password"), localReadConfig.get_db("database"), localReadConfig.get_db("port"))
-        # self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
-
-        self.Web_PO = WebPO("chrome")
-        self.Web_PO.openURL(localReadConfig.get_http("webUrl"))
-        self.Web_PO.driver.maximize_window()  # 全屏
-
-        self.varExcel = os.path.abspath(File_PO.getLayerPath("../config") + "/" + self.excelFile)
-        self.varTimeYMDHSM = datetime.datetime.now().strftime('%Y%m%d%H%M%S')  # 获取当天日期时间,格式：20161020130318
-        bk = xlrd.open_workbook(self.varExcel, formatting_info=True)
-        self.newbk = copy(bk)
-        self.sheetMain = bk.sheet_by_name("main")
-        self.sheetTestCase = bk.sheet_by_name("testcase")
-        self.styleRed = xlwt.easyxf('font: name Times New Roman, color-index red')
-        self.styleBlue = xlwt.easyxf('font: name Times New Roman, color-index blue')
-        self.styleGray25 = xlwt.easyxf('font: name Times New Roman, color-index gray25')
+        pass
+        # global ruleType, isRun, caseFrom, caseTo, curl, rulesApi, archiveNum, jar, excel, excelSheet1
+        # self.Time_PO = TimePO()
+        # self.File_PO = FilePO()
+        # self.Excel_PO = ExcelPO()
+        # self.Device_PO = DevicePO()
+        # self.List_PO = ListPO()
+        # self.Color_PO = ColorPO()
+        # self.excelFile = localReadConfig.get_excel("webFile")
+        # self.Mysql_PO = MysqlPO(localReadConfig.get_db("host"), localReadConfig.get_db("username"), localReadConfig.get_db("password"), localReadConfig.get_db("database"), localReadConfig.get_db("port"))
+        # # self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
+        #
+        # self.Web_PO = WebPO("chrome")
+        # self.Web_PO.openURL(localReadConfig.get_http("webUrl"))
+        # self.Web_PO.driver.maximize_window()  # 全屏
+        #
+        # self.varExcel = os.path.abspath(File_PO.getLayerPath("../config") + "/" + self.excelFile)
+        # self.varTimeYMDHSM = datetime.datetime.now().strftime('%Y%m%d%H%M%S')  # 获取当天日期时间,格式：20161020130318
+        # bk = xlrd.open_workbook(self.varExcel, formatting_info=True)
+        # self.newbk = copy(bk)
+        # self.sheetMain = bk.sheet_by_name("main")
+        # self.sheetTestCase = bk.sheet_by_name("testcase")
+        # self.styleRed = xlwt.easyxf('font: name Times New Roman, color-index red')
+        # self.styleBlue = xlwt.easyxf('font: name Times New Roman, color-index blue')
+        # self.styleGray25 = xlwt.easyxf('font: name Times New Roman, color-index gray25')
 
     @classmethod
     def tearDownClass(self):
@@ -151,13 +178,13 @@ class SaasPO(unittest.TestCase):
 
         ''' 登录 '''
 
-        self.Web_PO.inputXpath("//input[@placeholder='用户名']", varUser)
-        self.Web_PO.inputXpath("//input[@placeholder='密码']", varPass)
-        self.Web_PO.clickXpath("//button[@type='button']", 2)  # 登录
+        Web_PO.inputXpath("//input[@placeholder='用户名']", varUser)
+        Web_PO.inputXpath("//input[@placeholder='密码']", varPass)
+        Web_PO.clickXpath("//button[@type='button']", 2)  # 登录
         # 检查登录是否成功
-        if self.Web_PO.isElementXpath(
+        if Web_PO.isElementXpath(
                 '//*[@id="app"]/section/div/section/section/header/div/div[1]/div[3]/div[2]/div/span[2]'):
-            if self.Web_PO.getXpathText(
+            if Web_PO.getXpathText(
                     '//*[@id="app"]/section/div/section/section/header/div/div[1]/div[3]/div[2]/div/span[2]') == "个人中心":
                 return [datetime.datetime.now().strftime('%Y%m%d%H%M%S'), "ok", ""]
             else:

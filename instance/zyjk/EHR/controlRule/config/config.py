@@ -9,13 +9,18 @@
 from PO.LogPO import *
 from PO.NetPO import *
 from PO.DataPO import *
-from PO.ExcelPO.ExcelPO import *
+# from PO.ExcelPO.ExcelPO import *
+from PO.FilePO import *
+File_PO = FilePO()
+
 from PO.TimePO import *
 Time_PO = TimePO()
 
-from PO.SqlserverPO import *
-Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # 测试环境
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
+from PO import SqlserverPO
+Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")  # 测试环境
 
 # 日志文件
 logFile = './log/controlRul_' + Time_PO.getDate() + '.log'
