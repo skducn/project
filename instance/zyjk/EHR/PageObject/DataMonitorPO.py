@@ -6,24 +6,26 @@
 # *****************************************************************
 
 from instance.zyjk.EHR.config.config import *
-import string,numpy
+import string, numpy
 from string import digits
-
 from PO.HtmlPO import *
+
 from PO.ListPO import *
 List_PO = ListPO()
+
 from PO.StrPO import *
 Str_PO = StrPO()
+
 from PO.TimePO import *
 Time_PO = TimePO()
+
 from PO.ColorPO import *
 Color_PO = ColorPO()
-
-from PO.WebPO import *
 
 from PO.SqlserverPO import *
 Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")
 
+from PO.WebPO import *
 Web_PO = WebPO("chrome")
 Web_PO.openURL(varURL)
 Web_PO.driver.maximize_window()  # 全屏

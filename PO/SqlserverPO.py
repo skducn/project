@@ -1,5 +1,4 @@
 #-- coding: utf-8 --
-
 #***************************************************************
 # Author     : John
 # Revise on : 2019-04-16
@@ -52,8 +51,10 @@ class SqlServerPO():
         # 得到数据库连接信息，返回conn.cursor()
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
-        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf8', autocommit=True)
-        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
+        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf8', autocommit=True)
+        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
+        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='CP936', autocommit=True, login_timeout=10)
+        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, autocommit=True)
         cur = self.conn.cursor()  # 创建一个游标对象
         if not cur:
             raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
@@ -319,81 +320,96 @@ class SqlServerPO():
         elif len(args) == 2:
             # 查看单表或多表的可选字段表结构
             varTable = args[0]
-            varFields = args[1]
+            l_fields = args[1]
+            # print(l_fields)
             if "*" in varTable:
+
                 # 5，查看所有b开头的表中id字段的结构（通配符*）
-                tblHead = varTable.split("*")[0]
-                # 查看所有表结构，获取数据库下有多少张表
+                tblHead = varTable.split("*")[0]  # 获取表头
+
+                # 获取所有表名
                 allTable = "select * from sysobjects where xtype = 'u' and name != 'sysdiagrams'"
                 self.cur.execute(allTable)
                 allTable = self.cur.fetchall()
                 tblCount = 0
+
+                # 获取满足表头条件的表数量 tblCount
                 for tbl in allTable:
                     if str(tbl[0]).startswith(tblHead) == True:
                         tblCount += 1
                 if tblCount == 0 :
                     print("数据库<" + self.varDB + ">中没有发现表名中带有<" + tblHead + ">字符的表\n")
                 else:
-                    varInfo = "数据库<" + self.varDB + ">中符合<" + varTable + ">表共有<" + str(tblCount) + ">张，其中包含<" + varFields + ">字段的表如下：\n"
+                    varInfo = "数据库 " + self.varDB + " 中符合查询条件的表共有 " + str(tblCount) + " 张，其中包含 " + str(l_fields) + " 字段的表如下："
                     print(varInfo)
-                allTable = "select * from sysobjects where xtype = 'u' and name != 'sysdiagrams'"
-                self.cur.execute(allTable)
-                allTable = self.cur.fetchall()
+
+                # 遍历表
+                tlbNum = 0
                 for tbl in allTable:
-                    # 遍历表
                     if str(tbl[0]).startswith(tblHead) == True:
                         varTable = tbl[0]
+                        tlbNum += 1
+                        # 获取表的表结构信息（表、字段、类型、大小、可空、注释）
                         sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
                             varTable)
                         try:
                             self.cur.execute(sql)
                             results = self.cur.fetchall()
                             tblName = results[0][0]
+                            # print(tblName)
+                            # print(results)
                             x = y = z = 0
                             for i in results:
                                 if len(i[1]) > x: x = len(i[1])
                                 if len(i[2]) > y: y = len(i[2])
                                 if len(str(i[3])) > z: z = len(str(i[3]))
-                            for row in results:
-                                if row[1] in varFields:
-                                    varComment = dict1.get(tblName, "error,没有找到!")
-                                    print("*" * 100 + "\n" + str(tblName + "(" + str(varComment) + ") - " + str(
-                                        len(results)) + "个字段") + "\n字段" + " " * (
-                                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6,
-                                          "注释")
-                                    # print("*" * 100 + "\n" + str(
-                                    #     tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                                    #               x - 3),
-                                    #       "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
+
+
+                            # 遍历所有字段f
+                            tmp = 0
+                            for f in results:
+                                # print(f[1])  # 所有字段
+                                for k in range(len(l_fields)):
+                                    if f[1] == l_fields[k]:
+                                        tmp = 1
+                                        break
+                            if tmp == 1:
+                                varComment = dict1.get(tblName, "error,没有找到!")
+                                print("\n" + "*" * 100 + "\n" + str(tlbNum) + ", " + str(
+                                    tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
+                                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
+
+
                             for row in results:
                                 # 遍历字段、类型、大小、可空、注释
-                                if row[1] in varFields:
-                                    if row[5] != None:
-                                        if row[4] == True:
-                                            print(row[1] + " " * (x - len(row[1]) + 1),
-                                                  row[2] + " " * (y - len(row[2]) + 1),
-                                                  str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                                  str(row[5], 'utf-8'))
+                                # print(row)
+                                for k in range(len(l_fields)):
+                                    if row[1] == l_fields[k]:
+                                        if row[5] != None:
+                                            if row[4] == True:
+                                                print(row[1] + " " * (x - len(row[1]) + 1),
+                                                      row[2] + " " * (y - len(row[2]) + 1),
+                                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
+                                                      str(row[5], 'utf-8'))
+                                            else:
+                                                print(row[1] + " " * (x - len(row[1]) + 1),
+                                                      row[2] + " " * (y - len(row[2]) + 1),
+                                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
+                                                      str(row[5], 'utf-8'))
                                         else:
-                                            print(row[1] + " " * (x - len(row[1]) + 1),
-                                                  row[2] + " " * (y - len(row[2]) + 1),
-                                                  str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                                  str(row[5], 'utf-8'))
-                                    else:
-                                        if row[4] == True:
-                                            print(row[1] + " " * (x - len(row[1]) + 1),
-                                                  row[2] + " " * (y - len(row[2]) + 1),
-                                                  str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                                  str(row[5]))
-                                        else:
-                                            print(row[1] + " " * (x - len(row[1]) + 1),
-                                                  row[2] + " " * (y - len(row[2]) + 1),
-                                                  str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                                  str(row[5]))
+                                            if row[4] == True:
+                                                print(row[1] + " " * (x - len(row[1]) + 1),
+                                                      row[2] + " " * (y - len(row[2]) + 1),
+                                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
+                                                      str(row[5]))
+                                            else:
+                                                print(row[1] + " " * (x - len(row[1]) + 1),
+                                                      row[2] + " " * (y - len(row[2]) + 1),
+                                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
+                                                      str(row[5]))
                         except Exception as e:
                             raise e
-                        finally:
-                            print("\n")
+
             elif "*" not in varTable:
                 # 3，某表的部分字段
                 sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
@@ -573,27 +589,22 @@ if __name__ == '__main__':
     #     print(Value)
 
 
-    # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境
-    # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "data_center_test1")  # EHR质控 测试环境
+    # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境 （废弃）
+    # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "data_center_test1")  # EHR质控 测试环境  （废弃）
     # tmpList = Sqlserver_PO.ExecQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
     # print(tmpList)
 
+    # ***************************************************************
+    # ***************************************************************
+
     Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")  # EHR 测试环境
-    l_result = Sqlserver_PO.ExecQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
-    print(l_result)
 
-    # l_result = Sqlserver_PO.ExecQuery('select ehrNum from HrCover where id=%s ' % (1))
-    # l_result = Sqlserver_PO.ExecQuery('select convert(nvarchar(20), Name) from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
-    # l_result = Sqlserver_PO.ExecQuery('select Name from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
-    #
-    # print(l_result)
-
-
-    # Sqlserver_PO.dbDesc()  # 1，所有表结构
-    # Sqlserver_PO.dbDesc('HrCover')   # 2，某个表结构
-    # Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，某表的部分字段
-    # Sqlserver_PO.dbDesc('tb*')  # 4，查看所有b开头的表结构（通配符*）
-    # Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，查看所有b开头的表中id字段的结构（通配符*）
+    # Sqlserver_PO.dbDesc()  # 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
+    # Sqlserver_PO.dbDesc('HrCover')   # 2，输出表结构信息
+    # Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，输出表的部分字段结构信息
+    # Sqlserver_PO.dbDesc('tb_dc*')  # 4，输出tb_dc开头的表结构信息
+    # Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，输出tb开头表中包含id或page字段的表结构信息
+    # Sqlserver_PO.dbDesc('*', 'idCardNo,ehrNum')  # 5，输出所有表中包含idCardNo或ehrNum字段的表结构信息
 
     # Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'varchar', '%高血压%')  # 搜索所有表符合条件的记录.
@@ -601,7 +612,12 @@ if __name__ == '__main__':
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
     # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
 
-    # l = Sqlserver_PO.getAllFields('HrCover')  # 获取某表结构字段
+    # l = Sqlserver_PO.getAllFields('HrCover')  # 获取表结构字段列表
     # print(l)
 
-
+    # l_result = Sqlserver_PO.ExecQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
+    # print(l_result)
+    # l_result = Sqlserver_PO.ExecQuery('select ehrNum from HrCover where id=%s ' % (1))
+    # l_result = Sqlserver_PO.ExecQuery('select convert(nvarchar(20), Name) from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
+    # l_result = Sqlserver_PO.ExecQuery('select Name from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
+    # print(l_result)

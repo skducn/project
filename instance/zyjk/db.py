@@ -67,25 +67,37 @@ from PO import SqlserverPO, MysqlPO
 
 # fsms 家床(sqlserver)
 # sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "fsms")  # 测试环境
+# sqlserver_PO.dbDesc()  # 所有表结构
 # sqlserver_PO.dbRecord('*', 'varchar', '%测试1%')  # 模糊搜索所有表中带yoy的char类型。
 # sqlserver_PO.dbRecord('t_upms_user', 'varchar', '%e10adc3949ba59abbe56e057f20f883e')  # 搜索 t_upms_user 表中内容包含 admin 的 varchar 类型记录。
 # sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
 # sqlserver_PO.dbRecord('*','timestamp', u'%2019-01%')  # 模糊搜索所有表中带2019-01的timestamp类型。
 
 
+# ***************************************************************
+# ***************************************************************
+
 # EHR 电子健康档案(sqlserver)
-# sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.35", "test", "123456", "healthrecord_test")  # 测试环境
-# sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "admin@12345", "EHRBC")  # 测试环境业务库
-sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "admin@12345", "EHRDC")  # 测试环境
-sqlserver_PO.dbDesc()   # 所有表结构
-# sqlserver_PO.dbDesc('HrCover')   # UpmsUser表结构
-# sqlserver_PO.dbDesc('mmon*')  # 表名中带有mmon字符的表结构
-# sqlserver_PO.dbDesc('UpmsUser*', 'Birthday')  # 表名中带有UpmsUser字符的表中Birthday字段的结构
-# sqlserver_PO.dbDesc('UpmsUser', 'Id,Birthday,Sex')   # 查看UpmsUser表中Id,Birthday,Sex字段的结构
+sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")  # 测试环境
+# Sqlserver_PO.dbDesc()  # 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
+# Sqlserver_PO.dbDesc('HrCover')   # 2，输出表结构信息
+# Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，输出表的部分字段结构信息
+# Sqlserver_PO.dbDesc('tb_dc*')  # 4，输出tb_dc开头的表结构信息
+# Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，输出tb开头表中包含id或page字段的表结构信息
+sqlserver_PO.dbDesc('*', ["idCardNo", "ehrNum"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
+
+# Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.
+# Sqlserver_PO.dbRecord('*', 'varchar', '%高血压%')  # 搜索所有表符合条件的记录.
+# Sqlserver_PO.dbRecord('*', 'money', '%34.5%')l
+# Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
+# Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
 # sqlserver_PO.dbRecord('UpmsUser', 'varchar', '%e10adc3949ba59abbe56e057f20f883e')  # 搜索 UpmsUser 表中内容包含 e10adc3949ba59abbe56e057f20f883e 的 varchar 类型记录。
 # sqlserver_PO.dbRecord('CommonDictionaryType', 'datetime', '2018-10-15 18:21%')  # 模糊搜索所有表中带2018-10-15 18:21%的datetime类型。
-# sqlserver_PO.dbRecord('*', 'varchar', '%马云正%')
+# sqlserver_PO.dbRecord('*', 'varchar', '17a7929801e54f1ca8ab69f18c086b00')
 # sqlserver_PO.dbRecord('*', 'datetime', '2018-10-15 18:21%')  # 模糊搜索所有表中带2018-10-15 18:21%的datetime类型。
+
+# l = Sqlserver_PO.getAllFields('HrCover')  # 获取表结构字段列表
+# print(l)
 
 
 # **********************************************************************************************************************************
