@@ -20,12 +20,12 @@
 # 11，openpyxl常用模块用法：https://www.debug8.com/python/t_41519.html
 # *********************************************************************
 
-
 from openpyxl import load_workbook
 import openpyxl, sys, platform, os, psutil
 import openpyxl.styles
-from openpyxl.styles import PatternFill
 from openpyxl.utils import get_column_letter
+from openpyxl.styles import Font  # 导入字体模块
+from openpyxl.styles import PatternFill  # 导入填充模块
 from datetime import date
 from time import sleep
 
@@ -119,12 +119,16 @@ class OpenpyxlPO():
         return [rows, columns]
 
     # 3 设置单元格的值(ok)
-    def setCellValue(self, varRow, varCol, varContent, varSheet=0):
-        # Openpyxl_PO.setCellValue(5, 3, "777777")  # 对第一个sheet表的第5行第3列写入数据
-        # Openpyxl_PO.setCellValue(5, 3, "12345678", "python")  # 对python工作表的的第5行第3列写入数据
+    def setCellValue(self, varRow, varCol, varContent, varColor, varSheet=0):
+        # Openpyxl_PO.setCellValue(5, 3, "777777",['ffffff', '000000'])  # 对第一个sheet表的第5行第3列写入数据
+        # Openpyxl_PO.setCellValue(5, 3, "12345678", ['ffeb9c', '000000'],"python")  # 对python工作表的的第5行第3列写入数据
         try:
             sh = self.sh(varSheet)
-            sh.cell(row=varRow, column=varCol, value=varContent)
+
+            fille = PatternFill('solid', fgColor=varColor[0])  # 设置填充颜色为 橙色
+            font = Font(u'微软雅黑', size=11, bold=True, italic=False, strike=False, color=varColor[1])  # 设置字体样式
+            sh.cell(row=varRow, column=varCol, value=varContent).fill = fille
+            sh.cell(row=varRow, column=varCol, value=varContent).font = font
             # self.wb.save(self.file)
         except:
             Color_PO.consoleColor("31", "31", "[ERROR] ", "call " + sys._getframe(1).f_code.co_name + " (line " + str(
@@ -207,7 +211,7 @@ class OpenpyxlPO():
         sh = self.sh(varSheet)
         for col in l_varCol:
             try:
-                for row in range(1, sh.max_row):
+                for row in range(1, sh.max_row+1):
                     if row not in l_varIgnoreRowNum:
                         l_colData.append(sh.cell(row, col).value)
                 l_allData.append(l_colData)
@@ -430,9 +434,9 @@ if __name__ == "__main__":
     # # print(Openpyxl_PO.l_getTotalRowCol("python"))  # [4,3] //返回python工作表的总行数和总列数
     #
     # print("3 设置单元格的值".center(100, "-"))
-    # # Openpyxl_PO.setCellValue(5, 3, "jinhao")  # 对第一个sheet表的第5行第3列写入数据
-    # # Openpyxl_PO.setCellValue(5, 3, "12345678", "python")  # 对python工作表的的第5行第3列写入数据
-    # # Openpyxl_PO.save()
+    # Openpyxl_PO.setCellValue(5, 6, "jinhao",['ffffff', '000000'])  # 对第一个sheet表的第5行第3列写入数据
+    # Openpyxl_PO.setCellValue(5, 7, "12345678", ['ffffff', '000000'], "case")  # 对python工作表的的第5行第3列写入数据
+    # Openpyxl_PO.save()
     #
     # print("4 批量设置单元格的值".center(100, "-"))
     # # Openpyxl_PO.setMoreCellValue([[7, "你好", "测试", "报告"], [9, "再见", "", "好了"]])  # 对第7行第9行分别写入内容
