@@ -18,6 +18,9 @@
 # 9，openpyxl 读取大数据的效率没有 xlrd 高
 # 10，openpyxl 与 xlsxwriter xlrd xlwt xlutils 的比较，这些库都不支持 excel 写操作，一般只能将原excel中的内容读出、做完处理后，再写入一个新的excel文件。
 # 11，openpyxl常用模块用法：https://www.debug8.com/python/t_41519.html
+
+# 参考：https://blog.csdn.net/m0_47590417/article/details/119082064
+# https://blog.csdn.net/four91/article/details/106141274
 # *********************************************************************
 
 from openpyxl import load_workbook
@@ -87,6 +90,13 @@ class OpenpyxlPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             exit(0)
 
+    def ws(self, active_row):
+        worksheet = self.wb.get_sheet_by_name(self.sh)
+        coords = "A" + str(active_row)
+        print(coords)
+        # worksheet.cell(row=active_row, column=1)
+        worksheet.sheet_view.selection[0].activeCell = coords
+        worksheet.sheet_view.selection[0].sqref = coords
 
     # 1 新建excel（ok）
     def newExcel(self, varFileName, *varSheetName):
@@ -413,6 +423,29 @@ class OpenpyxlPO():
         for row in range(varRowFrom, varRowTo):
             for col in range(varColFrom, varColTo):
                 _ = sh.cell(column=col, row=row, value="{0}".format(get_column_letter(col)))
+        self.save()
+
+    def freeze(self, varCell, varSheet=0):
+        # 冻结单元格 sheet.freeze_panes
+        # 如:Openpyxl_PO.freeze("h2") 表示将a1-h2区间固定（不移动）
+        sh = self.sh(varSheet)
+        sh.freeze_panes = varCell
+
+        #
+        # coords = "W48"
+        # # sh.sheet_view.selection[0].activeCell = coords
+        # # sh.sheet_view.selection[0].sqref = coords
+        # sh.sheet_view.topLeftCell = coords
+        self.save()
+
+    def filter(self, varCell="all", varSheet=0):
+        # .auto_filter.ref = sheet.dimensions 给所有字段添加筛选器；
+        #  .auto_filter.ref = "A1" 给 A1 这个格子添加“筛选器”，就是给第一列添加“筛选器
+        sh = self.sh(varSheet)
+        if varCell == "all":
+            sh.auto_filter.ref = sh.dimensions
+        else:
+            sh.auto_filter.ref = varCell
         self.save()
 
 

@@ -17,6 +17,10 @@ l_ruleSql = (Openpyxl_PO.l_getColDataByPartCol([6], [1], "rule"))
 l_comment = (Openpyxl_PO.l_getColDataByPartCol([7], [1], "rule"))
 l_isRun = (Openpyxl_PO.l_getColDataByPartCol([20], [1], "rule"))
 l_exec = (Openpyxl_PO.l_getColDataByPartCol([21], [1], "rule"))
+Openpyxl_PO.freeze("h2")
+Openpyxl_PO.filter("all")
+# Openpyxl_PO.ws(40)
+
 
 
 # 获取 diabetes表 1，2列的所有数据
