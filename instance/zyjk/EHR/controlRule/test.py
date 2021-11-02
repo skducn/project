@@ -8,12 +8,11 @@
 # #Color = ['ffc7ce', '9c0006']  #红
 # #Color = ['ffeb9c', '9c6500']  # 黄
 # Color = ['ffffff', '000000']  # 黑白
-
 # *****************************************************************
 
 from instance.zyjk.EHR.controlRule.PageObject.RulePO import *
 Rule_PO = RulePO()
-
+Openpyxl_PO.closeExcelPid('EXCEL.EXE')
 idCardNo = Rule_PO.isTestData("310110193902060067")
 
 for i in range(Rule_PO.max_row-1):
@@ -29,18 +28,7 @@ for i in range(Rule_PO.max_row-1):
                 Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
             Openpyxl_PO.save()
 
-
-
-Rule_PO.ruleId_66f1d27307164209b95f51fe8576a2cd_4("一级医院有检验结果（ACR）", "com.benetech.rules.modules.myrules.traceability.DiabetesVisit3991", "310110193902060067")
-# Rule_PO.ruleId_97384e2480e14d4db9a6f70d33b8d4ff_5("三级医院有检验结果（ACR）", "com.benetech.rules.modules.myrules.traceability.DiabetesVisit3989", "310110193902060067")
-# Rule_PO.ruleId_e730a482345e4976bb792be43c75788a_6("二级医院有检验结果（ACR）", "com.benetech.rules.modules.myrules.traceability.DiabetesVisit3990", "310110193902060067")
-
-# Rule_PO.ruleId_17ff3dd2fe5c4b41a766b130d1333e73_8("与二级医院实验室检验结果逻辑不符合（总胆固醇）", "com.benetech.rules.modules.myrules.traceability.DiabetesVisit2225", "310110193902060067")
-# Rule_PO.ruleId_27b9cb4fc53d48baac87fc22ad4414be_9("与三级医院实验室检验结果逻辑不符合（总胆固醇）", "com.benetech.rules.modules.myrules.traceability.DiabetesVisit2224", "310110193902060067")
-# Rule_PO.ruleId_711d9d2122884c74992c8c6c30da738f_10("与一级医院实验室检验结果逻辑不符合（总胆固醇）", "com.benetech.rules.modules.myrules.traceability.DiabetesVisit2226", "310110193902060067")
-
-
-
-
-
-3
+if platform.system() == 'Darwin':
+    os.system("open ./config/diabetesVisitRule2.3.1.xlsx")
+if platform.system() == 'Windows':
+    os.system("start .\\config\\diabetesVisitRule2.3.1.xlsx")
