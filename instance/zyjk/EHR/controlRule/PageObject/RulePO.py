@@ -10,7 +10,6 @@
 
 from instance.zyjk.EHR.controlRule.config.config import *
 
-
 class RulePO(object):
 
     def __init__(self):
@@ -52,7 +51,7 @@ class RulePO(object):
         if varWay == "":
             # 反向测试
             if len(result) > 0:
-                Color_PO.consoleColor("31", "31", "[ERROR]", varMsg)
+                Color_PO.consoleColor("31", "31", "[ERRORRRRRRRRRR]", varMsg)
             else:
                 Color_PO.consoleColor("31", "33", "[OK]", varMsg)
                 count +=1
@@ -62,7 +61,7 @@ class RulePO(object):
                 Color_PO.consoleColor("31", "36", "[OK]", varMsg)
                 count += 1
             else:
-                Color_PO.consoleColor("31", "31", "[ERROR]", varMsg)
+                Color_PO.consoleColor("31", "31", "[ERRORRRRRRRRRR]", varMsg)
 
         return count
 
@@ -73,64 +72,193 @@ class RulePO(object):
         if n[0][0] != 1:
             Color_PO.consoleColor("31", "31", "[ERROR]" + " select * from tb_empi_index_root where idCardNo='" + str(idCardNo) +"'", ", 此身份证不存在或重复！")
             exit()
-        return idCardNo
 
     # ***************************************************************************************************************************************************************************************************
 
-    def c5(self, ruleId, idCardNo, varTable, varField):
-        # 是否失访勾选“否” 或者 随访管理状态为NULL值，与其他未填写
+    # 糖尿病，本次随访管理状态代码 与 XXX未填写 （字符型或日期）
+    def dm5(self, ruleId, idCardNo, varTable, varField):
+        count = 0
+        total = 0
+        for i in range(len(self.l_ruleId[0])):
+            if ruleId == self.l_ruleId[0][i]:
+                print('\n\033[1;31;30m', str(i+2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i]  + ", " +  self.l_ruleSql[0][i], '\033[0m')
+                try:
+
+                    # 1，检查点
+                    # 检查点1（正向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET vistStatusCode = null FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    self.execQuery("UPDATE {varTable} SET {varField} = null FROM {varTable} AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点1（正向），本次随访管理状态代码 = Null，" + self.l_comment[0][i].replace("未填写", "") + " = Null")
+                    total = total + count
+
+                    # # 检查点2（正向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET vistStatusCode = 1 FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    self.execQuery("UPDATE {varTable} SET {varField} = null FROM {varTable} AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点2（正向），本次随访管理状态代码 = 1，" + self.l_comment[0][i].replace("未填写", "") + " = Null")
+                    total = total + count
+
+                    # # 检查点3（反向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET vistStatusCode = 1 FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    if varField == "nextVisiDate" or varField == "visitDate":
+                        self.execQuery("UPDATE {varTable} SET {varField} =CONVERT(varchar(100), '2020-12-26', 20) FROM {varTable} AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    else:
+                        self.execQuery("UPDATE {varTable} SET {varField} ='123' FROM {varTable} AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'".format(varTable=varTable, varField=varField) % idCardNo)
+
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点3（反向），本次随访管理状态代码 = 1，" + self.l_comment[0][i].replace("未填写", "") + " != Null")
+                    total = total + count
+
+                    # # 检查点4（反向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET vistStatusCode = 2 FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    self.execQuery("UPDATE {varTable} SET {varField} = null FROM {varTable} AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo,"检查点4（反向），本次随访管理状态代码 = 2，" + self.l_comment[0][i].replace("未填写", "") + " = Null")
+                    total = total + count
+
+                    # # 检查点5（反向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET vistStatusCode = 2 FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    if varField == "nextVisiDate" or varField == "visitDate":
+                        self.execQuery("UPDATE {varTable} SET {varField} =CONVERT(varchar(100), '2020-12-26', 20) FROM {varTable} AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    else:
+                        self.execQuery("UPDATE {varTable} SET {varField} ='123' FROM {varTable} AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点5（反向），本次随访管理状态代码 = 2，" + self.l_comment[0][i].replace("未填写", "") + " != Null")
+                    total = total + count
+
+                    if total == 5:
+                        Openpyxl_PO.setCellValue(i + 2, 22, "ok", ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 20, "N", "", "rule")
+                    else:
+                        Openpyxl_PO.setCellValue(i + 2, 22, "error", ['ffc7ce', '9c0006'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
+                    Openpyxl_PO.save()
+                except:
+                    Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
+                    exit()
+    def dm10(self, ruleId, idCardNo, hospitalLevel, varField, varValue):
+        # 一级医院有检验结果（ACR）3991
+        # 二级医院有检验结果（ACR）3990
+        # 三级医院有检验结果（ACR）3989
+        # 与一级医院实验室检验结果逻辑不符合（总胆固醇）2226
+        # 与二级医院实验室检验结果逻辑不符合（总胆固醇）2225
+        # 与三级医院实验室检验结果逻辑不符合（总胆固醇）2224
+        # 一级医院有检验结果（糖化血红蛋白）3988
+        # 二级医院有检验结果（糖化血红蛋白）3987
+        # 三级医院有检验结果（糖化血红蛋白）3986
 
         count = 0
         total = 0
         for i in range(len(self.l_ruleId[0])):
             if ruleId == self.l_ruleId[0][i]:
-                print('\n\033[1;31;38m', str(i+2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i]  + ", " +  self.l_ruleSql[0][i], '\033[0m')
+                print('\n\033[1;31;30m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
+
                 try:
                     # 1，数据准备
-                    ehrNum = self.execQuery(
-                        "SELECT  top 1 dm.ehrNum FROM tb_dc_dm_visit AS dm INNER JOIN tb_dc_chronic_main AS cMain ON dm.OrgCode = cMain.orgCode AND dm.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo='%s'" % idCardNo)
 
-
-                    # 2，检查点
-
-                    # 检查点1（正向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=Null where ehrNum='%s'" % ehrNum[0][0])
-                    self.execQuery("update  {varTable} set  {varField} =Null".format(varTable=varTable, varField=varField))
-                    count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点1（正向），本次随访管理状态代码 = Null，" + self.l_comment[0][i] + " = Null")
-                    total = total + count
-
-                    # 检查点2（正向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=1 where ehrNum='%s'" % ehrNum[0][0])
-                    self.execQuery("update  {varTable} set  {varField} =Null".format(varTable=varTable, varField=varField))
-                    count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点2（正向），本次随访管理状态代码 = 1，" + self.l_comment[0][i] + " = Null")
-                    total = total + count
-                    #
-                    # 检查点3（反向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=1 where ehrNum='%s'" % ehrNum[0][0])
-                    self.execQuery("update  {varTable} set  {varField} ='11111'".format(varTable=varTable, varField=varField))
-                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点3（反向），本次随访管理状态代码 = 1，" + self.l_comment[0][i] + " != Null")
-                    total = total + count
-
-                    # 检查点4（反向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=2 where ehrNum='%s'" % ehrNum[0][0])
-                    self.execQuery("update  {varTable} set  {varField} =Null".format(varTable=varTable, varField=varField))
-                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点4（反向），本次随访管理状态代码 = 2，" + self.l_comment[0][i] + " = Null")
-                    total = total + count
-
-                    # 检查点5（反向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=2 where ehrNum='%s'" % (ehrNum[0][0]))
-                    self.execQuery("update  {varTable} set  {varField} ='11111'".format(varTable=varTable, varField=varField))
-                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点5（反向），本次随访管理状态代码 = 2，" + self.l_comment[0][i] + " != Null")
-                    total = total + count
-
-                    if total == 5:
-                        return "ok"
+                    # 初始化数据，测试需要3条记录
+                    m = self.execQuery("SELECT count(*) FROM tb_empi_index_root t1 INNER JOIN tb_dc_chronic_info t2 ON t1.guid = t2.empiGuid  INNER JOIN tb_dc_chronic_main t3 ON t2.manageNum = t3.manageNum AND t2.orgCode = t3.orgCode INNER JOIN tb_dc_dm_visit t4 ON t3.visitNum = t4.cardId AND t3.orgCode = t4.orgCode WHERE t1.idCardNo = '%s'" % idCardNo)
+                    if m[0][0] == 0:
+                        exit()
                     else:
-                        return "error"
+                        # 获取 cardId,orgCode,empiGuid
+                        sql = self.execQuery("SELECT top 1 t4.cardId,t4.orgCode,t4.empiGuid FROM tb_empi_index_root t1 INNER JOIN tb_dc_chronic_info t2 ON t1.guid = t2.empiGuid INNER JOIN tb_dc_chronic_main t3 ON t2.manageNum = t3.manageNum AND t2.orgCode = t3.orgCode INNER JOIN tb_dc_dm_visit t4 ON t3.visitNum = t4.cardId AND t3.orgCode = t4.orgCode WHERE t1.idCardNo ='%s'" % idCardNo)
+                        if m[0][0] == 2:
+                            # 将第一条随访日期修改为 2020-10-1
+                            self.execQuery("update tb_dc_dm_visit set visitDate='2020-10-1' where guid='%s'" % sql[0][2])
+                            # 新增1条记录，随访日期为 2019-01-16
+                            self.execQuery("INSERT INTO tb_dc_dm_visit([guid], [cardId], [name], [ehrNum], [orgCode], [visitDate], [visitWayCode], [visitWayValue], [otherVisit], [visitDocNo], [visitDocName], [visitOrgCode], [visitOrgName], [vistStatusCode], [visitStatusValue], [nextVisiDate], [lostVisitCode], [lostVisitName], [lostVisitDate], [otherLostVIsitName], [deathReason], [targetDistrictCode], [targetDistrictName], [targetOrgCode], [targetOrgName], [moveProvinceCode], [moveProvinceValue], [moveCityCode], [moveCityValue], [moveDistrictCode], [moveDistrictValue], [moveStreetCode], [moveStreetValue], [moveNeighborhoodCode], [moveNeighborhoodValue], [moveVillageValue], [moveHouseNumber], [moveOrgCode], [moveOrgName], [hasPaperCard], [isAcceptHealthEdu], [healthEduType], [clinicalSymptomsCode], [clinicalSymptomsValue], [otherClinicalSymptoms], [symptomStatus], [clinicalInfo], [sbp], [dbp], [height], [weight], [waistline], [hipline], [targetWeight], [BMI], [targetBMI], [dorsalArteryOfFootLeftCode], [dorsalArteryOfFootLeftName], [dorsalArteryOfFootRightCode], [dorsalArteryOfFootRightName], [hypoglycemia], [familyHistory], [isLawSport], [sportTypeCode], [sportTypeName], [sportFrequence], [sportTimes], [dietCode], [dietName], [stapleFood], [targetStapleFood], [smokingVolume], [drinkingVolume], [targetSportFrequencyCode], [targetSportFrequencyName], [targetSportTimes], [smokingStatusCode], [smokingStatusName], [targetSmoke], [quitSmoking], [drinkingFrequencyCode], [drinkingFrequencyName], [targetDrink], [psychologyStatusCode], [psychologyStatusName], [complianceStatusCode], [complianceStatusName], [referralReason], [referralOrgDept], [visitType], [fastingBloodSugarCode], [fastingBloodSugarName], [fastingBloodSugarValue], [fastingBloodSugarGatherCode], [fastingBloodSugarGatherName], [randomBloodSugarCode], [randomBloodSugarName], [randomBloodSugarValue], [randomBloodSugarGatherCode], [randomBloodSugarGatherName], [fastingBloodSugarOGTTCode], [fastingBloodSugarOGTTName], [fastingBloodSugarOGTTValue], [fastingBloodSugarOGTTGatherCode], [fastingBloodSugarOGTTGatherName], [twoHBloodSugarOGTTCode], [twoHBloodSugarOGTTName], [twoHBloodSugarOGTTValue], [twoHBloodSugarOGTTGatherCode], [twoHBloodSugarOGTTGatherName], [hbAlc], [hbAlcDate], [cholesterol], [triglycerides], [highCholesterol], [lowCholesterol], [acr], [urineProtein], [ghGaterWayCode], [ghGaterWayName], [drugComplianceCode], [drugComplianceName], [useDrug], [hasUseDrugSideEffects], [UseDrugSideEffects], [interveneCount], [beforeInterveneDate], [isIntervene], [syndrome], [interveneMeasures], [measuresContent], [otherInterveneMeasures], [otherMeasuresContent], [proposal], [otherProposal], [synStatus], [age], [empiGuid], [isGovernance]) VALUES ('99', '%s', '黄*珍', 'K0616970X', '%s', '2019-01-16 00:00:00.000', NULL, '家庭', NULL, '1015', '李*琳', '310118001', '上海市青浦区夏阳街道社区卫生服务中心', '1', '继续随访', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '4', '30', NULL, NULL, NULL, NULL, '2', NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, '', NULL, '1', NULL, '', NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '%s', '0')" % (sql[0][0],sql[0][1],sql[0][2]))
+                        elif m[0][0] == 1:
+                            # 新增2条，随访日期分别为 2019-01-16 和 2020-10-1
+                            self.execQuery("INSERT INTO tb_dc_dm_visit([guid], [cardId], [name], [ehrNum], [orgCode], [visitDate], [visitWayCode], [visitWayValue], [otherVisit], [visitDocNo], [visitDocName], [visitOrgCode], [visitOrgName], [vistStatusCode], [visitStatusValue], [nextVisiDate], [lostVisitCode], [lostVisitName], [lostVisitDate], [otherLostVIsitName], [deathReason], [targetDistrictCode], [targetDistrictName], [targetOrgCode], [targetOrgName], [moveProvinceCode], [moveProvinceValue], [moveCityCode], [moveCityValue], [moveDistrictCode], [moveDistrictValue], [moveStreetCode], [moveStreetValue], [moveNeighborhoodCode], [moveNeighborhoodValue], [moveVillageValue], [moveHouseNumber], [moveOrgCode], [moveOrgName], [hasPaperCard], [isAcceptHealthEdu], [healthEduType], [clinicalSymptomsCode], [clinicalSymptomsValue], [otherClinicalSymptoms], [symptomStatus], [clinicalInfo], [sbp], [dbp], [height], [weight], [waistline], [hipline], [targetWeight], [BMI], [targetBMI], [dorsalArteryOfFootLeftCode], [dorsalArteryOfFootLeftName], [dorsalArteryOfFootRightCode], [dorsalArteryOfFootRightName], [hypoglycemia], [familyHistory], [isLawSport], [sportTypeCode], [sportTypeName], [sportFrequence], [sportTimes], [dietCode], [dietName], [stapleFood], [targetStapleFood], [smokingVolume], [drinkingVolume], [targetSportFrequencyCode], [targetSportFrequencyName], [targetSportTimes], [smokingStatusCode], [smokingStatusName], [targetSmoke], [quitSmoking], [drinkingFrequencyCode], [drinkingFrequencyName], [targetDrink], [psychologyStatusCode], [psychologyStatusName], [complianceStatusCode], [complianceStatusName], [referralReason], [referralOrgDept], [visitType], [fastingBloodSugarCode], [fastingBloodSugarName], [fastingBloodSugarValue], [fastingBloodSugarGatherCode], [fastingBloodSugarGatherName], [randomBloodSugarCode], [randomBloodSugarName], [randomBloodSugarValue], [randomBloodSugarGatherCode], [randomBloodSugarGatherName], [fastingBloodSugarOGTTCode], [fastingBloodSugarOGTTName], [fastingBloodSugarOGTTValue], [fastingBloodSugarOGTTGatherCode], [fastingBloodSugarOGTTGatherName], [twoHBloodSugarOGTTCode], [twoHBloodSugarOGTTName], [twoHBloodSugarOGTTValue], [twoHBloodSugarOGTTGatherCode], [twoHBloodSugarOGTTGatherName], [hbAlc], [hbAlcDate], [cholesterol], [triglycerides], [highCholesterol], [lowCholesterol], [acr], [urineProtein], [ghGaterWayCode], [ghGaterWayName], [drugComplianceCode], [drugComplianceName], [useDrug], [hasUseDrugSideEffects], [UseDrugSideEffects], [interveneCount], [beforeInterveneDate], [isIntervene], [syndrome], [interveneMeasures], [measuresContent], [otherInterveneMeasures], [otherMeasuresContent], [proposal], [otherProposal], [synStatus], [age], [empiGuid], [isGovernance]) VALUES ('100', '%s', '黄*珍', 'K0616970X', '%s', '2019-01-16 00:00:00.000', NULL, '家庭', NULL, '1015', '李*琳', '310118001', '上海市青浦区夏阳街道社区卫生服务中心', '1', '继续随访', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '4', '30', NULL, NULL, NULL, NULL, '2', NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, '', NULL, '1', NULL, '', NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '%s', '0')" % (sql[0][0],sql[0][1],sql[0][2]))
+                            self.execQuery("INSERT INTO tb_dc_dm_visit([guid], [cardId], [name], [ehrNum], [orgCode], [visitDate], [visitWayCode], [visitWayValue], [otherVisit], [visitDocNo], [visitDocName], [visitOrgCode], [visitOrgName], [vistStatusCode], [visitStatusValue], [nextVisiDate], [lostVisitCode], [lostVisitName], [lostVisitDate], [otherLostVIsitName], [deathReason], [targetDistrictCode], [targetDistrictName], [targetOrgCode], [targetOrgName], [moveProvinceCode], [moveProvinceValue], [moveCityCode], [moveCityValue], [moveDistrictCode], [moveDistrictValue], [moveStreetCode], [moveStreetValue], [moveNeighborhoodCode], [moveNeighborhoodValue], [moveVillageValue], [moveHouseNumber], [moveOrgCode], [moveOrgName], [hasPaperCard], [isAcceptHealthEdu], [healthEduType], [clinicalSymptomsCode], [clinicalSymptomsValue], [otherClinicalSymptoms], [symptomStatus], [clinicalInfo], [sbp], [dbp], [height], [weight], [waistline], [hipline], [targetWeight], [BMI], [targetBMI], [dorsalArteryOfFootLeftCode], [dorsalArteryOfFootLeftName], [dorsalArteryOfFootRightCode], [dorsalArteryOfFootRightName], [hypoglycemia], [familyHistory], [isLawSport], [sportTypeCode], [sportTypeName], [sportFrequence], [sportTimes], [dietCode], [dietName], [stapleFood], [targetStapleFood], [smokingVolume], [drinkingVolume], [targetSportFrequencyCode], [targetSportFrequencyName], [targetSportTimes], [smokingStatusCode], [smokingStatusName], [targetSmoke], [quitSmoking], [drinkingFrequencyCode], [drinkingFrequencyName], [targetDrink], [psychologyStatusCode], [psychologyStatusName], [complianceStatusCode], [complianceStatusName], [referralReason], [referralOrgDept], [visitType], [fastingBloodSugarCode], [fastingBloodSugarName], [fastingBloodSugarValue], [fastingBloodSugarGatherCode], [fastingBloodSugarGatherName], [randomBloodSugarCode], [randomBloodSugarName], [randomBloodSugarValue], [randomBloodSugarGatherCode], [randomBloodSugarGatherName], [fastingBloodSugarOGTTCode], [fastingBloodSugarOGTTName], [fastingBloodSugarOGTTValue], [fastingBloodSugarOGTTGatherCode], [fastingBloodSugarOGTTGatherName], [twoHBloodSugarOGTTCode], [twoHBloodSugarOGTTName], [twoHBloodSugarOGTTValue], [twoHBloodSugarOGTTGatherCode], [twoHBloodSugarOGTTGatherName], [hbAlc], [hbAlcDate], [cholesterol], [triglycerides], [highCholesterol], [lowCholesterol], [acr], [urineProtein], [ghGaterWayCode], [ghGaterWayName], [drugComplianceCode], [drugComplianceName], [useDrug], [hasUseDrugSideEffects], [UseDrugSideEffects], [interveneCount], [beforeInterveneDate], [isIntervene], [syndrome], [interveneMeasures], [measuresContent], [otherInterveneMeasures], [otherMeasuresContent], [proposal], [otherProposal], [synStatus], [age], [empiGuid], [isGovernance]) VALUES ('101', '%s', '黄*珍', 'K0616970X', '%s', '2020-10-1 00:00:00.000', NULL, '家庭', NULL, '1015', '李*琳', '310118001', '上海市青浦区夏阳街道社区卫生服务中心', '1', '继续随访', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, '4', '30', NULL, NULL, NULL, NULL, '2', NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, '', NULL, '1', NULL, '', NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '%s', '0')" % (sql[0][0],sql[0][1],sql[0][2]))
+
+                    # 初始化数据，随访日期从早到晚依次排列
+                    visitDate = self.execQuery("SELECT t4.visitDate FROM tb_empi_index_root t1 INNER JOIN tb_dc_chronic_info t2 ON t1.guid = t2.empiGuid INNER JOIN tb_dc_chronic_main t3 ON t2.manageNum = t3.manageNum AND t2.orgCode = t3.orgCode INNER JOIN tb_dc_dm_visit t4 ON t3.visitNum = t4.cardId AND t3.orgCode = t4.orgCode WHERE t1.idCardNo ='%s'" % idCardNo)
+                    l_visitDate = []
+                    for j in range(len(visitDate)):
+                        l_visitDate.append(str(visitDate[j][0]).split(" ")[0])
+                    l_visitDate.sort()
+                    # print(l_visitDate)
+
+                    # 初始化表
+                    self.execQuery("DELETE FROM tb_lis_report")
+                    self.execQuery("DELETE FROM tb_lis_report_indicator")
+                    self.execQuery("insert into tb_lis_report(guid,visitStrNo,orgCode,orgName,visitType,reportNo,name,empiGuid,patientId,specimenTypeCodeSystem,specimenTypeCode,specimenTypeName,reportTypeCodeSystem,reportTypeCode,reportTypeName,reportName,applyDeptCode,applyDeptName,applyDoctorCode,applyDoctorName,reportDoctorCode,reportDoctorName,applyDate,reportDate,orderNo,status,createDate,isCurrent) values('1',null,'%s',null,null,'123456',null,'%s',null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)" % (sql[0][1], sql[0][2]))
+                    self.execQuery("insert into tb_lis_report_indicator(guid,visitStrNo,orgCode,orgName,visitType,reportNo,insItemCode,itemCodeSystem,itemCode,itemName,resultValue,resultUnit,resultFlagCodeSystem,resultFlagCode,resultFlagName,refQuality,refQuantifyLower,refQuantifyUpper,[order],status,createDate,isCurrent,empiGuid) values('1',null,'%s',null,null,'123456',null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,'%s')" % (sql[0][1], sql[0][2]))
+
+
+                    # # 2，检查点
+                    # # 检查点1（正向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET vistStatusCode = 1 FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    self.execQuery("UPDATE tb_dc_dm_visit SET {varField} = null FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varField=varField) % idCardNo)
+                    self.execQuery("update t_dic_hospital_info set HospitalLevel='%s' where Hospital_id='%s'" % (hospitalLevel, sql[0][1]))
+                    self.execQuery("update tb_lis_report_indicator set itemName='%s'" % varValue)
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], 2))  # # 第一条随访日期的后2天
+                    count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点1（正向），本次随访管理状态代码 = 1 ，" + str(varField) + " = Null，医院等级 = " + str(hospitalLevel) + "，项目名称 = " + str(varValue) + "，检验报告日期为第一次随访日期到第二次随访日期之间")
+                    total = total + count
+
+                    # # # 检查点2（正向）
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[-1], -2))  # 最近一条随访日期的前2天
+                    count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点2（正向），将检查点1中的 检验报告日期为上一次与本次随访日期之间，其余条件不变")
+                    total = total + count
+
+                    # # # 检查点3（正向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET vistStatusCode = null FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点3（正向），将检查点1中的 本次随访管理状态代码 = Null，其余条件不变")
+                    total = total + count
+
+                    # # # 检查点4（正向）
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % l_visitDate[-1])
+                    count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点4（正向），将检查点1中的检验报告日期等于本次随访日期，其余条件不变")
+                    total = total + count
+
+                    # # # 检查点5（反向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET vistStatusCode = 2 FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点5（反向），将检查点1中的 本次随访管理状态代码 = 2，其余条件不变")
+                    total = total + count
+
+                    # # 检查点6（反向）
+                    self.execQuery("UPDATE tb_dc_dm_visit SET {varField} = '123' FROM tb_dc_dm_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varField=varField) % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点6（反向），将检查点1中的 总胆固醇值 <> Null，其余条件不变")
+                    total = total + count
+
+                    # # 检查点7（反向）
+                    errorHosptialLevel = int(hospitalLevel) + 1
+                    self.execQuery("update t_dic_hospital_info set HospitalLevel='%s' where Hospital_id='%s'" % (errorHosptialLevel, sql[0][1]))
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点7（反向），将检查点1中的 医院级别 = " + str(errorHosptialLevel) + " ，其余条件不变")
+                    self.execQuery("update t_dic_hospital_info set HospitalLevel='1' where Hospital_id='%s'" % (sql[0][1]))
+                    total = total + count
+
+                    # # 检查点8（反向）
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % l_visitDate[0])
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点8（反向），将检查点1中检验报告日期等于第一次随访日期，其余条件不变")
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], 2))
+                    total = total + count
+
+                    # # 检查点9（反向）
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], -2))
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点9（反向），将检查点1中检验报告日期早于第一次随访日期，其余条件不变")
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], 2))
+                    total = total + count
+
+                    # # 检查点10（反向）
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[-1], 2))
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点10（反向），将检查点1中检验报告日期晚于本次随访日期，其余条件不变")
+                    self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], 2))
+                    total = total + count
+
+                    if total == 10:
+                        Openpyxl_PO.setCellValue(i + 2, 22, "ok", ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 20, "N", "", "rule")
+                    else:
+                        Openpyxl_PO.setCellValue(i + 2, 22, "error", ['ffc7ce', '9c0006'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
+                    Openpyxl_PO.save()
+
                 except:
                     Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
                     exit()
 
+    # 药品名称与药物类型不匹配
     def sql3995(self, ruleId, idCardNo):
         # 药品名称与药物类型不匹配
 
@@ -138,7 +266,7 @@ class RulePO(object):
         total = 0
         for i in range(len(self.l_ruleId[0])):
             if ruleId == self.l_ruleId[0][i]:
-                print('\n\033[1;31;38m', str(i+2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i]  + ", " +  self.l_ruleSql[0][i], '\033[0m')
+                print('\n\033[1;31;30m', str(i+2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i]  + ", " +  self.l_ruleSql[0][i], '\033[0m')
 
                 try:
                     # 1，数据准备
@@ -201,126 +329,18 @@ class RulePO(object):
                     #             count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点（正向），药品名称【" + l_drugName[i] + "】与药物类型【" + l_drugTypeNameDelRepeat[j] + "】匹配不一致")
 
                     if total == 5:
-                        return "ok"
+                        Openpyxl_PO.setCellValue(i + 2, 22, "ok", ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 20, "N", "", "rule")
                     else:
-                        return "error"
+                        Openpyxl_PO.setCellValue(i + 2, 22, "error", ['ffc7ce', '9c0006'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
+                    Openpyxl_PO.save()
                 except:
                     Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
                     exit()
 
-    def c10(self, ruleId, idCardNo, hospitalLevel, varField, varValue):
-        # 与一级医院实验室检验结果逻辑不符合（总胆固醇）2226
-        # 与二级医院实验室检验结果逻辑不符合（总胆固醇）2225
-        # 与三级医院实验室检验结果逻辑不符合（总胆固醇）2224
-        # 一级医院有检验结果（糖化血红蛋白）3988
-        # 二级医院有检验结果（糖化血红蛋白）3987
-        # 三级医院有检验结果（糖化血红蛋白）3986
-
-        count = 0
-        total = 0
-        for i in range(len(self.l_ruleId[0])):
-            if ruleId == self.l_ruleId[0][i]:
-                print('\n\033[1;31;38m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
-
-                try:
-                    # 1，数据准备
-                    ehrNum = self.execQuery(
-                        "SELECT  top 1 dm.ehrNum FROM tb_dc_dm_visit AS dm INNER JOIN tb_dc_chronic_main AS cMain ON dm.OrgCode = cMain.orgCode AND dm.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo='%s'" % idCardNo)
-                    orgCode = self.execQuery(
-                        "SELECT  top 1 dm.orgCode FROM tb_dc_dm_visit AS dm INNER JOIN tb_dc_chronic_main AS cMain ON dm.OrgCode = cMain.orgCode AND dm.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo='%s'" % idCardNo)
-                    empiGuid = self.execQuery("select guid from tb_empi_index_root where idCardNo='%s'" % idCardNo)
-
-                    visitDate = self.execQuery("select visitDate from  tb_dc_dm_visit where ehrNum = '%s'" % ehrNum[0][0])
-                    l_visitDate = []
-                    for j in range(len(visitDate)):
-                        l_visitDate.append(str(visitDate[j][0]).split(" ")[0])
-                    l_visitDate.sort()  # 随访日期从早到晚依次排列
-
-                    m = self.execQuery("select count(*) from  tb_dc_dm_visit where ehrNum = '%s'" % ehrNum[0][0])
-                    # 随访记录必须2条以上，涉及到 当前检验报告日期与 上一期，本期日期比对。
-                    if m[0][0] >1 :
-                        # 初始化表
-                        self.execQuery("DELETE FROM tb_lis_report")
-                        self.execQuery("DELETE FROM tb_lis_report_indicator")
-                        self.execQuery(
-                            "insert into tb_lis_report(guid,visitStrNo,orgCode,orgName,visitType,reportNo,name,empiGuid,patientId,specimenTypeCodeSystem,specimenTypeCode,specimenTypeName,reportTypeCodeSystem,reportTypeCode,reportTypeName,reportName,applyDeptCode,applyDeptName,applyDoctorCode,applyDoctorName,reportDoctorCode,reportDoctorName,applyDate,reportDate,orderNo,status,createDate,isCurrent) values('1',null,'%s',null,null,'123456',null,'%s',null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)" % (
-                            orgCode[0][0], empiGuid[0][0]))
-                        self.execQuery(
-                            "insert into tb_lis_report_indicator(guid,visitStrNo,orgCode,orgName,visitType,reportNo,insItemCode,itemCodeSystem,itemCode,itemName,resultValue,resultUnit,resultFlagCodeSystem,resultFlagCode,resultFlagName,refQuality,refQuantifyLower,refQuantifyUpper,[order],status,createDate,isCurrent,empiGuid) values('1',null,'%s',null,null,'123456',null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,'%s')" % (
-                            orgCode[0][0], empiGuid[0][0]))
-
-                        # # 2，检查点
-
-                        # # 检查点1（正向）
-                        self.execQuery("update tb_dc_dm_visit set vistStatusCode=1 where ehrNum='%s'" % ehrNum[0][0])
-                        self.execQuery("update tb_dc_dm_visit set {varField} =null where ehrNum='%s'".format(varField=varField) % ehrNum[0][0])
-                        self.execQuery("update t_dic_hospital_info set HospitalLevel='%s' where Hospital_id='%s'" % (hospitalLevel, orgCode[0][0]))
-                        self.execQuery("update tb_lis_report_indicator set itemName='%s'" % varValue)
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], 2))  # # 第一条随访日期的后2天
-                        count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点1（正向），本次随访管理状态代码 = 1 ，总胆固醇值 = Null，医院等级 = " + str(hospitalLevel) + "，项目名称 = 总胆固醇，检验报告日期为第一次随访日期到第二次随访日期之间")
-                        total = total + count
-
-                        # # # 检查点2（正向）
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[-1], -2))  # 最近一条随访日期的前2天
-                        count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点2（正向），将检查点1中的 检验报告日期为上一次与本次随访日期之间，其余条件不变")
-                        total = total + count
-
-                        # # # 检查点3（正向）
-                        self.execQuery("update tb_dc_dm_visit set vistStatusCode=Null where ehrNum='%s'" % ehrNum[0][0])
-                        count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点3（正向），将检查点1中的 本次随访管理状态代码 = Null，其余条件不变")
-                        total = total + count
-
-                        # # # 检查点4（正向）
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % l_visitDate[-1])
-                        count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点4（正向），将检查点1中的检验报告日期等于本次随访日期，其余条件不变")
-                        total = total + count
-
-                        # # # 检查点5（反向）
-                        self.execQuery("update tb_dc_dm_visit set vistStatusCode=2 where ehrNum='%s'" % ehrNum[0][0])
-                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点5（正向），将检查点1中的 本次随访管理状态代码 = 2，其余条件不变")
-                        self.execQuery("update tb_dc_dm_visit set vistStatusCode=1 where ehrNum='%s'" % ehrNum[0][0])
-                        total = total + count
-
-                        # # 检查点6（反向）
-                        self.execQuery("update tb_dc_dm_visit set {varField} ='11111' where ehrNum='%s'".format(varField=varField) % ehrNum[0][0])
-                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点6（反向），将检查点1中的 总胆固醇值 <> Null，其余条件不变")
-                        total = total + count
-
-                        # # 检查点7（反向）
-                        errorHosptialLevel = int(hospitalLevel) + 1
-                        self.execQuery("update t_dic_hospital_info set HospitalLevel='%s' where Hospital_id='%s'" % (errorHosptialLevel, orgCode[0][0]))
-                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点7（反向），将检查点1中的 医院级别 = " + str(errorHosptialLevel) + " ，其余条件不变")
-                        self.execQuery("update t_dic_hospital_info set HospitalLevel='1' where Hospital_id='%s'" % (orgCode[0][0]))
-                        total = total + count
-
-                        # # 检查点8（反向）
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % l_visitDate[0])
-                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点8（反向），将检查点1中检验报告日期等于第一次随访日期，其余条件不变")
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], 2))
-                        total = total + count
-
-                        # # 检查点9（反向）
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], -2))
-                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点9（反向），将检查点1中检验报告日期早于第一次随访日期，其余条件不变")
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], 2))
-                        total = total + count
-
-                        # # 检查点10（反向）
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[-1], 2))
-                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点10（反向），将检查点1中检验报告日期晚于本次随访日期，其余条件不变")
-                        self.execQuery("update tb_lis_report set reportDate='%s'" % Time_PO.getBeforeAfterDate(l_visitDate[0], 2))
-                        total = total + count
-
-                        if total == 10:
-                            return "ok"
-                        else:
-                            return "error"
-                    else:
-                        Color_PO.consoleColor("31", "31", "[ERROR]" + self.l_ruleSql[0][i], ", 随访记录必须2条及以上！")
-                except:
-                    Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
-                    exit()
-
+    # 日饮酒量未填写
     def sql2168(self, ruleId, idCardNo):
         # 日饮酒量未填写
 
@@ -328,7 +348,7 @@ class RulePO(object):
         total = 0
         for i in range(len(self.l_ruleId[0])):
             if ruleId == self.l_ruleId[0][i]:
-                print('\n\033[1;31;38m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
+                print('\n\033[1;31;30m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
 
                 try:
                     # 1，数据准备
@@ -391,15 +411,20 @@ class RulePO(object):
                         total = total + count
 
                         if total == 7:
-                            return "ok"
+                            Openpyxl_PO.setCellValue(i + 2, 22, "ok", ['c6efce', '006100'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['c6efce', '006100'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 20, "N", "", "rule")
                         else:
-                            return "error"
+                            Openpyxl_PO.setCellValue(i + 2, 22, "error", ['ffc7ce', '9c0006'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
+                        Openpyxl_PO.save()
                     else:
                         Color_PO.consoleColor("31", "31", "[ERROR]" + self.l_ruleSql[0][i], ", 随访记录必须2条及以上！")
                 except:
                     Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
                     exit()
 
+    # 与遵医行为选项不匹配
     def sql2238(self, ruleId, idCardNo):
         # 与遵医行为选项不匹配
 
@@ -407,7 +432,7 @@ class RulePO(object):
         total = 0
         for i in range(len(self.l_ruleId[0])):
             if ruleId == self.l_ruleId[0][i]:
-                print('\n\033[1;31;38m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
+                print('\n\033[1;31;30m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
 
                 try:
                     # 1，数据准备
@@ -475,76 +500,27 @@ class RulePO(object):
                         total = total + count
 
                         if total == 9:
-                            return "ok"
+                            Openpyxl_PO.setCellValue(i + 2, 22, "ok", ['c6efce', '006100'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['c6efce', '006100'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 20, "N", "", "rule")
                         else:
-                            return "error"
+                            Openpyxl_PO.setCellValue(i + 2, 22, "error", ['ffc7ce', '9c0006'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
+                        Openpyxl_PO.save()
                     else:
                         Color_PO.consoleColor("31", "31", "[ERROR]" + self.l_ruleSql[0][i], ", 随访记录必须2条及以上！")
                 except:
                     Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
                     exit()
 
-    def sql2432(self, ruleId, idCardNo, varTable, varField):
-        # 下次随访日期未填写，日期类型
-
-        count = 0
-        total = 0
-        for i in range(len(self.l_ruleId[0])):
-            if ruleId == self.l_ruleId[0][i]:
-                print('\n\033[1;31;38m', str(i+2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i]  + ", " +  self.l_ruleSql[0][i], '\033[0m')
-                try:
-                    # 1，数据准备
-                    ehrNum = self.execQuery(
-                        "SELECT  top 1 dm.ehrNum FROM tb_dc_dm_visit AS dm INNER JOIN tb_dc_chronic_main AS cMain ON dm.OrgCode = cMain.orgCode AND dm.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo='%s'" % idCardNo)
-
-                    # 2，检查点
-
-                    # 检查点1（正向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=Null where ehrNum='%s'" % ehrNum[0][0])
-                    self.execQuery("update  {varTable} set  {varField} =Null".format(varTable=varTable, varField=varField))
-                    count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点1（正向），本次随访管理状态代码 = Null，" + self.l_comment[0][i] + " = Null")
-                    total = total + count
-
-                    # 检查点2（正向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=1 where ehrNum='%s'" % ehrNum[0][0])
-                    self.execQuery("update  {varTable} set  {varField} =Null".format(varTable=varTable, varField=varField))
-                    count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点2（正向），本次随访管理状态代码 = 1，" + self.l_comment[0][i] + " = Null")
-                    total = total + count
-
-                    # 检查点3（反向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=1 where ehrNum='%s'" % ehrNum[0][0])
-                    self.execQuery("update  {varTable} set  {varField} =CONVERT(varchar(100), '2020-12-26', 20)".format(varTable=varTable, varField=varField))
-                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点3（反向），本次随访管理状态代码 = 1，" + self.l_comment[0][i] + " != Null")
-                    total = total + count
-
-                    # 检查点4（反向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=2 where ehrNum='%s'" % ehrNum[0][0])
-                    self.execQuery("update  {varTable} set  {varField} =Null".format(varTable=varTable, varField=varField))
-                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点4（反向），本次随访管理状态代码 = 2，" + self.l_comment[0][i] + " = Null")
-                    total = total + count
-
-                    # 检查点5（反向）
-                    self.execQuery("update tb_dc_dm_visit set vistStatusCode=2 where ehrNum='%s'" % (ehrNum[0][0]))
-                    self.execQuery("update  {varTable} set  {varField} ='2021-03-15'".format(varTable=varTable, varField=varField))
-                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点5（反向），本次随访管理状态代码 = 2，" + self.l_comment[0][i] + " != Null")
-                    total = total + count
-
-                    if total == 5:
-                        return "ok"
-                    else:
-                        return "error"
-                except:
-                    Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
-                    exit()
-
+    # 接受过何种形式的健康教育未填写
     def sql2427(self, ruleId, idCardNo):
-        # 接受过何种形式的健康教育未填写()
 
         count = 0
         total = 0
         for i in range(len(self.l_ruleId[0])):
             if ruleId == self.l_ruleId[0][i]:
-                print('\n\033[1;31;38m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
+                print('\n\033[1;31;30m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
 
                 try:
                     # 1，数据准备
@@ -569,14 +545,156 @@ class RulePO(object):
                         count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点2（正向），是否接受过健康教育 = NuLL ，接受健康教育形式 = Null")
                         total = total + count
 
+                        # 检查点3（反向）
+                        self.execQuery("update  tb_dc_dm_visit set  isAcceptHealthEdu =2 where ehrNum='%s'" % ehrNum[0][0])
+                        self.execQuery("update  tb_dc_dm_visit set  healthEduType =null where ehrNum='%s'" % ehrNum[0][0])
+                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点3（反向），是否接受过健康教育 = 2 ，接受健康教育形式 = Null")
+                        total = total + count
+                        #  
+                        # 检查点4（反向）
+                        self.execQuery("update  tb_dc_dm_visit set  isAcceptHealthEdu =1 where ehrNum='%s'" % ehrNum[0][0])
+                        self.execQuery("update  tb_dc_dm_visit set  healthEduType =1 where ehrNum='%s'" % ehrNum[0][0])
+                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点4（反向），是否接受过健康教育 = 1 ，接受健康教育形式 != Null")
+                        total = total + count
 
+                        # 检查点5（反向）
+                        self.execQuery("update  tb_dc_dm_visit set  isAcceptHealthEdu = null where ehrNum='%s'" % ehrNum[0][0])
+                        self.execQuery("update  tb_dc_dm_visit set  healthEduType =1 where ehrNum='%s'" % ehrNum[0][0])
+                        count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点5（反向），是否接受过健康教育 = null ，接受健康教育形式 != Null")
+                        total = total + count
 
-                        if total == 9:
-                            return "ok"
+                        if total == 5:
+                            Openpyxl_PO.setCellValue(i + 2, 22, "ok", ['c6efce', '006100'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['c6efce', '006100'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 20, "N", "", "rule")
                         else:
-                            return "error"
+                            Openpyxl_PO.setCellValue(i + 2, 22, "error", ['ffc7ce', '9c0006'], "rule")
+                            Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
+                        Openpyxl_PO.save()
                     else:
                         Color_PO.consoleColor("31", "31", "[ERROR]" + self.l_ruleSql[0][i], ", 随访记录必须2条及以上！")
+                except:
+                    Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
+                    exit()
+
+
+
+    # 高血压，本次随访管理状态代码 与 XXX未填写 （字符型或日期）
+    def btn5(self, ruleId, idCardNo, varTable, varField):
+
+        self.isTestData(idCardNo)
+        count = 0
+        total = 0
+        for i in range(len(self.l_ruleId[0])):
+            if ruleId == self.l_ruleId[0][i]:
+                print('\n\033[1;31;30m', str(i+2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i]  + ", " +  self.l_ruleSql[0][i], '\033[0m')
+                try:
+                    # 1，检查点
+                    if varField == "nextVisiDate" or varField == "sportTime" or varField == "visitDate":
+                        orig_fields = self.execQuery("SELECT htn.guid, htn.visitDate FROM tb_dc_htn_visit AS htn inner join tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                        # print(orig_fields[0][0])  # BFF11611-7FE7-45CE-B417-8CBD122C1743
+                        # print(orig_fields[0][1])  # 1990-09-01 00:00:00
+                        #
+                        # print(orig_fields[1][0])  # dbf4fb1fe2ec4486b25ca0cf3c56dedd
+                        # print(orig_fields[1][1])  # # 1990-09-14 00:00:00
+
+                    # 检查点1（正向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET vistStatusCode = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    self.execQuery("UPDATE {varTable} SET {varField} = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点1（正向），本次随访管理状态代码 = Null，" + self.l_comment[0][i].replace("未填写", "") + " = Null")
+                    total = total + count
+
+                    # # 检查点2（正向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET vistStatusCode = 1 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    self.execQuery("UPDATE {varTable} SET {varField} = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    count = self.runRule("正向", self.l_ruleSql[0][i], idCardNo, "检查点2（正向），本次随访管理状态代码 = 1，" + self.l_comment[0][i].replace("未填写", "") + " = Null")
+                    total = total + count
+
+                    # 检查点3（反向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET vistStatusCode = 2 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    self.execQuery("UPDATE {varTable} SET {varField} = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点3（反向），本次随访管理状态代码 = 2，" + self.l_comment[0][i].replace("未填写", "") + " = Null")
+                    total = total + count
+
+                    # # 检查点4（反向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET vistStatusCode = 1 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    if varField == "nextVisiDate" or varField == "sportTime" or varField == "visitDate":
+                        for j in range(len(orig_fields)):
+                            self.execQuery("update {varTable} set {varField} =CONVERT(varchar(100), '%s', 20) where guid='%s' and guid in (SELECT htn.guid FROM tb_dc_htn_visit AS htn inner join tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s')".format(varTable=varTable, varField=varField) %(orig_fields[j][1], orig_fields[j][0], idCardNo))
+                    else:
+                        self.execQuery("UPDATE {varTable} SET {varField} = '1' FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'".format(varTable=varTable, varField=varField) % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点4（反向），本次随访管理状态代码 = 1，" + self.l_comment[0][i].replace("未填写", "") + " != Null")
+                    total = total + count
+
+                    # # 检查点5（反向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET vistStatusCode = 2 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo ='%s'" % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点5（反向），本次随访管理状态代码 = 2，" + self.l_comment[0][i].replace("未填写", "") + " != Null")
+                    total = total + count
+
+                    if total == 5:
+                        Openpyxl_PO.setCellValue(i + 2, 20, "N", "", "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 22, "ok", ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['c6efce', '006100'], "rule")
+                    else:
+                        Openpyxl_PO.setCellValue(i + 2, 22, "error", ['ffc7ce', '9c0006'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
+                    Openpyxl_PO.save()
+                except:
+                    Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
+                    exit()
+
+    # 接受过何种形式的健康教育未填写
+    def sql1910(self, ruleId, idCardNo):
+
+        count = 0
+        total = 0
+        for i in range(len(self.l_ruleId[0])):
+            if ruleId == self.l_ruleId[0][i]:
+                print('\n\033[1;31;30m',str(i + 2) + ", " + self.l_comment[0][i] + ", " + self.l_ruleId[0][i] + ", " + self.l_ruleSql[0][i], '\033[0m')
+
+                try:
+
+                    # # 1，检查点
+
+                    # # 检查点1（正向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET isAcceptHealthEdu = 1 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    self.execQuery("UPDATE tb_dc_htn_visit SET healthEduType  = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点1（正向），是否接受过健康教育 = 1 ，接受过何种形式的健康教育 = Null")
+                    total = total + count
+
+                    # # # 检查点2（正向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET isAcceptHealthEdu = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    self.execQuery("UPDATE tb_dc_htn_visit SET healthEduType  = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    count = self.runRule("正", self.l_ruleSql[0][i], idCardNo, "检查点2（正向），是否接受过健康教育 = null ，接受过何种形式的健康教育 = Null")
+                    total = total + count
+
+                    # 检查点3（反向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET isAcceptHealthEdu = 2 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    self.execQuery("UPDATE tb_dc_htn_visit SET healthEduType  = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点3（反向），是否接受过健康教育 = 2 ，接受过何种形式的健康教育 = Null")
+                    total = total + count
+                    #  
+                    # 检查点4（反向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET isAcceptHealthEdu = 1 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    self.execQuery("UPDATE tb_dc_htn_visit SET healthEduType  = 1 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点4（反向），是否接受过健康教育 = 1 ，接受过何种形式的健康教育 != Null")
+                    total = total + count
+
+                    # 检查点5（反向）
+                    self.execQuery("UPDATE tb_dc_htn_visit SET isAcceptHealthEdu = null FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    self.execQuery("UPDATE tb_dc_htn_visit SET healthEduType  = 1 FROM tb_dc_htn_visit AS htn INNER JOIN tb_dc_chronic_main AS cMain ON htn.OrgCode = cMain.orgCode AND htn.cardId = cMain.visitNum INNER JOIN tb_dc_chronic_info AS cInfo ON cInfo.orgCode = cMain.orgCode AND cInfo.manageNum = cMain.manageNum INNER JOIN tb_empi_index_root AS empi ON cInfo.empiGuid = empi.guid WHERE empi.idCardNo = '%s'" % idCardNo)
+                    count = self.runRule("", self.l_ruleSql[0][i], idCardNo, "检查点5（反向），是否接受过健康教育 = null ，接受过何种形式的健康教育 != Null")
+                    total = total + count
+
+                    if total == 5:
+                        Openpyxl_PO.setCellValue(i + 2, 22, "ok", ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['c6efce', '006100'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 20, "N", "", "rule")
+                    else:
+                        Openpyxl_PO.setCellValue(i + 2, 22, "error", ['ffc7ce', '9c0006'], "rule")
+                        Openpyxl_PO.setCellValue(i + 2, 23, Time_PO.getDatetime_divide(), ['ffc7ce', '9c0006'], "rule")
+                    Openpyxl_PO.save()
+
                 except:
                     Color_PO.consoleColor("31", "33", "[WARNING]", "数据库执行时报错!")
                     exit()
