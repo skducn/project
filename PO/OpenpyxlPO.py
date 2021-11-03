@@ -128,18 +128,26 @@ class OpenpyxlPO():
         columns = sh.max_column
         return [rows, columns]
 
+
     # 3 设置单元格的值(ok)
     def setCellValue(self, varRow, varCol, varContent, varColor, varSheet=0):
+        # 'c6efce', '006100'  背景色淡绿底，字体深绿色
+        # ['ffffff', '000000'] 白色，黑色
+        # ['ffeb9c', '000000'] 橙色，黑色
         # Openpyxl_PO.setCellValue(5, 3, "777777",['ffffff', '000000'])  # 对第一个sheet表的第5行第3列写入数据
-        # Openpyxl_PO.setCellValue(5, 3, "12345678", ['ffeb9c', '000000'],"python")  # 对python工作表的的第5行第3列写入数据
+        # Openpyxl_PO.setCellValue(5, 3, "12345678", ['ffeb9c', '000000'],"python")  # 对python工作表的的第5行第3列写入数据，
+        # Openpyxl_PO.setCellValue(5, 3, "12345678", "","python")  # 对python工作表的的第5行第3列写入数据
         try:
             sh = self.sh(varSheet)
+            if varColor == "":
+                sh.cell(row=varRow, column=varCol, value=varContent)
+                sh.cell(row=varRow, column=varCol, value=varContent)
+            else:
+                fille = PatternFill('solid', fgColor=varColor[0])  # 填充色
+                font = Font(u'微软雅黑', size=11, bold=True, italic=False, strike=False, color=varColor[1])  # 字体样式和颜色
+                sh.cell(row=varRow, column=varCol, value=varContent).fill = fille
+                sh.cell(row=varRow, column=varCol, value=varContent).font = font
 
-            fille = PatternFill('solid', fgColor=varColor[0])  # 设置填充颜色为 橙色
-            font = Font(u'微软雅黑', size=11, bold=True, italic=False, strike=False, color=varColor[1])  # 设置字体样式
-            sh.cell(row=varRow, column=varCol, value=varContent).fill = fille
-            sh.cell(row=varRow, column=varCol, value=varContent).font = font
-            # self.wb.save(self.file)
         except:
             Color_PO.consoleColor("31", "31", "[ERROR] ", "call " + sys._getframe(1).f_code.co_name + " (line " + str(
                 sys._getframe(1).f_lineno) + ", call " + sys._getframe(
@@ -454,7 +462,7 @@ if __name__ == "__main__":
     Openpyxl_PO = OpenpyxlPO("d:\\1.xlsx")
     Openpyxl_PO.save()
 
-    # # Openpyxl_PO.closeExcelPid('EXCEL.EXE')
+    Openpyxl_PO.closeExcelPid('EXCEL.EXE')
     # print(Openpyxl_PO.wb.sheetnames)
     #
     # print("1 新建excel".center(100, "-"))
