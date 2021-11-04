@@ -78,13 +78,24 @@ from PO import SqlserverPO, MysqlPO
 # ***************************************************************
 
 # EHR 电子健康档案(sqlserver)
-Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")  # 测试环境
-# Sqlserver_PO.dbDesc()  # 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
-Sqlserver_PO.dbDesc('tb_dc_dm_visit')   # 2，输出表结构信息S
-# Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，输出表的部分字段结构信息
-# Sqlserver_PO.dbDesc('tb_dc*')  # 4，输出tb_dc开头的表结构信息
-# Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，输出tb开头表中包含id或page字段的表结构信息
+Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "utf8")  # 测试环境
+# 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
+# Sqlserver_PO.dbDesc()
+
+# 2，输出单个表结构信息
+# Sqlserver_PO.dbDesc('tb_dc_dm_visit')
+
+# 3，输出单个表的部分字段结构信息
+Sqlserver_PO.dbDesc('tb_dc_dm_visit',  ['guid', 'name'])
+
+# 4，批量输出tb_dc开头的表结构信息
+# Sqlserver_PO.dbDesc('tb_dc_dm_*')
+
+# 5，批量输出tb开头表中包含id或page字段的表结构信息
+# Sqlserver_PO.dbDesc('tb_dc_dm_*', ['guid', 'drugTypeCodeSystem'])
+
 # sqlserver_PO.dbDesc('*', ["idCardNo", "ehrNum"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
+
 
 # Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.
 # Sqlserver_PO.dbRecord('*', 'varchar', '%高血压%')  # 搜索所有表符合条件的记录.

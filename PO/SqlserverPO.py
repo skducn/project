@@ -21,18 +21,29 @@
 
 #***************************************************************
 
+
+'''
+
+1 查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
+2 查找记录 dbRecord('*', 'money', '%34.5%')l
+3 判断字段是否存在
+4 获取所有字段
+5 获取字段的类型
+
+'''
+
 import pymssql, uuid
 # print(pymssql.__version__)
 from adodbapi import connect
 
 class SqlServerPO():
 
-    def __init__(self, varHost, varUser, varPassword, varDB):
-        # 类的构造函数，初始化DBC连接信息
+    def __init__(self, varHost, varUser, varPassword, varDB, varCharset):
         self.varHost = varHost
         self.varUser = varUser
         self.varPassword = varPassword
         self.varDB = varDB
+        self.varCharset = varCharset
 
     def __GetConnect123(self):
         # 得到数据库连接信息，返回conn.cursor()
@@ -51,19 +62,24 @@ class SqlServerPO():
         # 得到数据库连接信息，返回conn.cursor()
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
-        self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf8', autocommit=True)
-        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
-        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='CP936', autocommit=True, login_timeout=10)
-        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, autocommit=True)
+        if self.varCharset == "":
+            self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword,
+                                        database=self.varDB, autocommit=True)
+        else:
+            self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset=self.varCharset, autocommit=True)
+            # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf-8', autocommit=True)
+            # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
+            # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='CP936', autocommit=True, login_timeout=10)
+
         cur = self.conn.cursor()  # 创建一个游标对象
         if not cur:
             raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
         else:
             return cur
 
-    def ExecQuery(self, sql):
-        '''
-        执行查询语句
+    def execQuery(self, sql):
+
+        ''' 执行查询语句
         返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
         '''
 
@@ -82,9 +98,10 @@ class SqlServerPO():
         cur.close()
         self.conn.close()
         return result
-    def ExecQuery2(self, sql, param):
-        '''
-        执行查询语句
+
+    def execQueryParam(self, sql, param):
+
+        ''' 执行查询语句 (参数单独)
         返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
         '''
 
@@ -104,39 +121,36 @@ class SqlServerPO():
         self.conn.close()
         return result
 
-    def ExecProcedure(self, varProcedureName):
-        '''
-        执行存储过程
-        '''
+    def execProcedure(self, varProcedureName):
+
+        '''执行存储过程'''
+
+        # execProcedure(存储过程名)
 
         cur = self.__GetConnect()
         # sql =[]
         # sql.append("exec procontrol")
-
         # cur.callproc(varProcedureName)
-
         cur.execute(varProcedureName)
         self.conn.commit()
-
-
         cur.close()  # 关闭游标
         self.conn.close()  # 关闭连接
 
-    def ExecQueryBySQL(self, varPathSqlFile):
+    def execSqlFile(self, varPathSqlFile):
 
         '''执行sql文件语句'''
 
+        # execQueryBySQL('D:\\51\\python\\project\\instance\\zyjk\\EHR\\controlRule\\mm.sql')
         cur = self.__GetConnect()
         with open(varPathSqlFile) as f:
-        # with open('D:\\51\\python\\project\\instance\\zyjk\\EHR\\controlRule\\mm.sql') as f:
             sql = f.read()
             cur.execute(sql)
             self.conn.commit()
             self.conn.close()
 
-    def ExecQueryBySQL1(self, varPathSqlFile):
+    def execSqlFile2(self, varPathSqlFile):
 
-        '''执行sql文件语句'''
+        '''执行sql文件语句2'''
 
         cur = self.__GetConnect()
         with open(varPathSqlFile) as f:
@@ -147,8 +161,12 @@ class SqlServerPO():
             # self.conn.commit()
             self.conn.close()
 
+
+    # 1 查看数据库表结构
     def dbDesc(self, *args):
-        ''' 查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 '''
+
+        ''' 查看数据库表结构（字段、类型、大小、可空、注释） '''
+        # 注意，表名区分大小写
         # Sqlserver_PO.dbDesc()  # 1，所有表结构
         # Sqlserver_PO.dbDesc('tb_code_value')   # 2，某个表结构
         # Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，某表的部分字段
@@ -277,6 +295,7 @@ class SqlServerPO():
                             print("\n")
             elif "*" not in varTable:
                 # 2，某个表结构
+
                 sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
                     varTable)
                 try:
@@ -321,7 +340,7 @@ class SqlServerPO():
             # 查看单表或多表的可选字段表结构
             varTable = args[0]
             l_fields = args[1]
-            # print(l_fields)
+
             if "*" in varTable:
 
                 # 5，查看所有b开头的表中id字段的结构（通配符*）
@@ -411,7 +430,9 @@ class SqlServerPO():
                             raise e
 
             elif "*" not in varTable:
-                # 3，某表的部分字段
+                # 3，输出单个表的部分字段结构信息
+
+
                 sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
                     varTable)
                 try:
@@ -429,13 +450,10 @@ class SqlServerPO():
                         tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
                                   x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
 
-                    # print("*" * 100 + "\n" + str(
-                    #     tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                    #               x - 3),
-                    #       "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
+
                     for row in results:
                         # 遍历字段、类型、大小、可空、注释
-                        if row[1] in varFields:
+                        if row[1] in l_fields:
                             if row[5] != None:
                                 if row[4] == True:
                                     print(row[1] + " " * (x - len(row[1]) + 1),
@@ -464,9 +482,11 @@ class SqlServerPO():
                     print("\n")
         self.conn.close()
 
+
+    # 2 查找记录
     def dbRecord(self, varTable, varType, varValue):
-        '''
-        # 模糊搜索关键字,显示记录
+
+        ''' 查找记录
         # 参数1：varTable = 表名（*表示所有的表）
         # 参数2：varType = 数据类型(char,int,double,timestamp)
         # 参数3：varValue = 值 (支持%模糊查询，如 %yy%)
@@ -544,61 +564,81 @@ class SqlServerPO():
             print("\n" + varType + "类型不存在，如：float,money,int,nchar,nvarchar,datetime,timestamp")
         self.conn.close()
 
-    def getAllFields(self, *args):
-        ''' 获取某表结构所有字段 '''
-        # Sqlserver_PO.dbDesc('tb_code_value')
 
-        self.cur = self.__GetConnect()
-        dict1 = {}
-        list1 = []
-        tblComment = "SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0"
-        self.cur.execute(tblComment)
-        tblComment = self.cur.fetchall()
-        for t in tblComment:
-            if t[1] != None:
-                dict1[t[0]] = t[1].decode('utf8')
-            else:
-                dict1[t[0]] = t[1]
-        # print(dict1)
-        varTable = args[0]
-        sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
-            varTable)
+    # 3 判断字段是否存在
+    def isField(self, varTable, varField):
+
+        ''' 判断字段是否存在，返回True或False '''
+        # isField("tb_dc_htn_visit", "name")
+
+        r = self.ExecQuery("SELECT B.name as FieldName FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
+        for i in range(len(r)):
+            if r[i][0] == varField:
+                return True
+        return False
+
+
+    # 4 获取字段的类型
+    def getFieldType(self, varTable, varField):
+
+        ''' 获取字段的类型 '''
+        # Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate")
+
+        r = self.ExecQuery("SELECT B.name as FieldName, d.name as FieldType FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
+        for i in range(len(r)):
+            if r[i][0] == varField:
+                return r[i][1]
+        return None
+
+
+    # 5 获取所有字段
+    def l_getAllField(self, varTable):
+
+        ''' 获取所有字段 '''
+        # Sqlserver_PO.l_getAllField('HrCover')
+
         try:
-            self.cur.execute(sql)
-            results = self.cur.fetchall()
-            # tblName = results[0][0]
-            for row in results:
-                list1.append(row[1])
+            r = self.ExecQuery("SELECT B.name as FieldName FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
+            l_field = []
+            for i in range(len(r)):
+                l_field.append(r[i][0])
+            return l_field
+
         except Exception as e:
-            print(e, ",很抱歉，您搜索的表<" + varTable + ">不存在！")
-        # finally:
-        #     print("\n")
-        self.conn.close()
-        return list1
+            print(e, ",很抱歉，出现异常您搜索的<" + varTable + ">不存在！")
+
+
+    # 6 获取所有表名
+    def getAllTable(self):
+
+        ''' 获取所有表名 '''
+        try:
+            r = self.execQuery("SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0")
+            list1 = []
+            for i in range(len(r)):
+                list1.append(r[i][0])
+            return list1
+        except Exception as e:
+            print(e, ",很抱歉，出现异常！")
+            self.conn.close()
 
 
 
 if __name__ == '__main__':
 
-    # Sqlserver_PO = SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "bmlpimpro")  # PIM 测试环境
-    # l_result = Sqlserver_PO.ExecQuery('select receiptNo from t_ph_outin_info where receiptType=%s ' % (15))
-    # print(len(l_result))
-    # print(l_result)
-    # print(l_result[1])
-    # for (Value) in l_result:
-    #     print(Value)
 
+    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "GBK")  # EHR 测试环境
 
-    # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "healthcontrol_test")  # EHR质控 测试环境 （废弃）
-    # Sqlserver_PO = SqlServerPO("192.168.0.35", "test", "123456", "data_center_test1")  # EHR质控 测试环境  （废弃）
     # tmpList = Sqlserver_PO.ExecQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
-    # print(tmpList)
+    # l_result = Sqlserver_PO.ExecQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
+    # print(l_result)
+    # l_result = Sqlserver_PO.ExecQuery('select ehrNum from HrCover where id=%s ' % (1))
+    # l_result = Sqlserver_PO.ExecQuery('select convert(nvarchar(20), Name) from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
+    # l_result = Sqlserver_PO.ExecQuery('select Name from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
+    # print(l_result)
 
-    # ***************************************************************
-    # ***************************************************************
 
-    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC")  # EHR 测试环境
-
+    # print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
     # Sqlserver_PO.dbDesc()  # 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
     # Sqlserver_PO.dbDesc('HrCover')   # 2，输出表结构信息
     # Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，输出表的部分字段结构信息
@@ -606,18 +646,25 @@ if __name__ == '__main__':
     # Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，输出tb开头表中包含id或page字段的表结构信息
     # Sqlserver_PO.dbDesc('*', 'idCardNo,ehrNum')  # 5，输出所有表中包含idCardNo或ehrNum字段的表结构信息
 
+    # print("2 查找记录".center(100, "-"))
     # Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'varchar', '%高血压%')  # 搜索所有表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')l
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
     # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
 
-    # l = Sqlserver_PO.getAllFields('HrCover')  # 获取表结构字段列表
-    # print(l)
+    # print("3 判断字段是否存在".center(100, "-"))
+    # print(Sqlserver_PO.isField("tb_dc_htn_visit", "name"))
+    #
+    # print("4 获取所有字段".center(100, "-"))
+    # print(Sqlserver_PO.l_getAllField('HrCover'))
+    #
+    # print("5 获取字段的类型".center(100, "-"))
+    # print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate"))
 
-    # l_result = Sqlserver_PO.ExecQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
-    # print(l_result)
-    # l_result = Sqlserver_PO.ExecQuery('select ehrNum from HrCover where id=%s ' % (1))
-    # l_result = Sqlserver_PO.ExecQuery('select convert(nvarchar(20), Name) from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
-    # l_result = Sqlserver_PO.ExecQuery('select Name from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
-    # print(l_result)
+    # print("6 获取所有表名".center(100, "-"))
+    # Sqlserver_PO2 = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "")  # charset不能传入
+    # print(Sqlserver_PO2.getAllTable())
+
+
+
