@@ -9,21 +9,21 @@
 # *****************************************************************
 
 from instance.zyjk.EHR.controlRule.PageObject.RulePO import *
-Rule_PO = RulePO()
+R = RulePO()
 
-# for i in range(Rule_PO.max_row-1):
-#     if Rule_PO.l_exec[0][i] !=  None:
-#         if Rule_PO.l_isRun[0][i] != 'N':
-#             exec(Rule_PO.l_exec[0][i])
+for i in range(R.max_row-1):
+    if R.l_isRun[0][i] != 'N' and R.l_exec[0][i] !=  None:
+        exec(R.l_exec[0][i])
+
+if platform.system() == 'Darwin':
+    os.system("open ./config/autoRule2.3.1.xlsx")
+if platform.system() == 'Windows':
+    os.system("start .\\config\\autoRule2.3.1.xlsx")
+
+
 #
-# if platform.system() == 'Darwin':
-#     os.system("open ./config/autoRule2.3.1.xlsx")
-# if platform.system() == 'Windows':
-#     os.system("start .\\config\\autoRule2.3.1.xlsx")
+# x = Rule_PO.getValuesByIdCardNo("31011019371125044X", "tb_dc_htn_visit", ["empiGuid", "orgCode","name"])
+# print(x[0][0])
+# print(x[0][1])
+# print(x[0][2])
 
-
-
-x = Rule_PO.getValuesByIdCardNo("31011019371125044X", "tb_dc_htn_visit", ["empiGuid", "orgCode","name"])
-print(x[0][0])
-print(x[0][1])
-print(x[0][2])

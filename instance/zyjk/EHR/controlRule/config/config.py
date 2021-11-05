@@ -13,7 +13,7 @@ Openpyxl_PO.closeExcelPid('EXCEL.EXE')
 l_RowCol = Openpyxl_PO.l_getTotalRowCol("rule")
 # print(l_RowCol[0])
 # 获取 ruleId,ruleSql,comment,a执行
-l_ruleId = (Openpyxl_PO.l_getColDataByPartCol([1], [1], "rule"))
+id = (Openpyxl_PO.l_getColDataByPartCol([1], [1], "rule"))
 l_ruleSql = (Openpyxl_PO.l_getColDataByPartCol([6], [1], "rule"))
 l_comment = (Openpyxl_PO.l_getColDataByPartCol([7], [1], "rule"))
 l_isRun = (Openpyxl_PO.l_getColDataByPartCol([20], [1], "rule"))

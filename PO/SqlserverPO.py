@@ -571,7 +571,7 @@ class SqlServerPO():
         ''' 判断字段是否存在，返回True或False '''
         # isField("tb_dc_htn_visit", "name")
 
-        r = self.ExecQuery("SELECT B.name as FieldName FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
+        r = self.execQuery("SELECT B.name as FieldName FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
         for i in range(len(r)):
             if r[i][0] == varField:
                 return True
@@ -584,7 +584,7 @@ class SqlServerPO():
         ''' 获取字段的类型 '''
         # Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate")
 
-        r = self.ExecQuery("SELECT B.name as FieldName, d.name as FieldType FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
+        r = self.execQuery("SELECT B.name as FieldName, d.name as FieldType FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
         for i in range(len(r)):
             if r[i][0] == varField:
                 return r[i][1]
@@ -598,7 +598,7 @@ class SqlServerPO():
         # Sqlserver_PO.l_getAllField('HrCover')
 
         try:
-            r = self.ExecQuery("SELECT B.name as FieldName FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
+            r = self.execQuery("SELECT B.name as FieldName FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
             l_field = []
             for i in range(len(r)):
                 l_field.append(r[i][0])
@@ -629,12 +629,12 @@ if __name__ == '__main__':
 
     Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "GBK")  # EHR 测试环境
 
-    # tmpList = Sqlserver_PO.ExecQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
-    # l_result = Sqlserver_PO.ExecQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
+    # tmpList = Sqlserver_PO.execQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
+    # l_result = Sqlserver_PO.execQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
     # print(l_result)
-    # l_result = Sqlserver_PO.ExecQuery('select ehrNum from HrCover where id=%s ' % (1))
-    # l_result = Sqlserver_PO.ExecQuery('select convert(nvarchar(20), Name) from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
-    # l_result = Sqlserver_PO.ExecQuery('select Name from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
+    # l_result = Sqlserver_PO.execQuery('select ehrNum from HrCover where id=%s ' % (1))
+    # l_result = Sqlserver_PO.execQuery('select convert(nvarchar(20), Name) from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
+    # l_result = Sqlserver_PO.execQuery('select Name from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
     # print(l_result)
 
 
@@ -660,7 +660,8 @@ if __name__ == '__main__':
     # print(Sqlserver_PO.l_getAllField('HrCover'))
     #
     # print("5 获取字段的类型".center(100, "-"))
-    # print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate"))
+    print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "guid"))
+    print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate"))
 
     # print("6 获取所有表名".center(100, "-"))
     # Sqlserver_PO2 = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "")  # charset不能传入
