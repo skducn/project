@@ -37,7 +37,7 @@ from PO.ListPO import *
 List_PO = ListPO()
 
 from PO import SqlserverPO
-Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "GBK")  # 测试环境
+Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "")  # 测试环境
 
 # 日志文件
 # logFile = './log/controlRul_' + Time_PO.getDate() + '.log'
