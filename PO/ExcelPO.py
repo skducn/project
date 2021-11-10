@@ -41,7 +41,7 @@ import pandas as pd
 import openpyxl
 import openpyxl.styles
 from openpyxl.styles import PatternFill
-import win32com.client as win32
+# import win32com.client as win32
 import openpyxl, sys, platform, os, psutil
 from time import sleep
 
