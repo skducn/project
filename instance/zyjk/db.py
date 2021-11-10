@@ -78,15 +78,16 @@ from PO import SqlserverPO, MysqlPO
 # ***************************************************************
 
 # EHR 电子健康档案(sqlserver)
-Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "utf8")  # 测试环境
+# Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "utf8")  # 测试环境
+Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRITF", "utf8")  # 测试环境
 # 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
 # Sqlserver_PO.dbDesc()
 
 # 2，输出单个表结构信息
-# Sqlserver_PO.dbDesc('tb_dc_dm_visit')
+Sqlserver_PO.dbDesc('tb_')
 
 # 3，输出单个表的部分字段结构信息
-Sqlserver_PO.dbDesc('tb_dc_dm_visit',  ['guid', 'name'])
+# Sqlserver_PO.dbDesc('tb_code_value',  ['guid', 'name'])
 
 # 4，批量输出tb_dc开头的表结构信息
 # Sqlserver_PO.dbDesc('tb_dc_dm_*')
