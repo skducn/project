@@ -24,14 +24,14 @@
 # *********************************************************************
 
 from openpyxl import load_workbook
-import openpyxl, sys, platform, os, psutil
+import openpyxl, sys, platform, os
 import openpyxl.styles
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font  # 导入字体模块
 from openpyxl.styles import PatternFill  # 导入填充模块
 from datetime import date
 from time import sleep
-
+# psutil
 from PO.ColorPO import *
 Color_PO = ColorPO()
 from PO.CharPO import *
@@ -149,9 +149,11 @@ class OpenpyxlPO():
                 sh.cell(row=varRow, column=varCol, value=varContent).font = font
 
         except:
-            Color_PO.consoleColor("31", "31", "[ERROR] ", "call " + sys._getframe(1).f_code.co_name + " (line " + str(
-                sys._getframe(1).f_lineno) + ", call " + sys._getframe(
-                0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')")
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+            # Color_PO.consoleColor("31", "31", "[ERROR] ", "call " + sys._getframe(1).f_code.co_name + " (line " + str(
+            #     sys._getframe(1).f_lineno) + ", call " + sys._getframe(
+            #     0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')")
 
     # 4 批量设置单元格的值(ok)
     def setMoreCellValue(self, varList_Row_Col_Content, varSheet=0):

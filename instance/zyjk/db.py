@@ -84,10 +84,10 @@ Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRI
 # Sqlserver_PO.dbDesc()
 
 # 2，输出单个表结构信息
-Sqlserver_PO.dbDesc('tb_')
+Sqlserver_PO.dbDesc('itf_tb_chronic_main')
 
 # 3，输出单个表的部分字段结构信息
-# Sqlserver_PO.dbDesc('tb_code_value',  ['guid', 'name'])
+# Sqlserver_PO.dbDesc('ITF_TB_EXAMINATION_INFO',  ['registerTypeCode', 'name'])
 
 # 4，批量输出tb_dc开头的表结构信息
 # Sqlserver_PO.dbDesc('tb_dc_dm_*')
