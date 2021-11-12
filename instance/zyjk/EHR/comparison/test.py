@@ -18,7 +18,7 @@ from time import sleep
 
 
 # 初始化数据
-os.system('d: && cd /myGit/testTeam/ehr/comparison && git pull &&  copy EHR_itf与dc数据比对表.xlsx D:\\51\\python\\project\\instance\\zyjk\\EHR\\comparison')
+# os.system('d: && cd /myGit/testTeam/ehr/自动化/comparison && git pull &&  copy EHR.xlsx D:\\51\\python\\project\\instance\\zyjk\\EHR\\comparison')
 Openpyxl_PO = OpenpyxlPO("EHR_itf与dc数据比对表.xlsx")
 Openpyxl_PO.clsColData(4)
 Sqlserver_PO_itf = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRITF")
@@ -104,6 +104,6 @@ for i in range(len(r_itf_ITF_TB_EHR_MAIN_INFO_icCardNo)):
 
 # 将结果保存到git
 currDate = Time_PO.getDate()
-currDate = "EHR_itf与dc数据比对表_" + str(currDate) + ".xlsx"
-os.system('copy EHR_itf与dc数据比对表.xlsx D:\\myGit\\testTeam\\EHR\\comparison\\result\\' + currDate + '&& cd D:\\myGit\\testTeam\ && git add . && git commit -m "add result" && git push')
+currDate = "EHR_" + str(currDate) + ".xlsx"
+os.system('copy EHR.xlsx D:\\myGit\\testTeam\\EHR\\自动化\\comparison\\' + currDate + '&& cd D:\\myGit\\testTeam\ && git add . && git commit -m "add result" && git push')
 

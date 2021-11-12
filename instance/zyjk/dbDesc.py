@@ -5,9 +5,10 @@
 # Description: dbDesc()搜索表结构 from cmd
 # *****************************************************************
 import sys
-sys.path.append("D:\\51\\python\\project")
-from Public.PageObject.SqlServerPO import *
-from Public.PageObject.MysqlPO import *
+# sys.path.append("D:\\51\\python\\project")
+sys.path.append("../../")
+from PO.SqlserverPO import *
+from PO.MysqlPO import *
 
 if len(sys.argv) == 1 :
     print(u"\n功能：搜索表结构或记录\n"      

@@ -21,9 +21,3 @@ if platform.system() == 'Windows':
     os.system("start .\\config\\autoRule2.3.1.xlsx")
 
 
-#
-# x = Rule_PO.getValuesByIdCardNo("31011019371125044X", "tb_dc_htn_visit", ["empiGuid", "orgCode","name"])
-# print(x[0][0])
-# print(x[0][1])
-# print(x[0][2])
-
