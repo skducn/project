@@ -14,8 +14,12 @@ from PO.ListPO import *
 List_PO = ListPO()
 from PO.ColorPO import *
 Color_PO = ColorPO()
+from PO.TimePO import *
+Time_PO = TimePO()
 from time import sleep
 
+
+# os.system('d: && cd /myGit/testTeam/ehr/自动化/comparison && git pull &&  copy EHR.xlsx D:\\51\\python\\project\\instance\\zyjk\\EHR\\comparison')
 
 # 初始化数据
 Openpyxl_PO = OpenpyxlPO("EHR.xlsx")
@@ -25,7 +29,7 @@ Sqlserver_PO_dc = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "")
 
 
 # 测试次数（随机身份证）
-QTY = 3
+QTY = 1
 
 # 输出比对字段数量
 print((" 测试" + str(Openpyxl_PO.l_getTotalRowCol()[0]-1) + "个字段 ").center(100, "-"))
@@ -158,14 +162,13 @@ for i in range(QTY):
     # 执行比对
     l_all = Openpyxl_PO.l_getRowData()
     c = 0
-    left =""
+    left = ""
     right = ""
     for k in range(len(l_all)):
-        # if l_all[i][2] == "比对结果" or l_all[i][2] == "error":
-        if l_all[k][2] == "比对结果" :
+        if l_all[k][2] == "核对结果":
             c = c + 1
         else:
-
+            # itf库
             if str(l_all[k][0]).split(".")[0] == "ITF_TB_EHR_MAIN_INFO":
                 left = (d_ITF_TB_EHR_MAIN_INFO[str(l_all[k][0]).split(".")[1]])
             if str(l_all[k][0]).split(".")[0] == "ITF_TB_EXAMINATION_INFO":
@@ -174,7 +177,7 @@ for i in range(QTY):
                 left = (d_ITF_TB_HTN_VISIT[str(l_all[k][1]).split(".")[1]])
             if str(l_all[k][0]).split(".")[0] == "ITF_TB_DM_VISIT":
                 left = (d_ITF_TB_DM_VISIT[str(l_all[k][1]).split(".")[1]])
-
+            # dc库
             if str(l_all[k][1]).split(".")[0] == "HrCover":
                 right = (d_HrCover[str(l_all[k][1]).split(".")[1]])
             if str(l_all[k][1]).split(".")[0] == "HrPersonBasicInfo":
@@ -186,8 +189,7 @@ for i in range(QTY):
             if str(l_all[k][1]).split(".")[0] == "tb_dc_dm_visit":
                 right = (d_tb_dc_dm_visit[str(l_all[k][1]).split(".")[1]])
 
-            # print(left)
-            if left == right  :
+            if left == right:
                 if Openpyxl_PO.getCellValue(c + 1, 4) == None:
                     Openpyxl_PO.setCellValue(c + 1, 3, "ok", ['ffffff', '000000'])
                 else:
@@ -202,9 +204,15 @@ for i in range(QTY):
                     Openpyxl_PO.setCellValue(c + 1, 4, x, ['ffffff', '000000'])
 
                 # 控制台只输出错误结果：
-
                 print(str(k+1) + "行，" + str(l_all[k][0]) + "(" + str(left) + ") <> " + str(l_all[k][1]) + "(" + str(right) + ")")
+                # 如 ：357行，ITF_TB_DM_VISIT.targetOrgName(窦*青) <> tb_dc_dm_visit.targetOrgName(None)
 
             c = c + 1
             Openpyxl_PO.save()
     print("\n")
+
+# # 将结果保存到git
+# currDate = Time_PO.getDate()
+# currDate = "EHR_" + str(currDate) + ".xlsx"
+# os.system('copy EHR.xlsx D:\\myGit\\testTeam\\EHR\\自动化\\comparison\\' + currDate + '&& cd D:\\myGit\\testTeam\ && git add . && git commit -m "add result" && git push')
+#
