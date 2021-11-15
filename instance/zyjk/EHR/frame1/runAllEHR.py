@@ -12,12 +12,12 @@ import unittest
 from parameterized import parameterized
 from BeautifulReport import BeautifulReport as bf
 
-from instance.zyjk.EHR.frame1.configEmail import *
-email = Email()
+# from instance.zyjk.EHR.frame1.configEmail import *
+# email = Email()
 
 import instance.zyjk.EHR.frame1.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
-on_off = localReadConfig.get_email("on_off")
+# on_off = localReadConfig.get_email("on_off")
 
 from instance.zyjk.EHR.frame1.iDriven import *
 http = HTTP()
