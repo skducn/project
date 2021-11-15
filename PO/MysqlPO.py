@@ -526,6 +526,8 @@ class MysqlPO():
 if __name__ == '__main__':
 
     pass
+
+
     # 195_saas_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)
     # Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % ("陈一机构"))
@@ -592,9 +594,10 @@ if __name__ == '__main__':
     # 201_禅道 >>>>>>>>>>>>>>>>>>>>>>>>>>>
     # mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306)
 
+    # 招远防疫 >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)
+    Mysql_PO.dbDesc()  # 所有表结构
 
-
-    # Mysql_PO.dbDesc()  # 所有表结构
     # Mysql_PO.dbDesc('user')   # 指定表结构
     # Mysql_PO.dbDesc('u*')  # u开头的表结构（通配符*）
     # Mysql_PO.dbDesc('use*', 'USER_NAME', 'KEY_SN', "BYNAME")  # 搜索符合条件字段的u开头的表结构

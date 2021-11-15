@@ -31,7 +31,7 @@ from openpyxl.styles import Font  # 导入字体模块
 from openpyxl.styles import PatternFill  # 导入填充模块
 from datetime import date
 from time import sleep
-# psutil
+import psutil
 from PO.ColorPO import *
 Color_PO = ColorPO()
 from PO.CharPO import *

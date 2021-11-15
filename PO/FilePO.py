@@ -407,7 +407,9 @@ if __name__ == "__main__":
     # print(File_PO.getFileSize("D:\\51\\python\\project\\PO\\FilePO\\test.txt"))  # 46
     #
     # print("3.6 分割路径和文件名".center(100, "-"))
-    # print(os.path.split('D:\\51\\python\\project\\PO\\123.txt'))  # ('D:\\51\\python\\project\\PO', '123.txt')
+    print(os.path.split('D:\\51\\python\\project\\PO\\123.txt'))  # ('D:\\51\\python\\project\\PO', '123.txt')
+    x = os.path.split('D:\\51\\python\\project\\PO\\123.txt')
+    print(x[1])
     # varPath, varFile = os.path.split("E:/lpthw/zedshaw/ex19.py")
     # print(varPath)  # E:/lpthw/zedshaw
     # print(varFile)  # ex19.py

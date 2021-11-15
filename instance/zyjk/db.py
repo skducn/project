@@ -77,14 +77,16 @@ from PO import SqlserverPO, MysqlPO
 # ***************************************************************
 # ***************************************************************
 
+
+
 # EHR 电子健康档案(sqlserver)
 # Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "utf8")  # 测试环境
-Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRITF", "utf8")  # 测试环境
+# Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRITF", "utf8")  # 测试环境
 # 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
 # Sqlserver_PO.dbDesc()
 
 # 2，输出单个表结构信息
-Sqlserver_PO.dbDesc('itf_tb_chronic_main')
+# Sqlserver_PO.dbDesc('itf_tb_chronic_main')
 
 # 3，输出单个表的部分字段结构信息
 # Sqlserver_PO.dbDesc('ITF_TB_EXAMINATION_INFO',  ['registerTypeCode', 'name'])
@@ -113,6 +115,8 @@ Sqlserver_PO.dbDesc('itf_tb_chronic_main')
 
 
 # **********************************************************************************************************************************
+mysql_PO = MysqlPO.MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 测试环境
+# mysql_PO.dbDesc()   # 所有表结构
 
 # 盛蕴CRM小程序(mysql)
 # mysql_PO = MysqlPO.MysqlPO("192.168.0.233", "ceshi", "123456", "TD_APP", 3336)  # 测试环境
@@ -122,7 +126,7 @@ Sqlserver_PO.dbDesc('itf_tb_chronic_main')
 # mysql_PO.dbDesc('fact*', 'Id,page')  # 查看所有b开头的表中id字段的结构（通配符*）
 # mysql_PO.dbDesc('app_info', 'id,mid')   # 查看book表id,page字段的结构
 # mysql_PO.dbRecord('user','char', '%13816109050%')  # 搜索myclass表中内容包含yoyo的char类型记录。
-# mysql_PO.dbRecord('*', 'char', '13816109050')  # 模糊搜索所有表中带yoy的char类型。
+mysql_PO.dbRecord('*', 'char', '金浩')  # 模糊搜索所有表中带yoy的char类型。
 # mysql_PO.dbRecord('*', 'varchar', u'%一次性使用有创压力传感器%')  # 模糊搜索所有表中带35的double类型。
 # mysql_PO.dbRecord('*', 'datetime', u'%2019-04-12 15:13:23%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
 # mysql_PO.dbCreateDate()   # 查看所有表的创建时间
