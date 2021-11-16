@@ -4,16 +4,31 @@
 # Date          : 2021-11-15
 # Description   : 招远防疫 epidemic 接口自动化
 # 接口文档：http://192.168.0.237:8001/swagger-ui.html
-# md5在线加密  https://md5jiami.51240.com/
+# web页：http://192.168.0.243:8002/admin/notice/index  （测试243， 开发237）
 # *****************************************************************
 
 import unittest
 from parameterized import parameterized
 from BeautifulReport import BeautifulReport as bf
+from PO.MysqlPO import *
 
 import instance.zyjk.epidemic.frame1.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
-# on_off = localReadConfig.get_email("on_off")
+
+if localReadConfig.get_system("switchENV") == "test":
+    db_ip = localReadConfig.get_test("db_ip")
+    db_username = localReadConfig.get_test("db_username")
+    db_password = localReadConfig.get_test("db_password")
+    db_port = localReadConfig.get_test("db_port")
+    db_database = localReadConfig.get_test("db_database")
+else:
+    db_ip = localReadConfig.get_dev("db_ip")
+    db_username = localReadConfig.get_dev("db_username")
+    db_password = localReadConfig.get_dev("db_password")
+    db_port = localReadConfig.get_dev("db_port")
+    db_database = localReadConfig.get_dev("db_database")
+
+Mysql_PO = MysqlPO(db_ip, db_username, db_password, db_database, db_port)
 
 from instance.zyjk.epidemic.frame1.iDriven import *
 http = HTTP()
@@ -21,30 +36,15 @@ http = HTTP()
 from instance.zyjk.epidemic.frame1.xls import *
 xls = XLS()
 
-from PO.MysqlPO import *
-Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)
-
 from PO.DataPO import *
 data_PO = DataPO()
 
-# l_interIsRun = (xls.getInterIsRun())  # 初始化inter中isRun执行筛选列表 ，[[], [], 3]
-# 获取接口文档中接口名与属性名，生成字典
-# print(xls.d_inter)
-# {'/inter/HTTP/auth': 'none', '/inter/HTTP/login': 'username,password', '/inter/HTTP/logout': 'test,userid,id'}
-
-
-# **********************************************************************************************************************************
 
 class run(unittest.TestCase):
     @parameterized.expand(xls.getCaseParam())
-    def test11(self, excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote):
+    def test11(self, excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_var):
         ' '
-        xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)
-
-        # if interMethod == "postLogin": xls.result(excelNo, interCase, interUrl, interMethod, dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)
-        # elif interMethod == "post": xls.result(excelNo, interCase, interUrl, interMethod, dict(eval(interParam)), interCheck, interExpected, d_KeyValueQuote)
-        # elif interMethod == "get": xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)
-        # else: xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_KeyValueQuote)   # postget
+        xls.result(excelNo, interCase, interUrl, interMethod, interParam, interCheck, interExpected, d_var)
 
 if __name__ == '__main__':
 
@@ -60,7 +60,3 @@ if __name__ == '__main__':
     if platform.system() == 'Windows':
         os.system("start .\\report\\report.html")
         os.system("start .\\config\\interface.xlsx")
-    # if on_off == 'on':
-    #     email.send_email()
-
-

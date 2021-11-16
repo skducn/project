@@ -131,7 +131,7 @@ class OpenpyxlPO():
 
     # 3 设置单元格的值(ok)
     def setCellValue(self, varRow, varCol, varContent, varColor, varSheet=0):
-        # 'c6efce', '006100'  背景色淡绿底，字体深绿色
+        # ['c6efce', '006100']  背景色淡绿底，字体深绿色
         # ['ffffff', '000000'] 白色，黑色
         # ['ffeb9c', '000000'] 橙色，黑色
         # Openpyxl_PO.setCellValue(5, 3, "777777",['ffffff', '000000'])  # 对第一个sheet表的第5行第3列写入数据
