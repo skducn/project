@@ -9,11 +9,21 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-x = ['老', '空', '老 糖', '糖\n1', '老', '空', '糖', '糖\n1', '糖', '空', '老 高', '高\n2', '老', '空', '老 高', '高\n2', '老 高 糖', '高\n1\n糖\n1', '老 高', '高\n2']
-list1 = []
-for i in range(len(x)):
- list1.append(x[i].replace("\n", ""))
-print(list1)
+d_var = '{"var11":"$.code","var12":"$.msg","var13":"$.data.list[0].name"}'
+for a in range(1, len(d_var.split("$."))):
+  var = d_var.split("$.")[a].split('"')[0]
+  var = "$." + var
+  print(var)
+  # x = jsonpath.jsonpath(d_response, expr=var)
+  # print(str(a) + ", " + str(x))
+  # d_var = d_var.replace(var, str(x[0]))
+
+
+# x = ['老', '空', '老 糖', '糖\n1', '老', '空', '糖', '糖\n1', '糖', '空', '老 高', '高\n2', '老', '空', '老 高', '高\n2', '老 高 糖', '高\n1\n糖\n1', '老 高', '高\n2']
+# list1 = []
+# for i in range(len(x)):
+#  list1.append(x[i].replace("\n", ""))
+# print(list1)
 
 
 

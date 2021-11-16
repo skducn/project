@@ -36,34 +36,36 @@ class ReadConfig:
         value = self.cf.get("SYSTEM", name)
         return value
 
-    def get_email(self, name):
-        value = self.cf.get("EMAIL", name)
+    def get_test(self, name):
+        value = self.cf.get("TEST", name)
         return value
 
-    def get_http(self, name):
-        value = self.cf.get("HTTP", name)
+    def get_dev(self, name):
+        value = self.cf.get("DEV", name)
         return value
 
-    def get_headers(self, name):
-        value = self.cf.get("HEADERS", name)
-        return value
 
-    def set_headers(self, name, value):
-        self.cf.set("HEADERS", name, value)
-        with open(configPath, 'w+') as f:
-            self.cf.write(f)
+    #
+    # def get_headers(self, name):
+    #     value = self.cf.get("HEADERS", name)
+    #     return value
 
-    def get_url(self, name):
-        value = self.cf.get("URL", name)
-        return value
+    # def set_headers(self, name, value):
+    #     self.cf.set("HEADERS", name, value)
+    #     with open(configPath, 'w+') as f:
+    #         self.cf.write(f)
 
-    def get_db(self, name):
-        value = self.cf.get("DATABASE", name)
-        return value
+    # def get_url(self, name):
+    #     value = self.cf.get("URL", name)
+    #     return value
+    #
+    # def get_db(self, name):
+    #     value = self.cf.get("DATABASE", name)
+    #     return value
 
 
 if __name__ == '__main__':
-    print(proDir)
-    print(configPath)
+    print(proDir)  # D:\51\python\project\instance\zyjk\epidemic\frame1
+    print(configPath)  # D:\51\python\project\instance\zyjk\epidemic\frame1\config\config.ini
     r = ReadConfig()
-    print(r.get_db('host'))
+    print(r.get_test('ip'))  # 192.168.0.243

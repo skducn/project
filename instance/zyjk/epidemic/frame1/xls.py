@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
-
+# *****************************************************************
+# Author        : John
+# Date          : 2021-11-15
+# Description   : 招远防疫 epidemic 接口自动化
+# 接口文档：http://192.168.0.237:8001/swagger-ui.html
+# web页：http://192.168.0.243:8002/admin/notice/index  （测试243， 开发237）
+# *****************************************************************
 import json, jsonpath
-
 import instance.zyjk.epidemic.frame1.readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 import reflection
 from PO.OpenpyxlPO import *
 from PO.DataPO import *
 Data_PO = DataPO()
+from PO.DictPO import *
+Dict_PO = DictPO()
 from datetime import datetime
 
 # 定义全局字典变量
@@ -31,7 +38,7 @@ class XLS:
         self.sheetCase = l_sheetNames[1]  # case工作表
         self.d_inter = {}
         self.Openpyxl_PO.clsColData(14, self.sheetCase)  # 清空 字典变量Value
-
+        self.dict1 = {}
 
     def getInterIsRun(self):
         """
@@ -112,11 +119,10 @@ class XLS:
         # print(l_isRun)
         return l_isRun
 
-
     def getCaseParam(self):
 
-        ''' step1，获取表格中每条用例（case,url,method,param,check,expected） '''
-        d_tmp = {}   # 临时字典变量
+        ''' step1，获取表格中每条用例（case,url,method,param,checkKey,checkExpectedValue,d_var） '''
+
         l_case = []
         l_casesuit = []
         sh = self.Openpyxl_PO.sh(self.sheetCase)
@@ -130,153 +136,65 @@ class XLS:
                 l_case.append(sh.cell(row=i+2, column=7).value)  # 接口url
                 l_case.append(sh.cell(row=i+2, column=8).value)  # 接口method
                 l_case.append(sh.cell(row=i+2, column=9).value)  # 接口param
-                l_case.append(sh.cell(row=i+2, column=10).value)  # 接口check
-                l_case.append(sh.cell(row=i+2, column=11).value)  # 接口expected
-
-                # { 字典变量key : 字典变量value引用 }
-                d_key = sh.cell(row=i + 2, column=12).value
-                d_value = sh.cell(row=i + 2, column=13).value
-                if d_key != None and d_key != None:
-                    if len(str(d_key).split(",")) > 1 and len(str(d_key).split(",")) == len(str(d_value).split(",")):
-                        # 多个key
-                        if len(str(d_key).split(",")) == len(str(d_value).split(",")):
-                            for i in range((len(str(d_key).split(",")))):
-                                if "{" in str(d_value).split(",")[i] and "}" in str(d_value).split(",")[i]:
-                                    d_value = str(str(d_value).split(",")[i]).replace("{", "").replace("}", "")
-                                    d_tmp[sh.cell(row=i + 2, column=12).value] = eval(d_value)
-                                else:
-                                    d_tmp[str(d_key).split(",")[i]] = str(d_value).split(",")[i]
-                    else:
-                        # 单个key
-                        if "{" in d_value and "}" in d_value:
-                            d_value = str(d_value).replace("{", "").replace("}", "")
-                            d_tmp[sh.cell(row=i + 2, column=12).value] = eval(d_value)  # 字典变量key = 字典变量value引用，如d_tmp['mycode'] = '$.code'
-                        else:
-                            d_tmp[sh.cell(row=i + 2, column=12).value] = sh.cell(row=i + 2, column=13).value  # 字典变量key = 字典变量value引用，如d_tmp['mycode'] = '$.code'
-
-                else:
-                    d_tmp[None] = None
-                l_case.append(d_tmp)
+                l_case.append(sh.cell(row=i+2, column=10).value)  # checkKey
+                l_case.append(sh.cell(row=i+2, column=11).value)  # checkExpectedValue
+                l_case.append(sh.cell(row=i+2, column=12).value)  # d_var
                 l_casesuit.append(l_case)
                 l_case = []
-                d_tmp = {}
         # print(l_casesuit)
 
         return l_casesuit
 
-
-    def result(self, excelNo, interCase, interUrl, interMethod, interParam, checkKey, checkExpectedValue, d_KeyValueQuote):
+    def result(self, excelNo, interCase, interUrl, interMethod, interParam, checkKey, checkExpectedValue, str_var):
 
         ''' step2，解析 '''
 
-
-        #  解析{ 字典变量key : 字典变量value引用 }
-        sh = self.Openpyxl_PO.sh(self.sheetCase)
-        for i in range(sh.max_row-1):
-            if sh.cell(row=i + 2, column=1).value == "N" or sh.cell(row=i + 2, column=1).value == "n":
-                pass
-            else:
-                key = sh.cell(row=i + 2, column=12).value
-                value = sh.cell(row=i + 2, column=14).value
-                # 检查字典变量value是否有值
-                if value != None:
-                    if "," in str(key) and "," in str(value):
-                        # 多个key
-                        if len(str(key).split(",")) == len(str(value).split(",")):
-                            for i in range((len(str(key).split(",")))):
-                                d_var[str(key).split(",")[i]] = str(value).split(",")[i]
-                    else:
-                        # 单个key
-                        d_var[key] = value
-
-        # 字典变量
-        # print(d_var)  # {'baidu': '不能是数字类型', 'test1': '1', 'test2': '200', 'test3': '政监888'}
-
-        # 返回值
-        if interMethod == "post":
+        if interParam != None:
             if "{{" in interParam:
-                for k in d_var:
+                for k in self.dict1 :
                     if "{{" + k + "}}" in interParam:
-                        interParam = str(interParam).replace("{{" + k + "}}", '"' + str(d_var[k]) + '"')
-                # print(interParam)
-            jsonres = reflection.run([interCase, interUrl, interMethod, dict(eval(interParam)), d_var])
-        else:
-            jsonres = reflection.run([interCase, interUrl, interMethod, interParam, d_var])
-        # print(jsonres)
+                        interParam = str(interParam).replace("{{" + k + "}}", '"' + str(self.dict1[k]) + '"')
+
+        jsonres, d_var_response = reflection.run([interCase, interUrl, interMethod, interParam, str_var])
+        if d_var_response != None:
+            self.dict1 = Dict_PO.getMergeDict2(self.dict1, d_var_response)
+        print("全局变量 => " + str(self.dict1))
         d_response = json.loads(jsonres)
-        # print(d_response)  # {'code': 200, 'msg': 'success', 'data': '/uploadFile/QR/1111何必呢code.jpg'}
 
-
-        # 判断 检查key是否存在? 如：$.code = 200
+        # 断言 checkKey = checkExcpetedValue 是否正确，如：$.code = 200
         try:
             checkTestValue = jsonpath.jsonpath(d_response, expr=checkKey)
-            checkTestValue = str(checkTestValue[0])
-            # print(checkTestValue)  # 200
-            # 判断interCheck值是否与expected相等?
+            checkTestValue = str(checkTestValue[0])  # 200
             if checkTestValue != checkExpectedValue:
-                self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
-                self.setCaseParam(excelNo, "Fail", d_KeyValueQuote, d_response)
+                # self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
+                self.setCaseParam(excelNo, "Fail", d_response)
                 assert checkTestValue == checkExpectedValue, "预期值是<" + checkExpectedValue + ">，而实测值是<" + checkTestValue + ">"
             else:
-                self.Openpyxl_PO.setCellColor(excelNo, 2, "00E400", self.sheetCase)
-                self.setCaseParam(excelNo, "OK", d_KeyValueQuote, d_response)
+                # self.Openpyxl_PO.setCellColor(excelNo, 2, "00E400", self.sheetCase)
+                self.setCaseParam(excelNo, "OK", d_response)
         except Exception as e:
             print(e.__traceback__)
-            self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
-            self.setCaseParam(excelNo, "Fail", d_KeyValueQuote, d_response)
+            # self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
+            self.setCaseParam(excelNo, "Fail", d_response)
             assert 1 == 0, "返回字典中未找到：" + str(checkKey) + " = " + str(checkExpectedValue)
 
-    def setCaseParam(self, excelNo, result, d_KeyValueQuote, d_jsonres):
+    def setCaseParam(self, excelNo, result, d_jsonres):
 
         ''' step3，保存数据 '''
 
-        l_tmp = []
-        if [i for i in d_KeyValueQuote.keys()][0] != None:
-
-            try:
-                # 遍历字典value引用中的常量
-                if "$." not in str([i for i in d_KeyValueQuote.values()][0]):
-                    self.Openpyxl_PO.setCellValue(excelNo, 14, str(','.join([i for i in d_KeyValueQuote.values()])), ['ffffff', '000000'], self.sheetCase)  # 保存到字典变量value
-
-                else:
-                    if len([i for i in d_KeyValueQuote.keys()]) == len([i for i in d_KeyValueQuote.values()]):
-                        if len([i for i in d_KeyValueQuote.values()]) > 1:
-                            # 解析多个key
-                            for i in range(len([i for i in d_KeyValueQuote.values()])):
-                                getDictValue = jsonpath.jsonpath(d_jsonres, expr=[j for j in d_KeyValueQuote.values()][i])
-                                l_tmp.append(str(getDictValue[0]))
-                            self.Openpyxl_PO.setCellValue(excelNo, 14, str(','.join(l_tmp)), ['ffffff', '000000'], self.sheetCase)  # 保存到字典变量value
-                            # print("111111111111")
-                            # print(l_tmp)
-                        else:
-                            # 解析单个key
-
-                            getDictValue = jsonpath.jsonpath(d_jsonres, expr=[i for i in d_KeyValueQuote.values()][0])  # 如解析 $.code
-                            if isinstance(getDictValue[0], (bool)):
-                                self.Openpyxl_PO.setCellValue(excelNo, 2, "Fail", ['ffffff', '000000'], self.sheetCase)
-                            else:
-                                self.Openpyxl_PO.setCellValue(excelNo, 14, getDictValue[0], ['ffffff', '000000'], self.sheetCase)  # 保存到字典变量value
-
-            except Exception as e:
-                print(e.__traceback__)
-                self.Openpyxl_PO.setCellValue(excelNo, 2, "Fail", ['ffeb9c', '000000'] , self.sheetCase)
-                assert 1 == 0, "字典变量value引用 " + str(d_KeyValueQuote) + " 不存在!"
-
-        # result
+        # 测试结果
         if result == "OK":
-            self.Openpyxl_PO.setCellColor(excelNo, 2, "00E400", self.sheetCase)
-            self.Openpyxl_PO.setCellValue(excelNo, 2, "OK", ['ffffff', '000000'] , self.sheetCase)
+            # self.Openpyxl_PO.setCellColor(excelNo, 2, "00E400", self.sheetCase)
+            self.Openpyxl_PO.setCellValue(excelNo, 2, "OK", ['c6efce', '006100'], self.sheetCase)
         else:
-            self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
-            self.Openpyxl_PO.setCellValue(excelNo, 2, "Fail", ['ffeb9c', '000000'] , self.sheetCase)
-
-        # response
-        self.Openpyxl_PO.setCellValue(excelNo, 15, str(d_jsonres), ['ffffff', '000000'], self.sheetCase)
-
-        # date
+            # self.Openpyxl_PO.setCellColor(excelNo, 2, "FF0000", self.sheetCase)
+            self.Openpyxl_PO.setCellValue(excelNo, 2, "Fail", ['ffeb9c', '000000'], self.sheetCase)
+        # 测试日期
         self.Openpyxl_PO.setCellValue(excelNo, 3, str(datetime.now().strftime("%Y-%m-%d")), ['ffffff', '000000'], self.sheetCase)
-        self.Openpyxl_PO.wb.save(self.varExcel)
+        # 返回值
+        self.Openpyxl_PO.setCellValue(excelNo, 15, str(d_jsonres), ['c6efce', '006100'], self.sheetCase)
 
+        self.Openpyxl_PO.wb.save(self.varExcel)
 
         # # selectSQL
         # if selectSQL == 0:
@@ -289,10 +207,6 @@ class XLS:
         #     self.wSheet.write(excelNo, 16, updateSQL, self.styleBlue)
         # else:
         #     self.wSheet.write(excelNo, 16, updateSQL, self.styleRed)
-
-
-
-
 
 
 if __name__ == '__main__':

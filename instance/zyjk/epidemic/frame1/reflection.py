@@ -30,7 +30,7 @@ def run(line):
     if l == 0:
         return func()
     elif l == 2:
-        return func(line[1], line[3])  # [caseName, interURL, method, param, d_var]
+        return func(line[1], line[3])  # [interURL, param]
     elif l == 3:
         return func(line[1], line[3], line[4])  # [interURL, param, d_var]
     # elif l == 4:
