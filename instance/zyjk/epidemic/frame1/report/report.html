@@ -7128,43 +7128,43 @@
 </script>
 <script type="text/javascript">
     var resultData = {
-    "testPass": 21,
+    "testPass": 5,
     "testResult": [
         {
             "className": "run",
-            "methodName": "test11_00",
-            "description": "[with excelNo=2, interCase='用户登录', interUrl='/auth/login', interMethod='token', interParam='{\"password\": \"$password\",\"userNo\": \"$userNo\"}', interCheck='$.code', interExpected='200', d_var='{\"mm1\":\"1234\",\"kk2\":\"唐山\"}']",
-            "spendTime": "0.0956 s",
+            "methodName": "test11_0",
+            "description": "[with excelNo=2, iName='用户登录', iPath='/auth/login', iMethod='token', iParam='{\"password\": \"$password\",\"userNo\": \"$userNo\"}', iKey='$.code', iValue='200', globalVar='{\"sys_org_id\":34,\"ep_zj_center_id\":9}', sql=None]",
+            "spendTime": "0.0897 s",
             "status": "成功",
             "log": [
                 "请求地址 => http://192.168.0.243:8001/auth/login<BR>",
                 "请求参数 => {'password': 'Jinhao!123', 'userNo': 'jinhao'}<BR>",
-                "字典变量 => {'mm1': '1234', 'kk2': '唐山'}<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg\",\"expire\":86400}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'mm1': '1234', 'kk2': '唐山'}",
+                "字典变量 => {'sys_org_id': 34, 'ep_zj_center_id': 9}<BR>",
+                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzEzMDA5OCwiZXhwIjoxNjM3NzM0ODk4fQ.6DHNYHXrVxjCN5YKO4nabjb6x8asD4AfiKhjHtc92Oum_7WA76jnvOSiIUI8c1LZ8S9qv6QTbZqx6gMammUghA\",\"expire\":86400}}<BR>",
+                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzEzMDA5OCwiZXhwIjoxNjM3NzM0ODk4fQ.6DHNYHXrVxjCN5YKO4nabjb6x8asD4AfiKhjHtc92Oum_7WA76jnvOSiIUI8c1LZ8S9qv6QTbZqx6gMammUghA'}<BR>",
+                "全局变量 => {'sys_org_id': 34, 'ep_zj_center_id': 9}",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_01",
-            "description": "[with excelNo=3, interCase='web端涉疫人员自行上报获取二维码图片地址', interUrl='/webReport/getQcCodeUrl/34', interMethod='get', interParam=None, interCheck='$.code', interExpected='200', d_var='{\"mm1\":\"5555\",\"kk3\":\"美国\"}']",
-            "spendTime": "0.0497 s",
+            "methodName": "test11_1",
+            "description": "[with excelNo=3, iName='web端涉疫人员自行上报获取二维码图片地址', iPath='/webReport/getQcCodeUrl/{{sys_org_id}}', iMethod='get', iParam=None, iKey='$.code', iValue='200', globalVar=None, sql=None]",
+            "spendTime": "0.0499 s",
             "status": "成功",
             "log": [
                 "请求地址 => http://192.168.0.243:8001/webReport/getQcCodeUrl/34<BR>",
-                "字典变量 => {'mm1': '5555', 'kk3': '美国'}<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":\"/uploadFile/QR/null网格中心1code.jpg\"}<BR>",
-                "全局变量 => {'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
+                "字典变量 => None<BR>",
+                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":\"/uploadFile/QR/wgzx1网格中心1code.jpg\"}<BR>",
+                "全局变量 => {'sys_org_id': 34, 'ep_zj_center_id': 9}",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_02",
-            "description": "[with excelNo=4, interCase='涉疫人员管理-列表', interUrl='/residentManage/getResidentList', interMethod='post', interParam='{\\n \"circulationStatus\": \"\",\\n ...artTimePm\": \"\",\\n \"type\": \"\"\\n}', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0528 s",
+            "methodName": "test11_2",
+            "description": "[with excelNo=4, iName='涉疫人员管理-列表', iPath='/residentManage/getResidentList', iMethod='post', iParam='{\\n \"circulationStatus\": \"\",\\n ...artTimePm\": \"\",\\n \"type\": \"\"\\n}', iKey='$.code', iValue='200', globalVar=None, sql=None]",
+            "spendTime": "0.0479 s",
             "status": "成功",
             "log": [
                 "请求地址 => http://192.168.0.243:8001/residentManage/getResidentList<BR>",
@@ -7177,341 +7177,60 @@
                 " \"idCardNo\": \"\",",
                 " \"name\": \"\",",
                 " \"orgIds\": [],",
-                " \"pageSize\": 0,",
+                " \"pageSize\": 1,",
                 " \"startTimeClaim\": \"\",",
                 " \"startTimePm\": \"\",",
                 " \"type\": \"\"",
                 "}<BR>",
                 "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"totalCount\":48,\"pageSize\":0,\"totalPage\":9223372036854775807,\"currPage\":1,\"list\":[]}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
+                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"totalCount\":56,\"pageSize\":1,\"totalPage\":56,\"currPage\":1,\"list\":[{\"id\":67,\"name\":\"测试摸排\",\"sex\":\"男\",\"phone\":\"15721120000\",\"idCardNo\":\"513436200010297037\",\"nativePlace\":\"zz\",\"residentialAddress\":\"zz\",\"workUnit\":\"zz\",\"provenanceAddress\":\"zz\",\"riskGrade\":\"高风险\",\"transportation\":\"客车\",\"departureTime\":null,\"arrivalTime\":null,\"controls\":\"\",\"mpCount\":4,\"inStatus\":\"在招\",\"circulationStatus\":\"解除关注\",\"dataSources\":\"自行上报\",\"notes\":\"123\",\"orgId\":37,\"orgNo\":\"wgzx3\",\"orgName\":\"网格中心3\",\"leaderName\":\"\",\"leaderPhone\":\"\",\"policeName\":\"\",\"policePhone\":\"\",\"doctorName\":\"\",\"doctorPhone\":\"\",\"volunteerName\":\"\",\"volunteerPhone\":\"\"}]}}<BR>",
+                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzEzMDA5OCwiZXhwIjoxNjM3NzM0ODk4fQ.6DHNYHXrVxjCN5YKO4nabjb6x8asD4AfiKhjHtc92Oum_7WA76jnvOSiIUI8c1LZ8S9qv6QTbZqx6gMammUghA'}<BR>",
+                "全局变量 => {'sys_org_id': 34, 'ep_zj_center_id': 9}",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_03",
-            "description": "[with excelNo=6, interCase='网络中心注册-根据ID获取单个实体模型', interUrl='/register/getOrgVoById/50', interMethod='post', interParam=None, interCheck='$.code', interExpected='200', d_var='{\"test1\":\"$.code\",\"test2\":\"$.msg\"}']",
-            "spendTime": "0.0438 s",
+            "methodName": "test11_3",
+            "description": "[with excelNo=11, iName='政监中心注册-启用1/停用2', iPath='/register/updateStatusById/{{ep_zj_center_id}}', iMethod='post', iParam=None, iKey='$.code', iValue='200', globalVar=None, sql='select status from ep_zj_center where id={{ep_zj_center_id}}']",
+            "spendTime": "0.0878 s",
             "status": "成功",
             "log": [
-                "请求地址 => http://192.168.0.243:8001/register/getOrgVoById/50<BR>",
-                "请求参数 => None<BR>",
-                "字典变量 => {'test1': '200', 'test2': 'success'}<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":null}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_04",
-            "description": "[with excelNo=7, interCase='网络中心注册-列表', interUrl='/register/querySysOrgPageList/2', interMethod='post', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0484 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/register/querySysOrgPageList/2<BR>",
+                "sql更新前的值 => select status from ep_zj_center where id=9 => 2",
+                "请求地址 => http://192.168.0.243:8001/register/updateStatusById/9<BR>",
                 "请求参数 => None<BR>",
                 "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":[]}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
+                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":9,\"name\":\"政监中心4\",\"code\":\"ZJ0011637026003673\",\"responsiblePerson\":\"dc\",\"address\":\"上海市\",\"area\":\"普陀\",\"contactPerson\":\"dc\",\"contactPhone\":\"23124\",\"status\":1,\"createTime\":\"2021-11-16 09:26:44\",\"updateTime\":\"2021-11-17 14:21:38\"}}<BR>",
+                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzEzMDA5OCwiZXhwIjoxNjM3NzM0ODk4fQ.6DHNYHXrVxjCN5YKO4nabjb6x8asD4AfiKhjHtc92Oum_7WA76jnvOSiIUI8c1LZ8S9qv6QTbZqx6gMammUghA'}<BR>",
+                "全局变量 => {'sys_org_id': 34, 'ep_zj_center_id': 9}",
+                "sql更新后的值 => select status from ep_zj_center where id=9 => 1",
                 ""
             ]
         },
         {
             "className": "run",
-            "methodName": "test11_05",
-            "description": "[with excelNo=8, interCase='政监中心注册-根据ID获取单个实体模型', interUrl='/register/getZjCenterById/3', interMethod='post', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0508 s",
+            "methodName": "test11_4",
+            "description": "[with excelNo=12, iName='政监中心注册-启用1/停用2', iPath='/register/updateStatusById/{{ep_zj_center_id}}', iMethod='post', iParam=None, iKey='$.code', iValue='200', globalVar=None, sql='select status from ep_zj_center where id={{ep_zj_center_id}}']",
+            "spendTime": "0.113 s",
             "status": "成功",
             "log": [
-                "请求地址 => http://192.168.0.243:8001/register/getZjCenterById/3<BR>",
+                "sql更新前的值 => select status from ep_zj_center where id=9 => 1",
+                "请求地址 => http://192.168.0.243:8001/register/updateStatusById/9<BR>",
                 "请求参数 => None<BR>",
                 "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":null}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_06",
-            "description": "[with excelNo=10, interCase='政监中心注册-列表', interUrl='/register/queryZjCenterPageList', interMethod='post', interParam='{\"currPage\": 1,\"id\": 2,\"pageSize\": 1}', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0501 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/register/queryZjCenterPageList<BR>",
-                "请求参数 => {\"currPage\": 1,\"id\": 2,\"pageSize\": 1}<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"totalCount\":0,\"pageSize\":1,\"totalPage\":0,\"currPage\":1,\"list\":[]}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_07",
-            "description": "[with excelNo=13, interCase='政监中心注册-更新', interUrl='/register/updateZjCenter', interMethod='post', interParam='{\\n \"address\": \"1212\",\\n \"area\"...\\n \"responsiblePerson\": \"张三\"\\n}', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0602 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/register/updateZjCenter<BR>",
-                "请求参数 => {",
-                " \"address\": \"1212\",",
-                " \"area\": \"\",",
-                " \"contactPerson\": \"\",",
-                " \"contactPhone\": \"\",",
-                " \"id\": 6,",
-                " \"name\": \"政监中心1\",",
-                " \"responsiblePerson\": \"张三\"",
-                "}<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":6,\"name\":\"政监中心1\",\"code\":\"ZJ0011636974589149\",\"responsiblePerson\":\"张三\",\"address\":\"1212\",\"area\":\"\",\"contactPerson\":\"\",\"contactPhone\":\"\",\"status\":1,\"createTime\":\"2021-11-15 19:09:49\",\"updateTime\":\"2021-11-16 18:58:48\"}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_08",
-            "description": "[with excelNo=14, interCase='网格中心注册-更新', interUrl='/register/updateOrgVo', interMethod='post', interParam='{\\n \"description\": \"令狐冲\",\\n \"do...hone\": \"\",\\n \"zjCenterId\": 6\\n}', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0572 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/register/updateOrgVo<BR>",
-                "请求参数 => {",
-                " \"description\": \"令狐冲\",",
-                " \"doctorName\": \"\",",
-                " \"doctorPhone\": \"\",",
-                " \"id\": 34,",
-                " \"leaderName\": \"\",",
-                " \"leaderPhone\": \"\",",
-                " \"name\": \"静安网格中心\",",
-                " \"policeName\": \"\",",
-                " \"policePhone\": \"\",",
-                " \"volunteerName\": \"\",",
-                " \"volunteerPhone\": \"\",",
-                " \"zjCenterId\": 6",
-                "}<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":34,\"name\":\"静安网格中心\",\"orgno\":null,\"description\":\"令狐冲\",\"leaderName\":\"\",\"leaderPhone\":\"\",\"policeName\":\"\",\"policePhone\":\"\",\"doctorName\":\"\",\"doctorPhone\":\"\",\"volunteerName\":\"\",\"volunteerPhone\":\"\",\"zjCenterId\":6}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_09",
-            "description": "[with excelNo=16, interCase='公告维护-删除', interUrl='/announcement/deleteAnnouncement/50', interMethod='delete', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0486 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/announcement/deleteAnnouncement/50<BR>",
-                "返回：{\"code\":200,\"msg\":\"success\",\"data\":null}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_10",
-            "description": "[with excelNo=17, interCase='公告详情', interUrl='/announcement/getAnnouncementDetail', interMethod='post', interParam='{\\n \"currPage\": 0,\\n \"id\": 23,\\n \"pageSize\": 0\\n}', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0625 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/announcement/getAnnouncementDetail<BR>",
-                "请求参数 => {",
-                " \"currPage\": 0,",
-                " \"id\": 23,",
-                " \"pageSize\": 0",
-                "}<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"announcementVo\":{\"id\":23,\"publishUnitId\":0,\"publishUnitName\":\"指挥中心\",\"title\":\"测试公告2\",\"systemUserId\":68,\"systemUserName\":\"dll\",\"createTime\":\"2021-11-16 11:13\",\"content\":\"ggggggggggggggggggd\",\"isAccessory\":\"无\"},\"pageUtilsVO\":{\"totalCount\":0,\"pageSize\":0,\"totalPage\":0,\"currPage\":1,\"list\":[]}}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_11",
-            "description": "[with excelNo=18, interCase='通知公告-列表', interUrl='/announcement/queryAnnouncementPageList', interMethod='post', interParam='{\\n \"currPage\": 1,\\n \"endTime\":...tartTime\": \"\",\\n \"type\": \"1\"\\n}', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0606 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/announcement/queryAnnouncementPageList<BR>",
-                "请求参数 => {",
-                " \"currPage\": 1,",
-                " \"endTime\": \"\",",
-                " \"pageSize\": 10,",
-                " \"startTime\": \"\",",
-                " \"type\": \"1\"",
-                "}<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"totalCount\":19,\"pageSize\":10,\"totalPage\":2,\"currPage\":1,\"list\":[{\"id\":24,\"publishUnitId\":0,\"publishUnitName\":\"指挥中心\",\"title\":\"更改1\",\"systemUserId\":66,\"systemUserName\":\"金浩\",\"createTime\":\"2020-11-11 03:11\",\"content\":\"更改内容2222\",\"isAccessory\":\"无\"},{\"id\":46,\"publishUnitId\":0,\"publishUnitName\":\"指挥中心\",\"title\":\"555\",\"systemUserId\":68,\"systemUserName\":\"dll\",\"createTime\":\"2021-11-15 08:00\",\"content\":\"111111111111111111111111111111111\",\"isAccessory\":\"无\"},{\"id\":23,\"publishUnitId\":0,\"publishUnitName\":\"指挥中心\",\"title\":\"测试公告2\",\"systemUserId\":68,\"systemUserName\":\"dll\",\"createTime\":\"2021-11-16 11:13\",\"content\":\"ggggggggggggggggggd\",\"isAccessory\":\"无\"},{\"id\":48,\"publishUnitId\":6,\"publishUnitName\":\"政监中心1\",\"title\":\"是大大大\",\"systemUserId\":67,\"systemUserName\":\"舒阳\",\"createTime\":\"2021-11-02 16:00\",\"content\":\"11111111\",\"isAccessory\":\"无\"},{\"id\":47,\"publishUnitId\":6,\"publishUnitName\":\"政监中心1\",\"title\":\"发顺丰额\",\"systemUserId\":67,\"systemUserName\":\"舒阳\",\"createTime\":\"2021-11-03 16:00\",\"content\":\"11111111111111111\",\"isAccessory\":\"无\"},{\"id\":45,\"publishUnitId\":6,\"publishUnitName\":\"政监中心1\",\"title\":\"儿童热特让她\",\"systemUserId\":67,\"systemUserName\":\"舒阳\",\"createTime\":\"2021-11-16 07:45\",\"content\":\"维特委托人听闻\",\"isAccessory\":\"无\"},{\"id\":44,\"publishUnitId\":6,\"publishUnitName\":\"政监中心1\",\"title\":\"的大大大\",\"systemUserId\":67,\"systemUserName\":\"舒阳\",\"createTime\":\"2021-11-16 07:44\",\"content\":\"爱的十大三大\",\"isAccessory\":\"无\"},{\"id\":22,\"publishUnitId\":0,\"publishUnitName\":\"指挥中心\",\"title\":\"123\",\"systemUserId\":67,\"systemUserName\":\"舒阳\",\"createTime\":\"2021-11-15 03:05\",\"content\":\"11111\",\"isAccessory\":\"无\"},{\"id\":39,\"publishUnitId\":0,\"publishUnitName\":\"指挥中心\",\"title\":\"linghu测试公告2\",\"systemUserId\":66,\"systemUserName\":\"金浩\",\"createTime\":\"2021-11-11 03:14\",\"content\":\"测试公告2222222\",\"isAccessory\":\"无\"},{\"id\":37,\"publishUnitId\":0,\"publishUnitName\":\"指挥中心\",\"title\":\"linghu测试公告2\",\"systemUserId\":66,\"systemUserName\":\"金浩\",\"createTime\":\"2021-11-11 03:14\",\"content\":\"测试公告2222222\",\"isAccessory\":\"无\"}]}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_12",
-            "description": "[with excelNo=19, interCase='公告维护-更新', interUrl='/announcement/updateAnnouncement', interMethod='post', interParam='{\\n \"accessoryIdList\": [],\\n \"c...UnitId\": 0,\\n \"title\": \"更改1\"\\n}', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.068 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/announcement/updateAnnouncement<BR>",
-                "请求参数 => {",
-                " \"accessoryIdList\": [],",
-                " \"content\": \"更改内容2222\",",
-                " \"createTime\": \"2020-11-11 11:11:11\",",
-                " \"id\": 24,",
-                " \"publishUnitId\": 0,",
-                " \"title\": \"更改1\"",
-                "}<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":null}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_13",
-            "description": "[with excelNo=20, interCase='附件上传', interUrl='/announcement/uploadAccessory', interMethod='file', interParam='c:\\\\readme.txt', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0628 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/announcement/uploadAccessory<BR>",
-                "上传文件 => c:\\readme.txt<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":160,\"name\":\"readme\",\"createTime\":\"2021-11-16 10:58\",\"accessoryUrl\":\"/uploadFile/2021/11/16/160_readme.txt\"}}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_14",
-            "description": "[with excelNo=22, interCase='获取网格中心下拉框数据', interUrl='/dict/querySysOrgData', interMethod='get', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0443 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/dict/querySysOrgData<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":[{\"id\":-1,\"name\":\"超级管理员机构\"},{\"id\":34,\"name\":\"静安网格中心\"},{\"id\":35,\"name\":\"网络中心2\"},{\"id\":36,\"name\":\"超级管理员网格中心\"},{\"id\":37,\"name\":\"网格中心3\"},{\"id\":38,\"name\":\"网格中心4\"},{\"id\":39,\"name\":\"网格中心7\"}]}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_15",
-            "description": "[with excelNo=23, interCase='根据政监中心ID获取网格中心下拉框数据', interUrl='/dict/querySysOrgDataByZjCenterId/2', interMethod='get', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0478 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/dict/querySysOrgDataByZjCenterId/2<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":[]}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_16",
-            "description": "[with excelNo=24, interCase='根据多个政监中心ID获取网格中心下拉框数据', interUrl='/dict/querySysOrgDataByZjCenterIds', interMethod='post', interParam='{\\n \"zjCenterIdsDto\": [2,3]\\n}', interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0396 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/dict/querySysOrgDataByZjCenterIds<BR>",
-                "请求参数 => {",
-                " \"zjCenterIdsDto\": [2,3]",
-                "}<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":[]}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_17",
-            "description": "[with excelNo=25, interCase='获取政监中心下拉框数据', interUrl='/dict/queryZjCenterData', interMethod='get', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0446 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/dict/queryZjCenterData<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":[{\"id\":-1,\"name\":\"超级管理员政监控中心\"},{\"id\":6,\"name\":\"政监中心1\"},{\"id\":7,\"name\":\"政监中心2\"},{\"id\":8,\"name\":\"政监中心3\"},{\"id\":9,\"name\":\"政监中心4\"}]}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_18",
-            "description": "[with excelNo=26, interCase='指挥部', interUrl='/dataAnalysis/getHeadquartersData', interMethod='post', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0549 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/dataAnalysis/getHeadquartersData<BR>",
-                "请求参数 => None<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"a2\":7,\"a3\":11,\"a4\":16,\"b1\":48,\"b2\":15,\"b3\":24,\"b4\":10,\"b5\":11,\"b6\":25,\"b7\":23,\"c1\":0.6458333333333334,\"c2\":0.3541666666666667,\"c3\":0.4791666666666667,\"c4\":0.25,\"c5\":0.1875,\"a1\":5,\"analysisCountVoList\":[{\"id\":6,\"name\":\"政监中心1\",\"count\":23},{\"id\":-1,\"name\":\"超级管理员政监控中心\",\"count\":7},{\"id\":7,\"name\":\"政监中心2\",\"count\":3}]}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_19",
-            "description": "[with excelNo=27, interCase='证监中心', interUrl='/dataAnalysis/getZjCenterData', interMethod='post', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.0609 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/dataAnalysis/getZjCenterData<BR>",
-                "请求参数 => None<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"a2\":2,\"a3\":6,\"a4\":8,\"b1\":23,\"b2\":13,\"b3\":16,\"b4\":1,\"b5\":1,\"b6\":16,\"b7\":17,\"c1\":0.7391304347826086,\"c2\":0.2608695652173913,\"c3\":0.7391304347826086,\"c4\":0.13043478260869565,\"c5\":0.08695652173913043,\"id\":6,\"a1\":\"政监中心1\",\"analysisCountVoList\":[{\"id\":34,\"name\":\"静安网格中心\",\"count\":22},{\"id\":35,\"name\":\"网络中心2\",\"count\":1}]}}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
-                ""
-            ]
-        },
-        {
-            "className": "run",
-            "methodName": "test11_20",
-            "description": "[with excelNo=28, interCase='用户登出', interUrl='/auth/logout', interMethod='post', interParam=None, interCheck='$.code', interExpected='200', d_var=None]",
-            "spendTime": "0.105 s",
-            "status": "成功",
-            "log": [
-                "请求地址 => http://192.168.0.243:8001/auth/logout<BR>",
-                "请求参数 => None<BR>",
-                "字典变量 => None<BR>",
-                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":\"退出成功\"}<BR>",
-                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzA2MDMyNywiZXhwIjoxNjM3NjY1MTI3fQ.EiDec96n-QXwQxxfksj5LUxQeuR5psesH4JDBrLHQJ65KWHSk4jvbWCbYmpjGycqWZ-i6qU2Gw2FtWDrDPHMjg'}<BR>",
-                "全局变量 => {'test1': '200', 'test2': 'success', 'mm1': '1234', 'kk3': '美国', 'kk2': '唐山'}",
+                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"id\":9,\"name\":\"政监中心4\",\"code\":\"ZJ0011637026003673\",\"responsiblePerson\":\"dc\",\"address\":\"上海市\",\"area\":\"普陀\",\"contactPerson\":\"dc\",\"contactPhone\":\"23124\",\"status\":2,\"createTime\":\"2021-11-16 09:26:44\",\"updateTime\":\"2021-11-17 14:21:39\"}}<BR>",
+                "请求头 => {'User-Agent': 'python-requests/2.25.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzEzMDA5OCwiZXhwIjoxNjM3NzM0ODk4fQ.6DHNYHXrVxjCN5YKO4nabjb6x8asD4AfiKhjHtc92Oum_7WA76jnvOSiIUI8c1LZ8S9qv6QTbZqx6gMammUghA'}<BR>",
+                "全局变量 => {'sys_org_id': 34, 'ep_zj_center_id': 9}",
+                "sql更新后的值 => select status from ep_zj_center where id=9 => 2",
                 ""
             ]
         }
     ],
     "testName": "疫情防控管理平台测试报告",
-    "testAll": 21,
+    "testAll": 5,
     "testFail": 0,
-    "beginTime": "2021-11-16 18:58:47",
-    "totalTime": "1s",
+    "beginTime": "2021-11-17 14:21:38",
+    "totalTime": "0s",
     "testSkip": 0,
     "testError": 0
 };

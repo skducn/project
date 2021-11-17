@@ -6,11 +6,10 @@
 # ConfigParser 是用来读取config.ini配置文件的包
 # *****************************************************************
 
-import os, codecs, configparser, platform
+import os, configparser, platform, codecs
 
 # 获取当前路径
 proDir = os.path.split(os.path.realpath(__file__))[0]
-
 if platform.system() == 'Darwin':
     configPath = os.path.join(proDir + "/config//", "config.ini")
 if platform.system() == 'Windows':
@@ -43,25 +42,6 @@ class ReadConfig:
     def get_dev(self, name):
         value = self.cf.get("DEV", name)
         return value
-
-
-    #
-    # def get_headers(self, name):
-    #     value = self.cf.get("HEADERS", name)
-    #     return value
-
-    # def set_headers(self, name, value):
-    #     self.cf.set("HEADERS", name, value)
-    #     with open(configPath, 'w+') as f:
-    #         self.cf.write(f)
-
-    # def get_url(self, name):
-    #     value = self.cf.get("URL", name)
-    #     return value
-    #
-    # def get_db(self, name):
-    #     value = self.cf.get("DATABASE", name)
-    #     return value
 
 
 if __name__ == '__main__':
