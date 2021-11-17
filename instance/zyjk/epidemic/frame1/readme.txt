@@ -1,16 +1,16 @@
-runAllEHR.py
+脚本执行流程
 
-from parameterized import parameterized    //unitest @parameterized.expand
-from BeautifulReport import BeautifulReport as bf   //生成报表
+1，run.py
+2，xls.getCaseParam()  //遍历获取 名称、路径、方法、参数、检查key、检查value、全局变量
+3，xls.result(excelNo, iName, iPath, iMethod, iParam, iKey, iValue, d_globalVar)  // 替换参数，解析接口，检查iKey、iValue
+4，reflection.run([iName, iPath, iMethod, iParam, globalVar])
+	iDriven.py
+5，setCaseParam(excelNo, result, d_res)  # 更新表格数据
 
 
-1，遍历case获取参数
-xls.py - XLS - getCaseParam([[2, 3, 5], [], 0],'/inter/HTTP/auth')
-返回：[['获取Token', 'post', '/inter/HTTP/auth', 'None', '$.status','200']]
 
-           d_jsonres = xls.result(excelNo, caseName, method, interName, dict(eval(param)), jsonpathKey, expected)
 
-      xls.setCaseParam(excelNo, "token=" + token[0], 'pass', str(d_jsonres), '', '')
+==========================================================================
 
 2，每个接口名称对应的函数，如 '/inter/HTTP/auth'
 testAuth('获取Token', 'post', '/inter/HTTP/auth', 'None', '$.status','200')

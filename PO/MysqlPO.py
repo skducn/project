@@ -23,12 +23,50 @@ class MysqlPO():
 
     def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
 
+        self.varHost = varHost
+        self.varUser = varUser
+        self.varPassword = varPassword
         self.varDB = varDB
-        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
-        self.cur = self.conn.cursor()
-        self.cur.execute('SET NAMES utf8;')
-        # self.conn.set_character_set('utf8')
-        self.cur.execute('show tables')
+        self.varPort = int(varPort)
+
+        # self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
+        # self.cur = self.conn.cursor()
+        # self.cur.execute('SET NAMES utf8;')
+        # # self.conn.set_character_set('utf8')
+        # self.cur.execute('show tables')
+
+    def __GetConnect(self):
+        # 得到数据库连接信息，返回conn.cursor()
+        if not self.varDB:
+            raise (NameError, "没有设置数据库信息")
+        self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.varDB, port=self.varPort, use_unicode=True)
+        self.cur = self.conn.cursor()  # 创建一个游标对象
+        if not self.cur:
+            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
+        else:
+            return self.cur
+
+    def execQuery(self, sql):
+
+        ''' 执行查询语句
+        返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
+        '''
+
+        cur = self.__GetConnect()
+        self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
+        cur.execute(sql)
+
+        try:
+            result = cur.fetchall()
+        except:
+            self.conn.commit()
+            cur.close()
+            self.conn.close()
+            return
+        self.conn.commit()
+        cur.close()
+        self.conn.close()
+        return result
 
     def dbDesc(self, *args):
         ''' 查看数据库表结构（字段、类型、DDL）
@@ -523,10 +561,9 @@ class MysqlPO():
         Excel_PO = ExcelPO()
         Excel_PO.writeXlsxByMore(varFileName, varSheetName, listMain)
 
+
+
 if __name__ == '__main__':
-
-    pass
-
 
     # 195_saas_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)
@@ -596,7 +633,11 @@ if __name__ == '__main__':
 
     # 招远防疫 >>>>>>>>>>>>>>>>>>>>>>>>>>>
     Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)
-    Mysql_PO.dbDesc()  # 所有表结构
+    x = Mysql_PO.execQuery("select status from ep_zj_center where id=9")
+    print(x[0][0])
+    # Mysql_PO.dbDesc()  # 所有表结构
+
+
 
     # Mysql_PO.dbDesc('user')   # 指定表结构
     # Mysql_PO.dbDesc('u*')  # u开头的表结构（通配符*）

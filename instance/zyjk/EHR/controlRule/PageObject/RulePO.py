@@ -23,22 +23,22 @@ class RulePO(object):
         self.l_diabetes = l_diabetes
         # self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
 
-    # 1，执行sql文件
-    def execSqlFile(self, varSqlFile):
-        Sqlserver_PO.execQueryBySQL(File_PO.getLayerPath("./config") + "\\" + varSqlFile)
-
-    # 2，执行SQL命令
+    # 1，执行SQL命令
     def execQuery(self, varSQL):
         x = Sqlserver_PO.execQuery(varSQL)
         return x
 
-    # 3，执行存储过程
+    # 2，执行存储过程
     def execProcedure(self, varProcedureName):
-        Sqlserver_PO.ExecProcedure(varProcedureName)
+        Sqlserver_PO.execProcedure(varProcedureName)
+
+    # 3，执行sql文件
+    def execSqlFile(self, varSqlFile):
+        Sqlserver_PO.execSqlFile(File_PO.getLayerPath("./config") + "\\" + varSqlFile)
 
     # 4，执行sql文件
     def execSqlFile1(self, varSqlFile):
-        Sqlserver_PO.execQueryBySQL1(File_PO.getLayerPath("./config") + "\\" + varSqlFile)
+        Sqlserver_PO.execSqlFile2(File_PO.getLayerPath("./config") + "\\" + varSqlFile)
 
     # 5, 质控
     def runRule(self, varWay, ruleSql, idCardNo, varMsg):

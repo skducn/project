@@ -7,18 +7,13 @@
 # web页：http://192.168.0.243:8002/admin/notice/index  （测试243， 开发237）
 # *****************************************************************
 
-import json, jsonpath, os, xlrd, xlwt, requests, inspect, smtplib, email, mimetypes, base64,urllib3
-from time import sleep
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from email.mime.audio import MIMEAudio
-from email.mime.base import MIMEBase
+import json, jsonpath, os, requests, inspect, smtplib, email, mimetypes, base64, urllib3
 from requests_toolbelt.multipart.encoder import MultipartEncoder
-import instance.zyjk.epidemic.frame1.readConfig as readConfig
+import readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 
-# 解决Python3 控制台输出InsecureRequestWarning的问题,https://www.cnblogs.com/ernana/p/8601789.html
+# 解决Python3 控制台输出InsecureRequestWarning的问题,
+# 参考：https://www.cnblogs.com/ernana/p/8601789.html
 # 代码页加入以下这个
 # from requests.packages.urllib3.exceptions import InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -64,33 +59,33 @@ class HTTP:
 
 
     # 请求方法
-    def token(self, interURL, interParam, d_var):
+    def token(self, iPath, iParam, globalVar):
 
         '''  post请求之登录获取token '''
 
-        param = dict(eval(interParam))
-        if d_var != None:
-            d_var = dict(eval(d_var))
-        for k, v in param.items():
+        iParam = dict(eval(iParam))
+        if globalVar != None:
+            d_globalVar = dict(eval(globalVar))
+        for k, v in iParam.items():
             if v == "$password":
-                param[k] = password
+                iParam[k] = password
             if v == "$userNo":
-                param[k] = userNo
-        path = protocol + "://" + ip + ":" + port + interURL
-        result = self.session.post(path, headers=self.headers, json=param, verify=False)
+                iParam[k] = userNo
+        path = protocol + "://" + ip + ":" + port + iPath
+        result = self.session.post(path, headers=self.headers, json=iParam, verify=False)
         self.jsonres = json.loads(result.text)
         self.session.headers['token'] = self.jsonres['data']['token']
         res = result.text
         print("请求地址 => " + str(path) + "<BR>")
-        print("请求参数 => " + str(param) + "<BR>")
-        print("字典变量 => " + str(d_var) + "<BR>")
+        print("请求参数 => " + str(iParam) + "<BR>")
+        print("字典变量 => " + str(d_globalVar) + "<BR>")
         print("返回 => " + str(result.text) + "<BR>")
         print("请求头 => " + str(self.session.headers) + "<BR>")
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
             print(e.__traceback__)
-        return res, d_var
+        return res, d_globalVar
 
     def get(self, interName, interParam, d_var):
 
