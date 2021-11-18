@@ -41,7 +41,7 @@ import pandas as pd
 import openpyxl
 import openpyxl.styles
 from openpyxl.styles import PatternFill
-# import win32com.client as win32
+import win32com.client as win32
 import openpyxl, sys, platform, os, psutil
 from time import sleep
 
@@ -146,7 +146,7 @@ class ExcelPO():
             Color_PO.consoleColor("31", "31", "[ERROR] ", "call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')")
 
     # 2.2 批量写操作（for xlsx）
-    def wrtMoreCellValue(self, varList_Row_Col_Content,varSheet=0):
+    def wrtMoreCellValue(self, varList_Row_Col_Content, varSheet=0):
         # 对多个元素写操作（只支持.xlsx）
         # Excel_PO.writeXlsxByMore([[1, "你好", "测试", "报告"], [2, "再见", "", "好了"]])
         # 第一行写入 "你好", "测试", "报告"
@@ -193,6 +193,7 @@ class ExcelPO():
             wbk.save(self.file)
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
 
     # 2.4 删除行列（for xlsx）
     def delRowColValues(self, varType, varFrom, varSeries=1, varSheet=0):
@@ -658,7 +659,7 @@ if __name__ == "__main__":
 
 
     # print("1，新建excel（by openpyxl）".center(100, "-"))
-    # Excel_PO.newExcel("d:\\123.xlsx")  # 新建excel，默认生成一个工作表Sheet1
+    Excel_PO.newExcel("d:\\123.xlsx")  # 新建excel，默认生成一个工作表Sheet1
     # Excel_PO.newExcel("d:\\test1.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
     #
     # print("2.1 写操作（只支持.xlsx）".center(100, "-"))

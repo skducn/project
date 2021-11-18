@@ -2,23 +2,30 @@
 #***************************************************************
 # Author     : John
 # Revise on : 2019-04-16
-# Description: MysqlPO对象层，定义mysql数据库封装对象
-# 查询后中文正确显示，但在数据库中却显示乱码 ， 解决方法如下 ，添加 charset='utf8 ，  charset是要跟你数据库的编码一样，如果是数据库是gb2312 ,则写charset='gb2312'。
-# conn = pymssql.Connect(host='localhost', user='root', passwd='root', db='python',charset='utf8')
+# Description: MysqlPO对象层
 # pip3 install mysqlclient  (MySQLdb)
 # pip3 install pymysql
+# 问1：数据库中乱码显示问题，查询后却显示中文？
+# 解答1：设置 charset 编码，如 self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.varDB, port=self.varPort, use_unicode=True, charset='utf8') ，注意：charset 应该与数据库编码一致，如数据库是gb2312 ,则 charset='gb2312'。
 # None是一个对象，而NULL是一个类型。
-# Python中没有NULL，只有None，None有自己的特殊类型NoneType。
+# Python中没有NULL，只有None，None有自己的特殊类型NoneType
 # None不等于0、任何空字符串、False等。
-# 在Python中，None、False、0、""(空字符串)、[](空列表)、()(空元组)、{}(空字典)都相当于False。
+# 在Python中，None、False、0、""(空字符串)、[](空列表)、()(空元组)、{}(空字典)都相当于False
 #***************************************************************
 
 import pymysql
 pymysql.install_as_MySQLdb()
+
 import MySQLdb
+
 from PO.ExcelPO import *
 
-
+'''
+1，查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
+2，搜索表记录 dbRecord('*', 'money', '%34.5%')
+3，查询创建时间 dbCreateDate() 
+4，将数据库导出excel db2xlsx()
+'''
 class MysqlPO():
 
     def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
@@ -29,45 +36,14 @@ class MysqlPO():
         self.varDB = varDB
         self.varPort = int(varPort)
 
-        # self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
-        # self.cur = self.conn.cursor()
-        # self.cur.execute('SET NAMES utf8;')
-        # # self.conn.set_character_set('utf8')
-        # self.cur.execute('show tables')
+        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
+        self.cur = self.conn.cursor()
+        self.cur.execute('SET NAMES utf8;')
+        # self.conn.set_character_set('utf8')
+        self.cur.execute('show tables')
 
-    def __GetConnect(self):
-        # 得到数据库连接信息，返回conn.cursor()
-        if not self.varDB:
-            raise (NameError, "没有设置数据库信息")
-        self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.varDB, port=self.varPort, use_unicode=True)
-        self.cur = self.conn.cursor()  # 创建一个游标对象
-        if not self.cur:
-            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
-        else:
-            return self.cur
 
-    def execQuery(self, sql):
-
-        ''' 执行查询语句
-        返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
-        '''
-
-        cur = self.__GetConnect()
-        self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
-        cur.execute(sql)
-
-        try:
-            result = cur.fetchall()
-        except:
-            self.conn.commit()
-            cur.close()
-            self.conn.close()
-            return
-        self.conn.commit()
-        cur.close()
-        self.conn.close()
-        return result
-
+    
     def dbDesc(self, *args):
         ''' 查看数据库表结构（字段、类型、DDL）
         第1个参数：表名或表头*（通配符*）
@@ -81,7 +57,7 @@ class MysqlPO():
         l_isKey = []
         l_extra = []
         a=b=c=d=e= 0
-
+        x = y = z = 0
         if len(args) == 0:
             # 查看所有表结构
             self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
@@ -102,7 +78,7 @@ class MysqlPO():
                     if len(i[4]) > e: e = len(i[4])
                     if len(i[1].replace("\r\n", ",").replace("  ", "")) > b: b = len(i[1])
 
-                print("*" * 100 + "\n" + tblName[k][0] + " ( " + tblName[k][1] + " ) - " + str(len(tblFields)) + "个字段 " +
+                print("-" * 100 + "\n" + tblName[k][0] + " ( " + tblName[k][1] + " ) - " + str(len(tblFields)) + "个字段 " +
                       "\n字段名" + " " * (a - 5),
                       "类型" + " " * (c-3),
                       "主键" + " " * (d-3),
@@ -152,7 +128,7 @@ class MysqlPO():
                                 if len(i[0]) > x: x = len(i[0])
                                 if len(i[1]) > y: y = len(i[1])
                                 if len(i[2]) > z: z = len(i[2])
-                            print("*" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
+                            print("-" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
                                 len(tblFields)) + "个字段 " + "\n字段" + " " * (x - 3), "类型" + " " * (y - 3), "可空" + " " * 4,
                                   "注释")
                             for i in tblFields:
@@ -182,7 +158,7 @@ class MysqlPO():
                         if len(i[0]) > x: x = len(i[0])
                         if len(i[1]) > y: y = len(i[1])
                         if len(i[2]) > z: z = len(i[2])
-                    print("*" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
+                    print("-" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
                         len(tblFields)) + "个字段 " + "\n字段" + " " * (x - 3), "类型" + " " * (y - 3), "可空" + " " * 4,
                           "注释")
                     for i in tblFields:
@@ -239,7 +215,7 @@ class MysqlPO():
                                     if str(l_name[j]).strip() == args[i + 1]:
                                         varTmp = 1
                         if varTmp == 1:
-                            print("*" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
+                            print("-" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
                                 len(tblFields)) + "个字段 " + "\n字段" + " " * (x - 3), "类型" + " " * (y - 3), "可空" + " " * 5, "注释")
                         for i in range(len(args) - 1):
                             try:
@@ -271,7 +247,7 @@ class MysqlPO():
                         if len(i[0]) > x: x = len(i[0])
                         if len(i[1]) > y: y = len(i[1])
                         if len(i[2]) > z: z = len(i[2])
-                    print("*" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
+                    print("-" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
                         len(tblFields)) + "个字段 " + "\n字段" + " " * (x - 3), "类型" + " " * (y - 3), "可空" + " " * 4,
                           "注释")
                     for i in tblFields:
@@ -375,7 +351,9 @@ class MysqlPO():
                 list1 = []
 
     def dbCreateDate(self, *args):
-        ''' 查表的创建时间及区间
+
+        '''
+        查表的创建时间及区间
         无参：查看所有表的创建时间
         一个参数：表名
         二个参数：第一个是时间前后，如 before指定日期之前创建、after指定日期之后创建，第二个是日期
@@ -439,8 +417,21 @@ class MysqlPO():
         else:
             print("[errorrrrrrr , 参数溢出！]")
 
-    def dbDesc2excel(self, varFileName, varSheetName):
+    def db2xlsx(self, sql, file):
+        # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
+        # 将数据库表保存到excel
+        import pandas as pd
+        from sqlalchemy import create_engine
+        engine = create_engine('mysql+pymysql://' + self.varUser + ":" + self.varPassword + "@" + self.varHost +  ":" +  str(self.varPort) + "/" + self.varDB)
+        df = pd.read_sql(sql=sql, con=engine)
+        df.to_excel(file)
+
+
+    def dbDesc2excel(self, varFileName):
+
         ''' 将数据库表结构（字段、类型、DDL）导出到excel'''
+
+
 
         l_name = []
         l_dataType = []
@@ -504,11 +495,18 @@ class MysqlPO():
             l_isKey = []
             l_default = []
             l_comment = []
-        Excel_PO = ExcelPO()
-        Excel_PO.writeXlsxByMore(varFileName, varSheetName, listMain)
+
+        print(listMain)
+
+        # Excel_PO = ExcelPO(varFileName)
+        # Excel_PO.newExcel("d:\\test123.xlsx")
+        # Excel_PO.wrtMoreCellValue(listMain)
 
     def dbDesc2excelbak(self, varFileName, varSheetName):
+
         ''' 将数据库表结构（字段、类型、DDL）导出到excel'''
+
+
 
         l_name = []
         l_type = []
@@ -558,12 +556,13 @@ class MysqlPO():
             l_isKey = []
             l_isnull = []
 
-        Excel_PO = ExcelPO()
-        Excel_PO.writeXlsxByMore(varFileName, varSheetName, listMain)
+        Excel_PO = ExcelPO(varFileName)
+        Excel_PO.wrtMoreCellValue(varFileName, varSheetName, listMain)
 
 
 
 if __name__ == '__main__':
+
 
     # 195_saas_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)
@@ -603,9 +602,6 @@ if __name__ == '__main__':
 
 
 
-    # Mysql_PO.dbDesc2excel("d:\\saasuserdev.xlsx", "mySheet1")  # 将所有表结构导出到excel
-    # Mysql_PO.cur.execute('select id from sys_org where orgName="%s"' % 123)
-
 
     # 39_crm_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
     # mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
@@ -623,35 +619,42 @@ if __name__ == '__main__':
     #     print(Value)
 
 
-    # 35_ehr_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # 35_ehr_test - - - - - - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -
     # mysql_PO = MysqlPO("192.168.0.234", "sa", "Zy@123456", "healthrecord_test", 3336)  # 测试环境
     # mysql_PO = MysqlPO("192.168.0.35", "test", "123456", "healthrecord", 3336)  # 开发环境
 
 
-    # 201_禅道 >>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306)
+    # 201_禅道 - - - - - - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -
+    # mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306) # 测试
 
     # 招远防疫 >>>>>>>>>>>>>>>>>>>>>>>>>>>
-    Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)
-    x = Mysql_PO.execQuery("select status from ep_zj_center where id=9")
-    print(x[0][0])
+    # Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
+    Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
+
+    # print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
     # Mysql_PO.dbDesc()  # 所有表结构
+    # Mysql_PO.dbDesc('sys_menu')   # 指定表结构
+    # Mysql_PO.dbDesc('test*')  # u开头的表结构（通配符*）
+    # Mysql_PO.dbDesc('test*', 'id', 'name', 'url')  # 搜索符合条件字段的u开头的表结构
+    # Mysql_PO.dbDesc('test_menu', 'id', 'name')  # 搜索符合条件字段的user开头的表结构
 
+    # print("2 查找记录".center(100, "-"))
+    # Mysql_PO.dbRecord('sys_user', 'char', '%金%')  # 搜索user表中内容包含金丽娜的char类型记录。
+    # Mysql_PO.dbRecord('*', 'varchar', u'%金%')   # 搜索所有表中带金丽娜的char类型记录。
+    # Mysql_PO.dbRecord('*', 'datetime', u'%2021-11-17%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
 
-
-    # Mysql_PO.dbDesc('user')   # 指定表结构
-    # Mysql_PO.dbDesc('u*')  # u开头的表结构（通配符*）
-    # Mysql_PO.dbDesc('use*', 'USER_NAME', 'KEY_SN', "BYNAME")  # 搜索符合条件字段的u开头的表结构
-    # Mysql_PO.dbDesc('user', 'USER_NAME', 'KEY_SN', "BYNAME")  # 搜索符合条件字段的user开头的表结构
-
-    # Mysql_PO.dbRecord('user', 'char', '%金丽娜%')  # 搜索user表中内容包含金丽娜的char类型记录。
-    # Mysql_PO.dbRecord('*', 'varchar', u'%金丽娜%')   # 搜索所有表中带金丽娜的char类型记录。
-    # Mysql_PO.dbRecord('*', 'datetime', u'%2019-10-10%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
-
+    # print("3 查找创建时间".center(100, "-"))
     # Mysql_PO.dbCreateDate()   # 查看所有表的创建时间
-    # Mysql_PO.dbCreateDate('app_code')   # 查看book表创建时间
-    # Mysql_PO.dbCreateDate('fact*')   # 查看所有b开头表的创建时间，通配符*
-    # Mysql_PO.dbCreateDate('after', '2019-02-18')  # 查看所有在2019-02-18之后创建的表
-    # Mysql_PO.dbCreateDate('>', '2019-02-18')  # 查看所有在2019-02-18之后创建的表
-    # Mysql_PO.dbCreateDate('before', "2019-04-10")  # 显示所有在2019-12-08之前创建的表
-    # Mysql_PO.dbCreateDate('<', "2019-02-18")  # 显示所有在2019-12-08之前创建的表
+    # Mysql_PO.dbCreateDate('test1')   # 查看book表创建时间
+    # Mysql_PO.dbCreateDate('test*')   # 查看所有b开头表的创建时间，通配符*
+    # Mysql_PO.dbCreateDate('after', '2021-11-14')  # 查看所有在2019-02-18之后创建的表
+    # Mysql_PO.dbCreateDate('>', '2021-11-14')  # 查看所有在2019-02-18之后创建的表
+    # Mysql_PO.dbCreateDate('before', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
+    # Mysql_PO.dbCreateDate('<', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
+
+    # print("4 将数据库表导出excel".center(100, "-"))
+    # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
+
+    print("5 将所有表结构导出到excel".center(100, "-"))
+    Mysql_PO.dbDesc2excel("d:\\test.xlsx")  # 将所有表结构导出到excel
+
