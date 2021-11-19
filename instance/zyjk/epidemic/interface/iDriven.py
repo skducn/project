@@ -28,7 +28,7 @@ class HTTP:
     def __init__(self):
         # 构造函数，实例化实例变量
         global protocol, ip, port, password, userNo
-        if localReadConfig.get_system("switchENV") == "test":
+        if localReadConfig.get_env("switchENV") == "test":
             protocol = localReadConfig.get_test("protocol")
             ip = localReadConfig.get_test("ip")
             port = localReadConfig.get_test("port")
@@ -64,36 +64,39 @@ class HTTP:
 
         '''  post请求之登录获取token '''
 
-        print("\n")
-        iParam = dict(eval(iParam))
-
-
-        if globalVar != None:
-            d_globalVar = dict(eval(globalVar))
-        # for k, v in iParam.items():
-        #     if v == "$password":
-        #         iParam[k] = password
-        #     if v == "$userNo":
-        #         iParam[k] = userNo
-        path = protocol + "://" + ip + ":" + port + iPath
-        result = self.session.post(path, headers=self.headers, json=iParam, verify=False)
-        print(iParam)
-        print(result)
-        print(result.text)
-        self.jsonres = json.loads(result.text)
-
-        self.session.headers['token'] = self.jsonres['data']['token']
-        res = result.text
-        print("\n请求地址 => " + str(path))
-        print("\n请求参数 => " + str(iParam))
-        print("\n字典变量 => " + str(d_globalVar))
-        print("\n返回 => " + str(result.text) + "\n")
-        # print("\n请求头 => " + str(self.session.headers) + "\n")
         try:
+            iParam = dict(eval(iParam))
+
+            if globalVar != None:
+                d_globalVar = dict(eval(globalVar))
+
+            # 密码没加密
+            for k, v in iParam.items():
+                if v == "$password":
+                    iParam[k] = password
+                if v == "$userNo":
+                    iParam[k] = userNo
+
+            path = protocol + "://" + ip + ":" + port + iPath
+            result = self.session.post(path, headers=self.headers, json=iParam, verify=False)
+            # print(iParam)
+            # print(result)
+            # print(result.text)
+            self.jsonres = json.loads(result.text)
+
+            self.session.headers['token'] = self.jsonres['data']['token']
+            res = result.text
+            print("\n请求地址 => " + str(path))
+            print("\n请求参数 => " + str(iParam))
+            print("\n设置变量 => " + str(d_globalVar))
+            print("\n返回 => " + str(result.text))
+            # print("\n请求头 => " + str(self.session.headers) + "\n")
+
             res = res[res.find('{'):res.rfind('}') + 1]
+            return res, d_globalVar
         except Exception as e:
             print(e.__traceback__)
-        return res, d_globalVar
+
 
     def get(self, interName, interParam, d_var):
 
@@ -117,7 +120,7 @@ class HTTP:
                 x = jsonpath.jsonpath(d_response, expr=var)
                 d_var = d_var.replace(var, str(x[0]))
             d_var = dict(eval(d_var))
-        print("\n字典变量 => " + str(d_var))
+        print("\n设置变量 => " + str(d_var))
         print("\n返回 => " + str(result.text) + "\n")
 
         res = result.text
@@ -148,7 +151,7 @@ class HTTP:
                     d_var = d_var.replace(var, str(x[0]))
                 d_var = dict(eval(d_var))
         print("\n请求参数 => " + str(interParam))
-        print("\n字典变量 => " + str(d_var))
+        print("\n设置变量 => " + str(d_var))
         print("\n返回 => " + str(result.text))
         # print("\n请求头 => " + str(self.session.headers) + "\n")
         res = result.text
@@ -169,7 +172,7 @@ class HTTP:
         else:
             result = self.session.delete(path, headers=self.headers, json=dict(eval(interParam)), verify=False)
             print("\n请求参数 => " + str(interParam))
-            print("\n字典变量 => " + str(d_var))
+            print("\n设置变量 => " + str(d_var))
         print("\n返回：" + str(result.text) + "\n")
         res = result.text
         try:
