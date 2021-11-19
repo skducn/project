@@ -9,93 +9,24 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-d_var = '{"var11":"$.code","var12":"$.msg","var13":"$.data.list[0].name"}'
-for a in range(1, len(d_var.split("$."))):
-  var = d_var.split("$.")[a].split('"')[0]
-  var = "$." + var
-  print(var)
-  # x = jsonpath.jsonpath(d_response, expr=var)
-  # print(str(a) + ", " + str(x))
-  # d_var = d_var.replace(var, str(x[0]))
-
-
-# x = ['老', '空', '老 糖', '糖\n1', '老', '空', '糖', '糖\n1', '糖', '空', '老 高', '高\n2', '老', '空', '老 高', '高\n2', '老 高 糖', '高\n1\n糖\n1', '老 高', '高\n2']
-# list1 = []
-# for i in range(len(x)):
-#  list1.append(x[i].replace("\n", ""))
-# print(list1)
 
 
 
-# x = ['老', '', '老 糖', '糖\n1', '老', '', '糖', '糖\n1', '糖', '', '老 高', '高\n2', '老', '', '老 高', '高\n2', '老 高 糖', '高\n1\n糖\n1', '老 高', '高\n2',"",""]
-# tmp = []
-# for i in range(20):
-#  if x[i] == '':
-#   tmp.append("空")
-#  else:
-#   tmp.append(x[i])
-#
-#
-# print(tmp)
+
 
 #
-# l_33= ['13764376490', '孙*祥', '其他', '-', '87.8%', '4', '2', '-', '-', '-', '聂*亮', '老', '未发现档案', '0.0%', '-', '-', '-', '-', '-', '范*利', '糖', '未发现档案', '0.0%', '-', '-', '-', '-', '-', '忻*强', '老', '-', '69.3%', '6', '25', '28', '-', '-', '65025814', '张*中', '其他', '-', '42.9%', '4', '24', '-', '-', '-', '13020143988', '张*梅', '其他', '-', '42.9%', '4', '24', '-', '-', '-', '18001908015', '管*航', '其他', '-', '42.9%', '4', '24', '-', '-', '-', '13062737935', '庞*勇', '糖', '-', '82.3%', '5', '24', '5', '-', '-', '13661684669', '钱*国', '其他', '-', '42.9%', '4', '24', '-', '-', '-', '65103710', '马*龙', '老', '-', '70.3%', '5', '24', '28', '-', '-']
-# l4 = []
-# for i in range(len(l_33)):
-#  if "*" in l_33[i] and i == 0:
-#   l4.append("空")
-#  elif "*" in l_33[i]:
-#   print(i)
-#   if len(l_33[i - 1]) < 7:
-#    l4.append("空1")
-#   else:
-#    l4.append(l_33[i-1])
-#   l4.append(l_33[i])
-#   l4.append(l_33[i+1])
-#   l4.append(l_33[i+2])
-#   l4.append(l_33[i+3])
-#   l4.append(l_33[i+4])
-#   l4.append(l_33[i+5])
-#   l4.append(l_33[i+6])
-#   l4.append(l_33[i+7])
-#   l4.append(l_33[i+8])
-#
-# print(l_33)
-# print(l4)
-#
-#
-# from PO.ListPO import *
-# List_PO = ListPO()
-#
-# a = ['古*尔', '000000000000000000', '戴*星', '110108195005133414']
-# b = ['13764376490', '孙*祥', '其他', '-', '87.8%', '4', '2', '-', '-', '-', '空1', '聂*亮', '老', '未发现档案', '0.0%', '-', '-', '-', '-', '-']
-# print(List_PO.listSplitSubList(a, 2))
-# print(List_PO.listSplitSubList(b, 10))
-# x = List_PO.listSplitSubList(a, 2)[1] + List_PO.listSplitSubList(b, 10)[1]
-# print(x)
-#
-# d = {
-#  "diastolicBloodPressure": 91,
-#  "heartRate": 66,
-#  "measurementDate": "2021-03-23 17:01",
-#  "systolicPressure": 121,
-#  "id": ""
-# }
-#
-# print(d)
-#
-# import textwrap
-#
-# text = """abcdefg
-# hijklmn
-# opqrstuvwxyz
-# """
-#
-# print(text)
+import textwrap
+
+text = """abcdefg
+hijklmn
+opqrstuvwxyz
+"""
+
+print(text)
 #
 # # # # todo: fill() 调整换行符,每行显示给定宽度，注意下一行前会有空格
-# print("fill() 调整换行符,每行显示给定宽度".center(100, "-"))
-# print(textwrap.fill(text, width=6))
+print("fill() 调整换行符,每行显示给定宽度".center(100, "-"))
+print(textwrap.fill(text, width=6))
 # # abcdef
 # # g hijk
 # # lmn op
