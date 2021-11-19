@@ -1,4 +1,7 @@
-﻿https://blog.csdn.net/winter199/article/details/82425689
+﻿Python 标准库 3.7.12
+https://docs.python.org/zh-cn/3.7/library/index.html
+
+https://blog.csdn.net/winter199/article/details/82425689
 
 1.介绍
 2.内置功能
