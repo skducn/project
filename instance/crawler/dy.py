@@ -119,29 +119,32 @@ def getVideoList(url, varFromNumDown=0):
 @click.command()
 @click.option('-u',"--url", help='url地址')
 @click.option("-s", '--save', help='保存路径')
-def getVideoOne(url,save):
-	session = requests.session()
-	headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
+def getVideoOne(url, save):
 
-	# 解析url
-	res = session.get(url=url, headers=headers)
-	video = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)   # 如：video_id=6912637146767674636
-
-	# 解析url1
-	url1 = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + video[0]
-	res1 = requests.get(url=url1, headers=headers)
-	# print(res1.text)
-	video_id = re.findall(r'/?video_id=(\w+)', res1.text)   # 如：video_id=v0300f3d0000bvn9r1prh6u8gbdusbdg
-	nickname = re.findall('"share_title":"(.+?)"', res1.text)  # 视频标题
-
-	# 视频文件优化，自动去除特殊符合，如?
-	if "?" in str(nickname[0]):
-		nickname = str(nickname[0]).replace("?", "")
-
-	# 下载
-	ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
-	open(f'{save}/{nickname}.mp4', 'wb').write(ir.content)
-	print("已下载到本地：" + str(save) + "\%s.mp4" % nickname[0])
+	print(url)
+	print(save)
+	# session = requests.session()
+	# headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
+	#
+	# # 解析url
+	# res = session.get(url=url, headers=headers)
+	# video = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)   # 如：video_id=6912637146767674636
+	#
+	# # 解析url1
+	# url1 = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + video[0]
+	# res1 = requests.get(url=url1, headers=headers)
+	# # print(res1.text)
+	# video_id = re.findall(r'/?video_id=(\w+)', res1.text)   # 如：video_id=v0300f3d0000bvn9r1prh6u8gbdusbdg
+	# nickname = re.findall('"share_title":"(.+?)"', res1.text)  # 视频标题
+	#
+	# # 视频文件优化，自动去除特殊符合，如?
+	# if "?" in str(nickname[0]):
+	# 	nickname = str(nickname[0]).replace("?", "")
+	#
+	# # 下载
+	# ir = session.get("https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + video_id[0] +"&ratio=720p&line=0", headers=headers)
+	# open(f'{save}/{nickname}.mp4', 'wb').write(ir.content)
+	# print("已下载到本地：" + str(save) + "\%s.mp4" % nickname[0])
 
 
 if __name__ == '__main__':

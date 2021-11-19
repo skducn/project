@@ -55,8 +55,8 @@ if __name__ == '__main__':
 
     print(r.get_test('ip'))  # 192.168.0.243
 
-    print("1.1，新增sections、key、value写入文件（key存在则替换）".center(100, "-"))
-    r.cf['topsecret.server.com'] = {'Host Port': '50022', 'ForwardX11': 'no1'}
+    print("1.1，新增/修改sections、key、value写入文件（key存在则替换）".center(100, "-"))
+    r.cf['topsecret.server.com'] = {'Host Port': '50022', 'ForwardX11': '123123123'}
     with open('config.ini', 'w') as configfile:
         r.cf.write(configfile)
 

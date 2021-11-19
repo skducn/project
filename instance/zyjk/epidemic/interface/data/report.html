@@ -7128,33 +7128,57 @@
 </script>
 <script type="text/javascript">
     var resultData = {
-    "testPass": 0,
+    "testPass": 2,
     "testResult": [
         {
             "className": "run",
             "methodName": "test11_0",
-            "description": "[with excelNo=4, iName='用户登录', iPath='/auth/login', iMethod='token', iParam='{\"password\":\"JVCJg34783-5PK8tmb...Cxh0wzmUgxXhpXr6qXYnclv2dPw==\"}', iKey='$.code', iValue='200', globalVar='{\"sys_org_id\":34,\"ep_zj_center_id\":9}', sql=None]",
-            "spendTime": "0.0259 s",
-            "status": "失败",
+            "description": "[with excelNo=2, iName='用户登录', iPath='/auth/login', iMethod='token', iParam='{\"password\":\"$password\",\"userNo\":\"$userNo\"}', iKey='$.code', iValue='200', globalVar='{\"sys_org_id\":34,\"ep_zj_center_id\":9}', sql=None]",
+            "spendTime": "0.111 s",
+            "status": "成功",
             "log": [
-                "\n4------------------------------------------------用户登录------------------------------------------------\n\n\n{'password': 'JVCJg34783-5PK8tmbbWLvzj8xo06k4ktkhRHv33K_TOV_RYtQsMxnFzsDXlYTreb2UF7M0h7BdoGTkAI_iYluE8IlGQ-1rx6l3vuDvSCm-C5Cqe6T5EH1GopECBzl_Kdhun1ZFHUv4zu-sVsmhKpnUX5pr5VUZYmfeKvsN9O46Yu3CopvybU5NlZ-1iB5sOj8_96gH-jsTLhgRAS4wWTfAMEyjYSXQcjXvx78iTrPJJdmqKEgERCmnydysR-77ArYSF6K9iqg9QQSCn0VsITFVzEdSJ_KZi37AG0gv7qoOBKMHx2W6oDv5U7lg49TjxBb5PmRhtOWzh670htxggpA==', 'userNo': 'NZQSRDh0ygdnTTjwVwQ3a6BaKIEwL3xhMn73_HlLdTaCj6utbyW0UUXDXe3fL7xFqxAEfUBgrZVtpt4X9So55IIJ50P0t1RwLcVBHAoBb_sYwsfWLuyOjL9sl_LoWgEH2qeMOvH851CNpklscEBPNJwkePZ4OetmJ6wKEiyrI_s6GTVizcY5F_l6-yeckBFbpxuWKlNm2zvLFKObmRV0oDqLQuBboXdU_m-K_fUrurWq2C5RnPOj6mIC_Oxu8-EDxit549CRKf476JuSWrSbylYR8nFETOEkNsWB1EoHuOJWnkPE1oawas2USI9Cxh0wzmUgxXhpXr6qXYnclv2dPw=='}\n<Response [200]>\n{\"code\":500,\"msg\":\"密码不能为空\",\"data\":null}\n",
-                "Traceback (most recent call last):\n",
-                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 59, in testPartExecutor\n    yield\n",
-                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 593, in run\n    self._callTestMethod(testMethod)\n",
-                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 550, in _callTestMethod\n    method()\n",
-                "  File \"C:\\Python39\\lib\\site-packages\\parameterized\\parameterized.py\", line 533, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
-                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\run.py\", line 27, in test11\n    xls1.result(excelNo, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql)\n",
-                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\xls.py\", line 193, in result\n    res, d_globalVar = reflection.run([iName, iPath, iMethod, iParam, globalVar])\n",
-                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\reflection.py\", line 33, in run\n    return func(line[1], line[3], line[4])  # [iPath, iParam, globalVar]\n",
-                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\iDriven.py\", line 85, in token\n    self.session.headers['token'] = self.jsonres['data']['token']\n",
-                "TypeError: 'NoneType' object is not subscriptable\n"
+                "",
+                "-----------------------------------------------2，用户登录-----------------------------------------------",
+                "",
+                "请求地址 => http://192.168.0.243:8001/auth/login",
+                "",
+                "请求参数 => {'password': 'Jinhao!123', 'userNo': 'jinhao'}",
+                "",
+                "设置变量 => {'sys_org_id': 34, 'ep_zj_center_id': 9}",
+                "",
+                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NiIsImlhdCI6MTYzNzMwNjc5NSwiZXhwIjoxNjM3OTExNTk1fQ.IHE0Q-ULTOUB4OWUKzR4k4NQzun5rlq2cHNLJO6lr5Y_m7hxqq01hvIT4itzdYCRLF8ms8fVwON3utpC-Lw0FA\",\"expire\":86400}}",
+                "",
+                "全局变量 => {'sys_org_id': 34, 'ep_zj_center_id': 9}",
+                ""
+            ]
+        },
+        {
+            "className": "run",
+            "methodName": "test11_1",
+            "description": "[with excelNo=6, iName='网络中心注册-根据ID获取单个实体模型', iPath='/register/getOrgVoById/2', iMethod='post', iParam=None, iKey='$.code', iValue='200', globalVar='{\"sys_org_id\":\"$.code\",\"test2\":\"$.msg\"}', sql=None]",
+            "spendTime": "0.0476 s",
+            "status": "成功",
+            "log": [
+                "",
+                "---------------------------------------6，网络中心注册-根据ID获取单个实体模型----------------------------------------",
+                "",
+                "请求地址 => http://192.168.0.243:8001/register/getOrgVoById/2",
+                "",
+                "请求参数 => None",
+                "",
+                "设置变量 => {'sys_org_id': '200', 'test2': 'success'}",
+                "",
+                "返回 => {\"code\":200,\"msg\":\"success\",\"data\":null}",
+                "",
+                "全局变量 => {'sys_org_id': 34, 'test2': 'success', 'ep_zj_center_id': 9}",
+                ""
             ]
         }
     ],
-    "testName": "疫情防控管理平台测试报告",
-    "testAll": 1,
-    "testFail": 1,
-    "beginTime": "2021-11-18 18:03:46",
+    "testName": "招远防疫防控接口测试报告",
+    "testAll": 2,
+    "testFail": 0,
+    "beginTime": "2021-11-19 15:26:34",
     "totalTime": "1s",
     "testSkip": 0,
     "testError": 0

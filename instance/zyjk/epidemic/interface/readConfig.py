@@ -22,7 +22,12 @@ class ReadConfig:
         # fd.close()
 
         self.cf = configparser.ConfigParser()
-        self.cf.read('config.ini', encoding="utf-8-sig")
+        self.cf.read('config.ini')
+        # self.cf.read('config.ini', encoding="utf-8-sig")
+
+    def get_env(self, name):
+        value = self.cf.get("ENV", name)
+        return value
 
     def get_system(self, name):
         value = self.cf.get("SYSTEM", name)
