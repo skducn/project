@@ -1,19 +1,22 @@
 
 name: apiLogin
-variables:
-    username: ${ENV(USERNAME)}
-    password: ${ENV(PASSWORD)}
+#variables:
+#    username:121212
+##    username: ${ENV(USERNAME)}
+##    password: ${ENV(PASSWORD)}
 request:
-    url: http://192.168.1.110/indexLogin.html
-    method: POST
+    url: http://192.168.1.110/index.html
+    method: 'POST'
     headers:
         Content-Type: application/x-www-form-urlencoded
         User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
                 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36
     data:
         checkbox: 'on'
-        userName: $username
-        userPass: $password
+#        userName: $username
+#        userPass: $password
+        userName: "test"
+        userPass: "jinhao"
 validate:
     - eq: ["status_code", 200]
 

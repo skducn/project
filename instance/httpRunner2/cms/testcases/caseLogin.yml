@@ -3,8 +3,8 @@ config:
     name: "login"
     variables:
         checkbox: 'on'
-        username: chenxiaodong
-        password: 123456
+        username: 'chenxiaodong'
+        password: '123456'
     #  测试步骤中指定 variables 参数，覆盖 API 中的 variables 实现
     #  测试步骤中定义 validate 后，也会与 API 中的 validate 合并覆盖
     base_url: "http://192.168.1.110"
@@ -12,11 +12,15 @@ config:
 teststeps:
 -
     name: 登录用例（$username）
-    api: api/apiLogin.yml
+    api: ../api/apiLogin.yml
+#    variables:
+#        checkbox: 'on'
+#        username: 'test'
+#        password: 'jinhao'
     data:
         checkbox: 'on'
-        userName: $username
-        userPass: $password
+        userName: 'test'
+        userPass: 'jinhao'
     validate:
         - eq: ["status_code", 200]
 

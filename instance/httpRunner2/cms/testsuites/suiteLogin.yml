@@ -6,17 +6,16 @@ config:
 testcases:
 -
     name: 登录集合（测试所有登录者）
-    testcase: testcases/caseLogin.yml
+    testcase: ../testcases/caseLogin.yml
     parameters:
 #        独立参数 & 直接指定参数列表
 #        username: [liuruyue,shuyangyang]
 #        参数化后，parameters 中的变量将采用笛卡尔积组合形成参数列表，依次覆盖 variables 中的参数，驱动测试用例的运行。
 
 #        关联参数 & 直接指定参数列表
-#        username-password:
-#            - ["test", "jinhao"]
-#            - ["liuruyue", "123456"]
-#            - ["shuyangyang", "123456"]
+        username-password:
+            - ["liuruyue", "123456"]
+            - ["shuyangyang", "123456"]
 
 #        独立参数 & 引用 CSV 文件
 #        username: ${P(data/account.csv)}
@@ -29,4 +28,4 @@ testcases:
 #         username: ${getUser()}
 
 #        关联参数 & 引用自定义函数(调用 debugtalk.py)
-         username-password: ${getAccount()}
+#         username-password: ${getAccount()}
