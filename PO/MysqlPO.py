@@ -628,8 +628,8 @@ if __name__ == '__main__':
     # mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306) # 测试
 
     # 招远防疫 >>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
-    Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
+    Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
+    # Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
 
     # print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
     # Mysql_PO.dbDesc()  # 所有表结构
@@ -640,7 +640,7 @@ if __name__ == '__main__':
 
     # print("2 查找记录".center(100, "-"))
     # Mysql_PO.dbRecord('sys_user', 'char', '%金%')  # 搜索user表中内容包含金丽娜的char类型记录。
-    # Mysql_PO.dbRecord('*', 'varchar', u'%金%')   # 搜索所有表中带金丽娜的char类型记录。
+    Mysql_PO.dbRecord('*', 'varchar', u'%招远疫情防控公告123456%')   # 搜索所有表中带金丽娜的char类型记录。
     # Mysql_PO.dbRecord('*', 'datetime', u'%2021-11-17%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
 
     # print("3 查找创建时间".center(100, "-"))
@@ -655,6 +655,6 @@ if __name__ == '__main__':
     # print("4 将数据库表导出excel".center(100, "-"))
     # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
 
-    print("5 将所有表结构导出到excel".center(100, "-"))
-    Mysql_PO.dbDesc2excel("d:\\test.xlsx")  # 将所有表结构导出到excel
+    # print("5 将所有表结构导出到excel".center(100, "-"))
+    # Mysql_PO.dbDesc2excel("d:\\test.xlsx")  # 将所有表结构导出到excel
 

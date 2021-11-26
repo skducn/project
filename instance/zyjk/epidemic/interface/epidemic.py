@@ -20,6 +20,8 @@ localReadConfig = readConfig.ReadConfig()
 import xls as xls
 xls1 = xls.XLS()
 
+print(${ENV(USERNAME)})
+
 class epidemic(unittest.TestCase):
 
     @parameterized.expand(xls1.getCaseParam())
@@ -34,10 +36,10 @@ if __name__ == '__main__':
     rptName = localReadConfig.get_system("rptName")
     xlsName = localReadConfig.get_system("xlsName")
     if platform.system() == 'Darwin':
-        runner.report(filename='./data/' + rptName, description=iFile, test="你好吗")
+        runner.report(filename='./data/' + rptName, description=iFile)
         os.system("open ./data/" + rptName)
         os.system("open " + xlsName)
     elif platform.system() == 'Windows':
-        runner.report(filename='data\\' + rptName, description=iFile, test="你好吗")
-        os.system("start .\\data\\" + rptName)
+        runner.report(filename=rptName, description=iFile)
+        os.system("start " + rptName)
         os.system("start " + xlsName)
