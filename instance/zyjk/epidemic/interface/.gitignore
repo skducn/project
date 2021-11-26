@@ -1,0 +1,7 @@
+.env
+reports/*
+__pycache__/*
+*.pyc
+.python-version
+logs/*
+readme.txt
