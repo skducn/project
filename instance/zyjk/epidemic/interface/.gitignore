@@ -5,3 +5,5 @@ __pycache__/*
 .python-version
 logs/*
 readme.txt
+encrypted_data.bin
+private_key
