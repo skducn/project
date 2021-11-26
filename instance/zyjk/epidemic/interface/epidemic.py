@@ -20,7 +20,7 @@ localReadConfig = readConfig.ReadConfig()
 import xls as xls
 xls1 = xls.XLS()
 
-print(${ENV(USERNAME)})
+
 
 class epidemic(unittest.TestCase):
 
