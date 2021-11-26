@@ -3,4 +3,4 @@ __pycache__/*
 readme.txt
 encrypted_data.*
 private_key.*
-
+rsa/*
