@@ -21,7 +21,6 @@ import xls as xls
 xls1 = xls.XLS()
 
 
-
 class epidemic(unittest.TestCase):
 
     @parameterized.expand(xls1.getCaseParam())
