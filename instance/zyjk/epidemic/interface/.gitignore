@@ -6,4 +6,4 @@ __pycache__/*
 logs/*
 readme.txt
 encrypted_data.bin
-private_key
+private_key.pem
