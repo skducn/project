@@ -86,12 +86,12 @@ class HTTP:
 
             self.session.headers['token'] = self.jsonres['data']['token']
             res = result.text
-            print("\n请求地址 => " + str(path))
-            print("\n请求参数 => " + str(iParam))
-            print("\n设置变量 => " + str(d_globalVar))
+            print("\n地址 => " + str(path))
+            print("\n参数 => " + str(iParam))
+            print("\n方法 => [post]")
             print("\n返回 => " + str(result.text))
+            print("\n当前变量 => " + str(d_globalVar))
             # print("\n请求头 => " + str(self.session.headers) + "\n")
-
             res = res[res.find('{'):res.rfind('}') + 1]
             return res, d_globalVar
         except Exception as e:
@@ -104,14 +104,13 @@ class HTTP:
 
         if interParam == None:
             path = protocol + "://" + ip + ":" + port + interName
-            print("\n请求地址 => " + str(path))
+            print("\n地址 => " + str(path))
             result = self.session.get(path, data=None)
         else:
             path = protocol + "://" + ip + ":" + port + interName + "?" + interParam
             result = self.session.get(path, headers=self.headers, verify=False)
-            print("\n请求地址 => " + str(path))
-            print("\n请求参数 => " + str(interParam))
-
+            print("\n地址 => " + str(path))
+            print("\n参数 => " + str(interParam))
         d_response = json.loads(result.text)
         if d_var != None:
             if "$." in d_var:
@@ -120,9 +119,9 @@ class HTTP:
                 x = jsonpath.jsonpath(d_response, expr=var)
                 d_var = d_var.replace(var, str(x[0]))
             d_var = dict(eval(d_var))
-        print("\n设置变量 => " + str(d_var))
+        print("\n方法 => [get]")
         print("\n返回 => " + str(result.text) + "\n")
-
+        print("\n当前变量 => " + str(d_var))
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
@@ -135,7 +134,7 @@ class HTTP:
         ''' post 请求'''
 
         path = protocol + "://" + ip + ":" + port + interName
-        print("\n请求地址 => " + str(path))
+        print("\n地址 => " + str(path))
         if interParam == None:
             result = self.session.post(path, data=None)
         else:
@@ -150,9 +149,10 @@ class HTTP:
                     x = jsonpath.jsonpath(d_response, expr=var)
                     d_var = d_var.replace(var, str(x[0]))
                 d_var = dict(eval(d_var))
-        print("\n请求参数 => " + str(interParam))
-        print("\n设置变量 => " + str(d_var))
+        print("\n参数 => " + str(interParam))
+        print("\n方法 => [post]")
         print("\n返回 => " + str(result.text))
+        print("\n当前变量 => " + str(d_var))
         # print("\n请求头 => " + str(self.session.headers) + "\n")
         res = result.text
         try:
@@ -166,14 +166,17 @@ class HTTP:
         ''' delete 请求'''
 
         path = protocol + "://" + ip + ":" + port + interName
-        print("\n请求地址 => " + str(path))
+        print("\n地址 => " + str(path))
         if interParam == None:
             result = self.session.delete(path, data=None)
+            print("\n返回：" + str(result.text) + "\n")
         else:
             result = self.session.delete(path, headers=self.headers, json=dict(eval(interParam)), verify=False)
-            print("\n请求参数 => " + str(interParam))
-            print("\n设置变量 => " + str(d_var))
-        print("\n返回：" + str(result.text) + "\n")
+            print("\n参数 => " + str(interParam))
+            print("\n方法 => [delete]")
+            print("\n返回：" + str(result.text) + "\n")
+            print("\n当前变量 => " + str(d_var))
+
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}')+1]
@@ -193,7 +196,7 @@ class HTTP:
         path = protocol + "://" + ip + ":" + port + interURL
         result = requests.post(path, data=m, headers=self.headers)
         self.jsonres = json.loads(result.text)
-        print("\n请求地址 => " + str(path))
+        print("\n地址 => " + str(path))
         print("\n上传文件 => " + str(filePath))
         print("\n返回 => " + str(result.text) + "\n")
         res = result.text
