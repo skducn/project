@@ -35,8 +35,8 @@ if __name__ == '__main__':
     rptName = localReadConfig.get_system("rptName")
     xlsName = localReadConfig.get_system("xlsName")
     if platform.system() == 'Darwin':
-        runner.report(filename='./data/' + rptName, description=iFile)
-        os.system("open ./data/" + rptName)
+        runner.report(filename=rptName, description=iFile)
+        os.system("open " + rptName)
         os.system("open " + xlsName)
     elif platform.system() == 'Windows':
         runner.report(filename=rptName, description=iFile)
