@@ -66,9 +66,9 @@ xls1 = xls.XLS()
 
 class run(unittest.TestCase):
     @parameterized.expand(xls1.getCaseParam())
-    def test11(self, excelNo, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql):
+    def test12(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql):
         ' '
-        xls1.result(excelNo, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql)
+        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql)
 
 if __name__ == '__main__':
     suite = unittest.defaultTestLoader.discover('.', pattern='run.py', top_level_dir=None)
@@ -87,7 +87,7 @@ if __name__ == '__main__':
                 os.system("open " + localReadConfig.get_system("excelName"))
 
     if platform.system() == 'Windows':
-        runner.report(filename='data\\' + reportName, description=projectName + '测试报告')
+        runner.report(filename='data\\' + reportName, description=projectName)
         if len(argvParam) == 2:
             if argvParam[1] == "report":
                 os.system("start .\\data\\" + localReadConfig.get_system("reportName"))

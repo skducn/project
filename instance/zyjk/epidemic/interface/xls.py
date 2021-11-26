@@ -27,9 +27,9 @@ class XLS:
 
         # 初始化表格
         if platform.system() == 'Darwin':
-            self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'/' + localReadConfig.get_system("excelName")
+            self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'/' + localReadConfig.get_system("xlsName")
         if platform.system() == 'Windows':
-            self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'\\' + localReadConfig.get_system("excelName")
+            self.varExcel = os.path.dirname(os.path.abspath("__file__")) + u'\\' + localReadConfig.get_system("xlsName")
         self.Openpyxl_PO = OpenpyxlPO(self.varExcel)
         self.Openpyxl_PO.closeExcelPid('EXCEL.EXE')   # 关闭excel进程
         l_sheetNames = (self.Openpyxl_PO.wb.sheetnames)   # 所有工作表名列表：如 ['inter', 'case']
@@ -69,6 +69,8 @@ class XLS:
                 pass
             else:
                 l_case.append(i+2)  # excelNO
+                l_case.append(sh.cell(row=i+2, column=4).value)  # 类型
+                l_case.append(sh.cell(row=i+2, column=5).value)  # 大类
                 l_case.append(sh.cell(row=i+2, column=6).value)  # 名称
                 l_case.append(sh.cell(row=i+2, column=7).value)  # 路径
                 l_case.append(sh.cell(row=i+2, column=8).value)  # 方法
@@ -82,7 +84,7 @@ class XLS:
         # print(l_casesuit)
         return l_casesuit
 
-    def result(self, excelNo,  iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql):
+    def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql):
 
         ''' 替换参数，解析接口，检查iKey、iValue '''
 
@@ -102,7 +104,7 @@ class XLS:
                     iPath = str(iPath).replace("{{" + k + "}}", str(self.d_tmp[k]))
 
         # 华丽分割线
-        print("\n" + (str(excelNo) + "，" + iName).center(100, "-"))
+        # print("\n" + (str(excelNo) + "，" + iName).center(100, "-"))
 
         # sql更新前
         if sql != None:
