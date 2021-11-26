@@ -1,9 +1,6 @@
 .env
-reports/*
 __pycache__/*
-*.pyc
-.python-version
-logs/*
 readme.txt
-encrypted_data.bin
-private_key.pem
+encrypted_data.*
+private_key.*
+
