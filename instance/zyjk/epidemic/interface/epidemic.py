@@ -8,7 +8,7 @@
 # pip3 install nose-parameterized   for cmd
 # pip3 install BeautifulReport for cmd
 # pip3 install --upgrade pip
-# 提示语:Done 在C:\Python39\Lib\site-packages\BeautifulReport\BeautifulReport.py
+# 提示语:Done 在 C:\Python39\Lib\site-packages\BeautifulReport\BeautifulReport.py
 # pip3 install web.py
 # *****************************************************************
 
@@ -19,7 +19,6 @@ import readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 import xls as xls
 xls1 = xls.XLS()
-
 
 class epidemic(unittest.TestCase):
 

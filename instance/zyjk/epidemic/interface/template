@@ -7095,7 +7095,7 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th>编号</th><th>测试类</th><th>类型</th><th>模块</th><th>用例名称</th><th>测试日期</th><th>耗时</th><th>结果</th><th>操作</th>
+                            <th>用例编号</th><th>测试类</th><th>类型</th><th>模块</th><th>用例名称</th><th>测试日期</th><th>耗时</th><th>结果</th><th>操作</th>
                         </tr>
                         </thead>
                         <tbody id="detailBody">
@@ -7167,7 +7167,7 @@
             $.each(logs, function (i, n) {
                 detailLog = detailLog + "<p>" + n + "</p>";
             });
-            $(obj).parent().parent().after("<tr><td colspan='" + len + "'><div style='font-family: Consolas;font-size:12px'>" + detailLog + "</div></td></tr>");
+            $(obj).parent().parent().after("<tr><td colspan='" + len + "'><div style='font-family: Consolas;font-size:16px;word-break:break-all'>" + detailLog + "</div></td></tr>");
         } else if ($(obj).text() == '收缩') {
             $(obj).parent().parent().next().remove();
             $(obj).text("展开");

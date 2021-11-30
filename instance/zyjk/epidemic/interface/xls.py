@@ -119,7 +119,7 @@ class XLS:
 
         if d_globalVar != None:
             self.d_tmp = Dict_PO.getMergeDict2(self.d_tmp, d_globalVar)
-        print("\n全局变量 => " + str(self.d_tmp))
+        print("\n<font color='purple'>全局变量 => " + str(self.d_tmp) + "</font>")
         d_res = json.loads(res)
 
         # sql更新后

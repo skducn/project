@@ -75,8 +75,9 @@ FIELDS = {
 
 class PATH:
     """ all file PATH meta """
-    config_tmp_path = SITE_PAKAGE_PATH + '/BeautifulReport/template/template'
-
+    # config_tmp_path = SITE_PAKAGE_PATH + '/BeautifulReport/template/template'
+    config_tmp_path = os.getcwd() + "/template"
+    # print(config_tmp_path)
 
 class MakeResultJson:
     """ make html table tags """
@@ -194,7 +195,7 @@ class ReportTestResult(unittest.TestResult):
             当测试用力执行完成后进行调用
         :return:
         """
-        self.end_time = '{0:.3} s'.format((time.time() - self.start_time))
+        self.end_time = '{0:.3} 秒'.format((time.time() - self.start_time))
         self.result_list.append(self.get_all_result_info_tuple(test))
         # print(self.result_list)
         self.complete_output()
@@ -230,7 +231,7 @@ class ReportTestResult(unittest.TestResult):
         FIELDS['beginTime'] = self.begin_time
         end_time = int(time.time())
         start_time = int(time.mktime(time.strptime(self.begin_time, '%Y-%m-%d %H:%M:%S')))
-        FIELDS['totalTime'] = str(end_time - start_time) + 's'
+        FIELDS['totalTime'] = str(end_time - start_time) + '秒'
         FIELDS['testError'] = self.error_count
         FIELDS['testSkip'] = self.skipped
         self.FIELDS = FIELDS
