@@ -89,7 +89,7 @@ class HTTP:
             print("\n地址 => " + str(path))
             print("\n参数 => " + str(iParam))
             print("\n方法 => [post]")
-            print("\n返回 => " + str(result.text))
+            print("\n<font color='blue'>返回 => " + str(result.text) + "</font>")
             print("\n当前变量 => " + str(d_globalVar))
             # print("\n请求头 => " + str(self.session.headers) + "\n")
             res = res[res.find('{'):res.rfind('}') + 1]
@@ -120,7 +120,7 @@ class HTTP:
                 d_var = d_var.replace(var, str(x[0]))
             d_var = dict(eval(d_var))
         print("\n方法 => [get]")
-        print("\n返回 => " + str(result.text) + "\n")
+        print("\n<font color='blue'>返回 => " + str(result.text) + "</font>")
         print("\n当前变量 => " + str(d_var))
         res = result.text
         try:
@@ -151,7 +151,7 @@ class HTTP:
                 d_var = dict(eval(d_var))
         print("\n参数 => " + str(interParam))
         print("\n方法 => [post]")
-        print("\n返回 => " + str(result.text))
+        print("\n<font color='blue'>返回 => " + str(result.text) + "</font>")
         print("\n当前变量 => " + str(d_var))
         # print("\n请求头 => " + str(self.session.headers) + "\n")
         res = result.text
@@ -174,7 +174,7 @@ class HTTP:
             result = self.session.delete(path, headers=self.headers, json=dict(eval(interParam)), verify=False)
             print("\n参数 => " + str(interParam))
             print("\n方法 => [delete]")
-            print("\n返回：" + str(result.text) + "\n")
+            print("\n<font color='blue'>返回：" + str(result.text) + "</font")
             print("\n当前变量 => " + str(d_var))
 
         res = result.text
@@ -198,7 +198,7 @@ class HTTP:
         self.jsonres = json.loads(result.text)
         print("\n地址 => " + str(path))
         print("\n上传文件 => " + str(filePath))
-        print("\n返回 => " + str(result.text) + "\n")
+        print("\n<font color='blue'>返回 => " + str(result.text) + "</font>\n")
         res = result.text
         self.headers = {"Content-Type": "application/json"}
         try:
