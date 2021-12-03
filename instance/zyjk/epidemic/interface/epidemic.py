@@ -21,15 +21,17 @@ localReadConfig = readConfig.ReadConfig()
 import xls as xls
 xls1 = xls.XLS()
 
-class epidemic(unittest.TestCase):
+class epidemic213(unittest.TestCase):
 
     @parameterized.expand(xls1.getCaseParam())
+    # @parameterized.expand(xls1.get1())
     def test5(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, globalVar, sql, tester, caseQty):
         ' '
         xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, globalVar, sql, tester, caseQty)
 
 if __name__ == '__main__':
-    suite = unittest.defaultTestLoader.discover('.', pattern=os.path.split(__file__)[-1], top_level_dir=None)
+    suite = unittest.defaultTestLoader.discover('.', pattern="epidemic213", top_level_dir=None)
+    # suite = unittest.defaultTestLoader.discover('.', pattern=os.path.split(__file__)[-1], top_level_dir=None)
     runner = bf(suite)
     iDoc = localReadConfig.get_system("iDoc")
     # rptName = localReadConfig.get_system("rptName")
