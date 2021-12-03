@@ -50,12 +50,12 @@ class HTTP:
         # self.session.headers['User Agent'] = 'Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/64.0'   # 添加默认UA，模拟chrome浏览器
 
     def seturl(self, url):
-        # 设置地址
+        # 设置请求地址
         if url.startswith('http'):
             self.url = url
             return True
         else:
-            print('error:url地址不合法')
+            print('error:url请求地址不合法')
             return False
 
 
@@ -86,17 +86,16 @@ class HTTP:
 
             self.session.headers['token'] = self.jsonres['data']['token']
             res = result.text
-            print("\n地址 => " + str(path))
-            print("\n参数 => " + str(iParam))
-            print("\n方法 => [post]")
-            print("\n<font color='blue'>返回 => " + str(result.text) + "</font>")
-            print("\n当前变量 => " + str(d_globalVar))
-            # print("\n请求头 => " + str(self.session.headers) + "\n")
+            print("\n【请求地址】：" + str(path))
+            print("\n【参数】：" + str(iParam))
+            print("\n【方法】：post")
+            print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
+            print("\n【当前变量】：" + str(d_globalVar))
+            # print("\n【请求头】：" + str(self.session.headers) + "\n")
             res = res[res.find('{'):res.rfind('}') + 1]
             return res, d_globalVar
         except Exception as e:
             print(e.__traceback__)
-
 
     def get(self, interName, interParam, d_var):
 
@@ -104,13 +103,13 @@ class HTTP:
 
         if interParam == None:
             path = protocol + "://" + ip + ":" + port + interName
-            print("\n地址 => " + str(path))
+            print("\n【请求地址】：" + str(path))
             result = self.session.get(path, data=None)
         else:
             path = protocol + "://" + ip + ":" + port + interName + "?" + interParam
             result = self.session.get(path, headers=self.headers, verify=False)
-            print("\n地址 => " + str(path))
-            print("\n参数 => " + str(interParam))
+            print("\n【请求地址】：" + str(path))
+            print("\n【参数】：" + str(interParam))
         d_response = json.loads(result.text)
         if d_var != None:
             if "$." in d_var:
@@ -119,9 +118,9 @@ class HTTP:
                 x = jsonpath.jsonpath(d_response, expr=var)
                 d_var = d_var.replace(var, str(x[0]))
             d_var = dict(eval(d_var))
-        print("\n方法 => [get]")
-        print("\n<font color='blue'>返回 => " + str(result.text) + "</font>")
-        print("\n当前变量 => " + str(d_var))
+        print("\n【方法】：get")
+        print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
+        print("\n【当前变量】：" + str(d_var))
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
@@ -134,12 +133,11 @@ class HTTP:
         ''' post 请求'''
 
         path = protocol + "://" + ip + ":" + port + interName
-        print("\n地址 => " + str(path))
+        print("\n【请求地址】：" + str(path))
         if interParam == None:
             result = self.session.post(path, data=None)
         else:
             result = self.session.post(path, headers=self.headers, json=dict(eval(interParam)), verify=False)
-
         d_response = json.loads(result.text)
         if d_var != None:
             if "$." in d_var:
@@ -149,10 +147,10 @@ class HTTP:
                     x = jsonpath.jsonpath(d_response, expr=var)
                     d_var = d_var.replace(var, str(x[0]))
                 d_var = dict(eval(d_var))
-        print("\n参数 => " + str(interParam))
-        print("\n方法 => [post]")
-        print("\n<font color='blue'>返回 => " + str(result.text) + "</font>")
-        print("\n当前变量 => " + str(d_var))
+        print("\n【参数】：" + str(interParam))
+        print("\n【方法】：post")
+        print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
+        print("\n【当前变量】：" + str(d_var))
         # print("\n请求头 => " + str(self.session.headers) + "\n")
         res = result.text
         try:
@@ -166,16 +164,16 @@ class HTTP:
         ''' delete 请求'''
 
         path = protocol + "://" + ip + ":" + port + interName
-        print("\n地址 => " + str(path))
+        print("\n【请求地址】：" + str(path))
         if interParam == None:
             result = self.session.delete(path, data=None)
-            print("\n返回：" + str(result.text) + "\n")
+            print("\n<font color='blue'>【返回】：" + str(result.text) + "</font")
         else:
             result = self.session.delete(path, headers=self.headers, json=dict(eval(interParam)), verify=False)
-            print("\n参数 => " + str(interParam))
-            print("\n方法 => [delete]")
-            print("\n<font color='blue'>返回：" + str(result.text) + "</font")
-            print("\n当前变量 => " + str(d_var))
+            print("\n【参数】：" + str(interParam))
+            print("\n【方法】：delete")
+            print("\n<font color='blue'>【返回】：" + str(result.text) + "</font")
+            print("\n【当前变量】：" + str(d_var))
 
         res = result.text
         try:
@@ -196,9 +194,9 @@ class HTTP:
         path = protocol + "://" + ip + ":" + port + interURL
         result = requests.post(path, data=m, headers=self.headers)
         self.jsonres = json.loads(result.text)
-        print("\n地址 => " + str(path))
-        print("\n上传文件 => " + str(filePath))
-        print("\n<font color='blue'>返回 => " + str(result.text) + "</font>\n")
+        print("\n【请求地址】：" + str(path))
+        print("\n【上传文件】：" + str(filePath))
+        print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>\n")
         res = result.text
         self.headers = {"Content-Type": "application/json"}
         try:

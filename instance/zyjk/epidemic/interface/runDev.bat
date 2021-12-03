@@ -1,5 +1,3 @@
 @echo off
 
-python run.py dev
-
-pause
+python run.py dev report

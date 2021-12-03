@@ -12,9 +12,10 @@
 # *****************************************************************
 
 import unittest, platform, os, sys
-from parameterized import parameterized
-from BeautifulReport import BeautifulReport as bf
-import readConfig as readConfig
+from datetime import date, datetime, timedelta
+sys.path.append("../../../../")
+import instance.zyjk.epidemic.interface.readConfig as readConfig
+# import readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 from time import sleep
 
@@ -59,40 +60,33 @@ if len(argvParam) == 2 :
         with open('config.ini', 'w') as configfile:
             localReadConfig.cf.write(configfile)
 
-
-import xls as xls
+from parameterized import parameterized
+from BeautifulReport import BeautifulReport as bf
+import instance.zyjk.epidemic.interface.xls as xls
+# import xls as xls
 xls1 = xls.XLS()
 
-
 class run(unittest.TestCase):
+
     @parameterized.expand(xls1.getCaseParam())
-    def test12(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql):
+    def test5(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, globalVar, sql, tester, caseQty):
         ' '
-        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql)
+        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, globalVar, sql, tester, caseQty)
 
 if __name__ == '__main__':
-    suite = unittest.defaultTestLoader.discover('.', pattern='run.py', top_level_dir=None)
+    suite = unittest.defaultTestLoader.discover('./', pattern=os.path.split(__file__)[-1], top_level_dir=None)
     runner = bf(suite)
-    projectName = localReadConfig.get_system("projectName")
-    reportName = localReadConfig.get_system("reportName")
+    iDoc = localReadConfig.get_system("iDoc")
+    # rptName = localReadConfig.get_system("rptName")
+    xlsName = localReadConfig.get_system("xlsName")
+    rptTime = str(datetime.now().strftime("%Y%m%d%H%M%S"))
     if platform.system() == 'Darwin':
-        runner.report(filename='./data/' + reportName, description=projectName + '测试报告')
-        if len(argvParam) == 2:
-            if argvParam[1] == "report":
-                os.system("open ./data/" + localReadConfig.get_system("reportName"))
-            if argvParam[1] == "excel":
-                os.system("open " + localReadConfig.get_system("excelName"))
-            if argvParam[1] == "all":
-                os.system("open ./data/" + localReadConfig.get_system("reportName"))
-                os.system("open " + localReadConfig.get_system("excelName"))
-
-    if platform.system() == 'Windows':
-        runner.report(filename='data\\' + reportName, description=projectName)
-        if len(argvParam) == 2:
-            if argvParam[1] == "report":
-                os.system("start .\\data\\" + localReadConfig.get_system("reportName"))
-            if argvParam[1] == "excel":
-                os.system("start " + localReadConfig.get_system("excelName"))
-            if argvParam[1] == "all":
-                os.system("start .\\data\\" + localReadConfig.get_system("reportName"))
-                os.system("start " + localReadConfig.get_system("excelName"))
+        # runner.report(filename=rptName, description=iDoc)
+        runner.report(filename='./report/iReport_' + rptTime + '.html', description=iDoc)
+        os.system("open ./report/iReport_" + rptTime + ".html")
+        os.system("open " + xlsName)
+    elif platform.system() == 'Windows':
+        runner.report(filename='./report/iReport_' + rptTime + '.html', description=iDoc)
+        # runner.report(filename=rptName, description=iDoc)
+        os.system("start ./report/iReport_" + rptTime + ".html")
+        # os.system("start " + xlsName)

@@ -13,6 +13,7 @@
 # *****************************************************************
 
 import unittest, platform, os, sys
+from datetime import date, datetime, timedelta
 from parameterized import parameterized
 from BeautifulReport import BeautifulReport as bf
 import readConfig as readConfig
@@ -23,21 +24,24 @@ xls1 = xls.XLS()
 class epidemic(unittest.TestCase):
 
     @parameterized.expand(xls1.getCaseParam())
-    def test5(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql):
+    def test5(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, globalVar, sql, tester, caseQty):
         ' '
-        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, iValue, globalVar, sql)
+        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, globalVar, sql, tester, caseQty)
 
 if __name__ == '__main__':
     suite = unittest.defaultTestLoader.discover('.', pattern=os.path.split(__file__)[-1], top_level_dir=None)
     runner = bf(suite)
-    iFile = localReadConfig.get_system("iFile")
-    rptName = localReadConfig.get_system("rptName")
+    iDoc = localReadConfig.get_system("iDoc")
+    # rptName = localReadConfig.get_system("rptName")
     xlsName = localReadConfig.get_system("xlsName")
+    rptTime = str(datetime.now().strftime("%Y%m%d%H%M%S"))
     if platform.system() == 'Darwin':
-        runner.report(filename=rptName, description=iFile)
-        os.system("open " + rptName)
+        # runner.report(filename=rptName, description=iDoc)
+        runner.report(filename='./report/iReport_' + rptTime + '.html', description=iDoc)
+        os.system("open ./report/iReport_" + rptTime + ".html")
         os.system("open " + xlsName)
     elif platform.system() == 'Windows':
-        runner.report(filename=rptName, description=iFile)
-        os.system("start " + rptName)
-        os.system("start " + xlsName)
+        runner.report(filename='./report/iReport_' + rptTime + '.html', description=iDoc)
+        # runner.report(filename=rptName, description=iDoc)
+        os.system("start ./report/iReport_" + rptTime + ".html")
+        # os.system("start " + xlsName)

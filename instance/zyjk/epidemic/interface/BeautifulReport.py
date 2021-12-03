@@ -19,6 +19,9 @@ from distutils.sysconfig import get_python_lib
 import traceback
 from functools import wraps
 
+import readConfig as readConfig
+localReadConfig = readConfig.ReadConfig()
+
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 private_key = RSA.import_key(open("private_key.pem", "rb").read())
@@ -63,7 +66,9 @@ FIELDS = {
     "testPass": 0,
     "testResult": [
     ],
-    "testName": "",
+    "iDoc": "",
+    "iEnv": "",
+    "iDatabase": "",
     "test": "",
     "testAll": 0,
     "testFail": 0,
@@ -196,6 +201,10 @@ class ReportTestResult(unittest.TestResult):
         :return:
         """
         self.end_time = '{0:.3} 秒'.format((time.time() - self.start_time))
+        # print(test.__dict__)
+        # print(test.__dict__['_testMethodDoc'].split("caseQty=")[1].split("]")[0])
+        self.caseQty = test.__dict__['_testMethodDoc'].split("caseQty=")[1].split("]")[0]
+
         self.result_list.append(self.get_all_result_info_tuple(test))
         # print(self.result_list)
         self.complete_output()
@@ -218,22 +227,29 @@ class ReportTestResult(unittest.TestResult):
         :param title:
         :return:
         """
-        FIELDS['testPass'] = self.success_counter
-        # print(self.result_list)
-        # print(self.default_report_name)
+
+
         for item in self.result_list:
             item = json.loads(str(MakeResultJson(item)))
             FIELDS.get('testResult').append(item)
-        FIELDS['testAll'] = len(self.result_list)
-        FIELDS['testName'] = title if title else self.default_report_name
         FIELDS['projectName'] = projectName
+        FIELDS['iDoc'] = title if title else self.default_report_name
+        FIELDS['iEnv'] = localReadConfig.get_env("switchenv")
+        if localReadConfig.get_env("switchenv") == "test":
+            FIELDS['iDatabase'] = localReadConfig.get_test("db_database")
+        elif localReadConfig.get_env("switchenv") == "dev":
+            FIELDS['iDatabase'] = localReadConfig.get_dev("db_database")
+        FIELDS['testAll'] = self.caseQty
+        # FIELDS['testAll'] = len(self.result_list)
+        FIELDS['testPass'] = self.success_counter
         FIELDS['testFail'] = self.failure_count
+        # FIELDS['testSkip'] = self.skipped
+        FIELDS['testSkip'] = int(self.caseQty) - int(self.success_counter) - int(self.failure_count)
         FIELDS['beginTime'] = self.begin_time
         end_time = int(time.time())
         start_time = int(time.mktime(time.strptime(self.begin_time, '%Y-%m-%d %H:%M:%S')))
         FIELDS['totalTime'] = str(end_time - start_time) + '秒'
         FIELDS['testError'] = self.error_count
-        FIELDS['testSkip'] = self.skipped
         self.FIELDS = FIELDS
         return FIELDS
     
@@ -355,19 +371,20 @@ class ReportTestResult(unittest.TestResult):
         :param test:
         :return: (class_name, method_name, method_doc) -> tuple
         """
-        class_name = test.__class__.__qualname__
-        method_name = test.__dict__['_testMethodName']
+        # class_name = test.__class__.__qualname__
+        # method_name = test.__dict__['_testMethodName']
         # method_doc = test.__dict__['_testMethodDoc']
-        method_doc = test.__dict__['_testMethodDoc'].split("iName=")[1].split(",")[0]
+        # method_doc = test.__dict__['_testMethodDoc'].split("iName=")[1].split(",")[0]
         # print(test.__dict__)
         excelNo = test.__dict__['_testMethodDoc'].split("excelNo=")[1].split(",")[0]
-        testDate = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+        class_name = test.__dict__['_testMethodDoc'].split("tester='")[1].split("'")[0]
         testType = test.__dict__['_testMethodDoc'].split("iType='")[1].split("'")[0]
         testSort = test.__dict__['_testMethodDoc'].split("iSort='")[1].split("'")[0]
         testCaseName = test.__dict__['_testMethodDoc'].split("iName='")[1].split("'")[0]
+        testDate = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
         # return class_name, method_name, method_doc
-        return excelNo, class_name, testType, testSort, testCaseName,testDate
+        return excelNo, class_name, testType, testSort, testCaseName, testDate
 
 
 class BeautifulReport(ReportTestResult, PATH):
