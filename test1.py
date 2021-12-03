@@ -9,29 +9,41 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
+x = "$.code:200"
+print(len(x.split(",")))
+print(x.split(":")[0])
+print(x.split(":")[1])
+
+a = '$.code:200,$.data.name:"政监中心4"'
+print(len(a.split(",")))
+for i in range(len(a.split(","))):
+    print(a.split(",")[i].split(":")[0])
+    print(a.split(",")[i].split(":")[1])
 
 
 
 
 
+
+
+# #
+# import textwrap
 #
-import textwrap
-
-text = """abcdefg
-hijklmn
-opqrstuvwxyz
-"""
-
-print(text)
+# text = """abcdefg
+# hijklmn
+# opqrstuvwxyz
+# """
 #
-# # # # todo: fill() 调整换行符,每行显示给定宽度，注意下一行前会有空格
-print("fill() 调整换行符,每行显示给定宽度".center(100, "-"))
-print(textwrap.fill(text, width=6))
-# # abcdef
-# # g hijk
-# # lmn op
-# # qrstuv
-# # wxyz
+# print(text)
+# #
+# # # # # todo: fill() 调整换行符,每行显示给定宽度，注意下一行前会有空格
+# print("fill() 调整换行符,每行显示给定宽度".center(100, "-"))
+# print(textwrap.fill(text, width=6))
+# # # abcdef
+# # # g hijk
+# # # lmn op
+# # # qrstuv
+# # # wxyz
 #
 # # # # todo:dedent() 去除缩进
 # print("dedent()去除缩进".center(100, "-"))

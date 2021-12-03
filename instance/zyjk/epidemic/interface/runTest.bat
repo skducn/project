@@ -1,5 +1,3 @@
 @echo off
 
-python run.py test
-
-pause
+python run.py test all

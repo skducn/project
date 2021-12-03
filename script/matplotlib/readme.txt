@@ -13,4 +13,5 @@ plt.rcParams['axes.unicode_minus'] = False
 plt.savefig("d:\\1\\222.png")
 
 
-具体实例参考：https://matplotlib.org/gallery/index.html
+具体实例参考：
+https://matplotlib.org/stable/gallery/index.html
