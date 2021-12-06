@@ -375,7 +375,7 @@ class OpenpyxlPO():
                 # print('pid=%s,pname=%s' % (pid, p.name()))
                 # 关闭excel进程
                 if p.name() == varApplication:
-                    cmd = 'taskkill /F /IM ' + varApplication
+                    cmd = 'taskkill /F /IM ' + varApplication + ">> null"
                     os.system(cmd)
                     sleep(2)
             except Exception as e:

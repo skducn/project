@@ -4,6 +4,7 @@
 # Date          : 2021-11-15
 # Description   : 招远防疫 epidemic 接口自动化
 # 接口文档：http://192.168.0.237:8001/swagger-ui.html
+# 接口文旦2：http://192.168.0.243:8001/doc.html#/
 # web页：http://192.168.0.243:8002/admin/notice/index  （测试243， 开发237）
 # pip3 install nose-parameterized   for cmd
 # pip3 install BeautifulReport for cmd
@@ -20,19 +21,21 @@ import readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 import xls as xls
 xls1 = xls.XLS()
+l_casesuit = xls1.getCaseParam()
+# print(l_casesuit)
 
-class epidemic213(unittest.TestCase):
+class run(unittest.TestCase):
 
-    @parameterized.expand(xls1.getCaseParam())
-    # @parameterized.expand(xls1.get1())
-    def test5(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, globalVar, sql, tester, caseQty):
+    @parameterized.expand(l_casesuit)
+    def test5(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, tester, caseQty):
         ' '
-        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, globalVar, sql, tester, caseQty)
+        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, tester, caseQty)
+
 
 if __name__ == '__main__':
-    suite = unittest.defaultTestLoader.discover('.', pattern="epidemic213", top_level_dir=None)
-    # suite = unittest.defaultTestLoader.discover('.', pattern=os.path.split(__file__)[-1], top_level_dir=None)
+    suite = unittest.defaultTestLoader.discover('.', pattern=os.path.split(__file__)[-1], top_level_dir=None)
     runner = bf(suite)
+
     iDoc = localReadConfig.get_system("iDoc")
     # rptName = localReadConfig.get_system("rptName")
     xlsName = localReadConfig.get_system("xlsName")
@@ -46,4 +49,4 @@ if __name__ == '__main__':
         runner.report(filename='./report/iReport_' + rptTime + '.html', description=iDoc)
         # runner.report(filename=rptName, description=iDoc)
         os.system("start ./report/iReport_" + rptTime + ".html")
-        # os.system("start " + xlsName)
+        os.system("start " + xlsName)
