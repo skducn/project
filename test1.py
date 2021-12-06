@@ -9,19 +9,23 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-x = "$.code:200"
-print(len(x.split(",")))
-print(x.split(":")[0])
-print(x.split(":")[1])
+# x = "$.code:200"
+# print(len(x.split(",")))
+# print(x.split(":")[0])
+# print(x.split(":")[1])
+#
+# a = '$.code:200,$.data.name:"政监中心4"'
+# print(len(a.split(",")))
+# for i in range(len(a.split(","))):
+#     print(a.split(",")[i].split(":")[0])
+#     print(a.split(",")[i].split(":")[1])
+#
 
-a = '$.code:200,$.data.name:"政监中心4"'
-print(len(a.split(",")))
-for i in range(len(a.split(","))):
-    print(a.split(",")[i].split(":")[0])
-    print(a.split(",")[i].split(":")[1])
+import jsonpath
 
-
-
+dd = {'code': 200, 'msg': 'success', 'data': {'totalCount': 1, 'pageSize': 1, 'totalPage': 1, 'currPage': 1, 'list': [{'id': 16, 'name': '证监自动246更', 'code': 'ZJ0011638780963018', 'responsiblePerson': '张三丰', 'address': '北京市', 'area': '莆田区', 'contactPerson': '北京人', 'contactPhone': '13316161616', 'status': 1}]}}
+iResValue = jsonpath.jsonpath(dd, expr="$.data.list[0].name")
+print(iResValue)
 
 
 

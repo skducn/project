@@ -141,6 +141,7 @@ class ReportTestResult(unittest.TestResult):
     
     def __init__(self, suite, stream=sys.stdout):
         """ pass """
+
         super(ReportTestResult, self).__init__()
         self.begin_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         self.start_time = 0
@@ -228,7 +229,6 @@ class ReportTestResult(unittest.TestResult):
         :return:
         """
 
-
         for item in self.result_list:
             item = json.loads(str(MakeResultJson(item)))
             FIELDS.get('testResult').append(item)
@@ -251,6 +251,7 @@ class ReportTestResult(unittest.TestResult):
         FIELDS['totalTime'] = str(end_time - start_time) + '秒'
         FIELDS['testError'] = self.error_count
         self.FIELDS = FIELDS
+        # print(FIELDS)
         return FIELDS
     
     def get_all_result_info_tuple(self, test) -> tuple:
@@ -383,6 +384,7 @@ class ReportTestResult(unittest.TestResult):
         testCaseName = test.__dict__['_testMethodDoc'].split("iName='")[1].split("'")[0]
         testDate = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
+        # print(excelNo, class_name, testType, testSort, testCaseName, testDate)
         # return class_name, method_name, method_doc
         return excelNo, class_name, testType, testSort, testCaseName, testDate
 

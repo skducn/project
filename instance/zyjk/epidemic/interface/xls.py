@@ -19,7 +19,8 @@ from OpenpyxlPO import *
 from MysqlPO import *
 from DictPO import *
 Dict_PO = DictPO()
-
+from DataPO import *
+Data_PO = DataPO()
 
 class XLS:
 
@@ -56,17 +57,13 @@ class XLS:
             db_database = localReadConfig.get_dev("db_database")
         self.Mysql_PO = MysqlPO(db_ip, db_username, db_password, db_database, db_port)
 
-    def get1(self):
-        print("1111111")
 
     def getCaseParam(self):
-
 
         ''' 遍历获取 excelNo、名称、路径、方法、参数、检查key、检查value、全局变量、sql语句 '''
 
         l_case = []
         l_casesuit = []
-        # l_casesuit = ["111"]
         sh = self.Openpyxl_PO.sh(self.sheetCase)
         # 从第二行开始遍历
         #
@@ -82,81 +79,79 @@ class XLS:
                 l_case.append(sh.cell(row=i+2, column=8).value)  # 方法
                 l_case.append(sh.cell(row=i+2, column=9).value)  # 参数
                 l_case.append(sh.cell(row=i+2, column=11).value)  # 检查返回值
-                l_case.append(sh.cell(row=i+2, column=12).value)  # 全局变量
-                l_case.append(sh.cell(row=i+2, column=13).value)  # sql语句
+                l_case.append(sh.cell(row=i+2, column=12).value)  # 全局字典变量
+                l_case.append(sh.cell(row=i+2, column=13).value)  # 全局sql
+                l_case.append(sh.cell(row=i+2, column=14).value)  # 全局脚本变量
                 l_case.append(sh.cell(row=i+2, column=16).value)  # 担当者
                 l_case.append(sh.max_row-1)  # 用例总数
                 l_casesuit.append(l_case)
                 l_case = []
 
-        print(l_casesuit)
         return l_casesuit
 
-    def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iCheckResponse,  globalVar, sql, tester, caseQty):
+    def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iCheckResponse,  g_dict, s_sql, g_script, tester, caseQty):
 
         ''' 替换参数，解析接口，检查 iCheckResponse '''
 
         sql_before = ""
         sql_after = ""
 
-        # 替换参数中的变量
+        # 路径替换
+        if "{{" in iPath:
+            for k in self.d_tmp:
+                if "{{" + k + "}}" in iPath:
+                    iPath = str(iPath).replace("{{" + k + "}}", str(self.d_tmp[k]))
+
+        # 参数替换
         if iParam != None:
             if "{{" in iParam:
                 for k in self.d_tmp :
                     if "{{" + k + "}}" in iParam:
                         iParam = str(iParam).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
 
-        if "{{" in iPath:
-            for k in self.d_tmp:
-                if "{{" + k + "}}" in iPath:
-                    iPath = str(iPath).replace("{{" + k + "}}", str(self.d_tmp[k]))
-
-        # 华丽分割线
-        # print("\n" + (str(excelNo) + "，" + iName).center(100, "-"))
-
-        # sql更新前
-        if sql != None:
-            if "{{" in sql:
+        # 全局字典变量
+        if g_dict != None:
+            if "{{" in g_dict:
                 for k in self.d_tmp:
-                    if "{{" + k + "}}" in sql:
-                        sql = str(sql).replace("{{" + k + "}}", str(self.d_tmp[k]))
-            sql_var = str(sql).split("=|||")[0]
-            sql_command = len(str(sql).split("=|||")[1].split("|||"))
+                    if "{{" + k + "}}" in g_dict:
+                        g_dict = str(g_dict).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
+
+
+        # 全局 s_sql
+        if s_sql != None:
+            if "{{" in s_sql:
+                for k in self.d_tmp:
+                    if "{{" + k + "}}" in s_sql:
+                        s_sql = str(s_sql).replace("{{" + k + "}}", str(self.d_tmp[k]))
+            sql_var = str(s_sql).split("=|||")[0]
+            sql_command = len(str(s_sql).split("=|||")[1].split("|||"))
             # 只有1条sql语句
             if sql_command == 1:
-                sql = str(sql).split("=|||")[1]
-                sql_before = self.Mysql_PO.execQuery(sql)
+                s_sql = str(s_sql).split("=|||")[1]
+                sql_before = self.Mysql_PO.execQuery(s_sql)
                 self.d_tmp[sql_var] = sql_before[0][0]
-                print("\n【sql语句】：" + str(sql_var) + " = " + str(sql))
+                print("\n【sql语句】：" + str(sql_var) + " = " + str(s_sql))
             else:
                 # 多条sql语句
                 for m in range(sql_command):
-                    tmp = str(sql).split("=|||")[1].split("|||")[m]
+                    tmp = str(s_sql).split("=|||")[1].split("|||")[m]
                     sql_before = self.Mysql_PO.execQuery(tmp)
                     self.d_tmp[sql_var+str(m)] = sql_before[0][0]
                     print("\n【sql语句" + str(m+1) + "】：" + str(sql_var) + str(m) + " = " + str(tmp))
 
+        # 全局脚本
+        if g_script != None and "=|||" in g_script:
 
-            # sql_before = self.Mysql_PO.execQuery(sql)
-            # print("\n【接口前sql（" + str(sql) + "）查询值】：" + str(sql_before[0][0]))
+            g_script_name = str(g_script).split("=|||")[0]
+            eval(str(g_script).split("=|||")[1])
+            self.d_tmp[g_script_name] = eval(str(g_script).split("=|||")[1])
 
-        res, d_globalVar = reflection.run([iName, iPath, iMethod, iParam, globalVar])
-        if d_globalVar != None:
-            self.d_tmp = Dict_PO.getMergeDict2(self.d_tmp, d_globalVar)
+
+        res, d_g_dict = reflection.run([iName, iPath, iMethod, iParam, g_dict])
+        if d_g_dict != None:
+            self.d_tmp = Dict_PO.getMergeDict2(self.d_tmp, d_g_dict)
         print("\n<font color='purple'>【全局变量】：" + str(self.d_tmp) + "</font>")
         d_res = json.loads(res)
-
-
-        # # sql更新后
-        # if sql != None:
-        #     if "{{" in sql:
-        #         for k in self.d_tmp:
-        #             if "{{" + k + "}}" in sql:
-        #                 sql = str(sql).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        #     sql_after = self.Mysql_PO.execQuery(sql)
-            # print("\n【sql语句】：" + str(sql))
-            # print("\n【接口前sql值】：" + str(sql_before[0][0]))
-            # print("\n【接口前sql值】：" + str(sql_after[0][0]))
 
 
         # 检查返回值 iCheckResponse（如 $.code=200）
