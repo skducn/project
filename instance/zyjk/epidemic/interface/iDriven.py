@@ -2,9 +2,7 @@
 # *****************************************************************
 # Author        : John
 # Date          : 2021-11-15
-# Description   : 招远防疫 epidemic 接口自动化
-# 接口文档：http://192.168.0.237:8001/swagger-ui.html
-# web页：http://192.168.0.243:8002/admin/notice/index  （测试243， 开发237）
+# Description   : 接口驱动程序
 # pip3 install requests_toolbelt  for cmd
 # *****************************************************************
 
