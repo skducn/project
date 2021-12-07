@@ -373,8 +373,12 @@ class ReportTestResult(unittest.TestResult):
         :return: (class_name, method_name, method_doc) -> tuple
         """
         # class_name = test.__class__.__qualname__
+        # print(test.__dict__)
         # method_name = test.__dict__['_testMethodName']
         # method_doc = test.__dict__['_testMethodDoc']
+        # print(class_name)
+        # print(method_name)
+        # print(method_doc)
         # method_doc = test.__dict__['_testMethodDoc'].split("iName=")[1].split(",")[0]
         # print(test.__dict__)
         excelNo = test.__dict__['_testMethodDoc'].split("excelNo=")[1].split(",")[0]

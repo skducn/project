@@ -19,6 +19,7 @@
 # 参考：https://www.bilibili.com/read/cv7761473/
 # pip install myqr
 # pip install pyzbr
+# pip install fake_useragent
 # pip install pil 报错请切换 pip install pillow
 # ***************************************************************
 '''

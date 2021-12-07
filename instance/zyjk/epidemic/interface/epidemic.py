@@ -13,40 +13,15 @@
 # pip3 install web.py
 # *****************************************************************
 
-import unittest, platform, os, sys
-from datetime import date, datetime, timedelta
+import unittest
 from parameterized import parameterized
-from BeautifulReport import BeautifulReport as bf
-import readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
 import xls as xls
 xls1 = xls.XLS()
-l_casesuit = xls1.getCaseParam()
-# print(l_casesuit)
 
-class run(unittest.TestCase):
-
-    @parameterized.expand(l_casesuit)
-    def test5(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, tester, caseQty):
+class epidemic(unittest.TestCase):
+    @parameterized.expand(xls1.getCaseParam())
+    def test(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, tester, caseQty):
         ' '
         xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, tester, caseQty)
 
 
-if __name__ == '__main__':
-    suite = unittest.defaultTestLoader.discover('.', pattern=os.path.split(__file__)[-1], top_level_dir=None)
-    runner = bf(suite)
-
-    iDoc = localReadConfig.get_system("iDoc")
-    # rptName = localReadConfig.get_system("rptName")
-    xlsName = localReadConfig.get_system("xlsName")
-    rptTime = str(datetime.now().strftime("%Y%m%d%H%M%S"))
-    if platform.system() == 'Darwin':
-        # runner.report(filename=rptName, description=iDoc)
-        runner.report(filename='./report/iReport_' + rptTime + '.html', description=iDoc)
-        os.system("open ./report/iReport_" + rptTime + ".html")
-        os.system("open " + xlsName)
-    elif platform.system() == 'Windows':
-        runner.report(filename='./report/iReport_' + rptTime + '.html', description=iDoc)
-        # runner.report(filename=rptName, description=iDoc)
-        os.system("start ./report/iReport_" + rptTime + ".html")
-        os.system("start " + xlsName)
