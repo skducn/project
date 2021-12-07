@@ -239,14 +239,13 @@ if __name__ == '__main__':
     # Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com,skducn@163.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n\n\n\n\n\n\n这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","NetPO.py")
 
 
-
     # print("2.1，下载程序".center(100, "-"))
-    Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe")  # 默认将文件保存在当前路径，文件存在则不覆盖。
+    # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe")  # 默认将文件保存在当前路径，文件存在则不覆盖。
     # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe", "d:/1/2/3")  # 下载文件到指定目录，目录自动生成。
     # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe", "/1/2/3")  # 同上，/1/2/3 默认定位当前程序盘符，如 d:/1/2/3
 
     # print("2.2，下载网页/图片".center(100, "-"))
-    Net_PO.downFile(u"http://www.jb51.net/Special/636.htm")  # 默认将html网页保存在当前路径。
+    # Net_PO.downFile(u"http://www.jb51.net/Special/636.htm")  # 默认将html网页保存在当前路径。
     # Net_PO.downFile(u"https://images.cnblogs.com/cnblogs_com/longronglang/1061549/o_QQ%E6%88%AA%E5%9B%BE20190727112700.png")  # 默认将图片保存在当前路径。
     # Net_PO.downFile(u"http://www.jb51.net/Special/636.htm", "1234.html")  # 默认保存到当前路径，另存为1234.html
     # Net_PO.downFile(u"http://www.jb51.net/Special/636.htm", "d:/1/2/3/1234.html")  # 将文件保存在/1/2/3/1234.html下，如果目录不存在则自动新建。
