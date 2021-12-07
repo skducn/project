@@ -13,7 +13,7 @@ from Crypto.Cipher import PKCS1_OAEP
 # data ="12121212"
 
 # 加密中文
-data = "招远防疫项目接口测试报告"
+data = "xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, tester, caseQty)"
 data = data.encode("utf-8")  # 转换成bytes , 如：b'\xe6\x8b\x9b\xe8\xbf\x9c\xe9\x98\xb2\xe7\x96\xab\xe9\xa1\xb9\xe7\x9b\xae\xe6\x8e\xa5\xe5\x8f\xa3\xe6\xb5\x8b\xe8\xaf\x95\xe6\x8a\xa5\xe5\x91\x8a'
 
 print(data)

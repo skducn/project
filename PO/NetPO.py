@@ -116,7 +116,6 @@ class NetPO():
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
-
     # 2.1，下载程序
     def downApp(self, vApp, toSave='./'):
         # 下载文件（显示下载进度，数据块大小，文件大小）

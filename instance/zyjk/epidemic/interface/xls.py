@@ -20,6 +20,10 @@ from DictPO import *
 Dict_PO = DictPO()
 from DataPO import *
 Data_PO = DataPO()
+from time import strftime, localtime
+import time
+
+
 
 class XLS:
 
@@ -81,14 +85,15 @@ class XLS:
                 l_case.append(sh.cell(row=i+2, column=12).value)  # 全局字典变量
                 l_case.append(sh.cell(row=i+2, column=13).value)  # 全局sql
                 l_case.append(sh.cell(row=i+2, column=14).value)  # 全局脚本变量
-                l_case.append(sh.cell(row=i+2, column=16).value)  # 担当者
+                l_case.append(sh.cell(row=i+2, column=15).value)  # 断言条件
+                l_case.append(sh.cell(row=i+2, column=17).value)  # 担当者
                 l_case.append(sh.max_row-1)  # 用例总数
                 l_casesuit.append(l_case)
                 l_case = []
 
         return l_casesuit
 
-    def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iCheckResponse,  g_dict, s_sql, g_script, tester, caseQty):
+    def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iCheckResponse,  g_dict, s_sql, g_script, iAssert, tester, caseQty):
 
         ''' 替换参数，解析接口，检查 iCheckResponse '''
 
@@ -112,7 +117,13 @@ class XLS:
                     if "{{" + k + "}}" in g_dict:
                         g_dict = str(g_dict).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
 
-        # 替换 - 全局 s_sql
+        # 执行解析
+        res, d_g_dict = reflection.run([iName, iPath, iMethod, iParam, g_dict])
+        if d_g_dict != None:
+            self.d_tmp = Dict_PO.getMergeDict2(self.d_tmp, d_g_dict)
+
+
+        # 替换 - 全局 sql
         if s_sql != None:
             if "{{" in s_sql:
                 for k in self.d_tmp:
@@ -140,12 +151,25 @@ class XLS:
             eval(str(g_script).split("=|||")[1])
             self.d_tmp[g_script_name] = eval(str(g_script).split("=|||")[1])
 
-        # 执行输出全局变量
-        res, d_g_dict = reflection.run([iName, iPath, iMethod, iParam, g_dict])
-        if d_g_dict != None:
-            self.d_tmp = Dict_PO.getMergeDict2(self.d_tmp, d_g_dict)
+
+        # 输出全局变量
         print("\n<font color='purple'>【全局变量】：" + str(self.d_tmp) + "</font>")
         d_res = json.loads(res)
+
+        # 断言
+        if iAssert != None:
+
+            if isinstance(self.d_tmp[str(iAssert).split("=")[0]], int):
+                if self.d_tmp[str(iAssert).split("=")[0]] == int(str(iAssert).split("=")[1]):
+                    self.setCaseParam(excelNo, "Ok", d_res, "True")
+                else:
+                    self.setCaseParam(excelNo, "Fail", d_res, "False")
+            elif isinstance(self.d_tmp[str(iAssert).split("=")[0]], str):
+                if self.d_tmp[str(iAssert).split("=")[0]] == str(iAssert).split("=")[1]:
+                    self.setCaseParam(excelNo, "Ok", d_res, "True")
+                else:
+                    self.setCaseParam(excelNo, "Fail", d_res, "False")
+
 
         # 检查返回值 iCheckResponse（如 $.code=200）
         try:
@@ -164,14 +188,14 @@ class XLS:
                                 assert iResValue == iCheckResponse.split(":")[1], "预期值: " + iCheckResponse.split(":")[1] + "，实测值: " + iResValue + ""
                             else:
                                 print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " = " + str(iResValue) + " </font>")
-                                self.setCaseParam(excelNo, "OK", d_res)
+                                self.setCaseParam(excelNo, "Ok", d_res)
                 # 检查返回值中是明确的值，如 $.code:200
                 elif iResValue != iCheckResponse.split(":")[1]:
                     self.setCaseParam(excelNo, "Fail", d_res)
                     assert iResValue == iCheckResponse.split(":")[1], "预期值: " + iCheckResponse.split(":")[1] + "，实测值: " + iResValue + ""
                 else:
                     print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " </font>")
-                    self.setCaseParam(excelNo, "OK", d_res)
+                    self.setCaseParam(excelNo, "Ok", d_res)
             else:
                 # $.code: 200, $.msg: success}
                 sign = 0
@@ -193,20 +217,20 @@ class XLS:
                     assert iResValue == iCheckResponse.split(",")[i].split(":")[1], "预期值: " + iCheckResponse.split(",")[i].split(":")[1] + "，实测值: " + iResValue + ""
                 else:
                     print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " </font>")
-                    self.setCaseParam(excelNo, "OK", d_res)
+                    self.setCaseParam(excelNo, "Ok", d_res)
         except Exception as e:
             print(e.__traceback__)
             self.setCaseParam(excelNo, "Fail", d_res )
             assert 1 == 0, "返回值中未找到 " + str(iCheckResponse)
 
 
-    def setCaseParam(self, excelNo, result, d_res):
+    def setCaseParam(self, excelNo, result, d_res, result_assert=""):
 
         ''' 更新表格数据 '''
 
         # 结果
-        if result == "OK":
-            self.Openpyxl_PO.setCellValue(excelNo, 2, "OK", ['c6efce', '006100'], self.sheetCase)
+        if result == "Ok":
+            self.Openpyxl_PO.setCellValue(excelNo, 2, "Ok", ['c6efce', '006100'], self.sheetCase)
         else:
             self.Openpyxl_PO.setCellValue(excelNo, 2, "Fail", ['ffeb9c', '000000'], self.sheetCase)
 
@@ -215,6 +239,12 @@ class XLS:
 
         # 返回值
         self.Openpyxl_PO.setCellValue(excelNo, 10, str(d_res), ['c6efce', '006100'], self.sheetCase)
+
+        # 断言结果
+        if result_assert == "True":
+            self.Openpyxl_PO.setCellValue(excelNo, 16, "True", ['c6efce', '006100'], self.sheetCase)
+        if result_assert == "False":
+            self.Openpyxl_PO.setCellValue(excelNo, 16, "False", ['ffeb9c', '000000'], self.sheetCase)
 
         self.Openpyxl_PO.wb.save(self.varExcel)
 
