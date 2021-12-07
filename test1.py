@@ -9,6 +9,32 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
+import functools
+
+
+def three_way_cmp(x, y):
+    """Return -1 if x < y, 0 if x == y and 1 if x > y"""
+    # return (x > y) - (x < y)
+    return x<y
+
+case = ["1","2","3","10"]
+case.sort(key=functools.cmp_to_key(three_way_cmp))
+print(case)
+
+# def test_1():
+#     print("121212")
+#
+# def test_2():
+#     print("99999999999")
+#
+#
+# # for funcType in ('handler', 'request'):
+#
+#     # a='%s_version'%funcType
+# url = eval('test_%s' % range(10))()  ###wval把string变量转换成相应函数
+
+
+
 # x = "$.code:200"
 # print(len(x.split(",")))
 # print(x.split(":")[0])
@@ -21,11 +47,11 @@
 #     print(a.split(",")[i].split(":")[1])
 #
 
-import jsonpath
-
-dd = {'code': 200, 'msg': 'success', 'data': {'totalCount': 1, 'pageSize': 1, 'totalPage': 1, 'currPage': 1, 'list': [{'id': 16, 'name': '证监自动246更', 'code': 'ZJ0011638780963018', 'responsiblePerson': '张三丰', 'address': '北京市', 'area': '莆田区', 'contactPerson': '北京人', 'contactPhone': '13316161616', 'status': 1}]}}
-iResValue = jsonpath.jsonpath(dd, expr="$.data.list[0].name")
-print(iResValue)
+# import jsonpath
+#
+# dd = {'code': 200, 'msg': 'success', 'data': {'totalCount': 1, 'pageSize': 1, 'totalPage': 1, 'currPage': 1, 'list': [{'id': 16, 'name': '证监自动246更', 'code': 'ZJ0011638780963018', 'responsiblePerson': '张三丰', 'address': '北京市', 'area': '莆田区', 'contactPerson': '北京人', 'contactPhone': '13316161616', 'status': 1}]}}
+# iResValue = jsonpath.jsonpath(dd, expr="$.data.list[0].name")
+# print(iResValue)
 
 
 
