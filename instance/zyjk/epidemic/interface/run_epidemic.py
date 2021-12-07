@@ -46,4 +46,4 @@ if __name__ == '__main__':
         runner.report(filename='./report/iReport_' + rptTime + '.html', description=iDoc)
         # runner.report(filename=rptName, description=iDoc)
         os.system("start ./report/iReport_" + rptTime + ".html")
-        # os.system("start " + xlsName)
+        os.system("start " + xlsName)

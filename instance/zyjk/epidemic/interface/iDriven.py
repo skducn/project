@@ -101,13 +101,14 @@ class HTTP:
 
         if interParam == None:
             path = protocol + "://" + ip + ":" + port + interName
-            print("\n【请求地址】：" + str(path))
+            print("\n【请求地址1】：" + str(path))
             result = self.session.get(path, data=None)
         else:
             path = protocol + "://" + ip + ":" + port + interName + "?" + interParam
             result = self.session.get(path, headers=self.headers, verify=False)
-            print("\n【请求地址】：" + str(path))
+            print("\n【请求地址2】：" + str(path))
             print("\n【参数】：" + str(interParam))
+
         d_response = json.loads(result.text)
         if d_var != None:
             if "$." in d_var:
@@ -120,6 +121,7 @@ class HTTP:
         print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
         print("\n【当前变量】：" + str(d_var))
         res = result.text
+        print(res)
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -180,6 +182,25 @@ class HTTP:
             print(e.__traceback__)
         return res, d_var
 
+
+    def getFile(self, interName, interParam, d_var):
+
+        path = protocol + "://" + ip + ":" + port + interName
+        print("\n【请求地址】：" + str(path))
+        # result = self.session.get(path, stream=True)
+        r = requests.get(path, stream=True)
+        f = open("d:\\tttt.xlsx", "wb")
+        for chunk in r.iter_content(chunk_size=512):
+            if chunk:
+                f.write(chunk)
+        # self.jsonres = json.loads(r.text)
+        print(r.text)
+        res = r.text
+        try:
+            res = res[res.find('{'):res.rfind('}') + 1]
+        except Exception as e:
+            print(e.__traceback__)
+        return res, d_var
 
     def file(self, interURL, filePath ,d_var):
 

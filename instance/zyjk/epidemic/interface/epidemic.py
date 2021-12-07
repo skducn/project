@@ -20,8 +20,9 @@ xls1 = xls.XLS()
 
 class epidemic(unittest.TestCase):
     @parameterized.expand(xls1.getCaseParam())
-    def test(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, tester, caseQty):
+    def test(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, iAssert, tester, caseQty):
         ' '
-        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, tester, caseQty)
+        xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, iKey, g_dict, g_sql, g_script, iAssert, tester, caseQty)
+
 
 
