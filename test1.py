@@ -9,17 +9,22 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-import functools
+d= {"a":1, "b":2}
+print(d)
+d["b"]=3
+print(d)
 
 
-def three_way_cmp(x, y):
-    """Return -1 if x < y, 0 if x == y and 1 if x > y"""
-    # return (x > y) - (x < y)
-    return x<y
-
-case = ["1","2","3","10"]
-case.sort(key=functools.cmp_to_key(three_way_cmp))
-print(case)
+# import functools
+#
+# def three_way_cmp(x, y):
+#     """Return -1 if x < y, 0 if x == y and 1 if x > y"""
+#     # return (x > y) - (x < y)
+#     return x<y
+#
+# case = ["1","2","3","10"]
+# case.sort(key=functools.cmp_to_key(three_way_cmp))
+# print(case)
 
 # def test_1():
 #     print("121212")

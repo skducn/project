@@ -115,6 +115,7 @@ class MakeResultJson:
             'className',
             'testType',
             'testSort',
+            'testWay',
             'description',
             'testDate',
             'spendTime',
@@ -385,12 +386,13 @@ class ReportTestResult(unittest.TestResult):
         class_name = test.__dict__['_testMethodDoc'].split("tester='")[1].split("'")[0]
         testType = test.__dict__['_testMethodDoc'].split("iType='")[1].split("'")[0]
         testSort = test.__dict__['_testMethodDoc'].split("iSort='")[1].split("'")[0]
+        testWay = test.__dict__['_testMethodDoc'].split("iMethod='")[1].split("'")[0]
         testCaseName = test.__dict__['_testMethodDoc'].split("iName='")[1].split("'")[0]
         testDate = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
         # print(excelNo, class_name, testType, testSort, testCaseName, testDate)
         # return class_name, method_name, method_doc
-        return excelNo, class_name, testType, testSort, testCaseName, testDate
+        return excelNo, class_name, testType, testSort, testWay, testCaseName, testDate
 
 
 class BeautifulReport(ReportTestResult, PATH):

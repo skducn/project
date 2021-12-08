@@ -24,7 +24,6 @@ from time import strftime, localtime
 import time
 
 
-
 class XLS:
 
     def __init__(self):
@@ -97,33 +96,104 @@ class XLS:
 
         ''' 替换参数，解析接口，检查 iCheckResponse '''
 
-        # 替换 - 路径
+        # 路径
         if "{{" in iPath:
             for k in self.d_tmp:
                 if "{{" + k + "}}" in iPath:
                     iPath = str(iPath).replace("{{" + k + "}}", str(self.d_tmp[k]))
 
-        # 替换 - 参数
+        # 参数
         if iParam != None:
             if "{{" in iParam:
                 for k in self.d_tmp :
                     if "{{" + k + "}}" in iParam:
                         iParam = str(iParam).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
 
-        # 替换 - 全局字典变量
+        # 全局字典变量
         if g_dict != None:
             if "{{" in g_dict:
                 for k in self.d_tmp:
                     if "{{" + k + "}}" in g_dict:
                         g_dict = str(g_dict).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
 
-        # 执行解析
+        # 返回值
         res, d_g_dict = reflection.run([iName, iPath, iMethod, iParam, g_dict])
+        # 用于downFile情况
+        if res == None:
+            d_res = None
+        else:
+            d_res = json.loads(res)
+        # 更新全局字典变量（合并字典）
         if d_g_dict != None:
-            self.d_tmp = Dict_PO.getMergeDict2(self.d_tmp, d_g_dict)
+            self.d_tmp = dict(self.d_tmp, **d_g_dict)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
+            # self.d_tmp = Dict_PO.getMergeDict2(self.d_tmp, d_g_dict)
 
 
-        # 替换 - 全局 sql
+        # 检查返回值 iCheckResponse（如 $.code=200）
+        try:
+            if d_res != None:
+                # $.code: 200
+                if len(iCheckResponse.split(",")) == 1:
+                    iResValue = jsonpath.jsonpath(d_res, expr=iCheckResponse.split(":")[0])
+                    iResValue = str(iResValue[0])  # 200
+
+                    # 检查返回值中有变量，如 $.code:{{var}}
+                    if "{{" in iCheckResponse.split(":")[1]:
+                        for k in self.d_tmp:
+                            if "{{" + k + "}}" in iCheckResponse.split(":")[1]:
+                                testResponse = str(iCheckResponse.split(":")[1]).replace("{{" + k + "}}",
+                                                                                         str(self.d_tmp[k]))
+                                if iResValue != testResponse:
+                                    self.setCaseParam(excelNo, "Fail", d_res)
+                                    assert iResValue == iCheckResponse.split(":")[1], "预期值: " + \
+                                                                                      iCheckResponse.split(":")[
+                                                                                          1] + "，实测值: " + iResValue + ""
+                                else:
+                                    print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " = " + str(
+                                        iResValue) + " </font>")
+                                    self.setCaseParam(excelNo, "Ok", d_res)
+                    # 检查返回值中是明确的值，如 $.code:200
+                    elif iResValue != iCheckResponse.split(":")[1]:
+                        self.setCaseParam(excelNo, "Fail", d_res)
+                        assert iResValue == iCheckResponse.split(":")[1], "预期值: " + iCheckResponse.split(":")[
+                            1] + "，实测值: " + iResValue + ""
+                    else:
+                        print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " </font>")
+                        self.setCaseParam(excelNo, "Ok", d_res)
+                else:
+                    # $.code: 200, $.msg: success}
+                    sign = 0
+                    for i in range(len(iCheckResponse.split(","))):
+                        iResValue = jsonpath.jsonpath(d_res, expr=iCheckResponse.split(",")[i].split(":")[0])
+                        iResValue = str(iResValue[0])  # 200
+
+                        # 检查返回值中有变量，如 $.code:{{var}}
+                        if "{{" in iCheckResponse.split(",")[i].split(":")[1]:
+                            for k in self.d_tmp:
+                                if "{{" + k + "}}" in iCheckResponse.split(",")[i].split(":")[1]:
+                                    testResponse = str(iCheckResponse.split(",")[i].split(":")[1]).replace(
+                                        "{{" + k + "}}", str(self.d_tmp[k]))
+                                    if iResValue != testResponse:
+                                        sign = 1
+                                    else:
+                                        sign = 0
+                    if sign == 1:
+                        self.setCaseParam(excelNo, "Fail", d_res)
+                        assert iResValue == iCheckResponse.split(",")[i].split(":")[1], "预期值: " + \
+                                                                                        iCheckResponse.split(",")[
+                                                                                            i].split(":")[
+                                                                                            1] + "，实测值: " + iResValue + ""
+                    else:
+                        print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " </font>")
+                        self.setCaseParam(excelNo, "Ok", d_res)
+            else:
+                pass
+        except Exception as e:
+            print(e.__traceback__)
+            self.setCaseParam(excelNo, "Fail", d_res)
+            assert 1 == 0, "返回值中未找到 " + str(iCheckResponse)
+
+        # 全局 sql
         if s_sql != None:
             if "{{" in s_sql:
                 for k in self.d_tmp:
@@ -136,16 +206,16 @@ class XLS:
                 s_sql = str(s_sql).split("=|||")[1]
                 sql_before = self.Mysql_PO.execQuery(s_sql)
                 self.d_tmp[sql_var] = sql_before[0][0]
-                print("\n【sql语句】：" + str(sql_var) + " = " + str(s_sql))
+                print("\n【全局sql】：" + str(sql_var) + " = (" + str(s_sql) + ")")
             else:
                 # 多条sql语句
                 for m in range(sql_command):
                     tmp = str(s_sql).split("=|||")[1].split("|||")[m]
                     sql_before = self.Mysql_PO.execQuery(tmp)
                     self.d_tmp[sql_var+str(m)] = sql_before[0][0]
-                    print("\n【sql语句" + str(m+1) + "】：" + str(sql_var) + str(m) + " = " + str(tmp))
+                    print("\n【全局sql" + str(m+1) + "】：" + str(sql_var) + str(m) + " = （" + str(tmp) + "）")
 
-        # 替换 - 全局脚本变量
+        # 全局脚本变量
         if g_script != None and "=|||" in g_script:
             g_script_name = str(g_script).split("=|||")[0]
             eval(str(g_script).split("=|||")[1])
@@ -153,10 +223,9 @@ class XLS:
 
 
         # 输出全局变量
-        print("\n<font color='purple'>【全局变量】：" + str(self.d_tmp) + "</font>")
-        d_res = json.loads(res)
+        print("\n<font color='purple'>【全局字典变量】：" + str(self.d_tmp) + "</font>")
 
-        # 断言
+        # 断言条件
         if iAssert != None:
 
             if isinstance(self.d_tmp[str(iAssert).split("=")[0]], int):
@@ -171,57 +240,6 @@ class XLS:
                     self.setCaseParam(excelNo, "Fail", d_res, "False")
 
 
-        # 检查返回值 iCheckResponse（如 $.code=200）
-        try:
-            # $.code: 200
-            if len(iCheckResponse.split(",")) == 1:
-                iResValue = jsonpath.jsonpath(d_res, expr=iCheckResponse.split(":")[0])
-                iResValue = str(iResValue[0])  # 200
-
-                # 检查返回值中有变量，如 $.code:{{var}}
-                if "{{" in iCheckResponse.split(":")[1]:
-                    for k in self.d_tmp:
-                        if "{{" + k + "}}" in iCheckResponse.split(":")[1]:
-                            testResponse = str(iCheckResponse.split(":")[1]).replace("{{" + k + "}}", str(self.d_tmp[k]))
-                            if iResValue != testResponse:
-                                self.setCaseParam(excelNo, "Fail", d_res)
-                                assert iResValue == iCheckResponse.split(":")[1], "预期值: " + iCheckResponse.split(":")[1] + "，实测值: " + iResValue + ""
-                            else:
-                                print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " = " + str(iResValue) + " </font>")
-                                self.setCaseParam(excelNo, "Ok", d_res)
-                # 检查返回值中是明确的值，如 $.code:200
-                elif iResValue != iCheckResponse.split(":")[1]:
-                    self.setCaseParam(excelNo, "Fail", d_res)
-                    assert iResValue == iCheckResponse.split(":")[1], "预期值: " + iCheckResponse.split(":")[1] + "，实测值: " + iResValue + ""
-                else:
-                    print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " </font>")
-                    self.setCaseParam(excelNo, "Ok", d_res)
-            else:
-                # $.code: 200, $.msg: success}
-                sign = 0
-                for i in range(len(iCheckResponse.split(","))):
-                    iResValue = jsonpath.jsonpath(d_res, expr=iCheckResponse.split(",")[i].split(":")[0])
-                    iResValue = str(iResValue[0])  # 200
-
-                    # 检查返回值中有变量，如 $.code:{{var}}
-                    if "{{" in iCheckResponse.split(",")[i].split(":")[1]:
-                        for k in self.d_tmp:
-                            if "{{" + k + "}}" in iCheckResponse.split(",")[i].split(":")[1]:
-                                testResponse = str(iCheckResponse.split(",")[i].split(":")[1]).replace("{{" + k + "}}", str(self.d_tmp[k]))
-                                if iResValue != testResponse:
-                                    sign = 1
-                                else:
-                                    sign = 0
-                if sign == 1:
-                    self.setCaseParam(excelNo, "Fail", d_res)
-                    assert iResValue == iCheckResponse.split(",")[i].split(":")[1], "预期值: " + iCheckResponse.split(",")[i].split(":")[1] + "，实测值: " + iResValue + ""
-                else:
-                    print("\n<font color='green'>【检查返回值】：" + str(iCheckResponse) + " </font>")
-                    self.setCaseParam(excelNo, "Ok", d_res)
-        except Exception as e:
-            print(e.__traceback__)
-            self.setCaseParam(excelNo, "Fail", d_res )
-            assert 1 == 0, "返回值中未找到 " + str(iCheckResponse)
 
 
     def setCaseParam(self, excelNo, result, d_res, result_assert=""):
