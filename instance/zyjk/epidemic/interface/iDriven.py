@@ -58,68 +58,30 @@ class HTTP:
 
 
     # 请求方法
-    def token(self, iPath, interParam, d_var):
+    def token(self, iPath, iParam, g_var):
 
         '''  post请求之登录获取token '''
 
-        try:
-            interParam = json.loads(interParam)
-            print(interParam)
-            if d_var != None:
-                d_var = json.loads(d_var)
-            # 密码没加密
-            for k, v in interParam.items():
-                if v == "$password":
-                    interParam[k] = password
-                if v == "$userNo":
-                    interParam[k] = userNo
-            path = protocol + "://" + ip + ":" + port + iPath
-            result = self.session.post(path, headers=self.headers, json=interParam, verify=False)
-            self.jsonres = json.loads(result.text)
-            self.session.headers['token'] = self.jsonres['data']['token']
-            res = result.text
-
-            print("\n【请求地址】：" + str(path))
-            print("\n【参数】：" + str(interParam))
-            print("\n【方法】：post")
-            print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
-            print("\n【当前变量】：" + str(d_var))
-            # print("\n【请求头】：" + str(self.session.headers) + "\n")
-            res = res[res.find('{'):res.rfind('}') + 1]
-
-            return res, d_var
-
-        except Exception as e:
-            print(e.__traceback__)
-
-
-    def get(self, interName, interParam, d_var):
-
-        ''' get 请求'''
-
-        if interParam == None:
-            path = protocol + "://" + ip + ":" + port + interName
-            print("\n【请求地址1】：" + str(path))
-            result = self.session.get(path, data=None)
-        else:
-            path = protocol + "://" + ip + ":" + port + interName + "?" + interParam
-            result = self.session.get(path, headers=self.headers, verify=False)
-            print("\n【请求地址2】：" + str(path))
-            print("\n【参数】：" + str(interParam))
-        d_response = json.loads(result.text)
-        if d_var != None:
-            if "$." in d_var:
-                var = d_var.split("$.")[1].split('"')[0]
-                var = "$." + var
-                x = jsonpath.jsonpath(d_response, expr=var)
-                d_var = d_var.replace(var, str(x[0]))
-            # d_var = json.loads(d_var)
-            d_var = dict(eval(d_var))
-        print("\n【方法】：get")
+        iParam = json.loads(iParam)
+        if g_var != None:
+            d_var = json.loads(g_var)
+        # 密码没加密
+        for k, v in iParam.items():
+            if v == "$password":
+                iParam[k] = password
+            if v == "$userNo":
+                iParam[k] = userNo
+        path = protocol + "://" + ip + ":" + port + iPath
+        result = self.session.post(path, headers=self.headers, json=iParam, verify=False)
+        self.jsonres = json.loads(result.text)
+        self.session.headers['token'] = self.jsonres['data']['token']
+        print("\n【请求地址】：" + str(path))
+        print("\n【参数】：" + str(iParam))
+        print("\n【方法】：post")
         print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
         print("\n【当前变量】：" + str(d_var))
+        # print("\n【请求头】：" + str(self.session.headers) + "\n")
         res = result.text
-        print(res)
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -127,28 +89,62 @@ class HTTP:
         return res, d_var
 
 
-    def post(self, interName, interParam, d_var):
+    def get(self, iPath, iParam, g_var):
+
+        ''' get 请求'''
+
+        if iParam == None:
+            path = protocol + "://" + ip + ":" + port + iPath
+            print("\n【请求地址1】：" + str(path))
+            result = self.session.get(path, data=None)
+        else:
+            iPath = protocol + "://" + ip + ":" + port + iPath + "?" + iParam
+            result = self.session.get(iPath, headers=self.headers, verify=False)
+            print("\n【请求地址2】：" + str(iPath))
+            print("\n【参数】：" + str(iParam))
+        d_response = json.loads(result.text)
+        if g_var != None:
+            if "$." in g_var:
+                var = g_var.split("$.")[1].split('"')[0]
+                var = "$." + var
+                x = jsonpath.jsonpath(d_response, expr=var)
+                g_var = g_var.replace(var, str(x[0]))
+            d_var = json.loads(g_var)
+            # d_var = dict(eval(d_var))
+        print("\n【方法】：get")
+        print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
+        print("\n【当前变量】：" + str(d_var))
+        res = result.text
+        try:
+            res = res[res.find('{'):res.rfind('}') + 1]
+        except Exception as e:
+            print(e.__traceback__)
+        return res, d_var
+
+
+    def post(self, iPath, iParam, g_var):
 
         ''' post 请求'''
 
-        path = protocol + "://" + ip + ":" + port + interName
-        print("\n【请求地址】：" + str(path))
-        if interParam == None:
-            result = self.session.post(path, data=None)
+        iPath = protocol + "://" + ip + ":" + port + iPath
+        print("\n【请求地址】：" + str(iPath))
+        if iParam == None:
+            result = self.session.post(iPath, data=None)
         else:
-            result = self.session.post(path, headers=self.headers, json=json.loads(interParam), verify=False)
+            result = self.session.post(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
         d_response = json.loads(result.text)
-        if d_var != None:
-            if "$." in d_var:
-                for a in range(1, len(d_var.split("$."))):
-                    var = d_var.split("$.")[1].split('"')[0]
+        if g_var != None:
+            if "$." in g_var:
+                for a in range(1, len(g_var.split("$."))):
+                    var = g_var.split("$.")[1].split('"')[0]
                     var = "$." + var
                     x = jsonpath.jsonpath(d_response, expr=var)
-                    d_var = d_var.replace(var, str(x[0]))
-            d_var = dict(eval(d_var))
-            # d_var = json.loads(d_var)
-
-        print("\n【参数】：" + str(interParam))
+                    g_var = g_var.replace(var, str(x[0]))
+            # d_var = dict(eval(g_var))
+            d_var = json.loads(g_var)
+        else:
+            d_var = {}
+        print("\n【参数】：" + str(iParam))
         print("\n【方法】：post")
         print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
         print("\n【当前变量】：" + str(d_var))
@@ -161,21 +157,22 @@ class HTTP:
         return res, d_var
 
 
-    def delete(self, interName, interParam, d_var):
+    def delete(self, iPath, iParam, g_var):
 
         ''' delete 请求'''
 
-        path = protocol + "://" + ip + ":" + port + interName
-        print("\n【请求地址】：" + str(path))
-        if interParam == None:
-            result = self.session.delete(path, data=None)
+        iPath = protocol + "://" + ip + ":" + port + iPath
+        print("\n【请求地址】：" + str(iPath))
+        if iParam == None:
+            result = self.session.delete(iPath, data=None)
             print("\n<font color='blue'>【返回】：" + str(result.text) + "</font")
         else:
-            result = self.session.delete(path, headers=self.headers, json=json.loads(interParam), verify=False)
-            print("\n【参数】：" + str(interParam))
+            result = self.session.delete(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
+            print("\n【参数】：" + str(iParam))
             print("\n【方法】：delete")
             print("\n<font color='blue'>【返回】：" + str(result.text) + "</font")
-            print("\n【当前变量】：" + str(d_var))
+            print("\n【当前变量】：" + str(g_var))
+        d_var = json.loads(g_var)
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}')+1]
@@ -184,25 +181,26 @@ class HTTP:
         return res, d_var
 
 
-    def downFile(self, interName, interParam, d_var):
+    def downFile(self, iPath, iParam, g_var):
 
-        path = protocol + "://" + ip + ":" + port + interName
-        print("\n【请求地址】：" + str(path))
+        iPath = protocol + "://" + ip + ":" + port + iPath
+        print("\n【请求地址】：" + str(iPath))
         # result = self.session.get(path, stream=True)
-        r = requests.get(path, stream=True)
-        f = open(interParam, "wb")
+        r = requests.get(iPath, stream=True)
+        f = open(iParam, "wb")
         for chunk in r.iter_content(chunk_size=512):
             if chunk:
                 f.write(chunk)
+        # d_var = json.loads(g_var)
         res = None
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
             print(e.__traceback__)
-        return res, d_var
+        return res, g_var
 
 
-    def upFile(self, interURL, filePath ,d_var):
+    def upFile(self, iPath, filePath ,g_var):
 
         ''' post请求 上传文件 '''
        # 参考 http://www.manongjc.com/detail/23-edxwzduohhtlzhf.html
@@ -210,15 +208,16 @@ class HTTP:
         x = os.path.split(filePath)
         m = MultipartEncoder(fields={'file': (x[1], open(filePath, 'rb'), 'text/plain')})
         self.headers = {'Content-Type': m.content_type, }
-        path = protocol + "://" + ip + ":" + port + interURL
-        result = self.session.post(path, data=m, headers=self.headers)
+        iPath = protocol + "://" + ip + ":" + port + iPath
+        result = self.session.post(iPath, data=m, headers=self.headers)
         self.jsonres = json.loads(result.text)
-        print("\n【请求地址】：" + str(path))
+        print("\n【请求地址】：" + str(iPath))
         print("\n【上传文件】：" + str(filePath))
         print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>\n")
-        res = result.text
         self.headers = {"Content-Type": "application/json"}
         # print("\n请求头 => " + str(self.session.headers) + "\n")
+        d_var = json.loads(g_var)
+        res = result.text
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:

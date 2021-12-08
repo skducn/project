@@ -30,7 +30,7 @@ def run(line):
     elif l == 2:
         return func(line[1], line[3])  # [iPath, iParam]
     elif l == 3:
-        return func(line[1], line[3], line[4])  # [iPath, iParam, globalVar]
+        return func(line[1], line[3], line[4])  # [iPath, iParam, g_var]
     # elif l == 4:
     #     return func(line[2],line[3],line[4],line[5])
 
