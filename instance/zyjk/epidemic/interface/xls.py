@@ -81,10 +81,10 @@ class XLS:
                 l_case.append(sh.cell(row=i+2, column=8).value)  # 方法
                 l_case.append(sh.cell(row=i+2, column=9).value)  # 参数
                 l_case.append(sh.cell(row=i+2, column=11).value)  # 检查返回值
-                l_case.append(sh.cell(row=i+2, column=12).value)  # 全局字典变量
-                l_case.append(sh.cell(row=i+2, column=13).value)  # 全局sql
-                l_case.append(sh.cell(row=i+2, column=14).value)  # 全局脚本变量
-                l_case.append(sh.cell(row=i+2, column=15).value)  # 断言条件
+                l_case.append(sh.cell(row=i+2, column=12).value)  # 变量(g)
+                l_case.append(sh.cell(row=i+2, column=13).value)  # sql变量(g)
+                l_case.append(sh.cell(row=i+2, column=14).value)  # 自定义变量（g）
+                l_case.append(sh.cell(row=i+2, column=15).value)  # 断言变量/下载
                 l_case.append(sh.cell(row=i+2, column=17).value)  # 担当者
                 l_case.append(sh.max_row-1)  # 用例总数
                 l_casesuit.append(l_case)
@@ -92,7 +92,7 @@ class XLS:
 
         return l_casesuit
 
-    def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iCheckResponse,  g_dict, s_sql, g_script, iAssert, tester, caseQty):
+    def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iCheckResponse,  g_dict, s_sql, g_userDefined, iAssert, tester, caseQty):
 
         ''' 替换参数，解析接口，检查 iCheckResponse '''
 
@@ -206,9 +206,9 @@ class XLS:
                 print("\n【全局sql】：" + str(k) + " = (" + str(sql_value[0][0] ) + ")")
 
         # 自定义变量（g）
-        if g_script != None and "=" in g_script:
-            g_script_name = str(g_script).split("=")[0]
-            self.d_tmp[g_script_name] = eval(str(g_script).split("=")[1])
+        if g_userDefined != None and "=" in g_userDefined:
+            g_userDefined_name = str(g_userDefined).split("=")[0]
+            self.d_tmp[g_userDefined_name] = eval(str(g_userDefined).split("=")[1])
 
 
         # 输出变量（g）
