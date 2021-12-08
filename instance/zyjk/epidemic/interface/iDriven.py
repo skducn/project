@@ -58,42 +58,40 @@ class HTTP:
 
 
     # 请求方法
-    def token(self, iPath, iParam, globalVar):
+    def token(self, iPath, interParam, d_var):
 
         '''  post请求之登录获取token '''
 
         try:
-            iParam = dict(eval(iParam))
-
-            if globalVar != None:
-                d_globalVar = dict(eval(globalVar))
-
+            interParam = json.loads(interParam)
+            print(interParam)
+            if d_var != None:
+                d_var = json.loads(d_var)
             # 密码没加密
-            for k, v in iParam.items():
+            for k, v in interParam.items():
                 if v == "$password":
-                    iParam[k] = password
+                    interParam[k] = password
                 if v == "$userNo":
-                    iParam[k] = userNo
-
+                    interParam[k] = userNo
             path = protocol + "://" + ip + ":" + port + iPath
-            result = self.session.post(path, headers=self.headers, json=iParam, verify=False)
-            # print(iParam)
-            # print(result)
-            # print(result.text)
+            result = self.session.post(path, headers=self.headers, json=interParam, verify=False)
             self.jsonres = json.loads(result.text)
-
             self.session.headers['token'] = self.jsonres['data']['token']
             res = result.text
+
             print("\n【请求地址】：" + str(path))
-            print("\n【参数】：" + str(iParam))
+            print("\n【参数】：" + str(interParam))
             print("\n【方法】：post")
             print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
-            print("\n【当前变量】：" + str(d_globalVar))
+            print("\n【当前变量】：" + str(d_var))
             # print("\n【请求头】：" + str(self.session.headers) + "\n")
             res = res[res.find('{'):res.rfind('}') + 1]
-            return res, d_globalVar
+
+            return res, d_var
+
         except Exception as e:
             print(e.__traceback__)
+
 
     def get(self, interName, interParam, d_var):
 
@@ -108,7 +106,6 @@ class HTTP:
             result = self.session.get(path, headers=self.headers, verify=False)
             print("\n【请求地址2】：" + str(path))
             print("\n【参数】：" + str(interParam))
-
         d_response = json.loads(result.text)
         if d_var != None:
             if "$." in d_var:
@@ -116,6 +113,7 @@ class HTTP:
                 var = "$." + var
                 x = jsonpath.jsonpath(d_response, expr=var)
                 d_var = d_var.replace(var, str(x[0]))
+            # d_var = json.loads(d_var)
             d_var = dict(eval(d_var))
         print("\n【方法】：get")
         print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
@@ -128,6 +126,7 @@ class HTTP:
             print(e.__traceback__)
         return res, d_var
 
+
     def post(self, interName, interParam, d_var):
 
         ''' post 请求'''
@@ -137,7 +136,7 @@ class HTTP:
         if interParam == None:
             result = self.session.post(path, data=None)
         else:
-            result = self.session.post(path, headers=self.headers, json=dict(eval(interParam)), verify=False)
+            result = self.session.post(path, headers=self.headers, json=json.loads(interParam), verify=False)
         d_response = json.loads(result.text)
         if d_var != None:
             if "$." in d_var:
@@ -147,6 +146,7 @@ class HTTP:
                     x = jsonpath.jsonpath(d_response, expr=var)
                     d_var = d_var.replace(var, str(x[0]))
             d_var = dict(eval(d_var))
+            # d_var = json.loads(d_var)
 
         print("\n【参数】：" + str(interParam))
         print("\n【方法】：post")
@@ -160,6 +160,7 @@ class HTTP:
             print(e.__traceback__)
         return res, d_var
 
+
     def delete(self, interName, interParam, d_var):
 
         ''' delete 请求'''
@@ -170,12 +171,11 @@ class HTTP:
             result = self.session.delete(path, data=None)
             print("\n<font color='blue'>【返回】：" + str(result.text) + "</font")
         else:
-            result = self.session.delete(path, headers=self.headers, json=dict(eval(interParam)), verify=False)
+            result = self.session.delete(path, headers=self.headers, json=json.loads(interParam), verify=False)
             print("\n【参数】：" + str(interParam))
             print("\n【方法】：delete")
             print("\n<font color='blue'>【返回】：" + str(result.text) + "</font")
             print("\n【当前变量】：" + str(d_var))
-
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}')+1]
@@ -200,6 +200,7 @@ class HTTP:
         except Exception as e:
             print(e.__traceback__)
         return res, d_var
+
 
     def upFile(self, interURL, filePath ,d_var):
 
