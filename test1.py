@@ -8,12 +8,32 @@
 # 学习：https://www.cnblogs.com/wj5633/p/6931187.html
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
+import json
+dict1 = {}
+# a = {"xx":"select COUNT(*) FROM ep_resident_user"}
+a = '{"xx":"select COUNT(*) FROM ep_resident_user","yy":123}'
+d_a = json.loads(a)
+print(d_a)
+for k,v in d_a.items():
+    print(k,v)
+    test=555
+    dict1[k]= test
 
-d= {"a":1, "b":2}
-print(d)
-d["b"]=3
-print(d)
+print(dict1)
 
+# d= {"a":1, "b":2}
+# print(d)
+# d["b"]=3
+# print(d)
+#
+# x = '[{"detail": "123123","endTime": "","id": 0,"isDelete": 0,"startTime": "" }]'
+#
+# dd = '{"a":1, "b":2}'
+# import json
+#
+# target_list = json.loads(dd)
+# print(type(target_list))
+# print(target_list)
 
 # import functools
 #

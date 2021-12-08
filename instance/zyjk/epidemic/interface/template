@@ -166,6 +166,7 @@
                         </tr>
                         </thead>
                         <tbody id="detailBody">
+
                         </tbody>
                     </table>
                 </div>
@@ -341,7 +342,7 @@ init:true
                         status = "<td><span>" + n["status"] + "</span></td>";
                     }
 
-                    var tr = "<tr style='font-family: Consolas' onmouseover='sorter.hover(0,1)' onmouseout='sorter.hover(0,0)'>" +
+                    var tr = "<tr >" +
                         "<td>" + n["excelNo"] + "</td>" +
                         "<td>" + n["className"] + "</td>" +
                         "<td>" + n["testType"] + "</td>" +

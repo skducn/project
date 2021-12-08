@@ -109,7 +109,7 @@ class XLS:
                     if "{{" + k + "}}" in iParam:
                         iParam = str(iParam).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
 
-        # 全局字典变量
+        # 变量(g)
         if g_dict != None:
             if "{{" in g_dict:
                 for k in self.d_tmp:
@@ -123,10 +123,9 @@ class XLS:
             d_res = None
         else:
             d_res = json.loads(res)
-        # 更新全局字典变量（合并字典）
+        # 更新变量(g)（合并字典）
         if d_g_dict != None:
             self.d_tmp = dict(self.d_tmp, **d_g_dict)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
-            # self.d_tmp = Dict_PO.getMergeDict2(self.d_tmp, d_g_dict)
 
 
         # 检查返回值 iCheckResponse（如 $.code=200）
@@ -193,51 +192,51 @@ class XLS:
             self.setCaseParam(excelNo, "Fail", d_res)
             assert 1 == 0, "返回值中未找到 " + str(iCheckResponse)
 
-        # 全局 sql
+        # sql变量（g）
         if s_sql != None:
             if "{{" in s_sql:
                 for k in self.d_tmp:
                     if "{{" + k + "}}" in s_sql:
                         s_sql = str(s_sql).replace("{{" + k + "}}", str(self.d_tmp[k]))
-            sql_var = str(s_sql).split("=|||")[0]
-            sql_command = len(str(s_sql).split("=|||")[1].split("|||"))
-            # 只有1条sql语句
-            if sql_command == 1:
-                s_sql = str(s_sql).split("=|||")[1]
-                sql_before = self.Mysql_PO.execQuery(s_sql)
-                self.d_tmp[sql_var] = sql_before[0][0]
-                print("\n【全局sql】：" + str(sql_var) + " = (" + str(s_sql) + ")")
-            else:
-                # 多条sql语句
-                for m in range(sql_command):
-                    tmp = str(s_sql).split("=|||")[1].split("|||")[m]
-                    sql_before = self.Mysql_PO.execQuery(tmp)
-                    self.d_tmp[sql_var+str(m)] = sql_before[0][0]
-                    print("\n【全局sql" + str(m+1) + "】：" + str(sql_var) + str(m) + " = （" + str(tmp) + "）")
+            # 转变量（g）
+            d_sql = json.loads(s_sql)
+            for k, v in d_sql.items():
+                sql_value = self.Mysql_PO.execQuery(v)
+                self.d_tmp[k] = sql_value[0][0]
+                print("\n【全局sql】：" + str(k) + " = (" + str(sql_value[0][0] ) + ")")
 
-        # 全局脚本变量
-        if g_script != None and "=|||" in g_script:
-            g_script_name = str(g_script).split("=|||")[0]
-            eval(str(g_script).split("=|||")[1])
-            self.d_tmp[g_script_name] = eval(str(g_script).split("=|||")[1])
+        # 自定义变量（g）
+        if g_script != None and "=" in g_script:
+            g_script_name = str(g_script).split("=")[0]
+            self.d_tmp[g_script_name] = eval(str(g_script).split("=")[1])
 
 
-        # 输出全局变量
+        # 输出变量（g）
         print("\n<font color='purple'>【全局字典变量】：" + str(self.d_tmp) + "</font>")
 
-        # 断言条件
+        # 断言变量
         if iAssert != None:
 
-            if isinstance(self.d_tmp[str(iAssert).split("=")[0]], int):
-                if self.d_tmp[str(iAssert).split("=")[0]] == int(str(iAssert).split("=")[1]):
+            # 断言下载文件
+            if str(iAssert).split("=")[0] == "file":
+                # 判断文件是否存在
+                # print(str(iAssert).split("=")[1])
+                if (os.path.isfile(str(iAssert).split("=")[1])):
                     self.setCaseParam(excelNo, "Ok", d_res, "True")
                 else:
                     self.setCaseParam(excelNo, "Fail", d_res, "False")
-            elif isinstance(self.d_tmp[str(iAssert).split("=")[0]], str):
-                if self.d_tmp[str(iAssert).split("=")[0]] == str(iAssert).split("=")[1]:
-                    self.setCaseParam(excelNo, "Ok", d_res, "True")
-                else:
-                    self.setCaseParam(excelNo, "Fail", d_res, "False")
+            else:
+                # 断言变量(g)
+                if isinstance(self.d_tmp[str(iAssert).split("=")[0]], int):
+                    if self.d_tmp[str(iAssert).split("=")[0]] == int(str(iAssert).split("=")[1]):
+                        self.setCaseParam(excelNo, "Ok", d_res, "True")
+                    else:
+                        self.setCaseParam(excelNo, "Fail", d_res, "False")
+                elif isinstance(self.d_tmp[str(iAssert).split("=")[0]], str):
+                    if self.d_tmp[str(iAssert).split("=")[0]] == str(iAssert).split("=")[1]:
+                        self.setCaseParam(excelNo, "Ok", d_res, "True")
+                    else:
+                        self.setCaseParam(excelNo, "Fail", d_res, "False")
 
 
 
