@@ -4,11 +4,13 @@
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>测试报告</title>
+    <link href="../js/template12.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/chosen/1.8.2/chosen.css" rel="stylesheet">
-    <link href="../js/template12.css" rel="stylesheet">
+
+
 
 
 </head>
@@ -139,6 +141,11 @@
                             <option value="">所有</option>
                         </select>
 
+                        <label style="color: snow">&nbsp方法:</label>
+                        <select class="chosen-select form-control" data-placeholder="----------" style="width: 200px;" name="filterWay" id="filterWay">
+                            <option value="">所有</option>
+                        </select>
+
                         <label style="color: snow"> &nbsp结果:</label>
                         <select class="chosen-select form-control" data-placeholder="----------" style="width: 200px;" name="filterResult" id="filterResult">
                             <option value="">所有</option>
@@ -152,10 +159,10 @@
                             </label>
                         </div>
                     </div>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="table12">
                         <thead>
                         <tr>
-                            <th>用例编号</th><th>担当者</th><th>类型</th><th>模块</th><th>用例名称</th><th>测试日期</th><th>耗时</th><th>结果</th><th>操作</th>
+                            <th>用例编号</th><th>担当者</th><th>类型</th><th>模块</th><th>方法</th><th>用例名称</th><th>测试日期</th><th>耗时</th><th>结果</th><th>操作</th>
                         </tr>
                         </thead>
                         <tbody id="detailBody">
@@ -166,16 +173,23 @@
         </div>
     </div>
 </div>
+
+
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/highcharts.js"></script>
 <script type="text/javascript" src="../js/exporting.js"></script>
-
-
 <script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
 <script src="https://cdn.bootcss.com/chosen/1.8.2/chosen.jquery.js"></script>
 
-
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+var sorter = new TINY.table.sorter('sorter','table12',{
+hoverid:'selectedrow',
+columns:[{index:7, format:'%', decimals:1},{index:8, format:'$', decimals:0}],
+init:true
+});
+</script>
 
 <script type="text/javascript">
 	function $childNode(o) {
@@ -223,6 +237,7 @@
         $(obj).attr("style","font-family: Consolas; background-color: #b0d877");
     }
 
+
     function details(obj) {
         if ($(obj).text() == '展开') {
             var len = $(obj).parent().parent().children().length;
@@ -261,6 +276,7 @@
         var classNames = [];
         var classTypes = [];
         var classSorts = [];
+        var classWays = [];
         var results = [];
         $.each(resultData["testResult"], function (i, n) {
             if (classNames.indexOf(n["className"]) == -1) {
@@ -271,6 +287,9 @@
             }
             if (classSorts.indexOf(n["testSort"]) == -1) {
                 classSorts.push(n["testSort"]);
+            }
+            if (classWays.indexOf(n["testWay"]) == -1) {
+                classWays.push(n["testWay"]);
             }
             if (results.indexOf(n["status"]) == -1) {
                 results.push(n["status"]);
@@ -286,6 +305,9 @@
         $.each(classSorts, function (i, n) {
             $("#filterSort").append("<option value='" + n + "' hassubinfo='true'>" + n + "</option>");
         });
+        $.each(classWays, function (i, n) {
+            $("#filterWay").append("<option value='" + n + "' hassubinfo='true'>" + n + "</option>");
+        });
         $.each(results, function (i, n) {
             $("#filterResult").append("<option value='" + n + "' hassubinfo='true'>" + n + "</option>");
         });
@@ -293,16 +315,17 @@
         $("#filterClass").chosen({search_contains: true});
         $("#filterType").chosen({search_contains: true});
         $("#filterSort").chosen({search_contains: true});
+        $("#filterWay").chosen({search_contains: true});
         $("#filterResult").chosen({search_contains: true});
 
-        function generateResult(className, testType, testSort, caseResult) {
+        function generateResult(className, testType, testSort, testWay, caseResult) {
             $("#detailBody").children().remove();
             var filterAll = 0;
             var filterOk = 0;
             var filterFail = 0;
             var filterSkip = 0;
             $.each(resultData["testResult"], function (i, n) {
-                if ((className == "" || n["className"] == className) && (caseResult == "" || n["status"] == caseResult) && (testType == "" || n["testType"] == testType) && (testSort == "" || n["testSort"] == testSort)) {
+                if ((className == "" || n["className"] == className) && (caseResult == "" || n["status"] == caseResult) && (testType == "" || n["testType"] == testType) && (testSort == "" || n["testSort"] == testSort)  && (testWay == "" || n["testWay"] == testWay)) {
                     filterAll += 1;
                     var status = "";
                     if (n["status"] == '成功') {
@@ -318,11 +341,12 @@
                         status = "<td><span>" + n["status"] + "</span></td>";
                     }
 
-                    var tr = "<tr style='font-family: Consolas'>" +
+                    var tr = "<tr style='font-family: Consolas' onmouseover='sorter.hover(0,1)' onmouseout='sorter.hover(0,0)'>" +
                         "<td>" + n["excelNo"] + "</td>" +
                         "<td>" + n["className"] + "</td>" +
                         "<td>" + n["testType"] + "</td>" +
                         "<td>" + n["testSort"] + "</td>" +
+                        "<td>" + n["testWay"] + "</td>" +
                         "<td>" + n["description"] + "</td>" +
                         "<td>" + n["testDate"] + "</td>" +
                         "<td>" + n["spendTime"] + "</td>" +
@@ -336,38 +360,51 @@
             $("#filterSkip").text(filterSkip);
         }
 
-        generateResult("", "", "", "");
+        generateResult("", "", "", "", "");
 
         $("#filterClass").on('change', function () {
             var className = $("#filterClass").val();
             var testType = $("#filterType").val();
             var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
             var caseResult = $("#filterResult").val();
-            generateResult(className, testType, testSort, caseResult);
+            generateResult(className, testType, testSort, testWay, caseResult);
         });
 
         $("#filterType").on('change', function () {
             var className = $("#filterClass").val();
             var testType = $("#filterType").val();
             var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
             var caseResult = $("#filterResult").val();
-            generateResult(className, testType, testSort, caseResult);
+            generateResult(className, testType, testSort, testWay, caseResult);
         });
 
         $("#filterSort").on('change', function () {
             var className = $("#filterClass").val();
             var testType = $("#filterType").val();
             var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
             var caseResult = $("#filterResult").val();
-            generateResult(className, testType, testSort, caseResult);
+            generateResult(className, testType, testSort, testWay, caseResult);
+        });
+
+        $("#filterWay").on('change', function () {
+            var className = $("#filterClass").val();
+            var testType = $("#filterType").val();
+            var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
+            var caseResult = $("#filterResult").val();
+            generateResult(className, testType, testSort, testWay, caseResult);
         });
 
         $("#filterResult").on('change', function () {
             var className = $("#filterClass").val();
             var testType = $("#filterType").val();
             var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
             var caseResult = $("#filterResult").val();
-            generateResult(className, testType, testSort, caseResult);
+            generateResult(className, testType, testSort, testWay, caseResult);
         });
 
         //$(".chosen-select").trigger("chosen:updated");

@@ -146,7 +146,8 @@ class HTTP:
                     var = "$." + var
                     x = jsonpath.jsonpath(d_response, expr=var)
                     d_var = d_var.replace(var, str(x[0]))
-                d_var = dict(eval(d_var))
+            d_var = dict(eval(d_var))
+
         print("\n【参数】：" + str(interParam))
         print("\n【方法】：post")
         print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
@@ -183,26 +184,24 @@ class HTTP:
         return res, d_var
 
 
-    def getFile(self, interName, interParam, d_var):
+    def downFile(self, interName, interParam, d_var):
 
         path = protocol + "://" + ip + ":" + port + interName
         print("\n【请求地址】：" + str(path))
         # result = self.session.get(path, stream=True)
         r = requests.get(path, stream=True)
-        f = open("d:\\tttt.xlsx", "wb")
+        f = open(interParam, "wb")
         for chunk in r.iter_content(chunk_size=512):
             if chunk:
                 f.write(chunk)
-        # self.jsonres = json.loads(r.text)
-        print(r.text)
-        res = r.text
+        res = None
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
             print(e.__traceback__)
         return res, d_var
 
-    def file(self, interURL, filePath ,d_var):
+    def upFile(self, interURL, filePath ,d_var):
 
         ''' post请求 上传文件 '''
        # 参考 http://www.manongjc.com/detail/23-edxwzduohhtlzhf.html
@@ -211,13 +210,14 @@ class HTTP:
         m = MultipartEncoder(fields={'file': (x[1], open(filePath, 'rb'), 'text/plain')})
         self.headers = {'Content-Type': m.content_type, }
         path = protocol + "://" + ip + ":" + port + interURL
-        result = requests.post(path, data=m, headers=self.headers)
+        result = self.session.post(path, data=m, headers=self.headers)
         self.jsonres = json.loads(result.text)
         print("\n【请求地址】：" + str(path))
         print("\n【上传文件】：" + str(filePath))
         print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>\n")
         res = result.text
         self.headers = {"Content-Type": "application/json"}
+        # print("\n请求头 => " + str(self.session.headers) + "\n")
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
