@@ -13,19 +13,23 @@
 # 在Python中，None、False、0、""(空字符串)、[](空列表)、()(空元组)、{}(空字典)都相当于False
 #***************************************************************
 
-import pymysql
-pymysql.install_as_MySQLdb()
-
-import MySQLdb
-
-from PO.ExcelPO import *
-
 '''
 1，查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
 2，搜索表记录 dbRecord('*', 'money', '%34.5%')
-3，查询创建时间 dbCreateDate() 
-4，将数据库导出excel db2xlsx()
+3，查询创建时间 dbCreateDate()
+
+4，使用pandas，将数据库表导出excel db2xlsx()
+5，使用pandas，将数据库表导出html db2html()
+
 '''
+
+import pymysql
+pymysql.install_as_MySQLdb()
+import MySQLdb
+from PO.ExcelPO import *
+import pandas as pd
+from sqlalchemy import create_engine
+
 class MysqlPO():
 
     def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
@@ -417,14 +421,20 @@ class MysqlPO():
         else:
             print("[errorrrrrrr , 参数溢出！]")
 
-    def db2xlsx(self, sql, file):
+    def db2xlsx(self, sql, toExcel):
+        # 将数据库表导出到excel
         # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
-        # 将数据库表保存到excel
-        import pandas as pd
-        from sqlalchemy import create_engine
         engine = create_engine('mysql+pymysql://' + self.varUser + ":" + self.varPassword + "@" + self.varHost +  ":" +  str(self.varPort) + "/" + self.varDB)
         df = pd.read_sql(sql=sql, con=engine)
-        df.to_excel(file)
+        df.to_excel(toExcel)
+
+
+    def db2html(self, sql, toHtml):
+        # 将数据库表导出到html
+        # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\index1.html")
+        engine = create_engine('mysql+pymysql://' + self.varUser + ":" + self.varPassword + "@" + self.varHost +  ":" +  str(self.varPort) + "/" + self.varDB)
+        df = pd.read_sql(sql=sql, con=engine)
+        df.to_html(toHtml)
 
 
     def dbDesc2excel(self, varFileName):
@@ -628,9 +638,11 @@ if __name__ == '__main__':
     # mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306) # 测试
 
     # 招远防疫 >>>>>>>>>>>>>>>>>>>>>>>>>>>
-    Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
-    # Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
-
+    # Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
+    Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
+    # Mysql_PO.cur.execute('select * from test1')
+    # l_result = Mysql_PO.cur.fetchall()
+    # print(l_result)
     # print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
     # Mysql_PO.dbDesc()  # 所有表结构
     # Mysql_PO.dbDesc('sys_menu')   # 指定表结构
@@ -640,7 +652,7 @@ if __name__ == '__main__':
 
     # print("2 查找记录".center(100, "-"))
     # Mysql_PO.dbRecord('sys_user', 'char', '%金%')  # 搜索user表中内容包含金丽娜的char类型记录。
-    Mysql_PO.dbRecord('*', 'varchar', u'%招远疫情防控公告123456%')   # 搜索所有表中带金丽娜的char类型记录。
+    # Mysql_PO.dbRecord('*', 'varchar', u'%招远疫情防控公告123456%')   # 搜索所有表中带金丽娜的char类型记录。
     # Mysql_PO.dbRecord('*', 'datetime', u'%2021-11-17%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
 
     # print("3 查找创建时间".center(100, "-"))
@@ -653,7 +665,9 @@ if __name__ == '__main__':
     # Mysql_PO.dbCreateDate('<', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
 
     # print("4 将数据库表导出excel".center(100, "-"))
-    # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
+    Mysql_PO.db2xlsx("select * from test1", "d:\\12345.xlsx")
+    Mysql_PO.db2html("select * from ep_zj_center", "d:\\index1.html")
+
 
     # print("5 将所有表结构导出到excel".center(100, "-"))
     # Mysql_PO.dbDesc2excel("d:\\test.xlsx")  # 将所有表结构导出到excel

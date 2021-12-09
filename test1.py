@@ -8,18 +8,40 @@
 # 学习：https://www.cnblogs.com/wj5633/p/6931187.html
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
-import json
-dict1 = {}
-# a = {"xx":"select COUNT(*) FROM ep_resident_user"}
-a = '{"xx":"select COUNT(*) FROM ep_resident_user","yy":123}'
-d_a = json.loads(a)
-print(d_a)
-for k,v in d_a.items():
-    print(k,v)
-    test=555
-    dict1[k]= test
 
-print(dict1)
+from PO.DataPO import *
+Data_PO = DataPO()
+
+import json
+# str1 = "{'userNo':'$.data','tt':'success','orgno':'\"wgzx\" + str(Data_PO.autoNum(3))'}"
+str1 = '{"userNo":"$.data","tt":"success","orgno":"\'wgzx\' + str(Data_PO.autoNum(3))"}'
+d = json.loads(str1)
+dd = dict(eval(str1))
+print(dd)
+# print(d)
+# print(d['orgno'])
+#
+# x = eval(d['orgno'])
+# print(x)
+
+for k, v in d.items():
+    if "str(" in v:
+        d[k] = eval(d[k])
+
+print(d)
+
+# import json
+# dict1 = {}
+# # a = {"xx":"select COUNT(*) FROM ep_resident_user"}
+# a = '{"xx":"select COUNT(*) FROM ep_resident_user","yy":123}'
+# d_a = json.loads(a)
+# print(d_a)
+# for k,v in d_a.items():
+#     print(k,v)
+#     test=555
+#     dict1[k]= test
+#
+# print(dict1)
 
 # d= {"a":1, "b":2}
 # print(d)

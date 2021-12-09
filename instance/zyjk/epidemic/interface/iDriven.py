@@ -58,29 +58,23 @@ class HTTP:
 
 
     # 请求方法
-    def token(self, iPath, iParam, g_var):
-
+    def token(self, iPath, iParam, d_var):
         '''  post请求之登录获取token '''
 
-        iParam = json.loads(iParam)
-        if g_var != None:
-            d_var = json.loads(g_var)
-        # 密码没加密
-        for k, v in iParam.items():
-            if v == "$password":
-                iParam[k] = password
-            if v == "$userNo":
-                iParam[k] = userNo
+        d_iParam = json.loads(iParam)
         path = protocol + "://" + ip + ":" + port + iPath
-        result = self.session.post(path, headers=self.headers, json=iParam, verify=False)
-        self.jsonres = json.loads(result.text)
-        self.session.headers['token'] = self.jsonres['data']['token']
-        print("\n【请求地址】：" + str(path))
-        print("\n【参数】：" + str(iParam))
-        print("\n【方法】：post")
-        print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
-        print("\n【当前变量】：" + str(d_var))
-        # print("\n【请求头】：" + str(self.session.headers) + "\n")
+        result = self.session.post(path, headers=self.headers, json=d_iParam, verify=False)
+        d_response = json.loads(result.text)
+        self.session.headers['token'] = d_response['data']['token']
+        for k, v in d_var.items():
+            if "$." in str(v):
+                res_value = jsonpath.jsonpath(d_response, expr=v)
+                d_var[k] = res_value[0]
+        print("\nrequest => " + str(path))
+        print("\nparam => " + str(d_iParam))
+        print("\nmethod => post")
+        print("\n<font color='blue'>response => " + str(result.text) + "</font>")
+        print("\nheaders => " + str(self.session.headers) + "\n")
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
@@ -89,31 +83,25 @@ class HTTP:
         return res, d_var
 
 
-    def get(self, iPath, iParam, g_var):
-
+    def get(self, iPath, iParam, d_var):
         ''' get 请求'''
 
         if iParam == None:
             path = protocol + "://" + ip + ":" + port + iPath
-            print("\n【请求地址1】：" + str(path))
+            print("\nrequest => " + str(path))
             result = self.session.get(path, data=None)
         else:
             iPath = protocol + "://" + ip + ":" + port + iPath + "?" + iParam
             result = self.session.get(iPath, headers=self.headers, verify=False)
-            print("\n【请求地址2】：" + str(iPath))
-            print("\n【参数】：" + str(iParam))
+            print("\nrequest => " + str(iPath))
+            print("\nparam => " + str(iParam))
         d_response = json.loads(result.text)
-        if g_var != None:
-            if "$." in g_var:
-                var = g_var.split("$.")[1].split('"')[0]
-                var = "$." + var
-                x = jsonpath.jsonpath(d_response, expr=var)
-                g_var = g_var.replace(var, str(x[0]))
-            d_var = json.loads(g_var)
-            # d_var = dict(eval(d_var))
-        print("\n【方法】：get")
-        print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
-        print("\n【当前变量】：" + str(d_var))
+        for k, v in d_var.items():
+            if "$." in str(v):
+                res_value = jsonpath.jsonpath(d_response, expr=v)
+                d_var[k] = res_value[0]
+        print("\nmethod => get")
+        print("\n<font color='blue'>response => " + str(result.text) + "</font>")
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
@@ -122,33 +110,25 @@ class HTTP:
         return res, d_var
 
 
-    def post(self, iPath, iParam, g_var):
-
+    def post(self, iPath, iParam, d_var):
         ''' post 请求'''
 
+
         iPath = protocol + "://" + ip + ":" + port + iPath
-        print("\n【请求地址】：" + str(iPath))
+        print("\nrequest => " + str(iPath))
         if iParam == None:
             result = self.session.post(iPath, data=None)
         else:
             result = self.session.post(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
         d_response = json.loads(result.text)
-        if g_var != None:
-            if "$." in g_var:
-                for a in range(1, len(g_var.split("$."))):
-                    var = g_var.split("$.")[1].split('"')[0]
-                    var = "$." + var
-                    x = jsonpath.jsonpath(d_response, expr=var)
-                    g_var = g_var.replace(var, str(x[0]))
-            # d_var = dict(eval(g_var))
-            d_var = json.loads(g_var)
-        else:
-            d_var = {}
-        print("\n【参数】：" + str(iParam))
-        print("\n【方法】：post")
-        print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>")
-        print("\n【当前变量】：" + str(d_var))
-        # print("\n请求头 => " + str(self.session.headers) + "\n")
+        for k, v in d_var.items():
+            if "$." in str(v):
+                res_value = jsonpath.jsonpath(d_response, expr=v)
+                d_var[k] = res_value[0]
+        print("\nparam => " + str(iParam))
+        print("\nmethod => post")
+        print("\n<font color='blue'>response => " + str(result.text) + "</font>")
+        # print("\nheaders => " + str(self.session.headers) + "\n")
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}')+1]
@@ -157,22 +137,21 @@ class HTTP:
         return res, d_var
 
 
-    def delete(self, iPath, iParam, g_var):
-
+    def delete(self, iPath, iParam, d_var):
         ''' delete 请求'''
 
         iPath = protocol + "://" + ip + ":" + port + iPath
-        print("\n【请求地址】：" + str(iPath))
+        print("\nrequest => " + str(iPath))
         if iParam == None:
             result = self.session.delete(iPath, data=None)
-            print("\n<font color='blue'>【返回】：" + str(result.text) + "</font")
+            print("\n<font color='blue'>response => " + str(result.text) + "</font")
         else:
             result = self.session.delete(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
-            print("\n【参数】：" + str(iParam))
-            print("\n【方法】：delete")
-            print("\n<font color='blue'>【返回】：" + str(result.text) + "</font")
-            print("\n【当前变量】：" + str(g_var))
-        d_var = json.loads(g_var)
+            print("\nparam => " + str(iParam))
+            print("\nmethod => delete")
+            print("\n<font color='blue'>response => " + str(result.text) + "</font")
+            print("\ncurrVar => " + str(d_var))
+        # d_var = json.loads(g_var)
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}')+1]
@@ -181,10 +160,11 @@ class HTTP:
         return res, d_var
 
 
-    def downFile(self, iPath, iParam, g_var):
+    def downFile(self, iPath, iParam, d_var):
+        '''下载文件get请求'''
 
         iPath = protocol + "://" + ip + ":" + port + iPath
-        print("\n【请求地址】：" + str(iPath))
+        print("\nrequest => " + str(iPath))
         # result = self.session.get(path, stream=True)
         r = requests.get(iPath, stream=True)
         f = open(iParam, "wb")
@@ -197,11 +177,10 @@ class HTTP:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
             print(e.__traceback__)
-        return res, g_var
+        return res, d_var
 
 
-    def upFile(self, iPath, filePath ,g_var):
-
+    def upFile(self, iPath, filePath ,d_var):
         ''' post请求 上传文件 '''
        # 参考 http://www.manongjc.com/detail/23-edxwzduohhtlzhf.html
 
@@ -211,12 +190,12 @@ class HTTP:
         iPath = protocol + "://" + ip + ":" + port + iPath
         result = self.session.post(iPath, data=m, headers=self.headers)
         self.jsonres = json.loads(result.text)
-        print("\n【请求地址】：" + str(iPath))
-        print("\n【上传文件】：" + str(filePath))
-        print("\n<font color='blue'>【返回】：" + str(result.text) + "</font>\n")
+        print("\nrequest => " + str(iPath))
+        print("\nupFile => " + str(filePath))
+        print("\n<font color='blue'>response => " + str(result.text) + "</font>\n")
         self.headers = {"Content-Type": "application/json"}
-        # print("\n请求头 => " + str(self.session.headers) + "\n")
-        d_var = json.loads(g_var)
+        # print("\nheaders => " + str(self.session.headers) + "\n")
+        # d_var = json.loads(g_var)
         res = result.text
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
