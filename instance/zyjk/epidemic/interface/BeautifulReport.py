@@ -202,7 +202,7 @@ class ReportTestResult(unittest.TestResult):
             当测试用力执行完成后进行调用
         :return:
         """
-        self.end_time = '{0:.3} 秒'.format((time.time() - self.start_time))
+        self.end_time = '{0:.2} 秒'.format((time.time() - self.start_time))
         # print(test.__dict__)
         # print(test.__dict__['_testMethodDoc'].split("caseQty=")[1].split("]")[0])
         self.caseQty = test.__dict__['_testMethodDoc'].split("caseQty=")[1].split("]")[0]

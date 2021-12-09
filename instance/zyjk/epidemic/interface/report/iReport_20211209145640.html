@@ -1,0 +1,622 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试报告</title>
+    <link href="../js/template12.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/chosen/1.8.2/chosen.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="row  border-bottom white-bg dashboard-header">
+    <div class="col-sm-12 text-center">
+        <span style="color: #1ab394; font-size: 20px; font-weight: 700"><h1> <span id="projectName"></span></h1></span>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>报告汇总</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12 b-r" >
+                            <form class="">
+
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                <label for="exampleFormControlInput1">需求文档</label>
+                                    <span class="form-control" id="iDoc" disabled="disabled"></span>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                <label for="exampleFormControlInput1">当前环境</label>
+                                    <span class="form-control" id="iEnv" disabled="disabled"></span>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                <label for="exampleFormControlInput1">数据库</label>
+                                    <span class="form-control" id="iDatabase" disabled="disabled"></span>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                <label for="exampleFormControlInput1">执行总消耗</label>
+                                <span class="form-control" id="totalTime" disabled="disabled"></span>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                <label for="exampleFormControlInput1">用例总数</label>
+                                <span class="form-control" id="testAll" disabled="disabled"></span>
+                                </div>
+
+                                 <div class="form-group col-md-3">
+                                 <label class="text-navy">成功</label>
+                                 <span class="form-control" id="testPass" disabled="disabled"></span>
+                                 </div>
+
+                                 <div class="form-group col-md-3">
+                                 <label class="text-danger">失败</label>
+                                 <span class="form-control" id="testFail" disabled="disabled"></span>
+                                 </div>
+
+                                 <div class="form-group col-md-3">
+                                 <label >跳过</label>
+                                 <span class="form-control" id="testSkip" disabled="disabled"></span>
+                                 </div>
+                            </div>
+
+
+                            </form>
+
+                        </div>
+
+                        <div class="col-sm-6"></div>
+
+                        <div class="row">
+
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div style="height:350px" id="echarts-map-chart"></div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div id="container" style="width:850px;height:500px;margin:0 auto"></div>
+                            </div>
+                        </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>详细数据</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="input-group panel-heading" style="width: 100%; background-color: #C6C386; margin-bottom: 10px; text-align: left; font-family: Consolas;">
+                        <label style="color: snow">担当者:</label>
+                        <select class="chosen-select form-control" data-placeholder="----------" style="width: 200px;" name="filterClass" id="filterClass">
+                            <option value="">所有</option>
+                        </select>
+
+                        <label style="color: snow">&nbsp类型:</label>
+                        <select class="chosen-select form-control" data-placeholder="----------" style="width: 200px;" name="filterType" id="filterType">
+                            <option value="">所有</option>
+                        </select>
+
+                        <label style="color: snow">&nbsp模块:</label>
+                        <select class="chosen-select form-control" data-placeholder="----------" style="width: 200px;" name="filterSort" id="filterSort">
+                            <option value="">所有</option>
+                        </select>
+
+                        <label style="color: snow">&nbsp方法:</label>
+                        <select class="chosen-select form-control" data-placeholder="----------" style="width: 200px;" name="filterWay" id="filterWay">
+                            <option value="">所有</option>
+                        </select>
+
+                        <label style="color: snow"> &nbsp结果:</label>
+                        <select class="chosen-select form-control" data-placeholder="----------" style="width: 200px;" name="filterResult" id="filterResult">
+                            <option value="">所有</option>
+                        </select>
+                        <div style="float: right">
+                            <label class="form-control">
+                                <span style="color: green">成功: </span><span style="color: green" id="filterOk"></span><span> | </span>
+                                <span class="text-danger">失败: </span><span class="text-danger" id="filterFail"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <table class="table table-bordered" id="table12">
+                        <thead>
+                        <tr>
+                            <th>用例编号</th><th>担当者</th><th>类型</th><th>模块</th><th>方法</th><th>用例名称</th><th>测试日期</th><th>耗时</th><th>结果</th><th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="detailBody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/highcharts.js"></script>
+<script type="text/javascript" src="../js/exporting.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
+<script src="https://cdn.bootcss.com/chosen/1.8.2/chosen.jquery.js"></script>
+
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+var sorter = new TINY.table.sorter('sorter','table12',{
+hoverid:'selectedrow',
+columns:[{index:7, format:'%', decimals:1},{index:8, format:'$', decimals:0}],
+init:true
+});
+</script>
+
+<script type="text/javascript">
+	function $childNode(o) {
+	    return window.frames[o]
+	}
+	function animationHover(o, e) {
+	    o = $(o), o.hover(function () {
+	        o.addClass("animated " + e)
+	    }, function () {
+	        window.setTimeout(function () {
+	            o.removeClass("animated " + e)
+	        }, 2e3)
+	    })
+	}
+	function WinMove() {
+	    var o = "[class*=col]", e = ".ibox-title", i = "[class*=col]";
+	    $(o).sortable({
+	        handle: e,
+	        connectWith: i,
+	        tolerance: "pointer",
+	        forcePlaceholderSize: !0,
+	        opacity: .8
+	    }).disableSelection()
+	}
+	var $parentNode = window.parent.document;
+	if ($(".tooltip-demo").tooltip({
+	        selector: "[data-toggle=tooltip]",
+	        container: "body"
+	    }), $(".modal").appendTo("body"), $("[data-toggle=popover]").popover(), $(".collapse-link").click(function () {
+	        var o = $(this).closest("div.ibox"), e = $(this).find("i"), i = o.find("div.ibox-content");
+	        i.slideToggle(200), e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down"), o.toggleClass("").toggleClass("border-bottom"), setTimeout(function () {
+	            o.resize(), o.find("[id^=map-]").resize()
+	        }, 50)
+	    }), $(".close-link").click(function () {
+	        var o = $(this).closest("div.ibox");
+	        o.remove()
+	    }), top == this) {
+	}
+</script>
+<script type="text/javascript">
+    var resultData = {
+    "testPass": 0,
+    "testResult": [
+        {
+            "excelNo": "2",
+            "className": "金浩",
+            "testType": "正常",
+            "testSort": "公钥加密接口",
+            "testWay": "post",
+            "description": "加密用户名",
+            "testDate": "2021-12-09",
+            "spendTime": "0.003 秒",
+            "status": "失败",
+            "log": [
+                "",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 59, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 593, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 550, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python39\\lib\\site-packages\\parameterized\\parameterized.py\", line 533, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\epidemic.py\", line 25, in test\n    xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, tester, responseCheck, selectSql, selectSqlCheck, fileLocation, g_var, caseQty)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\xls.py\", line 126, in result\n    res, d_var = reflection.run([iName, iPath, iMethod, iParam, d_var])\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\reflection.py\", line 33, in run\n    return func(line[1], line[3], line[4])  # [iPath, iParam, g_var]\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\iDriven.py\", line 130, in post\n    d_iParam = json.loads(iParam)\n",
+                "  File \"C:\\Python39\\lib\\json\\__init__.py\", line 339, in loads\n    raise TypeError(f'the JSON object must be str, bytes or bytearray, '\n",
+                "TypeError: the JSON object must be str, bytes or bytearray, not NoneType\n"
+            ]
+        },
+        {
+            "excelNo": "3",
+            "className": "金浩",
+            "testType": "正常",
+            "testSort": "公钥加密接口",
+            "testWay": "post",
+            "description": "加密密码1",
+            "testDate": "2021-12-09",
+            "spendTime": "0.00097 秒",
+            "status": "失败",
+            "log": [
+                "",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 59, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 593, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 550, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python39\\lib\\site-packages\\parameterized\\parameterized.py\", line 533, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\epidemic.py\", line 25, in test\n    xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, tester, responseCheck, selectSql, selectSqlCheck, fileLocation, g_var, caseQty)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\xls.py\", line 126, in result\n    res, d_var = reflection.run([iName, iPath, iMethod, iParam, d_var])\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\reflection.py\", line 33, in run\n    return func(line[1], line[3], line[4])  # [iPath, iParam, g_var]\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\iDriven.py\", line 130, in post\n    d_iParam = json.loads(iParam)\n",
+                "  File \"C:\\Python39\\lib\\json\\__init__.py\", line 339, in loads\n    raise TypeError(f'the JSON object must be str, bytes or bytearray, '\n",
+                "TypeError: the JSON object must be str, bytes or bytearray, not NoneType\n"
+            ]
+        },
+        {
+            "excelNo": "4",
+            "className": "金浩",
+            "testType": "正常",
+            "testSort": "登录",
+            "testWay": "token",
+            "description": "用户登录",
+            "testDate": "2021-12-09",
+            "spendTime": "0.001 秒",
+            "status": "失败",
+            "log": [
+                "",
+                "Traceback (most recent call last):\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 59, in testPartExecutor\n    yield\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 593, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"C:\\Python39\\lib\\unittest\\case.py\", line 550, in _callTestMethod\n    method()\n",
+                "  File \"C:\\Python39\\lib\\site-packages\\parameterized\\parameterized.py\", line 533, in standalone_func\n    return func(*(a + p.args), **p.kwargs)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\epidemic.py\", line 25, in test\n    xls1.result(excelNo, iType, iSort, iName, iPath, iMethod, iParam, tester, responseCheck, selectSql, selectSqlCheck, fileLocation, g_var, caseQty)\n",
+                "  File \"D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interface\\xls.py\", line 119, in result\n    d_var = dict(eval(g_var))\n",
+                "  File \"<string>\", line 1, in <module>\n",
+                "NameError: name 'zjCenterId' is not defined\n"
+            ]
+        }
+    ],
+    "iDoc": "http://192.168.0.243:8001/swagger-ui.html",
+    "iEnv": "test",
+    "iDatabase": "epd",
+    "test": "",
+    "testAll": "62",
+    "testFail": 3,
+    "beginTime": "2021-12-09 14:56:40",
+    "totalTime": "0秒",
+    "testSkip": 59,
+    "projectName": "招远防疫项目接口测试报告",
+    "testError": 0
+};
+
+    function clickRow(obj){
+        $("#detailBody").children("tr").attr("style","font-family: Consolas");
+        $(obj).attr("style","font-family: Consolas; background-color: #b0d877");
+    }
+
+
+    function details(obj) {
+        if ($(obj).text() == '展开') {
+            var len = $(obj).parent().parent().children().length;
+            var detailLog = "";
+            var logs = resultData["testResult"][parseInt($(obj).attr("buttonIndex"))]["log"];
+            $(obj).text("收缩");
+            $(obj).removeClass("btn-primary");
+            $(obj).addClass("btn-danger");
+            $.each(logs, function (i, n) {
+                detailLog = detailLog + "<p>" + n + "</p>";
+            });
+            $(obj).parent().parent().after("<tr><td colspan='" + len + "'><div style='font-family: Consolas;font-size:16px;word-break:break-all'>" + detailLog + "</div></td></tr>");
+        } else if ($(obj).text() == '收缩') {
+            $(obj).parent().parent().next().remove();
+            $(obj).text("展开");
+            $(obj).removeClass("btn-danger");
+            $(obj).addClass("btn-primary");
+        }
+
+    }
+    $(function () {
+        $("#iDoc").text(resultData["iDoc"]);
+        $("#iEnv").text(resultData["iEnv"]);
+        $("#iDatabase").text(resultData["iDatabase"]);
+        $("#projectName").text(resultData["projectName"]);
+        $("#testPass").text(resultData["testPass"]);
+        $("#testFail").text(resultData["testFail"]);
+        $("#testSkip").text(resultData["testSkip"]);
+        $("#testAll").text(resultData["testAll"]);
+        $("#beginTime").text(resultData["beginTime"]);
+        $("#totalTime").text(resultData["totalTime"]);
+        $("#filterAll").text(resultData["testAll"]);
+        $("#filterOk").text(resultData["testPass"]);
+        $("#filterFail").text(resultData["testFail"]);
+        $("#filterSkip").text(resultData["testSkip"]);
+        var classNames = [];
+        var classTypes = [];
+        var classSorts = [];
+        var classWays = [];
+        var results = [];
+        $.each(resultData["testResult"], function (i, n) {
+            if (classNames.indexOf(n["className"]) == -1) {
+                classNames.push(n["className"]);
+            }
+            if (classTypes.indexOf(n["testType"]) == -1) {
+                classTypes.push(n["testType"]);
+            }
+            if (classSorts.indexOf(n["testSort"]) == -1) {
+                classSorts.push(n["testSort"]);
+            }
+            if (classWays.indexOf(n["testWay"]) == -1) {
+                classWays.push(n["testWay"]);
+            }
+            if (results.indexOf(n["status"]) == -1) {
+                results.push(n["status"]);
+            }
+        });
+
+        $.each(classNames, function (i, n) {
+            $("#filterClass").append("<option value='" + n + "' hassubinfo='true'>" + n + "</option>");
+        });
+        $.each(classTypes, function (i, n) {
+            $("#filterType").append("<option value='" + n + "' hassubinfo='true'>" + n + "</option>");
+        });
+        $.each(classSorts, function (i, n) {
+            $("#filterSort").append("<option value='" + n + "' hassubinfo='true'>" + n + "</option>");
+        });
+        $.each(classWays, function (i, n) {
+            $("#filterWay").append("<option value='" + n + "' hassubinfo='true'>" + n + "</option>");
+        });
+        $.each(results, function (i, n) {
+            $("#filterResult").append("<option value='" + n + "' hassubinfo='true'>" + n + "</option>");
+        });
+
+        $("#filterClass").chosen({search_contains: true});
+        $("#filterType").chosen({search_contains: true});
+        $("#filterSort").chosen({search_contains: true});
+        $("#filterWay").chosen({search_contains: true});
+        $("#filterResult").chosen({search_contains: true});
+
+        function generateResult(className, testType, testSort, testWay, caseResult) {
+            $("#detailBody").children().remove();
+            var filterAll = 0;
+            var filterOk = 0;
+            var filterFail = 0;
+            var filterSkip = 0;
+            $.each(resultData["testResult"], function (i, n) {
+                if ((className == "" || n["className"] == className) && (caseResult == "" || n["status"] == caseResult) && (testType == "" || n["testType"] == testType) && (testSort == "" || n["testSort"] == testSort)  && (testWay == "" || n["testWay"] == testWay)) {
+                    filterAll += 1;
+                    var status = "";
+                    if (n["status"] == '成功') {
+                        filterOk += 1;
+                        status = "<td><span class='text-navy'>成功</span></td>";
+                    } else if (n["status"] == '失败') {
+                        filterFail += 1;
+                        status = "<td><span class='text-danger'>失败</span></td>";
+                    } else if (n["status"] == '跳过') {
+                        filterSkip += 1;
+                        status = "<td><span class='text-warning'>跳过</span></td>";
+                    } else {
+                        status = "<td><span>" + n["status"] + "</span></td>";
+                    }
+
+                    var tr = "<tr >" +
+                        "<td>" + n["excelNo"] + "</td>" +
+                        "<td>" + n["className"] + "</td>" +
+                        "<td>" + n["testType"] + "</td>" +
+                        "<td>" + n["testSort"] + "</td>" +
+                        "<td>" + n["testWay"] + "</td>" +
+                        "<td>" + n["description"] + "</td>" +
+                        "<td>" + n["testDate"] + "</td>" +
+                        "<td>" + n["spendTime"] + "</td>" +
+                        status + "<td><button type='button' onclick='details(this)' buttonIndex='" + i + "' class='btn btn-primary btn-xs' style='margin-bottom: 0px'>展开</button></td></tr>"
+                    $("#detailBody").append(tr);
+                }
+            });
+            $("#filterAll").text(filterAll);
+            $("#filterOk").text(filterOk);
+            $("#filterFail").text(filterFail);
+            $("#filterSkip").text(filterSkip);
+        }
+
+        generateResult("", "", "", "", "");
+
+        $("#filterClass").on('change', function () {
+            var className = $("#filterClass").val();
+            var testType = $("#filterType").val();
+            var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
+            var caseResult = $("#filterResult").val();
+            generateResult(className, testType, testSort, testWay, caseResult);
+        });
+
+        $("#filterType").on('change', function () {
+            var className = $("#filterClass").val();
+            var testType = $("#filterType").val();
+            var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
+            var caseResult = $("#filterResult").val();
+            generateResult(className, testType, testSort, testWay, caseResult);
+        });
+
+        $("#filterSort").on('change', function () {
+            var className = $("#filterClass").val();
+            var testType = $("#filterType").val();
+            var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
+            var caseResult = $("#filterResult").val();
+            generateResult(className, testType, testSort, testWay, caseResult);
+        });
+
+        $("#filterWay").on('change', function () {
+            var className = $("#filterClass").val();
+            var testType = $("#filterType").val();
+            var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
+            var caseResult = $("#filterResult").val();
+            generateResult(className, testType, testSort, testWay, caseResult);
+        });
+
+        $("#filterResult").on('change', function () {
+            var className = $("#filterClass").val();
+            var testType = $("#filterType").val();
+            var testSort = $("#filterSort").val();
+            var testWay = $("#filterWay").val();
+            var caseResult = $("#filterResult").val();
+            generateResult(className, testType, testSort, testWay, caseResult);
+        });
+
+        //$(".chosen-select").trigger("chosen:updated");
+
+        function pie() {
+            var option = {
+                title: {
+                    text: '测试用例运行结果',
+                    subtext: '',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['失败', '跳过', '成功']
+                },
+                series: [
+                    {
+                        name: '运行结果',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: [
+                            {value: resultData["testFail"], name: '失败'},
+                            {value: resultData["testSkip"], name: '跳过'},
+                            {value: resultData["testPass"], name: '成功'}
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            var chart = echarts.init(document.getElementById("echarts-map-chart"));
+            chart.setOption(option);
+        }
+        pie();
+
+    });
+
+</script>
+
+<script type="text/javascript">
+        var sum = parseInt(resultData["testPass"]) + parseInt(resultData["testFail"]) + parseInt(resultData["testSkip"]);
+        //alert(sum)
+	$(function () {
+    $('#container').highcharts({
+        chart: {
+        },
+        title: {
+            text: '接口测试覆盖率分布图'
+        },
+		//x轴
+        xAxis: {
+            categories: ['用例总数( ' + sum + ')','成功','失败']
+        },
+        tooltip: {
+            formatter: function() {
+                var s;
+                if (this.point.name) { // the pie chart
+                    s = ''+
+                        this.point.name +': '+ this.y +' 个用例';
+                } else {
+                    s = ''+
+                        this.x  +': '+ this.y;
+                }
+                return s;
+            }
+        },
+        labels: {
+            items: [{
+                html: '执行用例饼图',
+                style: {
+                    left: '20px',
+                    top: '8px',
+                    color: 'black'
+                }
+            }]
+        },
+        series: [{
+            type: 'column',
+            name: '成功',
+            data: [resultData["testPass"]],
+            color: Highcharts.getOptions().colors[9]
+        }, {
+            type: 'column',
+            name: '失败',
+            data: [resultData["testFail"]],
+            color: Highcharts.getOptions().colors[5]
+        }, {
+            type: 'column',
+            name: '跳过',
+            data: [resultData["testSkip"]],
+            color: Highcharts.getOptions().colors[1]
+        }, {
+            type: 'pie',
+            name: 'Total consumption',
+            data: [{
+                name: '成功',
+                y: resultData["testPass"],
+                color: Highcharts.getOptions().colors[9]
+            }, {
+                name: '失败',
+                y: resultData["testFail"],
+                color: Highcharts.getOptions().colors[5]
+            }, {
+                name: '跳过',
+                y: resultData["testSkip"],
+                color: Highcharts.getOptions().colors[1]
+            }],
+            center: [50, 80],
+            size: 100,
+            showInLegend: false,
+            dataLabels: {
+                enabled: false
+            }
+        }]
+    });
+});
+</script>
+
+</body>
+</html>
