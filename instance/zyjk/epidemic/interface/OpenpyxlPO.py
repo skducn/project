@@ -132,7 +132,7 @@ class OpenpyxlPO():
 
 
     # 3 设置单元格的值(ok)
-    def setCellValue(self, varRow, varCol, varContent, varColor, varSheet=0):
+    def setCellValue(self, varRow, varCol, varContent, l_color, varSheet=0):
         # ['c6efce', '006100']  背景色淡绿底，字体深绿色
         # ['ffffff', '000000'] 白色，黑色
         # ['ffeb9c', '000000'] 橙色，黑色
@@ -141,14 +141,19 @@ class OpenpyxlPO():
         # Openpyxl_PO.setCellValue(5, 3, "12345678", "","python")  # 对python工作表的的第5行第3列写入数据
         try:
             sh = self.sh(varSheet)
-            if varColor == "":
+            if l_color == "":
                 sh.cell(row=varRow, column=varCol, value=varContent)
                 sh.cell(row=varRow, column=varCol, value=varContent)
             else:
-                fille = PatternFill('solid', fgColor=varColor[0])  # 填充色
-                font = Font(u'微软雅黑', size=11, bold=True, italic=False, strike=False, color=varColor[1])  # 字体样式和颜色
+                # fill(填充类，可设置单元格填充颜色等)
+                fille = PatternFill('solid', fgColor=l_color[0])  # 背景色
+                # font(字体类，可设置字号、字体颜色、下划线等)
+                font = Font(u'微软雅黑', size=11, bold=True, italic=False, strike=False, color=l_color[1])  # 字体色
                 sh.cell(row=varRow, column=varCol, value=varContent).fill = fille
                 sh.cell(row=varRow, column=varCol, value=varContent).font = font
+                # alignment(位置类、可以设置单元格内数据各种对齐方式)
+                # number_format(格式类，可以设置单元格内各种类型的数据格式)
+                # protection(保护类，可以设置单元格写保护等)。
 
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")

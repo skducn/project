@@ -12,23 +12,26 @@
 from PO.DataPO import *
 Data_PO = DataPO()
 
-import json
-# str1 = "{'userNo':'$.data','tt':'success','orgno':'\"wgzx\" + str(Data_PO.autoNum(3))'}"
-str1 = '{"userNo":"$.data","tt":"success","orgno":"\'wgzx\' + str(Data_PO.autoNum(3))"}'
-d = json.loads(str1)
-dd = dict(eval(str1))
-print(dd)
-# print(d)
-# print(d['orgno'])
+d= {7:[1,2,3],8:["44",66]}
+print(d[8])
+
+# import json
+# # str1 = "{'userNo':'$.data','tt':'success','orgno':'\"wgzx\" + str(Data_PO.autoNum(3))'}"
+# str1 = '{"userNo":"$.data","tt":"success","orgno":"\'wgzx\' + str(Data_PO.autoNum(3))"}'
+# d = json.loads(str1)
+# dd = dict(eval(str1))
+# print(dd)
+# # print(d)
+# # print(d['orgno'])
+# #
+# # x = eval(d['orgno'])
+# # print(x)
 #
-# x = eval(d['orgno'])
-# print(x)
-
-for k, v in d.items():
-    if "str(" in v:
-        d[k] = eval(d[k])
-
-print(d)
+# for k, v in d.items():
+#     if "str(" in v:
+#         d[k] = eval(d[k])
+#
+# print(d)
 
 # import json
 # dict1 = {}
