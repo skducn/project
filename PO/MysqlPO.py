@@ -14,12 +14,15 @@
 #***************************************************************
 
 '''
+pandas引擎（pymysql）
+pandas引擎（mysqldb）
+
 1，查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
 2，搜索表记录 dbRecord('*', 'money', '%34.5%')
 3，查询创建时间 dbCreateDate()
 
-4，使用pandas，将数据库表导出excel db2xlsx()
-5，使用pandas，将数据库表导出html db2html()
+4.1，使用pandas将数据库表导出excel db2xlsx()
+4.2，使用pandas将数据库表导出html db2html()
 
 '''
 
@@ -29,6 +32,8 @@ import MySQLdb
 from PO.ExcelPO import *
 import pandas as pd
 from sqlalchemy import create_engine
+from PO.OpenpyxlPO import *
+
 
 class MysqlPO():
 
@@ -46,8 +51,15 @@ class MysqlPO():
         # self.conn.set_character_set('utf8')
         self.cur.execute('show tables')
 
+    def getPymysqlEngine(self):
+        # pandas引擎（pymysql）
+        return create_engine('mysql+pymysql://' + self.varUser + ":" + self.varPassword + "@" + self.varHost + ":" + str(self.varPort) + "/" + self.varDB)
 
-    
+    def getMysqldbEngine(self):
+        # pandas引擎（mysqldb）
+        return create_engine('mysql+mysqldb://' + self.varUser + ":" + self.varPassword + "@" + self.varHost + ":" + str(self.varPort) + "/" + self.varDB)
+
+
     def dbDesc(self, *args):
         ''' 查看数据库表结构（字段、类型、DDL）
         第1个参数：表名或表头*（通配符*）
@@ -421,27 +433,41 @@ class MysqlPO():
         else:
             print("[errorrrrrrr , 参数溢出！]")
 
-    def db2xlsx(self, sql, toExcel):
-        # 将数据库表导出到excel
-        # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
-        engine = create_engine('mysql+pymysql://' + self.varUser + ":" + self.varPassword + "@" + self.varHost +  ":" +  str(self.varPort) + "/" + self.varDB)
-        df = pd.read_sql(sql=sql, con=engine)
-        df.to_excel(toExcel)
 
 
-    def db2html(self, sql, toHtml):
-        # 将数据库表导出到html
-        # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\index1.html")
-        engine = create_engine('mysql+pymysql://' + self.varUser + ":" + self.varPassword + "@" + self.varHost +  ":" +  str(self.varPort) + "/" + self.varDB)
-        df = pd.read_sql(sql=sql, con=engine)
-        df.to_html(toHtml)
+    def db2xlsx(self, sql, xlsxFile):
+        '''
+        4.1 使用pandas将数据库表导出excel
+        :param sql:
+        :param xlsxFile:
+        :return:
+                # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
+        '''
+        try:
+            df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
+            df.to_excel(xlsxFile)
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) +" row" )
+
+    def db2html(self, sql, htmlFile):
+        '''
+        4.2 使用pandas将数据库表导出html
+        :param sql:
+        :param toHtml:
+        :return:
+                # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\index1.html")
+        '''
+
+        try:
+            df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
+            df.to_html(htmlFile)
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     def dbDesc2excel(self, varFileName):
 
         ''' 将数据库表结构（字段、类型、DDL）导出到excel'''
-
-
 
         l_name = []
         l_dataType = []
@@ -453,13 +479,13 @@ class MysqlPO():
         listSub = []
         listMain = []
         sum = 1
-
+        dict1 = {}
         self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
         tblName = self.cur.fetchall()
         for k in range(len(tblName)):
             self.cur.execute('select column_name,column_type,is_nullable,column_key,column_default,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
             tblFields = self.cur.fetchall()
-            listSub.append(1)
+            # listSub.append(1)
             listSub.append("表名")
             listSub.append("表说明")
             listSub.append("名称")
@@ -468,8 +494,12 @@ class MysqlPO():
             listSub.append("主键")
             listSub.append("默认值")
             listSub.append("说明")
-            listMain.append(listSub)
+            dict1[1] = listSub
+
+            # listMain.append(listSub)
             listSub = []
+
+            print(tblFields)
             for i in tblFields:
                 l_name.append(i[0])
                 l_dataType.append(i[1])
@@ -506,7 +536,12 @@ class MysqlPO():
             l_default = []
             l_comment = []
 
-        print(listMain)
+        # print(listMain)
+        # for i in range(len(listMain)):
+        #     print(listMain[i])
+
+        # Openpyxl_PO = OpenpyxlPO("./OpenpyxlPO/1111.xlsx")
+        # Openpyxl_PO.setRowValue(dict1)
 
         # Excel_PO = ExcelPO(varFileName)
         # Excel_PO.newExcel("d:\\test123.xlsx")
@@ -640,6 +675,7 @@ if __name__ == '__main__':
     # 招远防疫 >>>>>>>>>>>>>>>>>>>>>>>>>>>
     # Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
     Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
+
     # Mysql_PO.cur.execute('select * from test1')
     # l_result = Mysql_PO.cur.fetchall()
     # print(l_result)
@@ -664,11 +700,15 @@ if __name__ == '__main__':
     # Mysql_PO.dbCreateDate('before', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
     # Mysql_PO.dbCreateDate('<', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
 
-    # print("4 将数据库表导出excel".center(100, "-"))
-    Mysql_PO.db2xlsx("select * from test1", "d:\\12345.xlsx")
-    Mysql_PO.db2html("select * from ep_zj_center", "d:\\index1.html")
+
+
+    # print("4.1，使用pandas将数据库表导出excel".center(100, "-"))
+    # Mysql_PO.db2xlsx("select * from test1", "d:\\12345.xlsx")
+
+    # print("4.2，使用pandas将数据库表导出html".center(100, "-"))
+    # Mysql_PO.db2html("select * from ep_zj_center", "d:\\index1.html")
 
 
     # print("5 将所有表结构导出到excel".center(100, "-"))
-    # Mysql_PO.dbDesc2excel("d:\\test.xlsx")  # 将所有表结构导出到excel
+    Mysql_PO.dbDesc2excel("d:\\test.xlsx")  # 将所有表结构导出到excel
 

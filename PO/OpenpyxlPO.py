@@ -24,6 +24,8 @@
 
 # 绿色 = 00E400，黄色 = FFFF00，橙色 = FF7E00，红色 = FF0000，粉色 = 99004C，褐色 =7E0023
 # 'c6efce = 淡绿', '006100 = 深绿'，'ffffff=白色', '000000=黑色'，'ffeb9c'= 橙色
+
+# 用get_column_letter得到表格列的字母编号 https://www.pynote.net/archives/2269
 # *********************************************************************
 
 from openpyxl import load_workbook
@@ -56,7 +58,7 @@ Sys_PO = SysPO()
 2.4.3 设置边框类 setBorder()
 2.4.4 设置位置类 setAlignment()
 2.4 设置单元格的值 setCellValue()
-2.5 设置整行单元格的值  setRowCellValue()
+2.5 设置整行单元格的值  setRowValue()
 2.6 设置整列单元格的值  ？
 2.7 设置工作表背景颜色 setSheetColor()
 2.8 设置单元格背景色 setCellColor()
@@ -762,7 +764,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.setCellValue(4, 4, "upup", "", "", "", "", "", "")
 
     # print("2.5 设置整行单元格的值".center(100, "-"))
-    # Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", None, "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容，如遇None则跳过该单元格
+    Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", None, "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容，如遇None则跳过该单元格
     # Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", "None", "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容
     # Openpyxl_PO.save()
 
@@ -821,14 +823,14 @@ if __name__ == "__main__":
 
 
     # print("5 两表比较，输出差异".center(100, "-"))
-    # # file1,list1,file2,list2 = Openpyxl_PO.cmpExcel("d:\\test1.xlsx", "mySheet1", "d:\\test2.xlsx", "mySheet1")
-    # # print(file1 + ">"*50)
-    # # for l in list1:
-    # #     print(l)
-    # # print("\n" + file2 + ">"*50)
-    # # for l in list2:
-    # #     print(l)
-    #
+    # file1,list1,file2,list2 = Openpyxl_PO.cmpExcel("./OpenpyxlPO/newfile.xlsx", "Sheet1", "./OpenpyxlPO/newfile2.xlsx", "Sheet1")
+    # print(file1 + ">"*50)
+    # for l in list1:
+    #     print(l)
+    # print("\n" + file2 + ">"*50)
+    # for l in list2:
+    #     print(l)
+    # #
 
     Openpyxl_PO.open()
 
