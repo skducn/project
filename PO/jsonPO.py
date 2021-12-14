@@ -11,9 +11,9 @@
 #****************************************************************
 
 '''
-1.1 将api在线json内容保存到变量
+1.1 将url内容写入json文件 url2jsonfile()
 1.2 将变量（字符串、列表、字典）写入json文件  setJsonFile()
-
+1.3 将json文件写入excel jsonfile2xlsx()
 
 2.1 用jsonpath_expr表达式从文件中提取json值  getValueFromFileByExpr()  如： stu_info[*].name
 2.2 用jsonpath_expr表达式从变量中提取json值 getValueFromVarByExpr()
@@ -86,18 +86,6 @@ class JsonPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
-    def xlsx2db(self,xlsxFile, varTable):
-        '''
-        1 将xlsx导入数据库表
-        :return:
-        '''
-
-        try:
-            engine = Mysql_PO.getMysqldbEngine()
-            df = pd.read_excel(xlsxFile)
-            df.to_sql(varTable, con=engine, if_exists='replace', index=False)
-        except Exception as e:
-            print(e)
 
     def getValueFromFileByExpr(self, varJsonFile, varParse):
         '''
@@ -116,8 +104,6 @@ class JsonPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) +" row" )
 
-
-
     def getValueFromVarByExpr(self, varData, varParse):
         '''
         # 2.2 用jsonpath_expr表达式从变量中提取json值
@@ -132,7 +118,6 @@ class JsonPO():
             return [match.value for match in male]
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) +" row" )
-
 
     def getValueFromFileByJsonpath(self, varJsonFile, varParse):
         '''
@@ -151,8 +136,6 @@ class JsonPO():
                 return jsonpath.jsonpath(varData, expr=varParse)
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) +" row" )
-
-
 
     def getValueFromVarByJsonpath(self, varData, varParse):
         '''
@@ -207,8 +190,6 @@ if __name__ == '__main__':
     # print("1.3 jsonfile 写入excel文件".center(100, "-"))
     # Json_PO.jsonfile2xlsx('JsonPO/api.json', "JsonPO/api.xlsx")
 
-    # print("1.4 xlsx写入数据库表".center(100, "-"))
-    Json_PO.xlsx2db("JsonPO/api.xlsx", "test555")
 
     # # print("2.1 用jsonpath_expr表达式从文件中提取json值".center(100, "-"))
     # print(Json_PO.getValueFromFileByExpr("./JsonPO/dict.json", "stu_info[*].name"))  # ['小白', '小黑']

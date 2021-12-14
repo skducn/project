@@ -21,8 +21,10 @@ pandas引擎（mysqldb）
 2，搜索表记录 dbRecord('*', 'money', '%34.5%')
 3，查询创建时间 dbCreateDate()
 
-4.1，使用pandas将数据库表导出excel db2xlsx()
-4.2，使用pandas将数据库表导出html db2html()
+4.1，数据库表导出excel db2xlsx()
+4.2，数据库表导出html db2html()
+
+5 数据库所有表结构导出到excel(覆盖)
 
 '''
 
@@ -33,6 +35,7 @@ from PO.ExcelPO import *
 import pandas as pd
 from sqlalchemy import create_engine
 from PO.OpenpyxlPO import *
+from PO.NewexcelPO import *
 
 
 class MysqlPO():
@@ -465,27 +468,20 @@ class MysqlPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
-    def dbDesc2excel(self, varFileName):
-
-        ''' 将数据库表结构（字段、类型、DDL）导出到excel'''
-
-        l_name = []
-        l_dataType = []
-        l_isNull = []
-        l_isKey = []
-        l_default = []
-        l_comment = []
+    def dbDesc2xlsx(self, varFileName):
+        '''
+        5 将所有表结构导出到excel(覆盖)
+        :param varFileName:
+        :return:
+        '''
 
         listSub = []
         listMain = []
-        sum = 1
         dict1 = {}
-        self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
-        tblName = self.cur.fetchall()
-        for k in range(len(tblName)):
-            self.cur.execute('select column_name,column_type,is_nullable,column_key,column_default,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
-            tblFields = self.cur.fetchall()
-            # listSub.append(1)
+
+        try:
+            self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
+            tblName = self.cur.fetchall()
             listSub.append("表名")
             listSub.append("表说明")
             listSub.append("名称")
@@ -495,115 +491,21 @@ class MysqlPO():
             listSub.append("默认值")
             listSub.append("说明")
             dict1[1] = listSub
+            for k in range(len(tblName)):
+                self.cur.execute('select column_name,column_type,is_nullable,column_key,column_default,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+                tblFields = self.cur.fetchall()
+                for i in range(len(tblFields)):
+                    list3 = list(tblName[k]) + list(tblFields[i])
+                    listMain.append(list3)
+            for i in range(len(listMain)):
+                dict1[i+2] = listMain[i]
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-            # listMain.append(listSub)
-            listSub = []
-
-            print(tblFields)
-            for i in tblFields:
-                l_name.append(i[0])
-                l_dataType.append(i[1])
-                l_isNull.append(i[2])
-                l_isKey.append(i[3])
-                if i[4] == None:
-                    l_default.append("")
-                else:
-                    l_default.append(i[4])
-                l_comment.append(i[5])
-            x = 0
-            for i in range(len(tblFields)):
-                listSub.append(sum+1)
-                if x != 1:
-                    listSub.append(tblName[k][0])
-                    listSub.append(tblName[k][1])
-                else:
-                    listSub.append("")
-                    listSub.append("")
-                listSub.append(l_name[i])
-                listSub.append(l_dataType[i])
-                listSub.append(l_isNull[i])
-                listSub.append(l_isKey[i])
-                listSub.append(l_default[i])
-                listSub.append(l_comment[i])
-                listMain.append(listSub)
-                listSub = []
-                sum = sum + 1
-                x = 1
-            l_name = []
-            l_dataType = []
-            l_isNull = []
-            l_isKey = []
-            l_default = []
-            l_comment = []
-
-        # print(listMain)
-        # for i in range(len(listMain)):
-        #     print(listMain[i])
-
-        # Openpyxl_PO = OpenpyxlPO("./OpenpyxlPO/1111.xlsx")
-        # Openpyxl_PO.setRowValue(dict1)
-
-        # Excel_PO = ExcelPO(varFileName)
-        # Excel_PO.newExcel("d:\\test123.xlsx")
-        # Excel_PO.wrtMoreCellValue(listMain)
-
-    def dbDesc2excelbak(self, varFileName, varSheetName):
-
-        ''' 将数据库表结构（字段、类型、DDL）导出到excel'''
-
-
-
-        l_name = []
-        l_type = []
-        l_isnull = []
-        l_comment = []
-        l_isKey = []
-        listSub = []
-        listMain = []
-        sum = 1
-
-        self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
-        tblName = self.cur.fetchall()
-        for k in range(len(tblName)):
-            self.cur.execute('select column_name,column_type,is_nullable,column_comment,column_key from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
-            tblFields = self.cur.fetchall()
-            listSub.append(1)
-            listSub.append("表名")
-            listSub.append("表说明")
-            listSub.append("字段名")
-            listSub.append("字段说明")
-            listSub.append("字段类型")
-            listSub.append("主键")
-            listSub.append("是否为空")
-            listMain.append(listSub)
-            listSub = []
-            for i in tblFields:
-                l_name.append(i[0])
-                l_type.append(i[1])
-                l_isnull.append(i[2])
-                l_comment.append(i[3])
-                l_isKey.append(i[4])
-            for i in range(len(tblFields)):
-                listSub.append(sum+1)
-                listSub.append(tblName[k][0])
-                listSub.append(tblName[k][1])
-                listSub.append(l_name[i])
-                listSub.append(l_comment[i])
-                listSub.append(l_type[i])
-                listSub.append(l_isKey[i])
-                listSub.append(l_isnull[i])
-                listMain.append(listSub)
-                listSub = []
-                sum = sum + 1
-            l_name = []
-            l_comment = []
-            l_type = []
-            l_isKey = []
-            l_isnull = []
-
-        Excel_PO = ExcelPO(varFileName)
-        Excel_PO.wrtMoreCellValue(varFileName, varSheetName, listMain)
-
+        NewexcelPO(varFileName)
+        Openpyxl_PO = OpenpyxlPO(varFileName)
+        Openpyxl_PO.setRowValue(dict1)
+        Openpyxl_PO.save()
 
 
 if __name__ == '__main__':
@@ -644,8 +546,6 @@ if __name__ == '__main__':
     # print(tmpTuple)
     # for i in tmpTuple:
     #     print(str(i[0]) + " , " + str(i[1]))
-
-
 
 
     # 39_crm_test >>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -701,7 +601,6 @@ if __name__ == '__main__':
     # Mysql_PO.dbCreateDate('<', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
 
 
-
     # print("4.1，使用pandas将数据库表导出excel".center(100, "-"))
     # Mysql_PO.db2xlsx("select * from test1", "d:\\12345.xlsx")
 
@@ -709,6 +608,6 @@ if __name__ == '__main__':
     # Mysql_PO.db2html("select * from ep_zj_center", "d:\\index1.html")
 
 
-    # print("5 将所有表结构导出到excel".center(100, "-"))
-    Mysql_PO.dbDesc2excel("d:\\test.xlsx")  # 将所有表结构导出到excel
+    # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
+    # Mysql_PO.dbDesc2xlsx("d:\\test.xlsx")  # 将所有表结构导出到excel
 

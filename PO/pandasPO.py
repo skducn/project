@@ -22,23 +22,26 @@
 将数据库表导出html
 '''
 
-import pandas as pd, numpy as np
-import MySQLdb
-from sqlalchemy import create_engine
-engine = create_engine('mysql+mysqldb://root:123456@192.168.0.234:3306/epd')
+
+from PO.MysqlPO import *
+Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
+
+# from sqlalchemy import create_engine
+# engine = create_engine('mysql+mysqldb://root:123456@192.168.0.234:3306/epd')
 # engine = create_engine('mysql+mysqldb://root:123456@192.168.0.234:3306/epd?charset=utf8')
 
 class PandasPO():
 
 
-    def data2Table(self, xlsxFile, toTable):
+    def xlsx2db(self, varExcelFile, varTable):
         '''
-        1 将xlsx导入数据库表
+        1 将xlsx导入数据库表(覆盖)
         :return:
         '''
         try:
-            df = pd.read_excel(xlsxFile)
-            df.to_sql(toTable, con=engine, if_exists='replace', index=False)
+            engine = Mysql_PO.getMysqldbEngine()
+            df = pd.read_excel(varExcelFile)
+            df.to_sql(varTable, con=engine, if_exists='replace', index=False)
         except Exception as e:
             print(e)
 
@@ -59,7 +62,7 @@ if __name__ == '__main__':
     Pandas_PO = PandasPO()
 
     # print("1 将xlsx导入数据库表（覆盖）".center(100, "-"))
-    # Pandas_PO.data2Table("./OpenpyxlPO/loanStats.xlsx", 'test2')
+    # Pandas_PO.xlsx2db("./OpenpyxlPO/loanStats.xlsx", 'test2')
 
     # print("2 执行sql".center(100, "-"))
     # print(Pandas_PO.execute("SELECT * FROM test2 where loan_amnt=500"))
