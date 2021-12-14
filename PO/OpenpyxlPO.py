@@ -42,9 +42,9 @@ from PO.CharPO import *
 Char_PO = CharPO()
 from PO.SysPO import *
 Sys_PO = SysPO()
+from PO.MysqlPO import *
 
 '''
-1.1 新建excel  newExcel()
 1.2 添加保留工作表  addSheet()
 1.3 添加覆盖工作表 addSheetCover()
 1.4 删除工作表  delSheet()
@@ -79,15 +79,17 @@ Sys_PO = SysPO()
 
 5 两表比较，输出差异 cmpExcel()
 
+6 将excel表格导入数据库 xlsx2db()
 '''
 
 class OpenpyxlPO():
 
     def __init__(self, file):
+
         self.file = file
         self.wb = openpyxl.load_workbook(self.file)
-        self.wb.sheetnames  # 获取所有的工作表名称
-        # # self.nameSizeColor = openpyxl.styles.Font(name="宋体", size=33, color="00CCFF")
+        self.wb.sheetnames  # 工作表名称
+
     def sh(self, varSheet):
         if isinstance(varSheet, int):
             sh = self.wb[self.wb.sheetnames[varSheet]]
@@ -115,35 +117,18 @@ class OpenpyxlPO():
         保存
         '''
         self.wb.save(self.file)
-    def open(self):
+    def open(self, otherFile=0):
         if platform.system() == 'Darwin':
-            os.system("open " + self.file)
-        if platform.system() == 'Windows':
-            os.system("start " + self.file)
-
-
-    def newExcel(self, varFileName, *varSheetName):
-        '''
-        1.1 新建excel
-        :param varFileName: 文件名
-        :param varSheetName: N个工作表
-        # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
-        # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
-        # 注意：如果文件已存在则会先删除后再新建！
-        '''
-
-        try:
-            wb = openpyxl.Workbook()
-            ws = wb.active
-            if len(varSheetName) == 0:
-                ws.title = "Sheet1"
+            if otherFile != 0:
+                os.system("open " + otherFile)
             else:
-                ws.title = varSheetName[0]
-            for i in range(1, len(varSheetName)):
-                wb.create_sheet(varSheetName[i])
-            wb.save(varFileName)
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+                os.system("open " + self.file)
+        if platform.system() == 'Windows':
+            if otherFile != 0 :
+                os.system("start " + otherFile)
+            else:
+                os.system("start " + self.file)
+
 
     def addSheet(self, varSheetName, varIndex=0):
         '''
@@ -707,17 +692,28 @@ class OpenpyxlPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
+    def xlsx2db(self, varExcelFile, varTable, host, name, password, db, port):
+        '''
+        6 将excel表格导入数据库(覆盖)
+        :return:
+        Openpyxl_PO.xlsx2db("d:/test.xlsx", "table1", "192.168.0.234", "root", "123456", "epd", 3306))
+        '''
 
-
+        try:
+            Mysql_PO = MysqlPO(host, name, password, db, port)
+            engine = Mysql_PO.getMysqldbEngine()
+            df = pd.read_excel(varExcelFile)
+            df.to_sql(varTable, con=engine, if_exists='replace', index=False)
+        except Exception as e:
+            print(e)
 
 if __name__ == "__main__":
 
     Sys_PO.killPid('EXCEL.EXE')
+
     Openpyxl_PO = OpenpyxlPO("./OpenpyxlPO/test.xlsx")
 
 
-    # print("1.1 新建excel".center(100, "-"))
-    # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile.xlsx")  # 新建excel，默认生成一个工作表Sheet1
     # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
     # print("1.2 添加保留工作表".center(100, "-"))
@@ -764,7 +760,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.setCellValue(4, 4, "upup", "", "", "", "", "", "")
 
     # print("2.5 设置整行单元格的值".center(100, "-"))
-    Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", None, "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容，如遇None则跳过该单元格
+    # Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", None, "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容，如遇None则跳过该单元格
     # Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", "None", "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容
     # Openpyxl_PO.save()
 
@@ -832,6 +828,5 @@ if __name__ == "__main__":
     #     print(l)
     # #
 
-    Openpyxl_PO.open()
-
-
+    # print("6 将excel表格导入数据库".center(100, "-"))
+    # Openpyxl_PO.xlsx2db("d:/test.xlsx", "table1", "192.168.0.234", "root", "123456", "epd", 3306)
