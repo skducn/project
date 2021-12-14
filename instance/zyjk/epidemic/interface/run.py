@@ -9,6 +9,10 @@
 # pip3 install BeautifulReport for cmd
 # pip3 install --upgrade pip
 # 提示语:Done 在C:\Python39\Lib\site-packages\BeautifulReport\BeautifulReport.py
+# for 2.7 下载：http://tungwaiyip.info/software/HTMLTestRunner.html(for py2.7)
+# for 3.X 下载：http://pan.baidu.com/s/1dEZQ0pz （百度地址）
+# for mac，将 HTMLTestRunner.py 拷贝到 /usr/local/lib/python3.7/site-packages
+# for win，将 HTMLTestRunner.py 拷贝到 C:\Python27\Lib\site-packages
 # *****************************************************************
 
 import unittest, platform, os, sys
