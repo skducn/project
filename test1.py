@@ -9,11 +9,13 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-from PO.DataPO import *
-Data_PO = DataPO()
-
-d= {7:[1,2,3],8:["44",66]}
-print(d[8])
+a = {5:[{"member_id":1212}], 6:[{"loan_amount":12},{"loan_":333}] }
+print(a)
+# from PO.DataPO import *
+# Data_PO = DataPO()
+#
+# d= {7:[1,2,3],8:["44",66]}
+# print(d[8])
 
 # import json
 # # str1 = "{'userNo':'$.data','tt':'success','orgno':'\"wgzx\" + str(Data_PO.autoNum(3))'}"

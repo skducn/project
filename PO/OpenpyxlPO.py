@@ -3,36 +3,43 @@
 # Author        : John
 # Date          : 2020-12-8
 # Description   : openpyxl 对象层
-# openpyxl 官网 （http://openpyxl.readthedocs.org/en/latest/），支持Excel 2010 xlsx/xlsm/xltx/xltm 的读写，最新版本3.0.6（Oct 23, 2020）
-# 1，请安装 openpyxl 3.0.0，其他版本如3.0.2使用中会报错。 pip3 install openpyxl == 3.0.0
-# 报错：File "src\lxml\serializer.pxi", line 1652, in lxml.etree._IncrementalFileWriter.write TypeError: got invalid input value of type <class 'xml.etree.ElementTree.Element'>, expected string or Element
-# 解决方法: pip uninstall lxml   或更新最新openpyxl 3.0.7以上版本
-# 2，如果文字编码是“gb2312” 读取后就会显示乱码，请先转成Unicode
-# 3，openpyxl 的首行、首列 是 （1,1）而不是（0,0）
-# 4，openpyxl 的NULL空值对应于python中的None，表示这个cell里面没有数据。
-# 5，openpyxl 的numberic数字型，统一按照浮点数来进行处理，对应于python中的float
-# 6，openpyxl 的string字符串型，对应于python中的unicode
-# 7，默认情况下，openpyxl会将整个xlsx读入到内存中，方便处理。
-# 8，openpyxl 操作大文件时可使用 Optimized reader 和 Optimized writer 两种模式，它们提供了流式的接口，速度更快，使我们可以用常量级的内存消耗来读取和写入无限量的数据。
-# Optimized reader，打开文件使用use_iterators=True参数，如：wb = load_workbook(filename = 'haggle.xlsx',use_iterators=True)
-# 9，openpyxl 读取大数据的效率没有 xlrd 高
-# 10，openpyxl 与 xlsxwriter xlrd xlwt xlutils 的比较，这些库都不支持 excel 写操作，一般只能将原excel中的内容读出、做完处理后，再写入一个新的excel文件。
-# 11，openpyxl常用模块用法：https://www.debug8.com/python/t_41519.html
-
-# 参考：https://blog.csdn.net/m0_47590417/article/details/119082064
-# https://blog.csdn.net/four91/article/details/106141274
-
-# 绿色 = 00E400，黄色 = FFFF00，橙色 = FF7E00，红色 = FF0000，粉色 = 99004C，褐色 =7E0023
-# 'c6efce = 淡绿', '006100 = 深绿'，'ffffff=白色', '000000=黑色'，'ffeb9c'= 橙色
-
-# 用get_column_letter得到表格列的字母编号 https://www.pynote.net/archives/2269
+# openpyxl 官网：http://openpyxl.readthedocs.org/en/latest/
+# openpyxl 只支持【.xlsx / .xlsm / .xltx / .xltm】格式的文件
+# openpyxl 的首行、首列 是 （1,1）而不是（0,0）
+# openpyxl 的NULL空值对应于python中的None，表示这个cell里面没有数据。
+# openpyxl 的numberic数字型，统一按照浮点数来进行处理，对应于python中的float
+# openpyxl 的string字符串型，对应于python中的unicode
+# openpyxl 会将整个xlsx读入到内存中，方便处理。
+# openpyxl 操作大文件时可使用 Optimized reader 和 Optimized writer 两种模式，它们提供了流式的接口，速度更快，使我们可以用常量级的内存消耗来读取和写入无限量的数据。
+#   Optimized reader，打开文件使用use_iterators=True参数，如：wb = load_workbook(filename = 'haggle.xlsx',use_iterators=True)
+# openpyxl 读取大数据的效率没有 xlrd 高
+# openpyxl 与 xlsxwriter xlrd xlwt xlutils 的比较，这些库都不支持 excel 写操作，一般只能将原excel中的内容读出、做完处理后，再写入一个新的excel文件。
+# openpyxl常用模块用法：https://www.debug8.com/python/t_41519.html
+# todo: 使用方法
+# 基础使用方法：https://blog.csdn.net/four91/article/details/106141274
+# 高级使用方法：https://blog.csdn.net/m0_47590417/article/details/119082064
+# todo: 安装包
+# pip3 install openpyxl == 3.0.0
+# 注意！：其他版本（如3.0.2使用中会报错）如有报错，请安装3.0.0
+# todo: 报错
+# 如：File "src\lxml\serializer.pxi", line 1652, in lxml.etree._IncrementalFileWriter.write TypeError: got invalid input value of type <class 'xml.etree.ElementTree.Element'>, expected string or Element
+# 解决方法: pip uninstall lxml   及更新 openpyxl 版本，3.0.7以上
+# todo: 乱码
+# gb2312 文字编码，在读取后会显示乱码，需转换成 Unicode
+# todo: 颜色
+# 颜色码对照表（RGB与十六进制颜色码互转） https://www.sioe.cn/yingyong/yanse-rgb-16/
+# 绿色 = 00E400，黄色 = FFFF00，橙色 = FF7E00，红色 = FF0000，粉色 = 99004C，褐色 =7E0023,'c6efce = 淡绿', '006100 = 深绿'，'ffffff=白色', '000000=黑色'，'ffeb9c'= 橙色
+# todo: 表格列 A，B，C 与 1，2，3 互转
+# from openpyxl.utils import get_column_letter,column_index_from_string
+# get_column_letter(2)  # 'B'
+# column_index_from_string('B')  # 2
 # *********************************************************************
 
 from openpyxl import load_workbook
 import openpyxl, sys, platform, os
 import openpyxl.styles
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, Protection, Alignment
-from openpyxl.utils import get_column_letter
+from openpyxl.utils import get_column_letter,column_index_from_string
 from datetime import date
 from time import sleep
 import psutil
@@ -45,25 +52,27 @@ Sys_PO = SysPO()
 from PO.MysqlPO import *
 
 '''
+1.1 新建excel  newExcel()
 1.2 添加保留工作表  addSheet()
 1.3 添加覆盖工作表 addSheetCover()
 1.4 删除工作表  delSheet()
 
 2.1 初始化数据 initData()
 2.2 设置单元格行高与列宽 setCellDimensions()
-2.3 设置所有数据单元格行高与列宽 setAllDimensions()
-
+2.3 设置工作表所有单元格的行高与列宽 setSheetDimensions()
 2.4.1 设置字体类（字体颜色） setFont()
 2.4.2 设置填充类（背景色） setFille()
 2.4.3 设置边框类 setBorder()
 2.4.4 设置位置类 setAlignment()
-2.4 设置单元格的值 setCellValue()
-2.5 设置整行单元格的值  setRowValue()
-2.6 设置整列单元格的值  ？
+2.4 设置单元格值 setCellValue()
+2.5 设置整行值  setRowValue()
+2.6 设置整列值  setColValue()
 2.7 设置工作表背景颜色 setSheetColor()
 2.8 设置单元格背景色 setCellColor()
-2.9 设置固定单元格
-2.10 设置筛选列
+2.9 设置整行(可间隔)背景色  setRowColor()
+2.10 设置整列(可间隔)背景色  setColColor()
+2.11 设置固定单元格  setFreezeCell()
+2.12 设置筛选列  setFilterCol()
 
 3.1 获取总行数和总列数 l_getTotalRowCol()
 3.2 获取单元格的值 getCellValue()
@@ -77,7 +86,8 @@ from PO.MysqlPO import *
 4.3 删除行 delRow()
 4.4 删除列 delCol()
 
-5 两表比较，输出差异 cmpExcel()
+5.1 输出两表差异部分 getDiffValueByXlsxs()
+5.2 对一张表的两个sheet进行数据比对，差异数据标注颜色  setCellColorByCmpSheets()
 
 6 将excel表格导入数据库 xlsx2db()
 '''
@@ -128,6 +138,30 @@ class OpenpyxlPO():
                 os.system("start " + otherFile)
             else:
                 os.system("start " + self.file)
+
+    def newExcel(self, varFileName, *varSheetName):
+        '''
+        1.1 新建excel(覆盖)
+        :param varFileName: 文件名
+        :param varSheetName: N个工作表
+        # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
+        # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
+        # 注意：如果文件已存在则会先删除后再新建！
+        '''
+
+        try:
+            wb = openpyxl.Workbook()
+            ws = wb.active
+            if len(varSheetName) == 0:
+                ws.title = "Sheet1"
+            else:
+                ws.title = varSheetName[0]
+            for i in range(1, len(varSheetName)):
+                wb.create_sheet(varSheetName[i])
+            wb.save(varFileName)
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
+                sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     def addSheet(self, varSheetName, varIndex=0):
@@ -235,9 +269,9 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-    def setAllDimensions(self, rowQty, colQty, varSheet=0):
+    def setSheetDimensions(self, rowQty, colQty, varSheet=0):
         '''
-        2.3 设置所有行和全部列的长和宽
+        2.3 设置工作表所有单元格的行高与列宽
         :param rowQty:
         :param colQty:
         :param varSheet:
@@ -252,6 +286,7 @@ class OpenpyxlPO():
                 sh.row_dimensions[i].height = rowQty  # 行高
             for i in range(1, columns+1):
                 sh.column_dimensions[get_column_letter(i)].width = colQty  # 列宽
+            self.save()
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
@@ -318,7 +353,7 @@ class OpenpyxlPO():
 
     def setCellValue(self, varRow, varCol, varContent, font, fill, border, alignment, number_format, protection, varSheet=0):
         '''
-        2.4 设置单元格的值
+        2.4 设置单元格值
         :param varRow:  行
         :param varCol:  列
         :param varContent:  值
@@ -351,12 +386,13 @@ class OpenpyxlPO():
                     sh.cell(row=varRow, column=varCol, value=varContent).number_format = number_format
                 if protection != "":
                     sh.cell(row=varRow, column=varCol, value=varContent).protection = protection
+            self.save()
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def setRowValue(self, d_var, varSheet=0):
         '''
-        2.5 设置整行单元格的值
+        2.5 设置整行值
         :param d_var: 字典
         :param varSheet:
         :return:
@@ -370,6 +406,26 @@ class OpenpyxlPO():
                 for i in range(len(v)):
                     if v[i] != None:
                         sh.cell(row=k, column=i+1, value=v[i])
+            self.save()
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+    def setColValue(self, d_var, varSheet=0):
+        '''
+        2.6 设置整列值
+        :param d_var:
+        :param varSheet:
+        :return:
+        #   Openpyxl_PO.setColValue({"A": ["k1", 666, "777"], "F": ["name", None, "888"]}, -1)
+        '''
+
+        try:
+            sh = self.sh(varSheet)
+            for k, v in d_var.items():
+                for i in range(len(v)):
+                    if v[i] != None:
+                        sh.cell(row=i+1, column=column_index_from_string(k), value=v[i])
+            self.save()
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
@@ -385,10 +441,11 @@ class OpenpyxlPO():
         try:
             sh = self.sh(varSheet)
             sh.sheet_properties.tabColor = varColor
+            self.save()
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-    def setCellColor(self, row, col, varColor, varSheet=0):
+    def setCellColor(self, row, col, varFillType, varColor, varSheet=0):
         '''
         2.8 设置单元格背景色
         :param row:
@@ -396,19 +453,89 @@ class OpenpyxlPO():
         :param varColor:
         :param varSheet:
         :return:
-        Openpyxl_PO.setCellColor(6, 7, "FF0000")   将单元格第6行第7列的背景色设置为红色（FF0000）
+        Openpyxl_PO.setCellColor(6, 7, "solid", "FF0000")   将单元格第6行第7列的背景色设置为红色（FF0000）
+        Openpyxl_PO.setCellColor(6, 7, None, "")  消除单元格颜色
         '''
 
         try:
             sh = self.sh(varSheet)
-            style = PatternFill("solid", fgColor=varColor)
-            sh.cell(row, col).fill = style
+            rows = sh.max_row
+            cols = sh.max_column
+
+            # 清除表格里所有单元格的背景色
+            if row == None and col == None:
+                style = PatternFill(fill_type=None)
+                for i in range(1, rows + 1):
+                    for j in range(1, cols + 1):
+                        sh.cell(i, j).fill = style
+            else:
+                if varFillType == None:
+                    style = PatternFill(fill_type=None)  # 消除单元格颜色
+                else:
+                    style = PatternFill(varFillType, fgColor=varColor)
+                sh.cell(row, col).fill = style
+            self.save()
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
+    def setRowColor(self, row, varSkip, varColor, varSheet=0):
+        '''
+        2.9 设置整行(可间隔)背景色
+        :param row:
+        :param varColor:
+        :param varSheet:
+        :return:
+        Openpyxl_PO.setRowColor(6, 1, "FF0000")
+        '''
+
+        sh = self.sh(varSheet)
+        rows = sh.max_row
+        cols = sh.max_column
+
+        # 清除表格里所有单元格的背景色
+        style = PatternFill(fill_type=None)
+        for i in range(1, rows+1):
+            for j in range(1, cols+1):
+                sh.cell(i, j).fill = style
+
+        style = PatternFill("solid", fgColor=varColor)
+        for i in range(row, rows+1, varSkip):
+            for j in range(1, cols+1):
+                sh.cell(i, j).fill = style
+        self.save()
+
+
+    def setColColor(self, col, varSkip, varColor, varSheet=0):
+        '''
+        2.9 设置整列(可间隔)背景色
+        :param row:
+        :param varColor:
+        :param varSheet:
+        :return:
+            Openpyxl_PO.setColColor(6, 1, "FF0000")
+        '''
+
+        sh = self.sh(varSheet)
+        rows = sh.max_row
+        cols = sh.max_column
+
+        style = PatternFill(fill_type=None)  # 消除单元格颜色
+        for i in range(1, rows+1):
+            for j in range(1, cols+1):
+                sh.cell(i, j).fill = style
+
+        style = PatternFill("solid", fgColor=varColor)
+        for i in range(1, rows+1):
+            for j in range(col, cols+1, varSkip):
+                sh.cell(i, j).fill = style
+        self.save()
+
+
+
+
     def setFreezeCell(self, varCell, varSheet=0):
         '''
-        2.9 设置固定单元格
+        2.11 设置固定单元格
         :param varCell:
         :param varSheet:
         :return:
@@ -428,7 +555,7 @@ class OpenpyxlPO():
 
     def setFilterCol(self, varCell="all", varSheet=0):
         '''
-        2.10 设置筛选列
+        2.12 设置筛选列
         :param varCell:
         :param varSheet:
         :return:
@@ -457,8 +584,8 @@ class OpenpyxlPO():
         try:
             sh = self.sh(varSheet)
             rows = sh.max_row
-            columns = sh.max_column
-            return [rows, columns]
+            cols = sh.max_column
+            return [rows, cols]
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
@@ -641,55 +768,114 @@ class OpenpyxlPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
-    def cmpExcel(self, file1, file1Sheet, file2, file2Sheet):
+    def getDiffValueByXlsxs(self, l_file1row, l_file2row):
         '''
-        5 两表比较，输出差异
-        :param file1:
-        :param file1Sheet:
-        :param file2:
-        :param file2Sheet:
+        5.1 输出两表差异部分
+        :param l_file1row:
+        :param l_file2row:
         :return:
+            print(Openpyxl_PO.getDiffValueByXlsxs(Openpyxl_PO.l_getRowValue(), Openpyxl_PO2.l_getRowValue()))
+            {5: {'loan_amnt': 5000}, 6: {'loan_amnt': 200, 'term': '36 months'}}   表示 第五行，loan_amnt 列的值 5000
+
         '''
-        # 输出的列表中，第一个元素是序号。
+
+        dictAll = {}
+        dict1 = {}
         try:
-            list1 = self.l_getRowColNums(file1, file1Sheet)
-            list2 = self.l_getRowColNums(file2, file2Sheet)
-            tmpList1 = []
-            tmpList2 = []
-            mainList1 = []
-            mainList2 = []
-            wb = load_workbook(file1)
-            wk_sheet = wb[file1Sheet]
-            for i in range(1, list1[0] + 1):
-                tmpList1.append(i)
-                for j in range(1, list1[1] + 1):
-                    tmpList1.append(wk_sheet.cell(row=i, column=j).value)
-                mainList1.append(tmpList1)
-                tmpList1 = []
-            # print(mainList1)
 
-            wb = load_workbook(file2)
-            wk_sheet = wb[file2Sheet]
-            for i in range(1, list2[0] + 1):
-                tmpList2.append(i)
-                for j in range(1, list1[1] + 1):
-                    tmpList2.append(wk_sheet.cell(row=i, column=j).value)
-                mainList2.append(tmpList2)
-                tmpList2 = []
-            # print(mainList2)
+            if len(l_file1row) == len(l_file2row):
+                for i in range(len(l_file1row)):
+                    if l_file1row[i] != l_file2row[i]:
+                        for j in range(len(l_file1row[i])):
+                            if l_file1row[i][j] != l_file2row[i][j]:
+                                dict1[l_file1row[0][j]] = l_file1row[i][j]
+                                dictAll[i + 1] = dict1
+                        dict1 = {}
 
-            a = [x for x in mainList1 if x in mainList2]  # 两个列表中都存在
-            b = [y for y in (mainList1) if y not in a]  # 两个列表中的不同元素，输出 mainList1 中差异部分
-            c = [y for y in (mainList2) if y not in a]  # 两个列表中的不同元素，输出 mainList2 中差异部分
-
-            if b == []:
-                print("ok，两表一致")
+                if dictAll != []:
+                    print(dictAll)
+                else:
+                    print("[ok], 两列表比对结果一致")
             else:
-                return file1, b, file2, c
-                # print(file1 + " => " + str(b))
-                # print(file2 + " => " + str(c))
+                print("[warning], 两列表数量不一致！")
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+    def getDiffValueByXlsxs1(self, l_file1row, l_file2row):
+        '''
+        5.1 输出两表差异部分
+        :param l_file1row:
+        :param l_file2row:
+        :return:
+            print(Openpyxl_PO.getDiffValueByXlsxs(Openpyxl_PO.l_getRowValue(), Openpyxl_PO2.l_getRowValue()))
+            [[5, 'member_id', 1311441], [7, 'loan_amnt', 5600]]   表示 第五行，member_id列的值1311441
+            [[5, 'member_id', 5555], [7, 'loan_amnt', 1200]]
+        '''
+
+        list1 = []
+        list2 = []
+        list11 = []
+        list22 = []
+        try:
+            if len(l_file1row) == len(l_file2row):
+                for i in range(len(l_file1row)):
+                    if l_file1row[i] != l_file2row[i]:
+                        for j in range(len(l_file1row[i])):
+                            if l_file1row[i][j] != l_file2row[i][j]:
+                                list1.append(i+1)
+                                list1.append(l_file1row[0][j])
+                                list1.append(l_file1row[i][j])
+                                list2.append(i + 1)
+                                list2.append(l_file2row[0][j])
+                                list2.append(l_file2row[i][j])
+                        list11.append(list1)
+                        list22.append(list2)
+                        list1 = []
+                        list2 = []
+                if list11 != []:
+                    print(list11)
+                    print(list22)
+                else:
+                    print("[ok], 两列表比对结果一致")
+            else:
+                print("[warning], 两列表数量不一致！")
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+    def setCellColorByCmpSheets(self, varSheet1, varSheet2):
+        '''
+        5.2 对一张表的两个sheet进行数据比对，差异数据标注颜色
+        :param l_file1row:
+        :param l_file2row:
+        :return:
+            前提条件，两sheet表的行列数一致
+            Openpyxl_PO.setCellColorByCmpSheets("Sheet1", "Sheet2")
+
+        '''
+
+        l_sheetOneRow = self.l_getRowValue(varSheet1)
+        l_sheetTwoRow = self.l_getRowValue(varSheet2)
+        try:
+            if len(l_sheetOneRow) == len(l_sheetTwoRow):
+                for i in range(len(l_sheetOneRow)):
+                    if l_sheetOneRow[i] != l_sheetTwoRow[i]:
+                        for j in range(len(l_sheetOneRow[i])):
+                            if l_sheetOneRow[i][j] != l_sheetTwoRow[i][j]:
+                                self.setCellColor(i+1, j+1, "solid", "FF0000")
+                                self.setCellColor(i+1, j+1, "solid", "ffeb9c", "Sheet2")
+                            else:
+                                self.setCellColor(i+1, j+1, None, "", "Sheet1")
+                                self.setCellColor(i+1, j+1, None, "", "Sheet2")
+                    else:
+                        for j in range(len(l_sheetOneRow[i])):
+                            self.setCellColor(i + 1, j + 1, None, "", "Sheet1")
+                            self.setCellColor(i + 1, j + 1, None, "", "Sheet2")
+                self.save()
+            else:
+                print("[warning], 比对的Sheet中行列数不一致！")
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
 
 
     def xlsx2db(self, varExcelFile, varTable, host, name, password, db, port):
@@ -711,9 +897,9 @@ if __name__ == "__main__":
 
     Sys_PO.killPid('EXCEL.EXE')
 
-    Openpyxl_PO = OpenpyxlPO("./OpenpyxlPO/test.xlsx")
+    Openpyxl_PO = OpenpyxlPO("./data/loanStats.xlsx")
 
-
+    # print("1.1 新建excel ".center(100, "-"))
     # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
     # print("1.2 添加保留工作表".center(100, "-"))
@@ -734,9 +920,9 @@ if __name__ == "__main__":
     # print("2.2 设置单元格行高与列宽".center(100, "-"))
     # Openpyxl_PO.setCellDimensions(3, 30, 'f', 30)
 
-    # print("2.3 设置所有数据单元格行高与列宽".center(100, "-"))
-    # Openpyxl_PO.setAllDimensions(30, 10)
-    # Openpyxl_PO.save()
+    # print("2.3 设置工作表所有单元格的行高与列宽".center(100, "-"))
+    # Openpyxl_PO.setSheetDimensions(30, 20)
+    # Openpyxl_PO.open()
 
 
     # print("2.4.1 设置字体类（字体颜色）".center(100, "-"))
@@ -751,7 +937,7 @@ if __name__ == "__main__":
     # print("2.4.4 设置位置类".center(100, "-"))
     # alignment = Openpyxl_PO.setAlignment(['center', 'top'])  # 文字左右居中，位置在上
     #
-    # print("2.4 设置单元格的值".center(100, "-"))
+    # print("2.4 设置单元格值".center(100, "-"))
     # Openpyxl_PO.setCellValue(1, 6, "jinhao", font, fille, border, "", "", "")  # 引用font和fille对2行6列写入值
     # Openpyxl_PO.setCellValue(1, 6, "jinhao", font, fille, "", "", "", "")  # 引用font和fille对2行6列写入值
     # Openpyxl_PO.setCellValue(2, 4, "upup", font, "", border, "", "", "")
@@ -759,16 +945,32 @@ if __name__ == "__main__":
     # Openpyxl_PO.setCellValue(4, 4, "upup", "", "", "", alignment, "", "")
     # Openpyxl_PO.setCellValue(4, 4, "upup", "", "", "", "", "", "")
 
-    # print("2.5 设置整行单元格的值".center(100, "-"))
-    # Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", None, "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容，如遇None则跳过该单元格
+    # print("2.5 设置整行值".center(100, "-"))
+    # Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", None, "777777777"]})  # 对最后一个sheet表，对第7，8行分别写入内容，如遇None则跳过该单元格
     # Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", "None", "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容
-    # Openpyxl_PO.save()
+    # Openpyxl_PO.open()
+
+    # print("2.6 设置整列值".center(100, "-"))
+    # Openpyxl_PO.setColValue({"A": ["k1", 666, "777"], "F": ["4456", None, "888"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容，如遇None则跳过该单元格
+    # Openpyxl_PO.open()
 
     # print("2.7 设置工作表标题选项卡背景颜色".center(100, "-"))
     # Openpyxl_PO.setSheetColor("FF0000")
+    # Openpyxl_PO.open()
 
     # print("2.8 设置单元格背景色".center(100, "-"))
-    # Openpyxl_PO.setCellColor(11, 1, "00E400")
+    # Openpyxl_PO.setCellColor(4, 1, None, "", "Sheet1")  # 清除第四行第1列的背景色
+    # Openpyxl_PO.setCellColor(5, 1, "solid", "ff0000", "Sheet1")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(None, None, "", "", "Sheet1")  # 清除表格里所有背景色
+    # Openpyxl_PO.open()
+
+    # print("2.9 设置整行(可间隔)背景色".center(100, "-"))
+    # Openpyxl_PO.setRowColor(5, 1, "ff0000")  # 从第五行开始不间隔地设置每行颜色为红色
+    # Openpyxl_PO.setRowColor(3, 2, "ff0000")  # 从第3行开始每隔1行设置每行颜色为红色
+
+    # print("2.10 设置整列(可间隔)背景色".center(100, "-"))
+    # Openpyxl_PO.setColColor(2, 1, "ff0000")  # 从第2列开始不间隔地设置每列颜色为红色
+    # Openpyxl_PO.setColColor(2, 2, "ff0000")  # 从第2行开始每隔1列设置颜色为红色
 
 
 
@@ -818,15 +1020,15 @@ if __name__ == "__main__":
     # # Openpyxl_PO.save()
 
 
-    # print("5 两表比较，输出差异".center(100, "-"))
-    # file1,list1,file2,list2 = Openpyxl_PO.cmpExcel("./OpenpyxlPO/newfile.xlsx", "Sheet1", "./OpenpyxlPO/newfile2.xlsx", "Sheet1")
-    # print(file1 + ">"*50)
-    # for l in list1:
-    #     print(l)
-    # print("\n" + file2 + ">"*50)
-    # for l in list2:
-    #     print(l)
-    # #
+    # print("5.1 输出两表差异部分 ".center(100, "-"))
+    # Openpyxl_PO = OpenpyxlPO("./data/loanStats.xlsx")
+    # Openpyxl_PO2 = OpenpyxlPO("./data/loanStats2.xlsx")
+    # Openpyxl_PO.getDiffValueByXlsxs(Openpyxl_PO.l_getRowValue(), Openpyxl_PO2.l_getRowValue("Sheet2"))
+    # Openpyxl_PO.open()
+    
+    # print("5.2 对一张表的两个sheet进行数据比对，差异数据标注颜色 ".center(100, "-"))
+    # Openpyxl_PO.setCellColorByCmpSheets("Sheet1", "Sheet2")
+    # Openpyxl_PO.open()
 
     # print("6 将excel表格导入数据库".center(100, "-"))
     # Openpyxl_PO.xlsx2db("d:/test.xlsx", "table1", "192.168.0.234", "root", "123456", "epd", 3306)

@@ -2,24 +2,28 @@
 #****************************************************************
 # Author        : John
 # Date          : 2020-5-12
-# Description   : 使用json 模块操作文件
+# Description   : json对象层
+# jsonpath官网语法 https://https://goessner.net/
+
+# todo:数据结构
 # json 文件中存储的数据结构为“列表” 或 “字典”。
-# 安装： pip3 install jsonpath-rw
-# 官网： 1.4.0 https://pypi.python.org/pypi/jsonpath-rw
-# jsonpath官网 https://goessner.net/articles/JsonPath/
-# 网上一个json文档，https://www.lagou.com/lbs/getAllCitySearchLabels.json
+# todo: 安装
+# pip3 install jsonpath-rw
+# 下载包：https://pypi.python.org/pypi/jsonpath-rw
+# todo: 线上json文档(可用于测试)
+# https://www.lagou.com/lbs/getAllCitySearchLabels.json
+# https://www.toutiao.com/api/pc/feed/?min_behot_time=0&refresh_count=1&category=__all__&utm_source=toutiao&widen=1&tadrequire=true
 #****************************************************************
 
 '''
-1.1 将url内容写入json文件 url2jsonfile()
-1.2 将变量（字符串、列表、字典）写入json文件  setJsonFile()
+1.1 将线上json文档写入json文件 url2jsonfile()
+1.2 将变量写入json文件  var2jsonFile()
 1.3 将json文件写入excel jsonfile2xlsx()
 
 2.1 用jsonpath_expr表达式从文件中提取json值  getValueFromFileByExpr()  如： stu_info[*].name
 2.2 用jsonpath_expr表达式从变量中提取json值 getValueFromVarByExpr()
 2.3 用jsonpath从文件中提取json值  getValueFromFileByJsonpath()
 2.4 用jsonpath从变量中提取json值  getValueFromVarByJsonpath()  如：$.token
-
 
 '''
 
@@ -52,8 +56,8 @@ class JsonPO():
                     f.write("\n")
 
             # # 将json文档转换成excel
-            # df = pd.read_json("./JsonPO/api.json", lines=True, encoding="gbk")
-            # df.to_excel("./JsonPO/api.xlsx")
+            # df = pd.read_json("data/api.json", lines=True, encoding="gbk")
+            # df.to_excel("data/api.xlsx")
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
@@ -159,9 +163,8 @@ if __name__ == '__main__':
 
     Json_PO = JsonPO()
 
-    # print("1.1 将api在线json内容保存到变量".center(100, "-"))
-    Json_PO.url2jsonfile('https://www.toutiao.com/api/pc/feed/?min_behot_time=0&refresh_count=1&category=__all__&utm_source=toutiao&widen=1&tadrequire=true', "JsonPO/api.json")
-
+    # print("1.1 将线上json文档写入json文件".center(100, "-"))
+    # Json_PO.url2jsonfile('https://www.toutiao.com/api/pc/feed/?min_behot_time=0&refresh_count=1&category=__all__&utm_source=toutiao&widen=1&tadrequire=true', "data/api.json")
 
     varDictJson = {
         "error_code": 10,
@@ -184,15 +187,16 @@ if __name__ == '__main__':
         ]
     }
 
-    # print("1.2 将变量（字符串、列表、字典）写入json文件".center(100, "-"))
-    # Json_PO.var2jsonfile(varDictJson, "JsonPO/dict.json")  # "12345678"
+    # print("1.2 将变量写入json文件".center(100, "-"))
+    # Json_PO.var2jsonfile(varDictJson, "data/var.json")
 
     # print("1.3 jsonfile 写入excel文件".center(100, "-"))
-    # Json_PO.jsonfile2xlsx('JsonPO/api.json', "JsonPO/api.xlsx")
+    # Json_PO.jsonfile2xlsx('data/api.json', "data/api.xlsx")
+    Json_PO.jsonfile2xlsx('data/var.json', "data/var.xlsx")
 
 
     # # print("2.1 用jsonpath_expr表达式从文件中提取json值".center(100, "-"))
-    # print(Json_PO.getValueFromFileByExpr("./JsonPO/dict.json", "stu_info[*].name"))  # ['小白', '小黑']
+    print(Json_PO.getValueFromFileByExpr("data/dict.json", "stu_info[*].name"))  # ['小白', '小黑']
     #
     # # print("2.2 用jsonpath_expr表达式从变量中提取json值".center(100, "-"))
     # print(Json_PO.getValueFromVarByExpr(varDictJson, "stu_info[*].name")[1])  # 小黑
@@ -204,11 +208,11 @@ if __name__ == '__main__':
     # varStrJson = {"status": 200, "msg": "success", "token": "e351b73b1c6145ceab2a02d7bc8395e7"}
     # Json_PO.var2jsonfile(varStrJson, "JsonPO/dict.json")  # "12345678"
 
-    # print(Json_PO.getValueFromFileByJsonpath("./JsonPO/dict1.json", '$.token'))  # ['e351b73b1c6145ceab2a02d7bc8395e7']
+    # print(Json_PO.getValueFromFileByJsonpath("data/dict1.json", '$.token'))  # ['e351b73b1c6145ceab2a02d7bc8395e7']
     #
     # # print("2.4 用jsonpath从变量中提取json值".center(100, "-"))
-    # varStrJson = {"status": 200, "msg": "success", "token": "e351b73b1c6145ceab2a02d7bc8395e7"}
-    # print(Json_PO.getValueFromVarByJsonpath(varStrJson, '$.token'))  # ['e351b73b1c6145ceab2a02d7bc8395e7']
+    varStrJson = {"status": 200, "msg": "success", "token": "e351b73b1c6145ceab2a02d7bc8395e7"}
+    print(Json_PO.getValueFromVarByJsonpath(varStrJson, '$.token'))  # ['e351b73b1c6145ceab2a02d7bc8395e7']
     #
     # d = {
     #     "error_code": 0,

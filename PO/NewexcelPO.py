@@ -45,40 +45,6 @@ Sys_PO = SysPO()
 
 '''
 1.1 新建excel  newExcel()
-1.2 添加保留工作表  addSheet()
-1.3 添加覆盖工作表 addSheetCover()
-1.4 删除工作表  delSheet()
-
-2.1 初始化数据 initData()
-2.2 设置单元格行高与列宽 setCellDimensions()
-2.3 设置所有数据单元格行高与列宽 setAllDimensions()
-
-2.4.1 设置字体类（字体颜色） setFont()
-2.4.2 设置填充类（背景色） setFille()
-2.4.3 设置边框类 setBorder()
-2.4.4 设置位置类 setAlignment()
-2.4 设置单元格的值 setCellValue()
-2.5 设置整行单元格的值  setRowValue()
-2.6 设置整列单元格的值  ？
-2.7 设置工作表背景颜色 setSheetColor()
-2.8 设置单元格背景色 setCellColor()
-2.9 设置固定单元格
-2.10 设置筛选列
-
-3.1 获取总行数和总列数 l_getTotalRowCol()
-3.2 获取单元格的值 getCellValue()
-3.3 获取每行数据 l_getRowValue()
-3.4 获取每列数据 l_getColValue()
-3.5 获取指定列的行数据 l_getRowValueByPartCol()
-3.6 获取某些列的列数据，可忽略多行 l_getColValueByPartCol()
-
-4.1 清空行 clsRow()
-4.2 清空列 clsCol()
-4.3 删除行 delRow()
-4.4 删除列 delCol()
-
-5 两表比较，输出差异 cmpExcel()
-
 '''
 
 class NewexcelPO():

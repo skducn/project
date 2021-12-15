@@ -2,9 +2,7 @@
 # *******************************************************************************************************************************
 # Author     : John
 # Date       : 2018-5-21
-# Description: console 中，输出颜色
-# color.py cmd 下输出带颜色的文字， for win
-# python for win 输出带颜色的文字方法 https://www.jianshu.com/p/626f5305186b , https://www.cnblogs.com/easypython/p/9084426.html
+# Description: 颜色对象
 # python for mac 输出带颜色的文字方法 https://www.cnblogs.com/yinjia/p/5559702.html
 # *******************************************************************************************************************************
 
