@@ -25,7 +25,7 @@ pandas引擎（mysqldb）
 4.2，数据库表导出html db2html()
 4.3，数据库表导出csv db2csv()
 
-5 数据库所有表结构导出到excel(覆盖)
+5 将所有表结构导出到excel(覆盖)  dbDesc2xlsx（）
 
 '''
 
