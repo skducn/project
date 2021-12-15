@@ -3,8 +3,8 @@
 # Author        : John
 # Date          : 2020-1-13
 # Description   : 字符 对象
-# 关于python3 编码过程中转码问题
-# 1，从Python 3开始，所有字符串都是unicode对象，也就是 python3 默认编码为unicode，由str类型进行表示。
+# todo: 关于 python3 编码过程中转码问题
+# 1，python 3中所有字符串都是 unicode 对象，也就是默认编码为 unicode，由str类型进行表示。
 # 2，二进制数据使用byte类型表示
 # 3，字符串通过编码转换为字节码，str--->(encode)--->bytes ，如：str.encode("utf-8")
 # 4，字节码通过解码转换为字符串，bytes--->(decode)--->str ，如：bytes.decode(encoding="utf-8", errors="strict")

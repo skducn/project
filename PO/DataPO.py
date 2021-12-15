@@ -3,9 +3,8 @@
 # Author     : John
 # Created on : 2019-9-19
 # Description: 数据对象层
-# jsonpath官网 https://goessner.net/articles/JsonPath/
-# 线上的一个json文档用于测试，https://www.lagou.com/lbs/getAllCitySearchLabels.json
-# Description: md5(python2),hashlib(python3)
+# todo:用MD5加密内容
+# md5(python2),hashlib(python3)
 # MD5消息摘要算法（英语：MD5 Message-Digest Algorithm），一种被广泛使用的密码散列函数，
 # 可以产生出一个128位（16字节）的散列值（hash value），用于确保信息传输完整一致。
 # 什么是摘要算法呢？摘要算法又称哈希算法、散列算法。它通过一个函数，把任意长度的数据转换为一个长度固定的数据串（通常用16进制的字符串表示）
@@ -15,10 +14,10 @@
 # m.update('6'.encode('utf-8'))
 # print(m.hexdigest())  # e10adc3949ba59abbe56e057f20f883e
 
-# Description: # 二维码生成和识别
+# todo: 二维码生成和识别
 # 参考：https://www.bilibili.com/read/cv7761473/
 # pip install myqr
-# pip install pyzbr
+# pip install pyzbr`
 # pip install pil 报错请切换 pip install pillow
 # ***************************************************************
 '''
@@ -38,7 +37,6 @@
 5.3，从当前IP地址开始连续生成N个IP
 
 6，从列表中随机获取n个元素
-7，解析json
 
 8.1，用MD5加密内容
 8.2，MD5分段加密
@@ -388,13 +386,6 @@ class DataPO():
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
-    # 7，解析json
-    def getJsonPath(self, varDictStr, varKey):
-        # 如：获取字符串中 token的值 {"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}'
-        try:
-            return jsonpath.jsonpath(json.loads(varDictStr), expr=varKey)
-        except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 8.1，MD5整段加密
     def md5(self, varContent):
@@ -583,79 +574,77 @@ if __name__ == '__main__':
 
     Data_PO = DataPO()
 
-    print("1，随机生成中文用户名".center(100, "-"))
-    print(Data_PO.autoName())  # 陈恋柏
-
-    print("2，随机生成有效手机号码".center(100, "-"))
-    print(Data_PO.autoPhone())  # 14790178656
-
-    print("3.1，随机生成身份证号".center(100, "-"))
-    print(Data_PO.autoIdcard())   # 441427196909022802   // 随机生成身份证号
-
-    print("3.2，判断是否是有效身份证".center(100, "-"))
-    print(Data_PO.isIdcard(Data_PO.autoIdcard()))
-
-    print("3.3，获取身份证的出生年月(只限大陆身份证)".center(100, "-"))
-    print(Data_PO.getBirthday(Data_PO.autoIdcard()))  # ('1965', '04', '16')
-    print(Data_PO.getBirthday("31ceshi141212"))  # None  //错误的身份证则返回None
-
-    print("3.4，获取身份证的年龄".center(100, "-"))
-    print(Data_PO.getAge("310101198004110014"))  # 40
-
-    print("3.5，获取身份证的性别".center(100, "-"))
-    print(Data_PO.getSex("310101198004110014"))  # 男
-
-    print("4，随机生成n个数字".center(100, "-"))
-    print(Data_PO.autoNum(4))  # 6408  //随机生成4个数字
-
-    print("5.1，随机生成一个有效IP".center(100, "-"))
-    print(Data_PO.autoIp(""))  # 116.210.48.8  //随机生成一个IP地址
-    print("5.2，随机生成一个有效IP2".center(100, "-"))
-    print(Data_PO.autoIp2())  # 36.93.19.190  //随机生成一个IP地址2
-    print("5.3，从当前IP地址开始连续生成N个IP".center(100, "-"))
-    print(Data_PO.getSeriesIp('101.23.228.254', 4))   # ['101.23.228.254', '101.23.228.255', '101.23.229.0', '101.23.229.1']
-
-    print("6，从列表中随机获取某个元素".center(100, "-"))
-    print(Data_PO.getRandomContent(['411', '1023', '0906', '0225'], 2))  # ['1023', '0906']
-
-    print("7，解析json".center(100, "-"))
-    print(Data_PO.getJsonPath('{"status":200,"msg":"success","token":"e351b73b1c6145ceab2a02d7bc8395e7"}', '$.token'))  # ['e351b73b1c6145ceab2a02d7bc8395e7']
-
-    print("8.1，MD5整段加密".center(100, "-"))
-    print(Data_PO.md5('123456'))  # e10adc3949ba59abbe56e057f20f883e
-    print("8.2，MD5分段加密".center(100, "-"))
-    print(Data_PO.md5Segment('123', '45', "6"))  # e10adc3949ba59abbe56e057f20f883e
-
-    print("9，获取文档里某个单词出现的数量".center(100, "-"))
-    # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "INFO"))
-    # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "ERROR"))
-
-    print("10，生成uuid".center(100, "-"))
-    print(Data_PO.autoUuid("uuid1"))
-    print(Data_PO.autoUuid("md5"))
-    print(Data_PO.autoUuid("random"))
-    print(Data_PO.autoUuid("sh1"))
+    # print("1，随机生成中文用户名".center(100, "-"))
+    # print(Data_PO.autoName())  # 陈恋柏
+    #
+    # print("2，随机生成有效手机号码".center(100, "-"))
+    # print(Data_PO.autoPhone())  # 14790178656
+    #
+    # print("3.1，随机生成身份证号".center(100, "-"))
+    # print(Data_PO.autoIdcard())   # 441427196909022802   // 随机生成身份证号
+    #
+    # print("3.2，判断是否是有效身份证".center(100, "-"))
+    # print(Data_PO.isIdcard(Data_PO.autoIdcard()))
+    #
+    # print("3.3，获取身份证的出生年月(只限大陆身份证)".center(100, "-"))
+    # print(Data_PO.getBirthday(Data_PO.autoIdcard()))  # ('1965', '04', '16')
+    # print(Data_PO.getBirthday("31ceshi141212"))  # None  //错误的身份证则返回None
+    #
+    # print("3.4，获取身份证的年龄".center(100, "-"))
+    # print(Data_PO.getAge("310101198004110014"))  # 40
+    #
+    # print("3.5，获取身份证的性别".center(100, "-"))
+    # print(Data_PO.getSex("310101198004110014"))  # 男
+    #
+    # print("4，随机生成n个数字".center(100, "-"))
+    # print(Data_PO.autoNum(4))  # 6408  //随机生成4个数字
+    #
+    # print("5.1，随机生成一个有效IP".center(100, "-"))
+    # print(Data_PO.autoIp(""))  # 116.210.48.8  //随机生成一个IP地址
+    # print("5.2，随机生成一个有效IP2".center(100, "-"))
+    # print(Data_PO.autoIp2())  # 36.93.19.190  //随机生成一个IP地址2
+    # print("5.3，从当前IP地址开始连续生成N个IP".center(100, "-"))
+    # print(Data_PO.getSeriesIp('101.23.228.254', 4))   # ['101.23.228.254', '101.23.228.255', '101.23.229.0', '101.23.229.1']
+    #
+    # print("6，从列表中随机获取某个元素".center(100, "-"))
+    # print(Data_PO.getRandomContent(['411', '1023', '0906', '0225'], 2))  # ['1023', '0906']
+    #
+    #
+    # print("8.1，MD5整段加密".center(100, "-"))
+    # print(Data_PO.md5('123456'))  # e10adc3949ba59abbe56e057f20f883e
+    # print("8.2，MD5分段加密".center(100, "-"))
+    # print(Data_PO.md5Segment('123', '45', "6"))  # e10adc3949ba59abbe56e057f20f883e
+    #
+    # print("9，获取文档里某个单词出现的数量".center(100, "-"))
+    # # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "INFO"))
+    # # print(Data_PO.getNumByText(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "ERROR"))
+    #
+    # print("10，生成uuid".center(100, "-"))
+    # print(Data_PO.autoUuid("uuid1"))
+    # print(Data_PO.autoUuid("md5"))
+    # print(Data_PO.autoUuid("random"))
+    # print(Data_PO.autoUuid("sh1"))
 
     # print("11.1 生成二维码".center(100, "-"))
-    # Data_PO.getTwoDimensionCode("https://www.baidu.com", "./DataPO/baidu.jpg")
+    Data_PO.getTwoDimensionCode("https://www.baidu.com", "./data/baidu.jpg")
 
     # print("11.2 获取二维码地址".center(100, "-"))
     # Data_PO.getURL("./DataPO/baidu.jpg")
 
-    print("12 获取国内高匿ip代理(ip代理池)".center(100, "-"))
-    print(Data_PO.getIpAgent())
-
-    # print("13.1 通过fake版本随机获取用户代理".center(100, "-"))
-    # print(Data_PO.getUserAgentFromFakeUrl("https://fake-useragent.herokuapp.com/browsers/0.1.11"))
+    # print("12 获取国内高匿ip代理(ip代理池)".center(100, "-"))
+    # print(Data_PO.getIpAgent())
     #
-    # print("13.2 将fake包用户代理信息写入文档".center(100, "-"))
-    # Data_PO.setUserAgentFromFakeUrlToFile("https://fake-useragent.herokuapp.com/browsers/0.1.11", "userAgent.json")
-    #
-    # print("13.3 从fake文件中获取用户代理".center(100, "-"))
-    # print(Data_PO.getUserAgentFromFile("userAgent.json"))
-    #
-    print("13.4 获取用户代理".center(100, "-"))
-    print(Data_PO.getUserAgent())
+    # # print("13.1 通过fake版本随机获取用户代理".center(100, "-"))
+    # # print(Data_PO.getUserAgentFromFakeUrl("https://fake-useragent.herokuapp.com/browsers/0.1.11"))
+    # #
+    # # print("13.2 将fake包用户代理信息写入文档".center(100, "-"))
+    # # Data_PO.setUserAgentFromFakeUrlToFile("https://fake-useragent.herokuapp.com/browsers/0.1.11", "userAgent.json")
+    # #
+    # # print("13.3 从fake文件中获取用户代理".center(100, "-"))
+    # # print(Data_PO.getUserAgentFromFile("userAgent.json"))
+    # #
+    # print("13.4 获取用户代理".center(100, "-"))
+    # print(Data_PO.getUserAgent())
 
 
     # df = pd.read_json("browser_info.json",lines = True)
