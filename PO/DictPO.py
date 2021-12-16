@@ -11,29 +11,32 @@
 # *********************************************************************
 
 from collections import ChainMap
-# from PO.MysqlPO import *
 
 '''
-1.1，字典合并（重复key不替换）
-1.2，字典合并（重复key被后者替换）
+1.1，字典合并（第一个字典重复的key不替换）
+1.2，字典合并（重复key被第二个字典替换）
 
 2.1，获取2个字典交、并、差和对称差集的key
 2.2，获取2个字典交、并、差和对称差集的键值对
 2.3， 两个字典合并，去掉N个key
+
+3 将多个字典key（重复）转换列表（去重）
+
 
 '''
 
 
 class DictPO():
 
-    def __init__(self):
-        pass
 
-    # 1.1，字典合并（重复key不替换）
     def getMergeDictReserve(self, *varDict):
-        # 多个字典合并，如有重复key，则字典从左到右，只保留第一个字典的key
+        '''
+        # 1 字典合并（第一个字典重复的key不替换）
+        # 多个字典合并，如有重复key，则保留第一个字典的key
+        :param varDict:
+        :return:
+        '''
         d_varMerge = {}
-
         if len(varDict) == 2:
             c = ChainMap(varDict[0], varDict[1])
         elif len(varDict) == 3:
@@ -46,10 +49,12 @@ class DictPO():
             d_varMerge[k] = v
         return d_varMerge
 
-
-    # 1.2，字典合并（重复key被后者替换）
     def getMergeDictReplace(self, *varDict):
-        # 多个字典合并，如有重复key，则字典从左到右，右面替换左面的字典key
+        '''
+        1.2，字典合并（重复key被第二个字典替换）
+        :param varDict:
+        :return:
+        '''
         d_varMerge = {}
         for i in range(len(varDict)):
             d_varMerge.update(varDict[i])
@@ -105,21 +110,36 @@ class DictPO():
         # e = dict({'three': 3, 'one': 1, 'two': 2})
         # print(a == b == c == d == e)
 
+    def getKey2list(self, *varDict):
+        '''
+        3 将多个字典key（重复）转换列表（去重）
+        :return:
+        '''
+        if len(varDict) == 1:
+            return list(ChainMap(varDict[0]))
+        elif len(varDict) == 2:
+            return list(ChainMap(varDict[0], varDict[1]))
+        elif len(varDict) == 3:
+            return list(ChainMap(varDict[0], varDict[1], varDict[2]))
+
+
+
 if __name__ == "__main__":
 
     Dict_PO = DictPO()
 
     d1 = {'a': 1, 'b': 2, "jj":123}
     d2 = {'a': 3, 'b': 4, "hh":666}
-    d3 = {'a': 5, 'b': 6, "hh":999}
+    d3 = {'a': 5, 'bb': 6, "hh":999}
 
-    print("1.1，字典合并（重复key不替换）".center(100, "-"))
+
+    # print("1.1，字典合并（重复key不替换）".center(100, "-"))
     print(Dict_PO.getMergeDictReserve(d1, d2))  # {'c': 3, 'd': 4, 'a': 1, 'b': 2}
     print(Dict_PO.getMergeDictReserve(d1, d2, d3))  # {'c': 3, 'd': 4, 'a': 1, 'b': 2}
-
-
-    print("1.2，字典合并（重复key被后者替换）".center(100, "-"))
-    # print(Dict_PO.getMergeDictReplace(d1, d2, d3))  # {'a': 5, 'b': 6, 'jj': 123, 'hh': 666, 'kk': 999}
+    #
+    #
+    # print("1.2，字典合并（重复key被后者替换）".center(100, "-"))
+    # # print(Dict_PO.getMergeDictReplace(d1, d2, d3))  # {'a': 5, 'b': 6, 'jj': 123, 'hh': 666, 'kk': 999}
 
 
 
@@ -139,3 +159,7 @@ if __name__ == "__main__":
     # print(Dict_PO.getKeyValueByDict("-", a, b))  # 差集（去掉交集，剩下在a的的keyvalue），{('z', 3), ('y', 2)}
     # print(Dict_PO.getKeyValueByDict("^", a, b))  # 对称差集（不会同时出现在二者中的keyvalue），{('z', 88), ('y', 2), ('z', 3), ('w', 10)}
 
+    # print("3 将多个字典key（重复）转换列表（去重）".center(100, "-"))
+    # print(Dict_PO.getKey2list(d1))  # ['a', 'b', 'jj']
+    # print(Dict_PO.getKey2list(d1, d2))  # ['a', 'b', 'hh', 'jj']
+    # print(Dict_PO.getKey2list(d1, d2, d3))  # ['a', 'bb', 'hh', 'b', 'jj']
