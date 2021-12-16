@@ -6,7 +6,7 @@
 # 官网：https://docs.python.org/3.8/library/collections.html
 # ********************************************************************************************************************
 '''
-ChainMap将多个字典或其他映射组合在一起以创建单个可更新视图
+ChainMap 将多个字典或其他映射组合在一起以创建单个可更新视图
 原理：ChainMap 不会真的把字典合并在一起，而是在内部储存一个Key到每个字典的映射，当你读取 e[key] 的时候，它先去查询这个key在哪个字典里面，然后再去对应的字典里面查询对应的值。所以使用ChainMap几乎不需要额外的内存空间
 1，ChainMap提供了一种多个字典整合的方式，它没有去合并这些字典，而是将这些字典放在一个 maps (一个列表)里，内部实现了很多 dict 的方法，大部分 dict 的方法，ChainMap 都能使用。
 2，ChainMap在获取一个key的值时，会遍历 maps ，一旦在其中一个字典里找到了这个 key ，便停止寻找。
@@ -18,6 +18,7 @@ ChainMap将多个字典或其他映射组合在一起以创建单个可更新视
 
 from collections import ChainMap
 
+# 1， 获取第一个存在的key值
 d1 = {'a': 1, 'b': 2 }
 d2 = {'c': 3, 'd': 4 }
 d3 = {'b': 4, 'c': 5 }
@@ -26,37 +27,21 @@ c = ChainMap(d1,d2,d3,d4)
 print(c['b'])  # 2
 print(c['c'])  # 3
 print(c['e'])  # 6
+
+
+# 2，只更新第一个字典
 c['b'] = 55
 c['g'] = 22
-print(d1)   # 只在第一个字典中更新，修改了 z:5
-print(d2)   # 只在第一个字典中更新，添加了 g:2
-print(d3)   # 只在第一个字典中更新，添加了 g:2
-print(d4)   # 只在第一个字典中更新，添加了 g:2
+print(d1)   # {'a': 1, 'b': 55, 'g': 22}
 del c['b']
-print(d1)   # 只在第一个字典中更新，修改了 z:5
-print(d2)   # 只在第一个字典中更新，添加了 g:2
-print(d3)   # 只在第一个字典中更新，添加了 g:2
-print(d4)   # 只在第一个字典中更新，添加了 g:2
-print(c)
+print(d1)   # {'a': 1, 'g': 22}
 
-dict4 = {}
-for k,v in c.items():
-    print(k,v)
-    dict4[k] = v
-
-print(dict4)
-
-#
-# merged = dict(b)
-# merged.update(a)
-# print(merged)  # {'y': 2, 'z': 5, 'x': 1, 'g': 2}
-# print(a)
-# print(b)
-# a['x']=100
-# print(merged['x'])  # 1
+print(c)  # ChainMap({'a': 1, 'g': 22}, {'c': 3, 'd': 4}, {'b': 4, 'c': 5}, {'d': 6, 'e': 6})
 
 
 
+
+# 将字典key转换列表（去重）
 baseline = {'music': 'bach', 'art': 'rembrandt'}
 adjustments = {'art': 'van gogh', 'opera': 'carmen'}
 print(ChainMap(adjustments, baseline))
@@ -80,6 +65,8 @@ def collection_test3():
 
 collection_test3()
 
+
+# 两个字典去重key
 user_dict1 = {"a": "111", "b": "222"}
 user_dict2 = {"b": "333", "d": "444"}
 new_dict = ChainMap(user_dict1, user_dict2)

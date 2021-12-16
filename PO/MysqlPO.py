@@ -603,7 +603,7 @@ if __name__ == '__main__':
 
 
     # print("4.1，使用pandas将数据库表导出excel".center(100, "-"))
-    # Mysql_PO.db2xlsx("select * from test1", "d:\\12345.xlsx")
+    Mysql_PO.db2xlsx("select * from ba_area", "data/ba_area.xlsx")
 
     # print("4.2，使用pandas将数据库表导出html".center(100, "-"))
     # Mysql_PO.db2html("select * from ep_zj_center", "d:\\index1.html")
