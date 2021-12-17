@@ -1,0 +1,330 @@
+<html><head><title>招远防疫防控接口自动化报告</title></head><link href="df_style.css" rel="stylesheet" type="text/css"/><body>
+
+
+
+<table border="1" class="dataframe mystyle">
+<thead>
+<tr style="text-align: center;">
+<th style="min-width: 100px;"></th>
+<th style="min-width: 100px;">exec</th>
+<th style="min-width: 100px;">类型</th>
+<th style="min-width: 100px;">模块</th>
+<th style="min-width: 100px;">名称</th>
+<th style="min-width: 100px;">路径</th>
+<th style="min-width: 100px;">方法</th>
+<th style="min-width: 100px;">参数</th>
+<th style="min-width: 100px;">担当者</th>
+<th style="min-width: 100px;">i返回值</th>
+<th style="min-width: 100px;">i检查返回值</th>
+<th style="min-width: 100px;"bgcolor="#ffeb9c">i结果</th>
+<th style="min-width: 100px;">s表值</th>
+<th style="min-width: 100px;">s检查表值</th>
+<th style="min-width: 100px;"bgcolor="#ffeb9c">s结果</th>
+<th style="min-width: 100px;">f检查文件位置</th>
+<th style="min-width: 100px;">f结果</th>
+<th style="min-width: 100px;">全局变量</th>
+<th style="min-width: 100px;">备注：</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td></td>
+<td>正常</td>
+<td>公钥加密接口</td>
+<td>加密用户名</td>
+<td>/auth/publicEncrypt?info=jinhao</td>
+<td>post</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"org_id":"select org_id from sys_user where user_no='jinhao'",\n"zjCenterId":"select zj_center_id from sys_user where user_no='jinhao'"}</td>
+<td>{"org_id":34}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td>{"userNo":"$.data","tt":"success","orgno":"\'wgzx\' + str(Data_PO.autoNum(3))"}</td>
+<td>org_id=34\nzjCenterId=6 //证监中心1</td>
+</tr>
+<tr>
+<th>1</th>
+<td></td>
+<td>正常</td>
+<td>公钥加密接口</td>
+<td>加密密码</td>
+<td>/auth/publicEncrypt?info=Jinhao!123</td>
+<td>post</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"password":"$.data","zjName":"测试"}</td>
+<td></td>
+</tr>
+<tr>
+<th>2</th>
+<td></td>
+<td>正常</td>
+<td>登录</td>
+<td>用户登录</td>
+<td>/auth/login</td>
+<td>token</td>
+<td>{"password":"{{password}}","userNo":"{{userNo}}"}</td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200,"$.msg":{{tt}}}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"ep_zj_center_id":{{zjCenterId}},"token":"$.data.token"}</td>
+<td></td>
+</tr>
+<tr>
+<th>3</th>
+<td></td>
+<td>正常</td>
+<td>web端涉疫人员自行上报</td>
+<td>web端涉疫人员自行上报获取二维码图片地址</td>
+<td>/webReport/getQcCodeUrl/{{org_id}}</td>
+<td>get</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"zjCenterId":6}</td>
+<td></td>
+</tr>
+<tr>
+<th>4</th>
+<td></td>
+<td>正常</td>
+<td>注册管理</td>
+<td>政监中心注册-更新</td>
+<td>/register/updateZjCenter</td>
+<td>post</td>
+<td>{\n "address": "北京市",\n "area": "莆田区",\n "contactPerson": "北京人",\n "contactPhone": "13316161616",\n "id": {{zjCenterId}},\n "name": "政监中心1",\n "responsiblePerson": "张三丰"\n}</td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"s__ep_zj_center__name":"select responsible_person from ep_zj_center where id={{zjCenterId}}"}</td>
+<td>{"s__ep_zj_center__name":"张三丰"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>5</th>
+<td></td>
+<td>正常</td>
+<td>注册管理</td>
+<td>政监中心注册-列表</td>
+<td>/register/queryZjCenterPageList</td>
+<td>post</td>
+<td>{\n "currPage": 1,\n "id": {{zjCenterId}},\n "pageSize": 1\n}</td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200,"$.data.list[0].name":"政监中心1"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>6</th>
+<td></td>
+<td>正常</td>
+<td>注册管理</td>
+<td>政监中心注册-根据ID获取单个实体模型</td>
+<td>/register/getZjCenterById/{{zjCenterId}}</td>
+<td>post</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>7</th>
+<td></td>
+<td>正常</td>
+<td>字典管理</td>
+<td>获取省市区数据</td>
+<td>/dict/getBaPrCityArea</td>
+<td>get</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>8</th>
+<td></td>
+<td>正常</td>
+<td>字典管理</td>
+<td>获取省市区数据(包含上层code)</td>
+<td>/dict/getBaPrCityArea2</td>
+<td>get</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>9</th>
+<td></td>
+<td>正常</td>
+<td>字典管理</td>
+<td>获取隔离地点名称列表</td>
+<td>/dict/getIsolationAddressList</td>
+<td>get</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>10</th>
+<td></td>
+<td>正常</td>
+<td>字典管理</td>
+<td>获取网格中心下拉框数据</td>
+<td>/dict/querySysOrgData</td>
+<td>get</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>11</th>
+<td></td>
+<td>正常</td>
+<td>字典管理</td>
+<td>根据政监中心ID获取网格中心下拉框数据</td>
+<td>/dict/querySysOrgDataByZjCenterId/{{zjCenterId}}</td>
+<td>get</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>12</th>
+<td></td>
+<td>正常</td>
+<td>字典管理</td>
+<td>根据多个政监中心ID获取网格中心下拉框数据</td>
+<td>/dict/querySysOrgDataByZjCenterIds</td>
+<td>post</td>
+<td>{"zjCenterIds": [{{zjCenterId}},7]}</td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":2001}</td>
+<td>预期值: 2001，实测值: 200</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>13</th>
+<td></td>
+<td>正常</td>
+<td>字典管理</td>
+<td>获取政监中心下拉框数据</td>
+<td>/dict/queryZjCenterData</td>
+<td>get</td>
+<td></td>
+<td>金浩</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+</body></html>

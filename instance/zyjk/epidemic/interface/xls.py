@@ -93,7 +93,6 @@ class XLS:
         # print(l_casesuit)
         return l_casesuit
 
-    # def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, iCheckResponse,  g_dict, s_sql, g_userDefined, iAssert, tester, caseQty):
 
     def result(self, excelNo, iType, iSort, iName, iPath, iMethod, iParam, tester, responseCheck, selectSql, selectSqlCheck, fileLocation, g_var, caseQty):
 

@@ -877,22 +877,6 @@ class OpenpyxlPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
-
-    def xlsx2db(self, varExcelFile, varTable, host, name, password, db, port):
-        '''
-        6 将excel表格导入数据库(覆盖)
-        :return:
-        Openpyxl_PO.xlsx2db("d:/test.xlsx", "table1", "192.168.0.234", "root", "123456", "epd", 3306))
-        '''
-
-        try:
-            Mysql_PO = MysqlPO(host, name, password, db, port)
-            engine = Mysql_PO.getMysqldbEngine()
-            df = pd.read_excel(varExcelFile)
-            df.to_sql(varTable, con=engine, if_exists='replace', index=False)
-        except Exception as e:
-            print(e)
-
 if __name__ == "__main__":
 
     Sys_PO.killPid('EXCEL.EXE')
@@ -1030,5 +1014,3 @@ if __name__ == "__main__":
     # Openpyxl_PO.setCellColorByCmpSheets("Sheet1", "Sheet2")
     # Openpyxl_PO.open()
 
-    # print("6 将excel表格导入数据库".center(100, "-"))
-    # Openpyxl_PO.xlsx2db("d:/test.xlsx", "table1", "192.168.0.234", "root", "123456", "epd", 3306)
