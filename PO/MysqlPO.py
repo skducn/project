@@ -14,8 +14,8 @@
 #***************************************************************
 
 '''
-pandas引擎（pymysql）
-pandas引擎（mysqldb）
+pandas引擎（pymysql）  getPymysqlEngine()
+pandas引擎（mysqldb）  getMysqldbEngine()
 
 1，查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
 2，搜索表记录 dbRecord('*', 'money', '%34.5%')
@@ -24,6 +24,7 @@ pandas引擎（mysqldb）
 4.1，数据库表导出excel db2xlsx()
 4.2，数据库表导出html db2html()
 4.3，数据库表导出csv db2csv()
+4.4 excel导入数据库表 xlsx2db()
 
 5 将所有表结构导出到excel(覆盖)  dbDesc2xlsx（）
 
@@ -41,19 +42,56 @@ from PO.NewexcelPO import *
 
 class MysqlPO():
 
-    def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
+    # def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
+    #
+    #
+    #     self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
+    #     self.cur = self.conn.cursor()
+    #     self.cur.execute('SET NAMES utf8;')
+    #     # self.conn.set_character_set('utf8')
+    #     self.cur.execute('show tables')
 
+
+    def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
         self.varHost = varHost
         self.varUser = varUser
         self.varPassword = varPassword
         self.varDB = varDB
         self.varPort = int(varPort)
 
-        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
-        self.cur = self.conn.cursor()
-        self.cur.execute('SET NAMES utf8;')
-        # self.conn.set_character_set('utf8')
-        self.cur.execute('show tables')
+    def __GetConnect(self):
+        # 得到数据库连接信息，返回conn.cursor()
+        if not self.varDB:
+            raise (NameError, "没有设置数据库信息")
+        self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.varDB, port=int(self.varPort), use_unicode=True)
+        self.cur = self.conn.cursor()  # 创建一个游标对象
+        if not self.cur:
+            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
+        else:
+            return self.cur
+
+    def execQuery(self, sql):
+
+        ''' 执行查询语句
+        返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
+        '''
+
+        cur = self.__GetConnect()
+        self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
+        cur.execute(sql)
+
+        try:
+            result = cur.fetchall()
+        except:
+            self.conn.commit()
+            cur.close()
+            self.conn.close()
+            return
+        self.conn.commit()
+        cur.close()
+        self.conn.close()
+        return result
+
 
     def getPymysqlEngine(self):
         # pandas引擎（pymysql）
@@ -460,14 +498,31 @@ class MysqlPO():
         :param toHtml:
         :return:
                 # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\index1.html")
+                参考：https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_html.html
+                css加载，https://blog.csdn.net/qq_38316655/article/details/104663077
+                颜色，https://www.jianshu.com/p/946481cd288a
+                https://www.jianshu.com/p/946481cd288a
         '''
 
         try:
             df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
-            df.to_html(htmlFile)
+            df.to_html(htmlFile,col_space=100,na_rep="0")
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
+    def xlsx2db(self, varExcelFile, varTable, usecols=None, nrows=None, skiprows=None, dtype=None, parse_dates=None, date_parser=None, converters=None, sheet_name=None):
+        '''
+        4.4 excel导入数据库表(覆盖)
+        :return:
+
+        参数参考：https://zhuanlan.zhihu.com/p/96203752
+        '''
+
+        try:
+            df = pd.read_excel(varExcelFile, usecols=usecols, nrows=nrows, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
+            df.to_sql(varTable, con=self.getMysqldbEngine(), if_exists='replace', index=False)
+        except Exception as e:
+            print(e)
 
     def dbDesc2xlsx(self, varFileName):
         '''
@@ -602,11 +657,25 @@ if __name__ == '__main__':
     # Mysql_PO.dbCreateDate('<', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
 
 
-    # print("4.1，使用pandas将数据库表导出excel".center(100, "-"))
-    Mysql_PO.db2xlsx("select * from ba_area", "data/ba_area.xlsx")
+    # print("4.1，数据库表导出excel".center(100, "-"))
+    # Mysql_PO.db2xlsx("select * from ba_area", "data/ba_area.xlsx")
 
-    # print("4.2，使用pandas将数据库表导出html".center(100, "-"))
+    # print("4.2，数据库表导出html".center(100, "-"))
     # Mysql_PO.db2html("select * from ep_zj_center", "d:\\index1.html")
+
+    print("4.4 excel导入数据库表".center(100, "-"))
+    Mysql_PO.xlsx2db("data/testcase2.xlsx", "testcase2", sheet_name="case")
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", usecols=eval("range(4)"), nrows=6, dtype={'No.': str, '金额': float},parse_dates=['isRun'], date_parser=lambda x: pd.to_datetime(x, format='%Y%m'))  # 读取表格中前3列、前6行数据写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", usecols=eval("range(4)"), nrows=6, converters={'isRun': lambda x: pd.to_datetime(x, format='%Y%m')})  # 读取表格中前3列、前6行数据写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", eval("range(3)"), 6, skiprows=range(1, 100, 2), sheet_name="case")  # 读取表格中前3列、前6行数据写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", eval("range(3)"), 6, range(1, 100, 2))  # 读取表格中前3列、前6行数据写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", "A,C,E", None)  # 读取表格中A,C,E3列数据写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", "A:F", None)  # 读取表格中A-F 列数据写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", [0,3,4,5], None)  # 读取表格中4列数据写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", ['interURL','一级属性'], None)  # 读取表格中['interURL','一级属性']列数据写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", lambda x: x in ['班级', 'interURL', '语文'], None)  # 读取表格中符合（存在）['班级', 'interURL', '语文']列数据，并写入数据库表
+    # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", lambda x: x in ['班级', 'interURL', '语文'], None, sheet_name="case")  # 读取表格中符合（存在）['班级', 'interURL', '语文']列数据，并写入数据库表
+
 
 
     # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
