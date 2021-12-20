@@ -8,12 +8,15 @@
 # pip3 install jsonpath for cmd
 # pip3 install pymysql for cmd
 # pip3 install mysqlclient  (MySQLdb) for cmd
+# css样式（外链） https://blog.csdn.net/qq_38316655/article/details/104663077
+# css样式（内嵌） https://www.cnpython.com/qa/91356
 # *****************************************************************
 import sys
 sys.path.append("../../../../")
 
-import json, jsonpath, os
-import pandas as pd
+import json, jsonpath
+from PO.TimePO import *
+Time_PO = TimePO()
 import reflection
 import readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
@@ -47,17 +50,19 @@ Data_PO = DataPO()
 from HtmlPO import *
 Html_PO = HtmlPO()
 import pandas as pd
-from time import strftime, localtime
-import time
+
 
 class Run:
 
     def __init__(self):
 
-        self.d_tmp = {}  # 临时字典
+        # 全局字典
+        self.d_tmp = {}
+
         # 导入数据库表
         # Mysql_PO.xlsx2db("testcase2.xlsx", "testcase2", sheet_name="case")
         Mysql_PO.xlsx2db(xlsName, testTable, sheet_name=xlsSheetName)
+
         # 执行exec非N的用例
         self.df = pd.read_sql_query("select * from %s where exec is null" % (testTable), Mysql_PO.getMysqldbEngine())
 
@@ -114,7 +119,6 @@ class Run:
             d_res = None
         else:
             d_res = json.loads(res)
-
 
 
         # 3i检查返回值 iCheckResponse（如 $.code=200）
@@ -234,20 +238,22 @@ if __name__ == '__main__':
 
         # 参数：数据库表序号，名称，路径，方法，参数，i检查返回值，s表值，s检查表值,全局变量
         # print("- -" *100)
-        print(str(indexs) + ", " + r[3] + "_" *100)
+        print(str(indexs) + ", " + str(r[3]) + "_" *100)
         run.result(indexs, r[3], r[4], r[5], r[6], r[9], r[11], r[12], r[16])
 
         run.df.loc[indexs]['i返回值'] = ""   # 不写入，因为内容过多表里可能报错
         run.df.to_sql(testTable, con=Mysql_PO.getMysqldbEngine(), if_exists='replace', index=False)
 
     # 生成report.html
-    df = pd.read_sql(sql="select * from %s" % (testTable), con=Mysql_PO.getPymysqlEngine())
+    df = pd.read_sql(sql="select 类型,模块,名称,参数,i结果,s表值,s检查表值,s结果,全局变量 from %s" % (testTable), con=Mysql_PO.getPymysqlEngine())
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
-    html = '''<html><head><title>招远防疫防控接口自动化报告</title></head>
-    <body><caption>招远防疫防控接口自动化报告</caption>{table}</body></html>'''
+    html = '''<html><head><title>接口自动化报告</title></head>    
+    <body><b><caption>招远疫情防控接口自动化报告''' + str(Time_PO.getDate_divide()) + '''</caption></b><br><br>{table}</body></html>'''
+    style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
+    rptName = "report/" + str(rptName) + str(Time_PO.getDatetime()) + ".html"
     with open(rptName, 'w') as f:
-        f.write(html.format(table=df.to_html(classes=None, col_space=100)))
-        # f.write(html.format(table=df.to_html(col_space=100)))
+        f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100)))
+        # f.write(html.format(table=df.to_html(classes="mystyle", col_space=50)))
 
     # df.to_html(htmlFile,col_space=100,na_rep="0")
 
