@@ -44,7 +44,7 @@ print(c)  # ChainMap({'a': 1, 'g': 22}, {'c': 3, 'd': 4}, {'b': 4, 'c': 5}, {'d'
 # 将字典key转换列表（去重）
 baseline = {'music': 'bach', 'art': 'rembrandt'}
 adjustments = {'art': 'van gogh', 'opera': 'carmen'}
-print(ChainMap(adjustments, baseline))
+# print(ChainMap(adjustments, baseline))
 print(list(ChainMap(adjustments, baseline)))
 
 print("____________")

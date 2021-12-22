@@ -14,7 +14,7 @@ print(sys.float_info)
 print("2，/求商".center(100, "-"))
 print(6//2)  # 3
 
-print("3，//求商数（整数除法），结果值是一个整数，但结果的类型不一定是 int。".center(100, "-"))
+print("3，//求商数（整数除法），结果值是一个整数，但结果的类型不一定是 int".center(100, "-"))
 print(5//3)  # 1
 print(type(5//3))  # <class 'int'>
 # 运算结果总是向负无穷的方向舍入，如下：
@@ -52,7 +52,7 @@ print(float('inf')/float('inf'))  # nan
 # print("6，x % y 的余数，不可用于复数".center(100, "-"))
 # 6，x % y 的余数，不可用于复数。 而应在适当条件下使用 abs() 转换为浮点数。
 
-print("7，divmod（x, y） 表示求商数求余数".center(100, "-"))
+print("7，divmod（x, y） 表示求商数及余数".center(100, "-"))
 # 如(x // y, x % y)
 print(divmod(5, 3))  # (1,2)
 
@@ -67,11 +67,23 @@ print(y)  # 4.4j    //没有实部
 
 print("9，浮点数转整数".center(100, "-"))
 import math
-print(math.trunc(111.73))   # 111  //x 截断为 Integral
-print(math.floor(100.56))  # 100   //<= x 的最大 Integral
-print(math.ceil(100.01))   # 101   //>= x 的最小 Integral
+# math.trunc 返回整数（去掉小数部分）
+print(math.trunc(-111.73))   # -111
+print(math.trunc(111.73))   # 111
+
+# math.floor 返回的整数要小于等于整数部分
+print(math.floor(100.56))  # 100
+print(math.floor(-100.16))  # -101
+
+# math.ceil 返回的整数要大于等于整数部分
+print(math.ceil(100.01))   # 101
+print(math.ceil(-100.01))   # -100
+
+# round 四舍五入，保留N位
 print(round(123.45, 1))   # 123.5   //四舍五入保留1位
 print(round(123.44, 1))   # 123.4   //四舍五入保留1位
 
+# int 取整
+print(int(-111.7))
 
 

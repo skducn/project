@@ -80,6 +80,8 @@ from PO.MysqlPO import *
 3.4 获取每列数据 l_getColValue()
 3.5 获取指定列的行数据 l_getRowValueByPartCol()
 3.6 获取某些列的列数据，可忽略多行 l_getColValueByPartCol()
+3.7 获取单元格的坐标 getCoordinate()
+3.8 获取工作表数据的坐标 getdimensions()
 
 4.1 清空行 clsRow()
 4.2 清空列 clsCol()
@@ -99,6 +101,11 @@ class OpenpyxlPO():
         self.file = file
         self.wb = openpyxl.load_workbook(self.file)
         self.wb.sheetnames  # 工作表名称
+        # self.wb.active  # 获取当前活跃的Worksheet对象
+        # self.wb.worksheets  # 以列表的形式返回所有的Worksheet对象
+        # self.wb.encoding  # 获取文档的字符集编码
+        # self.wb.properties  # 获取文档的元数据，如标题，创建者，创建日期等
+        # self.wb.active = 0  # 通过索引值设置当前活跃的worksheet
 
     def sh(self, varSheet):
         if isinstance(varSheet, int):
@@ -195,8 +202,9 @@ class OpenpyxlPO():
         :param varIndex:
         :return:
         # Openpyxl_PO.addSheet("mySheet1")
-        # Openpyxl_PO.addSheet("mySheet2",99)   # 当index足够大时，则在最后一个位置添加工作表
-         Openpyxl_PO.addSheet("mySheet3", -1)   # 则倒数第二个位置添加工作表。
+        # Openpyxl_PO.addSheet("mySheet1", 0 )  # 在第一个工作表前添加工作表
+        # Openpyxl_PO.addSheet("mySheet2",99)   # 在第99个位置添加工作表
+         Openpyxl_PO.addSheet("mySheet3", -1)   # 在倒数第二个位置添加工作表。
         '''
 
         try:
@@ -698,6 +706,33 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe().f_code.co_name + "() ")
 
+    def getCoordinate(self, varRow, varCol, varSheet=0):
+        '''
+        3.7 获取单元格的坐标
+        :return:
+        '''
+        try:
+            sh = self.sh(varSheet)
+            print(sh.dimensions)
+            return sh.cell(row=varRow, column=varCol).coordinate
+
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
+                sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+    def getdimensions(self, varSheet=0):
+        '''
+        3.8 获取工作表数据的坐标
+        :return:
+        '''
+        try:
+            sh = self.sh(varSheet)
+            return (sh.dimensions)
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
+                sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+
 
 
     def clsRow(self, varNums, varSheet=0):
@@ -983,6 +1018,11 @@ if __name__ == "__main__":
     # print(Openpyxl_PO.l_getColValueByPartCol([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
     # # print(Openpyxl_PO.l_getColValueByPartCol([2], [], "python"))  # 获取第2列所有值。
 
+    # print("3.7 获取单元格的坐标".center(100, "-"))
+    # print(Openpyxl_PO.getCoordinate(2, 5))   # E2
+
+    # print("3.8 获取工作表数据的坐标".center(100, "-"))
+    print(Openpyxl_PO.getdimensions())  # A1:E17
 
 
     # print("4.1 清空行".center(100, "-"))

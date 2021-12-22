@@ -13,7 +13,7 @@ import uuid
 
 class SSHConnection(object):
 
-    def __init__(self, host='192.168.1.110', port=22, username='jh', pwd='jinhao123'):
+    def __init__(self, host='192.168.0.243 ', port=22, username='root', pwd='Benetech79$#-'):
         self.host = host
         self.port = port
         self.username = username
