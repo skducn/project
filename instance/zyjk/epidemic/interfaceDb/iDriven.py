@@ -103,6 +103,7 @@ class HTTP:
         # print("\nmethod => get")
         # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
         res = result.text
+        print("\nresponse => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -135,6 +136,8 @@ class HTTP:
         # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
         # print("\nheaders => " + str(self.session.headers) + "\n")
         res = result.text
+        print("\nresponse => " + str(res))
+
         try:
             res = res[res.find('{'):res.rfind('}')+1]
         except Exception as e:
@@ -158,6 +161,7 @@ class HTTP:
             print("\ncurrVar => " + str(d_var))
         # d_var = json.loads(g_var)
         res = result.text
+        print("\nresponse => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}')+1]
         except Exception as e:
@@ -202,6 +206,7 @@ class HTTP:
         # print("\nheaders => " + str(self.session.headers) + "\n")
         # d_var = json.loads(g_var)
         res = result.text
+        print("\nresponse => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:

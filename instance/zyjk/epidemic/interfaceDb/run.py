@@ -21,6 +21,8 @@ import reflection
 import readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
 from MysqlPO import *
+from PO.NetPO import *
+Net_PO = NetPO()
 
 xlsName = localReadConfig.get_system("xlsName")
 rptName = localReadConfig.get_system("rptName")
@@ -267,5 +269,12 @@ if __name__ == '__main__':
     # 另存为report.html
     tf = open(rptName, 'w', encoding='utf-8')
     tf.write(str(html_text))
+    tf.close()
 
+    os.system("start ./" + rptName)
 
+    # Net_PO.sendEmail("令狐冲", 'skducn@163.com', "h.jin@zy-healthtech.com",
+    #                  "招远疫情防控接口自动化报告" + str(Time_PO.getDate_minus()),
+    #                  "你好，\n\n以下是本次自动化接口测试结果，请查阅。\n\n\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。\n测试组\nBest Regards",
+    #                  rptName,
+    #                  "","", "")

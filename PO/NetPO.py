@@ -36,21 +36,16 @@ class NetPO():
         # 发163邮件
         # 注意：邮件主题为‘test’时，会出现错误。
         # 163邮箱需要设置 客户端授权密码为开启，并且脚本中设置的登录密码是授权码
-        # 参数：发送者邮箱，接收者邮箱，主题，邮件正文，附件图片，附件文档，附件html名，附件html正文。
-        # sendEmail("昵称",'skducn@163.com',"skducn@163.com",
-        #           "屏幕劫持",
-        #           "开发同学，您好！\n\n\n 以下是本次接口测试报错信息，请检查。\n\n" + "tesst" + "\n\n 如果这不是您的邮件请忽略，很抱歉打扰您，请原谅。\n\n" \
-        #           "(这是一封自动产生的email，请勿回复) \n\nCETC测试组 \n\nBest Regards",
-        #           "","","",""
-        #           )
+        # 参数：发送者昵称，发送者邮箱，接收者邮箱，主题，邮件正文，附件文档,附件图片，附件html名，附件html正文。
+
 
         # sendEmail("昵称",'skducn@163.com',
         #           "skducn@163.com",
         #           "屏幕劫持",
         #           "开发同学，您好！\n\n\n 以下是本次接口测试报错信息，请检查。\n\n" + "tesst" + "\n\n 如果这不是您的邮件请忽略，很抱歉打扰您，请原谅。\n\n" \
         #           "(这是一封自动产生的email，请勿回复) \n\nCETC测试组 \n\nBest Regards",
-        #           r'D:\\51\\python\\project\\common\\20190918160419金浩.jpg',
         #           r'D:\\51\\python\\project\\common\\code测试.txt',
+        #           r'D:\\51\\python\\project\\common\\20190918160419金浩.jpg',
         #           "我的.html",
         #           """
         #           <html>
@@ -65,55 +60,56 @@ class NetPO():
         #           """
         #           )
 
-        try:
-            msg = email.mime.multipart.MIMEMultipart()
-            # msg['From'] = varFrom   # 发件人：skducn@163.com
-            # 自定义处理邮件收发地址的显示内容，如： 令狐冲<skducn@163.com>
-            # 将邮件的name转换成utf-8格式，addr如果是unicode，则转换utf-8输出，否则直接输出addr，如：令狐冲<skducn@163.com>
-            name, addr = parseaddr(varNickNameByFrom + u' <%s>' % varFrom)
-            msg['From'] =formataddr((Header(name, 'utf-8').encode(), addr))  # 发件人： 令狐冲<skducn@163.com>
+        # try:
+        msg = email.mime.multipart.MIMEMultipart()
+        # msg['From'] = varFrom   # 发件人：skducn@163.com
+        # 自定义处理邮件收发地址的显示内容，如： 令狐冲<skducn@163.com>
+        # 将邮件的name转换成utf-8格式，addr如果是unicode，则转换utf-8输出，否则直接输出addr，如：令狐冲<skducn@163.com>
+        name, addr = parseaddr(varNickNameByFrom + u' <%s>' % varFrom)
+        msg['From'] =formataddr((Header(name, 'utf-8').encode(), addr))  # 发件人： 令狐冲<skducn@163.com>
 
-            if "," in varTo:
-                # 收件人为多个收件人
-                varTo = [varTo.split(",")[0], varTo.split(",")[1]]
+        if "," in varTo:
+            # 收件人为多个收件人
+            varTo = [varTo.split(",")[0], varTo.split(",")[1]]
 
-            '''主题'''
-            msg['Subject'] = Header(varSubject, 'utf-8').encode()
-            txt = MIMEText(varConent, 'plain', 'utf-8')
-            msg.attach(txt)
+        '''主题'''
+        msg['Subject'] = Header(varSubject, 'utf-8').encode()
+        txt = MIMEText(varConent, 'plain', 'utf-8')
+        msg.attach(txt)
 
-            '''附件图片'''
-            if varPic != "":
-                sendimagefile = open(varPic, 'rb').read()
-                image = MIMEImage(sendimagefile)
-                # image.add_header('Content-ID', '<image1>')  # 默认文件名
-                image.add_header("Content-Disposition", "attachment", filename=("utf-8", "", os.path.basename(varPic)))
-                msg.attach(image)
+        ''' 附件文件 '''
+        if varFile != "":
+            sendfile = open(varFile, 'rb').read()
+            text_att = MIMEText(sendfile, 'base64', 'utf-8')
+            text_att["Content-Type"] = 'application/octet-stream'
+            # text_att.add_header('Content-Disposition', 'attachment', filename='interface.xls')   # 不支持中文格式文件名
+            text_att.add_header("Content-Disposition", "attachment",
+                                filename=("utf-8", "", os.path.basename(varFile)))  # 支持中文格式文件名
+            msg.attach(text_att)
 
-            ''' 附件文件 '''
-            if varFile != "":
-                sendfile = open(varFile, 'rb').read()
-                text_att = MIMEText(sendfile, 'base64', 'utf-8')
-                text_att["Content-Type"] = 'application/octet-stream'
-                # text_att.add_header('Content-Disposition', 'attachment', filename='interface.xls')   # 不支持中文格式文件名
-                text_att.add_header("Content-Disposition", "attachment",
-                                    filename=("utf-8", "", os.path.basename(varFile)))  # 支持中文格式文件名
-                msg.attach(text_att)
+        '''附件图片'''
+        if varPic != "":
+            sendimagefile = open(varPic, 'rb').read()
+            image = MIMEImage(sendimagefile)
+            # image.add_header('Content-ID', '<image1>')  # 默认文件名
+            image.add_header("Content-Disposition", "attachment", filename=("utf-8", "", os.path.basename(varPic)))
+            msg.attach(image)
 
-            '''附件HTML'''
-            if varHtmlFileName != "" and varHtmlContent != "":
-                text_html = MIMEText(varHtmlContent, 'html', 'utf-8')
-                text_html.add_header("Content-Disposition", "attachment", filename=("utf-8", "", varHtmlFileName))
-                msg.attach(text_html)
 
-            smtp = smtplib.SMTP()
-            smtp.connect('smtp.163.com', '25')
-            smtp.login(varFrom, str(base64.b64decode("amluaGFvMTIzbak"), encoding="utf-8"))  # byte转str
-            smtp.sendmail(varFrom, varTo, msg.as_string())
-            smtp.quit()
-            print(u"邮件已发送给：" + str(varTo))
-        except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+        '''附件HTML'''
+        if varHtmlFileName != "" and varHtmlContent != "":
+            text_html = MIMEText(varHtmlContent, 'html', 'utf-8')
+            text_html.add_header("Content-Disposition", "attachment", filename=("utf-8", "", varHtmlFileName))
+            msg.attach(text_html)
+
+        smtp = smtplib.SMTP()
+        smtp.connect('smtp.163.com', '25')
+        smtp.login(varFrom, "MKOMAGNTQDECWXFI")
+        smtp.sendmail(varFrom, varTo, msg.as_string())
+        smtp.quit()
+        print(u"[Ok]，邮件已发送至：" + str(varTo))
+        # except:
+        #     print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
 
     # 2.1，下载程序
@@ -263,3 +259,10 @@ if __name__ == '__main__':
     # print("3，将图片转换成二进制或字符串".center(100, "-"))
     # print(Net_PO.image2strOrByte(r"d:\\test\\aaa.png"))
     # print(Net_PO.image2strOrByte(r"d:\\test\\aaa.png", "byte"))
+
+    Net_PO.sendEmail("令狐冲", 'skducn@163.com', "h.jin@zy-healthtech.com",
+              "招远防疫接口自动化测试结果",
+              "你好，\n\n以下是本次自动化接口测试结果，请查阅。\n\n\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
+              r'D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interfaceDb\\report123.html', r'D:\\a.jpg',"",""
+              )
+
