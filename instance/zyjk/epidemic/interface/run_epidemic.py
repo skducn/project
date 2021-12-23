@@ -3,8 +3,8 @@
 # Author        : John
 # Date          : 2021-11-15
 # Description   : 招远防疫 epidemic 接口自动化
-# 接口文档1：http://192.168.0.237:8001/swagger-ui.html
-# 接口文旦2：http://192.168.0.243:8001/doc.html#/
+# swagger接口文档：http://192.168.0.237:8001/swagger-ui.html
+# hfa系统用户中心api文档：http://192.168.0.243:8001/doc.html#/
 # web页：http://192.168.0.243:8002/admin/notice/index  （测试243， 开发237）
 # pip3 install nose-parameterized   for cmd
 # pip3 install BeautifulReport for cmd
