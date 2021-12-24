@@ -33,7 +33,6 @@ Type code      C Type     Minimum size in bytes   python Type
 '''
 
 
-
 # array 提供的方法如下
 # append() -- append a new item to the end of the array
 # buffer_info() -- return information giving the current memory info

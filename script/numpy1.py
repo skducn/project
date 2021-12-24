@@ -5,10 +5,7 @@
 # Description: numpy (Numerical Python) 多维数组对象
 # NumPy 是一个运行速度非常快的数学库，主要用于数组计算
 # ndarray = N-dimensional array 多维度数组
-# 一个强大的N维数组对象 ndarray
-# 广播功能函数
-# 整合 C/C++/Fortran 代码的工具
-# 线性代数、傅里叶变换、随机数生成等功能
+# 广播功能函数、整合 C/C++/Fortran 代码的工具、线性代数、傅里叶变换、随机数生成等功能
 # NumPy 通常与 SciPy（Scientific Python）和 Matplotlib（绘图库）一起使用， 这种组合广泛用于替代 MatLab，是一个强大的科学计算环境，有助于我们通过 Python 学习数据科学或者机器学习。
 # SciPy 是一个开源的 Python 算法库和数学工具包。
 # SciPy 包含的模块有最优化、线性代数、积分、插值、特殊函数、快速傅里叶变换、信号处理和图像处理、常微分方程求解和其他科学与工程中常用的计算。
@@ -29,7 +26,7 @@
 
 '''
 1.1 数据源是list时，array和asarray一样，复制一个副本，占用新的内存。
-1.2, 数据源是numpy.ndarray时，array()复制一个副本，占用新的内存，而 asarray() 沿用原数据源内存地址。
+1.2 数据源是numpy.ndarray时，array()复制一个副本，占用新的内存，而 asarray() 沿用原数据源内存地址。
 1.3 asarray() 转换数据类型（float32或int32）
 1.4 asarray() 判断元素，符合条件更新为1，否则为0"
 
@@ -50,231 +47,213 @@
 import numpy as np
 import pandas as pd
 
-print("1.1 数据源是list时，array和asarray一样，复制一个副本，占用新的内存。".center(100, "-"))
-list1 = [[1], [2], [3]]
-b = np.array(list1)
-c = np.asarray(list1)
-list1[2] = 55
-print(list1)
-# [[1], [2], 55]
-print(b)
-# [[1]
-#  [2]
-#  [3]]
-print(c)
-# [[1]
-#  [2]
-#  [3]]
-
-print("1.2, 数据源是numpy.ndarray时，array()复制一个副本，占用新的内存，而 asarray() 沿用原数据源内存地址。".center(100, "-"))
-a = np.zeros((2, 3))
-print(type(a))  # <class 'numpy.ndarray'>
-b = np.array(a)  # 复制副本
-c = np.asarray(a)  # 沿用源数据地址
-a[0][0] = 1
-print(a)
-# [[1. 0. 0.]
-#  [0. 0. 0.]]
-print(b)
-# [[0. 0. 0.]
-#  [0. 0. 0.]]
-print(c)
-# [[1. 0. 0.]
-#  [0. 0. 0.]]
-
-
-print("1.3 asarray() 转换数据类型（float32或int32）".center(100, "-"))
-l = [55, 66]
-print(np.asarray(l))  # [55 66]
-print(np.asarray(l).dtype)  # int32
-f = np.asarray(l, "f")
-print(f.dtype)  # float32
-print(f)  # [55. 66.]
-i = np.asarray(l, "i")
-print(i.dtype)  # int32
-print(i)  # [55 66]
-
-
-print("1.4 asarray() 判断元素，符合条件更新为1，否则为0".center(100, "-"))
-data = np.asarray([[51, 2], [-3, 0]])
-data1 = np.asarray(data > 0, "i")
-print(data1)
-# [[1 1]
-#  [0 0]]
-data2 = np.asarray(data < -1, "i")
-print(data2)
-# [[0 0]
-#  [1 0]]
-data3 = np.asarray(data > 0, "f")
-print(data3)
-# [[1. 1.]
-#  [0. 0.]]
-
-
-print("2, array() 将数据转为数组".center(100, "-"))
-data = [1, 2, 3]
-print(np.array(data))  # [1 2 3]
-print(type(np.array(data)))  # <class 'numpy.ndarray'>
-print(np.array(data).dtype)  # int32
-
-data = ((9, 10), (11.15, 12))
-print(np.array(data))
-# [[ 9 10]
-#  [11 12]]
-print(type(np.array(data)))  # <class 'numpy.ndarray'>
-print(np.array(data).dtype)  # float64
-print(data[1][0])  # 11.15
-
-data = "4,5,678"
-print(np.array(data))  # 4,5,678
-print(type(np.array(data)))  # <class 'numpy.ndarray'>
-print(np.array(data).dtype)  # <U7
-
-data = {"a": 88, "b": 123}
-print(np.array(data))  # {'a': 88, 'b': 123}
-print(type(np.array(data)))  # <class 'numpy.ndarray'>
-print(np.array(data).dtype)  # object
-
-
-print("3.1, arange() 生成序列数组(默认int32)".center(100, "-"))
-print(np.arange(10))  # [0 1 2 3 4 5 6 7 8 9]
-print(np.arange(1, 10))  # [1 2 3 4 5 6 7 8 9]
-print(np.arange(1, 10, 3))  # [1 4 7]
-print(np.arange(1, 10, 3)[2])  # 7
-a = np.arange(1, 13)
-print(a)  # [ 1  2  3  4  5  6  7  8  9 10 11 12]
-print(type(a))  # <class 'numpy.ndarray'>
-print(a.dtype)  # int32
-
-print("3.2, arange().reshape 生成序列多维数组".center(100, "-"))
-a = np.arange(1, 25).reshape(4, 2, 3)  # reshape表示重新定义维度，如：4个2行3列的多维数组
-print(a)
-# [[[ 1  2  3]
-#   [ 4  5  6]]
+# print("1.1 数据源是list时，array和asarray一样，复制一个副本，占用新的内存。".center(100, "-"))
+# list1 = [[1], [2], [3]]
+# newList = np.array(list1)  # 等同于 newList = np.asarray(list1)
+# print(newList)
+# # [[1]
+# #  [2]
+# #  [3]]
 #
-#  [[ 7  8  9]
-#   [10 11 12]]
 #
-#  [[13 14 15]
-#   [16 17 18]]
+# print("1.2, 数据源是numpy.ndarray时，array()复制一个副本，占用新的内存，而 asarray() 沿用原数据源内存地址。".center(100, "-"))
+# a = np.zeros((2, 3))
+# print(type(a))  # <class 'numpy.ndarray'>
+# b = np.array(a)  # 复制副本
+# c = np.asarray(a)  # 沿用源数据地址
+# a[0][0] = 1
+# print(a)
+# # [[1. 0. 0.]
+# #  [0. 0. 0.]]
+# print(b)
+# # [[0. 0. 0.]
+# #  [0. 0. 0.]]
+# print(c)
+# # [[1. 0. 0.]
+# #  [0. 0. 0.]]
 #
-#  [[19 20 21]
-#   [22 23 24]]]
-
-
-print("4，np.ones() 返回一个全1的n维数组及运算后的值".center(100, "-"))
-# numpy.ones(shape, dtype=None, order='C')
-# shape : 数组的形状，例如 (2, 3) 或 2.
-# dtype : 数组的数据类型，默认为float64. (i = int32, f = float32)
-# order : 数组元素在内存中的排列方式，默认 'C’表示C语言排列方式，或者‘F’表示 Fortran 语言排列方式.
-a = np.ones(5)
-print(a)  # [1. 1. 1. 1. 1.]
-print(a.dtype)  # float64
-
-b = np.ones(5, "i")  # 等同于 b = np.ones(5,dtype=np.int32)
-print(b)  # [1 1 1 1 1]
-print(b.dtype)  # int32
-
-c = np.ones(5, dtype=np.int64)
-print(c)  # [1 1 1 1 1]
-print(c.dtype)  # int64
-
-d = np.ones(5, "f")  # array([1., 1., 1., 1., 1.], dtype=float32)
-print(d)  # [1. 1. 1. 1. 1.]
-print(d.dtype)  # float32
-
-e = np.ones((3, 5))  # array([[1.],[1.],[1.]])
-print(e)  # //输出的shape，3行5列的二维数组
-# [[1. 1. 1. 1. 1.]
-#  [1. 1. 1. 1. 1.]
-#  [1. 1. 1. 1. 1.]]
-print(e.dtype)  # float64
-
-f = np.ones([3, 4, 2], "i")
-print(f)
-# [[[1 1]
-#   [1 1]
-#   [1 1]
-#   [1 1]]
 #
-#  [[1 1]
-#   [1 1]
-#   [1 1]
-#   [1 1]]
+# print("1.3 asarray() 转换数据类型（float32或int32）".center(100, "-"))
+# l = [55, 66]
+# print(np.asarray(l))  # [55 66]
+# print(np.asarray(l).dtype)  # int32
+# f = np.asarray(l, "f")
+# print(f.dtype)  # float32
+# print(f)  # [55. 66.]
+# i = np.asarray(l, "i")
+# print(i.dtype)  # int32
+# print(i)  # [55 66]
 #
-#  [[1 1]
-#   [1 1]
-#   [1 1]
-#   [1 1]]]
-print(f.dtype)  # int32
-print(np.ones(5)/5)   #  [0.2 0.2 0.2 0.2 0.2]
+#
+# print("1.4 asarray() 判断元素，符合条件更新为1，否则为0".center(100, "-"))
+# data = np.asarray([[51, 2], [-3, 0]])
+# data1 = np.asarray(data > 0, "i")
+# print(data1)
+# # [[1 1]
+# #  [0 0]]
+# data2 = np.asarray(data < -1, "i")
+# print(data2)
+# # [[0 0]
+# #  [1 0]]
+# data3 = np.asarray(data > 0, "f")
+# print(data3)
+# # [[1. 1.]
+# #  [0. 0.]]
+#
+#
+# print("2, array() 将数据转为数组".center(100, "-"))
+# data = [1, 2, 3]
+# print(np.array(data))  # [1 2 3]
+# print(np.array(data).dtype)  # int32
+#
+# data = ((9, 10), (11.15, 12))
+# print(np.array(data))
+# # [[ 9.   10.  ]
+# #  [11.15 12.  ]]
+# print(data[1][0])  # 11.15
+# print(np.array(data).dtype)  # float64
+#
+# data = "4,5,678"
+# print(np.array(data))  # 4,5,678
+# print(np.array(data).dtype)  # <U7
+#
+# data = {"a": 88, "b": 123}
+# print(np.array(data))  # {'a': 88, 'b': 123}
+# print(np.array(data).dtype)  # object
+#
+#
+# print("3.1, arange() 生成序列数组(默认int32)".center(100, "-"))
+# print(np.arange(10))  # [0 1 2 3 4 5 6 7 8 9]
+# print(np.arange(1, 10))  # [1 2 3 4 5 6 7 8 9]
+# print(np.arange(1, 10, 3))  # [1 4 7]
+# print(np.arange(1, 10, 3)[2])  # 7
+# a = np.arange(1, 13)
+# print(a)  # [ 1  2  3  4  5  6  7  8  9 10 11 12]
+# print(a.dtype)  # int32
+#
+# print("3.2, arange().reshape 生成序列多维数组".center(100, "-"))
+# a = np.arange(1, 25).reshape(4, 2, 3)  # reshape表示重新定义维度，如：4个2行3列的多维数组
+# print(a)
+# # [[[ 1  2  3]
+# #   [ 4  5  6]]
+# #
+# #  [[ 7  8  9]
+# #   [10 11 12]]
+# #
+# #  [[13 14 15]
+# #   [16 17 18]]
+# #
+# #  [[19 20 21]
+# #   [22 23 24]]]
+#
+#
+# print("4，np.ones() 返回一个全1的n维数组及运算后的值".center(100, "-"))
+# # numpy.ones(shape, dtype=None, order='C')
+# # shape : 数组的形状，例如 (2, 3) 或 2.
+# # dtype : 数组的数据类型，默认为float64. (i = int32, f = float32)
+# # order : 数组元素在内存中的排列方式，默认 'C’表示C语言排列方式，或者‘F’表示 Fortran 语言排列方式.
+# a = np.ones(5)
+# print(a)  # [1. 1. 1. 1. 1.]
+# print(a.dtype)  # float64
+#
+# b = np.ones(5, "i")  # 等同于 b = np.ones(5,dtype=np.int32)
+# print(b)  # [1 1 1 1 1]
+# print(b.dtype)  # int32
+#
+# c = np.ones(5, dtype=np.int64)
+# print(c)  # [1 1 1 1 1]
+# print(c.dtype)  # int64
+#
+# d = np.ones(5, "f")  # array([1., 1., 1., 1., 1.], dtype=float32)
+# print(d)  # [1. 1. 1. 1. 1.]
+# print(d.dtype)  # float32
+#
+# e = np.ones((3, 5))  # array([[1.],[1.],[1.]])
+# print(e)  # //输出的shape，3行5列的二维数组
+# # [[1. 1. 1. 1. 1.]
+# #  [1. 1. 1. 1. 1.]
+# #  [1. 1. 1. 1. 1.]]
+# print(e.dtype)  # float64
+#
+# f = np.ones([3, 4, 2], "i")
+# print(f)
+# # [[[1 1]
+# #   [1 1]
+# #   [1 1]
+# #   [1 1]]
+# #
+# #  [[1 1]
+# #   [1 1]
+# #   [1 1]
+# #   [1 1]]
+# #
+# #  [[1 1]
+# #   [1 1]
+# #   [1 1]
+# #   [1 1]]]
+# print(f.dtype)  # int32
+# print(np.ones(5)/5)   #  [0.2 0.2 0.2 0.2 0.2]
+#
+#
+# print("5，维度与维数".center(100, "-"))
+# M = np.array(((np.arange(3)), (np.arange(3))))
+# print(M)  # [[0, 1, 2],[0, 1, 2]]
+# print(M.shape)  # (2, 3)
+# print(M.ndim)  # 2    //二维
+#
+#
+# print("6，N 数组矩阵列相加与行相加".center(100, "-"))
+# a = [0, 1, 2]
+# b = [2, 1, 3]
+# c = [5, 5, 1]
+# x = np.array([a, b, c])
+# arr_a = np.sum(x, axis=0)  # 列相加
+# arr_b = np.sum(x, axis=1)  # 行相加
+# print(arr_a)  # [7 7 8]
+# print(arr_b)  # [3 6 11]
+#
+#
+# print("7，数组统计（平均数、合计、平铺）".center(100, "-"))
+# x = np.array([1, 2, 3])
+# print(x.mean())   # 2.0  //平均数
+# print(x.sum())   # 6  //合计
+# print(np.tile(x, 1))  # [1,2,3]  //不变
+# print(np.tile(x, 2))   # [1,2,3,1,2,3]   //维度不变，值扩大2倍
+# print(np.tile(x, 4))   # [1 2 3 1 2 3 1 2 3 1 2 3]  //维度不变，值扩大4倍
+# print(np.tile(x, (1, 2)))   # [1,2,3,1,2,3]  //维度不变，值扩大2倍
+# print(np.tile(x, (2, 2)))   # [1,2,3,1,2,3],[1,2,3,1,2,3]  //维度扩大2倍，值扩大2倍
+# print(np.tile(x, (2, 1)))   # [1,2,3],[1,2,3]  //维度扩大2倍，值不变
 
 
-print("5，维度与维数".center(100, "-"))
-M = np.array(((np.arange(3)), (np.arange(3))))
-print(M)  # [[0, 1, 2],[0, 1, 2]]
-print(M.shape)  # (2, 3)
-print(M.ndim)  # 2    //二维
 
+print("8，随机生成N行M列的二维数组".center(100, "-"))
+arr = np.random.rand(4, 4)
+# [[0.50398151 0.49137049 0.57337883 0.8637965 ]
+#  [0.45352152 0.02176194 0.09520183 0.86945503]
+#  [0.56745522 0.65480827 0.02221036 0.90495728]
+#  [0.70681986 0.19456123 0.5346386  0.95599382]]
+print(arr)
 
-print("6，N 数组矩阵列相加与行相加".center(100, "-"))
-a = [0, 1, 2]
-b = [2, 1, 3]
-c = [5, 5, 1]
-x = np.array([a, b, c])
-arr_a = np.sum(x, axis=0)  # /列相加
-arr_b = np.sum(x, axis=1)  # 行相加
-print(arr_a)  # [7 7 8]
-print(arr_b)  # [3 6 11]
-print(type(arr_a))  # <class 'numpy.ndarray'>
-for i in range(len(arr_b)):
-    print(arr_b[i])
-# 3
-# 6
-# 11
-
-
-print("7，数组统计（平均数、合计、平铺）".center(100, "-"))
-x = np.array([1, 2, 3])
-print(x.mean())   # 2.0  //平均数
-print(x.sum())   # 6  //合计
-print(np.tile(x, 1))  # [1,2,3]  //不变
-print(np.tile(x, 2))   # [1,2,3,1,2,3]   //维度不变，值扩大2倍
-print(np.tile(x, 4))   # [1 2 3 1 2 3 1 2 3 1 2 3]  //维度不变，值扩大4倍
-print(np.tile(x, (1, 2)))   # [1,2,3,1,2,3]  //维度不变，值扩大2倍
-print(np.tile(x, (2, 2)))   # [1,2,3,1,2,3],[1,2,3,1,2,3]  //维度扩大2倍，值扩大2倍
-print(np.tile(x, (2, 1)))   # [1,2,3],[1,2,3]  //维度扩大2倍，值不变
-
-
-
-# print("8，随机生成N行M列的二维数组".center(100, "-"))
-# arr = np.random.rand(4, 4)
-# # [[0.50398151 0.49137049 0.57337883 0.8637965 ]
-# #  [0.45352152 0.02176194 0.09520183 0.86945503]
-# #  [0.56745522 0.65480827 0.02221036 0.90495728]
-# #  [0.70681986 0.19456123 0.5346386  0.95599382]]
-# print(arr)
-
-print("8，三维数组（面、直线、点）".center(100, "-"))
+print("9，三维数组（面、直线、点）".center(100, "-"))
 x = np.arange(27)
-x = np.reshape(x, (3,3,3))
+x = np.reshape(x, (3, 3, 3))
 print('第1个水平面', x[0])
 print('第2个水平面', x[1])
 print('第3个水平面', x[2])
 print('第1个面的第一个直线 ', x[0][0])
 print('第1个面的第二个直线', x[0][1])
 print('第1个面的第三个直线', x[0][2])
-print("第1个面的第一条直线的第一个点",x[0][0][0])
-print("第1个面的第一条直线的第二个点",x[0][0][1])
-print("第1个面的第一条直线的第三个点",x[0][0][2])
+print("第1个面的第一条直线的第一个点", x[0][0][0])
+print("第1个面的第一条直线的第二个点", x[0][0][1])
+print("第1个面的第一条直线的第三个点", x[0][0][2])
 
 
 
-print("9，empty()并不能保证返回所有是0的数组，某些情况下，会返回为初始化的垃圾数值".center(100, "-"))
+print("10，empty()并不能保证返回所有是0的数组，某些情况下，会返回为初始化的垃圾数值".center(100, "-"))
 print(np.empty(5))  # [5.e-324 5.e-324 5.e-324 5.e-324 5.e-324]
 
 
-print("10.1，astype()类型转换".center(100, "-"))
+print("11.1，astype()类型转换".center(100, "-"))
 a = np.array([1, 2, 3, 432323123123, 5])
 print(a.dtype)  # int64
 print(a.astype(np.float64))  # [1.00000000e+00 2.00000000e+00 3.00000000e+00 4.32323123e+11 5.00000000e+00]
@@ -282,12 +261,12 @@ a = a.astype(np.float64)
 print(a.dtype)  # float64
 
 
-print("10.2，astype() 如果是把float变为int，小数点后的部分会被丢弃".center(100, "-"))
+print("11.2，astype() 如果是把float变为int，小数点后的部分会被丢弃".center(100, "-"))
 arr = np.array([3.7, -1.2, -2.6, 0.5, 12.9, 10.1])
 print(arr.astype(np.int32))  # [ 3 -1 -2  0 12 10]
 
 
-print("10.3，astype() 把string里的数字变为实际的数字".center(100, "-"))
+print("11.3，astype() 把string里的数字变为实际的数字".center(100, "-"))
 # numpy.string_类型，这种类型的长度是固定的，所以可能会直接截取部分输入而不给警告。
 numeric_strings = np.array(['1.25', '-9.6', '42'], dtype=np.string_)
 print(numeric_strings)  # [b'1.25' b'-9.6' b'42']
@@ -295,13 +274,13 @@ print(numeric_strings.dtype)  # |S4
 print(numeric_strings.astype(float))  # [ 1.25 -9.6  42.  ]
 
 
-print("10.4，astype() 用其他数组的dtype直接来制定类型".center(100, "-"))
+print("11.4，astype() 用其他数组的dtype直接来制定类型".center(100, "-"))
 i = np.arange(10)
 calibers = np.array([.22, .270, .357, .380, .44, .50], dtype=np.float64)
 print(i.astype(calibers.dtype))  # [0. 1. 2. 3. 4. 5. 6. 7. 8. 9.]
 
 
-print("10.5，用类型的缩写，比如u4就代表unit32".center(100, "-"))
+print("11.5，用类型的缩写，比如u4就代表unit32".center(100, "-"))
 empty_unit32 = np.ones(2, dtype='u4')
 print(empty_unit32)  # [1 1]
 
@@ -309,7 +288,7 @@ print(empty_unit32)  # [1 1]
 
 
 
-print("11，数组和标量之间的运算".center(100, "-"))
+print("12，数组和标量之间的运算".center(100, "-"))
 # 数组可对数据执行批量运算，叫矢量化。
 # 大小相等的数组之间的任何算术运算都会将运算应用到元素级
 arr = np.array([[1., 2., 3.], [4., 5., 6.]])
@@ -680,24 +659,24 @@ print(b)
 #  [0. 0. 1. 0.]]
 
 
-print("21, 利用numpy 生成one_hot 数组".center(100, "-"))
-# one_hot数组
-test_labels=[1,2,3,4,5,6,7]
-print(test_labels)
-adata = np.array(test_labels)
-print(adata)
-def make_one_hot(data1):
-    return (np.arange(8) == data1[:,None]).astype(np.integer)
-
-my_one_hot = make_one_hot(adata)
-print(my_one_hot)
-# [[0 1 0 0 0 0 0 0]
-#  [0 0 1 0 0 0 0 0]
-#  [0 0 0 1 0 0 0 0]
-#  [0 0 0 0 1 0 0 0]
-#  [0 0 0 0 0 1 0 0]
-#  [0 0 0 0 0 0 1 0]
-#  [0 0 0 0 0 0 0 1]]
+# print("21, 利用numpy 生成one_hot 数组".center(100, "-"))
+# # one_hot数组
+# test_labels=[1,2,3,4,5,6,7]
+# print(test_labels)
+# adata = np.array(test_labels)
+# print(adata)
+# def make_one_hot(data1):
+#     return (np.arange(8) == data1[:,None]).astype(np.integer)
+#
+# my_one_hot = make_one_hot(adata)
+# print(my_one_hot)
+# # [[0 1 0 0 0 0 0 0]
+# #  [0 0 1 0 0 0 0 0]
+# #  [0 0 0 1 0 0 0 0]
+# #  [0 0 0 0 1 0 0 0]
+# #  [0 0 0 0 0 1 0 0]
+# #  [0 0 0 0 0 0 1 0]
+# #  [0 0 0 0 0 0 0 1]]
 
 
 print("23, 生成对角线的矩阵方阵".center(100, "-"))
@@ -897,15 +876,15 @@ print(array)
 # [[ 1. nan  3.]
 #  [ 4.  5. nan]]
 
-print("31.2，pd.isna() 判断缺省值是nan，返回布尔值".center(100, "-"))
-print(pd.isna(array))
-# [[False  True False]
-#  [False False  True]]
+# print("31.2，pd.isna() 判断缺省值是nan，返回布尔值".center(100, "-"))
+# print(pd.isna(array))
+# # [[False  True False]
+# #  [False False  True]]
 
-print("31.3，pd.notna() 判断缺省值不是nan，返回布尔值".center(100, "-"))
-print(pd.notna(array))
-# [[ True False  True]
-#  [ True  True False]]
+# print("31.3，pd.notna() 判断缺省值不是nan，返回布尔值".center(100, "-"))
+# print(pd.notna(array))
+# # [[ True False  True]
+# #  [ True  True False]]
 
 print("31.4，np.isnan() 遍历将nan替换成一个默认值".center(100, "-"))
 array[np.isnan(array)] = 100
@@ -914,20 +893,20 @@ print(array)
 #  [  4.   5. 100.]]
 
 
-print("31.5 缺省值判断,NA值如None或np.nan, NaT将映射True值。''或np.inf不被视为NA值".center(100, "-"))
-print(pd.isna(None))  # True
-print(pd.isna(np.nan))  # True
-# 索引，返回一个布尔值的ndarray
-index = pd.DatetimeIndex(["2019-12-12", "2021-05-12", None])
-print(index)  # DatetimeIndex(['2019-12-12', '2021-05-12', 'NaT'], dtype='datetime64[ns]', freq=None)
-print(pd.isna(index))  # [False False  True]
+# print("31.5 缺省值判断,NA值如None或np.nan, NaT将映射True值。''或np.inf不被视为NA值".center(100, "-"))
+# print(pd.isna(None))  # True
+# print(pd.isna(np.nan))  # True
+# # 索引，返回一个布尔值的ndarray
+# index = pd.DatetimeIndex(["2019-12-12", "2021-05-12", None])
+# print(index)  # DatetimeIndex(['2019-12-12', '2021-05-12', 'NaT'], dtype='datetime64[ns]', freq=None)
+# print(pd.isna(index))  # [False False  True]
 
-s= pd.Series([1, 2,np.nan,np.inf,''])
-print(s)
-df = pd.DataFrame([s.tolist()],columns=list('ABCDE'))
-print(df)
-print(s.isna().tolist())  # [False, False, True, False, False]
-print(df.isna().values.tolist())  # [[False, False, True, False, False]]
-
-
-print(np.nan != np.nan)  # True
+# s= pd.Series([1, 2,np.nan,np.inf,''])
+# print(s)
+# df = pd.DataFrame([s.tolist()],columns=list('ABCDE'))
+# print(df)
+# print(s.isna().tolist())  # [False, False, True, False, False]
+# print(df.isna().values.tolist())  # [[False, False, True, False, False]]
+#
+#
+# print(np.nan != np.nan)  # True

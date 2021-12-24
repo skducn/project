@@ -20,38 +20,45 @@
 # os.path.supports_unicode_filenames  #设置是否支持unicode路径名
 # *********************************************************************
 '''
-# 1，环境变量
-1.1 os.environ.keys() 获取环境变量信息
-1.2 os.getenv("JAVA_HOME") 获取环境变量的值
-1.3 sys.path.append() 添加路径到系统环境变量
-1.4 os.path.expandvars(path)用法
+1，环境变量
+1.1 获取环境变量信息 os.environ.keys()
+      获取环境变量的值 os.getenv("JAVA_HOME")
+1.2 添加路径到系统环境变量 sys.path.append()
+1.3 根据环境变量的值替换path  os.path.expandvars(path)
 
-# 2，路径
-2.1 os.getcwd() 获取当前路径（反斜线）
-2.2 os.path.dirname(__file__) 获取当前路径
-2.3 File_PO.getUpPath() 获取上层目录路径（反斜线）
-2.4 File_PO.getUpPathSlash() 获取上层目录路径
-2.5 File_PO.getLayerPath("../../") 获取自定义上层目录路径
-2.6 File_PO.getChdirPath() 切换路径，影响os.getcwd()
+2，路径
+2.1 获取当前路径（反斜线，D:\51\python\） os.getcwd()
+2.2 获取当前路径 os.path.dirname(__file__)
+2.3 获取上层目录路径（反斜线） File_PO.getUpPath()
+2.4 获取上层目录路径 File_PO.getUpPathSlash()
+2.5 获取自定义上层目录路径 File_PO.getLayerPath("../../")
+2.6 切换路径（影响os.getcwd()） File_PO.getChdirPath()
 
- # 3，目录与文件
-3.1 getListDir  获取路径下目录及文件清单（排列顺序按照数字、字符、中文输出）
-3.2 getWalk  获取路径下目录及文件清单（包括路径）
-3.3 getListFile 获取文件清单
-3.4 os.path.basename 获取路径中的文件名
-3.5 getFileSize 获取文件大小（字节数）
-3.6 os.path.split 分割路径和文件名
-3.7 os.path.splitext 分割文件名和扩展名
-3.8 os.path.splitdrive 分割驱动器名和路径（用在windows下）
-3.9 os.path.dirname 去掉路径后端文件名或目录（就是os.path.split(path)的第一个元素）
-3.10 os.path.join 连接两个或更多的路径名组件
-3.11 os.path.commonprefix 获取列表中公共最长路径
-3.12 os.path.abspath  获取规范化的绝对路径
-3.13 os.path.isabs  判断路径是否是绝对路径
-3.14 os.path.isdir  判断路径是否是目录
-3.15 os.path.isfile  判断路径是否是文件
+3，目录与文件
+3.1 获取路径下目录及文件清单（排列顺序按照数字、字符、中文输出） getListDir()
+3.2 获取路径下目录及文件清单（包括路径） getWalk()
+3.3 获取文件清单  getListFile()
+3.4 获取路径中的文件名 os.path.basename()
+3.5 获取文件大小（字节数）getFileSize()
+3.6 分割路径和文件名  os.path.split()
+3.7 分割文件名和扩展名  os.path.splitext()
+3.8 分割驱动器名和路径（用在windows下） os.path.splitdrive
+3.9 去掉路径后端文件名或目录（就是os.path.split(path)的第一个元素）os.path.dirname
+3.10 连接两个或更多的路径名组件 os.path.join
+3.11 获取列表中公共最长路径 os.path.commonprefix
+3.12 获取规范化的绝对路径 os.path.abspath
+3.13 判断路径是否是绝对路径 os.path.isabs
+3.14 判断目录是否存在 os.path.isdir  或 print(pathlib.Path("d:\\51\\python1").exists())
+3.15 判断文件是否存在 os.path.isfile  或     print(pathlib.Path("d:\\a1.jpg").is_file())
+3.16 遍历目录中指定扩展名文件
+3.17 判断文件的存在、读、写、执行
+	文件是否存在 print(os.access("d:\\a.jpg", os.F_OK))
+	文件是否可读 print(os.access("d:\\a.jpg", os.R_OK))
+	文件是否可以写入 print(os.access("d:\\a.jpg", os.W_OK))
+	文件是否可以执行  print(os.access("d:\\a.jpg", os.X_OK))
+3.18 判断文件类型 isFileType()
 
-# 4，操作目录文件
+4，操作目录文件
 4.1 newFolder  新建目录
 4.2 newLayerFolder  新建多级目录
 4.3 copyFolder  复制目录
@@ -65,25 +72,9 @@
 4.11 deltreeFolder  强制删除目录
 4.12  delCascadeFiles  级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）
 
-5.1 文件是否存在  os.path.isfile("test-data")
-5.2 目录是否存在  os.path.exists(test_dir)
-5.3 路径是否存在
-import pathlib
-path = pathlib.Path("path/file")
-path.exist()
-5.4 文件是否存在
-path = pathlib.Path("path/file")
-path.is_file()
-
-6 判断文件是否可做读写操作 os.access("/file/path/foo.txt", os.F_OK)
-os.F_OK: 检查文件是否存在
-os.R_OK: 检查文件是否可读
-os.W_OK: 检查文件是否可以写入
-os.X_OK: 检查文件是否可以执行
-
 '''
 
-import os, shutil, glob, sys
+import os, shutil, glob, sys, pathlib, mimetypes
 
 class FilePO():
 
@@ -177,6 +168,12 @@ class FilePO():
                 if ext in EXTEND:
                     name = os.path.join(varPath, im_name)
                     filelist.append(name)
+
+    # 3.18  判断文件类型
+    def isFileType(self, varFileName):
+
+        mime = mimetypes.guess_type(varFileName)
+        return str(mime[0])
 
 
 
@@ -356,6 +353,7 @@ if __name__ == "__main__":
     # print(os.path.expandvars(path))  # D:/thunder/train/13.png
     #
     #
+
     # print("2.1 获取当前路径（反斜线）".center(100, "-"))
     # print(os.getcwd())  # D:\51\python\project\PO\FilePO
     #
@@ -377,6 +375,7 @@ if __name__ == "__main__":
     # print(os.getcwd())  # D:\51\python
     #
     #
+
     # print("3.1 获取路径下目录及文件清单（排列顺序按照数字、字符、中文输出）".center(100, "-"))
     # print(File_PO.getListDir("D:\\51\\python\\project"))  # ['.git', '.gitignore', '.idea', 'instance', 'lib', 'PO', 'PO.7z', 'README.md', 'script', 'test', 'venv']
     # print(File_PO.getListDir())  # ['00doc', 'install', 'project', 'project2020.03.20.7z', 'project20200319.7z', 'Python27.zip']  //默认输出os.getcwd()系统当前路径下内容。
@@ -407,9 +406,9 @@ if __name__ == "__main__":
     # print(File_PO.getFileSize("D:\\51\\python\\project\\PO\\FilePO\\test.txt"))  # 46
     #
     # print("3.6 分割路径和文件名".center(100, "-"))
-    print(os.path.split('D:\\51\\python\\project\\PO\\123.txt'))  # ('D:\\51\\python\\project\\PO', '123.txt')
-    x = os.path.split('D:\\51\\python\\project\\PO\\123.txt')
-    print(x[1])
+    # print(os.path.split('D:\\51\\python\\project\\PO\\123.txt'))  # ('D:\\51\\python\\project\\PO', '123.txt')
+    # x = os.path.split('D:\\51\\python\\project\\PO\\123.txt')
+    # print(x[1])
     # varPath, varFile = os.path.split("E:/lpthw/zedshaw/ex19.py")
     # print(varPath)  # E:/lpthw/zedshaw
     # print(varFile)  # ex19.py
@@ -447,19 +446,32 @@ if __name__ == "__main__":
     # print(os.path.isabs("\sbc"))  # True   , 控制台中输入'\sbc' 返回 '\\sbc', 在Windows系统上，以 \\ 开头的字符串，os.path.isabs就会返回True
     # print(os.path.isabs("/sbc"))  # True    在window系统下，如果输入的字符串以" / "开头，os.path.isabs()就会返回True
     #
-    # print("3.14 判断路径是否是目录".center(100, "-"))
+    # print("3.14 判断目录是否存在".center(100, "-"))
     # print(os.path.isdir(""))  # False
     # print(os.path.isdir("d:\\51\\python"))  # True
     #
-    # print("3.15 判断路径是否是文件".center(100, "-"))
+    # print("3.15 判断文件是否存在".center(100, "-"))
     # print(os.path.isfile("D:\\51\\python\\project\\PO\\FilePO\\test.txt"))  # True
     #
     # print("3.16 遍历目录中指定扩展名文件".center(100, "-"))
     # filelist = []
     # File_PO.getfilelist(filelist, "../test/upload", [".png", ".jpg"])
     # print(filelist)
-    #
-    #
+
+    # # print("3.18 判断文件类型".center(100, "-"))
+    # print(File_PO.isFileType("d:\\1.xlsx"))
+    # print(File_PO.isFileType("d:\\p.txt"))
+    # print(File_PO.isFileType("d:\\a.jpg"))
+    # print(File_PO.isFileType("d:\\index1.html"))
+    # print(File_PO.isFileType("d:\\0.1.11.json"))
+    # print(File_PO.isFileType("d:\\0.1.11.json.7z"))
+    # print(File_PO.isFileType("d:\\yy.doc"))
+    # print(File_PO.isFileType("d:\\320210701_181145.mp4"))
+    # print(File_PO.isFileType("d:\\QQ截图20210926112508.png"))
+    # print(File_PO.isFileType("d:\\p.jpg"))
+    # print(File_PO.isFileType("d:\\p.pdf"))
+    # print(File_PO.isFileType("d:\\线性代数.xmind"))
+
     #
     # print("4.1 新建目录".center(100, "-"))
     # # File_PO.newFolder(os.getcwd() + "/filepo/")  # 在当前目录下创建 filepo 目录
@@ -469,7 +481,7 @@ if __name__ == "__main__":
     #
     # print("4.2 新建多级目录".center(100, "-"))
     # # File_PO.newLayerFolder(os.getcwd() + "/filepo/filepo2/h1/h2")  # 新建 filepo1/h1/h2 三层目录，目录存在则忽略
-    File_PO.newLayerFolder("d:\\999\\苹果")
+    # File_PO.newLayerFolder("d:\\999\\苹果")
     #
     # print("4.3 复制目录".center(100, "-"))
     # # File_PO.copyFolder(os.getcwd() + "/filepo/filepo1", os.getcwd() + "/filepo/filepo2")  # 如果目标目录已存在则忽略。
@@ -519,4 +531,5 @@ if __name__ == "__main__":
     #
     # print("4.12 级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）".center(100, "-"))
     # # File_PO.delCascadeFiles("d:/test1")
+
 
