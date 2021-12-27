@@ -124,38 +124,38 @@ class Run:
 
 
         # 3i检查返回值 iCheckResponse（如 $.code=200）
-        try:
-            if d_res != None:
-                varSign = ""
-                d_responseCheck = json.loads(responseCheck)
-                if len(d_responseCheck) == 1:
-                    for k, v in d_responseCheck.items():
-                        iResValue = jsonpath.jsonpath(d_res, expr=k)
+        # try:
+        if d_res != None:
+            varSign = ""
+            d_responseCheck = json.loads(responseCheck)
+            if len(d_responseCheck) == 1:
+                for k, v in d_responseCheck.items():
+                    iResValue = jsonpath.jsonpath(d_res, expr=k)
 
-                        if v == iResValue[0]:
-                            # print("\n<font color='blue'>responseCheck => " + str(k) + " = " + str(v) + " </font>")
-                            self.setDb(indexs, "Ok", None)
-                        else:
-                            self.setDb(indexs,  "预期值: " + str(v) + "，实测值: " + str(iResValue[0]), None)
-                            # assert v == iResValue[0], "预期值: " + str(v) + "，实测值: " + iResValue
-                else:
-                    for k, v in d_responseCheck.items():
-                        iResValue = jsonpath.jsonpath(d_res, expr=k)
-                        if v == iResValue[0]:
-                            pass
-                            # print("\n<font color='blue'>responseCheck => " + str(k) + " = " + str(v) + " </font>")
-                        else:
-                            # print("\n<font color='red'>responseCheck => " + str(k) + " != " + str(v) + " </font>")
-                            varSign = "error"
-                    if varSign == "error":
+                    if v == iResValue[0]:
+                        # print("\n<font color='blue'>responseCheck => " + str(k) + " = " + str(v) + " </font>")
+                        self.setDb(indexs, "Ok", None)
+                    else:
                         self.setDb(indexs,  "预期值: " + str(v) + "，实测值: " + str(iResValue[0]), None)
                         # assert v == iResValue[0], "预期值: " + str(v) + "，实测值: " + iResValue
+            else:
+                for k, v in d_responseCheck.items():
+                    iResValue = jsonpath.jsonpath(d_res, expr=k)
+                    if v == iResValue[0]:
+                        pass
+                        # print("\n<font color='blue'>responseCheck => " + str(k) + " = " + str(v) + " </font>")
                     else:
-                        self.setDb(indexs,  "Ok", None)
+                        # print("\n<font color='red'>responseCheck => " + str(k) + " != " + str(v) + " </font>")
+                        varSign = "error"
+                if varSign == "error":
+                    self.setDb(indexs,  "预期值: " + str(v) + "，实测值: " + str(iResValue[0]), None)
+                    # assert v == iResValue[0], "预期值: " + str(v) + "，实测值: " + iResValue
+                else:
+                    self.setDb(indexs,  "Ok", None)
 
-        except Exception as e:
-            print(e.__traceback__)
-            assert 1 == 0, "【i检查返回值】列有误，请检查参数或变量是否引用正确！"
+        # except Exception as e:
+        #     print(e.__traceback__)
+        #     assert 1 == 0, "【i检查返回值】列有误，请检查参数或变量是否引用正确！"
 
 
         # s表值
@@ -222,10 +222,11 @@ class Run:
         ''' 写入数据库 '''
 
         if iResult != None:
-            self.df.loc[id]['i结果'] = iResult
+            self.df.loc[:, (id, 'i结果')] = iResult
+            # https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
         if sResult != None:
-            self.df.loc[id]['s结果'] = sResult
+            self.df.loc[:, (id, 's结果')] = sResult
 
 
 
@@ -234,27 +235,25 @@ if __name__ == '__main__':
     run = Run()
 
     # 遍历所有用例
+
     for indexs in run.df.index:
-        # print(run.df.loc[indexs].values[0:-1])
         r = run.df.loc[indexs].values[0:-1]
 
-        # 参数：数据库表序号，名称，路径，方法，参数，i检查返回值，s表值，s检查表值,全局变量
-        # print("- -" *100)
-        print(str(indexs) + ", " + str(r[3]) + "_" *100)
-        run.result(indexs, r[3], r[4], r[5], r[6], r[9], r[11], r[12], r[16])
-
-        run.df.loc[indexs]['i返回值'] = ""   # 不写入，因为内容过多表里可能报错
+        print("\n" + str(r[0]) + ", " + str(r[3]) + "_" *100)
+        # 参数：数据库表序号，名称，路径，方法，参数，i检查返回值，s表值，s检查表值, 全局变量
+        run.result(indexs, r[4], r[5], r[6], r[7], r[10], r[12], r[13], r[17])
+        # run.df.loc[indexs]['i返回值'] = ""   # 不写入，因为内容过多表里可能报错
         run.df.to_sql(testTable, con=Mysql_PO.getMysqldbEngine(), if_exists='replace', index=False)
 
     # 生成report.html
-    df = pd.read_sql(sql="select 类型,模块,名称,参数,i结果,s表值,s检查表值,s结果,全局变量 from %s" % (testTable), con=Mysql_PO.getPymysqlEngine())
+    df = pd.read_sql(sql="select id, 类型,模块,名称,参数,i结果,s表值,s检查表值,s结果,全局变量 from %s" % (testTable), con=Mysql_PO.getPymysqlEngine())
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
-    html = '''<html><head><title>接口自动化报告</title></head>    
+    html = '''<html><head><title>接口自动化报告</title></head>
     <body><b><caption>招远疫情防控接口自动化报告''' + str(Time_PO.getDate_divide()) + '''</caption></b><br><br>{table}</body></html>'''
     style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
     rptName = "report/" + str(rptName) + str(Time_PO.getDatetime()) + ".html"
     with open(rptName, 'w') as f:
-        f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100)))
+        f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
         # f.write(html.format(table=df.to_html(classes="mystyle", col_space=50)))
 
     # df.to_html(htmlFile,col_space=100,na_rep="0")
@@ -272,9 +271,9 @@ if __name__ == '__main__':
     tf.close()
 
     os.system("start ./" + rptName)
-
-    # Net_PO.sendEmail("令狐冲", 'skducn@163.com', "h.jin@zy-healthtech.com",
-    #                  "招远疫情防控接口自动化报告" + str(Time_PO.getDate_minus()),
-    #                  "你好，\n\n以下是本次自动化接口测试结果，请查阅。\n\n\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。\n测试组\nBest Regards",
-    #                  rptName,
-    #                  "","", "")
+    #
+    # # Net_PO.sendEmail("令狐冲", 'skducn@163.com', "h.jin@zy-healthtech.com",
+    # #                  "招远疫情防控接口自动化报告" + str(Time_PO.getDate_minus()),
+    # #                  "你好，\n\n以下是本次自动化接口测试结果，请查阅。\n\n\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。\n测试组\nBest Regards",
+    # #                  rptName,
+    # #                  "","", "")
