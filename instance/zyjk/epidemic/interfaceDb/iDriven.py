@@ -103,7 +103,7 @@ class HTTP:
         # print("\nmethod => get")
         # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
         res = result.text
-        print("\nresponse => " + str(res))
+        print("response => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -136,7 +136,7 @@ class HTTP:
         # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
         # print("\nheaders => " + str(self.session.headers) + "\n")
         res = result.text
-        print("\nresponse => " + str(res))
+        print("response => " + str(res))
 
         try:
             res = res[res.find('{'):res.rfind('}')+1]
@@ -149,7 +149,7 @@ class HTTP:
         ''' delete 请求'''
 
         iPath = protocol + "://" + ip + ":" + port + iPath
-        print("\nrequest => " + str(iPath))
+        print("request => " + str(iPath))
         if iParam == None:
             result = self.session.delete(iPath, data=None)
             print("\n<font color='blue'>response => " + str(result.text) + "</font")
@@ -161,7 +161,7 @@ class HTTP:
             print("\ncurrVar => " + str(d_var))
         # d_var = json.loads(g_var)
         res = result.text
-        print("\nresponse => " + str(res))
+        print("response => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}')+1]
         except Exception as e:
@@ -173,7 +173,7 @@ class HTTP:
         '''下载文件get请求'''
 
         iPath = protocol + "://" + ip + ":" + port + iPath
-        print("\nrequest => " + str(iPath))
+        print("request => " + str(iPath))
         # result = self.session.get(path, stream=True)
         r = requests.get(iPath, stream=True)
         f = open(iParam, "wb")
@@ -199,14 +199,14 @@ class HTTP:
         iPath = protocol + "://" + ip + ":" + port + iPath
         result = self.session.post(iPath, data=m, headers=self.headers)
         self.jsonres = json.loads(result.text)
-        print("\nrequest => " + str(iPath))
-        print("\nupFile => " + str(filePath))
-        print("\n<font color='blue'>response => " + str(result.text) + "</font>\n")
+        print("request => " + str(iPath))
+        print("upFile => " + str(filePath))
+        print("<font color='blue'>response => " + str(result.text) + "</font>\n")
         self.headers = {"Content-Type": "application/json"}
         # print("\nheaders => " + str(self.session.headers) + "\n")
         # d_var = json.loads(g_var)
         res = result.text
-        print("\nresponse => " + str(res))
+        print("response => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
