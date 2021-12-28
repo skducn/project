@@ -37,6 +37,7 @@ class Ximalaya:
 
 		# 获取专辑音频总数
 		cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId))
+		# print(cjson)
 		if cjson["ret"] != 200 :
 			print("[errorrrrrrrrr] albumId不存在！")
 			os._exit(0)
@@ -54,7 +55,7 @@ class Ximalaya:
 					pageNum = trackTotalCount // 30 + 1
 			print("总页数：" + str(pageNum))
 
-			# 生成列表1，[index,标题]
+			# 获取 [index, 标题] ，生成列表1
 			l_indexTitle = []
 			l_tmp = []
 			for num in range(1, pageNum + 1):
@@ -76,22 +77,27 @@ class Ximalaya:
 						l_tmp.append(title)
 						l_indexTitle.append(l_tmp)
 						l_tmp = []
+			# print(l_indexTitle)
 
-			# 生成列表2，[标题，地址]
+			# 获取[标题，地址]，生成列表2
 			l_titleSrc = []
 			l_tmp = []
 			for num in range(1, pageNum + 1):
 				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num))
-				for i in range(30):
+				for i in range(cjson['data']['pageSize']):
 					try:
+						if cjson['data']['tracksAudioPlay'][i]['canPlay'] == True:
+							src = cjson['data']['tracksAudioPlay'][i]['src']  # 下载链接
+						else:
+							src = ""
 						trackName = cjson['data']['tracksAudioPlay'][i]['trackName']  # 音频标题
-						src = cjson['data']['tracksAudioPlay'][i]['src']  # 下载链接
 						l_tmp.append(trackName)
 						l_tmp.append(src)
 						l_titleSrc.append(l_tmp)
 						l_tmp = []
 					except IndexError:
 						break
+			# print(l_titleSrc)
 
 			# 两列表合并，输出结果
 			for i in range(len(l_indexTitle)):
@@ -153,8 +159,11 @@ class Ximalaya:
 				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num))
 				for i in range(30):
 					try:
+						if cjson['data']['tracksAudioPlay'][i]['canPlay'] == True:
+							src = cjson['data']['tracksAudioPlay'][i]['src']  # 下载链接
+						else:
+							src = ""
 						trackName = cjson['data']['tracksAudioPlay'][i]['trackName']  # 音频标题
-						src = cjson['data']['tracksAudioPlay'][i]['src']  # 下载链接
 						l_tmp.append(trackName)
 						l_tmp.append(src)
 						l_titleSrc.append(l_tmp)
@@ -178,7 +187,7 @@ class Ximalaya:
 						if l_indexTitle[i][2] != None:
 							ir = Html_PO.sessionGet(l_indexTitle[i][2])
 							# 优化文件名不支持的9个字符
-							varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
+							varTitle = Str_PO.escapeSpecialCharacters(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 							print(l_indexTitle[i])
@@ -188,7 +197,7 @@ class Ximalaya:
 
 
 	# 3，多视频下载
-	def downRange(self, albumId, toSave, scope="all"):
+	def downRange(self, albumId, toSave, scope="all", keyword="all"):
 
 		# 获取专辑音频总数
 		cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId))
@@ -241,15 +250,17 @@ class Ximalaya:
 				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num))
 				for i in range(30):
 					try:
+						if cjson['data']['tracksAudioPlay'][i]['canPlay'] == True:
+							src = cjson['data']['tracksAudioPlay'][i]['src']  # 下载链接
+						else:
+							src = ""
+							# if str(src) in ("null", "None"):
+								# print("此为付费音频，无法下载")
 						trackName = cjson['data']['tracksAudioPlay'][i]['trackName']  # 音频标题
-						src = cjson['data']['tracksAudioPlay'][i]['src']  # 下载链接
 						l_tmp.append(trackName)
 						l_tmp.append(src)
 						l_titleSrc.append(l_tmp)
 						l_tmp = []
-						# if str(src) in ("null", "None"):
-						# 	print("此为付费音频，无法下载")
-						# 	break
 					except IndexError:
 						break
 
@@ -265,21 +276,30 @@ class Ximalaya:
 			# 下载
 			for i in range(len(l_indexTitle)):
 				# 下载从序号之前的音频
-				if isinstance(scope, int):
-					if scope >= l_indexTitle[i][0]:
-						ir = Html_PO.sessionGet(l_indexTitle[i][2])
-						# 优化文件名不支持的9个字符
-						varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
-						varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
-						open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
-						print(l_indexTitle[i])
+				if isinstance(keyword, int):
+					if scope == "before":
+						if keyword >= l_indexTitle[i][0]:
+							ir = Html_PO.sessionGet(l_indexTitle[i][2])
+							# 优化文件名不支持的9个字符
+							varTitle = Str_PO.escapeSpecialCharacters(str(l_indexTitle[i][1]))
+							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
+							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
+							print(l_indexTitle[i])
+					elif scope == "after":
+						if keyword <= l_indexTitle[i][0]:
+							ir = Html_PO.sessionGet(l_indexTitle[i][2])
+							# 优化文件名不支持的9个字符
+							varTitle = Str_PO.escapeSpecialCharacters(str(l_indexTitle[i][1]))
+							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
+							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
+							print(l_indexTitle[i])
 				# 下载标题中带关键字的音频
-				if isinstance(scope, str):
-					if scope in l_indexTitle[i][1]:
+				if isinstance(keyword, str):
+					if keyword in l_indexTitle[i][1]:
 						if l_indexTitle[i][2] != None:
 							ir = Html_PO.sessionGet(l_indexTitle[i][2])
 							# 优化文件名不支持的9个字符
-							varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
+							varTitle = Str_PO.escapeSpecialCharacters(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 							open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 							print(l_indexTitle[i])
@@ -289,7 +309,7 @@ class Ximalaya:
 				if scope == "all":
 					ir = Html_PO.sessionGet(l_indexTitle[i][2])
 					# 优化文件名不支持的9个字符
-					varTitle = Str_PO.nonsupportChar(str(l_indexTitle[i][1]))
+					varTitle = Str_PO.escapeSpecialCharacters(str(l_indexTitle[i][1]))
 					varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
 					open(f'{toSave}/{albumTitle}/{varTitle}.mp4', 'wb').write(ir.content)
 					print(l_indexTitle[i])
@@ -302,17 +322,17 @@ if __name__ == '__main__':
 
 	# 1，获取音频列表
 	# ximalaya.getAlbumList("43576130")  # 超级演说家刘媛媛说高效学习法
-	ximalaya.getAlbumList("50196927")  # 超级演说家刘媛媛说高效学习法、提升记忆力
-
+	# ximalaya.getAlbumList("13738175")  # 刘媛媛的晚安电台
 
 
 	# 2，单音频下载
-	# ximalaya.downSingle("13738175", 173, "d:\\500")   # 下载序号《173》的音频
+	# ximalaya.downSingle("13738175", 603, "d:\\500")   # 下载序号为604的音频
 
 
 	# 3，多音频下载
 	# ximalaya.downRange("13738175", "d:\\500")   # 下载所有音频
-	# ximalaya.downRange("13738175", "d:\\500", 3)  # 下载从序号《3》之前的音频
-	# ximalaya.downRange("13738175", "d:\\500", "为什么")   # 下载标题中带“为什么”关键字的音频
+	# ximalaya.downRange("13738175", "d:\\500", "before", 3)  # 下载从序号《3》之前的音频
+	ximalaya.downRange("13738175", "d:\\500", "after", 544)  # 下载从序号《3》之前的音频
+	# ximalaya.downRange("13738175", "d:\\500", keyword="为什么")   # 下载标题中带“为什么”关键字的音频
 
 
