@@ -7,12 +7,12 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # # # 1, 无条件重试，重试之间无间隔
-# from tenacity import retry
-# @retry()
-# def test_retry():
-#     print("等待重试，重试无间隔执行...")
-#     raise Exception
-# test_retry()
+from tenacity import retry
+@retry()
+def test_retry():
+    print("等待重试，重试无间隔执行...")
+    raise Exception
+test_retry()
 
 
 # # 2,无条件重试，但是在重试之前要等待 2 秒

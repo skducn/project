@@ -16,14 +16,14 @@
 s = '中国'
 s_gb1 = s.encode('gb2312')
 s_gb2 = s.encode('utf-8')
-print(s_gb1)  # �й�
-print(s_gb2)  # 中国
+print(s_gb1)  # b'\xd6\xd0\xb9\xfa'
+print(s_gb2)  # b'\xe4\xb8\xad\xe5\x9b\xbd'
 
 #
 # # utf-8,GBK 转 unicode 使用函数unicode(s,encoding) 或者s.decode(encoding)
-# s = u'上海'
-# s_utf8 = s.encode('UTF-8')  # 先将unicode 转 utf-8
-# print s_utf8.decode('utf-8')  # 上海
+s = u'上海'
+s_utf8 = s.encode('UTF-8')  # 先将unicode 转 utf-8
+print(s_utf8.decode('utf-8'))  # 上海
 #
 #
 # # str 转 unicode

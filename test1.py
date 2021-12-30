@@ -9,6 +9,70 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
+from docx import Document
+from docx.shared import Inches
+
+document = Document('demo.docx')
+#
+# document.add_heading('Document Title', 0)
+#
+# p = document.add_paragraph('A plain paragraph having some ')
+# p.add_run('bold').bold = True
+# p.add_run(' and some ')
+# p.add_run('italic.').italic = True
+#
+# document.add_heading('Heading, level 1', level=1)
+# document.add_paragraph('Intense quote', style='Intense Quote')
+#
+# document.add_paragraph(
+#     'first item in unordered list', style='List Bullet'
+# )
+# document.add_paragraph(
+#     'first item in ordered list', style='List Number'
+# )
+#
+# document.add_picture('test.jpg', width=Inches(1.25))
+#
+# records = (
+#     (3, '101', 'Spam'),
+#     (7, '422', 'Eggs'),
+#     (4, '631', 'Spam, spam, eggs, and spam')
+# )
+#
+# table = document.add_table(rows=1, cols=3)
+# hdr_cells = table.rows[0].cells
+# hdr_cells[0].text = 'Qty'
+# hdr_cells[1].text = 'Id'
+# hdr_cells[2].text = 'Desc'
+# for qty, id, desc in records:
+#     row_cells = table.add_row().cells
+#     row_cells[0].text = str(qty)
+#     row_cells[1].text = id
+#     row_cells[2].text = desc
+#
+# document.add_page_break()
+#
+# document.save('demo.docx')
+
+
+
+for para in document.paragraphs:
+    print(para.text)
+    if 'first' in para.text:
+        for run in para.runs:
+            if 'first' in run.text:
+                run.text = run.text.replace('first', '金浩')
+
+for t in document.tables:
+    for i in range(len(t.rows)):
+        for j in range(len(t.columns)):
+            print(t.cell(i, j).text)
+            if 'first' in t.cell(i, j).text:
+                t.cell(i, j).text = t.cell(i, j).text.replace('first', '金浩')
+
+
+document.save('demo.docx')
+
 # import PyV8
 # ctxt = PyV8.JSContext()
 # ctxt.enter()
@@ -22,12 +86,12 @@
 # """)
 # print(func())
 
-def test(*var):
-    print(len(var))
-    print(var)
+# def test(*var):
+#     print(len(var))
+#     print(var)
 
 
-test("aaa")
+# test("aaa")
 # test("aaa","bbb")
 
 # a = {5:[{"member_id":1212}], 6:[{"loan_amount":12},{"loan_":333}] }
