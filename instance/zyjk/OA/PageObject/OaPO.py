@@ -5,7 +5,24 @@
 # Description: OA 对象库
 # *****************************************************************
 
-from instance.zyjk.OA.config.config import *
+import os, sys
+sys.path.append("..")
+
+from config.config import *
+
+import string, numpy
+from string import digits
+from PO.HtmlPO import *
+from PO.ListPO import *
+from PO.TimePO import *
+from PO.ColorPO import *
+from PO.LogPO import *
+from PO.NetPO import *
+from PO.DataPO import *
+from PO.FilePO import *
+from PO.StrPO import *
+from PO.WebPO import *
+
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.select import Select
@@ -26,14 +43,14 @@ class OaPO(object):
     '''打开浏览器'''
     def open(self):
         self.Web_PO = WebPO("chrome")
-        self.Web_PO.closePid("chrome.exe")
         self.Web_PO.openURL(varURL)
         self.Web_PO.driver.maximize_window()  # 全屏
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
 
     '''登录'''
-    def login(self, varUser):
+    def login(self, varUser, varPass):
         self.Web_PO.inputId("name", varUser)
+        self.Web_PO.inputId("password", varPass)
         self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
 
     '''左侧菜单选择模块及浮层模块（无标题）'''
