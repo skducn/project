@@ -7,7 +7,7 @@
 # https://www.douyin.com/
 # 手机版单视频页、列表页 https://v.douyin.com/Jp4GEo6/
 # 网页版单视频页 https://www.douyin.com/video/6979549164304731428
-# 网页版列表页 https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg
+# 网页版列表页 https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg  全说商业
 #***************************************************************
 
 '''
