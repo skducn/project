@@ -237,3 +237,19 @@ for x in range(len(list18)):
         list18.insert(x+1, a)
         list18.remove(list18[x])
 print(list18)  # [11, 22, 33, 300]
+
+
+
+# 7，列表
+l_test = ['a']
+l_test = l_test + [2.0, 3]   # 连接+赋值，这会消耗大量内存。 所以应该用 list.append() 添加元素
+print(l_test)  # ['a', 2.0, 3]
+l_test.insert(0, "tt")
+print(l_test)  # ['tt', 'a', 2.0, 3]
+l_test.extend("abc")
+print(l_test)  # ['tt', 'a', 2.0, 3, 'a', 'b', 'c']
+l_test.extend(["abc"])
+print(l_test)  # ['tt', 'a', 2.0, 3, 'a', 'b', 'c', 'abc']
+
+# 检索列表中元素出现的次数
+print(l_test.count("a"))  # 2
