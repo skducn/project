@@ -118,13 +118,15 @@ class MysqlPO():
         x = y = z = 0
         if len(args) == 0:
             # 查看所有表结构
-            self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
-            tblName = self.cur.fetchall()
+            tblName = self.execQuery('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
+            # self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
+            # tblName = self.cur.fetchall()
             for k in range(len(tblName)):
-                self.cur.execute('select column_name,column_comment,column_type,column_key,is_nullable from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+                tblFields = self.execQuery('select column_name,column_comment,column_type,column_key,is_nullable from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+                # self.cur.execute('select column_name,column_comment,column_type,column_key,is_nullable from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
 
                 # self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
-                tblFields = self.cur.fetchall()
+                # tblFields = self.cur.fetchall()
                 # print(u"\033[1;34;40m", 'printGreen', "\n" + "*" * 50 + " " + tblName[k][0] + "(" + tblName[k][1] + " ) > " + str(len(tblFields)) + "个字段 " + "*" * 50 )
                 a = b = c = d = e = 0
                 for i in tblFields:
@@ -165,37 +167,39 @@ class MysqlPO():
             if "*" in varTable:
                 # 多个表格的所有表结构
                 varTable2 = varTable.split("*")[0] + "%"  # t_store_%
-                self.cur.execute(
-                    'select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (
-                    self.varDB, varTable2))
-                tblCount = self.cur.fetchall()
+                tblCount = self.execQuery('select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (self.varDB, varTable2))
+                # self.cur.execute(
+                #     'select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (
+                #     self.varDB, varTable2))
+                # tblCount = self.cur.fetchall()
                 if len(tblCount) != 0:
                     for p in range(len(tblCount)):
                         # 遍历N张表
                         varTable = tblCount[p][0]
-                        n = self.cur.execute(
-                            'select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (
-                            self.varDB, varTable))
-                        if n == 1:
-                            tblDDL = self.cur.fetchone()
-                            self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
-                            tblFields = self.cur.fetchall()
+                        tblDDL = self.execQuery('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                        # n = self.cur.execute('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                        # tblDDL = self.cur.fetchone()
+                        # if n == 1:
+                            
+                        tblFields = self.execQuery('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                        # self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                        # tblFields = self.cur.fetchall()
 
-                            for i in tblFields:
-                                # 字段与类型对齐
-                                if len(i[0]) > x: x = len(i[0])
-                                if len(i[1]) > y: y = len(i[1])
-                                if len(i[2]) > z: z = len(i[2])
-                            print("-" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
-                                len(tblFields)) + "个字段 " + "\n字段" + " " * (x - 3), "类型" + " " * (y - 3), "可空" + " " * 4,
-                                  "注释")
-                            for i in tblFields:
-                                l_name.append(i[0] + " " * (x - len(i[0]) + 1))
-                                l_type.append(i[1] + " " * (y - len(i[1]) + 1))
-                                l_isnull.append(i[2] + " " * (z - len(i[2]) + 5))
-                                l_comment.append(i[3].replace("\r\n", ",").replace("  ", ""))
-                            for i in range(len(tblFields)):
-                                print(l_name[i], l_type[i], l_isnull[i], l_comment[i])
+                        for i in tblFields:
+                            # 字段与类型对齐
+                            if len(i[0]) > x: x = len(i[0])
+                            if len(i[1]) > y: y = len(i[1])
+                            if len(i[2]) > z: z = len(i[2])
+                        print("-" * 100 + "\n" + varTable + "(" + tblDDL[0] + ") - " + str(
+                            len(tblFields)) + "个字段 " + "\n字段" + " " * (x - 3), "类型" + " " * (y - 3), "可空" + " " * 4,
+                              "注释")
+                        for i in tblFields:
+                            l_name.append(i[0] + " " * (x - len(i[0]) + 1))
+                            l_type.append(i[1] + " " * (y - len(i[1]) + 1))
+                            l_isnull.append(i[2] + " " * (z - len(i[2]) + 5))
+                            l_comment.append(i[3].replace("\r\n", ",").replace("  ", ""))
+                        for i in range(len(tblFields)):
+                            print(l_name[i], l_type[i], l_isnull[i], l_comment[i])
                         l_name = []
                         l_type = []
                         l_comment = []
@@ -204,13 +208,13 @@ class MysqlPO():
                     print("[errorrrrrrr , 数据库" + self.varDB + " 中没有找到 " + varTable.split("*")[0] + " 前缀的表!]")
             elif "*" not in varTable:
                 # 单个表格的所有表结构
-                n = self.cur.execute(
-                    'select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (
-                    self.varDB, varTable))
+                n = self.execQuery('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                # n = self.cur.execute('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
                 if n == 1:
                     tblDDL = self.cur.fetchone()
-                    self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
-                    tblFields = self.cur.fetchall()
+                    tblFields = self.execQuery('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                    # self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                    # tblFields = self.cur.fetchall()
                     for i in tblFields:
                         # 字段与类型对齐
                         if len(i[0]) > x: x = len(i[0])
@@ -236,22 +240,19 @@ class MysqlPO():
             if "*" in varTable:
                 # 多个表格可选字段表结构
                 varTable2 = varTable.split("*")[0] + "%"  # t_store_%
-                self.cur.execute(
-                    'select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (
-                    self.varDB, varTable2))
-                tblCount = self.cur.fetchall()
+                tblCount = self.execQuery('select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (self.varDB, varTable2))
+                # self.cur.execute('select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (self.varDB, varTable2))
+                # tblCount = self.cur.fetchall()
                 for p in range(len(tblCount)):
                     #  遍历N张表
                     varTable = tblCount[p][0]
-                    n = self.cur.execute(
-                        'select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (
-                        self.varDB, varTable))
+                    n = self.execQuery('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                    # n = self.cur.execute('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
                     if n != 0:
                         tblDDL = self.cur.fetchone()
-                        self.cur.execute(
-                            'select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (
-                            self.varDB, varTable))
-                        tblFields = self.cur.fetchall()
+                        tblFields = self.execQuery('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                        # self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                        # tblFields = self.cur.fetchall()
 
                         for i in tblFields:
                             # 字段与类型对齐
@@ -290,16 +291,13 @@ class MysqlPO():
                         print("[errorrrrrrr , 数据库(" + self.varDB + ")中没有找到 " + varTable.split("*")[0] + " 前缀的表!]")
             elif "*" not in varTable:
                 # 单个表格可选字段表结构
-                n = self.cur.execute(
-                    'select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (
-                    self.varDB, varTable))
+                n = self.execQuery('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                # n = self.cur.execute('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
                 if n == 1:
                     tblDDL = self.cur.fetchone()
-                    self.cur.execute(
-                        'select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (
-                        self.varDB, varTable))
-
-                    tblFields = self.cur.fetchall()
+                    tblFields = self.execQuery('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                    # self.cur.execute('select column_name,column_type,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                    # tblFields = self.cur.fetchall()
                     for i in tblFields:
                         # 字段与类型对齐
                         if len(i[0]) > x: x = len(i[0])
@@ -330,33 +328,25 @@ class MysqlPO():
         # 参数2：varType = 数据类型(char,int,double,timestamp)
         # 参数3：varValue = 值 (支持%模糊查询，如 %yy%)
         '''
-        # dbRecord('myclass','char', 'yoyo')  # 报错？
         # dbRecord('*','char', u'%yoy%')  # 模糊搜索所有表中带yoy的char类型。
         # dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
         # dbRecord('*','timestamp', u'%2019-01%')  # 模糊搜索所有表中带2019-01的timestamp类型。
+        # dbRecord('myclass','char', 'yoyo')
         list0 = []
         list1 = []
         x = y = 0
         if varType in "float,money,int,nchar,nvarchar,datetime,timestamp":
+
+            # 遍历所有表
             if "*" in varTable:
-                # 遍历所有表
-                tblCount = self.cur.execute(
-                    'select table_name from information_schema.`TABLES` where table_schema="%s" ' % (self.varDB))
-                if tblCount != 0:
-                    tbl = self.cur.fetchall()
-                    for b in range(tblCount):
-                        # 遍历所有的表 de 列名称、列类别、类注释
+                tbl = self.execQuery('select table_name from information_schema.`TABLES` where table_schema="%s" ' % (self.varDB))
+                if len(tbl) != 0:
+                    for b in range(len(tbl)):
                         varTable = tbl[b][0]
                         # 获取表的注释
-                        self.cur.execute(
-                            'select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (
-                            self.varDB, varTable))
-                        tblDDL = self.cur.fetchone()
+                        tblDDL = self.execQuery('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
                         # 获取列名称、列类别、类注释
-                        self.cur.execute(
-                            'select column_name,column_type,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (
-                            self.varDB, varTable))
-                        tblFields = self.cur.fetchall()
+                        tblFields = self.execQuery('select column_name,column_type,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
                         for i in tblFields:
                             if len(i[0]) > x: x = len(i[0])
                             if len(i[1]) > y: y = len(i[1])
@@ -367,28 +357,24 @@ class MysqlPO():
                         for i in range(0, len(list0)):
                             # print(list0[i]) 过滤系统关键字
                             if list0[i] not in 'desc,limit,key,group,usage':
-                                self.cur.execute('select * from `%s` where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
-                                t4 = self.cur.fetchall()
+                                t4 = self.execQuery('select * from `%s` where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
                                 if len(t4) != 0:
                                     print("- -" * 50)
-                                    print("[search = " + varValue + "] , [result = " + str(len(t4)) + "] , [location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0]) + ")." + list0[i] + "]\n")
+                                    # print("[search = " + varValue + "] , [result = " + str(len(t4)) + "] , [location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0][0]) + ")." + list0[i] + "]\n")
+                                    print("[location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0][0]) + ")." + list0[i] + "]\n")
                                     for j in range(len(t4)):
                                         print(list(t4[j]))
                                     print()
-                        list0 = [];
+                        list0 = []
                         list1 = []
                 else:
                     print("[errorrrrrrr , 数据库(" + self.varDB + ")中没有找到 " + varTable.split("*")[0] + " 前缀的表!]")
+
             elif "*" not in varTable:
-                self.cur.execute(
-                    'select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (
-                    self.varDB, varTable))
-                tblDDL = self.cur.fetchone()
+                tblDDL = self.execQuery('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+
                 # 获取列名称、列类别、类注释
-                self.cur.execute(
-                    'select column_name,column_type,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (
-                    self.varDB, varTable))
-                tblFields = self.cur.fetchall()
+                tblFields = self.execQuery('select column_name,column_type,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
                 for i in tblFields:
                     if len(i[0]) > x: x = len(i[0])
                     if len(i[1]) > y: y = len(i[1])
@@ -398,11 +384,12 @@ class MysqlPO():
                         list1.append(j[1])
                 for i in range(0, len(list0)):
                     if list0[i] not in 'desc,limit,key':
-                        self.cur.execute('select * from %s where %s LIKE "%s"' % (varTable, list0[i], varValue))
-                        t4 = self.cur.fetchall()
+                        t4 = self.execQuery('select * from %s where %s LIKE "%s"' % (varTable, list0[i], varValue))
                         if len(t4) != 0:
                             print("- -" * 50)
-                            print("[search = " + varValue + "] , [result = " + str(len(t4)) + "] , [location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0]) + ")." + list0[i] + "]\n")
+                            # print("[search = " + varValue + "] , [result = " + str(len(t4)) + "] , [location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0][0]) + ")." + list0[i] + "]\n")
+                            print("[location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0][0]) + ")." + list0[i] + "]\n")
+
                             for j in range(len(t4)):
                                 print(list(t4[j]))
                 list0 = []
@@ -425,9 +412,7 @@ class MysqlPO():
         # Mysql_PO.dbCreateDate('<', "2019-02-18")  # 显示所有在2019-12-08之前创建的表
         if len(args) == 0:
             try:
-                self.cur.execute(
-                    'select table_name,create_time from information_schema.`TABLES` where table_schema="%s"' % (self.varDB))
-                tbl = self.cur.fetchall()
+                tbl = self.execQuery('select table_name,create_time from information_schema.`TABLES` where table_schema="%s"' % (self.varDB))
                 print("\n" + self.varDB + "下 " + str(len(tbl)) + " 张表的创建时间" + "\n" + "-" * 60)
                 for r in range(len(tbl)):
                     print(str(tbl[r][1]) + " => " + tbl[r][0])
@@ -436,37 +421,25 @@ class MysqlPO():
         elif len(args) == 1:
             if "*" in args[0]:
                 varTable = args[0].split("*")[0] + "%"  # t_store_%
-                self.cur.execute(
-                    'select table_name,create_time from information_schema.`TABLES` where table_schema="%s" and table_name like "%s" ' % (
-                    self.varDB, varTable))
-                tbl = self.cur.fetchall()
+                tbl = self.execQuery('select table_name,create_time from information_schema.`TABLES` where table_schema="%s" and table_name like "%s" ' % (self.varDB, varTable))
                 print("\n" + self.varDB + "." + args[0] + " 表的创建时间" + "\n" + "-" * 60)
                 for r in range(len(tbl)):
                     print(str(tbl[r][1]) + " => " + tbl[r][0])
             else:
                 try:
-                    self.cur.execute(
-                        'select create_time from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (
-                        self.varDB, args[0]))
-                    tbl = self.cur.fetchone()
+                    tbl = self.execQuery('select create_time from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, args[0]))
                     print("\n" + self.varDB + "." + args[0] + " 表的创建时间" + "\n" + "-" * 60)
                     print(str(tbl[0]) + " => " + args[0])
                 except:
                     print("[errorrrrrrr , " + args[0] + "表不存在!]")
         elif len(args) == 2:
             if args[0] == "after" or args[0] == ">":
-                self.cur.execute(
-                    'select table_name,create_time from information_schema.`TABLES` where table_schema="%s" and create_time>"%s"' % (
-                    self.varDB, args[1]))
-                tbl = self.cur.fetchall()
+                tbl = self.execQuery('select table_name,create_time from information_schema.`TABLES` where table_schema="%s" and create_time>"%s"' % (self.varDB, args[1]))
                 print("\n" + self.varDB + "下 " + str(len(tbl)) + " 张表在 " + str(args[1]) + " 之后被创建" + "\n" + "-" * 60)
                 for r in range(len(tbl)):
                     print(str(tbl[r][1]) + " => " + tbl[r][0])
             elif args[0] == "before" or args[0] == "<":
-                self.cur.execute(
-                    'select table_name,create_time from information_schema.`TABLES` where table_schema="%s" and create_time<"%s"' % (
-                    self.varDB, args[1]))
-                tbl = self.cur.fetchall()
+                tbl = self.execQuery('select table_name,create_time from information_schema.`TABLES` where table_schema="%s" and create_time<"%s"' % (self.varDB, args[1]))
                 print("\n" + self.varDB + "下 " + str(len(tbl)) + " 张表在 " + str(args[1]) + " 之前被创建" + "\n" + "-" * 60)
                 for r in range(len(tbl)):
                     print(str(tbl[r][1]) + " => " + (tbl[r][0]))
@@ -474,7 +447,6 @@ class MysqlPO():
                 print("[errorrrrrrr , 参数1必须是 after 或 before ]")
         else:
             print("[errorrrrrrr , 参数溢出！]")
-
 
 
     def db2xlsx(self, sql, xlsxFile):
@@ -629,8 +601,8 @@ if __name__ == '__main__':
     # mysql_PO = MysqlPO("192.168.0.201", "root1", "123456", "zentao", 3306) # 测试
 
     # 招远防疫 >>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
-    Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
+    Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
+    # Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
 
     # Mysql_PO.cur.execute('select * from test1')
     # l_result = Mysql_PO.cur.fetchall()
@@ -663,8 +635,8 @@ if __name__ == '__main__':
     # print("4.2，数据库表导出html".center(100, "-"))
     # Mysql_PO.db2html("select * from ep_zj_center", "d:\\index1.html")
 
-    print("4.4 excel导入数据库表".center(100, "-"))
-    Mysql_PO.xlsx2db("data/testcase2.xlsx", "testcase2", sheet_name="case")
+    # print("4.4 excel导入数据库表".center(100, "-"))
+    # Mysql_PO.xlsx2db("data/testcase2.xlsx", "testcase2", sheet_name="case")
     # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", usecols=eval("range(4)"), nrows=6, dtype={'No.': str, '金额': float},parse_dates=['isRun'], date_parser=lambda x: pd.to_datetime(x, format='%Y%m'))  # 读取表格中前3列、前6行数据写入数据库表
     # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", usecols=eval("range(4)"), nrows=6, converters={'isRun': lambda x: pd.to_datetime(x, format='%Y%m')})  # 读取表格中前3列、前6行数据写入数据库表
     # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", eval("range(3)"), 6, skiprows=range(1, 100, 2), sheet_name="case")  # 读取表格中前3列、前6行数据写入数据库表
