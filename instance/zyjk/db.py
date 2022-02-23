@@ -151,19 +151,22 @@ from PO import SqlserverPO, MysqlPO
 # # mysql_PO.dbDesc()   # 所有表结构
 # mysql_PO.dbDesc('upv_blood_match_report')   # UpmsUser表结构
 
-# # SAAS(测试238)
-# mysql_PO = MysqlPO.MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 3306)  # 测试环境
+
+
+# # SAAS(开发195)
+# mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)
+# mysql_PO.dbRecord('*', 'char', u'%什么是脑血栓%')
+
+
+# SAAS(测试238)
+mysql_PO = MysqlPO.MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 3306)
+mysql_PO.dbRecord('*', 'int', '246903925362249729')
 # mysql_PO.dbDesc()   # 所有表结构
 # mysql_PO.dbRecord('*', 'char', '金医生')  # 模糊搜索所有表中带yoy的char类型。
 
-
-
-mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)  # 测试环境
-mysql_PO.dbRecord('*', 'char', u'%什么是脑血栓%')
-
-
-# # SAAS(生产 121.36.248.183)
-# mysql_PO = MysqlPO.MysqlPO("121.36.248.183", "root", "Tunicorn3y2dH", "saasusertest", 2306)
+# SAAS(生产 121.36.248.183)
+mysql_PO = MysqlPO.MysqlPO("121.36.248.183", "root", "Tunicorn3y2dH", "saasusertest", 2306)
+mysql_PO.dbRecord('*', 'int', '386430503427346433')
 # mysql_PO.dbRecord('*', 'char', '金医生')  # 精准搜索所有表中搜索char类型的关键字
 # mysql_PO.dbRecord('*', 'char', '金%')  # 模糊搜索所有表中搜索char类型的关键字
 # mysql_PO.dbRecord('sys_user_detail', 'char', '金医生')
