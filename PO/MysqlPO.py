@@ -118,7 +118,8 @@ class MysqlPO():
         x = y = z = 0
         if len(args) == 0:
             # 查看所有表结构
-            tblName = self.execQuery('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
+            # tblName = self.execQuery('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
+            tblName = self.execQuery('SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.`TABLES` WHERE table_type = "BASE TABLE" AND table_schema = "%s"' % self.varDB)
             # self.cur.execute('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
             # tblName = self.cur.fetchall()
             for k in range(len(tblName)):
@@ -167,7 +168,7 @@ class MysqlPO():
             if "*" in varTable:
                 # 多个表格的所有表结构
                 varTable2 = varTable.split("*")[0] + "%"  # t_store_%
-                tblCount = self.execQuery('select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (self.varDB, varTable2))
+                tblCount = self.execQuery('select table_name from information_schema.`TABLES` where table_type = "BASE TABLE" AND table_schema="%s" and table_name like "%s"' % (self.varDB, varTable2))
                 # self.cur.execute(
                 #     'select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (
                 #     self.varDB, varTable2))
@@ -240,13 +241,13 @@ class MysqlPO():
             if "*" in varTable:
                 # 多个表格可选字段表结构
                 varTable2 = varTable.split("*")[0] + "%"  # t_store_%
-                tblCount = self.execQuery('select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (self.varDB, varTable2))
+                tblCount = self.execQuery('select table_name from information_schema.`TABLES` where table_type = "BASE TABLE" AND table_schema="%s" and table_name like "%s"' % (self.varDB, varTable2))
                 # self.cur.execute('select table_name from information_schema.`TABLES` where table_schema="%s" and table_name like "%s"' % (self.varDB, varTable2))
                 # tblCount = self.cur.fetchall()
                 for p in range(len(tblCount)):
                     #  遍历N张表
                     varTable = tblCount[p][0]
-                    n = self.execQuery('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+                    n = self.execQuery('select table_comment from information_schema.`TABLES` where table_type = "BASE TABLE" AND table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
                     # n = self.cur.execute('select table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
                     if n != 0:
                         tblDDL = self.cur.fetchone()
@@ -339,7 +340,8 @@ class MysqlPO():
 
             # 遍历所有表
             if "*" in varTable:
-                tbl = self.execQuery('select table_name from information_schema.`TABLES` where table_schema="%s" ' % (self.varDB))
+                # tbl = self.execQuery('select table_name from information_schema.`TABLES` where table_schema="%s" ' % (self.varDB))
+                tbl = self.execQuery('SELECT TABLE_NAME FROM information_schema. TABLES WHERE table_type = "BASE TABLE" AND table_schema ="%s" ' % (self.varDB))
                 if len(tbl) != 0:
                     for b in range(len(tbl)):
                         varTable = tbl[b][0]
@@ -357,7 +359,10 @@ class MysqlPO():
                         for i in range(0, len(list0)):
                             # print(list0[i]) 过滤系统关键字
                             if list0[i] not in 'desc,limit,key,group,usage':
-                                t4 = self.execQuery('select * from `%s` where %s LIKE "%s" ' % (varTable, list0[i], str(varValue)))
+                                # print(varTable)
+                                # print(list0[i])
+                                # print(str(varValue))
+                                t4 = self.execQuery('select * from `%s` where "%s" LIKE "%s" ' % (varTable, list0[i], str(varValue)))
                                 if len(t4) != 0:
                                     print("- -" * 50)
                                     # print("[search = " + varValue + "] , [result = " + str(len(t4)) + "] , [location = " + self.varDB + "." + varTable + "(" + str(tblDDL[0][0]) + ")." + list0[i] + "]\n")
