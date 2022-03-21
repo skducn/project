@@ -2,7 +2,7 @@
 # *********************************************************************
 # Author        : John
 # Date          : 2017-10-26
-# Description   : 日期时间格式
+# Description   : 日期时间
 # *********************************************************************
 
 from time import strftime, localtime
@@ -22,96 +22,186 @@ class TimePO():
         self.sec = strftime("%S", localtime())
 
     def getDate(self):
-        ''' 返回当前日期字符串（年月日），如 20190819 '''
+
+        ''' 获取当天日期（年月日），如 20190819 '''
         return self.year + self.mon + self.day
 
-    def getDate_minus(self):
-        ''' 返回当天日期（年-月-日），如 2019-09-19 '''
+
+    def getDateByMinus(self):
+
+        ''' 获取当天日期（年-月-日），如 2019-09-19 '''
         return str(date.today())
 
-    def getDate_divide(self):
-        ''' 返回当天日期（年/月/日），如 2019/09/19 '''
+
+    def getDateByDivide(self):
+
+        ''' 获取当天日期（年/月/日），如 2019/09/19 '''
         return time.strftime("%Y/%m/%d", time.strptime(str(date.today()),"%Y-%m-%d"))
 
-    def getDatetime(self):
-        ''' 返回当天日期时间字符串（年月日时分秒），如 20190919163619 '''
+
+    def getDateTime(self):
+
+        ''' 获取当天日期时间（年月日时分秒），如 20190919163619 '''
         return self.year + self.mon + self.day + self.hour + self.min + self.sec
 
-    def getDatetime_minus(self):
-        ''' 返回当天日期时间（年-月-日 时：分：秒），如 2019-09-19 16:36:19 '''
+
+    def getDateTimeByMinus(self):
+
+        ''' 获取当天日期时间（年-月-日 时：分：秒），如 2019-09-19 16:36:19 '''
         return strftime("%Y-%m-%d %H:%M:%S", localtime())
 
-    def getDatetime_divide(self):
-        ''' 返回当天日期时间（年/月/日 时：分：秒），如 2019/09/19 16:36:19 '''
-        # return strftime("%Y-%m-%d %H:%M:%S", localtime())
+
+    def getDateTimeByDivide(self):
+
+        ''' 获取当天日期时间（年/月/日 时：分：秒），如 2019/09/19 16:36:19 '''
         return time.strftime("%Y/%m/%d %H:%M:%S", time.strptime(strftime("%Y-%m-%d %H:%M:%S", localtime()),"%Y-%m-%d %H:%M:%S"))
 
-    def getDatetimeEditHour(self, n):
-        ''' 给当前时间加上或减去 n 小时，并返回日期（年月日时分秒）,如 2017-09-15 10:11:27 '''
+
+    def getDateTimeAfterBefore(self, n):
+
+        ''' 获取指定日期时间的前后时间
+        如：getDateTimeAfterBefore（0）   //当前时间 2020/03/19 15:19:28
+        如：getDateTimeAfterBefore（0.5）  //晚30分钟  2020-03-19 15:49:28
+        如：getDateTimeAfterBefore（-1）  //早1小时  2020-03-19 14:19:28
+        '''
         return (datetime.datetime.now() + datetime.timedelta(hours=n)).strftime('%Y-%m-%d %H:%M:%S')
 
+
     def getNow(self):
-        ''' 返回当前日期（年月日时分秒后及后6位数），如 2017-09-15 09:41:27.336765 '''
+
+        ''' 获取当前日期（年月日时分秒后及后6位数），如 2017-09-15 09:41:27.336765 '''
         return datetime.datetime.now()
 
-    def getNowEditHour(self, n):
-        ''' 给当前时间加上或减去 n 小时，并返回日期（年月日时分秒后及后6位数）,如
-        # datetime.datetime.now() + datetime.timedelta(hours = 0.5)  # 如 2017-09-15 10:11:27.336765'''
-        # datetime.datetime.now() + datetime.timedelta(hours = -0.5) '''
+
+    def getNowAfterBefore(self, n):
+
+        ''' 获取指定日期的前后时间
+            如：getNowAfterBefore（0）   //当前时间 2020/03/19 15:19:28.470652
+            如：getNowAfterBefore（0.5）  //晚30分钟  2020/03/19 15:49:28.470652
+            如：getNowAfterBefore（-1）  //早1小时  2020/03/19 14:19:28.470652
+        '''
         return datetime.datetime.now() + datetime.timedelta(hours=n)
 
+
     def getYear(self):
-        ''' 返回当前年份，如 2019 '''
+
+        ''' 获取当前年份，如 2019 '''
         return datetime.datetime.now().strftime('%Y')
 
+
     def getMonth(self):
-        ''' 返回当前月份，如 9 '''
+
+        ''' 获取当前月份，如 9 '''
         return datetime.datetime.now().strftime('%m')
 
+
     def getDay(self):
-        ''' 返回当前日份，如 19 '''
+
+        ''' 获取当前日份，如 19 '''
         return datetime.datetime.now().strftime('%d')
 
+
     def getYearMonth(self):
-        ''' 返回当前年月，如 201909 '''
+
+        ''' 获取当前年月，如 201909 '''
         return datetime.datetime.now().strftime('%Y%m')
 
+
     def getMonthDay(self):
-        ''' 返回当前月日，如 0919 '''
+
+        ''' 获取当前月日，如 0919 '''
         return datetime.datetime.now().strftime('%m%d')
 
 
-    def get_day_of_day(self, n=0):
-        ''' 返回n天前或n天后的日期（年-月-日），如 2019-09-18
-          if n>=0, 返回n天后日期
-          if n<0, 返回n天前日期
+    def getWeekday(self, varDate):
+
+        ''' 获取当天/某天是星期几 '''
+
+        if varDate == "":
+            varDate = datetime.datetime.now()
+
+        else:
+            varDate = datetime.datetime(int(varDate.split("-")[0]), int(varDate.split("-")[1]), int(varDate.split("-")[2]))
+
+        if (varDate.weekday() == 0):  # Monday
+            return ("星期一")
+        elif (varDate.weekday() == 1):  # Tuesday
+            return("星期二")
+        elif (varDate.weekday() == 2):  # Wednesday
+            return("星期三")
+        elif (varDate.weekday() == 3):  # Thursday
+            return("星期四")
+        elif (varDate.weekday() == 4):  # Friday
+            return("星期五")
+        elif (varDate.weekday() == 5):  # Saturday
+            return("星期六")
+        else:    # Sunday
+            return("星期日")
+
+
+    def getWeekdayByEng(self, varDate, varStrftime):
+
+        ''' 获取当天/某天是星期几,英文输出 Monthday 或 Mon '''
+
+        if varDate == "":
+            varDate = datetime.datetime.now().strftime(varStrftime)
+
+        else:
+            varDate = datetime.datetime(int(varDate.split("-")[0]), int(varDate.split("-")[1]), int(varDate.split("-")[2])).strftime(varStrftime)
+
+        return varDate
+
+        # if (varDate.weekday() == 0):  # Monday
+        #     return ("星期一")
+        # elif (varDate.weekday() == 1):  # Tuesday
+        #     return("星期二")
+        # elif (varDate.weekday() == 2):  # Wednesday
+        #     return("星期三")
+        # elif (varDate.weekday() == 3):  # Thursday
+        #     return("星期四")
+        # elif (varDate.weekday() == 4):  # Friday
+        #     return("星期五")
+        # elif (varDate.weekday() == 5):  # Saturday
+        #     return("星期六")
+        # else:    # Sunday
+        #     return("星期日")
+
+
+    def getDateAfterBefore(self, n=0):
+
+        ''' 获取当前日期的前后日期
+            （如：当天日期 2022-03-21）
+            如：getDateAfterBefore（20）  //20天后  2022-03-23
+            如：getDateAfterBefore（-3）  //3天前   2022-03-18
         '''
+
         if (n < 0):
             n = abs(n)
             return date.today() - timedelta(days=n)
         else:
             return date.today() + timedelta(days=n)
 
-    def get_days_of_month(self, year, mon):
-        ''' 返回某年某月的天数 '''
-        return calendar.monthrange(year, mon)[1]
 
-    def get_firstday_of_month(self,year, mon):
-        ''' 返回某年某月的第一天日期，如 2019-08-01 '''
+    def getDate_firstDay(self,year, mon):
+
+        ''' 获取某年月的第一天日期，如 2019-08-01 '''
         days = "01"
         if (int(mon) < 10):
             mon = "0" + str(int(mon))
         arr = (year, mon, days)
         return "-".join("%s" % i for i in arr)
 
-    def get_lastday_of_month(self,year, mon):
-        ''' 返回某年某月最后一天日期，如 2019-08-31 '''
+
+    def getDate_lastDay(self,year, mon):
+
+        ''' 获取某年某月最后一天日期，如 2019-08-31 '''
         days = calendar.monthrange(year, mon)[1]
         mon = self.addzero(mon)
         arr = (year, mon, days)
         return "-".join("%s" % i for i in arr)
 
-    def get_firstday_month(self, n=0):
+
+    def getDate_monthfirstday(self, n=0):
         ''' 依据当前月份，返回n月前或n月后的第一天。如：当前9月份，
             n = 2 , 返回 2019-11-1
             n = -1 , 返回 2019-8-1
@@ -121,7 +211,8 @@ class TimePO():
         arr = (y, m, d)
         return "-".join("%s" % i for i in arr)
 
-    def get_lastday_month(self, n=0):
+
+    def getDate_monthLastDay(self, n=0):
         ''' 依据当前月份，返回n月前或n月后的最后一天。如：当前9月份，
                    n = 2 , 返回 2019-11-30
                    n = -1 , 返回 2019-8-31
@@ -129,7 +220,34 @@ class TimePO():
         '''
         return "-".join("%s" % i for i in self.getDate_tuple(n))
 
-    def getDate_tuple(self, n=0):
+
+    def getDate_monthToday(self, n=0):
+        '''''
+          返回前后N月的当前日期
+          if n>0, 获取当前日期前N月的日期
+          if n<0, 获取当前日期后N月的日期
+          date format = "YYYY-MM-DD"
+          '''
+        (y, m, d) = self.getDate_tuple(n)
+        arr = (y, m, d)
+        if (int(self.day) < int(d)):
+            arr = (y, m, self.day)
+        return "-".join("%s" % i for i in arr)
+
+
+    def getDate_BeforeAfterDate(self, varDate, varDays):
+        ''' 获取某个日期的前后日期
+        如获取某一个日期的上一天   print(Time_PO.getBeforeAfterDate("2019-12-15", -1))
+        如获取某一个日期的后二天   print(Time_PO.getBeforeAfterDate("2019-12-15", 2))
+        注意，先将字符串转换成日期格式，
+        '''
+        from datetime import datetime
+        varDate = datetime.strptime(varDate, '%Y-%m-%d').date()
+        import datetime
+        return (varDate + datetime.timedelta(days=varDays))
+
+
+    def getDateByTuple(self, n=0):
         '''''
           get the year,month,days from today
           befor or after n months
@@ -168,6 +286,13 @@ class TimePO():
                 j = self.addzero(j)
                 return (str(thisyear), str(j), days)
 
+
+    def getDaysByMonth(self, year, mon):
+
+        ''' 获取某年月的天数 '''
+        return calendar.monthrange(year, mon)[1]
+
+
     def addzero(self, n):
         ''' 自动在 0-9 前加0，如返回 01-09 '''
         nabs = abs(int(n))
@@ -176,36 +301,8 @@ class TimePO():
         else:
             return nabs
 
-    def get_today_month(self,n=0):
-        '''''
-          返回前后N月的当前日期
-          if n>0, 获取当前日期前N月的日期
-          if n<0, 获取当前日期后N月的日期
-          date format = "YYYY-MM-DD"
-          '''
-        (y, m, d) = self.getDate_tuple(n)
-        arr = (y, m, d)
-        if (int(self.day) < int(d)):
-            arr = (y, m, self.day)
-        return "-".join("%s" % i for i in arr)
 
-    def getWeekday(self):
-        ''' 返回当天是星期几 '''
-        today = datetime.datetime.now()
-        if (today.weekday() == 0):  # Monday
-            return ("星期一")
-        elif (today.weekday() == 1):  # Tuesday
-            return("星期二")
-        elif (today.weekday() == 2):  # Wednesday
-            return("星期三")
-        elif (today.weekday() == 3):  # Thursday
-            return("星期四")
-        elif (today.weekday() == 4):  # Friday
-            return("星期五")
-        elif (today.weekday() == 5):  # Saturday
-            return("星期六")
-        else:    # Sunday
-            return("星期日")
+
 
     def now2timestamp(self):
         import time
@@ -224,16 +321,34 @@ class TimePO():
         ''' 时间戳 转 时间'''
         return datetime.datetime.fromtimestamp(intTimestamp)
 
-    def getBeforeAfterDate(self, varDate, varDays):
-        ''' 获取某个日期的前后日期
-        如获取某一个日期的上一天   print(Time_PO.getBeforeAfterDate("2019-12-15", -1))
-        如获取某一个日期的后二天   print(Time_PO.getBeforeAfterDate("2019-12-15", 2))
-        注意，先将字符串转换成日期格式，
-        '''
-        from datetime import datetime
-        varDate = datetime.strptime(varDate, '%Y-%m-%d').date()
-        import datetime
-        return (varDate + datetime.timedelta(days=varDays))
+
+
+    # 日期比较（日期1大于日期2，返回True或False）
+    def isDate1GTdate2(self ,varDate1, varDate2, fmt='%Y-%m-%d'):
+        zero = datetime.datetime.fromtimestamp(0)
+        try:
+            d1 = datetime.datetime.strptime(str(varDate1), fmt)
+        except:
+            d1 = zero
+        try:
+            d2 = datetime.datetime.strptime(str(varDate2), fmt)
+        except:
+            d2 = zero
+        return d1 > d2
+
+    # 日期比较（日期1小于日期2，返回True或False）
+    def isDate1LTdate2(self ,varDate1, varDate2, fmt='%Y-%m-%d'):
+        zero = datetime.datetime.fromtimestamp(0)
+        try:
+            d1 = datetime.datetime.strptime(str(varDate1), fmt)
+        except:
+            d1 = zero
+        try:
+            d2 = datetime.datetime.strptime(str(varDate2), fmt)
+        except:
+            d2 = zero
+        return d1 < d2
+
 
     def get_weekday(self,x):
         # 获取每月工作日天数，
@@ -259,40 +374,67 @@ class TimePO():
     # print('耗时%s秒' % time)
     # Color_PO.consoleColor("31", "33", "耗时 " + str(round(time, 0)) + " 秒", "")
 
-    # 日期比较，日期1大于日期2，返回True
-    def isDate1GTdate2(self ,varDate1, varDate2, fmt='%Y-%m-%d'):
-        zero = datetime.datetime.fromtimestamp(0)
-        try:
-            d1 = datetime.datetime.strptime(str(varDate1), fmt)
-        except:
-            d1 = zero
-        try:
-            d2 = datetime.datetime.strptime(str(varDate2), fmt)
-        except:
-            d2 = zero
-        return d1 > d2
 
-    # 日期比较，日期1小于日期2，返回True
-    def isDate1LTdate2(self ,varDate1, varDate2, fmt='%Y-%m-%d'):
-        zero = datetime.datetime.fromtimestamp(0)
-        try:
-            d1 = datetime.datetime.strptime(str(varDate1), fmt)
-        except:
-            d1 = zero
-        try:
-            d2 = datetime.datetime.strptime(str(varDate2), fmt)
-        except:
-            d2 = zero
-        return d1 < d2
 
 if __name__ == "__main__":
 
     Time_PO = TimePO()
 
-    print(Time_PO.isDate1GTdate2("2020-1-1", "2019-1-5"))
-    print(Time_PO.isDate1LTdate2("2020-1-1", "2019-1-5"))
+    # 获取当前日期年月日时分秒
+    # print(Time_PO.getDate())  # 20200319
+    # print(Time_PO.getDateByMinus())  # 2020-03-19
+    # print(Time_PO.getDateByDivide())  # 2020/03/19
+    # print(Time_PO.getDateTime())  # 20200319151928
+    # print(Time_PO.getDateTimeByDivide())  # 2020/03/19 15:19:28
+    # print(Time_PO.getDateTimeAfterBefore(0))  # 2020/03/19 15:19:28
+    # print(Time_PO.getDateTimeAfterBefore(0.5))  # 2020-03-19 15:49:28  //当前时间晚30分钟
+    # print(Time_PO.getDateTimeAfterBefore(-1))  # 2020-03-19 14:19:28   //当前时间早1小时
+    # print(Time_PO.getNow())  # 2020/03/19 15:19:28.470652
+    # print(Time_PO.getNowAfterBefore(0.5))  # 2020-03-19 15:49:28 .470652  //当前时间晚30分钟
+    # print(Time_PO.getNowAfterBefore(-1))  # 2020-03-19 14:19:28 .470652  //当前时间早1小时
+    # print(Time_PO.getYear())  # 2020
+    # print(Time_PO.getMonth())  # 03
+    # print(Time_PO.getDay())  # 19
+    # print(Time_PO.getYearMonth())  # 202003
+    # print(Time_PO.getMonthDay())  # 0319
+    # print(Time_PO.getWeekday(""))  # 星期一
+    # print(Time_PO.getWeekday("2019-12-15"))  # 星期日
+    # print(Time_PO.getWeekdayByEng("2019-12-15", "%A"))  # Sunday
+    # print(Time_PO.getWeekdayByEng("2019-12-15", "%a"))  # Sun
+    # print(Time_PO.getWeekdayByEng("", "%A"))  # Monthday
+    # print(Time_PO.getWeekdayByEng("", "%a"))  # Mon
 
-    # # 获取2020年法定节假日
+    # print(Time_PO.getWeekday("2019-12-15", "%A"))  # Monthday
+    # print(Time_PO.getWeekday("2019-12-15", "%a"))  # Mon
+    # print(Time_PO.getDateAfterBefore(2))  # 2020-04-09  //20天后
+    # print(Time_PO.getDateAfterBefore(-3))  # 2020-03-16  //3天前
+
+    # print(Time_PO.getDate_firstDay(2019, 7))  # 2019-07-01  //获取某年月的第一天
+    # print(Time_PO.getDate_lastDay(2019, 7))  # 2019-07-31   //获取某年月的最后一天
+    # print(Time_PO.getDate_monthfirstday(-1))   # 2020-02-29  //获取上月的第一天。（不支持跨年，如2020-01-01的上个月会报错）
+    # print(Time_PO.getDate_monthfirstday(2))   # 2020-02-29  //获取下个月的第一天。（不支持跨年，如2020-01-01的上个月会报错）
+    # print(Time_PO.getDate_monthLastDay(-1))   # 2020-02-29  //获取上月的最后一天。（不支持跨年，如2020-01-01的上个月会报错）
+    # print(Time_PO.getDate_monthLastDay(1))  # 2020-02-29  //获取下月的最后一天。（不支持跨年，如2020-12-12 的下个月会报错）
+    # print(Time_PO.getDate_monthToday(-1))  # 2020-02-19   //返回上个月的今天
+    # print(Time_PO.getDate_monthToday(3))  # 2020-06-19   //返回3个月后的今天
+    # print(Time_PO.getDate_BeforeAfterDate("2019-12-15", -1))   # 2019-12-14   //返回指定日期的前一天
+    # print(Time_PO.getDate_BeforeAfterDate("2019-12-15", 2))   # 2019-12-17  //返回指定日期的后2天
+    # print(Time_PO.getDate_BeforeAfterDate(Time_PO.getDate_minus(), 2))   # 2019-12-17  //返回后天
+
+    # print(Time_PO.getDateByTuple(1))  # ('2020', '04', '30')    //列表形式返回下个月及最后一天
+    # print(Time_PO.getDaysByMonth(2019, 2))  # 28   //2019年2月的天数
+    # print(Time_PO.addzero(9))  # 09    //自动在 1 - 9 前加上0
+
+    # print(Time_PO.now2timestamp())  # 1584603355.0  //当前日期时间转时间戳
+    # print(Time_PO.datetime2timestamp(Time_PO.getDateTimeAfterBefore(0)))  # 1584603355   //日期时间转时间戳
+    # print(Time_PO.timestamp2datetime(Time_PO.now2timestamp()))  # 2020-03-19 15:35:55  //时间戳转日期时间
+
+
+    # 日期比较
+    # print(Time_PO.isDate1GTdate2("2020-1-1", "2019-1-5"))
+    # print(Time_PO.isDate1LTdate2("2020-1-1", "2019-1-5"))
+
+    # # 获取2020年法定节假日(UserWarning: Support years 2018-2021 currently, need update every year.)
     # print(cal.holidays(2020))
     #
     # # 判断某天是否工作日（周一到周五返回True，周六日回False）
@@ -304,47 +446,3 @@ if __name__ == "__main__":
     #
     # # 获取每月工作日天数（不包括双休日与节假日）
     # print(Time_PO.get_weekday("2020-12"))
-
-    # 获取当前日期年月日时分秒
-    # print(Time_PO.getDate())  # 20200319
-    # print(Time_PO.getDate_minus())  # 2020-03-19
-    # print(Time_PO.getDate_divide())  # 2020/03/19
-    # print(Time_PO.getDatetime())  # 20200319151928
-    # print(Time_PO.getDatetime_divide())  # 2020/03/19 15:19:28
-    # print(Time_PO.getDatetimeEditHour(0))  # 2020/03/19 15:19:28
-    # print(Time_PO.getDatetimeEditHour(0.5))  # 2020-03-19 15:49:28  //当前时间晚30分钟
-    # print(Time_PO.getDatetimeEditHour(-1))  # 2020-03-19 14:19:28   //当前时间早1小时
-    # print(Time_PO.getNow())  # 2020/03/19 15:19:28.470652
-    # print(Time_PO.getNowEditHour(0.5))  # 2020-03-19 15:49:28 .470652  //当前时间晚30分钟
-    # print(Time_PO.getNowEditHour(-1))  # 2020-03-19 14:19:28 .470652  //当前时间早1小时
-    # print(Time_PO.getYear())  # 2020
-    # print(Time_PO.getMonth())  # 03
-    # print(Time_PO.getDay())  # 19
-    # print(Time_PO.getYearMonth())  # 202003
-    # print(Time_PO.getMonthDay())  # 0319
-    # print(Time_PO.getWeekday())  # 星期四
-    # print(Time_PO.now2timestamp())  # 1584603355.0  //当前日期时间转时间戳
-    # print(Time_PO.datetime2timestamp(Time_PO.getDatetimeEditHour(0)))  # 1584603355   //日期时间转时间戳
-    # print(Time_PO.timestamp2datetime(Time_PO.now2timestamp()))  # 2020-03-19 15:35:55  //时间戳转日期时间
-    # print(Time_PO.get_day_of_day(20))  # 2020-04-09  //20天后
-    # print(Time_PO.get_day_of_day(-3))  # 2020-03-16  //3天前
-    # print(Time_PO.get_days_of_month(2019, 2))  # 28   //2019年2月的天数
-    # print(Time_PO.get_firstday_of_month(2019, 7))  # 2019-07-01  //获取某年某月的第一天
-    # print(Time_PO.get_lastday_of_month(2019, 7))  # 2019-07-31  //获取某年某月的最后一天
-    # print(Time_PO.get_lastday_month(-1))   # 2020-02-29  //返回上月的最后一天。（不支持跨年，如2020-01-01的上个月会报错）
-    # print(Time_PO.get_lastday_month(1))  # 2020-02-29  //返回下月的最后一天。（不支持跨年，如2020-12-12 的下个月会报错）
-
-    # print(Time_PO.getDate_tuple(1))  # ('2020', '04', '30')    //列表形式返回下个月及最后一天
-    # print(Time_PO.addzero(9))  # 09    //自动在 1 - 9 前加上0
-    # print(Time_PO.get_today_month(-1))  # 2020-02-19   //返回上个月的今天
-    # print(Time_PO.get_today_month(3))  # 2020-06-19   //返回3个月后的今天
-    # print(Time_PO.getBeforeAfterDate("2019-12-15", -1))   # 2019-12-14  ，注意第一个参数日期是字符串  //返回指定日期的前一天
-    # print(Time_PO.getBeforeAfterDate("2019-12-15", 2))   # 2019-12-17  //返回指定日期的后2天
-    # print(Time_PO.getBeforeAfterDate(Time_PO.getDate_minus(), 2))   # 2019-12-17  //返回后天
-
-
-
-
-
-
-
