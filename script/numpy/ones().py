@@ -2,7 +2,7 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2022-3-21
-# Description: 创建全是1的数组 np.ones()
+# Description: 1数组 np.ones()
 # numpy.ones(shape, dtype=None, order='C')
 # shape : 数组的形状，例如 (2, 3) 或 2.
 # dtype : 数组的数据类型，默认为float64. (i = int32, f = float32)

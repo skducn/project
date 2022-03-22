@@ -2,7 +2,7 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2022-3-21
-# Description: array数据类型
+# Description: 数组 np.array(), np.asarray(), 条件选取 where()
 # 语法：numpy.array(object, dtype=None, *, copy=True, order='K', subok=False, ndmin=0, like=None)
 # array()数据源类型列表int&float、元组int&float、字符串<U7、字典object
 # 数据源是列表时，array和asarray一样，复制一个副本占用新的内存地址。如 # np.array([1,2,3]) = np.asarray([1,2,3])
@@ -30,7 +30,6 @@ print(np.array(str1).dtype)  # <U7
 dict1 = {"a": 88, "b": 123}  # 字典
 print(np.array(dict1))  # {'a': 88, 'b': 123}
 print(np.array(dict1).dtype)  # object
-
 
 
 
@@ -119,3 +118,29 @@ print(asarr)
 # [[1. 1.]
 #  [0. 0.]]
 
+
+
+print("11 矩阵乘积".center(100, "-"))
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+print(A.dot(B))  # 等同于 np.matmul(A,B)
+# [[19 22]
+#  [43 50]]
+# 算法：[1*5+2*7 1*6+2*8][3*5+4*7 3*6+4*8]
+
+
+print("12 点乘（元素相乘）".center(100, "-"))
+print(A*B)  # 等同于 np.multiply(A, B)
+# [[ 5 12]
+#  [21 32]]
+# 算法：[1*5 2*6][3*7 4*8]
+
+
+print("13 条件选取 where(), 大于0.5的值不处理，其余值替换成0".center(100, "-"))
+data = np.random.random([2, 3])
+print(data)
+# [[0.89637997 0.81094498 0.2752972 ]
+#  [0.01304246 0.04711835 0.63449249]]
+print(np.where(data > 0.5, data, 0))
+# [[0.89637997 0.81094498 0.        ]
+#  [0.         0.         0.63449249]]
