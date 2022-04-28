@@ -73,7 +73,7 @@ packaging==16.8
 panda==0.3.1
 pandas==0.25.3
 parameterized==0.7.1
-paramiko==2.6.0
+paramiko==2.10.1
 parsel==1.5.2
 pbr==1.8.1
 pbs==0.110
