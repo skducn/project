@@ -121,7 +121,7 @@ pytest-xdist==1.14
 python-dateutil==2.8.1
 pyttsx3==2.87
 pytz==2013.7
-pywin32==227
+pywin32==301
 pywin32-ctypes==0.2.0
 pywinauto==0.6.8
 PyYAML==3.12
