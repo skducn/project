@@ -8,6 +8,10 @@
 # 手机版单视频页、列表页 https://v.douyin.com/Jp4GEo6/
 # 网页版单视频页 https://www.douyin.com/video/6979549164304731428
 # 网页版列表页 https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg  全说商业
+
+# 过滤掉非法的多字节序列问题
+# b = "型➕换季收纳法🔥叠衣"
+# print(b.encode('gbk', 'ignore').decode('gbk') )   # 型换季收纳法叠衣
 #***************************************************************
 
 '''
@@ -30,6 +34,8 @@ from PO.StrPO import *
 Str_PO = StrPO()
 
 
+
+
 class Douyin:
 
 	def __init__(self):
@@ -48,36 +54,46 @@ class Douyin:
 
 		# 解析复制链接及API地址并获取视频ID
 		res = Html_PO.sessionGet(url)
+
 		# print(res.url)
 		aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)  # ['6976835684271279400']
 		apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
 		res = Html_PO.sessionGet(apiUrl)
 		tmp = json.loads(res.text)
+		# print(tmp)
 
-		# 获取视频Id
-		vid = tmp['item_list'][0]['video']['vid']
-		# 视频Id
-		# video_id = re.findall(r'/?video_id=(\w+)', res1.text)  #  # v0300f3d0000bvn9r1prh6u8gbdusbdg
-		# 用户名
-		nickname = re.findall('"nickname":"(.+?)"', res.text)
-		# 视频标题
-		varTitle = re.findall('"share_title":"(.+?)"', res.text)
-		# 优化文件名不支持的9个字符
-		varTitle = Str_PO.escapeSpecialCharacters(str(varTitle[0]))
-		# 生成目录
-		File_PO.newLayerFolder(toSave + "\\" + nickname[0])
-		varFolder = str(toSave) + "\\" + nickname[0]
-		# 下载（API地址）
-		videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
-		ir = Html_PO.sessionGet(videoUrl)
-		open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
+		if tmp['item_list'] == [] and tmp['filter_list'][0]['notice'] == "抱歉，作品不见了":
+			# print(tmp['filter_list'][0]['detail_msg'])   # 因作品权限或已被删除，无法观看，去看看其他作品吧
+			noVid = (tmp['filter_list'][0]['notice'])  # 抱歉，作品不见了
+			print(url + " " + noVid)
+		else:
 
-		# 输出结果
-		l_result = []
-		l_result.append(varFolder)
-		l_result.append(varTitle)
-		l_result.append(videoUrl)
-		print(l_result)
+			# 获取视频Id
+			vid = tmp['item_list'][0]['video']['vid']
+			# 视频Id
+			# video_id = re.findall(r'/?video_id=(\w+)', res1.text)  #  # v0300f3d0000bvn9r1prh6u8gbdusbdg
+			# 用户名
+			nickname = re.findall('"nickname":"(.+?)"', res.text)
+			# 视频标题
+			varTitle = re.findall('"share_title":"(.+?)"', res.text)
+			# 优化文件名不支持的9个字符
+			varTitle = Str_PO.escapeSpecialCharacters(str(varTitle[0]))
+			# 生成目录
+			File_PO.newLayerFolder(toSave + "\\" + nickname[0])
+			varFolder = str(toSave) + "\\" + nickname[0]
+			# 下载（API地址）
+			videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
+			ir = Html_PO.sessionGet(videoUrl)
+			open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
+
+			# 输出结果
+			l_result = []
+			l_result.append(varFolder)
+			# l_result.append((str(varTitle).encode("utf-8").decode("utf-8")))
+			l_result.append(varTitle)
+			l_result.append(videoUrl)
+			# print(l_result)
+			print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
 
 	def downMoreVideoByPhone(self, copyURL, toSave, scope="all"):
 		'''
@@ -168,7 +184,9 @@ class Douyin:
 								l_result.append(varFolder)
 								l_result.append(varTitle)
 								l_result.append(videoURL)
-								print(l_result)
+								# print(l_result)
+								print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
 								l_result = []
 						if isinstance(scope, str):
 							# 下载所有视频
@@ -181,7 +199,9 @@ class Douyin:
 								l_result.append(varFolder)
 								l_result.append(varTitle)
 								l_result.append(videoURL)
-								print(l_result)
+								# print(l_result)
+								print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
 								l_result = []
 							# 下载标题中带关键字的音频
 							elif scope in varTitle:
@@ -193,7 +213,9 @@ class Douyin:
 								l_result.append(varFolder)
 								l_result.append(varTitle)
 								l_result.append(videoURL)
-								print(l_result)
+								# print(l_result)
+								print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
 								l_result = []
 						count = int(count) - 1
 					break
@@ -235,7 +257,9 @@ class Douyin:
 		l_result.append(varFolder)
 		l_result.append(varTitle)
 		l_result.append(videoUrl)
-		print(l_result)
+		# print(l_result)
+		print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
 
 	def downMoreVideoByWeb(self, sec_id, toSave,scope="all"):
 		'''
@@ -319,7 +343,9 @@ class Douyin:
 								l_result.append(varFolder)
 								l_result.append(varTitle)
 								l_result.append(videoURL)
-								print(l_result)
+								# print(l_result)
+								print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
 								l_result = []
 						if isinstance(scope, str):
 							# 下载所有视频
@@ -332,7 +358,9 @@ class Douyin:
 								l_result.append(varFolder)
 								l_result.append(varTitle)
 								l_result.append(videoURL)
-								print(l_result)
+								# print(l_result)
+								print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
 								l_result = []
 							# 下载标题中带关键字的音频
 							elif scope in varTitle:
@@ -344,7 +372,9 @@ class Douyin:
 								l_result.append(varFolder)
 								l_result.append(varTitle)
 								l_result.append(videoURL)
-								print(l_result)
+								# print(l_result)
+								print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
 								l_result = []
 						workQTY = int(workQTY) - 1
 					break
@@ -353,11 +383,13 @@ if __name__ == '__main__':
 
 	douyin = Douyin()
 
-	# print("1，单视频下载（手机版）".center(100, "-"))
-	# douyin.downOneVideoByPhone("https://v.douyin.com/dghEdFX/", "d:\\4")
+	print("1，单视频下载（手机版）".center(100, "-"))
+	# douyin.downOneVideoByPhone("https://v.douyin.com/dghEdFX/", "c:\\51\\tmp")
+	# douyin.downOneVideoByPhone("https://v.douyin.com/NHePEyX/", "c:\\51\\tmp")
+	douyin.downOneVideoByPhone("https://v.douyin.com/F6m9KFb/", "c:\\51\\tmp")  # 作品已下架
 
-	print("2，多视频下载（手机版）".center(100, "-"))
-	douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 下载所有视频，走遍中国5A景区-大龙
+	# print("2，多视频下载（手机版）".center(100, "-"))
+	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 下载所有视频，走遍中国5A景区-大龙
 	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", 3)  # 下载从序号《3》之前的音频
 	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", scope="三星")  # 下载标题中带“XXX”关键字的音频
 
