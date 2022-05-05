@@ -17,7 +17,7 @@
 # todo: 二维码生成和识别
 # 参考：https://www.bilibili.com/read/cv7761473/
 # pip install myqr
-# pip install pyzbr`
+# pip install pyzbr
 # pip install pil 报错请切换 pip install pillow
 # ***************************************************************
 '''
@@ -63,8 +63,9 @@ from datetime import timedelta
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 import pandas as pd
-
-
+from MyQR import myqr
+from pyzbar.pyzbar import decode
+from PIL import Image
 
 class DataPO():
 
@@ -446,7 +447,7 @@ class DataPO():
 
     # 11.1 生成二维码
     def getTwoDimensionCode(self, varURL, varSavePic):
-        from MyQR import myqr
+        # from MyQR import myqr
         # 扫描二维码，直接访问words网址
         myqr.run(words=varURL, colorized=False, save_name=varSavePic)
 
@@ -454,8 +455,8 @@ class DataPO():
     # 11.2 获取二维码地址
     def getURL(self,varTwoDimensionCodePic):
         # 二维码识别
-        from pyzbar.pyzbar import decode
-        from PIL import Image
+        # from pyzbar.pyzbar import decode
+        # from PIL import Image
         img = Image.open(varTwoDimensionCodePic)
         bar = decode(img)[0]
         result = bar.data.decode()
@@ -465,19 +466,24 @@ class DataPO():
     # 12，获取国内高匿ip代理(ip代理池)
     def getIpAgent(self):
         # 爬取 https://www.kuaidaili.com/free/inha/1/ 的IP地址 ，然后进行随机获取
-        baseURL = "https://www.kuaidaili.com/free/inha/1/"
+        baseURL = "https://www.kuaidaili.com/free"
 
         # 生成字典
         html = requests.get(baseURL)
         # html.encoding = 'gb2312'
-        html.encoding = 'utf-8'
-        bsop = BeautifulSoup(html.text, 'html.parser')
+        # html.encoding = 'utf-8'
+        # html.encoding = 'gbk'
+        bsop = BeautifulSoup(html.text.encode('gbk', 'ignore').decode('gbk'), 'html.parser')
+        # bsop = BeautifulSoup(html.text, 'html.parser')
+
 
         # 获取 IP 列表
         l_ips = bsop.findAll('td', {'data-title': 'IP'})
+        # print(l_ips)
         l_ip = []
         for l in l_ips:
             l_ip.append(str(l).replace('<td data-title="IP">', '').replace('</td>', ''))
+        # print(l_ip)
 
         # 获取 PORT 列表
         l_ports = bsop.findAll('td', {'data-title': 'PORT'})
@@ -495,6 +501,7 @@ class DataPO():
         for i in range(len(l_ip)):
             l_ipPort.append(l_type[i] + "://" + l_ip[i] + ":" + l_port[i])
 
+        # print(l_ipPort)
         return(l_ipPort[random.randint(0, len(l_ipPort)-1)])   # HTTP://223.243.255.4:65309
 
 
@@ -626,13 +633,13 @@ if __name__ == '__main__':
     # print(Data_PO.autoUuid("sh1"))
 
     # print("11.1 生成二维码".center(100, "-"))
-    Data_PO.getTwoDimensionCode("https://www.baidu.com", "./data/baidu.jpg")
+    # Data_PO.getTwoDimensionCode("https://www.baidu.com", "./data/baidu.jpg")
 
     # print("11.2 获取二维码地址".center(100, "-"))
     # Data_PO.getURL("./DataPO/baidu.jpg")
 
     # print("12 获取国内高匿ip代理(ip代理池)".center(100, "-"))
-    # print(Data_PO.getIpAgent())
+    print(Data_PO.getIpAgent())
     #
     # # print("13.1 通过fake版本随机获取用户代理".center(100, "-"))
     # # print(Data_PO.getUserAgentFromFakeUrl("https://fake-useragent.herokuapp.com/browsers/0.1.11"))

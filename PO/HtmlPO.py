@@ -59,11 +59,10 @@ class HtmlPO:
         try:
             # self.headers = {'User-Agent': Data_PO.getUserAgent()}
             self.headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
-
             varIp = Data_PO.getIpAgent()
             self.proxies = {str(varIp).split("://")[0]: str(varIp).split("://")[1]}
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print("[ERROR], line " + str(sys._getframe(1).f_lineno) + " [in def " + sys._getframe(1).f_code.co_name + "()] jump to [def " + sys._getframe(0).f_code.co_name + "() from '" + sys._getframe().f_code.co_filename + "']")
 
 
     # 5，获取json网页内容
