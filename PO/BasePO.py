@@ -2,8 +2,9 @@
 #***************************************************************
 # Author     : John
 # Created on : 2020-3-20
-# Description: 基类封装(公用方法)
-# # 重新定义find_element, find_elements, send_keys, input，click，get，print，checkbox，select，iframe，js，color，exist,alert
+# Description: 基类封装(通用)
+# # 重新定义 find_element, find_elements, send_keys, input，click，get，print，checkbox，select，iframe，js，exist,alert
+# color
 #***************************************************************
 
 import sys, os, platform, psutil
@@ -23,12 +24,10 @@ Color_PO = ColorPO()
 class BasePO(object):
 
     def __init__(self, driver):
-        # driver 是BasePage类的入参。
         self.driver = driver
 
-
     def find_element(self, *loc):
-        # 重写元素定位方法
+        ''' 重写元素定位'''
         try:
             # 注意：入参为元组的元素，需要加*。Python存在这种特性，就是将入参放在元组里。
             # WebDriverWait(self.driver,10).until(lambda driver: driver.find_element(*loc).is_displayed())
@@ -37,17 +36,18 @@ class BasePO(object):
             return self.driver.find_element(*loc)
         except:
             # print u"%s 页面中未能找到元素 %s "%(self, loc)
-            print(u"页面中未找到元素 %s " %(loc))
+            print(u"未找到元素 %s " %(loc))
 
     def find_elements(self, *loc):
+        ''' 重写元素集定位'''
         try:
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(loc))
             return self.driver.find_elements(*loc)
         except:
-            print(u"页面中未找到元素 %s " %(loc))
+            print(u"未找到元素集 %s " %(loc))
 
     def send_keys(self, loc, vaule, clear_first=True, click_first=True):
-        # 重写定义send_keys方法
+        '''重写键盘方法'''
         try:
             loc = getattr(self, "_%s" % loc)  # getattr相当于实现self.loc
             if click_first:
@@ -57,7 +57,7 @@ class BasePO(object):
                 self.find_element(*loc).send_keys(vaule)
         except AttributeError:
             # print u"%s 页面中未能找到 %s 元素"%(self, loc)
-            print(u"页面中未找到元素 %s " % (loc))
+            print(u"未找到元素 %s " % (loc))
 
     def sendKeysId(self, varId, dimValue):
         # 上传文件
