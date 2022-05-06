@@ -386,7 +386,8 @@ if __name__ == '__main__':
 	print("1，单视频下载（手机版）".center(100, "-"))
 	# douyin.downOneVideoByPhone("https://v.douyin.com/dghEdFX/", "c:\\51\\tmp")
 	# douyin.downOneVideoByPhone("https://v.douyin.com/NHePEyX/", "c:\\51\\tmp")
-	douyin.downOneVideoByPhone("https://v.douyin.com/F6m9KFb/", "c:\\51\\tmp")  # 作品已下架
+	# douyin.downOneVideoByPhone("https://v.douyin.com/F6m9KFb/", "c:\\51\\tmp")  # 作品已下架
+	douyin.downOneVideoByPhone("https://v.douyin.com/NdLh3fT/", "c:\\51\\tmp")
 
 	# print("2，多视频下载（手机版）".center(100, "-"))
 	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 下载所有视频，走遍中国5A景区-大龙

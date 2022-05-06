@@ -16,6 +16,8 @@
 
 from PO.DataPO import *
 Data_PO = DataPO()
+from PO.OutPO import *
+Out_PO = OutPO()
 
 class HtmlPO:
 
@@ -25,7 +27,7 @@ class HtmlPO:
             response = requests.get(varUrl)
             return response.status_code
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
     # 2，获取网站的header
     def getHeaders(self, varUrl):
@@ -37,7 +39,7 @@ class HtmlPO:
             response = requests.get(varUrl)
             return response.headers
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
 
     # 3，获取网页内容
@@ -49,10 +51,8 @@ class HtmlPO:
             res.encoding = "utf-8"
             return res.text
         except:
-            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(
-                sys._getframe(1).f_lineno) + ", in " + sys._getframe(
-                0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
-
+            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name,
+                               sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
     # 4，生成headers和proxies代理
     def getHeadersProxies(self):
@@ -62,7 +62,7 @@ class HtmlPO:
             varIp = Data_PO.getIpAgent()
             self.proxies = {str(varIp).split("://")[0]: str(varIp).split("://")[1]}
         except:
-            print("[ERROR], line " + str(sys._getframe(1).f_lineno) + " [in def " + sys._getframe(1).f_code.co_name + "()] jump to [def " + sys._getframe(0).f_code.co_name + "() from '" + sys._getframe().f_code.co_filename + "']")
+            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
 
     # 5，获取json网页内容
@@ -72,7 +72,7 @@ class HtmlPO:
             response = requests.get(url=varUrl, headers=self.headers, proxies=self.proxies)
             return response.json()
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
 
     # 6，解析session.get
@@ -82,7 +82,7 @@ class HtmlPO:
             ir = self.session.get(varUrl, headers=self.headers)
             return ir
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
 
 
