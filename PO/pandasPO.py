@@ -22,12 +22,11 @@
 from PO.MysqlPO import *
 Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
 
-# from sqlalchemy import create_engine
-# engine = create_engine('mysql+mysqldb://root:123456@192.168.0.234:3306/epd')
+from sqlalchemy import create_engine
+engine = create_engine('mysql+mysqldb://root:123456@192.168.0.234:3306/epd')
 # engine = create_engine('mysql+mysqldb://root:123456@192.168.0.234:3306/epd?charset=utf8')
 
 class PandasPO():
-
 
     def xlsx2db(self, varExcelFile, varTable):
         '''

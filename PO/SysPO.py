@@ -11,7 +11,8 @@
 
 import psutil, os, sys
 from time import sleep
-
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
 class SysPO():
 
@@ -35,11 +36,24 @@ class SysPO():
             except:
                 print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
+    def outMsg(self, msgStatus, errLine, func1, file, func2):
+        '''2,输出系统错误'''
+
+        if msgStatus == "error":
+            Color_PO.consoleColor("31", "31", "[Error] , line " + str(errLine) + " (" + func1 + "()) jump to (" + file + " -> " + func2 + "())", "")
+        elif msgStatus == "warning":
+            Color_PO.consoleColor("31", "33", "[Warning] , line " + str(errLine) + " (" + func1 + "()) jump to (" + file + " -> " + func2 + "())", "")
+
 
 if __name__ == '__main__':
 
     Sys_PO = SysPO()
 
-    print("1，关闭进程".center(100, "-"))
-    Sys_PO.killPid('EXCEL.EXE')
-    Sys_PO.killPid('360Newsld.exe')
+    # print("1，关闭进程".center(100, "-"))
+    # Sys_PO.killPid('EXCEL.EXE')
+    # Sys_PO.killPid('360Newsld.exe')
+
+    print("2,输出系统错误".center(100, "-"))
+    # Sys_PO.outMsg("error", str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name,
+    #           sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+
