@@ -16,8 +16,8 @@
 
 from PO.DataPO import *
 Data_PO = DataPO()
-from PO.OutPO import *
-Out_PO = OutPO()
+from PO.SysPO import *
+Sys_PO = SysPO()
 
 class HtmlPO:
 
@@ -27,7 +27,7 @@ class HtmlPO:
             response = requests.get(varUrl)
             return response.status_code
         except:
-            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+            Sys_PO.outMsg("error",str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
     # 2，获取网站的header
     def getHeaders(self, varUrl):
@@ -39,7 +39,7 @@ class HtmlPO:
             response = requests.get(varUrl)
             return response.headers
         except:
-            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+            Sys_PO.outMsg("error",str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
 
     # 3，获取网页内容
@@ -51,7 +51,7 @@ class HtmlPO:
             res.encoding = "utf-8"
             return res.text
         except:
-            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name,
+            Sys_PO.outMsg("error",str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name,
                                sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
     # 4，生成headers和proxies代理
@@ -61,8 +61,9 @@ class HtmlPO:
             self.headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
             varIp = Data_PO.getIpAgent()
             self.proxies = {str(varIp).split("://")[0]: str(varIp).split("://")[1]}
+
         except:
-            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+            Sys_PO.outMsg("warning", str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
 
     # 5，获取json网页内容
@@ -72,7 +73,7 @@ class HtmlPO:
             response = requests.get(url=varUrl, headers=self.headers, proxies=self.proxies)
             return response.json()
         except:
-            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+            Sys_PO.outMsg("error",str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
 
     # 6，解析session.get
@@ -82,7 +83,7 @@ class HtmlPO:
             ir = self.session.get(varUrl, headers=self.headers)
             return ir
         except:
-            Out_PO.outRedError(str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+            Sys_PO.outMsg("error",str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
 
 
@@ -104,9 +105,8 @@ if __name__ == '__main__':
     print("3，获取网页内容".center(100, "-"))
     print(Html_PO.getText("http://www.baidu.com"))
 
-
-    # print("4，生成headers和proxies代理".center(100, "-"))
+    print("4，生成headers和proxies代理".center(100, "-"))
+    Html_PO.getHeadersProxies()
 
     print("5，获取json网页内容".center(100, "-"))
-    Html_PO.getHeadersProxies()
     print(Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId=13738175&pageNum=1"))
