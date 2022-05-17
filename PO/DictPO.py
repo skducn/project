@@ -11,29 +11,44 @@
 # *********************************************************************
 
 from collections import ChainMap
+from collections import defaultdict
+import json
 
 '''
-1.1，字典合并（如两字典中有重复的key, 保留第一个字典key）
-1.2，字典合并（如两字典中有重复的key, 保留第二个字典key）
+1.1，合并字典（合并时如遇重复key,则保留第一个字典key的值）mergeDictGetFirstKey
+1.2，合并字典（合并时如遇重复key,则保留最后一个字典key的值）mergeDictGetLastKey
 
 2.1，获取2个字典交、并、差和对称差集的key
 2.2，获取2个字典交、并、差和对称差集的键值对
 
 3 将多个字典key转换列表（去重）
+
+4 字典推导式
+
+5 collections中counter统计元素频率
+
+6.1 collections中defaultdict之字典的 value 是字典
+6.1 collections中defaultdict之字典的 value 是列表
+6.1 collections中defaultdict之字典的 value 是lambda表达式
+6.4 collections中defaultdict之字典的 value 里又是字典
+
+7.1 字典转json字符串
+7.2 json字符串转字典
+7.3 字典转 JSON 字符串保存在文件里
+7.4 从 JSON 文件里恢复字典
 '''
 
 
 class DictPO():
 
-
-    def getFirstKeyByMerge(self, *varDict):
+    def mergeDictGetFirstKey(self, *varDict):
         '''
-        # 1.1，字典合并（如两字典中有重复的key, 保留第一个字典key）
-        # 多个字典合并，如有重复key，则保留第一个字典的key
+        # 1.1，合并字典（合并时如遇重复key,则保留第一个字典key的值）
         :param varDict:
         :return:
         '''
         d_varMerge = {}
+
         if len(varDict) == 2:
             c = ChainMap(varDict[0], varDict[1])
         elif len(varDict) == 3:
@@ -46,7 +61,7 @@ class DictPO():
             d_varMerge[k] = v
         return d_varMerge
 
-    def getLastKeyByMerge(self, *varDict):
+    def mergeDictGetLastKey(self, *varDict):
         '''
         1.2，字典合并（如两字典中有重复的key, 保留第二个字典key）
         :param varDict:
@@ -86,9 +101,9 @@ class DictPO():
             return None
 
 
-    def getKey2list(self, *varDict):
+    def dictKey2list(self, *varDict):
         '''
-        3 将多个字典key（重复）转换列表（去重）
+        3 字典key转换列表（去重）
         :return:
         '''
         if len(varDict) == 1:
@@ -97,26 +112,39 @@ class DictPO():
             return list(ChainMap(varDict[0], varDict[1]))
         elif len(varDict) == 3:
             return list(ChainMap(varDict[0], varDict[1], varDict[2]))
+        elif len(varDict) == 4:
+            return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3]))
+        elif len(varDict) == 5:
+            return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4]))
+        else:
+            return 0
 
 
+    def dict2json(self, varDict):
+        '''
+        字典转json字符串
+        :param varDict:
+        :return:
+        '''
+
+        return json.dumps(varDict)
 
 if __name__ == "__main__":
 
     Dict_PO = DictPO()
+    d1 = dict(a=1, b=2, test=123)
+    d2 = dict(a=100, b=200, dev=444)
+    d3 = dict(a=700, b=4, prd=666)
 
-    d1 = {'a': 1, 'b': 2, "jj":123}
-    d2 = {'a': 3, 'b': 4, "hh":666}
-    d3 = {'a': 5, 'bb': 6, "hh":999}
+    print("1.1 合并字典（合并时如遇重复key,则保留第一个字典key的值）".center(100, "-"))
+    print(Dict_PO.mergeDictGetFirstKey(d1, d2))  # {'a': 1, 'b': 2, 'dev': 444, 'test': 123}
+    print(Dict_PO.mergeDictGetFirstKey(d1, d2, d3))  # {'a': 1, 'b': 2, 'prd': 666, 'dev': 444, 'test': 123}
 
-
-    # print("1.1，字典合并（如两字典中有重复的key, 保留第一个字典key）".center(100, "-"))
-    # print(Dict_PO.getFirstKeyByMerge(d1, d2))  # {'c': 3, 'd': 4, 'a': 1, 'b': 2}
-    # print(Dict_PO.getFirstKeyByMerge(d1, d2, d3))  # {'c': 3, 'd': 4, 'a': 1, 'b': 2}
-    #
-    #
-    # print("1.1，字典合并（如两字典中有重复的key, 保留第二个字典key）".center(100, "-"))
-    # # print(Dict_PO.getLastKeyByMerge(d1, d2, d3))  # {'a': 5, 'b': 6, 'jj': 123, 'hh': 666, 'kk': 999}
-
+    print("1.2 合并字典（合并时如遇重复key,则保留最后一个字典key的值）".center(100, "-"))
+    print(Dict_PO.mergeDictGetLastKey(d1, d2, d3))  # {'a': 5, 'b': 6, 'jj': 123, 'hh': 666, 'kk': 999}
+    print({**d1, **d2})  # {'a': 100, 'b': 200, 'test': 123, 'dev': 444}
+    print({**d1, **d2, **d3})  # {'a': 700, 'b': 4, 'test': 123, 'dev': 444, 'prd': 666}
+    print({**d1, **d2, "a": 10})  # 先合并再修改，最后输出  {'a': 10, 'b': 200, 'test': 123, 'dev': 444}
 
 
     # a = {'x': 1, 'y': 2, 'z': 3}
@@ -135,19 +163,93 @@ if __name__ == "__main__":
     # print(Dict_PO.getKeyValueByDict("-", a, b))  # 差集（去掉交集，剩下在a的的keyvalue），{('z', 3), ('y', 2)}
     # print(Dict_PO.getKeyValueByDict("^", a, b))  # 对称差集（不会同时出现在二者中的keyvalue），{('z', 88), ('y', 2), ('z', 3), ('w', 10)}
 
-    # print("3 将多个字典key转换列表（去重）".center(100, "-"))
-    # print(Dict_PO.getKey2list(d1))  # ['a', 'b', 'jj']
-    # print(Dict_PO.getKey2list(d1, d2))  # ['a', 'b', 'hh', 'jj']
-    # print(Dict_PO.getKey2list(d1, d2, d3))  # ['a', 'bb', 'hh', 'b', 'jj']
+    print("3 字典key转列表（去重）".center(100, "-"))
+    print(Dict_PO.dictKey2list(d1))  # ['a', 'b', 'jj']
+    print(Dict_PO.dictKey2list(d1, d2))  # ['a', 'b', 'hh', 'jj']
+    print(Dict_PO.dictKey2list(d1, d2, d3))  # ['a', 'bb', 'hh', 'b', 'jj']
 
 
-    # 字典形式
-    b = {'one': 1, 'two': 2, 'three': 3}
-    c = {'one': 1, 'two': 2, 'three': 3}
+    # # 字典形式
+    # b = {'one': 1, 'two': 2, 'three': 3}
+    # c = {'one': 1, 'two': 2, 'three': 3}
+    #
+    # a = dict(one=1, two=2, three=3)
+    # b = {'one': 1, 'two': 2, 'three': 3}
+    # c = dict(zip(['one', 'two', 'three'], [1, 2, 3]))
+    # d = dict([('two', 2), ('one', 1), ('three', 3)])
+    # e = dict({'three': 3, 'one': 1, 'two': 2})
+    # print(a == b == c == d == e)
+    #
 
-    a = dict(one=1, two=2, three=3)
-    b = {'one': 1, 'two': 2, 'three': 3}
-    c = dict(zip(['one', 'two', 'three'], [1, 2, 3]))
-    d = dict([('two', 2), ('one', 1), ('three', 3)])
-    e = dict({'three': 3, 'one': 1, 'two': 2})
-    print(a == b == c == d == e)
+
+    # print("4.1 字典推导式来删除 key".center(100, "-"))
+    # a = dict(a=5, b=6, c=7, d=8)
+    # remove = set(["c", "d"])
+    # print({k: v for k, v in a.items() if k not in remove})  #{ "a": 5, "b": 6 }
+    #
+    # print("4.1 字典推导式来保留 key".center(100, "-"))
+    # a = dict(a=5, b=6, c=7, d=8)
+    # remove = set(["c", "d"])
+    # print({k: v for k, v in a.items() if k in remove})  # { "c": 7, "d": 8 }
+    #
+    # print("4.1 字典推导式来让所有的 value 加 1".center(100, "-"))
+    # a = dict(a=5, b=6, c=7, d=8)
+    # print({k: v + 1 for k, v in a.items()}) # { "a": 6, "b": 7, "c": 8, "d": 9 }
+
+
+    # print("5 collections中counter统计元素频率".center(100, "-"))
+    # from collections import Counter
+    # counter = Counter()
+    # # counter 可以统计 list 里面元素的频率
+    # counter.update(['a', 'b', 'a'])
+    # print(counter)  # Counter({'a': 2, 'b': 1})
+    # print(counter.most_common())  # [('a', 2), ('b', 1)]
+    #
+    # # 合并计数
+    # counter.update({"a": 10000, "b": 1})
+    # print(counter)  # Counter({'a': 10002, 'b': 2})
+    # counter["b"] += 100 # Counter({'a': 10002, 'b': 102})
+    # print(counter.most_common())  # [('a', 10002), ('b', 102)]
+    # print(counter.most_common()[0])  # ('a', 10002)
+
+
+    # print("6.1 collections中defaultdict之字典的 value 是字典".center(100, "-"))
+    # dict1 = defaultdict(dict)
+    # dict1[5]["a"] = 125
+    # dict1[5]["b"] = 1
+    # print(dict1[5])  # {'a': 125, 'b': 1}
+    # print(dict1)  # defaultdict(<class 'dict'>, {5: {'a': 125, 'b': 1}})
+    #
+    # print("6.2 collections中defaultdict之字典的 value 是列表".center(100, "-"))
+    # list1 = defaultdict(list)
+    # list1[5].append(3)
+    # list1[5].append("45")
+    # print(list1[5])  # [3, '45']
+    #
+    # print("6.3 collections中defaultdict之字典的 value 是lambda".center(100, "-"))
+    # a = defaultdict(lambda: 10)
+    # print(a[3])  # 10
+    # print(a[6]+1)  # 11
+    # print(a)  # defaultdict(<function <lambda> at 0x000001F2D17F0550>, {3: 10, 6: 10})
+    #
+    # print("6.4 collections中defaultdict之字典的 value 里又是字典".center(100, "-"))
+    # dict4 = defaultdict(lambda: defaultdict(dict))
+    # dict4[5]["a"] = dict(b=123, c=666)
+    # print(dict4[5])  # defaultdict(<class 'dict'>, {'a': '123'})
+    # print(dict4[5]['a'])  # {'b': 123, 'c': 666}
+
+
+    # print("7.1 字典转json字符串".center(100, "-"))
+    # print(json.dumps(dict(a=5, b=6)))  # {"a": 5, "b": 6}  双引号是字符串
+    #
+    # print("7.2 json字符串转字典".center(100, "-"))
+    # print(json.loads('{"a": 5, "b": 6}'))  # {'a': 5, 'b': 6}  单引号是字典
+    #
+    # print("7.3 字典转 JSON 字符串保存在文件里".center(100, "-"))
+    # with open("dict.json", "w+") as f:
+    #      json.dump(dict(a=5, b=6), f)
+    #
+    # print("7.4 从 JSON 文件里恢复字典".center(100, "-"))
+    # with open("dict.json", "r") as f:
+    #     print(json.load(f))  # {'a': 5, 'b': 6}
+
