@@ -12,27 +12,33 @@
 
 from collections import ChainMap
 from collections import defaultdict
+from collections import Counter
+
 import json
 
 '''
-1.1，合并字典（合并时如遇重复key,则保留第一个字典key的值）mergeDictGetFirstKey
-1.2，合并字典（合并时如遇重复key,则保留最后一个字典key的值）mergeDictGetLastKey
+1.1，合并字典（合并时如遇重复key,则保留第一个字典键值）mergeDictGetFirstKey()
+1.2，合并字典（合并时如遇重复key,则保留最后一个字典键值）mergeDictGetLastKey()
 
 2.1，获取2个字典交、并、差和对称差集的key
 2.2，获取2个字典交、并、差和对称差集的键值对
 
-3 将多个字典key转换列表（去重）
+3.1 将多个字典key转换列表（去重）dictKey2list()
+3.2 列表转字典（value=None）list2dict()
 
-4 字典推导式
+4.1 删除字典中的key  delKey()
+4.2 保留字典中的key  serverKey()
 
-5 collections中counter统计元素频率
+5.1 多个字典中相同的key值进行累加 sumValueByKey()
+5.2 批量更新字典value（数字） addValue()
+
 
 6.1 collections中defaultdict之字典的 value 是字典
 6.1 collections中defaultdict之字典的 value 是列表
 6.1 collections中defaultdict之字典的 value 是lambda表达式
 6.4 collections中defaultdict之字典的 value 里又是字典
 
-7.1 字典转json字符串
+7.1 字典转json字符串 dict2json()
 7.2 json字符串转字典
 7.3 字典转 JSON 字符串保存在文件里
 7.4 从 JSON 文件里恢复字典
@@ -41,7 +47,8 @@ import json
 
 class DictPO():
 
-    def mergeDictGetFirstKey(self, *varDict):
+    # 1.1，合并字典（合并时如遇重复key,则保留第一个字典键值）
+    def mergeDictReserveLeft(self, *varDict):
         '''
         # 1.1，合并字典（合并时如遇重复key,则保留第一个字典key的值）
         :param varDict:
@@ -60,8 +67,8 @@ class DictPO():
         for k, v in c.items():
             d_varMerge[k] = v
         return d_varMerge
-
-    def mergeDictGetLastKey(self, *varDict):
+    # 1.2，合并字典（合并时如遇重复key,则保留最后一个字典键值）
+    def mergeDictReserveRight(self, *varDict):
         '''
         1.2，字典合并（如两字典中有重复的key, 保留第二个字典key）
         :param varDict:
@@ -86,7 +93,6 @@ class DictPO():
             return(varDict1.keys() ^ varDict2.keys())
         else:
             return None
-
     # 2.2，获取2个字典交、并、差和对称差集的键值对
     def getKeyValueByDict(self, varOperator, varDict1, varDict2):
         if varOperator == "&":
@@ -101,11 +107,8 @@ class DictPO():
             return None
 
 
+    # 3.1 字典key转换列表（去重）
     def dictKey2list(self, *varDict):
-        '''
-        3 字典key转换列表（去重）
-        :return:
-        '''
         if len(varDict) == 1:
             return list(ChainMap(varDict[0]))
         elif len(varDict) == 2:
@@ -118,8 +121,44 @@ class DictPO():
             return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4]))
         else:
             return 0
+    # 3.2 列表转字典（value=None）
+    def list2dict(self, varList, value=None):
+        # print(Dict_PO.list2dict(['name', 'blog']))  # {'name': None, 'blog': None}
+        # print(Dict_PO.list2dict(['name', 'blog'], '12'))  # {'name': '12', 'blog': '12'}
+        return {}.fromkeys(varList, value)
 
 
+    # 4.1 删除字典中的key
+    def delKey(self, varDict, *varKey):
+        list1 = []
+        for i in range(len(varKey)):
+            list1.append(varKey[i])
+        remove = set(list1)
+        return ({k: v for k, v in varDict.items() if k not in remove})
+    # 4.2 保留字典中的key
+    def reserveKey(self, varDict, *varKey):
+        list1 = []
+        for i in range(len(varKey)):
+            list1.append(varKey[i])
+        reserve = set(list1)
+        print({k: v for k, v in varDict.items() if k in reserve})
+
+
+    # 5.1 多个字典中相同的key值进行累加
+    def sumValueByKey(self, *varDict):
+        # print(Dict_PO.sumValueByKey({"a": 10000, "b": 1}, {"a": 10000, "b": 1},
+        #                             {"a": 40000, "b": 1, "c": 333}))  # [('a', 60000), ('c', 333), ('b', 3)]
+
+        counter = Counter()
+        for i in range(len(varDict)):
+            counter.update(varDict[i])
+        return (counter.most_common())
+
+    # 5.2 批量更新字典value（数字）
+    def addValue(self, varDict, n):
+        return ({k: v + n for k, v in varDict.items()})
+
+    # 7.1 字典转json字符串
     def dict2json(self, varDict):
         '''
         字典转json字符串
@@ -129,6 +168,8 @@ class DictPO():
 
         return json.dumps(varDict)
 
+
+
 if __name__ == "__main__":
 
     Dict_PO = DictPO()
@@ -137,11 +178,11 @@ if __name__ == "__main__":
     d3 = dict(a=700, b=4, prd=666)
 
     print("1.1 合并字典（合并时如遇重复key,则保留第一个字典key的值）".center(100, "-"))
-    print(Dict_PO.mergeDictGetFirstKey(d1, d2))  # {'a': 1, 'b': 2, 'dev': 444, 'test': 123}
-    print(Dict_PO.mergeDictGetFirstKey(d1, d2, d3))  # {'a': 1, 'b': 2, 'prd': 666, 'dev': 444, 'test': 123}
+    print(Dict_PO.mergeDictReserveLeft(d1, d2))  # {'a': 1, 'b': 2, 'dev': 444, 'test': 123}
+    print(Dict_PO.mergeDictReserveLeft(d1, d2, d3))  # {'a': 1, 'b': 2, 'prd': 666, 'dev': 444, 'test': 123}
 
     print("1.2 合并字典（合并时如遇重复key,则保留最后一个字典key的值）".center(100, "-"))
-    print(Dict_PO.mergeDictGetLastKey(d1, d2, d3))  # {'a': 5, 'b': 6, 'jj': 123, 'hh': 666, 'kk': 999}
+    print(Dict_PO.mergeDictReserveRight(d1, d2, d3))  # {'a': 5, 'b': 6, 'jj': 123, 'hh': 666, 'kk': 999}
     print({**d1, **d2})  # {'a': 100, 'b': 200, 'test': 123, 'dev': 444}
     print({**d1, **d2, **d3})  # {'a': 700, 'b': 4, 'test': 123, 'dev': 444, 'prd': 666}
     print({**d1, **d2, "a": 10})  # 先合并再修改，最后输出  {'a': 10, 'b': 200, 'test': 123, 'dev': 444}
@@ -163,11 +204,15 @@ if __name__ == "__main__":
     # print(Dict_PO.getKeyValueByDict("-", a, b))  # 差集（去掉交集，剩下在a的的keyvalue），{('z', 3), ('y', 2)}
     # print(Dict_PO.getKeyValueByDict("^", a, b))  # 对称差集（不会同时出现在二者中的keyvalue），{('z', 88), ('y', 2), ('z', 3), ('w', 10)}
 
-    print("3 字典key转列表（去重）".center(100, "-"))
-    print(Dict_PO.dictKey2list(d1))  # ['a', 'b', 'jj']
-    print(Dict_PO.dictKey2list(d1, d2))  # ['a', 'b', 'hh', 'jj']
-    print(Dict_PO.dictKey2list(d1, d2, d3))  # ['a', 'bb', 'hh', 'b', 'jj']
 
+    print("3.1 字典key转列表（去重）".center(100, "-"))
+    print(Dict_PO.dictKey2list(d1))  # ['a', 'b', 'test']
+    print(Dict_PO.dictKey2list(d1, d2))  # ['a', 'b', 'dev', 'test']
+    print(Dict_PO.dictKey2list(d1, d2, d3))  # ['a', 'b', 'prd', 'dev', 'test']
+
+    print("3.2 列表转字典（value=None）".center(100, "-"))
+    print(Dict_PO.list2dict(['name', 'blog']))  # {'name': None, 'blog': None}
+    print(Dict_PO.list2dict(['name', 'blog'], '12'))  # {'name': '12', 'blog': '12'}
 
     # # 字典形式
     # b = {'one': 1, 'two': 2, 'three': 3}
@@ -182,35 +227,35 @@ if __name__ == "__main__":
     #
 
 
-    # print("4.1 字典推导式来删除 key".center(100, "-"))
-    # a = dict(a=5, b=6, c=7, d=8)
-    # remove = set(["c", "d"])
-    # print({k: v for k, v in a.items() if k not in remove})  #{ "a": 5, "b": 6 }
-    #
-    # print("4.1 字典推导式来保留 key".center(100, "-"))
-    # a = dict(a=5, b=6, c=7, d=8)
-    # remove = set(["c", "d"])
-    # print({k: v for k, v in a.items() if k in remove})  # { "c": 7, "d": 8 }
-    #
-    # print("4.1 字典推导式来让所有的 value 加 1".center(100, "-"))
-    # a = dict(a=5, b=6, c=7, d=8)
-    # print({k: v + 1 for k, v in a.items()}) # { "a": 6, "b": 7, "c": 8, "d": 9 }
+    print("4.1 删除字典中的key".center(100, "-"))
+    print(Dict_PO.delKey({"a": 5, "b": 6, "c":7, "d":8}, "b", "d"))  # {'a': 5, 'c': 7}
+
+    print("4.2 保留字典中的key".center(100, "-"))
+    print(Dict_PO.reserveKey({"a": 5, "b": 6, "c":7, "d":8}, "b", "d"))  # {'b': 6, 'd': 8}
 
 
-    # print("5 collections中counter统计元素频率".center(100, "-"))
-    # from collections import Counter
+    print("5.1 多个字典中相同的key值进行累加".center(100, "-"))
+    print(Dict_PO.sumValueByKey({"a": 10000, "b": 1}, {"a": 10000, "b": 1}, {"a": 40000, "b": 1, "c" : 333}))  # [('a', 60000), ('c', 333), ('b', 3)]
+
+    print("5.2 批量更新字典value（数字）".center(100, "-"))
+    print(Dict_PO.addValue({"a": 6, "b": 7, "c": 8, "d": 9}, 1))  # {'a': 7, 'b': 8, 'c': 9, 'd': 10}
+
+
     # counter = Counter()
     # # counter 可以统计 list 里面元素的频率
-    # counter.update(['a', 'b', 'a'])
-    # print(counter)  # Counter({'a': 2, 'b': 1})
-    # print(counter.most_common())  # [('a', 2), ('b', 1)]
-    #
-    # # 合并计数
-    # counter.update({"a": 10000, "b": 1})
-    # print(counter)  # Counter({'a': 10002, 'b': 2})
-    # counter["b"] += 100 # Counter({'a': 10002, 'b': 102})
+    # # counter.update(['a', 'b', 'a'])
+    # # # print(counter)  # Counter({'a': 2, 'b': 1})
+    # # print(counter.most_common())  # [('a', 2), ('b', 1)]
+    # #
+    # # # 合并计数
+    # dd = {"a": 10000, "b": 1}
+    # counter.update(dd)
+    # ww = {"a": 10000, "c":444, "b": -1}
+    # counter.update(ww)
+    # # print(counter)  # Counter({'a': 10002, 'b': 2})
+    # # counter["b"] += 100 # Counter({'a': 10002, 'b': 102})
     # print(counter.most_common())  # [('a', 10002), ('b', 102)]
-    # print(counter.most_common()[0])  # ('a', 10002)
+    # # print(counter.most_common()[0])  # ('a', 10002)
 
 
     # print("6.1 collections中defaultdict之字典的 value 是字典".center(100, "-"))
@@ -252,4 +297,6 @@ if __name__ == "__main__":
     # print("7.4 从 JSON 文件里恢复字典".center(100, "-"))
     # with open("dict.json", "r") as f:
     #     print(json.load(f))  # {'a': 5, 'b': 6}
+
+
 

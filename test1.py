@@ -12,6 +12,14 @@
 from docx import Document
 from docx.shared import Inches
 
+def test():
+    ...
+
+def tt():
+
+
+
+
 document = Document('demo.docx')
 #
 # document.add_heading('Document Title', 0)
