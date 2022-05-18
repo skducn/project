@@ -635,3 +635,39 @@ print(arr)
 print("18, ones_like(数组)".center(100, "-"))
 arr = np.arange(6)  # array([0, 1, 2, 3, 4, 5])
 print(np.ones_like(arr))  # array([1, 1, 1, 1, 1, 1])
+
+
+def ee():
+    Ellipsis
+
+ary = np.arange(27).reshape(3,3,3)
+print(ary)
+print(ary[...,2])
+
+
+a, *b, c = range(1, 11)
+print(*b)
+
+
+l = [[1, 2, 3], [4, 5, 6,333], (9,5), {"abc":123},"jinhao",str(66),[7, 8, 9]]
+flattened = [e for sublist in l for e in sublist]
+print(flattened)
+
+# l = [[1, 2, 3], [4, 5, 6,333]]
+l = [[[1, 2, 3], [4, 5, 6,333]]]
+print(sum(l, []))
+
+
+# nums = [1, 3, 7]
+# print(sum(nums))
+# print(7+_)
+
+
+try:
+    test =123
+    ewr
+except:
+    print("44444")
+else:
+    print("ok")
+    print(test)

@@ -31,7 +31,7 @@ todo：【比较】
 3.4 比较获取两列表相同元素的索引号 listsGetIndex(['a', 'b', 'c', 'd'], ['a', 'k', 'c', 'z']))  # [1, 3]
 
 todo：【替换】
-4.1 1 对多替换原列表中元素 listBatchReplaceByOne2More(["1", 2, "3", ":"], 2, ""))  # ['1', '', '3', ':']
+4.1 一对多替换原列表中元素 listBatchReplaceByOne2More(["1", 2, "3", ":"], 2, ""))  # ['1', '', '3', ':']
 4.2 多对1替换原列表中元素 listBatchReplaceByMore2One(["1", 2, "3", ":"], [":", 2], 7))  # ['1', 7, '3', 7]
 4.3 多对多替换原列表中元素 listBatchReplaceByMore2More(["1", 2, "3", ":"], {":": 12, 2: 77}))  # ['1', 77, '3', 12]
 
@@ -39,14 +39,17 @@ todo：【清除】
 5.1 清除列表中字符串元素左右空格 listStrip(['   glass', 'apple   ', '  greenleaf  ']))  # ['glass', 'apple', 'greenleaf']
 5.2 清除原列表元素中的特殊字符（\n\t\r\xa0等）listClearSpecialChar(['0\n编号', '1\n既往史', 444, '2\n既\r往    史\t\n逻\xa0辑', 'abc'], "abc", ":"))   #  ['0编号规则', '1既往史记录逻辑错误', '444', '2既往史逻辑错误', ':']
 5.3 删除列表中指定的（或模糊的）元素 listBatchDel(['0', "错误", '1', 222, "错误"], "错误", "-like"))  # ['0', '1', 222]
-5.4 删除列表中重复的所有元素 listDelRepeatAll([2, "a", 1, "\n", "\n", 13, "", "test", 6, 2, "", "", 1, "a"]))  # [13, 'test', 6]
-5.5 删除列表中重复的元素（去重）listDelRepeat([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
+5.4 删除列表中重复的所有元素 delRepeatAll([2, "a", 1, "\n", "\n", 13, "", "test", 6, 2, "", "", 1, "a"]))  # [13, 'test', 6]
+5.5 删除列表中重复的元素（去重）delRepeat([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
 
+6 统计列表中元素的数量 getRepeat()
 
 '''
 
 import numpy
 from random import choice
+from collections import Counter
+
 from PO.CharPO import *
 Char_PO = CharPO()
 from PO.StrPO import *
@@ -403,17 +406,23 @@ class ListPO():
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
     # 5.4 删除列表中重复的所有元素
-    def listDelRepeatAll(self, varList):
+    def delRepeatAll(self, varList):
         return [item for item in varList if varList.count(item) == 1]
 
 
     # 5.5 删除列表中重复的元素
-    def listDelRepeat(self, varList):
+    def delRepeat(self, varList):
         return sorted(set(varList), key=varList.index)
         # 列表去重,并从小到大排列
         # def duplicateRemovalBySort(self, varList):
         #     return list(set(varList))
 
+
+    # 6 统计列表中元素的数量
+    def getRepeat(self, varList):
+        counter = Counter()
+        counter.update(varList)
+        return (counter.most_common())
 
 
 if __name__ == "__main__":
@@ -564,7 +573,7 @@ if __name__ == "__main__":
     # print(List_PO.listStrip(['   glass', 'apple   ', '  greenleaf  ']))  # ['glass', 'apple', 'greenleaf']
 
     # print("5.2 清除原列表元素中的特殊字符（\n\t\r\xa0等）".center(100, "-"))
-    print(List_PO.listClearSpecialChar(['0\n编号', '1\n既往史', 444, '2\n既\r往    史\t\n逻\xa0辑', 'abc']))   #  ['0编号规则', '1既往史记录逻辑错误', '444', '2既往史逻辑错误', ':']
+    # print(List_PO.listClearSpecialChar(['0\n编号', '1\n既往史', 444, '2\n既\r往    史\t\n逻\xa0辑', 'abc']))   #  ['0编号规则', '1既往史记录逻辑错误', '444', '2既往史逻辑错误', ':']
     # print(List_PO.listClearSpecialChar(['\n\t\t\tCHF\xa0\r\n\r\n  \t64.90', '\n\t\tCHF\xa0\r\n\t58.40','\n\t\tCHF\xa0\r\t48.70']))  # ['CHF64.90', 'CHF58.40', 'CHF48.70']
     #    
     # print("5.3 删除列表中指定的（或模糊的）元素".center(100, "-"))
@@ -572,8 +581,13 @@ if __name__ == "__main__":
     # print(List_PO.listBatchDel(['0', "错误", '1', 22, "错误内容"], "错误", "-like"))  # ['0', '1', 22]  //关键字vague表示模糊删除，删除包含“错误”的元素。
     # print(List_PO.listBatchDel(['首页', '', '', '', '', '', '', '', '建档耗时统计', '档案更新监控'], ""))  # ['首页', '建档耗时统计', '档案更新监控']
     #
-    # print("5.4 删除列表中重复的所有元素".center(100, "-"))
-    # print(List_PO.listDelRepeatAll([2, "a", 1, "\n", "\n", 13, "", "test", 6, 2, "", "", 1, "a"]))  # [13, 'test', 6]
+    print("5.4 删除列表中重复的所有元素".center(100, "-"))
+    print(List_PO.delRepeatAll([2, "a", 1, "\n", "\n", 13, "", "test", 6, 2, "", "", 1, "a"]))  # [13, 'test', 6]
 
-    # print("5.5 删除列表中重复的元素1".center(100, "-"))
-    # print(List_PO.listDelRepeat([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
+    print("5.5 删除列表中重复的元素".center(100, "-"))
+    print(List_PO.delRepeat([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
+
+
+    print("6 获取列表中元素的数量".center(100, "-"))
+    print(List_PO.getRepeat([2, 1, 13, 6, 2, 1]))  # [(2, 2), (1, 2), (13, 1), (6, 1)]
+    print(List_PO.getRepeat(['a', 'b', 'c', 'a']))  # [('a', 2), ('b', 1), ('c', 1)]
