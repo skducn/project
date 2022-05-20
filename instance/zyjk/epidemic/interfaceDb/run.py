@@ -11,7 +11,7 @@
 # css样式（外链） https://blog.csdn.net/qq_38316655/article/details/104663077
 # css样式（内嵌） https://www.cnpython.com/qa/91356
 # *****************************************************************
-import sys
+import sys,platform
 sys.path.append("../../../../")
 
 import json, jsonpath
@@ -249,9 +249,9 @@ if __name__ == '__main__':
     df = pd.read_sql(sql="select id, 类型,模块,名称,参数,i结果,s表值,s检查表值,s结果,全局变量 from %s" % (testTable), con=Mysql_PO.getPymysqlEngine())
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>接口自动化报告</title></head>
-    <body><b><caption>招远疫情防控接口自动化报告''' + str(Time_PO.getDate_divide()) + '''</caption></b><br><br>{table}</body></html>'''
+    <body><b><caption>招远疫情防控接口自动化报告''' + str(Time_PO.getDate()) + '''</caption></b><br><br>{table}</body></html>'''
     style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
-    rptName = "report/" + str(rptName) + str(Time_PO.getDatetime()) + ".html"
+    rptName = "report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
     with open(rptName, 'w') as f:
         f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
         # f.write(html.format(table=df.to_html(classes="mystyle", col_space=50)))
@@ -270,7 +270,10 @@ if __name__ == '__main__':
     tf.write(str(html_text))
     tf.close()
 
-    os.system("start ./" + rptName)
+    if platform.system() == 'Darwin':
+        os.system("open ./" + rptName)
+    if platform.system() == 'Windows':
+        os.system("start ./" + rptName)
     #
     # # Net_PO.sendEmail("令狐冲", 'skducn@163.com', "h.jin@zy-healthtech.com",
     # #                  "招远疫情防控接口自动化报告" + str(Time_PO.getDate_minus()),

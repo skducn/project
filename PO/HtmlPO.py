@@ -57,10 +57,12 @@ class HtmlPO:
     # 4，生成headers和proxies代理
     def getHeadersProxies(self):
         try:
-            # self.headers = {'User-Agent': Data_PO.getUserAgent()}
-            self.headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
+            self.headers = {'User-Agent': Data_PO.getUserAgent()}
+            # print(self.headers)
+            # self.headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
             varIp = Data_PO.getIpAgent()
             self.proxies = {str(varIp).split("://")[0]: str(varIp).split("://")[1]}
+            # print(self.proxies)
 
         except:
             Sys_PO.outMsg("warning", str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)

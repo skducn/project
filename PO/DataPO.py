@@ -64,7 +64,7 @@ from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 import pandas as pd
 from MyQR import myqr
-from pyzbar.pyzbar import decode
+# from pyzbar.pyzbar import decode
 from PIL import Image
 
 class DataPO():
