@@ -6,7 +6,7 @@
 # 抖音 user_url 用户列表链接的获取方法：右上角...  - 分享 - 复制链接
 # https://www.douyin.com/
 # 手机版单视频页、列表页 https://v.douyin.com/Jp4GEo6/
-# 网页版单视频页 https://www.douyin.com/video/6979549164304731428
+# 网页版单视频页 https://www.douyin.com/discover
 # 网页版列表页 https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg  全说商业
 
 # 过滤掉非法的多字节序列问题
@@ -34,13 +34,10 @@ from PO.StrPO import *
 Str_PO = StrPO()
 
 
-
-
 class Douyin:
 
 	def __init__(self):
 		Html_PO.getHeadersProxies()
-
 
 	def downOneVideoByPhone(self, url, toSave):
 		'''
@@ -51,15 +48,14 @@ class Douyin:
 			# 参数：用户页链接 - 分享 - 复制链接
 		'''
 
-
 		# 解析复制链接及API地址并获取视频ID
 		res = Html_PO.sessionGet(url)
-
 		# print(res.url)
 		aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)  # ['6976835684271279400']
 		apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
 		res = Html_PO.sessionGet(apiUrl)
-		tmp = json.loads(res.text)
+		res = (str(res.text).encode('gbk', 'ignore').decode('gbk'))
+		tmp = json.loads(res)
 		# print(tmp)
 
 		if tmp['item_list'] == [] and tmp['filter_list'][0]['notice'] == "抱歉，作品不见了":
@@ -69,20 +65,27 @@ class Douyin:
 		else:
 
 			# 获取视频Id
-			vid = tmp['item_list'][0]['video']['vid']
+			# vid = tmp['item_list'][0]['video']['vid']  # v0200fg10000ca0rof3c77u9aib3u93g
+
 			# 视频Id
 			# video_id = re.findall(r'/?video_id=(\w+)', res1.text)  #  # v0300f3d0000bvn9r1prh6u8gbdusbdg
 			# 用户名
-			nickname = re.findall('"nickname":"(.+?)"', res.text)
+			nickname = re.findall('"nickname":"(.+?)"', res)
 			# 视频标题
-			varTitle = re.findall('"share_title":"(.+?)"', res.text)
+			varTitle = re.findall('"share_title":"(.+?)"', res)
 			# 优化文件名不支持的9个字符
 			varTitle = Str_PO.escapeSpecialCharacters(str(varTitle[0]))
 			# 生成目录
-			File_PO.newLayerFolder(toSave + "\\" + nickname[0])
-			varFolder = str(toSave) + "\\" + nickname[0]
+			if platform.system() == 'Darwin':
+				File_PO.newLayerFolder(toSave + "/" + nickname[0])
+				varFolder = str(toSave) + "/" + nickname[0]
+			if platform.system() == 'Windows':
+				File_PO.newLayerFolder(toSave + "\\" + nickname[0])
+				varFolder = str(toSave) + "\\" + nickname[0]
 			# 下载（API地址）
-			videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
+			videoUrl = tmp['item_list'][0]['video']['play_addr']['url_list'][0]  # v0200fg10000ca0rof3c77u9aib3u93g
+			# videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
+
 			ir = Html_PO.sessionGet(videoUrl)
 			open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
 
@@ -130,8 +133,12 @@ class Douyin:
 		# print("关注：%s" % guanzhu[0])
 
 		# 生成目录
-		File_PO.newLayerFolder(toSave + "\\" + nickname[0])
-		varFolder = str(toSave) + "\\" + nickname[0]
+		if platform.system() == 'Darwin':
+			File_PO.newLayerFolder(toSave + "/" + nickname[0])
+			varFolder = str(toSave) + "/" + nickname[0]
+		if platform.system() == 'Windows':
+			File_PO.newLayerFolder(toSave + "\\" + nickname[0])
+			varFolder = str(toSave) + "\\" + nickname[0]
 
 		# 分页功能
 		max_cursor = 0
@@ -245,8 +252,13 @@ class Douyin:
 		# 优化文件名不支持的9个字符
 		varTitle = Str_PO.escapeSpecialCharacters(str(varTitle[0]))
 		# 生成目录
-		File_PO.newLayerFolder(toSave + "\\" + nickname[0])
-		varFolder = str(toSave) + "\\" + nickname[0]
+		if platform.system() == 'Darwin':
+			File_PO.newLayerFolder(toSave + "/" + nickname[0])
+			varFolder = str(toSave) + "/" + nickname[0]
+		if platform.system() == 'Windows':
+			File_PO.newLayerFolder(toSave + "\\" + nickname[0])
+			varFolder = str(toSave) + "\\" + nickname[0]
+
 		# 下载（API地址）
 		videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
 		ir = Html_PO.sessionGet(videoUrl)
@@ -292,8 +304,12 @@ class Douyin:
 			# 用户名
 			nickname = s['author']['nickname']
 			# 生成目录
-			File_PO.newLayerFolder(toSave + "\\" + nickname)
-			varFolder = str(toSave) + "\\" + nickname
+			if platform.system() == 'Darwin':
+				File_PO.newLayerFolder(toSave + "/" + nickname)
+				varFolder = str(toSave) + "/" + nickname
+			if platform.system() == 'Windows':
+				File_PO.newLayerFolder(toSave + "\\" + nickname)
+				varFolder = str(toSave) + "\\" + nickname
 			print("用户名：{}({})".format(nickname, url))
 			print("视频数：{}".format(workQTY))
 			break
@@ -384,10 +400,11 @@ if __name__ == '__main__':
 	douyin = Douyin()
 
 	print("1，单视频下载（手机版）".center(100, "-"))
-	# douyin.downOneVideoByPhone("https://v.douyin.com/dghEdFX/", "c:\\51\\tmp")
-	# douyin.downOneVideoByPhone("https://v.douyin.com/NHePEyX/", "c:\\51\\tmp")
+	douyin.downOneVideoByPhone(" https://v.douyin.com/FCVrdKw/", "/Users/linghuchong/Desktop/mac")
+	# douyin.downOneVideoByPhone("https://v.douyin.com/NHePEyX/", "/Users/linghuchong/Desktop/mac")
 	# douyin.downOneVideoByPhone("https://v.douyin.com/F6m9KFb/", "c:\\51\\tmp")  # 作品已下架
-	douyin.downOneVideoByPhone("https://v.douyin.com/NdLh3fT/", "c:\\51\\tmp")
+	# douyin.downOneVideoByPhone("https://v.douyin.com/NdLh3fT/", "/Users/linghuchong/Desktop/mac")
+	# douyin.downOneVideoByPhone(" https://v.douyin.com/FxTSCxU/", "/Users/linghuchong/Desktop/mac")
 
 	# print("2，多视频下载（手机版）".center(100, "-"))
 	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 下载所有视频，走遍中国5A景区-大龙
@@ -395,7 +412,7 @@ if __name__ == '__main__':
 	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", scope="三星")  # 下载标题中带“XXX”关键字的音频
 
 	# print("3，单视频下载（网页版）".center(100, "-"))
-	# douyin.downOneVideoByWeb("7034767361953582376", "d:\\4")
+	# douyin.downOneVideoByWeb("7050823376893381902", "/Users/linghuchong/Desktop/mac")
 
 	# print("4，多视频下载（网页版）".center(100, "-"))
 	# "https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg"
