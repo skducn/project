@@ -1,0 +1,142 @@
+<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style><html><head><title>接口自动化报告</title></head>
+<body><b><caption>招远疫情防控接口自动化报告20220523</caption></b><br/><br/><table border="1" class="dataframe mystyle">
+<thead>
+<tr style="text-align: center;">
+<th style="min-width: 100px;">id</th>
+<th style="min-width: 100px;">类型</th>
+<th style="min-width: 100px;">模块</th>
+<th style="min-width: 100px;">名称</th>
+<th style="min-width: 100px;">路径</th>
+<th style="min-width: 100px;">方法</th>
+<th style="min-width: 100px;">参数</th>
+<th style="min-width: 100px;">i检查返回值</th>
+<th style="min-width: 100px;"bgcolor="#ffeb9c">i结果</th>
+<th style="min-width: 100px;">s表值</th>
+<th style="min-width: 100px;">s检查表值</th>
+<th style="min-width: 100px;"bgcolor="#ffeb9c">s结果</th>
+<th style="min-width: 100px;">全局变量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>正常</td>
+<td>公钥加密接口</td>
+<td>加密用户名</td>
+<td>/auth/publicEncrypt?info=jinhao</td>
+<td>post</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"org_id":"select org_id from sys_user where user_no='jinhao'",\n"zjCenterId":"select zj_center_id from sys_user where user_no='jinhao'"}</td>
+<td>{"org_id":634,"zjCenterId":123}</td>
+<td>{"org_id": 34, "zjCenterId": "6"}</td>
+<td>{"userNo":"$.data","tt":"success","orgno":"\'wgzx\' + str(Data_PO.autoNum(3))"}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>正常</td>
+<td>公钥加密接口</td>
+<td>加密密码</td>
+<td>/auth/publicEncrypt?info=Jinhao!123</td>
+<td>post</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"password":"$.data","zjName":"测试"}</td>
+</tr>
+<tr>
+<td>4</td>
+<td>正常</td>
+<td>登录</td>
+<td>用户登录</td>
+<td>/auth/login</td>
+<td>token</td>
+<td>{"password":"{{password}}","userNo":"{{userNo}}"}</td>
+<td>{"$.msg":{{tt}},"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"ep_zj_center_id":{{zjCenterId}},"token":"$.data.token"}</td>
+</tr>
+<tr>
+<td>5</td>
+<td>正常</td>
+<td>web端涉疫人员自行上报</td>
+<td>web端涉疫人员自行上报获取二维码图片地址</td>
+<td>/webReport/getQcCodeUrl/{{org_id}}</td>
+<td>get</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"zjCenterId":6}</td>
+</tr>
+<tr>
+<td>7</td>
+<td>正常</td>
+<td>注册管理</td>
+<td>政监中心注册-更新</td>
+<td>/register/updateZjCenter</td>
+<td>post</td>
+<td>{\n "address": "北京市",\n "area": "莆田区",\n "contactPerson": "北京人",\n "contactPhone": "13316161616",\n "id": {{zjCenterId}},\n "name": "政监中心1",\n "responsiblePerson": "张三丰"\n}</td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"s__ep_zj_center__name":"select responsible_person from ep_zj_center where id={{zjCenterId}}"}</td>
+<td>{"s__ep_zj_center__name":"张三丰"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>正常</td>
+<td>注册管理</td>
+<td>政监中心注册-列表</td>
+<td>/register/queryZjCenterPageList</td>
+<td>post</td>
+<td>{\n "currPage": 1,\n "id": {{zjCenterId}},\n "pageSize": 1\n}</td>
+<td>{"$.code":200,"$.data.list[0].name":"政监中心1"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>正常</td>
+<td>注册管理</td>
+<td>政监中心注册-根据ID获取单个实体模型</td>
+<td>/register/getZjCenterById/{{zjCenterId}}</td>
+<td>post</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>正常</td>
+<td>字典管理</td>
+<td>获取网格中心下拉框数据</td>
+<td>/dict/querySysOrgData</td>
+<td>get</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></body></html>
