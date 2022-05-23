@@ -37,12 +37,21 @@ class SysPO():
                 print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def outMsg(self, msgStatus, errLine, func1, file, func2):
-        '''2,输出系统错误'''
+        '''2.1,输出系统错误'''
 
         if msgStatus == "error":
             Color_PO.consoleColor("31", "31", "[Error] , line " + str(errLine) + " (" + func1 + "()) jump to (" + file + " -> " + func2 + "())", "")
         elif msgStatus == "warning":
             Color_PO.consoleColor("31", "33", "[Warning] , line " + str(errLine) + " (" + func1 + "()) jump to (" + file + " -> " + func2 + "())", "")
+
+
+    def outMsg2(self, msgStatus, errLine, func2, errMsg):
+        '''2.2,输出系统错误'''
+
+        if msgStatus == "error":
+            Color_PO.consoleColor("31", "31", "[" + msgStatus + "], line " + str(errLine) + ", " + func2, errMsg)
+        elif msgStatus == "warning":
+            Color_PO.consoleColor("31", "33", "[" + msgStatus + "], line " + str(errLine) + ", " + func2, errMsg)
 
 
 if __name__ == '__main__':
@@ -54,6 +63,8 @@ if __name__ == '__main__':
     # Sys_PO.killPid('360Newsld.exe')
 
     print("2,输出系统错误".center(100, "-"))
-    # Sys_PO.outMsg("error", str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name,
-    #           sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+    Sys_PO.outMsg("error", str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+
+    print("2.2,输出系统错误(简)".center(100, "-"))
+    Sys_PO.outMsg2("error", str(sys._getframe(0).f_lineno), sys._getframe(0).f_code.co_name)
 
