@@ -38,11 +38,12 @@ from adodbapi import connect
 
 class SqlServerPO():
 
-    def __init__(self, varHost, varUser, varPassword, varDB, varCharset):
+    def __init__(self, varHost, varUser, varPassword, varDB, varPort, varCharset):
         self.varHost = varHost
         self.varUser = varUser
         self.varPassword = varPassword
         self.varDB = varDB
+        self.varPort = varPort
         self.varCharset = varCharset
 
     def __GetConnect123(self):
@@ -63,10 +64,9 @@ class SqlServerPO():
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
         if self.varCharset == "":
-            self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword,
-                                        database=self.varDB, autocommit=True)
+            self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, port=self.varPort, autocommit=True)
         else:
-            self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset=self.varCharset, autocommit=True)
+            self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, port=self.varPort, charset=self.varCharset, autocommit=True)
             # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf-8', autocommit=True)
             # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
             # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='CP936', autocommit=True, login_timeout=10)
@@ -176,9 +176,11 @@ class SqlServerPO():
         self.cur = self.__GetConnect()
 
         dict1 ={}
+
         tblComment = "SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0"
         self.cur.execute(tblComment)
         tblComment = self.cur.fetchall()
+        print(tblComment)
         for t in tblComment:
             if t[1] != None:
                 dict1[t[0]] = t[1].decode('utf8')
@@ -191,6 +193,7 @@ class SqlServerPO():
             allTable = "select * from sysobjects where xtype = 'u' and name != 'sysdiagrams'"
             self.cur.execute(allTable)
             allTable = self.cur.fetchall()
+            print(allTable)
             varInfo = "数据库<" + self.varDB + ">共有<" + str(len(allTable)) + ">张表\n"
             print(varInfo)
             for tbl in allTable:
@@ -627,8 +630,9 @@ class SqlServerPO():
 if __name__ == '__main__':
 
 
-    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "GBK")  # EHR 测试环境
-
+    # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "GBK")  # EHR 测试环境
+    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", 1433, "GBK")  # EHR 测试环境
+    Sqlserver_PO.dbDesc()
     # tmpList = Sqlserver_PO.execQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
     # l_result = Sqlserver_PO.execQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
     # print(l_result)
@@ -660,8 +664,8 @@ if __name__ == '__main__':
     # print(Sqlserver_PO.l_getAllField('HrCover'))
     #
     # print("5 获取字段的类型".center(100, "-"))
-    print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "guid"))
-    print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate"))
+    # print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "guid"))
+    # print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate"))
 
     # print("6 获取所有表名".center(100, "-"))
     # Sqlserver_PO2 = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "")  # charset不能传入
