@@ -80,9 +80,9 @@ def get_identifying_code(headers):
     else:
         response = session.put('https://www.zhihu.com/api/v3/oauth/captcha?lang=en', headers=header)
         show_captcha = json.loads(response.text)['img_base64']
-        with open('captcha.jpg', 'wb') as f:
+        with open('../captcha.jpg', 'wb') as f:
             f.write(base64.b64decode(show_captcha))
-        im = Image.open('captcha.jpg')
+        im = Image.open('../captcha.jpg')
         im.show()
         im.close()
         captcha = input('输入验证码:')

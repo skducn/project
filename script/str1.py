@@ -68,7 +68,7 @@ S1 = "Runoob EXamPLE....WOW!!!"  # 英文
 S2 = "ß"  # 德语
 print(S1.lower())   # runoob example....wow!!!
 print(S1.casefold())  # runoob example....wow!!!
-print(S2.lower())  # ß
+# print(S2.lower())  # ß
 print(S2.casefold())  # ss   //德语的"ß"正确的小写是"ss"
 
 
@@ -453,7 +453,6 @@ print("45, f-string".center(100, "-"))
 name = "john"
 print(f'hello {name} + {1}')  # hello john + 1
 x = 1
-print(f'{x+1=}')  # x+1=2
 print(f'{x+1}')  # 2
 
 

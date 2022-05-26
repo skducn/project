@@ -2,7 +2,7 @@
 # *****************************************************************
 # Author        : John
 # Date          : 2019-1-24
-# Description   : python3 爬取 https://www.nvshenheji.com/ 上图片
+# Description   : python3 爬取 https://www.nvshenheji.com/
 # *****************************************************************
 # 功能：
 # 1、某个板块下所有页、所有相册    nvshenheji('国产美女','all')
