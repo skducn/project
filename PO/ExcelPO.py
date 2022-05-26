@@ -31,6 +31,7 @@
 # 如 sh.cell(2, 1).ctype == 3  判断某一单元格内容是否是日期
 
 # pip install pypiwin32   安装win32com
+# Mac上是无法安装pypiwin32的
 # *********************************************************************
 
 from datetime import date
@@ -41,7 +42,7 @@ import pandas as pd
 import openpyxl
 import openpyxl.styles
 from openpyxl.styles import PatternFill
-import win32com.client as win32
+# import win32com.client as win32
 import openpyxl, sys, platform, os, psutil
 from time import sleep
 

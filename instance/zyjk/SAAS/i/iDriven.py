@@ -7,6 +7,8 @@
 # *****************************************************************
 
 import json, jsonpath, os, requests, inspect, smtplib, email, mimetypes, base64, urllib3
+import sys
+
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
@@ -65,23 +67,27 @@ class HTTP:
         path = protocol + "://" + ip + ":" + port + iPath
         result = self.session.post(path, headers=self.headers, json=d_iParam, verify=False)
         d_response = json.loads(result.text)
-        self.session.headers['token'] = d_response['data']['token']
-        for k, v in d_var.items():
-            if "$." in str(v):
-                res_value = jsonpath.jsonpath(d_response, expr=v)
-                d_var[k] = res_value[0]
-        # print("\nrequest => " + str(path))
-        # print("\nparam => " + str(d_iParam))
-        # print("\nmethod => post")
-        # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
-        # print("\nheaders => " + str(self.session.headers) + "\n")
-        res = result.text
-        print("response => " + str(res))
-        try:
-            res = res[res.find('{'):res.rfind('}') + 1]
-        except Exception as e:
-            print(e.__traceback__)
-        return res, d_var
+        if d_response['code'] != 200:
+            print(d_response)
+            sys.exit(0)
+        else:
+            self.session.headers['token'] = d_response['data']['token']
+            for k, v in d_var.items():
+                if "$." in str(v):
+                    res_value = jsonpath.jsonpath(d_response, expr=v)
+                    d_var[k] = res_value[0]
+            # print("\nrequest => " + str(path))
+            # print("\nparam => " + str(d_iParam))
+            # print("\nmethod => post")
+            # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
+            # print("\nheaders => " + str(self.session.headers) + "\n")
+            res = result.text
+            print("response => " + str(res))
+            try:
+                res = res[res.find('{'):res.rfind('}') + 1]
+            except Exception as e:
+                print(e.__traceback__)
+            return res, d_var
 
 
     def get(self, iPath, iParam, d_var):

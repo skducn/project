@@ -9,18 +9,25 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-from docx import Document
-from docx.shared import Inches
+# list0 =
+if "kill" not in ['t','kill']:
+    print("1111")
+else:
+    print("2222")
 
-def test():
-    ...
-
-def tt():
-
-
-
-
-document = Document('demo.docx')
+#
+# from docx import Document
+# from docx.shared import Inches
+#
+# def test():
+#     ...
+#
+# def tt():
+#
+#
+#
+#
+# document = Document('demo.docx')
 #
 # document.add_heading('Document Title', 0)
 #
@@ -64,22 +71,22 @@ document = Document('demo.docx')
 
 
 
-for para in document.paragraphs:
-    print(para.text)
-    if 'first' in para.text:
-        for run in para.runs:
-            if 'first' in run.text:
-                run.text = run.text.replace('first', '金浩')
-
-for t in document.tables:
-    for i in range(len(t.rows)):
-        for j in range(len(t.columns)):
-            print(t.cell(i, j).text)
-            if 'first' in t.cell(i, j).text:
-                t.cell(i, j).text = t.cell(i, j).text.replace('first', '金浩')
-
-
-document.save('demo.docx')
+# for para in document.paragraphs:
+#     print(para.text)
+#     if 'first' in para.text:
+#         for run in para.runs:
+#             if 'first' in run.text:
+#                 run.text = run.text.replace('first', '金浩')
+#
+# for t in document.tables:
+#     for i in range(len(t.rows)):
+#         for j in range(len(t.columns)):
+#             print(t.cell(i, j).text)
+#             if 'first' in t.cell(i, j).text:
+#                 t.cell(i, j).text = t.cell(i, j).text.replace('first', '金浩')
+#
+#
+# document.save('demo.docx')
 
 # import PyV8
 # ctxt = PyV8.JSContext()
