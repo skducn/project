@@ -6,20 +6,22 @@
 # *********************************************************************
 
 '''
+todo：【转换】
 1.1 字符串转列表 str2list()
 1.2 字符串转元组 str2tuple()
 1.3 字符串转字典 str2dict()
 1.4 日期字符串转换成日期 str2date()
 
 2.1 判断字符串是否为数字 isNumber()
-2.2 获取字符串中数字的位置 getNumnberIndex()
+2.2 判断字符串是否全部是中文 isChinese()
+2.3 判断字符串中是否包含中文 isContainChinese()
 
-3.1 判断字符串中是否包含中文 isContainChinese()
-3.2 判断字符串是否全部是中文 isChinese()
+3 获取字符串中数字的位置(索引) getNumnberIndex()
 
-4 转义特殊字符 escapeSpecialCharacters()
+4 统计字符串中字符重复的次数 getRepeatCount()
 
-5 判断字符串中某字符串出现的次数 isCount()
+5 删除特殊字符 delSpecialCharacters()
+
 
 
 '''
@@ -124,7 +126,21 @@ class StrPO():
             pass
         return False
 
-    # 2.2 获取字符串中数字的位置
+    # 2.2 判断字符串是否是中文
+    def isChinese(self, varStr):
+        for _char in varStr:
+            if not '\u4e00' <= _char <= '\u9fa5':
+                return False
+        return True
+
+    # 2.3 判断字符串中是否包含中文
+    def isContainChinese(self, varStr):
+        for ch in varStr:
+            if u'\u4e00' <= ch <= u'\u9fa5':
+                return True
+        return False
+
+    # 3 获取字符串中数字的位置(索引)
     def getNumnberIndex(self, path=''):
         # print(Str_PO.getNumnberIndex("abc1test2ok"))  # [['1', 3], ['2', 8]]  第一个数字在位置3，第二个数字在位置8
         kv = []
@@ -161,31 +177,17 @@ class StrPO():
         return resultIndex
 
 
-    # 3.1 判断字符串中是否包含中文
-    def isContainChinese(self, varStr):
-        for ch in varStr:
-            if u'\u4e00' <= ch <= u'\u9fa5':
-                return True
-        return False
-
-
-    # 3.2 判断字符串是否全部是中文
-    def isChinese(self, varStr):
-        for _char in varStr:
-            if not '\u4e00' <= _char <= '\u9fa5':
-                return False
-        return True
-
-
-    # 4 转义特殊字符
-    def escapeSpecialCharacters(self, var1):
-        # 对文件和文件夹命名是不能使用以下9个字符： /  \: *" < > | ？
-        return str(var1).replace("/", "").replace("\\", "").replace(":", "").replace("*", "").replace("\"", "").replace("<", "").replace(">", "").replace("|", "").replace("?", "").replace(" ", "")
-
-
-    # 5 判断字符串中某字符串出现的次数
-    def isCount(self, varStr, varChar):
+    # 4 统计字符串中字符重复的次数
+    def getRepeatCount(self, varStr, varChar):
         return varStr.count(varChar)
+
+
+    # 5 删除特殊字符
+    def delSpecialCharacters(self, varStr, *sc):
+        # 对文件和文件夹命名是不能使用以下9个字符： /  \: *" < > | ？
+        for i in range(len(sc)):
+            varStr = str(varStr).replace(sc[i], "")
+        return varStr
 
 
 if __name__ == "__main__":
@@ -233,25 +235,28 @@ if __name__ == "__main__":
     # print(Str_PO.isNumber('四'))  # True  /# 中文数字
     # print(Str_PO.isNumber('©'))  # False  /# 版权号
 
-    # print("2.2，获取字符串中数字的位置".center(100, "-"))
-    # print(Str_PO.getNumnberIndex("abc1test2ok"))  #[['1', 3], ['2', 8]]  第一个数字在位置3，第二个数字在位置8
+    # print("2.2，判断字符串是否是中文".center(100, "-"))
+    # print(Str_PO.isChinese("测试"))  # True //字符串全部是中文
+    # print(Str_PO.isChinese("测123试"))  # False //字符串有非中文字符
 
-
-    # print("3.1，判断字符串中是否包含中文".center(100, "-"))
+    # print("2.3，判断字符串中是否包含中文".center(100, "-"))
     # print(Str_PO.isContainChinese("123123123"))  # False   //字符串中没有中文
     # print(Str_PO.isContainChinese("12312312jin金浩3"))  # True   //字符串中有中文
     # print(Str_PO.isContainChinese("测试一下"))  # True   //字符串中有中文
 
-    # print("3.2，判断字符串是否全部是中文".center(100, "-"))
-    # print(Str_PO.isChinese("测试"))  # True //字符串全部是中文
-    # print(Str_PO.isChinese("测123试"))  # False //字符串有非中文字符
 
 
-    # print("4，转义特殊字符".center(100, "-"))
-    # print(Str_PO.escapeSpecialCharacters('#创作灵感/ 只需三\招，就能:让你*成为一<个狠>人！#|人生?感悟 #智慧人生 #为人处世'))
+    # print("3，获取字符串中数字的位置(索引)".center(100, "-"))
+    # print(Str_PO.getNumnberIndex("abc1test2ok"))  #[['1', 3], ['2', 8]]  第一个数字在位置3，第二个数字在位置8
 
-    print("5，判断字符串中某字符串出现的次数".center(100, "-"))
-    print(Str_PO.isCount("123%123234%", "%"))  # 2
-    print(Str_PO.isCount("123%123234%", "?"))  # 0
+
+    # print("4，统计字符串中字符重复的次数".center(100, "-"))
+    # print(Str_PO.getRepeatCount("123%123234%", "%"))  # 2
+    # print(Str_PO.getRepeatCount("123%123234%", "?"))  # 0
+
+
+    # print("5，删除特殊字符".center(100, "-"))
+    print(Str_PO.delSpecialCharacters('#创作灵感/ 只需三\招，就能:让你*成为一<个狠>人！#|人生?感悟 #智慧人生 #为人处世',"/","\\","?"))
+
 
 

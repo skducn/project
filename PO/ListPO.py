@@ -42,7 +42,7 @@ todo：【清除】
 5.4 删除列表中重复的所有元素 delRepeatAll([2, "a", 1, "\n", "\n", 13, "", "test", 6, 2, "", "", 1, "a"]))  # [13, 'test', 6]
 5.5 删除列表中重复的元素（去重）delRepeat([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
 
-6 统计列表中元素的数量 getRepeat()
+6 统计列表中字符重复的次数 getRepeatCount()
 
 '''
 
@@ -418,8 +418,8 @@ class ListPO():
         #     return list(set(varList))
 
 
-    # 6 统计列表中元素的数量
-    def getRepeat(self, varList):
+    # 6 统计列表中字符重复的次数
+    def getRepeatCount(self, varList):
         counter = Counter()
         counter.update(varList)
         return (counter.most_common())
@@ -588,6 +588,6 @@ if __name__ == "__main__":
     print(List_PO.delRepeat([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
 
 
-    print("6 获取列表中元素的数量".center(100, "-"))
-    print(List_PO.getRepeat([2, 1, 13, 6, 2, 1]))  # [(2, 2), (1, 2), (13, 1), (6, 1)]
-    print(List_PO.getRepeat(['a', 'b', 'c', 'a']))  # [('a', 2), ('b', 1), ('c', 1)]
+    print("6 统计列表中字符重复的次数".center(100, "-"))
+    print(List_PO.getRepeatCount([2, 1, 13, 6, 2, 1]))  # [(2, 2), (1, 2), (13, 1), (6, 1)]
+    print(List_PO.getRepeatCount(['a', 'b', 'c', 'a']))  # [('a', 2), ('b', 1), ('c', 1)]

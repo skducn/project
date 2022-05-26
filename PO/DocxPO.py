@@ -15,7 +15,7 @@
 1 新建docx
 2 替换docx中内容
 3 docx转pdf
-4 pdf转docx
+4 pdf转docx®®
 
 '''
 from docx import Document
@@ -137,5 +137,5 @@ if __name__ == "__main__":
     # Docx_PO.docx2pdf('./data/test1.docx')
     #
 
-    # print("4 pdf转换成docx".center(100, "-"))
-    # Docx_PO.pdf2docx("./data/test1.pdf", "./data/test1.docx")
+    print("4 pdf转换成docx".center(100, "-"))
+    Docx_PO.pdf2docx("/Users/linghuchong/Downloads/51Testing_wenzhang65_2.pdf", "/Users/linghuchong/Downloads/51Testing_wenzhang65_2.docx")
