@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 #***************************************************************
 # Author     : John
-# Revise on : 2019-04-16
+# Data       : 2019-04-16
 # Description: MysqlPO对象层
+#***************************************************************
 # pip3 install mysqlclient  (MySQLdb)
 # pip3 install pymysql
 # 问1：数据库中乱码显示问题，查询后却显示中文？
-# 解答1：设置 charset 编码，如 self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.varDB, port=self.varPort, use_unicode=True, charset='utf8') ，注意：charset 应该与数据库编码一致，如数据库是gb2312 ,则 charset='gb2312'。
+# 答1：设置 charset 编码，如 self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.varDB, port=self.varPort, use_unicode=True, charset='utf8') ，注意：charset 应该与数据库编码一致，如数据库是gb2312 ,则 charset='gb2312'。
 # None是一个对象，而NULL是一个类型。
 # Python中没有NULL，只有None，None有自己的特殊类型NoneType
 # None不等于0、任何空字符串、False等。
@@ -30,7 +31,6 @@ pandas引擎（mysqldb）  getMysqldbEngine()
 
 '''
 import sys
-
 import pymysql
 pymysql.install_as_MySQLdb()
 import MySQLdb
@@ -44,16 +44,6 @@ Color_PO = ColorPO()
 
 class MysqlPO():
 
-    # def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
-    #
-    #
-    #     self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
-    #     self.cur = self.conn.cursor()
-    #     self.cur.execute('SET NAMES utf8;')
-    #     # self.conn.set_character_set('utf8')
-    #     self.cur.execute('show tables')
-
-
     def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
         self.varHost = varHost
         self.varUser = varUser
@@ -62,11 +52,13 @@ class MysqlPO():
         self.varPort = int(varPort)
 
     def __GetConnect(self):
-        # 得到数据库连接信息，返回conn.cursor()
+
+        '''连接数据库'''
+
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
         self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.varDB, port=int(self.varPort), use_unicode=True)
-        self.cur = self.conn.cursor()  # 创建一个游标对象
+        self.cur = self.conn.cursor()
         if not self.cur:
             raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
         else:
@@ -79,7 +71,7 @@ class MysqlPO():
         '''
 
         cur = self.__GetConnect()
-        self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
+        self.conn.commit()  # 用于新增后立即查询
         cur.execute(sql)
 
         try:
@@ -94,7 +86,6 @@ class MysqlPO():
         self.conn.close()
         return result
 
-
     def getPymysqlEngine(self):
         # pandas引擎（pymysql）
         return create_engine('mysql+pymysql://' + self.varUser + ":" + self.varPassword + "@" + self.varHost + ":" + str(self.varPort) + "/" + self.varDB)
@@ -103,57 +94,59 @@ class MysqlPO():
         # pandas引擎（mysqldb）
         return create_engine('mysql+mysqldb://' + self.varUser + ":" + self.varPassword + "@" + self.varHost + ":" + str(self.varPort) + "/" + self.varDB)
 
+    def _dbDesc_search(self, varTable, var_l_field=0):
 
-    def _dbDesc_search(self, varDB, varTable, args=0):
+        '''dbDesc函数中子查询'''
 
         l_field = []
         l_type = []
-        l_isKey = []
         l_isnull = []
+        l_isKey = []
         l_comment = []
 
-        t_table_comment = self.execQuery(
-            'select table_name,table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (
-            varDB, varTable))
+        t_table_comment = self.execQuery('select table_name,table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
         if t_table_comment[0][0] == varTable:
-            t_field_type_key_isnull_comment = self.execQuery(
-                'select column_name,column_type,column_key,is_nullable,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (
-                varDB, varTable))
-            # print(t_field_type_key_isnull_comment)  # (('id', 'int(11)', 'PRI', 'NO', 'id'))
+            t_field_type_isnull_key_comment = self.execQuery('select column_name,column_type,is_nullable,column_key,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+            # print(t_field_type_isnull_key_comment)  # (('id', 'int(11)', 'PRI', 'NO', '主键'),
 
             # 字段与类型对齐
             a = b = c = d = e = 0
-            for i in t_field_type_key_isnull_comment:
+            for i in t_field_type_isnull_key_comment:
                 if len(i[0]) > a: a = len(i[0])
                 if len(i[1]) > b: b = len(i[1])
                 if len(i[2]) > c: c = len(i[2])
                 if len(i[3]) > d: d = len(i[3])
                 if len(i[4]) > e: e = len(i[4])
 
-            print("- - " * 50)
-            Color_PO.consoleColor("31", "36",
-                                  "[" + t_table_comment[0][0] + " ( " + t_table_comment[0][1] + " ) - " + str(
-                                      len(t_field_type_key_isnull_comment)) + "个字段]", "")
-            print("字段名" + " " * (a - 4), "类型" + " " * (b - 3), "主键" + " " * (c - 2), "是否为空" + " " * (d + 1), "字段说明")
-
-            for i in t_field_type_key_isnull_comment:
-                l_field.append(i[0] + " " * (a - len(i[0]) + 1))
-                l_type.append(i[1] + " " * (b - len(i[1]) + 1))
-                l_isKey.append(i[2] + " " * (c - len(i[2]) + 1))
-                l_isnull.append(i[3] + " " * (d - len(i[3]) + 8))
-                l_comment.append(i[4] + " " * (e - len(i[4])))
-
-            if args == 0:
-                for i in range(len(t_field_type_key_isnull_comment)):
-                    print(l_field[i], l_type[i], l_isKey[i], l_isnull[i], l_comment[i])
+            if var_l_field != 0:
+                # 可选字段
+                for l in range(len(var_l_field)):
+                    for m in range(len(t_field_type_isnull_key_comment)):
+                        # print(t_field_type_key_isnull_comment[m][0])
+                        if var_l_field[l] == t_field_type_isnull_key_comment[m][0]:
+                            l_field.append(t_field_type_isnull_key_comment[m][0] + " " * (a - len(t_field_type_isnull_key_comment[m][0]) + 1))
+                            l_type.append(t_field_type_isnull_key_comment[m][1] + " " * (b - len(t_field_type_isnull_key_comment[m][1]) + 1))
+                            l_isnull.append(t_field_type_isnull_key_comment[m][2] + " " * (c - len(t_field_type_isnull_key_comment[m][2]) + 8))
+                            l_isKey.append(t_field_type_isnull_key_comment[m][3] + " " * (d - len(t_field_type_isnull_key_comment[m][3]) + 1))
+                            l_comment.append(t_field_type_isnull_key_comment[m][4] + " " * (e - len(t_field_type_isnull_key_comment[m][4]) + 1))
             else:
-                for i in range(len(args) - 1):
-                    try:
-                        for j in range(len(l_field)):
-                            if str(l_field[j]).strip() == args[i + 1]:
-                                print(l_field[j], l_type[j], l_isKey[j], l_isnull[j], l_comment[j])
-                    except:
-                        print("[errorrrrrrr , (" + str(args) + ")中部分字段不存在!]")
+                # 所有字段
+                for i in t_field_type_isnull_key_comment:
+                    l_field.append(i[0] + " " * (a - len(i[0]) + 1))
+                    l_type.append(i[1] + " " * (b - len(i[1]) + 1))
+                    l_isnull.append(i[2] + " " * (c - len(i[2]) + 8))
+                    l_isKey.append(i[3] + " " * (d - len(i[3]) + 1))
+                    l_comment.append(i[4] + " " * (e - len(i[4])))
+
+            # 只输出找到字段的表
+            if len(l_field) != 0:
+                print("- - " * 50)
+                Color_PO.consoleColor("31", "36",
+                                      "[" + t_table_comment[0][0] + " (" + t_table_comment[0][1] + ") - " + str(
+                                          len(t_field_type_isnull_key_comment)) + "个字段]", "")
+                print("字段名" + " " * (a - 4), "数据类型" + " " * (b - 6), "允许空值" + " " * (c + 1), "主键" + " " * (d - 2), "字段说明")
+                for i in range(len(l_field)):
+                    print(l_field[i], l_type[i], l_isnull[i], l_isKey[i], l_comment[i])
 
             l_field = []
             l_type = []
@@ -168,47 +161,53 @@ class MysqlPO():
         第2个参数：字段名（区分大小写），指定查看的字段名，多个字段名用逗号分隔，不支持通配符*
         '''
 
-
         if len(args) == 0:
-            # 所有表结构(ok)
+            # 1, 所有表结构(ok)
             t_tables = self.execQuery('SELECT TABLE_NAME FROM information_schema.`TABLES` WHERE table_type = "BASE TABLE" AND table_schema = "%s"' % self.varDB)
             for t in range(len(t_tables)):
-                self._dbDesc_search(self.varDB, t_tables[t][0])
+                self._dbDesc_search(t_tables[t][0])
+            Color_PO.consoleColor("31", "31", "\n[已完成], 当前数据库 " + self.varDB + " 共有 " + str(len(t_tables)) + " 张表。 ", "")
 
         elif len(args) == 1:
             varTable = args[0]
-            if "%" in varTable:
-                # 带通配符表结构（ok）
+            if "%" not in varTable:
+                # 2, 单表结构（ok）
+                self._dbDesc_search(varTable)
+            elif "%" in varTable:
+                # 3, 带通配符表结构（ok）
                 t_tables = self.execQuery('select table_name from information_schema.`TABLES` where table_type = "BASE TABLE" AND table_schema="%s" and table_name like "%s"' % (self.varDB, varTable))
-                # print(t_tables)  # (('sys_user_detail',), ('sys_user_project',), ('sys_user_protocol',), ('sys_user_role',))
                 if len(t_tables) != 0:
                     for t in range(len(t_tables)):
-                        self._dbDesc_search(self.varDB, t_tables[t][0])
+                        self._dbDesc_search(t_tables[t][0])
                 else:
                     Color_PO.consoleColor("31", "31", "[ERROR], 没有找到'" + str(varTable) + "'前缀的表!", "")
-            elif "*" not in varTable:
-                # 单表结构（ok）
-                self._dbDesc_search(self.varDB, varTable)
 
-        elif len(args) > 1:
+        elif len(args) == 2:
             varTable = args[0]
-            if "%" in varTable:
-                # 带通配符表结构可选字段（ok）
+            var_l_field = args[1]
+            if varTable == "*":
+                # 6, 所有表结构的可选字段(只输出找到字段的表)
+                t_tables = self.execQuery('SELECT TABLE_NAME FROM information_schema.`TABLES` WHERE table_type = "BASE TABLE" AND table_schema = "%s"' % self.varDB)
+                for t in range(len(t_tables)):
+                    self._dbDesc_search(t_tables[t][0], var_l_field)
+            elif "%" not in varTable:
+                # 4, 单表结构可选字段（ok）
+                self._dbDesc_search(varTable, var_l_field)
+            elif "%" in varTable:
+                # 5, 带通配符表结构可选字段（ok）
                 t_tables = self.execQuery('select table_name from information_schema.`TABLES` where table_type = "BASE TABLE" AND table_schema="%s" and table_name like "%s"' % (self.varDB, varTable))
-                # print(tblCount)  # (('sys_user_detail',), ('sys_user_project',), ('sys_user_protocol',), ('sys_user_role',))
                 if len(t_tables) != 0:
                     for t in range(len(t_tables)):
-                        self._dbDesc_search(self.varDB, t_tables[t][0], args)
+                        self._dbDesc_search(t_tables[t][0], var_l_field)
                 else:
                     Color_PO.consoleColor("31", "31", "[ERROR], 没有找到'" + str(varTable) + "'前缀的表!", "")
-            elif "%" not in varTable:
-                # 单表结构可选字段（ok）
-                self._dbDesc_search(self.varDB, varTable, args)
 
 
     def _dbRecord_search(self, varDB, varTable, varType, varValue):
 
-        '''mysql关键字和保留字，涉及的关键字将不处理（谨慎！）'''
+        '''dbRecord函数中子查询'''
+
+        # mysql关键字和保留字，涉及的关键字将不处理（谨慎！）
         l_keyword = ['desc', 'limit', 'key', 'group', 'usage']
 
         l_field = []
@@ -257,7 +256,7 @@ class MysqlPO():
         l_fieldComment = []
     def dbRecord(self, varTable, varType, varValue):
         '''
-        # 搜索表记录
+        # 2, 搜索表记录
         # 参数1：varTable = 表名（*表示所有的表）
         # 参数2：varType = 数据类型(char,int,double,timestamp)
         # 参数3：varValue = 值 (支持%模糊查询，如 %yy%)
@@ -280,11 +279,10 @@ class MysqlPO():
             elif "*" not in varTable:
                 self._dbRecord_search(self.varDB, varTable, varType, varValue)
 
-
     def dbCreateDate(self, *args):
 
         '''
-        查表的创建时间及区间
+        3，查表的创建时间及时间区间
         无参：查看所有表的创建时间
         一个参数：表名
         二个参数：第一个是时间前后，如 before指定日期之前创建、after指定日期之后创建，第二个是日期
@@ -336,6 +334,7 @@ class MysqlPO():
 
 
     def db2xlsx(self, sql, xlsxFile):
+
         '''
         4.1 使用pandas将数据库表导出excel
         :param sql:
@@ -343,6 +342,7 @@ class MysqlPO():
         :return:
                 # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
         '''
+
         try:
             df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
             df.to_excel(xlsxFile)
@@ -350,6 +350,7 @@ class MysqlPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) +" row" )
 
     def db2html(self, sql, htmlFile):
+
         '''
         4.2 使用pandas将数据库表导出html
         :param sql:
@@ -364,11 +365,12 @@ class MysqlPO():
 
         try:
             df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
-            df.to_html(htmlFile,col_space=100,na_rep="0")
+            df.to_html(htmlFile, col_space=100, na_rep="0")
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def xlsx2db(self, varExcelFile, varTable, usecols=None, nrows=None, skiprows=None, dtype=None, parse_dates=None, date_parser=None, converters=None, sheet_name=None):
+
         '''
         4.4 excel导入数据库表(覆盖)
         :return:
@@ -383,6 +385,7 @@ class MysqlPO():
             print(e)
 
     def dbDesc2xlsx(self, varFileName):
+
         '''
         5 将所有表结构导出到excel(覆盖)
         :param varFileName:
@@ -425,30 +428,54 @@ if __name__ == '__main__':
 
     # 238 sass高血压（测试） ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 3306)
-    Mysql_PO.dbDesc()
-    # Mysql_PO.dbDesc('sys_user_detail')
-    # Mysql_PO.dbDesc('sys_user_%')
-    # Mysql_PO.dbDesc('sys_user_%', 'id', 'userId', 'sex')  # 搜索符合条件字段的u开头的表结构
-    # Mysql_PO.dbDesc('sys_user_detail', 'id', 'mobile', 'title')  # 搜索符合条件字段的user开头的表结构
-    # Mysql_PO.dbRecord('sys_user_detail', 'varchar', '16766667777')
-    # Mysql_PO.dbRecord('*', 'varchar', '16766667777')
-    # x = Mysql_PO.execQuery('select id from sys_user_detail where userNo="%s"' % ("16766667777"))
-    # print(x[0][0])
-    # Mysql_PO.dbDesc2xlsx("d:\\sassDesc.xlsx")
-    # Mysql_PO.dbDesc2xlsx("/Users/linghuchong/Desktop/mac/sassDesc.xlsx")
+    # t_userNo = Mysql_PO.execQuery('select id from sys_user_detail where userNo="%s"' % ("16766667777"))
+    # print(t_userNo[0][0])  # 278
 
+
+    # # 238 erp (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    # Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "crmtest", 3306)
+    # crm小程序清空账号权限
+    # Mysql_PO.execQuery("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
+    # l_result = Mysql_PO.execQuery('select USER_NAME from user where USER_PRIV_NO=%s ' % (999))
+    # print(l_result)
+    # print(l_result[0][0])
 
     # 234 epd 招远防疫 (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     # Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
     # Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
-    # Mysql_PO.dbDesc()
-    # Mysql_PO.dbDesc('sys_menu')
-    # Mysql_PO.dbDesc('test*')  # u开头的表结构（通配符*）
-    # Mysql_PO.dbDesc('test*', 'id', 'name', 'url')  # 搜索符合条件字段的u开头的表结构
-    # Mysql_PO.dbDesc('test_menu', 'id', 'name')  # 搜索符合条件字段的user开头的表结构
+
+    # # 211_zentao ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    # Mysql_PO = MysqlPO("192.168.0.211", "readonly", "benetech123", "zentaoep", 3306) # 测试
+
+    # # 195 ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测试环境
+
+    # # 64 ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测试环境
+
+
+
+    # *****************************************************************************************************************************
+    # *****************************************************************************************************************************
+
+    # print("1 查看数据库表结构（字段名、数据类型、主键、允许空值、字段说明）".center(100, "-"))
+    # Mysql_PO.dbDesc()  # 1，所有表结构
+    # Mysql_PO.dbDesc('sys_user_detail')  # 2，单表结构
+    # Mysql_PO.dbDesc('sys_user_%')  # 3，带通配符表结构
+    # Mysql_PO.dbDesc('sys_user_detail', ['id', 'sex', 'title'])  # 4,单表结构的可选字段
+    # Mysql_PO.dbDesc('sys_user_%', [ 'sex'])  # 5，带通配符表结构的可选字段(只输出找到字段的表)
+    # Mysql_PO.dbDesc("*", ['sex', 'title', 'org_name'])  # 6，所有表结构的可选字段(只输出找到字段的表)
+
+    # print("2，搜索表记录".center(100, "-"))
+    # Mysql_PO.dbRecord('sys_user_detail', 'varchar', '16766667777')
+    # Mysql_PO.dbRecord('sys_user_detail', 'varchar', '1676666%')
+    # Mysql_PO.dbRecord('*', 'varchar', '16766667%')
     # Mysql_PO.dbRecord('sys_user', 'char', '%金%')  # 搜索user表中内容包含金丽娜的char类型记录。
     # Mysql_PO.dbRecord('*', 'varchar', u'%招远疫情防控公告123456%')   # 搜索所有表中带金丽娜的char类型记录。
-    # Mysql_PO.dbRecord('*', 'datetime', u'%2021-11-17%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
+    # Mysql_PO.dbRecord('*', 'datetime', '2010%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
+    # Mysql_PO.dbRecord('sys_user_detail', 'datetime', '2015-04-13%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
+
+    # print("3，查表的创建时间及时间区间".center(100, "-"))
     # Mysql_PO.dbCreateDate()   # 查看所有表的创建时间
     # Mysql_PO.dbCreateDate('test1')   # 查看book表创建时间
     # Mysql_PO.dbCreateDate('test*')   # 查看所有b开头表的创建时间，通配符*
@@ -457,47 +484,12 @@ if __name__ == '__main__':
     # Mysql_PO.dbCreateDate('before', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
     # Mysql_PO.dbCreateDate('<', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
 
-
-    # 234 epd (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)  # 测试环境
-    # Mysql_PO.dbDesc()
-
-
-    # # 201_禅道 ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.211", "readonly", "benetech123", "zentaoep", 3306) # 测试
-    # Mysql_PO.dbDesc()
-
-
-    # # 195 (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测试环境
-    # Mysql_PO.dbDesc()
-
-
-    # # ? erp (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.39", "ceshi", "123456", "TD_OA", 3336)
-    # Mysql_PO.dbDesc()
-
-    # crm小程序清空账号权限
-    # mysql_PO.cur.execute("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
-    # mysql_PO.conn.commit()
-    # tmpTuple = Mysql_PO.cur.fetchall()
-    # Mysql_PO.cur.execute('select USER_NAME from user where USER_PRIV_NO=%s ' % (999))
-    # l_result = Mysql_PO.cur.fetchall()
-    # print(len(l_result))
-    # print(l_result)
-    # print(l_result[0][0])
-    # for (Value) in l_result:
-    #     print(Value)
-
-
-
-
-
     # print("4.1，数据库表导出excel".center(100, "-"))
     # Mysql_PO.db2xlsx("select * from ba_area", "data/ba_area.xlsx")
 
     # print("4.2，数据库表导出html".center(100, "-"))
-    # Mysql_PO.db2html("select * from ep_zj_center", "d:\\index1.html")
+    # Mysql_PO.db2html("select * from sys_user_detail", "d:\\sys_user_detail.html")
+    # Mysql_PO.db2html("select * from sys_user_detail where userName='dc'", "/Users/linghuchong/Desktop/mac/sys_user_detail.html")
 
     # print("4.4 excel导入数据库表".center(100, "-"))
     # Mysql_PO.xlsx2db("data/testcase2.xlsx", "testcase2", sheet_name="case")
@@ -514,5 +506,6 @@ if __name__ == '__main__':
 
 
     # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
-    # Mysql_PO.dbDesc2xlsx("d:\\test.xlsx")  # 将所有表结构导出到excel
+    # Mysql_PO.dbDesc2xlsx("d:\\sassDesc.xlsx")
+    # Mysql_PO.dbDesc2xlsx("/Users/linghuchong/Desktop/mac/sassDesc.xlsx")
 

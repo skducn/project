@@ -1,7 +1,7 @@
 #-- coding: utf-8 --
 #***************************************************************
 # Author     : John
-# Revise on : 2019-04-16
+# Data       : 2019-04-16
 # Description: SqlServerPO对象层
 # sql server 查询数据库所有的表名 + 字段  https://www.cnblogs.com/TF12138/p/4064752.html
 # pymssql 托管在Github上：https://github.com/pymssql
@@ -27,14 +27,19 @@
 1 查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
 2 查找记录 dbRecord('*', 'money', '%34.5%')l
 3 判断字段是否存在
-4 获取所有字段
-5 获取字段的类型
+4 获取字段的类型
+5 获取所有字段
+6 获取所有表名
 
 '''
-
-import pymssql, uuid
+import sys
+from collections.abc import Iterable, Iterator
+# from collections.abc import pymssql
+import pymssql
 # print(pymssql.__version__)
-from adodbapi import connect
+# from adodbapi import connect
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
 class SqlServerPO():
 
@@ -43,24 +48,24 @@ class SqlServerPO():
         self.varUser = varUser
         self.varPassword = varPassword
         self.varDB = varDB
-        self.varPort = varPort
+        self.varPort = int(varPort)
         self.varCharset = varCharset
 
-    def __GetConnect123(self):
-        # 得到数据库连接信息，返回conn.cursor()
-        if not self.varDB:
-            raise (NameError, "没有设置数据库信息")
-        # self.conn = connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB)
-        self.conn = connect('Provider=SQLOLEDB.1;Data Source=%s;Initial Catalog=%s;UserID = %s;Password = %s;'%(self.varHost, self.varDB, self.varUser, self.varPassword))
-
-        cur = self.conn.cursor()  # 创建一个游标对象
-        if not cur:
-            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
-        else:
-            return cur
+    # def __GetConnect123(self):
+    #     # 得到数据库连接信息，返回conn.cursor()
+    #     if not self.varDB:
+    #         raise (NameError, "没有设置数据库信息")
+    #     # self.conn = connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB)
+    #     self.conn = connect('Provider=SQLOLEDB.1;Data Source=%s;Initial Catalog=%s;UserID = %s;Password = %s;'%(self.varHost, self.varDB, self.varUser, self.varPassword))
+    #
+    #     cur = self.conn.cursor()  # 创建一个游标对象
+    #     if not cur:
+    #         raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
+    #     else:
+    #         return cur
 
     def __GetConnect(self):
-        # 得到数据库连接信息，返回conn.cursor()
+        # 连接数据库
         if not self.varDB:
             raise (NameError, "没有设置数据库信息")
         if self.varCharset == "":
@@ -84,7 +89,7 @@ class SqlServerPO():
         '''
 
         cur = self.__GetConnect()
-        self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
+        self.conn.commit()  # 用于新增后立即查询
         cur.execute(sql)
 
         try:
@@ -101,12 +106,12 @@ class SqlServerPO():
 
     def execQueryParam(self, sql, param):
 
-        ''' 执行查询语句 (参数单独)
+        ''' 执行查询语句 (参数)
         返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
         '''
 
         cur = self.__GetConnect()
-        self.conn.commit()  # 新增后需要马上查询的话，则先commit一下。
+        self.conn.commit()  # 用于新增后立即查询
         cur.execute(sql, param)
 
         try:
@@ -124,7 +129,6 @@ class SqlServerPO():
     def execProcedure(self, varProcedureName):
 
         '''执行存储过程'''
-
         # execProcedure(存储过程名)
 
         cur = self.__GetConnect()
@@ -162,10 +166,104 @@ class SqlServerPO():
             self.conn.close()
 
 
-    # 1 查看数据库表结构
+    def _dbDesc_search(self, varTable=0, var_l_field=0):
+
+        d_tableComment = {}
+        l_field = []
+        l_type = []
+        l_isKey = []
+        l_isnull = []
+        l_comment = []
+
+        if varTable == 0 and var_l_field == 0 :
+            # 1，所有表结构（ok）
+            l_table_comment = self.execQuery("SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0")
+            print(l_table_comment)
+        elif varTable == 0 and var_l_field != 0:
+            # 6，所有表结构的可选字段(只输出找到字段的表) （ok）
+            l_table_comment = self.execQuery("SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0")
+        else:
+            if "%" not in varTable:
+                # 2，单表结构（ok）
+                # 4，单表结构可选字段（ok）
+                l_table_comment = self.execQuery("SELECT A.name, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
+                # print(l_table_comment)
+
+            elif "%" in varTable:
+                # 3，带通配符表结构(ok)
+                # 5，带通配符表结构可选字段(只输出找到字段的表) （ok）
+                l_table_comment = self.execQuery("SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0 where d.name like '%s'" % (varTable))
+        for t in l_table_comment:
+            if t[1] != None:
+                d_tableComment[t[0]] = t[1].decode('utf8')
+            else:
+                d_tableComment[t[0]] = str(t[1])
+
+
+        for k, v in d_tableComment.items():
+            varTable = k
+            l_table_field_type_size_isNull_comment = self.execQuery(
+                "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
+                    varTable))
+            # print(l_table_field_type_size_isNull_comment)  # [('condition_item', 'id', 'int', 4, False, b'\xe8\x87\xaa\xe5\xa2\x9e\xe4\xb8\xbb\xe9\x94\xae'), ]
+            # print(l_table_field_type_size_isNull_comment[0][5].decode('utf8'))
+            try:
+                # 字段与类型对齐
+                a = b = c = d = e = f = 0
+                for i in l_table_field_type_size_isNull_comment:
+                    # if len(i[0]) > a: a = len(i[0])
+                    if len(i[1]) > b: b = len(i[1])
+                    if len(i[2]) > c: c = len(i[2])
+                    if len(str(i[3])) > d: d = len(str(i[3]))
+                    if len(str(i[4])) > e: e = len(str(i[4]))
+                    if len(str(i[5])) > f: f = len(str(i[5]))
+
+                if var_l_field != 0 :
+                    # 可选字段
+                    for l in range(len(var_l_field)):
+                        for m in range(len(l_table_field_type_size_isNull_comment)):
+                            if var_l_field[l] == l_table_field_type_size_isNull_comment[m][1]:
+                                l_field.append(str(l_table_field_type_size_isNull_comment[m][1]) + " " * (b - len(l_table_field_type_size_isNull_comment[m][1]) + 1))
+                                l_type.append(str(l_table_field_type_size_isNull_comment[m][2]) + " " * (c - len(l_table_field_type_size_isNull_comment[m][2]) + 1))
+                                l_isKey.append(str(l_table_field_type_size_isNull_comment[m][3]) + " " * (d - len(str(l_table_field_type_size_isNull_comment[m][3])) + 1))
+                                l_isnull.append(str(l_table_field_type_size_isNull_comment[m][4]) + " " * (e - len(str(l_table_field_type_size_isNull_comment[m][4])) + 7))
+                                if l_table_field_type_size_isNull_comment[m][5] == None:
+                                    l_comment.append(str(l_table_field_type_size_isNull_comment[m][5]) + " " * (f - len(str(l_table_field_type_size_isNull_comment[m][5])) + 1))
+                                else:
+                                    l_comment.append(str(l_table_field_type_size_isNull_comment[m][5].decode('utf8')) + " " * (f - len(str(l_table_field_type_size_isNull_comment[m][5])) + 1))
+                else:
+                    # 所有字段
+                    for i in l_table_field_type_size_isNull_comment:
+                        l_field.append(str(i[1]) + " " * (b - len(i[1]) + 1))
+                        l_type.append(str(i[2]) + " " * (c - len(i[2]) + 1))
+                        l_isKey.append(str(i[3]) + " " * (d - len(str(i[3])) + 1))
+                        l_isnull.append(str(i[4]) + " " * (e - len(str(i[4])) + 7))
+                        if i[5] == None:
+                            l_comment.append(str(i[5]) + " " * (f - len(str(i[5])) + 1))
+                        else:
+                            l_comment.append(str(i[5].decode('utf8')) + " " * (f - len(str(i[5])) + 1))
+
+                # 只输出找到字段的表
+                if len(l_field) != 0 :
+                    print("- - " * 50)
+                    Color_PO.consoleColor("31", "36", "[" + str(k) + "(" + str(d_tableComment[k]) + ") - " + str(
+                        len(l_table_field_type_size_isNull_comment)) + "个字段]", "")
+                    print("字段名" + " " * (b - 4), "数据类型" + " " * (c - 6), "大小" + " " * (d - 2), "允许空值" + " " * (e ), "字段说明")
+                    for i in range(len(l_field)):
+                        print(l_field[i], l_type[i], l_isKey[i], l_isnull[i], l_comment[i])
+
+                l_field = []
+                l_type = []
+                l_isKey = []
+                l_isnull = []
+                l_comment = []
+
+            except Exception as e:
+                raise e
+        return len(d_tableComment)
     def dbDesc(self, *args):
 
-        ''' 查看数据库表结构（字段、类型、大小、可空、注释） '''
+        ''' 1, 查看数据库表结构（字段名、数据类型、大小、允许空值、字段说明） '''
         # 注意，表名区分大小写
         # Sqlserver_PO.dbDesc()  # 1，所有表结构
         # Sqlserver_PO.dbDesc('tb_code_value')   # 2，某个表结构
@@ -173,317 +271,16 @@ class SqlServerPO():
         # Sqlserver_PO.dbDesc('tb*')  # 4，查看所有tb开头的表结构（通配符*）
         # Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，查看所有b开头的表中id字段的结构（通配符*）
 
-        self.cur = self.__GetConnect()
-
-        dict1 ={}
-
-        tblComment = "SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0"
-        self.cur.execute(tblComment)
-        tblComment = self.cur.fetchall()
-        print(tblComment)
-        for t in tblComment:
-            if t[1] != None:
-                dict1[t[0]] = t[1].decode('utf8')
-            else:
-                dict1[t[0]] = t[1]
-        # print(dict1)
-
         if len(args) == 0:
-            # 1，所有表结构
-            allTable = "select * from sysobjects where xtype = 'u' and name != 'sysdiagrams'"
-            self.cur.execute(allTable)
-            allTable = self.cur.fetchall()
-            print(allTable)
-            varInfo = "数据库<" + self.varDB + ">共有<" + str(len(allTable)) + ">张表\n"
-            print(varInfo)
-            for tbl in allTable:
-                # 遍历表
-                varTable = tbl[0]
-                sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable)
-                try:
-                    self.cur.execute(sql)
-                    results = self.cur.fetchall()
-                    tblName = results[0][0]
-                    x = y = z = 0
-                    for i in results:
-                        if len(i[1]) > x: x = len(i[1])
-                        if len(i[2]) > y: y = len(i[2])
-                        if len(str(i[3])) > z: z = len(str(i[3]))
-                    varComment = dict1.get(tblName, "error,没有找到!")
-                    print("*" * 100 + "\n" + str(
-                        tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 7, "注释")
-                    # print("*" * 100 + "\n" + str(tblName + " - " + str(len(results)) + "个字段") + "\n字段" + " " * (x - 3),"类型" + " " * (y - 3), "大小" + " " * (z+2), "可空" + " " * 6, "注释")
-                    for row in results:
-                        # 遍历字段、类型、大小、可空、注释
-                        if row[5] != None:
-                            if row[4] == True:
-                                print(row[1] + " " * (x - len(row[1]) + 1), row[2] + " " * (y - len(row[2]) + 1), str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),str(row[5], 'utf-8'))
-                            else:
-                                print(row[1] + " " * (x - len(row[1]) + 1), row[2] + " " * (y - len(row[2]) + 1), str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),str(row[5], 'utf-8'))
-                        else:
-                            if row[4] == True:
-                                print(row[1] + " " * (x - len(row[1]) + 1), row[2] + " " * (y - len(row[2]) + 1), str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6), str(row[5]))
-                            else:
-                                print(row[1] + " " * (x - len(row[1]) + 1), row[2] + " " * (y - len(row[2]) + 1), str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5), str(row[5]))
-                except Exception as e:
-                    raise e
-                finally:
-                    print("\n")
+            # 1，所有表结构（ok）
+            result = self._dbDesc_search()
+            Color_PO.consoleColor("31", "31", "\n[已完成], 当前数据库 " + self.varDB + " 共有 " + str(result) + " 张表。 ", "")
         elif len(args) == 1:
-            varTable = args[0]
-            if "*" in varTable:
-                # 4，查看所有tb开头的表结构（通配符*）
-                # 模糊匹配多个表格的所有表结构，搜索表名中带xxx的表结构（如：upmxxxtest）
-                tblHead = varTable.split("*")[0]
-                # 查看所有表结构，获取数据库下有多少张表
-                allTable = "select * from sysobjects where xtype = 'u' and name != 'sysdiagrams'"
-                self.cur.execute(allTable)
-                allTable = self.cur.fetchall()
-                tblCount = 0
-
-                for tbl in allTable:
-                    if str(tbl[0]).startswith(tblHead) == True:
-                        tblCount += 1
-                varInfo = "数据库<" + self.varDB + ">中表名带有<" + tblHead + ">字符的共有<" + str(tblCount) + ">张表\n"
-                print(varInfo)
-                allTable = "select * from sysobjects where xtype = 'u' and name != 'sysdiagrams'"
-                self.cur.execute(allTable)
-                allTable = self.cur.fetchall()
-                for tbl in allTable:
-                    # 遍历表
-                    if str(tbl[0]).startswith(tblHead) == True:
-                        varTable = tbl[0]
-                        sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
-                            varTable)
-                        try:
-                            self.cur.execute(sql)
-                            results = self.cur.fetchall()
-                            tblName = results[0][0]
-                            x = y = z = 0
-                            for i in results:
-                                if len(i[1]) > x: x = len(i[1])
-                                if len(i[2]) > y: y = len(i[2])
-                                if len(str(i[3])) > z: z = len(str(i[3]))
-                            varComment = dict1.get(tblName, "error,没有找到!")
-                            print("*" * 100 + "\n" + str(tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                                        x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
-                            for row in results:
-                                # 遍历字段、类型、大小、可空、注释
-                                if row[5] != None:
-                                    if row[4] == True:
-                                        print(row[1] + " " * (x - len(row[1]) + 1),
-                                              row[2] + " " * (y - len(row[2]) + 1),
-                                              str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                              str(row[5], 'utf-8'))
-                                    else:
-                                        print(row[1] + " " * (x - len(row[1]) + 1),
-                                              row[2] + " " * (y - len(row[2]) + 1),
-                                              str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                              str(row[5], 'utf-8'))
-                                else:
-                                    if row[4] == True:
-                                        print(row[1] + " " * (x - len(row[1]) + 1),
-                                              row[2] + " " * (y - len(row[2]) + 1),
-                                              str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                              str(row[5]))
-                                    else:
-                                        print(row[1] + " " * (x - len(row[1]) + 1),
-                                              row[2] + " " * (y - len(row[2]) + 1),
-                                              str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                              str(row[5]))
-                        except Exception as e:
-                            raise e
-                        finally:
-                            print("\n")
-            elif "*" not in varTable:
-                # 2，某个表结构
-
-                sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
-                    varTable)
-                try:
-                    self.cur.execute(sql)
-                    results = self.cur.fetchall()
-                    tblName = results[0][0]
-                    x = y = z = 0
-                    for i in results:
-                        if len(i[1]) > x: x = len(i[1])
-                        if len(i[2]) > y: y = len(i[2])
-                        if len(str(i[3])) > z: z = len(str(i[3]))
-
-                    varComment = dict1.get(tblName, "error,没有找到!")
-                    print("*" * 100 + "\n" + str(
-                        tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 7, "注释")
-                    for row in results:
-                        # 遍历字段、类型、大小、可空、注释
-                        if row[5] != None:
-                            if row[4] == True:
-                                print(row[1] + " " * (x - len(row[1]) + 1), row[2] + " " * (y - len(row[2]) + 1),
-                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                      str(row[5], 'utf-8'))
-                            else:
-                                print(row[1] + " " * (x - len(row[1]) + 1), row[2] + " " * (y - len(row[2]) + 1),
-                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                      str(row[5], 'utf-8'))
-                        else:
-                            if row[4] == True:
-                                print(row[1] + " " * (x - len(row[1]) + 1), row[2] + " " * (y - len(row[2]) + 1),
-                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                      str(row[5]))
-                            else:
-                                print(row[1] + " " * (x - len(row[1]) + 1), row[2] + " " * (y - len(row[2]) + 1),
-                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                      str(row[5]))
-                except Exception as e:
-                    print(e, ",很抱歉，您搜索的表<" + varTable + ">不存在！")
-                finally:
-                    print("\n")
+            # 2，单表结构 和 3，带通配符表结构 （ok）
+            self._dbDesc_search(args[0])
         elif len(args) == 2:
-            # 查看单表或多表的可选字段表结构
-            varTable = args[0]
-            l_fields = args[1]
-
-            if "*" in varTable:
-
-                # 5，查看所有b开头的表中id字段的结构（通配符*）
-                tblHead = varTable.split("*")[0]  # 获取表头
-
-                # 获取所有表名
-                allTable = "select * from sysobjects where xtype = 'u' and name != 'sysdiagrams'"
-                self.cur.execute(allTable)
-                allTable = self.cur.fetchall()
-                tblCount = 0
-
-                # 获取满足表头条件的表数量 tblCount
-                for tbl in allTable:
-                    if str(tbl[0]).startswith(tblHead) == True:
-                        tblCount += 1
-                if tblCount == 0 :
-                    print("数据库<" + self.varDB + ">中没有发现表名中带有<" + tblHead + ">字符的表\n")
-                else:
-                    varInfo = "数据库 " + self.varDB + " 中符合查询条件的表共有 " + str(tblCount) + " 张，其中包含 " + str(l_fields) + " 字段的表如下："
-                    print(varInfo)
-
-                # 遍历表
-                tlbNum = 0
-                for tbl in allTable:
-                    if str(tbl[0]).startswith(tblHead) == True:
-                        varTable = tbl[0]
-                        tlbNum += 1
-                        # 获取表的表结构信息（表、字段、类型、大小、可空、注释）
-                        sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
-                            varTable)
-                        try:
-                            self.cur.execute(sql)
-                            results = self.cur.fetchall()
-                            tblName = results[0][0]
-                            # print(tblName)
-                            # print(results)
-                            x = y = z = 0
-                            for i in results:
-                                if len(i[1]) > x: x = len(i[1])
-                                if len(i[2]) > y: y = len(i[2])
-                                if len(str(i[3])) > z: z = len(str(i[3]))
-
-
-                            # 遍历所有字段f
-                            tmp = 0
-                            for f in results:
-                                # print(f[1])  # 所有字段
-                                for k in range(len(l_fields)):
-                                    if f[1] == l_fields[k]:
-                                        tmp = 1
-                                        break
-                            if tmp == 1:
-                                varComment = dict1.get(tblName, "error,没有找到!")
-                                print("\n" + "*" * 100 + "\n" + str(tlbNum) + ", " + str(
-                                    tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
-
-
-                            for row in results:
-                                # 遍历字段、类型、大小、可空、注释
-                                # print(row)
-                                for k in range(len(l_fields)):
-                                    if row[1] == l_fields[k]:
-                                        if row[5] != None:
-                                            if row[4] == True:
-                                                print(row[1] + " " * (x - len(row[1]) + 1),
-                                                      row[2] + " " * (y - len(row[2]) + 1),
-                                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                                      str(row[5], 'utf-8'))
-                                            else:
-                                                print(row[1] + " " * (x - len(row[1]) + 1),
-                                                      row[2] + " " * (y - len(row[2]) + 1),
-                                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                                      str(row[5], 'utf-8'))
-                                        else:
-                                            if row[4] == True:
-                                                print(row[1] + " " * (x - len(row[1]) + 1),
-                                                      row[2] + " " * (y - len(row[2]) + 1),
-                                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                                      str(row[5]))
-                                            else:
-                                                print(row[1] + " " * (x - len(row[1]) + 1),
-                                                      row[2] + " " * (y - len(row[2]) + 1),
-                                                      str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                                      str(row[5]))
-                        except Exception as e:
-                            raise e
-
-            elif "*" not in varTable:
-                # 3，输出单个表的部分字段结构信息
-
-
-                sql = "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (
-                    varTable)
-                try:
-                    self.cur.execute(sql)
-                    results = self.cur.fetchall()
-                    tblName = results[0][0]
-                    x = y = z = 0
-                    for i in results:
-                        if len(i[1]) > x: x = len(i[1])
-                        if len(i[2]) > y: y = len(i[2])
-                        if len(str(i[3])) > z: z = len(str(i[3]))
-
-                    varComment = dict1.get(tblName, "error,没有找到!")
-                    print("*" * 100 + "\n" + str(
-                        tblName + "(" + str(varComment) + ") - " + str(len(results)) + "个字段") + "\n字段" + " " * (
-                                  x - 3), "类型" + " " * (y - 3), "大小" + " " * (z + 2), "可空" + " " * 6, "注释")
-
-
-                    for row in results:
-                        # 遍历字段、类型、大小、可空、注释
-                        if row[1] in l_fields:
-                            if row[5] != None:
-                                if row[4] == True:
-                                    print(row[1] + " " * (x - len(row[1]) + 1),
-                                          row[2] + " " * (y - len(row[2]) + 1),
-                                          str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                          str(row[5], 'utf-8'))
-                                else:
-                                    print(row[1] + " " * (x - len(row[1]) + 1),
-                                          row[2] + " " * (y - len(row[2]) + 1),
-                                          str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                          str(row[5], 'utf-8'))
-                            else:
-                                if row[4] == True:
-                                    print(row[1] + " " * (x - len(row[1]) + 1),
-                                          row[2] + " " * (y - len(row[2]) + 1),
-                                          str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (6),
-                                          str(row[5]))
-                                else:
-                                    print(row[1] + " " * (x - len(row[1]) + 1),
-                                          row[2] + " " * (y - len(row[2]) + 1),
-                                          str(row[3]) + " " * (z - len(str(row[3])) + 6), str(row[4]) + " " * (5),
-                                          str(row[5]))
-                except Exception as e:
-                    print(e, ",很抱歉，您搜索的表<" + varTable + ">不存在！")
-                finally:
-                    print("\n")
-        self.conn.close()
+            # 4，单表结构的可选字段 、 5，带通配符表结构的可选字段、6，所有表结构的可选字段
+            self._dbDesc_search(args[0], args[1])
 
 
     # 2 查找记录
@@ -593,7 +390,6 @@ class SqlServerPO():
                 return r[i][1]
         return None
 
-
     # 5 获取所有字段
     def l_getAllField(self, varTable):
 
@@ -609,7 +405,6 @@ class SqlServerPO():
 
         except Exception as e:
             print(e, ",很抱歉，出现异常您搜索的<" + varTable + ">不存在！")
-
 
     # 6 获取所有表名
     def getAllTable(self):
@@ -630,9 +425,11 @@ class SqlServerPO():
 if __name__ == '__main__':
 
 
+    # 234 ehr ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "GBK")  # EHR 测试环境
-    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", 1433, "GBK")  # EHR 测试环境
-    Sqlserver_PO.dbDesc()
+    # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHR_CDRINFO", 1433, "GBK")  # 测试环境
+    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHR_CDRINFO", 1433, "")  # 测试环境
+
     # tmpList = Sqlserver_PO.execQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
     # l_result = Sqlserver_PO.execQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
     # print(l_result)
@@ -642,13 +439,14 @@ if __name__ == '__main__':
     # print(l_result)
 
 
+
     # print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
-    # Sqlserver_PO.dbDesc()  # 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
-    # Sqlserver_PO.dbDesc('HrCover')   # 2，输出表结构信息
-    # Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，输出表的部分字段结构信息
-    # Sqlserver_PO.dbDesc('tb_dc*')  # 4，输出tb_dc开头的表结构信息
-    # Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，输出tb开头表中包含id或page字段的表结构信息
-    # Sqlserver_PO.dbDesc('*', 'idCardNo,ehrNum')  # 5，输出所有表中包含idCardNo或ehrNum字段的表结构信息
+    # Sqlserver_PO.dbDesc()  # 1，所有表结构
+    Sqlserver_PO.dbDesc('tb_org')   # 2，单表结构
+    # Sqlserver_PO.dbDesc('s%')  # 3，带通配符表结构
+    # Sqlserver_PO.dbDesc('tb_org', ['id', 'org_name'])  # 4,单表结构的可选字段
+    # Sqlserver_PO.dbDesc('s%', ['id', 'kaId'])  # 5，带通配符表结构的可选字段(只输出找到字段的表)
+    # Sqlserver_PO.dbDesc(0, ['id', 'kaId', 'org_name'])  # 6，所有表结构的可选字段(只输出找到字段的表)
 
     # print("2 查找记录".center(100, "-"))
     # Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.
@@ -657,19 +455,21 @@ if __name__ == '__main__':
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
     # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
 
+
     # print("3 判断字段是否存在".center(100, "-"))
-    # print(Sqlserver_PO.isField("tb_dc_htn_visit", "name"))
+    # print(Sqlserver_PO.isField("condition_item", "name"))  # False
+    # print(Sqlserver_PO.isField("condition_item", "id"))  # True
     #
     # print("4 获取所有字段".center(100, "-"))
-    # print(Sqlserver_PO.l_getAllField('HrCover'))
+    # print(Sqlserver_PO.l_getAllField(Sqlserver_PO.getAllTable()[0]))  # ['id', 'sd_id', 'category', 'item', 'itemValue', 'sign', 'logic', 'isAccurate', 'type']
+    # print(Sqlserver_PO.l_getAllField('condition_item'))
     #
     # print("5 获取字段的类型".center(100, "-"))
-    # print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "guid"))
-    # print(Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate"))
+    # print(Sqlserver_PO.getFieldType(Sqlserver_PO.getAllTable()[0], "id"))  # int
+    # print(Sqlserver_PO.getFieldType("condition_item", "id"))
 
     # print("6 获取所有表名".center(100, "-"))
-    # Sqlserver_PO2 = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "")  # charset不能传入
-    # print(Sqlserver_PO2.getAllTable())
+    # print(Sqlserver_PO.getAllTable())  # ['condition_item', 'patient_demographics', 'patient_diagnosis']
 
 
 
