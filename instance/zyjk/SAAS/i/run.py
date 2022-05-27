@@ -79,141 +79,163 @@ class Run:
     def result(self, indexs, iName, iPath, iMethod, iParam, responseCheck, selectSql, selectSqlCheck, fileCheck, g_var):
 
         ''' 1转义参数，2解析接口，3检查值 '''
-        # 参数：数据库表序号，名称，路径，方法，参数，i检查返回值，s表值，s检查表值, 全局变量
+        # 参数：数据库表序号，名称，路径，方法，参数，i检查返回值，s表值，s检查表值, f检查文件位置，全局变量
 
-        # 1.1 转义路径
-        if "{{" in iPath:
-            for k in self.d_tmp:
-                if "{{" + k + "}}" in iPath:
-                    iPath = str(iPath).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        # 1.2 转义参数
-        if iParam != None:
-            if "{{" in iParam:
-                for k in self.d_tmp :
-                    if "{{" + k + "}}" in iParam:
-                        iParam = str(iParam).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        # 1.3 转义全局变量
-        if g_var != None:
-            if "{{" in g_var:
-                for k in self.d_tmp:
-                    if "{{" + k + "}}" in g_var:
-                        # g_var = str(g_var).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
-                        g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
-            d_var = dict(eval(g_var))
-            for k, v in d_var.items():
-                if "str(" in str(v):
-                    d_var[k] = eval(d_var[k])
+        if iName in "初始化全局变量":
+            if g_var != None:
+                # 转义全局变量
+                if "{{" in g_var:
+                    for k in self.d_tmp:
+                        if "{{" + k + "}}" in g_var:
+                            g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
+                d_var = dict(eval(g_var))
+                print(d_var)
+                for k, v in d_var.items():
+                    # 其他封装函数返回内容转字符串，如str(Data_PO.autoNum(3))
+                    if "str(" in str(v):
+                        d_var[k] = eval(d_var[k])
+                    if "select" in v and "from" in v :
+                        sql_value = Mysql_PO.execQuery(v)
+                        d_var[k]= sql_value[0][0]
+                # sys.exit(0)
+
+
+            else:
+                d_var = {}
         else:
-            d_var = {}
-        # 1.4 转义i检查返回值
-        if responseCheck != None:
-            if "{{" in responseCheck:
+            # 1.1 转义路径
+            if "{{" in iPath:
                 for k in self.d_tmp:
-                    if "{{" + k + "}}" in responseCheck:
-                        responseCheck = str(responseCheck).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
-        # 1.5 转义s表值
-        if selectSql != None:
-            if "{{" in selectSql:
-                for k in self.d_tmp:
-                    if "{{" + k + "}}" in selectSql:
-                        selectSql = str(selectSql).replace("{{" + k + "}}", str(self.d_tmp[k]))
+                    if "{{" + k + "}}" in iPath:
+                        iPath = str(iPath).replace("{{" + k + "}}", str(self.d_tmp[k]))
+            # 1.2 转义参数
+            if iParam != None:
+                if "{{" in iParam:
+                    for k in self.d_tmp :
+                        if "{{" + k + "}}" in iParam:
+                            iParam = str(iParam).replace("{{" + k + "}}", str(self.d_tmp[k]))
+            # 1.3 转义全局变量
+            if g_var != None:
+                if "{{" in g_var:
+                    for k in self.d_tmp:
+                        if "{{" + k + "}}" in g_var:
+                            # g_var = str(g_var).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
+                            g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
+                d_var = dict(eval(g_var))
+                for k, v in d_var.items():
+                    if "str(" in str(v):
+                        d_var[k] = eval(d_var[k])
+            else:
+                d_var = {}
+            # 1.4 转义i检查返回值
+            if responseCheck != None:
+                if "{{" in responseCheck:
+                    for k in self.d_tmp:
+                        if "{{" + k + "}}" in responseCheck:
+                            responseCheck = str(responseCheck).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
+            # 1.5 转义s表值
+            if selectSql != None:
+                if "{{" in selectSql:
+                    for k in self.d_tmp:
+                        if "{{" + k + "}}" in selectSql:
+                            selectSql = str(selectSql).replace("{{" + k + "}}", str(self.d_tmp[k]))
+                try:
+                    # 加入全局变量
+                    d_sql = json.loads(selectSql)
+                    for k, v in d_sql.items():
+                        sql_value = Mysql_PO.execQuery(v)
+                        self.d_tmp[k] = sql_value[0][0]
+                except Exception as e:
+                    # print(e.__traceback__)
+                    Sys_PO.outMsg2("error", str(sys._getframe(0).f_lineno), "[s表值]格式有误！", "")
+                    os._exit(0)
+
+            # 当前变量
+            print("curr_var => " + str(d_var))
+
+            # 2解析接口 （返回值）
+            res, d_var = reflection.run([iName, iPath, iMethod, iParam, d_var])
+            # 用于downFile情况
+            if res == None:
+                d_res = None
+            else:
+                d_res = json.loads(res)
+
+
+            # 3, i检查返回值 iCheckResponse（如 $.code=200）
             try:
-                # 加入全局变量
-                d_sql = json.loads(selectSql)
-                for k, v in d_sql.items():
-                    sql_value = Mysql_PO.execQuery(v)
-                    self.d_tmp[k] = sql_value[0][0]
+                if d_res != None:
+                    varSign = ""
+                    d_responseCheck = json.loads(responseCheck)
+                    if len(d_responseCheck) == 1:
+                        for k, v in d_responseCheck.items():
+                            iResValue = jsonpath.jsonpath(d_res, expr=k)
+                            if v == iResValue[0]:
+                                # print("\n<font color='blue'>responseCheck => " + str(k) + " = " + str(v) + " </font>")
+                                self.setDb(indexs, "Ok", None, None)
+                            else:
+                                # self.setDb(indexs, "Fail", None)
+                                self.setDb(indexs,  '{"' + str(k) + '":' + str(iResValue[0]) + "}", None, None)
+                                # assert v == iResValue[0], "预期值: " + str(v) + "，实测值: " + str(iResValue[0])
+                    else:
+                        for k, v in d_responseCheck.items():
+                            iResValue = jsonpath.jsonpath(d_res, expr=k)
+                            # print(iResValue)
+                            if iResValue != False:   # 如果key不存在
+                                if v != iResValue[0]:
+                                    self.setDb(indexs,  '{"' + str(k) + '":' + str(iResValue[0]) + "}", None, None)
+                                    # print("\n<font color='red'>responseCheck => " + str(k) + " != " + str(v) + " </font>")
+                                    varSign = "error"
+                            else:
+                                self.setDb(indexs, '没找到 "' + str(k) + '"', None, None)
+                                varSign = "error"
+                        if varSign != "error":
+                            self.setDb(indexs,  "Ok", None, None)
             except Exception as e:
                 # print(e.__traceback__)
-                Sys_PO.outMsg2("error", str(sys._getframe(0).f_lineno), "[s表值]格式有误！", "")
-                os._exit(0)
-
-        # 当前变量
-        print("curr_var => " + str(d_var))
-
-        # 2解析接口 （返回值）
-        res, d_var = reflection.run([iName, iPath, iMethod, iParam, d_var])
-        # 用于downFile情况
-        if res == None:
-            d_res = None
-        else:
-            d_res = json.loads(res)
+                Color_PO.consoleColor("31", "31", "[ERROR], [i检查返回值]列格式有误！", "")
+                self.setDb(indexs, 'err,[i检查返回值]列格式有误！', None, None)
 
 
-        # 3, i检查返回值 iCheckResponse（如 $.code=200）
-        try:
-            if d_res != None:
+            # s检查表值
+            try:
+                dict1 = {}
                 varSign = ""
-                d_responseCheck = json.loads(responseCheck)
-                if len(d_responseCheck) == 1:
-                    for k, v in d_responseCheck.items():
-                        iResValue = jsonpath.jsonpath(d_res, expr=k)
-                        if v == iResValue[0]:
-                            # print("\n<font color='blue'>responseCheck => " + str(k) + " = " + str(v) + " </font>")
-                            self.setDb(indexs, "Ok", None, None)
-                        else:
-                            # self.setDb(indexs, "Fail", None)
-                            self.setDb(indexs,  '{"' + str(k) + '":' + str(iResValue[0]) + "}", None, None)
-                            # assert v == iResValue[0], "预期值: " + str(v) + "，实测值: " + str(iResValue[0])
-                else:
-                    for k, v in d_responseCheck.items():
-                        iResValue = jsonpath.jsonpath(d_res, expr=k)
-                        # print(iResValue)
-                        if iResValue != False:   # 如果key不存在
-                            if v != iResValue[0]:
-                                self.setDb(indexs,  '{"' + str(k) + '":' + str(iResValue[0]) + "}", None, None)
-                                # print("\n<font color='red'>responseCheck => " + str(k) + " != " + str(v) + " </font>")
-                                varSign = "error"
-                        else:
-                            self.setDb(indexs, '没找到 "' + str(k) + '"', None, None)
-                            varSign = "error"
-                    if varSign != "error":
-                        self.setDb(indexs,  "Ok", None, None)
-        except Exception as e:
-            # print(e.__traceback__)
-            Color_PO.consoleColor("31", "31", "[ERROR], [i检查返回值]列格式有误！", "")
-            self.setDb(indexs, 'err,[i检查返回值]列格式有误！', None, None)
-
-
-        # s检查表值
-        try:
-            dict1 = {}
-            varSign = ""
-            if selectSqlCheck != None:
-                d_selectSqlCheck = json.loads(selectSqlCheck)
-                if len(d_selectSqlCheck) == 1:
-                    for k, v in d_selectSqlCheck.items():
-                        if self.d_tmp[k] == v:
-                            # print("\n<font color='green'>selectSqlCheck => " + str(k) + " = " + str(v) + " </font>")
-                            self.setDb(indexs, None, "Ok", None)
-                        else:
-                            # print("\n<font color='red'>selectSqlCheck => " + str(k) + " = " + str(v) + " </font>")
-                            # self.setDb(indexs, None, "Fail", None)
-                            self.setDb(indexs, None, '{"' + str(k) + '": ' + str(self.d_tmp[k]) + '}', None)
-                else:
-                    for k, v in d_selectSqlCheck.items():
-                        if self.d_tmp[k] != v:
-                            dict1[k] = self.d_tmp[k]
-                            varSign = "error"
-                    if varSign == "error":
-                        # print(dict1)
-                        self.setDb(indexs, None, json.dumps(dict1), None)
+                if selectSqlCheck != None:
+                    d_selectSqlCheck = json.loads(selectSqlCheck)
+                    if len(d_selectSqlCheck) == 1:
+                        for k, v in d_selectSqlCheck.items():
+                            if self.d_tmp[k] == v:
+                                # print("\n<font color='green'>selectSqlCheck => " + str(k) + " = " + str(v) + " </font>")
+                                self.setDb(indexs, None, "Ok", None)
+                            else:
+                                # print("\n<font color='red'>selectSqlCheck => " + str(k) + " = " + str(v) + " </font>")
+                                # self.setDb(indexs, None, "Fail", None)
+                                self.setDb(indexs, None, '{"' + str(k) + '": ' + str(self.d_tmp[k]) + '}', None)
                     else:
-                        self.setDb(indexs, None, "Ok", None)
-        except Exception as e:
-            # print(e.__traceback__)
-            Color_PO.consoleColor("31", "31", "[ERROR], [s检查表值]列格式有误！", "")
-            self.setDb(indexs, None, 'err,[s检查表值]列格式有误！')
+                        for k, v in d_selectSqlCheck.items():
+                            if self.d_tmp[k] != v:
+                                dict1[k] = self.d_tmp[k]
+                                varSign = "error"
+                        if varSign == "error":
+                            # print(dict1)
+                            self.setDb(indexs, None, json.dumps(dict1), None)
+                        else:
+                            self.setDb(indexs, None, "Ok", None)
+            except Exception as e:
+                # print(e.__traceback__)
+                Color_PO.consoleColor("31", "31", "[ERROR], [s检查表值]列格式有误！", "")
+                self.setDb(indexs, None, 'err,[s检查表值]列格式有误！')
 
-        # f检查文件位置
-        if fileCheck != None:
-            # /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb.xlsx
-            # D:\\51\\python\\project\\PO\\FilePO\\test.txt
+            # f检查文件位置
+            if fileCheck != None:
+                # /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb.xlsx
+                # D:\\51\\python\\project\\PO\\FilePO\\test.txt
 
-            if (os.path.isfile(fileCheck)):
-                self.setDb(indexs, None, None, "Ok")
-            else:
-                self.setDb(indexs, None, None, "Fail")
+                if (os.path.isfile(fileCheck)):
+                    self.setDb(indexs, None, None, "Ok")
+                else:
+                    self.setDb(indexs, None, None, "Fail")
 
         # 全局变量
         self.d_tmp = dict(self.d_tmp, **d_var)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
