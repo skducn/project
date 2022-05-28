@@ -18,6 +18,33 @@ import pandas as pd
 
 sys.path.append("../../../../")
 
+# 参数切换 test dev 环境
+argvParam = sys.argv[1:3]
+
+# 如果没有参数，默认test环境
+if len(argvParam) == 0 :
+    print("语法：python run.py 参数1 参数2")
+    print("实例1： python run2.py all    // 加载'路径,方法'字段，默认打开报告")
+    print("实例2： python run2.py noreport  // 不打开报告")
+    print("实例2： python run2.py report  // 打开报告")
+    sys.exit(0)
+elif len(argvParam) == 1:
+
+    if argvParam[0] == "report":
+        varReport = 1
+        varAll = 0
+    elif argvParam[0] == "noreport":
+        varReport = 0
+        varAll = 0
+    elif argvParam[0] == "all":
+        varAll = 1
+        varReport = 1
+    else:
+        sys.exit(0)
+else:
+    sys.exit(0)
+
+
 from PO.TimePO import *
 Time_PO = TimePO()
 
@@ -59,9 +86,15 @@ else:
     db_database = localReadConfig.get_dev("db_database")
     testTable = localReadConfig.get_test("testTable")
 
+
 from PO.MysqlPO import *
 Mysql_PO = MysqlPO(db_ip, db_username, db_password, db_database, db_port)
 l_m = Mysql_PO.getTableField(testTable)  # # 表格字段列表
+
+
+
+
+
 
 class Run:
 
@@ -274,7 +307,10 @@ if __name__ == '__main__':
 
     # 生成report.html
     # ['0编号', '1执行', '2类型', '3模块', '4名称', '5路径', '6方法', '7参数', '8担当者', '9i检查接口返回值', '10i结果', '11db检查表值', '12db结果', '13f检查文件', '14f结果', '15全局变量', '备注']
-    df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], testTable), con=Mysql_PO.getPymysqlEngine())
+    if varAll == 1 :
+        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[6], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[13], l_m[14], l_m[15], testTable), con=Mysql_PO.getPymysqlEngine())
+    else:
+        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], testTable), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(rptTitle) + '''</title></head>
@@ -304,10 +340,11 @@ if __name__ == '__main__':
     tf.write(str(html_text))
     tf.close()
 
-    if platform.system() == 'Darwin':
-        os.system("open ./" + rptNameDate)
-    if platform.system() == 'Windows':
-        os.system("start ./" + rptNameDate)
+    if varReport == 1 :
+        if platform.system() == 'Darwin':
+            os.system("open ./" + rptNameDate)
+        if platform.system() == 'Windows':
+            os.system("start ./" + rptNameDate)
 
     # # # Net_PO.sendEmail("令狐冲", 'skducn@163.com', "h.jin@zy-healthtech.com",
     # # #                  "招远疫情防控接口自动化报告" + str(Time_PO.getDate_minus()),
