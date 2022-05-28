@@ -25,10 +25,11 @@
 '''
 
 1 查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
-2 查找记录 dbRecord('*', 'money', '%34.5%')l
+2 查找记录 dbRecord('*', 'money', '%34.5%')
+
 3 判断字段是否存在
 4 获取字段的类型
-5 获取所有字段
+5 获取单个表的所有字段
 6 获取所有表名
 
 '''
@@ -390,11 +391,11 @@ class SqlServerPO():
                 return r[i][1]
         return None
 
-    # 5 获取所有字段
-    def l_getAllField(self, varTable):
+    # 5 获取单个表的所有字段
+    def getTableField(self, varTable):
 
-        ''' 获取所有字段 '''
-        # Sqlserver_PO.l_getAllField('HrCover')
+        ''' 获取单个表的所有字段 '''
+        # Sqlserver_PO.getTableField('HrCover')
 
         try:
             r = self.execQuery("SELECT B.name as FieldName FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'" % (varTable))
@@ -442,7 +443,7 @@ if __name__ == '__main__':
 
     # print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
     # Sqlserver_PO.dbDesc()  # 1，所有表结构
-    Sqlserver_PO.dbDesc('tb_org')   # 2，单表结构
+    # Sqlserver_PO.dbDesc('tb_org')   # 2，单表结构
     # Sqlserver_PO.dbDesc('s%')  # 3，带通配符表结构
     # Sqlserver_PO.dbDesc('tb_org', ['id', 'org_name'])  # 4,单表结构的可选字段
     # Sqlserver_PO.dbDesc('s%', ['id', 'kaId'])  # 5，带通配符表结构的可选字段(只输出找到字段的表)
@@ -459,14 +460,14 @@ if __name__ == '__main__':
     # print("3 判断字段是否存在".center(100, "-"))
     # print(Sqlserver_PO.isField("condition_item", "name"))  # False
     # print(Sqlserver_PO.isField("condition_item", "id"))  # True
-    #
-    # print("4 获取所有字段".center(100, "-"))
-    # print(Sqlserver_PO.l_getAllField(Sqlserver_PO.getAllTable()[0]))  # ['id', 'sd_id', 'category', 'item', 'itemValue', 'sign', 'logic', 'isAccurate', 'type']
-    # print(Sqlserver_PO.l_getAllField('condition_item'))
-    #
-    # print("5 获取字段的类型".center(100, "-"))
+
+    # print("4 获取字段的类型".center(100, "-"))
     # print(Sqlserver_PO.getFieldType(Sqlserver_PO.getAllTable()[0], "id"))  # int
     # print(Sqlserver_PO.getFieldType("condition_item", "id"))
+
+    # print("4 获取单个表的所有字段".center(100, "-"))
+    # print(Sqlserver_PO.getTableField(Sqlserver_PO.getAllTable()[0]))  # ['id', 'sd_id', 'category', 'item', 'itemValue', 'sign', 'logic', 'isAccurate', 'type']
+    print(Sqlserver_PO.getTableField('condition_item'))
 
     # print("6 获取所有表名".center(100, "-"))
     # print(Sqlserver_PO.getAllTable())  # ['condition_item', 'patient_demographics', 'patient_diagnosis']
