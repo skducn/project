@@ -26,8 +26,10 @@ pandas引擎（mysqldb）  getMysqldbEngine()
 4.2，数据库表导出html db2html()
 4.3，数据库表导出csv db2csv()
 4.4 excel导入数据库表 xlsx2db()
+4.5 所有表结构导出excel dbDesc2xlsx()
 
-5 将所有表结构导出到excel(覆盖)  dbDesc2xlsx（）
+5 获取单个表的所有字段
+
 
 '''
 import sys
@@ -387,7 +389,7 @@ class MysqlPO():
     def dbDesc2xlsx(self, varFileName):
 
         '''
-        5 将所有表结构导出到excel(覆盖)
+        4.5 所有表结构导出excel(覆盖)
         :param varFileName:
         :return:
         '''
@@ -421,6 +423,23 @@ class MysqlPO():
         Openpyxl_PO = OpenpyxlPO(varFileName)
         Openpyxl_PO.setRowValue(dict1)
         Openpyxl_PO.save()
+
+
+    def getTableField(self, varTable):
+
+        ''' 5, 获取单个表的所有字段 '''
+        # Mysql_PO.getTableField('HrCover')
+
+        l_field = []
+        try:
+            t_table = self.execQuery('select column_name from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, varTable))
+
+            for i in range(len(t_table)):
+                l_field.append(t_table[i][0])
+            return l_field
+
+        except Exception as e:
+            print(e, ",很抱歉，出现异常您搜索的<" + varTable + ">不存在！")
 
 
 if __name__ == '__main__':
@@ -505,7 +524,10 @@ if __name__ == '__main__':
     # Openpyxl_PO.xlsx2db("data/testcase2.xlsx", "testcase2", lambda x: x in ['班级', 'interURL', '语文'], None, sheet_name="case")  # 读取表格中符合（存在）['班级', 'interURL', '语文']列数据，并写入数据库表
 
 
-    # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
+    # print("4.5 将所有表结构导出到excel(覆盖)".center(100, "-"))
     # Mysql_PO.dbDesc2xlsx("d:\\sassDesc.xlsx")
     # Mysql_PO.dbDesc2xlsx("/Users/linghuchong/Desktop/mac/sassDesc.xlsx")
 
+
+    # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
+    print(Mysql_PO.getTableField('test_interface'))
