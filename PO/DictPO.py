@@ -10,27 +10,31 @@
 # 字典对象是可变的，它是一个容器类型，能存储任意个数的Python对象，其中也可包括其他容器类型。
 # *********************************************************************
 
-from collections import ChainMap
-from collections import defaultdict
-from collections import Counter
-
-import json
-
 '''
-1.1，合并字典（合并时如遇重复key,则保留第一个字典键值）mergeDictGetFirstKey()
-1.2，合并字典（合并时如遇重复key,则保留最后一个字典键值）mergeDictGetLastKey()
+todo:【转换】
+1.1 字典转json字符串     # print(json.dumps(dict(a=5, b=6)))  # {"a": 5, "b": 6}  双引号是字符串
+1.2 字典转json字符串保存在文件里
+    with open("dict.json", "w+") as f:
+        json.dump(dict(a=5, b=6), f)
+1.3 字典（单个或多个）key转列表（去重）dictKey2list(*dict1)   # ['a', 'b', 'dev', 'test']
 
-2.1，获取2个字典交、并、差和对称差集的key
-2.2，获取2个字典交、并、差和对称差集的键值对
+todo:【组合】
+2.1，合并字典（合并时如遇重复key,则保留第一个字典键值）mergeDictReserveLeft(*dict1)
+2.2，合并字典（合并时如遇重复key,则保留最后一个字典键值）mergeDictReserveRight(*dict1)
+2.3，获取2个字典交、并、差和对称差集的key
+2.4，获取2个字典交、并、差和对称差集的键值对
 
-3.1 将多个字典key转换列表（去重）dictKey2list()
-3.2 列表转字典（value=None）list2dict()
+todo:【key】
+4.1 删除字典中的key  delKey(dict，key)
+4.2 保留字典中的key  serverKey(dict，key)
 
-4.1 删除字典中的key  delKey()
-4.2 保留字典中的key  serverKey()
-
+todo:【value】
 5.1 多个字典中相同的key值进行累加 sumValueByKey()
-5.2 批量更新字典value（数字） addValue()
+5.2 字典的数字value加法 addValue()
+5.3 字典的数字value减法 minusValue()
+
+
+
 
 
 6.1 collections中defaultdict之字典的 value 是字典
@@ -38,12 +42,15 @@ import json
 6.1 collections中defaultdict之字典的 value 是lambda表达式
 6.4 collections中defaultdict之字典的 value 里又是字典
 
-7.1 字典转json字符串 dict2json()
+
 7.2 json字符串转字典
-7.3 字典转 JSON 字符串保存在文件里
 7.4 从 JSON 文件里恢复字典
 '''
 
+from collections import ChainMap
+from collections import defaultdict
+from collections import Counter
+import json
 
 class DictPO():
 
@@ -121,11 +128,7 @@ class DictPO():
             return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4]))
         else:
             return 0
-    # 3.2 列表转字典（value=None）
-    def list2dict(self, varList, value=None):
-        # print(Dict_PO.list2dict(['name', 'blog']))  # {'name': None, 'blog': None}
-        # print(Dict_PO.list2dict(['name', 'blog'], '12'))  # {'name': '12', 'blog': '12'}
-        return {}.fromkeys(varList, value)
+
 
 
     # 4.1 删除字典中的key
@@ -157,6 +160,11 @@ class DictPO():
     # 5.2 批量更新字典value（数字）
     def addValue(self, varDict, n):
         return ({k: v + n for k, v in varDict.items()})
+
+    # 5.2 批量更新字典value（数字）
+    def minusValue(self, varDict, n):
+        return ({k: v - n for k, v in varDict.items()})
+
 
     # 7.1 字典转json字符串
     def dict2json(self, varDict):
@@ -210,9 +218,6 @@ if __name__ == "__main__":
     print(Dict_PO.dictKey2list(d1, d2))  # ['a', 'b', 'dev', 'test']
     print(Dict_PO.dictKey2list(d1, d2, d3))  # ['a', 'b', 'prd', 'dev', 'test']
 
-    print("3.2 列表转字典（value=None）".center(100, "-"))
-    print(Dict_PO.list2dict(['name', 'blog']))  # {'name': None, 'blog': None}
-    print(Dict_PO.list2dict(['name', 'blog'], '12'))  # {'name': '12', 'blog': '12'}
 
     # # 字典形式
     # b = {'one': 1, 'two': 2, 'three': 3}
@@ -227,18 +232,21 @@ if __name__ == "__main__":
     #
 
 
-    print("4.1 删除字典中的key".center(100, "-"))
-    print(Dict_PO.delKey({"a": 5, "b": 6, "c":7, "d":8}, "b", "d"))  # {'a': 5, 'c': 7}
-
-    print("4.2 保留字典中的key".center(100, "-"))
-    print(Dict_PO.reserveKey({"a": 5, "b": 6, "c":7, "d":8}, "b", "d"))  # {'b': 6, 'd': 8}
-
-
-    print("5.1 多个字典中相同的key值进行累加".center(100, "-"))
-    print(Dict_PO.sumValueByKey({"a": 10000, "b": 1}, {"a": 10000, "b": 1}, {"a": 40000, "b": 1, "c" : 333}))  # [('a', 60000), ('c', 333), ('b', 3)]
-
-    print("5.2 批量更新字典value（数字）".center(100, "-"))
-    print(Dict_PO.addValue({"a": 6, "b": 7, "c": 8, "d": 9}, 1))  # {'a': 7, 'b': 8, 'c': 9, 'd': 10}
+    # print("4.1 删除字典中的key".center(100, "-"))
+    # print(Dict_PO.delKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'a': 5, 'c': 7}
+    #
+    # print("4.2 保留字典中的key".center(100, "-"))
+    # print(Dict_PO.reserveKey({"a": 5, "b": 6, "c":7, "d":8}, "b", "d"))  # {'b': 6, 'd': 8}
+    #
+    #
+    # print("5.1 多个字典中相同的key值进行累加".center(100, "-"))
+    # print(Dict_PO.sumValueByKey({"a": 10000, "b": 1}, {"a": 10000, "b": 1}, {"a": 40000, "b": 1, "c" : 333}))  # [('a', 60000), ('c', 333), ('b', 3)]
+    #
+    # print("5.2 字典的数字value加法".center(100, "-"))
+    # print(Dict_PO.addValue({"a": 6, "b": 7, "c": 8, "d": 9}, 2))  # {'a': 7, 'b': 8, 'c': 9, 'd': 10}
+    #
+    # print("5.3 字典的数字value减法".center(100, "-"))
+    # print(Dict_PO.minusValue({"a": 6, "b": 7, "c": 8, "d": 9}, 2))  # {'a': 7, 'b': 8, 'c': 9, 'd': 10}
 
 
     # counter = Counter()
@@ -290,11 +298,11 @@ if __name__ == "__main__":
     # print("7.2 json字符串转字典".center(100, "-"))
     # print(json.loads('{"a": 5, "b": 6}'))  # {'a': 5, 'b': 6}  单引号是字典
     #
-    # print("7.3 字典转 JSON 字符串保存在文件里".center(100, "-"))
+    # print("7.3 字典转 JSON 字符串文件".center(100, "-"))
     # with open("dict.json", "w+") as f:
     #      json.dump(dict(a=5, b=6), f)
     #
-    # print("7.4 从 JSON 文件里恢复字典".center(100, "-"))
+    # print("7.4 将 JSON 文件转字典".center(100, "-"))
     # with open("dict.json", "r") as f:
     #     print(json.load(f))  # {'a': 5, 'b': 6}
 

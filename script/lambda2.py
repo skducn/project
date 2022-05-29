@@ -97,7 +97,7 @@ print("7.1，reduce函数，参数序列中元素进行累加".center(100, "-"))
 # initial 值， 那么首先传的就不是 sequence 的第一个和第二个元素，而是 initial值和 第一个元
 # 素。经过这样的累计计算之后合并序列到一个单一返回值
 from functools import reduce
-print(reduce(lambda a,b:'{},{}'.format(a,b),[1,2,3,4,5,"sasa",7,8,9]))   # 1,2,3,4,5,sasa,7,8,9
+print(reduce(lambda a, b:'{},{}'.format(a, b), [1, 2, 3, 4, 5, "sasa", 7, 8, 9]))   # 1,2,3,4,5,sasa,7,8,9
 print(reduce(lambda a, b: a + b, [1, 2, 3, 4, 5, 6, 7, 8, 9]))  # 45
 print(reduce(lambda x, y: x * 10 + y, [1, 2, 3, 4, 5]))  # 12345
 
@@ -114,6 +114,7 @@ def group_by_gender(accumulator , value):
     return accumulator
 grouped = reduce(group_by_gender, scientists, {'male':[], 'female':[]})
 print(grouped)  # {'male': ['jinhao', 'baba'], 'female': ['mama', 'yoyo']}
+
 
 grouped = reduce(lambda acc, val: {**acc, **{val['gender']: acc[val['gender']] + [val['name']]}}, scientists, {'male':[], 'female':[]})
 print(grouped)  # {'male': ['jinhao', 'baba'], 'female': ['mama', 'yoyo']}
