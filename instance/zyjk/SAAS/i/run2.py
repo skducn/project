@@ -295,8 +295,8 @@ if __name__ == '__main__':
 
     # 遍历用例
     for indexs in run.df.index:
-        r = run.df.loc[indexs].values[0:-1]
-        print("\n" + str(r[0]) + ", " + str(r[3]) + " - " + str(r[4]) + " _" *50)
+        r = run.df.loc[indexs].values[0:]
+        print("\n" + str(r[0]) + ", " + str(r[3]) + " - " + str(r[4]) + " _" * 50)
 
         # 参数：数据库表序号，名称，路径，方法，参数，i检查接口返回值，db检查表值, f检查文件, 全局变量
         run.result(indexs, r[4], r[5], r[6], r[7], r[9], r[11], r[13], r[15])
@@ -314,7 +314,7 @@ if __name__ == '__main__':
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(rptTitle) + '''</title></head>
-    <body><b><caption>''' + str(rptTitle) + ''' — ''' + str(Time_PO.getDate()) + '''</caption></b><br><br>{table}</body></html>'''
+    <body><b><caption>''' + str(rptTitle) + ''' ( ''' + str(Time_PO.getDate()) + ''' ) </caption></b><br><br>{table}</body></html>'''
     style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
     rptNameDate = "report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
     with open(rptNameDate, 'w') as f:
