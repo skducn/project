@@ -8,6 +8,11 @@
 
 import json, jsonpath, os, requests, inspect, smtplib, email, mimetypes, base64, urllib3
 import sys
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
 
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import readConfig as readConfig
@@ -313,6 +318,7 @@ class HTTP:
 
     # 3个关于Email函数
     def getAttachment(self, attachmentFilePath):
+
         contentType, encoding = mimetypes.guess_type(attachmentFilePath)
         if contentType is None or encoding is not None:
             contentType = 'application/octet-stream'

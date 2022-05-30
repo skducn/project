@@ -263,10 +263,11 @@ if __name__ == '__main__':
 
     # 遍历用例
     for indexs in run.df.index:
-        r = run.df.loc[indexs].values[0:-1]
+        r = run.df.loc[indexs].values[0:]
         Color_PO.consoleColor("31", "36", "\n" + str(r[0]) + ", " + str(r[3]) + " - " + str(r[4]) + " _" * 50, "")
 
         # 参数：数据库表序号，名称，路径，方法，参数，i检查接口返回值，db检查表值, f检查文件, 全局变量
+        print(r)
         run.result(indexs, r[4], r[5], r[6], r[7], r[9], r[11], r[13], r[15])
         # pd.set_option('display.max_columns', None)  //显示所有列
         # run.df.loc[indexs]['i返回值'] = ""   # 不写入，因为内容过多表里可能报错
@@ -274,12 +275,12 @@ if __name__ == '__main__':
     run.df.to_sql(db_table, con=Mysql_PO.getMysqldbEngine(), if_exists='replace', index=False)
 
     # 生成report.html
-    # ['0编号', '1执行', '2类型', '3模块', '4名称', '5路径', '6方法', '7参数', '8担当者', '9i检查接口返回值', '10i结果', '11db检查表值', '12db结果', '13f检查文件', '14f结果', '15全局变量', '备注']
+    # ['0编号', '1执行', '2类型', '3模块', '4名称', '5路径', '6方法', '7参数', '8担当者', '9i检查接口返回值', '10i结果', '11db检查表值', '12db结果', '13f检查文件', '14f结果', '15全局变量']
     df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], db_table), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(rptTitle) + '''</title></head>
-    <body><b><caption>''' + str(rptTitle) + ''' — ''' + str(Time_PO.getDate()) + '''</caption></b><br><br>{table}</body></html>'''
+    <body><b><caption>''' + str(rptTitle) + ''' ( ''' + str(Time_PO.getDate()) + ''' )</caption></b><br><br>{table}</body></html>'''
     style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
     rptNameDate = "report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
     with open(rptNameDate, 'w') as f:
