@@ -12,6 +12,8 @@ todo：【转换】
 1.2 列表转字典之相邻元素键值对（如遇重复key则取后面的key值）list2dictBySerial([key1, value1, key2, value2])  # {key1: value1, key2: value2}
 1.3 列表转字典之键值对格式（如遇重复key则取后面的key值）list2dictByKeyValue(['key1:value1', 'key2:value2']))  # {key1: value1, key2: value2}
 1.4 列表转字典之元组格式（如遇重复key则取后面的key值）list2dictByTuple([(key1, value1), (key2, value1)])  # {key1: value1, key2: value2}
+            d = {k: v for k, v in lst}
+
 1.5 两列表转字典，twoList2dict([key1, key2], [value1, value2])  # {key1: value1, key2: value2}
 1.6 列表元素组合成字符串 joinElem2str(['h', 'e', 'l', 'l', 'o']))  # hello
 1.7 列表转数组 list2array([1, 2, 3, 4, 5, 6, 7, 8, 9], 2)   # [array([1, 2, 3, 4, 5]), array([6, 7, 8, 9])]
@@ -40,6 +42,7 @@ todo：【替换】
 4.1 替换元素一对多 replaceElemByOne2more(["1", 2, "3", ":"], 2, ""))  # ['1', '', '3', ':']
 4.2 替换元素多对一 replaceElemByMore2one(["1", 2, "3", ":"], [":", 2], 7))  # ['1', 7, '3', 7]
 4.3 替换元素多对多 replaceElemByMore2more(["1", 2, "3", ":"], {":": 12, 2: 77}))  # ['1', 77, '3', 12]
+4.4 替换元素首字母大写且其余小写 replaceElemCaptain(['adam', 'LISA', 'barT'])  # ['Adam', 'Lisa', 'Bart']
 
 todo：【删除】
 5.1 删除元素左右空格 stripElem(['   glass', 'apple   ', '  greenleaf  ']))  # ['glass', 'apple', 'greenleaf']
@@ -334,6 +337,10 @@ class ListPO():
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
+    # 4.4 替换元素首字母大写且其余小写
+    def replaceElemCaptain(self, varList):
+        return list(map(lambda s: s[0:1].upper() + s[1:].lower(), varList))
+
 
     '''[删除]'''
 
@@ -450,35 +457,35 @@ if __name__ == "__main__":
     '''[转换]'''
 
 
-    print("1.1 列表转字典（value=None）".center(100, "-"))
-    print(List_PO.list2dict(['name', 'blog']))  # {'name': None, 'blog': None}
-    print(List_PO.list2dict(['name', 'blog'], '12'))  # {'name': '12', 'blog': '12'}
-    print(List_PO.list2dict(['name', 'blog'], 12))  # {'name': '12', 'blog': '12'}
-    print(List_PO.list2dict(['name', 'blog', 'blog'], 12))  # {'name': '12', 'blog': '12'}
+    # print("1.1 列表转字典（value=None）".center(100, "-"))
+    # print(List_PO.list2dict(['name', 'blog']))  # {'name': None, 'blog': None}
+    # print(List_PO.list2dict(['name', 'blog'], '12'))  # {'name': '12', 'blog': '12'}
+    # print(List_PO.list2dict(['name', 'blog'], 12))  # {'name': '12', 'blog': '12'}
+    # print(List_PO.list2dict(['name', 'blog', 'blog'], 12))  # {'name': '12', 'blog': '12'}
 
-    print("1.2 列表转字典之相邻元素键值对".center(100, "-"))
-    print(List_PO.list2dictBySerial(["a", "1", 100, 2]))  # {'a': '1', 100: 2}
-    print(List_PO.list2dictBySerial(["a", "1", "a", "2"]))  # {'a': '2'}   //如遇到重复key，则取后面的key值
-    print(List_PO.list2dictBySerial(["a", "1", "b", "2", "c"]))  # {'a': '1', 'b': '2'}  //如果元素个数是奇数，则忽略最后一个元素
-
-    print("1.3 列表转字典之键值对格式".center(100, "-"))
-    print(List_PO.list2dictByKeyValue(['a:1', 'b:2']))  # {'a': '1', 'b': '2'}
-    print(List_PO.list2dictByKeyValue(['a,3', 'b,4'], ","))  # {'a': '3', 'b': '4'}
-    print(List_PO.list2dictByKeyValue(['a:1', 'b:2', 'a:133']))  # {'a': '133', 'b': '2'}  //转换后如果有重复的key，则后面的key替代前面的key
-    print(List_PO.list2dictByKeyValue(['a:1', '123b456', 'c:3']))  # {'a': '1', 'c': '3'}   //不符合键值对格式的字符串被删除
-
-    print("1.4 列表转字典之元组格式".center(100, "-"))
-    print(List_PO.list2dictByTuple([(1, 'a'), ('b', 2), ((1, 2), 444)]))  # {1: 'a', 'b': 2, (1, 2): 444}
-    print(List_PO.list2dictByTuple([(1, 'a'), ('b', 2), (1, 444)]))  # {1: 444, 'b': 2}   //转换后如果有重复的key，则后面的key替代前面的key
-
-    print("1.5 两个列表转字典".center(100, "-"))
-    print(List_PO.twoList2dict([1, 2], ['skducn', 'yoyo']))  # {1: 'skducn', 2: 'yoyo'}
-
-    print("1.6 列表元素组合成字符串".center(100, "-"))
-    print(List_PO.joinElem2str(['h', 'e', 'l', 'l', 'o']))  # hello
-    print(List_PO.joinElem2str([1, 3, 5, 7, 8, 20]))  # 1357820
-    print(List_PO.joinElem2str([1, 3, "test", "12", "中国", 20]))  # 13test12中国20
-    print(List_PO.joinElem2str([100, 200, [1, 2, 3], {'a': 1, "b": 2}, 500]))  # 100200[1, 2, 3]{'a': 1, 'b': 2}500
+    # print("1.2 列表转字典之相邻元素键值对".center(100, "-"))
+    # print(List_PO.list2dictBySerial(["a", "1", 100, 2]))  # {'a': '1', 100: 2}
+    # print(List_PO.list2dictBySerial(["a", "1", "a", "2"]))  # {'a': '2'}   //如遇到重复key，则取后面的key值
+    # print(List_PO.list2dictBySerial(["a", "1", "b", "2", "c"]))  # {'a': '1', 'b': '2'}  //如果元素个数是奇数，则忽略最后一个元素
+    #
+    # print("1.3 列表转字典之键值对格式".center(100, "-"))
+    # print(List_PO.list2dictByKeyValue(['a:1', 'b:2']))  # {'a': '1', 'b': '2'}
+    # print(List_PO.list2dictByKeyValue(['a,3', 'b,4'], ","))  # {'a': '3', 'b': '4'}
+    # print(List_PO.list2dictByKeyValue(['a:1', 'b:2', 'a:133']))  # {'a': '133', 'b': '2'}  //转换后如果有重复的key，则后面的key替代前面的key
+    # print(List_PO.list2dictByKeyValue(['a:1', '123b456', 'c:3']))  # {'a': '1', 'c': '3'}   //不符合键值对格式的字符串被删除
+    #
+    # print("1.4 列表转字典之元组格式".center(100, "-"))
+    # print(List_PO.list2dictByTuple([(1, 'a'), ('b', 2), ((1, 2), 444)]))  # {1: 'a', 'b': 2, (1, 2): 444}
+    # print(List_PO.list2dictByTuple([(1, 'a'), ('b', 2), (1, 444)]))  # {1: 444, 'b': 2}   //转换后如果有重复的key，则后面的key替代前面的key
+    #
+    # print("1.5 两个列表转字典".center(100, "-"))
+    # print(List_PO.twoList2dict([1, 2], ['skducn', 'yoyo']))  # {1: 'skducn', 2: 'yoyo'}
+    #
+    # print("1.6 列表元素组合成字符串".center(100, "-"))
+    # print(List_PO.joinElem2str(['h', 'e', 'l', 'l', 'o']))  # hello
+    # print(List_PO.joinElem2str([1, 3, 5, 7, 8, 20]))  # 1357820
+    # print(List_PO.joinElem2str([1, 3, "test", "12", "中国", 20]))  # 13test12中国20
+    # print(List_PO.joinElem2str([100, 200, [1, 2, 3], {'a': 1, "b": 2}, 500]))  # 100200[1, 2, 3]{'a': 1, 'b': 2}500
 
     # print("1.7 列表转数组".center(100, "-"))
     # varArr = List_PO.list2array([1, 2, 3, 4, 5, 6, 7, 8, 9], 2)  # //将列表拆成2个数组
@@ -545,16 +552,16 @@ if __name__ == "__main__":
 
     '''[比较]'''
 
-    print("3.1 获取两列表差异元素".center(100, "-"))
-    print(List_PO.twoListGetDiff(['张三', '王五', '老二'], ['张三', '老二', '王七']))  # (['王五'], ['王七'])
-    # print(List_PO.twoListGetDiff(['张三', '12', '33'], ['张三', '12']))  # (['33'], [])
-    #
-    print("3.2 获取两列表相同元素".center(100, "-"))
-    print(List_PO.twoListGetSame(['张三', '李四', '王五', '老二'], ['张三', '李四', '老二', '王七']))  # ['张三', '李四', '老二']
-    #
-    print("3.3 获取两列表中在list1且不在list2的元素".center(100, "-"))
-    print(List_PO.twoListGetLeftNotContainRight(['张三', '李四', '王五', '老二', 'test'], ['张三', '李四', '老二', '王七']))  # ['王五', 'test'] //返回list1中的哪些元素不在list2中，并以列表方式返回
-    #
+    # print("3.1 获取两列表差异元素".center(100, "-"))
+    # print(List_PO.twoListGetDiff(['张三', '王五', '老二'], ['张三', '老二', '王七']))  # (['王五'], ['王七'])
+    # # print(List_PO.twoListGetDiff(['张三', '12', '33'], ['张三', '12']))  # (['33'], [])
+    # #
+    # print("3.2 获取两列表相同元素".center(100, "-"))
+    # print(List_PO.twoListGetSame(['张三', '李四', '王五', '老二'], ['张三', '李四', '老二', '王七']))  # ['张三', '李四', '老二']
+    # #
+    # print("3.3 获取两列表中在list1且不在list2的元素".center(100, "-"))
+    # print(List_PO.twoListGetLeftNotContainRight(['张三', '李四', '王五', '老二', 'test'], ['张三', '李四', '老二', '王七']))  # ['王五', 'test'] //返回list1中的哪些元素不在list2中，并以列表方式返回
+    # #
     # print("3.4 获取两列表相同元素的索引号".center(100, "-"))
     # print(List_PO.twoListGetSameIndex(['a', 'b', 'c', 'd'], ['a', 'k', 'c', 'z']))  # [1, 3]
 
@@ -562,7 +569,7 @@ if __name__ == "__main__":
     '''[替换]'''
 
     # print("4.1 1对多替换原列表中元素".center(100, "-"))
-    print(List_PO.replaceElemByOne2more(["1", 2, "3", "2", 2], 2, ""))  # ['1', '', '3', '2', '']
+    # print(List_PO.replaceElemByOne2more(["1", 2, "3", "2", 2], 2, ""))  # ['1', '', '3', '2', '']
     # print(List_PO.replaceElemByOne2more(["1", 2, "3", ":"], "3", 88))  # ['1', 2, 88, ':']
     # print(List_PO.listBatchReplaceByOne(["1", 2, "3", 2, 2, 2], 2, "j"))  # ['1', 'j', '3', 'j', 'j', 'j']  //把所有2替换成j
 
@@ -573,6 +580,9 @@ if __name__ == "__main__":
     # print("4.3 替换元素多对多".center(100, "-"))
     # print(List_PO.replaceElemByMore2more(["1", 2, "3", ":"], {":": 12, 2: 77}))  # ['1', 77, '3', 12]
     # print(List_PO.replaceElemByMore2more(["1", 2, "3", ":"], {":": 12, 1222: 77}))  # ['1', 2, '3', 12]   //如果某个key不存在，则忽略。
+
+    # print("4.4 替换元素首字母大写且其余小写".center(100, "-"))
+    # print(List_PO.replaceElemCaptain(['adam', 'LISA', 'barT']))  # ['Adam', 'Lisa', 'Bart']
 
 
     '''[删除]'''
@@ -590,28 +600,29 @@ if __name__ == "__main__":
     # print(List_PO.listBatchDel(['首页', '', '', '', '', '', '', '', '建档耗时统计', '档案更新监控'], ""))  # ['首页', '建档耗时统计', '档案更新监控']
     #
     # print("5.4 删除列表中重复的元素".center(100, "-"))
-    print(List_PO.delRepeatElem([2, "a", 1, "\n", "\n", 13, "", "test", 6, 2, "", "", 1, "a"]))  # [13, 'test', 6]
+    # print(List_PO.delRepeatElem([2, "a", 1, "\n", "\n", 13, "", "test", 6, 2, "", "", 1, "a"]))  # [13, 'test', 6]
+    # #
+    # # print("5.5 列表元素去重".center(100, "-"))
+    # print(List_PO.deduplicationElem([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
+    # #
+    # #
+    # print("6 获取重复的元素数量".center(100, "-"))
+    # print(List_PO.getRepeatElemCount([2, 1, 13, 6, 2, 1]))  # [(2, 2), (1, 2), (13, 1), (6, 1)]
+    # print(List_PO.getRepeatElemCount(['a', 'b', 'c', 'a']))  # [('a', 2), ('b', 1), ('c', 1)]
     #
-    # print("5.5 列表元素去重".center(100, "-"))
-    print(List_PO.deduplicationElem([2, 1, 13, 6, 2, 1]))  # [2, 1, 13, 6]
+    #
+    # print("7 随机获取列表元素".center(100, "-"))
+    # print(List_PO.getRandomElem(['111', 222, [5, 6, '888'], {"a": 1, 2: "test"}]))
     #
     #
-    print("6 获取重复的元素数量".center(100, "-"))
-    print(List_PO.getRepeatElemCount([2, 1, 13, 6, 2, 1]))  # [(2, 2), (1, 2), (13, 1), (6, 1)]
-    print(List_PO.getRepeatElemCount(['a', 'b', 'c', 'a']))  # [('a', 2), ('b', 1), ('c', 1)]
+    # print("8 对齐列表的键值对格式".center(100, "-"))
+    # list11 = List_PO.alignKeyValue(
+    #     ['1234567890,john', '123456,666', '123,baibai', '600065,', '600064,234j2po4j2oi34'], ",")
+    # for i in range(len(list11)):
+    #     print(list11[i])
+    # # # # 1234567890: john
+    # # # # 123456    : 666
+    # # # # 123       : baibai
+    # # # # 600065    :
+    # # # # 600064    : 234jpo4j2oi34
 
-
-    print("7 随机获取列表元素".center(100, "-"))
-    print(List_PO.getRandomElem(['111', 222, [5, 6, '888'], {"a": 1, 2: "test"}]))
-
-
-    print("8 对齐列表的键值对格式".center(100, "-"))
-    list11 = List_PO.alignKeyValue(
-        ['1234567890,john', '123456,666', '123,baibai', '600065,', '600064,234j2po4j2oi34'], ",")
-    for i in range(len(list11)):
-        print(list11[i])
-    # # # 1234567890: john
-    # # # 123456    : 666
-    # # # 123       : baibai
-    # # # 600065    :
-    # # # 600064    : 234jpo4j2oi34
