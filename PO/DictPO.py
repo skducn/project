@@ -18,22 +18,27 @@ todo:【转换】
         json.dump(dict(a=5, b=6), f)
 1.3 字典（单个或多个）key转列表（去重）dictKey2list(*dict1)   # ['a', 'b', 'dev', 'test']
 
-todo:【组合】
-2.1，合并字典（合并时如遇重复key,则保留第一个字典键值）mergeDictReserveLeft(*dict1)
-2.2，合并字典（合并时如遇重复key,则保留最后一个字典键值）mergeDictReserveRight(*dict1)
-2.3，获取2个字典交、并、差和对称差集的key
-2.4，获取2个字典交、并、差和对称差集的键值对
+todo:【组合、交换key与value、】
+2.1 合并字典（合并时如遇重复key,则保留第一个字典键值）mergeDictReserveLeft(*dict1) mergeDictReserveLeft(d1, d2))  # {'a': 1, 'b': 2, 'dev': 444, 'test': 123}
+2.2 合并字典（合并时如遇重复key,则保留最后一个字典键值）mergeDictReserveRight(*dict1)
+2.3 获取2个字典交、并、对称差集的key getKeyBySet()
+2.4 获取2个字典交、并、对称差集的keyvalue getKeyValueBySet()
+2.5 字典key与value交换 {v:k for k,v in dict.item()} , 如：dic = {'Python': 1, 'Java': 2j} j交换后 {1: 'Python', 2: 'Java'}
+2.6 获取2个字典差集的key（在a不在b的key）
+2.7 获取2个字典差集的keyvalue （去掉交集，剩下在a的的keyvalue)
 
 todo:【key】
-4.1 删除字典中的key  delKey(dict，key)
-4.2 保留字典中的key  serverKey(dict，key)
+4.1 删除字典中的key  delKey(dict，key) delKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'a': 5, 'c': 7}
+4.2 保留字典中的key  reserveKey(dict，key) reserveKey({"a": 5, "b": 6, "c":7, "d":8}, "b", "d"))  # {'b': 6, 'd': 8}
 
 todo:【value】
-5.1 多个字典中相同的key值进行累加 sumValueByKey()
-5.2 字典的数字value加法 addValue()
+5.1 多个字典中相同的key值进行累加 sumValueByKey({"a": 10000, "b": 1}, {"a": 10000, "b": 1}, {"a": 40000, "b": 1, "c" : 333}))  # [('a', 60000), ('c', 333), ('b', 3)]
+5.2 字典的数字value加法 addValue({"a": 6, "b": 7, "c": 8, "d": 9}, 2))  # {'a': 7, 'b': 8, 'c': 9, 'd': 10}
 5.3 字典的数字value减法 minusValue()
 
-
+todo:[高级用法 分组]
+6.1 按性别分组显示姓名    Dict_PO.groupByValue(varTuple, 'gender', 'name')
+6.2 按性别分组显示所有值
 
 
 
@@ -51,10 +56,28 @@ from collections import ChainMap
 from collections import defaultdict
 from collections import Counter
 import json
+from functools import reduce
+
 
 class DictPO():
 
-    # 1.1，合并字典（合并时如遇重复key,则保留第一个字典键值）
+
+    # 1.3 字典key转换列表（去重）
+    def dictKey2list(self, *varDict):
+        if len(varDict) == 1:
+            return list(ChainMap(varDict[0]))
+        elif len(varDict) == 2:
+            return list(ChainMap(varDict[0], varDict[1]))
+        elif len(varDict) == 3:
+            return list(ChainMap(varDict[0], varDict[1], varDict[2]))
+        elif len(varDict) == 4:
+            return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3]))
+        elif len(varDict) == 5:
+            return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4]))
+        else:
+            return 0
+
+    # 2.1 合并字典（合并时如遇重复key,则保留第一个字典键值）
     def mergeDictReserveLeft(self, *varDict):
         '''
         # 1.1，合并字典（合并时如遇重复key,则保留第一个字典key的值）
@@ -74,7 +97,7 @@ class DictPO():
         for k, v in c.items():
             d_varMerge[k] = v
         return d_varMerge
-    # 1.2，合并字典（合并时如遇重复key,则保留最后一个字典键值）
+    # 2.2，合并字典（合并时如遇重复key,则保留最后一个字典键值）
     def mergeDictReserveRight(self, *varDict):
         '''
         1.2，字典合并（如两字典中有重复的key, 保留第二个字典key）
@@ -86,48 +109,36 @@ class DictPO():
             d_varMerge.update(varDict[i])
         return d_varMerge
 
-
-    # 2.1，获取2个字典交、并、差和对称差集的key
-    def getKeyByDict(self, varOperator, varDict1, varDict2):
-        # 提供  '&', '|', '-' 和'^' ，即交、并、差和对称差集四种运算符。
+    # 2.3 获取2个字典交、并、对称差集的key
+    def getKeyBySet(self, varOperator, varDict1, varDict2):
+        # 提供  '&', '|' 和'^' ，即交、并、对称差集四种运算符。
         if varOperator == "&":
-            return(varDict1.keys() & varDict2.keys())
+            return([k for k in varDict1.keys() & varDict2.keys()])
         elif varOperator == "|":
-            return(varDict1.keys() | varDict2.keys())
+            return([k for k in varDict1.keys() | varDict2.keys()])
         elif varOperator == "-":
-            return(varDict1.keys() - varDict2.keys())
+            return([k for k in varDict1.keys() - varDict2.keys()])
         elif varOperator == "^":
-            return(varDict1.keys() ^ varDict2.keys())
-        else:
-            return None
-    # 2.2，获取2个字典交、并、差和对称差集的键值对
-    def getKeyValueByDict(self, varOperator, varDict1, varDict2):
-        if varOperator == "&":
-            return(varDict1.items() & varDict2.items())
-        elif varOperator == "|":
-            return(varDict1.items() | varDict2.items())
-        elif varOperator == "-":
-            return(varDict1.items() - varDict2.items())
-        elif varOperator == "^":
-            return(varDict1.items() ^ varDict2.items())
+            return([k for k in varDict1.keys() ^ varDict2.keys()])
         else:
             return None
 
+    # 2.4 获取2个字典交、并、对称差集的keyvalue
+    def getKeyValueBySet(self, varOperator, varDict1, varDict2):
+        if varOperator == "&":
+            return list((varDict1.items() & varDict2.items()))
+        elif varOperator == "|":
+            return list((varDict1.items() | varDict2.items()))
+        elif varOperator == "-":
+            return list((varDict1.items() - varDict2.items()))
+        elif varOperator == "^":
+            return list((varDict1.items() ^ varDict2.items()))
 
-    # 3.1 字典key转换列表（去重）
-    def dictKey2list(self, *varDict):
-        if len(varDict) == 1:
-            return list(ChainMap(varDict[0]))
-        elif len(varDict) == 2:
-            return list(ChainMap(varDict[0], varDict[1]))
-        elif len(varDict) == 3:
-            return list(ChainMap(varDict[0], varDict[1], varDict[2]))
-        elif len(varDict) == 4:
-            return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3]))
-        elif len(varDict) == 5:
-            return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4]))
         else:
-            return 0
+            return None
+
+
+
 
 
 
@@ -166,57 +177,74 @@ class DictPO():
         return ({k: v - n for k, v in varDict.items()})
 
 
-    # 7.1 字典转json字符串
-    def dict2json(self, varDict):
+    # 6.1 按性别分组显示姓名
+    def groupByValueShowName(self, varMoreDict, varGroupBy, varValue):
+
         '''
-        字典转json字符串
+        按某个值进行分组
         :param varDict:
         :return:
         '''
 
-        return json.dumps(varDict)
+        def group_by_value(accumulator, value):
+            # print(accumulator)
+            accumulator[value[varGroupBy]].append(value[varValue])
+            return accumulator
 
+        dict2 = {}
+        for t in range(len(varTuple)):
+            for k, v in varTuple[t].items():
+                if k == varGroupBy:
+                    dict2[varTuple[t][k]] = []
+
+        return reduce(group_by_value, varMoreDict, dict2)
+
+    # 6.2 按性别分组显示所有值
+    def groupByValueShowAll(self, varMoreDict, varGroupBy):
+        import itertools
+        return {item[0]: list(item[1]) for item in itertools.groupby(varMoreDict, lambda x: x[varGroupBy])}
 
 
 if __name__ == "__main__":
 
     Dict_PO = DictPO()
-    d1 = dict(a=1, b=2, test=123)
-    d2 = dict(a=100, b=200, dev=444)
-    d3 = dict(a=700, b=4, prd=666)
 
-    print("1.1 合并字典（合并时如遇重复key,则保留第一个字典key的值）".center(100, "-"))
-    print(Dict_PO.mergeDictReserveLeft(d1, d2))  # {'a': 1, 'b': 2, 'dev': 444, 'test': 123}
-    print(Dict_PO.mergeDictReserveLeft(d1, d2, d3))  # {'a': 1, 'b': 2, 'prd': 666, 'dev': 444, 'test': 123}
-
-    print("1.2 合并字典（合并时如遇重复key,则保留最后一个字典key的值）".center(100, "-"))
-    print(Dict_PO.mergeDictReserveRight(d1, d2, d3))  # {'a': 5, 'b': 6, 'jj': 123, 'hh': 666, 'kk': 999}
-    print({**d1, **d2})  # {'a': 100, 'b': 200, 'test': 123, 'dev': 444}
-    print({**d1, **d2, **d3})  # {'a': 700, 'b': 4, 'test': 123, 'dev': 444, 'prd': 666}
-    print({**d1, **d2, "a": 10})  # 先合并再修改，最后输出  {'a': 10, 'b': 200, 'test': 123, 'dev': 444}
-
-
-    # a = {'x': 1, 'y': 2, 'z': 3}
-    # b = {'w': 10, 'x': 1, 'z': 88}
-    # c = {'x1': 1, 'y1': 2, 'z1': 3}
+    # d1 = dict(a=1, b=2, test=123)
+    # d2 = dict(a=100, b=200, dev=444)
+    # d3 = dict(a=700, b=4, prd=666)
+    # print("1.3 字典key转列表（去重）".center(100, "-"))
+    # print(Dict_PO.dictKey2list(d1))  # ['a', 'b', 'test']
+    # print(Dict_PO.dictKey2list(d1, d2))  # ['a', 'b', 'dev', 'test']
+    # print(Dict_PO.dictKey2list(d1, d2, d3))  # ['a', 'b', 'prd', 'dev', 'test']
     #
-    # print("2.1，获取2个字典交、并、差和对称差集的key".center(100, "-"))
-    # print(Dict_PO.getKeyByDict("&", a, b))  # 交集，{'x', 'z'}
-    # print(Dict_PO.getKeyByDict("|", a, b))  # 并集，{'w', 'x', 'z', 'y'}
-    # print(Dict_PO.getKeyByDict("-", a, b))  # 差集（在a不在b的key），{'y'}
-    # print(Dict_PO.getKeyByDict("^", a, b))  # 对称差集（不会同时出现在二者中），{'w', 'y'}
+    # print("2.1 合并字典（合并时如遇重复key,则保留第一个字典key的值）".center(100, "-"))
+    # print(Dict_PO.mergeDictReserveLeft(d1, d2))  # {'a': 1, 'b': 2, 'dev': 444, 'test': 123}
+    # print(Dict_PO.mergeDictReserveLeft(d1, d2, d3))  # {'a': 1, 'b': 2, 'prd': 666, 'dev': 444, 'test': 123}
     #
-    # print("2.2，获取2个字典差集的key".center(100, "-"))
-    # print(Dict_PO.getKeyValueByDict("&", a, b))  # 交集(key和value都必须相同)，{('x', 1)}
-    # print(Dict_PO.getKeyValueByDict("|", a, b))  # 并集，{('z', 88), ('y', 2), ('z', 3), ('w', 10), ('x', 1)}
-    # print(Dict_PO.getKeyValueByDict("-", a, b))  # 差集（去掉交集，剩下在a的的keyvalue），{('z', 3), ('y', 2)}
-    # print(Dict_PO.getKeyValueByDict("^", a, b))  # 对称差集（不会同时出现在二者中的keyvalue），{('z', 88), ('y', 2), ('z', 3), ('w', 10)}
+    # print("2.2 合并字典（合并时如遇重复key,则保留最后一个字典key的值）".center(100, "-"))
+    # print(Dict_PO.mergeDictReserveRight(d1, d2, d3))  # {'a': 5, 'b': 6, 'jj': 123, 'hh': 666, 'kk': 999}
+    # print({**d1, **d2})  # {'a': 100, 'b': 200, 'test': 123, 'dev': 444}
+    # print({**d1, **d2, **d3})  # {'a': 700, 'b': 4, 'test': 123, 'dev': 444, 'prd': 666}
+    # print({**d1, **d2, "a": 10})  # 先合并再修改，最后输出  {'a': 10, 'b': 200, 'test': 123, 'dev': 444}
 
 
-    print("3.1 字典key转列表（去重）".center(100, "-"))
-    print(Dict_PO.dictKey2list(d1))  # ['a', 'b', 'test']
-    print(Dict_PO.dictKey2list(d1, d2))  # ['a', 'b', 'dev', 'test']
-    print(Dict_PO.dictKey2list(d1, d2, d3))  # ['a', 'b', 'prd', 'dev', 'test']
+    a = {'python': 1, 'java': 2, 'c': 3}
+    b = {'python': 10, 'java': 2, 'c++': 88}
+    print("2.3，获取2个字典交、并、对称差集的key".center(100, "-"))
+    print(Dict_PO.getKeyBySet("&", a, b))  # ['python', 'java'] //交集
+    print(Dict_PO.getKeyBySet("|", a, b))  # ['c', 'python', 'java', 'c++'] //并集
+    print(Dict_PO.getKeyBySet("^", a, b))  # ['c', 'c++'] //对称差集
+
+    print("2.4 获取2个字典交、并、对称差集的keyvalue".center(100, "-"))
+    print(Dict_PO.getKeyValueBySet("&", a, b))  # [('java', 2)] //交集(key和value都必须相同)
+    print(Dict_PO.getKeyValueBySet("|", a, b))  # [('c', 3), ('python', 1), ('python', 10), ('java', 2), ('c++', 88)] //并集
+    print(Dict_PO.getKeyValueBySet("^", a, b))  # [('c', 3), ('python', 1), ('python', 10), ('c++', 88)]  //对称差集（去掉交集）
+
+    print("2.6 获取2个字典差集的key".center(100, "-"))
+    print(Dict_PO.getKeyBySet("-", a, b))  # 差集（在a不在b的key），['c']
+
+    print("2.7 获取2个字典差集的keyvalue".center(100, "-"))
+    print(Dict_PO.getKeyValueBySet("-", a, b))  # [('python', 1), ('c', 3)] //差集（去掉交集，剩下在a的的keyvalue)
 
 
     # # 字典形式
@@ -247,6 +275,17 @@ if __name__ == "__main__":
     #
     # print("5.3 字典的数字value减法".center(100, "-"))
     # print(Dict_PO.minusValue({"a": 6, "b": 7, "c": 8, "d": 9}, 2))  # {'a': 7, 'b': 8, 'c': 9, 'd': 10}
+
+
+    print("6.1 按性别分组显示姓名".center(100, "-"))
+    varTuple = ({'name': 'jinhao', 'age': 105, 'gender': 'male'},
+                {'name': 'baba', 'age': 76, 'gender': 'male'},
+                {'name': 'mama', 'age': 202, 'gender': 'female'},
+                {'name': 'yoyo', 'age': 84, 'gender': 'female'})
+    print(Dict_PO.groupByValueShowName(varTuple, 'gender', 'name'))  # {'male': ['jinhao', 'baba'], 'female': ['mama', 'yoyo']}
+
+    print("6.2 按性别分组显示所有值".center(100, "-"))
+    print(Dict_PO.groupByValueShowAll(varTuple, 'gender'))  # {'male': [{'name': 'jinhao', 'age': 105, 'gender': 'male'}, {'name': 'baba', 'age': 76, 'gender': 'male'}], 'female': [{'name': 'mama', 'age': 202, 'gender': 'female'}, {'name': 'yoyo', 'age': 84, 'gender': 'female'}]}
 
 
     # counter = Counter()
@@ -305,6 +344,7 @@ if __name__ == "__main__":
     # print("7.4 将 JSON 文件转字典".center(100, "-"))
     # with open("dict.json", "r") as f:
     #     print(json.load(f))  # {'a': 5, 'b': 6}
+
 
 
 
