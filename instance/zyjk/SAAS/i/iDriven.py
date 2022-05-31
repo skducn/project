@@ -139,6 +139,7 @@ class HTTP:
         else:
             result = self.session.post(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
         d_response = json.loads(result.text)
+        # print(d_response)
         for k, v in d_var.items():
             if "$." in str(v):
                 res_value = jsonpath.jsonpath(d_response, expr=v)

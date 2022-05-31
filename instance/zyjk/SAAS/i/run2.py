@@ -92,10 +92,6 @@ Mysql_PO = MysqlPO(db_ip, db_username, db_password, db_database, db_port)
 l_m = Mysql_PO.getTableField(db_table)  # # 表格字段列表
 
 
-
-
-
-
 class Run:
 
     def __init__(self):
@@ -117,8 +113,7 @@ class Run:
 
     def result(self, indexs, iName, iPath, iMethod, iParam, iCheck, dbCheck, fCheck, g_var):
 
-        # 参数：数据库表序号，名称，路径，方法，参数，i检查接口返回值，s检查db表值, f检查文件, 全局变量
-
+        # 参数：数据库表里数据索引，名称，路径，方法，参数，i检查接口返回值，s检查db表值, f检查文件, 全局变量
         # 1, 初始化设置全局变量
         if iName in "设置全局变量":
             if g_var != None:
@@ -187,33 +182,38 @@ class Run:
             try:
                 if d_res != None:
                     varSign = ""
+                    dict1 = {}
                     d_iCheck = json.loads(iCheck)
                     if len(d_iCheck) == 1:
                         for k, v in d_iCheck.items():
                             iResValue = jsonpath.jsonpath(d_res, expr=k)
                             if v == iResValue[0]:
-                                self.setDb(indexs, "Ok", None, None)
+                                self.setDb("iCheck", indexs, "Ok", "")
                             else:
-                                # self.setDb(indexs, "Fail", None)
-                                self.setDb(indexs,  '{"' + str(k) + '":' + str(iResValue[0]) + "}", None, None)
-                                # assert v == iResValue[0], "预期值: " + str(v) + "，实测值: " + str(iResValue[0])
+                                dict1[k] = iResValue[0]
+                                self.setDb("iCheck", indexs, "Fail", str(json.dumps(dict1)))
+                                Color_PO.consoleColor("31", "31", "[ERROR], " + str(iCheck) + " 不存在或格式错误！", "")
                     else:
                         for k, v in d_iCheck.items():
                             iResValue = jsonpath.jsonpath(d_res, expr=k)
                             if iResValue != False:   # 如果key不存在
                                 if v != iResValue[0]:
-                                    self.setDb(indexs,  '{"' + str(k) + '":' + str(iResValue[0]) + "}", None, None)
+                                    dict1[k] = iResValue[0]
+                                    self.setDb("iCheck", indexs, "Fail", str(json.dumps(dict1)))
                                     varSign = "error"
                             else:
-                                self.setDb(indexs, '没找到 "' + str(k) + '"', None, None)
+                                self.setDb("iCheck", indexs, "Fail", '没找到 "' + str(k) + '"')
+                                Color_PO.consoleColor("31", "31", "[ERROR], 没找到" + str(k), "")
                                 varSign = "error"
                         if varSign != "error":
-                            self.setDb(indexs,  "Ok", None, None)
+                            self.setDb("iCheck", indexs, "Ok", "")
+                        else:
+                            Color_PO.consoleColor("31", "31", "[ERROR], " + str(iCheck) + " 不存在或格式错误！", "")
+
             except Exception as e:
                 # print(e.__traceback__)
-                Color_PO.consoleColor("31", "31", "[ERROR], [i检查返回值]列格式有误！", "")
-                self.setDb(indexs, 'err,[i检查返回值]列格式有误！', None, None)
-
+                Color_PO.consoleColor("31", "31", "[ERROR], " + iCheck + "不存在或错误！", "")
+                self.setDb("iCheck", indexs, "Fail", "不存在或错误！")
 
             # 9, db检查表值
             try:
@@ -232,15 +232,17 @@ class Run:
                             if "select" in str(v) and "from" in str(v):
                                 sql_value = Mysql_PO.execQuery(v)
                                 if self.d_tmp[k] == sql_value[0][0]:
-                                    self.setDb(indexs, None, "Ok", None)
+                                    self.setDb("dbCheck", indexs, "Ok", "")
                                 else:
-                                    # self.setDb(indexs, None, "Fail", None)
-                                    self.setDb(indexs, None, '{"' + str(k) + '": ' + str(self.d_tmp[k]) + '}', None)
+                                    dict1[k] = self.d_tmp[k]
+                                    self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1)))
+                                    Color_PO.consoleColor("31", "31", "[ERROR], " + str(dbCheck) + " 不存在或错误！", "")
                             elif self.d_tmp[k] == v:
-                                self.setDb(indexs, None, "Ok", None)
+                                self.setDb("dbCheck", indexs, "Ok", "")
                             else:
-                                # self.setDb(indexs, None, "Fail", None)
-                                self.setDb(indexs, None, '{"' + str(k) + '": ' + str(self.d_tmp[k]) + '}', None)
+                                dict1[k] = self.d_tmp[k]
+                                self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1)))
+                                Color_PO.consoleColor("31", "31", "[ERROR], " + str(dbCheck) + " 不存在或错误！", "")
                     else:
                         # 多个字典
                         for k, v in d_dbCheck.items():
@@ -253,40 +255,54 @@ class Run:
                                 dict1[k] = self.d_tmp[k]
                                 varSign = "error"
                         if varSign == "error":
-                            self.setDb(indexs, None, json.dumps(dict1), None)
+                            self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1)))
+                            Color_PO.consoleColor("31", "31", "[ERROR], " + str(dbCheck) + " 不存在或错误！", "")
                         else:
-                            self.setDb(indexs, None, "Ok", None)
+                            self.setDb("dbCheck", indexs, "Ok", "")
             except Exception as e:
                 # print(e.__traceback__)
-                Color_PO.consoleColor("31", "31", "[ERROR], [s检查表值]列格式有误！", "")
-                self.setDb(indexs, None, 'err,[s检查表值]列格式有误！')
+                Color_PO.consoleColor("31", "31", "[ERROR], " + dbCheck + " 不存在或错误！", "")
+                self.setDb("dbCheck", indexs, "Fail", "不存在或错误！")
 
             # f检查文件位置
             if fCheck != None:
                 # /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb.xlsx
                 # D:\\51\\python\\project\\PO\\FilePO\\test.txt
                 if (os.path.isfile(fCheck)):
-                    self.setDb(indexs, None, None, "Ok")
+                    self.setDb("fCheck", indexs, "Ok", "")
                 else:
-                    self.setDb(indexs, None, None, "Fail")
+                    self.setDb("fCheck", indexs, "Fail", "[ERROR], 不存在或错误！")
+                    Color_PO.consoleColor("31", "31", "[ERROR], 不存在或错误！", "")
 
         # 全局变量
         self.d_tmp = dict(self.d_tmp, **d_var)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
         print("global_var => " + str(self.d_tmp))
-        # print("\n<font color='purple'>globalVar => " + str(self.d_tmp) + "</font>")
+        # print("<font color='purple'>globalVar => " + str(self.d_tmp) + "</font>")
 
-
-    def setDb(self, id, iResult, sResult, fResult):
+    def setDb(self, varCheck, id, varStatus, varMemo):
 
         ''' 写入数据库 '''
         # https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 
-        if iResult != None:
-            self.df.update(pd.Series(iResult, index=[id], name=l_m[10]))  # 'i结果'
-        if sResult != None:
-            self.df.update(pd.Series(sResult, index=[id], name=l_m[12]))  # 'db结果'
-        if fResult != None:
-            self.df.update(pd.Series(fResult, index=[id], name=l_m[14]))  # 'f结果'
+        # 'i结果'
+        if varCheck == "iCheck":
+            if varStatus == "Ok":
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[10]))
+            else:
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[10]))
+                self.df.update(pd.Series(varMemo, index=[id], name=l_m[16]))  # '错误写入备注'
+        elif varCheck == "dbCheck":
+            if varStatus == "Ok":
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[12]))
+            else:
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[12]))
+                self.df.update(pd.Series(varMemo, index=[id], name=l_m[16]))  # '错误写入备注'
+        elif varCheck == "fCheck":
+            if varStatus == "Ok":
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[14]))
+            else:
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[14]))
+                self.df.update(pd.Series(varMemo, index=[id], name=l_m[16]))  # '错误写入备注'
 
 
 if __name__ == '__main__':
@@ -296,7 +312,8 @@ if __name__ == '__main__':
     # 遍历用例
     for indexs in run.df.index:
         r = run.df.loc[indexs].values[0:]
-        print("\n" + str(r[0]) + ", " + str(r[3]) + " - " + str(r[4]) + " _" * 50)
+        Color_PO.consoleColor("31", "36", "\n" + str(r[0]) + ", " + str(r[3]) + " - " + str(r[4]) + " _" * 50, "")
+        # print("\n" + str(r[0]) + ", " + str(r[3]) + " - " + str(r[4]) + " _" * 50)
 
         # 参数：数据库表序号，名称，路径，方法，参数，i检查接口返回值，db检查表值, f检查文件, 全局变量
         run.result(indexs, r[4], r[5], r[6], r[7], r[9], r[11], r[13], r[15])
@@ -308,9 +325,9 @@ if __name__ == '__main__':
     # 生成report.html
     # ['0编号', '1执行', '2类型', '3模块', '4名称', '5路径', '6方法', '7参数', '8担当者', '9i检查接口返回值', '10i结果', '11db检查表值', '12db结果', '13f检查文件', '14f结果', '15全局变量', '备注']
     if varAll == 1 :
-        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[6], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[13], l_m[14], l_m[15], db_table), con=Mysql_PO.getPymysqlEngine())
+        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[6], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[13], l_m[14], l_m[15], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
     else:
-        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], db_table), con=Mysql_PO.getPymysqlEngine())
+        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(rptTitle) + '''</title></head>
@@ -327,13 +344,27 @@ if __name__ == '__main__':
     # 去掉None、修改颜色
     # https://bbs.bianzhirensheng.com/color01.html
     html_text = BeautifulSoup(open(rptNameDate), features='html.parser')
-    html_text = str(html_text).replace("<td>None</td>", "<td></td>").\
-        replace(">" + l_m[10] + "</th>", 'bgcolor="#ffce7b">' + l_m[10] + '</th>').\
-        replace(">" + l_m[12] + "</th>", 'bgcolor="#ffce7b">' + l_m[12] + '</th>'). \
-        replace(">" + l_m[14] + "</th>", 'bgcolor="#ffce7b">' + l_m[14] + '</th>'). \
+    html_text = str(html_text).replace("<td>None</td>", "<td></td>"). \
+        replace(">" + l_m[0] + "</th>", 'bgcolor="#90d7ec">' + l_m[0] + '</th>'). \
+        replace(">" + l_m[1] + "</th>", 'bgcolor="#90d7ec">' + l_m[1] + '</th>'). \
+        replace(">" + l_m[2] + "</th>", 'bgcolor="#90d7ec">' + l_m[2] + '</th>'). \
+        replace(">" + l_m[3] + "</th>", 'bgcolor="#90d7ec">' + l_m[3] + '</th>'). \
+        replace(">" + l_m[4] + "</th>", 'bgcolor="#90d7ec">' + l_m[4] + '</th>'). \
+        replace(">" + l_m[5] + "</th>", 'bgcolor="#90d7ec">' + l_m[5] + '</th>'). \
+        replace(">" + l_m[6] + "</th>", 'bgcolor="#90d7ec">' + l_m[6] + '</th>'). \
+        replace(">" + l_m[7] + "</th>", 'bgcolor="#90d7ec">' + l_m[7] + '</th>'). \
+        replace(">" + l_m[8] + "</th>", 'bgcolor="#90d7ec">' + l_m[8] + '</th>'). \
+        replace(">" + l_m[9] + "</th>", 'bgcolor="#90d7ec">' + l_m[9] + '</th>'). \
+        replace(">" + l_m[10] + "</th>", 'bgcolor="#90d7ec">' + l_m[10] + '</th>').\
+        replace(">" + l_m[11] + "</th>", 'bgcolor="#90d7ec">' + l_m[11] + '</th>').\
+        replace(">" + l_m[12] + "</th>", 'bgcolor="#90d7ec">' + l_m[12] + '</th>'). \
+        replace(">" + l_m[13] + "</th>", 'bgcolor="#90d7ec">' + l_m[13] + '</th>'). \
+        replace(">" + l_m[14] + "</th>", 'bgcolor="#90d7ec">' + l_m[14] + '</th>'). \
         replace(">" + l_m[15] + "</th>", 'bgcolor="#90d7ec">' + l_m[15] + '</th>'). \
+        replace(">" + l_m[16] + "</th>", 'bgcolor="#90d7ec">' + l_m[15] + '</th>'). \
         replace("<td>Ok</td>", '<td bgcolor="#c6efce">Ok</td>').\
-        replace("<td>Fail</td>", '<td bgcolor="#ff0000">Fail</td>')
+        replace("<td>Fail</td>", '<td bgcolor="#f69c9f">Fail</td>').\
+        replace("<td>异常</td>", '<td><font color="red">异常</font></td>')
 
     # 另存为report.html
     tf = open(rptNameDate, 'w', encoding='utf-8')
