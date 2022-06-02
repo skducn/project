@@ -16,7 +16,7 @@ import reflection
 import readConfig as readConfig
 import pandas as pd
 
-sys.path.append("../../../../")
+# sys.path.append("../../../")
 
 from PO.TimePO import *
 Time_PO = TimePO()
