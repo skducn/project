@@ -8,7 +8,8 @@
 # 执行命令行 os.system , os.popen , subprocess.Popen , commands
 #***************************************************************
 
-# import sh,os, subprocess
+import sh as pbs
+import sh,os, subprocess
 
 # 1，系统级启动程序，如 appium 启动，获取进程，杀进程，启动
 # os.system("appium -p 4723")
@@ -18,7 +19,7 @@
 
 # 获取返回信息。
 # list1 = os.popen("lsof -i tcp:4723").readlines()  # 返回列表
-# print(list1[1]
+# print(list1[1])
 
 
 # 2，获取 当前网卡信息
@@ -26,11 +27,11 @@
 # print(ifconfig("en0"))
 # print("@@@@@@@@@@@@@@@@@@@@")
 
-# 不支持windows，只支持linux和mac
-import sh as pbs
+# # 不支持windows，只支持linux和mac
 
-for i in range(1,2):
-    pbs.mkdir("hello"+"%d"%i)
+#
+# for i in range(1,2):
+#     pbs.mkdir("hello"+"%d"%i)
 
 
 
@@ -76,8 +77,8 @@ for i in range(1,2):
 #
 # # # # glob模式（shell通配符）
 # # # 用途：通常用来匹配目录及文件，而不是文本
-# # list2 = sh.glob('/users/linghuchong/*')  # 获得的类型是列表 ， 获取指定目录下所有的目录与文件，
-# # print(list2
+# list2 = sh.glob('/users/linghuchong/*')  # 获得的类型是列表 ， 获取指定目录下所有的目录与文件，
+# print(list2)
 # # print(list2[2]
 # #
 # # # ['/users/linghuchong/Desktop', '/users/linghuchong/Documents', '/users/linghuchong/Downloads', '/users/linghuchong/java_error_in_pycharm.hprof', '/users/linghuchong/Library', '/users/linghuchong/Movies', '/users/linghuchong/Music', '/users/linghuchong/package-lock.json', '/users/linghuchong/package.json', '/users/linghuchong/Pictures', '/users/linghuchong/Public', '/users/linghuchong/Thumbs.db', '/users/linghuchong/VirtualBox VMs', '/users/linghuchong/WebDriverAgent', '/users/linghuchong/ynm3k']

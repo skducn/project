@@ -6,10 +6,6 @@
 # ********************************************************************************************************************
 
 
-x = "{'articleContent': '内容非常好看', 'articleIntro': '简介很难写','articleName': '中年男人不容易', 'author': '我心流浪','cover':'?'}"
-x = str(x).replace("?", "5")
-print(x)
-
 # # import pymysql
 # # pymysql.install_as_MySQLdb()
 #
