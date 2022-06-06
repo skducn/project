@@ -3,16 +3,28 @@
 # Author     : John
 # Date       : 2022/6/6
 # Description: 3des.py
-# pip install pyDes
-
-# 如果参数是中文需设置编码
-# data = "你好"
-# data = data.encode('utf-8')
+# pip3.9 install pyDes
 
 # 如果参数是json格式需转成标准的json格式
 # import json
 # data = {"role_name": "测试"}
 # data = json.dumps(data)
+
+
+
+# key = "kkk11111" # 加密key,加密方式ECB秘钥必须是八位字节
+#
+# mode = pyDes.ECB # 加密方式 默认是ECB,也可以不填写
+#
+# IV = "00000000" # 偏移量,加密方式不是ECB的时候加密key字段必须是16位字节,秘钥不够用0补充
+#
+# k = pyDes.des(key, mode, IV=IV, pad=None, padmode=pyDes.PAD_PKCS5) # 传入秘钥,加密方式
+#
+# d = k.encrypt(data) # 加密数据
+#
+#
+# base = str(base64.b64encode(d), encoding="utf-8") # 指定输出格式为base64
+
 
 # # *******************************************************************************************************************************
 
@@ -56,16 +68,19 @@ class EncryptDate:
         return self.unpad(msg)
 
 
-eg = EncryptDate("liuyunqiang@lx100$#365#$")  # 这里密钥的长度必须是16的倍数
+eg = EncryptDate("skducn@163.com!@#$%^&*()")  # 这里密钥的长度必须是16的倍数
 # res = eg.encrypt("test123123123345345")
 # print(res)
 
 import json
 data = {"role_name": "55555hao好"}
-data = json.dumps(data)
+data = json.dumps(data, ensure_ascii=False)
 print(data)
 res = eg.encrypt(data)
 print(res)
+# dubnXIRdu/ENdS6EXM1OnUFsjX6+15JPCQ9ilkUBXUs=
+# 1TAlqpjRyC4NWXNWGCoQEJVqAVut1erLinYXCdrk4V4=
+
 
 # data = "你好吗"
 # res = eg.encrypt(data)
@@ -73,7 +88,7 @@ print(res)
 
 
 
-eg1 = EncryptDate("liuyunqiang@lx100$#365#$")
+eg1 = EncryptDate("skducn@163.com!@#$%^&*()")
 print(eg1.decrypt(res))
 
 # data = "你好吗"
@@ -83,23 +98,3 @@ print(eg1.decrypt(res))
 # print(eg1.decrypt(res))
 
 
-# import pyDes
-#
-# import base64
-#
-# data = 'hello'
-#
-# key = "kkk11111" # 加密key,加密方式ECB秘钥必须是八位字节
-#
-# mode = pyDes.ECB # 加密方式 默认是ECB,也可以不填写
-#
-# IV = "00000000" # 偏移量,加密方式不是ECB的时候加密key字段必须是16位字节,秘钥不够用0补充
-#
-# k = pyDes.des(key, mode, IV=IV, pad=None, padmode=pyDes.PAD_PKCS5) # 传入秘钥,加密方式
-#
-# d = k.encrypt(data) # 加密数据
-#
-#
-# base = str(base64.b64encode(d), encoding="utf-8") # 指定输出格式为base64
-#
-# print(base)
