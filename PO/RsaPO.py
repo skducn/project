@@ -99,6 +99,8 @@ if __name__ == "__main__":
     # Rsa_PO.encrypt("./data/private_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # 自己私钥签名
     # print(Rsa_PO.decrypt("./data/public_key.pem", "./data/encrypted_data.bin"))  # 客户公钥解密
 
+    # ok
+
 
 
 
