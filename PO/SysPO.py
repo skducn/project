@@ -58,9 +58,10 @@ if __name__ == '__main__':
 
     Sys_PO = SysPO()
 
-    # print("1，关闭进程".center(100, "-"))
-    # Sys_PO.killPid('EXCEL.EXE')
-    # Sys_PO.killPid('360Newsld.exe')
+    print("1，关闭进程".center(100, "-"))
+    Sys_PO.killPid('EXCEL.EXE')
+    Sys_PO.killPid('360Newsld.exe')
+
 
     print("2,输出系统错误".center(100, "-"))
     Sys_PO.outMsg("error", str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)

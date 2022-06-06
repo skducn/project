@@ -87,12 +87,20 @@ class RsaPO():
 if __name__ == "__main__":
 
 
-    Rsa_PO = RsaPO("./data/private_key.pem", "./data/public_key.pem")
+    Rsa_PO = RsaPO("./data/private_key.pem", "./data/public_key.pem")  # 公钥给客户
 
-    Rsa_PO.encrypt("./data/public_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # //用公钥加密，加密后发给对方A
-    Rsa_PO.encrypt("./data/public_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # // 用私钥加密一般用在数字签名
 
-    print(Rsa_PO.decrypt("./data/private_key.pem", "./data/encrypted_data.bin"))  # 招远防疫项目接口测试报告  //对方A用私钥解密
+    print("1 接收数据时，客户公钥加密，自己私钥解密数据，即安全传输".center(100, "-"))
+    Rsa_PO.encrypt("./data/public_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # //客户用公钥加密数据生成encrypted_data.bin发送给A
+    print(Rsa_PO.decrypt("./data/private_key.pem", "./data/encrypted_data.bin"))  # 招远防疫项目接口测试报告  //A用私钥解密encrypted_data.bin
+
+
+    # print("2 发送数据时，自己私钥签名，客户公钥解密，即数字签名".center(100, "-"))
+    # Rsa_PO.encrypt("./data/private_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # 自己私钥签名
+    # print(Rsa_PO.decrypt("./data/public_key.pem", "./data/encrypted_data.bin"))  # 客户公钥解密
+
+
+
 
 
 
