@@ -4,6 +4,12 @@
 # Date          : 2021-11-18
 # Description   : rsa加密 , 加密字符串
 # pip install pycryptodome
+# http://t.zoukankan.com/yangmaosen-p-12405425.html
+# 每个用户都有一对私钥和公钥。
+# 私钥用来进行解密和签名，是给自己用的。
+# 公钥由本人公开，用于加密和验证签名，是给别人用的。
+# 当该用户发送文件时，用私钥签名，别人用他给的公钥解密，可以保证该信息是由他发送的。即数字签名。
+# 当该用户接受文件时，别人用他的公钥加密，他用私钥解密，可以保证该信息只能由他看到。即安全传输。
 # 步骤：
 # 1，RsaPO.py 生成公钥与私钥
 # 2，用公钥加密内容
@@ -80,6 +86,15 @@ class RsaPO():
 
 if __name__ == "__main__":
 
+
     Rsa_PO = RsaPO("./data/private_key.pem", "./data/public_key.pem")
-    Rsa_PO.encrypt("./data/public_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")
-    print(Rsa_PO.decrypt("./data/private_key.pem", "./data/encrypted_data.bin"))  # 招远防疫项目接口测试报告
+
+    Rsa_PO.encrypt("./data/public_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # //用公钥加密，加密后发给对方A
+    Rsa_PO.encrypt("./data/public_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # // 用私钥加密一般用在数字签名
+
+    print(Rsa_PO.decrypt("./data/private_key.pem", "./data/encrypted_data.bin"))  # 招远防疫项目接口测试报告  //对方A用私钥解密
+
+
+
+
+
