@@ -32,10 +32,10 @@ File_PO = FilePO()
 class NetPO():
 
     # 1，163邮件发送
-    def sendEmail(self, varNickNameByFrom, varTo, varCc, varSubject, varConent, *varAccessory):
+    def sendEmail(self, varAddresser, varTo, varCc, varSubject, varConent, *varAccessory):
         '''
 
-        :param varNickNameByFrom:
+        :param varAddresser:
         :param varTo:
         :param varCc:
         :param varSubject:
@@ -54,24 +54,27 @@ class NetPO():
         # msg['From'] = varFrom   # 发件人：skducn@163.com
         # 自定义处理邮件收发地址的显示内容，如： 令狐冲<skducn@163.com>
         # 将邮件的name转换成utf-8格式，addr如果是unicode，则转换utf-8输出，否则直接输出addr，如：令狐冲<skducn@163.com>
-        # name, addr = parseaddr(varNickNameByFrom + u' <%s>' % varFrom)
-        name, addr = parseaddr(varNickNameByFrom + '<skducn@163.com>' )
+        # name, addr = parseaddr(varAddresser + u' <%s>' % varFrom)
+        name, addr = parseaddr(varAddresser + '<skducn@163.com>' )
 
-        # 发件人
+        # 发件邮箱
         msg['From'] =formataddr((Header(name, 'utf-8').encode(), addr))
 
-        # 收件人
+        # 收件邮箱
         if "," in varTo:
-            # 为多人
+            # 多个邮箱用逗号分隔
             varTo = [varTo.split(",")[0], varTo.split(",")[1]]
         msg['To'] = ";".join(varTo)
 
-        # 抄送人
-        msg['Cc'] = ";".join(varCc)
+        # 抄送邮箱
+        if varCc != None:
+            msg['Cc'] = ";".join(varCc)
+            # 所有接收邮箱
+            reciver = varTo + varCc
+        else:
+            reciver = varTo
 
-        reciver = varTo + varCc
-
-        # 主题
+            # 主题
         msg['Subject'] = Header(varSubject, 'utf-8').encode()
 
         # 正文
@@ -114,7 +117,7 @@ class NetPO():
         smtp.login("skducn@163.com", "MKOMAGNTQDECWXFI")
         smtp.sendmail("skducn@163.com", reciver, msg.as_string())
         smtp.quit()
-        print(u"[Ok]，邮件已发送至：" + str(varTo))
+        print(u"邮件已发送给：" + str(reciver) + "")
         # except:
         #     print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
@@ -272,9 +275,11 @@ if __name__ == '__main__':
     #           "你好，\n\n以下是本次自动化接口测试结果，请查阅。\n\n\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
     #           r'D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interfaceDb\\report123.html', r'D:\\a.jpg', "", ""
     #           )
+    
+   
 
-    Net_PO.sendEmail("测试组", ['skducn@163.com'], [],
+    Net_PO.sendEmail("测试组", ['skducn@163.com'], None,
               "招远防疫接口自动化测试结果",
-              "你好，\n\n以下是本次自动化接口测试结果，请查阅。\n\n\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
-              r'D:\\线性代数.xmind', r'd:\\a.jpg'
+              "你好，\n\n附件是本次自动化接口测试结果，请查阅。\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
+              r'NetPO.py'
               )

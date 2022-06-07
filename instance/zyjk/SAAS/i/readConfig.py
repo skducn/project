@@ -7,6 +7,9 @@
 # 问题：UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb8 in position 185: invalid start byte
 # 原因：'utf-8’编解码器无法解码位置0的字节0xb8：无效的起始字节；问题原因：函数模板的编码有问题，所以在调用函数的时候出现无法解码；' \
 # 解决：设置函数模板的编码方式  encoding="gbk"
+
+# 问题： ConfigParser的value如果包含\r\n的话都会被当成普通字符处理（自动转义成\\r\\n），只有编译器在编译时才会对\r\n等进行转义
+# 解决：str.replace("\\n", "\n")
 # *****************************************************************
 
 import configparser, codecs
@@ -46,3 +49,6 @@ class ReadConfig:
         value = self.cf.get("DEV", name)
         return value
 
+    def get_email(self, name):
+        value = self.cf.get("EMAIL", name)
+        return value
