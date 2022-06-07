@@ -9,11 +9,15 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-# list0 =
-if "kill" not in ['t','kill']:
-    print("1111")
-else:
-    print("2222")
+s = "tet"
+
+print(s.split(","))
+
+# # list0 =
+# if "kill" not in ['t','kill']:
+#     print("1111")
+# else:
+#     print("2222")
 
 #
 # from docx import Document

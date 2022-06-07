@@ -44,6 +44,17 @@ xlsName = localReadConfig.get_system("xlsName")
 rptName = localReadConfig.get_system("rptName")
 rptTitle = localReadConfig.get_system("rptTitle")
 xlsSheetName = localReadConfig.get_system("xlsSheetName")
+varAddresser = localReadConfig.get_email("varAddresser")
+varTo = localReadConfig.get_email("varTo")
+varCc = localReadConfig.get_email("varCc")
+varSubject = localReadConfig.get_email("varSubject")
+if varCc != 'None':
+    print(varCc.split(","))
+else:
+    varCc = None
+# ConfigParser的value如果包含\r\n的话都会被当成普通字符处理（自动转义成\\r\\n），只有编译器在编译时才会对\r\n等进行转义，只需 str.replace("\\n", "\n")即可。
+varSubject = varSubject.replace("\\n", "\n")
+
 if localReadConfig.get_env("switchENV") == "test":
     db_ip = localReadConfig.get_test("db_ip")
     db_username = localReadConfig.get_test("db_username")
@@ -345,8 +356,6 @@ if __name__ == '__main__':
     if platform.system() == 'Windows':
         os.system("start ./" + rptNameDate)
 
-    # # # Net_PO.sendEmail("令狐冲", 'skducn@163.com', "h.jin@zy-healthtech.com",
-    # # #                  "招远疫情防控接口自动化报告" + str(Time_PO.getDate_minus()),
-    # # #                  "你好，\n\n以下是本次自动化接口测试结果，请查阅。\n\n\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。\n测试组\nBest Regards",
-    # # #                  rptName,
-    # # #                  "","", "")
+    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()), varSubject,
+    #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
+    #                  )

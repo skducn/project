@@ -201,7 +201,7 @@ if __name__ == "__main__":
     # print(Str_PO.str2list("123", ""))  # ['123']
     # print(Str_PO.str2list("123,"))  # [123]   // 当一个数字元素转列表，且转换后仍然是数字作为列表元素时，需在单个元素最后加上逗号
     # print(Str_PO.str2list("123"))  # ['123']
-    # print(Str_PO.str2list("test"))  # ['test']
+    print(Str_PO.str2list("test"))  # ['test']
     # print(Str_PO.str2list(121131313))  # None   //错误参数返回None
     # print(Str_PO.str2list())  # None   //无参数返回None
     #
@@ -256,7 +256,7 @@ if __name__ == "__main__":
 
 
     # print("5，删除特殊字符".center(100, "-"))
-    print(Str_PO.delSpecialCharacters('#创作灵感/ 只需三\招，就能:让你*成为一<个狠>人！#|人生?感悟 #智慧人生 #为人处世',"/","\\","?"))
+    # print(Str_PO.delSpecialCharacters('#创作灵感/ 只需三\招，就能:让你*成为一<个狠>人！#|人生?感悟 #智慧人生 #为人处世',"/","\\","?"))
 
 
 
