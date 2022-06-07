@@ -47,13 +47,21 @@ xlsSheetName = localReadConfig.get_system("xlsSheetName")
 varAddresser = localReadConfig.get_email("varAddresser")
 varTo = localReadConfig.get_email("varTo")
 varCc = localReadConfig.get_email("varCc")
-varSubject = localReadConfig.get_email("varSubject")
 if varCc != 'None':
     print(varCc.split(","))
 else:
     varCc = None
 # ConfigParser的value如果包含\r\n的话都会被当成普通字符处理（自动转义成\\r\\n），只有编译器在编译时才会对\r\n等进行转义，只需 str.replace("\\n", "\n")即可。
-varSubject = varSubject.replace("\\n", "\n")
+varContent = localReadConfig.get_email("varContent")
+varContent = varContent.replace("\\n", "\n")
+varHead = localReadConfig.get_email("varHead")
+varHead = varHead.replace("\\n", "\n")
+varFoot = localReadConfig.get_email("varFoot")
+varFoot = varFoot.replace("\\n", "\n")
+
+varContent_html = localReadConfig.get_email("varContent_html")
+varHead_html = localReadConfig.get_email("varHead_html")
+varFoot_html = localReadConfig.get_email("varFoot_html")
 
 if localReadConfig.get_env("switchENV") == "test":
     db_ip = localReadConfig.get_test("db_ip")
@@ -356,6 +364,14 @@ if __name__ == '__main__':
     if platform.system() == 'Windows':
         os.system("start ./" + rptNameDate)
 
-    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()), varSubject,
+    # 邮件正文是文本
+    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
+    #                  "plain", varHead, varContent, varFoot,
+    #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
+    #                  )
+
+    # # 邮件正文是html
+    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
+    #                  "html", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html", varFoot_html,
     #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
     #                  )

@@ -387,7 +387,14 @@ if __name__ == '__main__':
         if platform.system() == 'Windows':
             os.system("start ./" + rptNameDate)
 
+    # 邮件正文是文本
+    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
+    #                  "plain", varHead, varContent, varFoot,
+    #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
+    #                  )
 
-    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()), varSubject,
+    # # 邮件正文是html
+    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
+    #                  "html", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html", varFoot_html,
     #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
     #                  )
