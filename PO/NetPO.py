@@ -3,17 +3,18 @@
 # Author     : John
 # Created on : 2017-5-23
 # Description: 网络对象（发邮件、下载网页内容、文件、图片
+# https://blog.csdn.net/qq_29591261/article/details/120508758  正文表格
 # ***************************************************************
 
 '''
-1，发送邮件
+1，发送邮件 sendEmail()
 
-2.1，下载程序
-2.2，下载网页/图片
-2.3，下载图片
-2.4，异步多线程下载图片
+2.1，下载程序 downApp()
+2.2，下载网页/图片 downFile()
+2.3，下载图片  downImage()
+2.4，异步多线程下载图片 downImageAsync()
 
-3， 将图片转换成二进制或字符串
+3， 将图片转换成二进制或字符串 image2strOrByte()
 '''
 
 import sys, smtplib, os, base64, requests, urllib,json, jsonpath, logging, time
@@ -22,6 +23,8 @@ import email.mime.text
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.header import Header
+from email.mime.application import MIMEApplication
+import xlrd
 from urllib.request import urlretrieve
 from email.mime.multipart import MIMEMultipart
 from email.utils import parseaddr,formataddr
@@ -31,23 +34,55 @@ File_PO = FilePO()
 
 class NetPO():
 
+    # 写邮件，读取excel文件内容作为邮件正文
+    def mailWrite(self, varExcel):
+        # 表格的标题和头
+        header = '<html><head><style type="text/css">table{table-layout: fixed;}td{word-break: break-all; word-wrap:break-word;}</style></head>'
+        # th = '<body text="#000000" ><table border="1" cellspacing="0" cellpadding="3" bordercolor="#000000" width="180" align="left" ><tr bgcolor="#F79646" align="left" ><th>本地地址</th><th>PBU</th></tr>'
+        th = '<body><table cellspacing="0" cellpadding="3" width="100%" border="1">'
+        # 打开文件
+        # filepath设置详细的文件地址
+        book = xlrd.open_workbook(varExcel)
+        sheet = book.sheet_by_index(0)
+        # 获取行列的数目，并以此为范围遍历获取单元数据
+        # nrows 行数，ncols 列数
+        nrows = sheet.nrows - 1
+        ncols = sheet.ncols
+        body = ''
+        cellData = 1
+        for i in range(1, nrows + 1):
+            td = ''
+            for j in range(ncols):
+                cellData = sheet.cell_value(i, j)
+                # 读取单元格数据，赋给cellData变量供写入HTML表格中
+                tip = '<td width="100">' + str(cellData) + '</td>'
+                td = td + tip
+                tr = '<tr>' + td + '</tr>'
+                # tr = tr.encode('utf-8')
+            body = body + tr
+            tail = '</table></body></html>'
+            mailcontent = header + th + body + tail
+        # 将excel文件的内容转换为html格式，后续在邮件中拼接
+        return mailcontent
+
     # 1，163邮件发送
-    def sendEmail(self, varAddresser, varTo, varCc, varSubject, varConent, *varAccessory):
+    def sendEmail(self, varAddresser, varTo, varCc, varSubject, varMIMEText, varHead, varConent, varFoot, *varAccessory):
         '''
 
         :param varAddresser:
         :param varTo:
         :param varCc:
+        varHead : 页眉
         :param varSubject:
+        varFoot ：页脚
+        :param varMIMEText: html/plain
         :param varConent:
-        :param varAccessory:  文件可以是多个
+        :param varAccessory:  文件可以是多个,用逗号分隔。
         :return:
         # 注意：邮件主题为‘test’时会出现错误。
         # 163邮箱密码为授权密码管理，在设置 - POP/SMTP/IMAP - 授权密码管理 - 新增，并在脚本中设置的登录密码为授权码。
-        # 参数：发件人昵称，接收人邮箱，抄送人邮箱，主题，邮件正文，附件。
+        # 参数：发件人昵称，接收人邮箱，抄送人邮箱，主题，正文类型，正文，附件。
         '''
-
-
 
         # try:
         msg = email.mime.multipart.MIMEMultipart()
@@ -74,29 +109,56 @@ class NetPO():
         else:
             reciver = varTo
 
-            # 主题
+        # 主题
         msg['Subject'] = Header(varSubject, 'utf-8').encode()
 
         # 正文
-        txt = MIMEText(varConent, 'plain', 'utf-8')
-        msg.attach(txt)
+        if varMIMEText == "html":
+            with open(varConent, 'r', encoding='utf-8') as f:
+                varConent = f.read()
+            varConent = varHead + varConent + varFoot
+            html = MIMEText(varConent, 'html', 'utf-8')
+            msg.attach(html)
+        elif varMIMEText == "excel":
+            # 邮件正文内容
+            varConent = self.mailWrite(varConent)
+            print(varConent)
+            # sys.exit(0)
+            # varConent = varHead + varConent + varFoot
+            html = MIMEText(varConent, 'html', 'utf-8')
+            msg.attach(html)
+
+            # # 邮件附件
+            # part = MIMEApplication(open('E:\报盘配置报表-20200512.xlsx', 'rb').read())
+            # # filename=邮件附件中显示的文件的名称，可自定义
+            # part.add_header('Content-Disposition', 'attachment', filename="报盘配置报表-20200512.xlsx")
+            # msg.attach(part)
+
+        else:
+            varConent = varHead + varConent + varFoot
+            html = MIMEText(varConent, 'plain', 'utf-8')
+            msg.attach(html)
 
         # 附件
         for i in range(len(varAccessory)):
             # 获取文件类型
             varType = File_PO.isFileType(varAccessory[i])
+            print(varType)
 
-            # jpg\png\bmp 图片类型
+            # jpg\png\bmp
             if "image/" in varType:
+                print(varAccessory[i])
+
                 sendimagefile = open(varAccessory[i], 'rb').read()
                 image = MIMEImage(sendimagefile)
                 # image.add_header('Content-ID', '<image1>')  # 默认文件名
                 image.add_header("Content-Disposition", "attachment", filename=("utf-8", "", os.path.basename(varAccessory[i])))
                 msg.attach(image)
 
-            # txt\doc\xlsx\json\mp3\mp4\pdf\xmind
-            elif "text/plain" or "application/msword" or "spreadsheetml.sheet" or "application/json" or "audio/mpeg" or "video/mp4" or "application/pdf" \
+            # html\txt\doc\xlsx\json\mp3\mp4\pdf\xmind
+            elif "text/html" or "text/plain" or "application/msword" or "spreadsheetml.sheet" or "application/json" or "audio/mpeg" or "video/mp4" or "application/pdf" \
                     or "application/vnd.xmind.workbook" in varType:
+                print(varAccessory[i])
                 sendfile = open(varAccessory[i], 'rb').read()
                 text_att = MIMEText(sendfile, 'base64', 'utf-8')
                 text_att["Content-Type"] = 'application/octet-stream'
@@ -104,22 +166,28 @@ class NetPO():
                 text_att.add_header("Content-Disposition", "attachment", filename=("utf-8", "", os.path.basename(varAccessory[i])))  # 支持中文格式文件名
                 msg.attach(text_att)
 
-            # HTML
-            elif "text/html" in varType:
-                text_html = MIMEText(varAccessory[i], 'html', 'utf-8')
-                text_html.add_header("Content-Disposition", "attachment", filename=("utf-8", "", varAccessory[i]))
-                msg.attach(text_html)
-
-
-
         smtp = smtplib.SMTP()
         smtp.connect('smtp.163.com', '25')
         smtp.login("skducn@163.com", "MKOMAGNTQDECWXFI")
         smtp.sendmail("skducn@163.com", reciver, msg.as_string())
         smtp.quit()
         print(u"邮件已发送给：" + str(reciver) + "")
-        # except:
-        #     print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+
+
+
+    def data_to_html(self,data, title):
+        alarm_html = '<table border="1" cellpadding="5"><tr>'
+        for item in title:
+            alarm_html += '<td>%s</td>' % item
+        alarm_html += '</tr>'
+
+        for row in data:
+            alarm_html += '<tr>'
+            for item in row:
+                alarm_html += '<td>%s</td>' % item
+            alarm_html += "</tr>"
+        alarm_html += "</table>"
+        return alarm_html
 
 
     # 2.1，下载程序
@@ -239,10 +307,90 @@ if __name__ == '__main__':
 
     Net_PO = NetPO()
 
-    # print("1，发送邮件".center(100, "-"))
-    # Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n" + "tesst" + "\n\n 这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","","","","")
-    # Net_PO.sendEmail(u'令狐冲', 'skducn@163.com', "h.jin@zy-healthtech.com,skducn@163.com", "今天的测试","您好！\n\n\n    这是本次集成平台自动化测试结果，请查看附件。\n\n\n\n\n\n\n\n这是一封自动产生的email，请勿回复 \n测试组 \nBest Regards","NetPO.py")
+    # print("1.1 发邮件之文本正文".center(100, "-"))
+    # Net_PO.sendEmail("测试组", [ 'h.jin@zy-healthtech.com'], ['skducn@163.com'],
+    #                  "发邮件之文本正文", "plain", "你好", "\n\n附件是本次自动化接口测试结果，请查阅。",
+    #                  "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
+    #                  r'D:\\51\\python\\project\\PO\\data\\report123.html'
+    #                 )
+    # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
+    #                  "发邮件之文本正文", "plain", "你好", "\n\n附件是本次自动化接口测试结果，请查阅。",
+    #                  "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
+    #                  r'./data/report123.html', r'/Users/linghuchong/Desktop/mac/cetc.png'
+    #                  )
 
+
+
+    # print("1.2 发邮件之表格正文".center(100, "-"))
+    # titles = ['表头1', '表头2', '表头3', '表头4', '表头5']
+    # data = [
+    #     ['小学', '语文', 1, 1, 3],
+    #     ['小学', '数学', 1, 5, 1],
+    #     ['小学', '语文', 1, 1, 33],
+    #     ['初中', '数学', 13, 1, 15],
+    #     ['高中', '数学', 1, 1, 1],
+    #     ['小学', '英语', 1, 8, 1],
+    #     ['小学汇总', '小学汇总', 1, 1, 1],
+    #     ['初中', '数学', 13, 1, 15],
+    #     ['小学', '语文', 1, 1, 33],
+    #     ['高中汇总', '高中汇总', 13, 1, 15]
+    # ]
+    # varConent = Net_PO.data_to_html(data, titles)
+    # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
+    #                  "发邮件之表格正文", "html", varHead, varConent, varFoot
+    #                  )
+
+    # print("1.3 发邮件之html正文".center(100, "-"))
+    # varConent = """
+    #     <html lang = "en"
+    #     <body>
+    #     <table id="header" bgcolor="#020D3D" cellpadding="5" width="100%" style="background-image: url('https://cloud.ibm.com/avatar/v1/avatar/migrate-bluemix-photos-production/1b0b8d80-6292-11e9-8868-e948ac984fd4.png'); background-position: top right; background-repeat: no-repeat; background-size: cover; background-color: #020D3D;" background="https://cloud.ibm.com/avatar/v1/avatar/migrate-bluemix-photos-production/1b0b8d80-6292-11e9-8868-e948ac984fd4.png">
+    #     <tbody>
+    #     <tr>
+    #     <td><img alt="IBM Cloud" src="https://cloud.ibm.com/avatar/v1/avatar/migrationsegment/IBM_Cloud_Lockup_Rev_RGB.png" style="width: 175px; height: 68px;" width="175"></td>
+    #     </tr>
+    #     </tbody>
+    #     </table>
+    #     <h1>您好！<h1>
+    #     <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次项目接口自动化测试已完成，请查看附件。<h1>
+    #     <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。<h1>
+    #     <h1>智赢测试组<h1>
+    #     <h1>Best Regards<h1>
+    #     </body>
+    #     </html>
+    # """
+
+    # varHead = ""
+    # varFoot = ""
+    # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
+    #           "发送邮件html正文", "html", varHead, varConent, varFoot,
+    #           )
+
+    # 或直接读取html文件
+
+    # varHead = "<h3>您好！</h3>"
+    # varFoot = """<br>
+    #    <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
+    #    <h3>智赢测试组</h3>
+    #    <h3>Best Regards</h3>
+    #    """
+    # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
+    #           "发送邮件html正文", "html", varHead, "./data/report.html", varFoot,
+    #           )
+
+
+    print("1.4 发邮件之excel正文".center(100, "-"))
+    varHead = ""
+    varFoot = ""
+    # varHead = "<h3>您好！</h3>"
+    # varFoot = """<br><br><br>
+    #    <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
+    #    <h3>智赢测试组</h3>
+    #    <h3>Best Regards</h3>
+    #    """
+    Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
+                     "发邮件之excel正文", "excel", varHead, "./data/saas_interface_case.xlsx", varFoot,
+                     )
 
     # print("2.1，下载程序".center(100, "-"))
     # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe")  # 默认将文件保存在当前路径，文件存在则不覆盖。
@@ -270,16 +418,4 @@ if __name__ == '__main__':
     # print(Net_PO.image2strOrByte(r"d:\\test\\aaa.png"))
     # print(Net_PO.image2strOrByte(r"d:\\test\\aaa.png", "byte"))
 
-    # Net_PO.sendEmail("测试组", ['skducn@163.com'], [ 'h.jin@zy-healthtech.com'],
-    #           "招远防疫接口自动化测试结果",
-    #           "你好，\n\n以下是本次自动化接口测试结果，请查阅。\n\n\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
-    #           r'D:\\51\\python\\project\\instance\\zyjk\\epidemic\\interfaceDb\\report123.html', r'D:\\a.jpg', "", ""
-    #           )
-    
-   
 
-    Net_PO.sendEmail("测试组", ['skducn@163.com'], None,
-              "招远防疫接口自动化测试结果",
-              "你好，\n\n附件是本次自动化接口测试结果，请查阅。\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
-              r'NetPO.py'
-              )
