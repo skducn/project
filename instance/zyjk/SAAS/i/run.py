@@ -58,7 +58,6 @@ varHead = localReadConfig.get_email("varHead")
 varHead = varHead.replace("\\n", "\n")
 varFoot = localReadConfig.get_email("varFoot")
 varFoot = varFoot.replace("\\n", "\n")
-
 varContent_html = localReadConfig.get_email("varContent_html")
 varHead_html = localReadConfig.get_email("varHead_html")
 varFoot_html = localReadConfig.get_email("varFoot_html")
@@ -370,8 +369,8 @@ if __name__ == '__main__':
     #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
     #                  )
 
-    # # 邮件正文是html
-    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
-    #                  "html", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html", varFoot_html,
-    #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
-    #                  )
+    # 邮件正文是html
+    Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
+                     "htmlFile", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html", varFoot_html,
+                     "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
+                     )
