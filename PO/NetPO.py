@@ -37,33 +37,37 @@ class NetPO():
     # 写邮件，读取excel文件内容作为邮件正文
     def mailWrite(self, varExcel):
         # 表格的标题和头
-        header = '<html><head><style type="text/css">table{table-layout: fixed;}td{word-break: break-all; word-wrap:break-word;}</style></head>'
+        # header = '<html><head><style type="text/css">table{table-layout: fixed;}td{word-break: break-all; word-wrap:break-word;}</style></head>'
+        header = '<style>table{table-layout: fixed;}td{word-break: break-all; word-wrap:break-word;} .mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style><html><head><title>saas高血压接口自动化报告</title></head>'
         # th = '<body text="#000000" ><table border="1" cellspacing="0" cellpadding="3" bordercolor="#000000" width="180" align="left" ><tr bgcolor="#F79646" align="left" ><th>本地地址</th><th>PBU</th></tr>'
-        th = '<body><table cellspacing="0" cellpadding="3" width="100%" border="1">'
-        # 打开文件
-        # filepath设置详细的文件地址
+        # th = '<body><table cellspacing="0" cellpadding="3" width="100%" border="1">'
+        th = '<body><table border="1" class="dataframe mystyle" width="100%">'
+
         book = xlrd.open_workbook(varExcel)
         sheet = book.sheet_by_index(0)
-        # 获取行列的数目，并以此为范围遍历获取单元数据
-        # nrows 行数，ncols 列数
         nrows = sheet.nrows - 1
         ncols = sheet.ncols
         body = ''
-        cellData = 1
+        # 标题
+        td = ''
+        for j in range(ncols):
+            cellData = sheet.cell_value(0, j)
+            tip = '<th style="min-width: 100px;"bgcolor="#90d7ec">' + str(cellData) + '</th>'
+            td = td + tip
+            tr = '<tbody><thead><tr>' + td + '</tr></thead>'
+        body = body + tr
+
+        # 内容
+        # cellData = 1
         for i in range(1, nrows + 1):
             td = ''
             for j in range(ncols):
                 cellData = sheet.cell_value(i, j)
-                # 读取单元格数据，赋给cellData变量供写入HTML表格中
-                tip = '<td width="100">' + str(cellData) + '</td>'
+                tip = '<td>' + str(cellData) + '</td>'
                 td = td + tip
                 tr = '<tr>' + td + '</tr>'
-                # tr = tr.encode('utf-8')
             body = body + tr
-            tail = '</table></body></html>'
-            mailcontent = header + th + body + tail
-        # 将excel文件的内容转换为html格式，后续在邮件中拼接
-        return mailcontent
+        return  header + th  + body + '</tbody></table></body></html>'
 
     # 1，163邮件发送
     def sendEmail(self, varAddresser, varTo, varCc, varSubject, varMIMEText, varHead, varConent, varFoot, *varAccessory):
@@ -113,42 +117,35 @@ class NetPO():
         msg['Subject'] = Header(varSubject, 'utf-8').encode()
 
         # 正文
-        if varMIMEText == "html":
+        # 调用外部html文件
+        if varMIMEText == "htmlFile":
             with open(varConent, 'r', encoding='utf-8') as f:
                 varConent = f.read()
             varConent = varHead + varConent + varFoot
             html = MIMEText(varConent, 'html', 'utf-8')
-            msg.attach(html)
-        elif varMIMEText == "excel":
-            # 邮件正文内容
-            varConent = self.mailWrite(varConent)
-            print(varConent)
-            # sys.exit(0)
-            # varConent = varHead + varConent + varFoot
+        # html格式的变量
+        elif varMIMEText == "htmlContent":
             html = MIMEText(varConent, 'html', 'utf-8')
-            msg.attach(html)
-
-            # # 邮件附件
-            # part = MIMEApplication(open('E:\报盘配置报表-20200512.xlsx', 'rb').read())
-            # # filename=邮件附件中显示的文件的名称，可自定义
-            # part.add_header('Content-Disposition', 'attachment', filename="报盘配置报表-20200512.xlsx")
-            # msg.attach(part)
-
+        # excel转html格式
+        elif varMIMEText == "excel":
+            varConent = self.mailWrite(varConent)
+            # print(varConent)
+            # sys.exit(0)
+            varConent = varHead + varConent + varFoot
+            html = MIMEText(varConent, 'html', 'utf-8')
+        # 文本格式
         else:
             varConent = varHead + varConent + varFoot
             html = MIMEText(varConent, 'plain', 'utf-8')
-            msg.attach(html)
+        msg.attach(html)
 
         # 附件
         for i in range(len(varAccessory)):
             # 获取文件类型
             varType = File_PO.isFileType(varAccessory[i])
-            print(varType)
 
             # jpg\png\bmp
             if "image/" in varType:
-                print(varAccessory[i])
-
                 sendimagefile = open(varAccessory[i], 'rb').read()
                 image = MIMEImage(sendimagefile)
                 # image.add_header('Content-ID', '<image1>')  # 默认文件名
@@ -158,7 +155,6 @@ class NetPO():
             # html\txt\doc\xlsx\json\mp3\mp4\pdf\xmind
             elif "text/html" or "text/plain" or "application/msword" or "spreadsheetml.sheet" or "application/json" or "audio/mpeg" or "video/mp4" or "application/pdf" \
                     or "application/vnd.xmind.workbook" in varType:
-                print(varAccessory[i])
                 sendfile = open(varAccessory[i], 'rb').read()
                 text_att = MIMEText(sendfile, 'base64', 'utf-8')
                 text_att["Content-Type"] = 'application/octet-stream'
@@ -307,7 +303,7 @@ if __name__ == '__main__':
 
     Net_PO = NetPO()
 
-    # print("1.1 发邮件之文本正文".center(100, "-"))
+    print("1.1 发邮件之文本正文".center(100, "-"))
     # Net_PO.sendEmail("测试组", [ 'h.jin@zy-healthtech.com'], ['skducn@163.com'],
     #                  "发邮件之文本正文", "plain", "你好", "\n\n附件是本次自动化接口测试结果，请查阅。",
     #                  "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
@@ -318,7 +314,6 @@ if __name__ == '__main__':
     #                  "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
     #                  r'./data/report123.html', r'/Users/linghuchong/Desktop/mac/cetc.png'
     #                  )
-
 
 
     # print("1.2 发邮件之表格正文".center(100, "-"))
@@ -340,7 +335,8 @@ if __name__ == '__main__':
     #                  "发邮件之表格正文", "html", varHead, varConent, varFoot
     #                  )
 
-    # print("1.3 发邮件之html正文".center(100, "-"))
+
+    # print("1.3.1 发邮件之html正文(html内容)".center(100, "-"))
     # varConent = """
     #     <html lang = "en"
     #     <body>
@@ -359,15 +355,12 @@ if __name__ == '__main__':
     #     </body>
     #     </html>
     # """
-
-    # varHead = ""
-    # varFoot = ""
     # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
-    #           "发送邮件html正文", "html", varHead, varConent, varFoot,
+    #           "发送邮件html正文(html内容)", "htmlContent", "", varConent, "",
     #           )
 
-    # 或直接读取html文件
 
+    # print("1.3.2 发邮件之html正文(html文件)".center(100, "-"))
     # varHead = "<h3>您好！</h3>"
     # varFoot = """<br>
     #    <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
@@ -375,22 +368,23 @@ if __name__ == '__main__':
     #    <h3>Best Regards</h3>
     #    """
     # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
-    #           "发送邮件html正文", "html", varHead, "./data/report.html", varFoot,
+    #           "发送邮件html正文(html文件)", "htmlFile", varHead, "./data/report.html", varFoot,
     #           )
 
 
     print("1.4 发邮件之excel正文".center(100, "-"))
-    varHead = ""
-    varFoot = ""
-    # varHead = "<h3>您好！</h3>"
-    # varFoot = """<br><br><br>
-    #    <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
-    #    <h3>智赢测试组</h3>
-    #    <h3>Best Regards</h3>
-    #    """
+    varHead = "<h3>您好！</h3>"
+    varFoot = """<br>
+       <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
+       <h3>智赢测试组</h3>
+       <h3>Best Regards</h3>
+       """
     Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
-                     "发邮件之excel正文", "excel", varHead, "./data/saas_interface_case.xlsx", varFoot,
+                     "发邮件之excel正文", "excel", varHead, "./data/demo.xlsx", varFoot,
+                     r"./data/demo.xlsx"
                      )
+
+
 
     # print("2.1，下载程序".center(100, "-"))
     # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe")  # 默认将文件保存在当前路径，文件存在则不覆盖。
