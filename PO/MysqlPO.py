@@ -381,7 +381,7 @@ class MysqlPO():
         '''
 
         try:
-            df = pd.read_excel(varExcelFile, usecols=usecols, nrows=nrows, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
+            df = pd.read_excel(varExcelFile, usecols=usecols, nrows=usecols, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
             df.to_sql(varTable, con=self.getMysqldbEngine(), if_exists='replace', index=False)
         except Exception as e:
             print(e)

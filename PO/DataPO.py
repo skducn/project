@@ -88,7 +88,7 @@ class DataPO():
         global codelist
         codelist = []
         if not codelist:
-            with open("DataPO/idCard.txt") as file:
+            with open("idCard.txt") as file:
                 data = file.read()
                 districtlist = data.split('\n')
             for node in districtlist:
@@ -588,7 +588,7 @@ if __name__ == '__main__':
     # print(Data_PO.autoPhone())  # 14790178656
     #
     # print("3.1，随机生成身份证号".center(100, "-"))
-    # print(Data_PO.autoIdcard())   # 441427196909022802   // 随机生成身份证号
+    print(Data_PO.autoIdcard())   # 441427196909022802   // 随机生成身份证号
     #
     # print("3.2，判断是否是有效身份证".center(100, "-"))
     # print(Data_PO.isIdcard(Data_PO.autoIdcard()))

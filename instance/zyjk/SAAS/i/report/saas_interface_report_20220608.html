@@ -1,5 +1,5 @@
 <style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style><html><head><title>saas高血压接口自动化报告</title></head>
-<body><b><caption>saas高血压接口自动化报告 ( 20220608 ) </caption></b><br/><br/><table border="1" class="dataframe mystyle">
+<body><b><caption>saas高血压接口自动化报告 ( 20220608 )</caption></b><br/><br/><table border="1" class="dataframe mystyle">
 <thead>
 <tr style="text-align: center;">
 <th style="min-width: 100px;"bgcolor="#90d7ec">编号</th>
@@ -32,116 +32,172 @@
 <td></td>
 </tr>
 <tr>
-<td>2</td>
+<td>45</td>
+<td></td>
+<td></td>
+<td>设置全局变量</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"phone":"str(Data_PO.autoPhone())","idCardNo":"str(Data_PO.autoIdcard())","itemId":"select itemId from saashypertensiontest.ecf_follow_info where orgId = {{orgId}} and followUpName = '一级1' limit 1"}</td>
+<td></td>
+</tr>
+<tr>
+<td>46</td>
+<td></td>
+<td></td>
+<td>设置请求头</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"deviceTag":"app"}</td>
+<td></td>
+</tr>
+<tr>
+<td>51</td>
 <td>正常</td>
 <td>鉴权中心</td>
-<td>pc登录-必填非必填参数都有值</td>
-<td>{\n"coordinate": "1",\n "isEasyPSW": 10,\n "newFirstPassword": "",\n "newSecondPassword": "",\n "password": "123456",\n "secretCardCode": "1",\n "userNo":"{{userNo}}"\n}</td>
+<td>医生端小程序登录-必填参数</td>
+<td>{\n "loginEnum": "ACCOUNT",\n "password": "123456",\n "userNo": "{{userNo}}"\n}</td>
 <td>{"$.code":200,"$.msg":"success"}</td>
 <td bgcolor="#c6efce">Ok</td>
-<td>{"orgno":"select orgCode from sys_user_detail where userNo='16766667777'","userNo":"select orgCode from sys_user_detail where userNo='16766667777'"}</td>
-<td bgcolor="#f69c9f">Fail</td>
 <td></td>
 <td></td>
-<td>{"orgno": "wgzx205", "userNo": "16766667777"}</td>
-</tr>
-<tr>
-<td>10</td>
-<td>正常</td>
-<td>高血压首页</td>
-<td>查询高血压首页数据</td>
-<td>[{{orgId}}]</td>
-<td>{"$.code":200}</td>
-<td bgcolor="#c6efce">Ok</td>
-<td>{"orgId":299}</td>
-<td bgcolor="#c6efce">Ok</td>
 <td></td>
-<td></td>
+<td>{"token":"$.data.token"}</td>
 <td></td>
 </tr>
 <tr>
-<td>11</td>
-<td><font color="red">异常</font></td>
-<td>高血压首页</td>
-<td>查询高血压首页数据-orgids错误</td>
-<td>[123123]</td>
-<td>{"$.code":500,"$.msg":"hypertension 系统出现异常,请联系管理员-DTO！","$.data":null}</td>
-<td bgcolor="#c6efce">Ok</td>
-<td>{"userNo":"select orgCode from sys_user_detail where userNo='16766667777'"}</td>
-<td bgcolor="#f69c9f">Fail</td>
-<td></td>
-<td></td>
-<td>{"userNo": "16766667777"}</td>
-</tr>
-<tr>
-<td>30</td>
-<td>正常</td>
-<td>统计查询</td>
-<td>入组患者-分页查询-全参</td>
-<td>{\n "currPage": 1,\n "dateBegin": "2022-01-01 00:00:00",\n "dateEnd": "2022-05-25 23:59:59",\n "orgIdList": [{{orgId}}],\n "pageSize": 10\n}</td>
-<td>{"$.code":200,"$.msg":"success"}</td>
-<td bgcolor="#c6efce">Ok</td>
-<td>{"orgId":2929}</td>
-<td bgcolor="#f69c9f">Fail</td>
-<td></td>
-<td></td>
-<td>{"orgId": 299}</td>
-</tr>
-<tr>
-<td>31</td>
-<td>正常</td>
-<td>统计查询</td>
-<td>入组患者-分页查询-必填参数</td>
-<td>{\n "currPage": 0,\n "orgIdList": [ {{orgId}}],\n "pageSize": 0\n}</td>
-<td>{"$.code":200,"$.msg":"success"}</td>
-<td bgcolor="#c6efce">Ok</td>
-<td>{"orgId3":"select orgCode from sys_user_detail where userNo='16766667777'","userNo":"select orgCode from sys_user_detail where userNo='16766667777'"}</td>
-<td bgcolor="#f69c9f">Fail</td>
-<td></td>
-<td></td>
-<td>不存在或错误！</td>
-</tr>
-<tr>
-<td>34</td>
-<td>正常</td>
-<td>统计查询</td>
-<td>随访情况统计-全参</td>
-<td>{\n"orgCode":" {{orgId}}"\n"pageNum":"1"\n"pageSize":"10"\n}</td>
-<td>{"$.code":200,"$.msg":"success"}</td>
-<td bgcolor="#f69c9f">Fail</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>{"$.code": 500, "$.msg": "route:RibbonRoutingFilter"}</td>
-</tr>
-<tr>
-<td>40</td>
+<td>53</td>
 <td>正常</td>
 <td>高血压患者信息</td>
-<td>分页查询患者信息-全参</td>
-<td>{\n "beginAge": 1,\n "currentPage": 1,\n "docName": "dc",\n "endAge": 100,\n "groupType": "1",\n "name": "斤斤计较",\n "orgId":  {{orgId}},\n "orgIdList": [],\n "pageSize": 10,\n "statusList": [2]\n}</td>
+<td>医生端-新增患者-必填参数</td>
+<td>{\n "idCardNo": "{{idCardNo}}",\n "name": "大黑",\n "phone": "{{phone}}"\n}</td>
 <td>{"$.code":200,"$.msg":"success"}</td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
 <td></td>
-<td>{"empiId":"$.data.list[0].empiId"}</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>41</td>
+<td>54</td>
 <td>正常</td>
 <td>高血压患者信息</td>
-<td>分页查询患者信息-必填参数</td>
-<td>{\n "beginAge": 1,\n "currentPage": 1,\n "docName": "dc",\n "endAge": 0,\n "groupType": "1",\n "name": "",\n "orgId":  {{orgId}},\n "orgIdList": [],\n "pageSize": 10,\n "statusList": []\n}</td>
-<td>{"$.code":200,"$.msg":"suc23cess"}</td>
+<td>医生端-患者列表-全参</td>
+<td>{\n "currPage": 1,\n "followId": "1",\n "itemId": {{itemId}},\n "pageSize": 10,\n "patientName": "李大头",\n "riskLevel": "0"\n}</td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>55</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>医生端-患者列表-必填参数</td>
+<td>{\n "currPage": 1,\n "itemId": {{itemId}},\n "pageSize": 10,\n "riskLevel": ""\n}</td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"ldt_idCardNo":"select idCardNo from saashypertensiontest.t_patient_info where name = '李大头'","glempild":"$.data.list[0].empiId"}</td>
+<td></td>
+</tr>
+<tr>
+<td>56</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>医生端-单个患者查询</td>
+<td></td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>59</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>医生端-查询对照组患者-必填参数</td>
+<td></td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>60</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>医生端-修改对照组患者-全参</td>
+<td>{\n "empiId": "{{dzempild}}",\n "idCardNo": "110112199902047352",\n "name": "刘老头",\n "phone": "18923232323"\n}</td>
+<td>{"$.code":200,"$.msg":"success","data":true}</td>
 <td bgcolor="#f69c9f">Fail</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
-<td>{"$.msg": "success"}</td>
+<td>{"data": false}</td>
+</tr>
+<tr>
+<td>61</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>医生端-患者组别下拉框</td>
+<td></td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>62</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>医生端-分级代码</td>
+<td></td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>63</td>
+<td>正常</td>
+<td>高血压随访接口</td>
+<td>医生端-更改管理组别</td>
+<td></td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table></body></html>
