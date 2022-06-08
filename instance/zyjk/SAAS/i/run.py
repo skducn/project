@@ -79,7 +79,11 @@ else:
 
 from PO.MysqlPO import *
 Mysql_PO = MysqlPO(db_ip, db_username, db_password, db_database, db_port)
-l_m = Mysql_PO.getTableField(db_table)  # # 表格字段列表
+
+# excel导入数据库表
+Mysql_PO.xlsx2db(xlsName, db_table, sheet_name=xlsSheetName)
+# 获取表格字段列表
+l_m = Mysql_PO.getTableField(db_table)
 # print(l_m)
 
 class Run:
@@ -89,11 +93,11 @@ class Run:
         # 全局字典
         self.d_tmp = {}
 
-        # excel导入数据库表
-        Mysql_PO.xlsx2db(xlsName, db_table, sheet_name=xlsSheetName)
 
-        # 执行非N的用例
-        self.df = pd.read_sql_query("select * from %s where %s is null" % (db_table, l_m[1]), Mysql_PO.getMysqldbEngine())
+        # 执行用例
+        # 参考：https://zhuanlan.zhihu.com/p/281422144
+        self.df = pd.read_sql_query("select * from %s where %s is null " % (db_table, l_m[1]), Mysql_PO.getMysqldbEngine())
+
 
         # # 初始化数据，清空字段值（i返回值，i结果，s结果）
         # Mysql_PO.execQuery("update %s set i返回值=null" % (db_table))
@@ -105,7 +109,7 @@ class Run:
 
         # 参数：数据库表里数据索引，名称，路径，方法，参数，i检查接口返回值，s检查db表值, f检查文件, 全局变量
         # 1, 初始化设置全局变量
-        if iName in "设置全局变量":
+        if iName == "设置全局变量":
             if g_var != None:
                 # 转义全局变量
                 if "{{" in g_var:
@@ -113,7 +117,7 @@ class Run:
                         if "{{" + k + "}}" in g_var:
                             g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
                 d_var = dict(eval(g_var))
-                print(d_var)
+                # print(d_var)
                 for k, v in d_var.items():
                     # 其他封装函数返回内容转字符串，如str(Data_PO.autoNum(3))
                     if "str(" in str(v):
@@ -123,6 +127,26 @@ class Run:
                         d_var[k] = sql_value[0][0]
             else:
                 d_var = {}
+        elif iName == "设置请求头":
+            if g_var != None:
+                # 转义全局变量
+                if "{{" in g_var:
+                    for k in self.d_tmp:
+                        if "{{" + k + "}}" in g_var:
+                            g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
+                d_var = dict(eval(g_var))
+                # print(d_var)
+                for k, v in d_var.items():
+                    # 其他封装函数返回内容转字符串，如str(Data_PO.autoNum(3))
+                    if "str(" in str(v):
+                        d_var[k] = eval(d_var[k])
+                    if "select" in v and "from" in v :
+                        sql_value = Mysql_PO.execQuery(v)
+                        d_var[k] = sql_value[0][0]
+                reflection.run([iName, iPath, iMethod, iParam, d_var])
+            else:
+                d_var = {}
+
 
         else:
             # 2, 转义路径
@@ -146,6 +170,9 @@ class Run:
                 for k, v in d_var.items():
                     if "str(" in str(v):
                         d_var[k] = eval(d_var[k])
+                    if "select" in v and "from" in v :
+                        sql_value = Mysql_PO.execQuery(v)
+                        d_var[k] = sql_value[0][0]
             else:
                 d_var = {}
             # 5, 转义i检查接口返回值
@@ -181,7 +208,8 @@ class Run:
                                 self.setDb("iCheck", indexs, "Ok", "")
                             else:
                                 dict1[k] = iResValue[0]
-                                self.setDb("iCheck", indexs, "Fail", str(json.dumps(dict1)))
+                                # print(str(json.dumps(dict1)))
+                                self.setDb("iCheck", indexs, "Fail", str(json.dumps(dict1, ensure_ascii=False)))
                                 Color_PO.consoleColor("31", "31", "[ERROR], " + str(iCheck) + " 不存在或格式错误！", "")
                     else:
                         for k, v in d_iCheck.items():
@@ -189,7 +217,8 @@ class Run:
                             if iResValue != False:   # 如果key不存在
                                 if v != iResValue[0]:
                                     dict1[k] = iResValue[0]
-                                    self.setDb("iCheck", indexs, "Fail", str(json.dumps(dict1)))
+
+                                    self.setDb("iCheck", indexs, "Fail", str(json.dumps(dict1, ensure_ascii=False)))
                                     varSign = "error"
                             else:
                                 self.setDb("iCheck", indexs, "Fail", '没找到 "' + str(k) + '"')
@@ -225,13 +254,13 @@ class Run:
                                     self.setDb("dbCheck", indexs, "Ok", "")
                                 else:
                                     dict1[k] = self.d_tmp[k]
-                                    self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1)))
+                                    self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1, ensure_ascii=False)))
                                     Color_PO.consoleColor("31", "31", "[ERROR], " + str(dbCheck) + " 不存在或错误！", "")
                             elif self.d_tmp[k] == v:
                                 self.setDb("dbCheck", indexs, "Ok", "")
                             else:
                                 dict1[k] = self.d_tmp[k]
-                                self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1)))
+                                self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1, ensure_ascii=False)))
                                 Color_PO.consoleColor("31", "31", "[ERROR], " + str(dbCheck) + " 不存在或错误！", "")
                     else:
                         # 多个字典
@@ -245,7 +274,7 @@ class Run:
                                 dict1[k] = self.d_tmp[k]
                                 varSign = "error"
                         if varSign == "error":
-                            self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1)))
+                            self.setDb("dbCheck", indexs, "Fail", str(json.dumps(dict1, ensure_ascii=False)))
                             Color_PO.consoleColor("31", "31", "[ERROR], " + str(dbCheck) + " 不存在或错误！", "")
                         else:
                             self.setDb("dbCheck", indexs, "Ok", "")

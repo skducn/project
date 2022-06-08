@@ -16,6 +16,7 @@ from email.mime.multipart import MIMEMultipart
 
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import readConfig as readConfig
+
 localReadConfig = readConfig.ReadConfig()
 
 # 解决Python3 控制台输出InsecureRequestWarning的问题,
@@ -23,6 +24,8 @@ localReadConfig = readConfig.ReadConfig()
 # 代码页加入以下这个
 # from requests.packages.urllib3.exceptions import InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
 # 禁用安全请求警告
 # requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -46,8 +49,8 @@ class HTTP:
             # userNo = localReadConfig.get_dev("userNo")
             # password = localReadConfig.get_dev("password")
         self.session = requests.session()
-        self.jsonres = {}   # 存放json解析后的结果
-        self.params = {}   # 用来保存所需要的数据，实现关联
+        self.jsonres = {}  # 存放json解析后的结果
+        self.params = {}  # 用来保存所需要的数据，实现关联
         self.url = ''  # 全局的url
         # self.headers = {"Content-Type": "application/json;charset=UTF-8"}  # heaaders 默认请求Content-type   ,
         self.headers = {"Content-Type": "application/json"}  # heaaders 默认请求Content-type   ,
@@ -64,10 +67,16 @@ class HTTP:
             return False
 
 
-    # 请求方法
+
+    def header(self, iPath, iParam, d_var):
+        '''  header '''
+        for k, v in d_var.items():
+            self.session.headers[k] = str(v)
+        print("headers => " + str(self.session.headers))
+
+
     def token(self, iPath, iParam, d_var):
         '''  post请求之登录获取token '''
-
         d_iParam = json.loads(iParam)
         path = protocol + "://" + ip + ":" + port + iPath
         result = self.session.post(path, headers=self.headers, json=d_iParam, verify=False)
@@ -85,7 +94,7 @@ class HTTP:
             # print("\nparam => " + str(d_iParam))
             # print("\nmethod => post")
             # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
-            # print("\nheaders => " + str(self.session.headers) + "\n")
+            print("headers => " + str(self.session.headers))
             res = result.text
             print("response => " + str(res))
             try:
@@ -97,25 +106,26 @@ class HTTP:
 
     def get(self, iPath, iParam, d_var):
         ''' get 请求'''
-
         if iParam == None:
             path = protocol + "://" + ip + ":" + port + iPath
             # print("\nrequest => " + str(path))
             result = self.session.get(path, data=None)
         else:
             iPath = protocol + "://" + ip + ":" + port + iPath + "?" + iParam
+            # print(iPath)
             result = self.session.get(iPath, headers=self.headers, verify=False)
             # print("\nrequest => " + str(iPath))
             # print("\nparam => " + str(iParam))
         d_response = json.loads(result.text)
+        print("response => " + str(d_response))
         for k, v in d_var.items():
             if "$." in str(v):
                 res_value = jsonpath.jsonpath(d_response, expr=v)
+                # print(res_value)
                 d_var[k] = res_value[0]
         # print("\nmethod => get")
         # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
         res = result.text
-        print("response => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -124,22 +134,14 @@ class HTTP:
 
 
     def post(self, iPath, iParam, d_var):
-        '''
-        post 请求
-        :param iPath:
-        :param iParam:
-        :param d_var:
-        :return:
-        '''
-
+        '''post 请求'''
         iPath = protocol + "://" + ip + ":" + port + iPath
-        # print("\nrequest => " + str(iPath))
         if iParam == None:
             result = self.session.post(iPath, data=None)
         else:
             result = self.session.post(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
         d_response = json.loads(result.text)
-        # print(d_response)
+        print("response => " + str(d_response))
         for k, v in d_var.items():
             if "$." in str(v):
                 res_value = jsonpath.jsonpath(d_response, expr=v)
@@ -149,10 +151,33 @@ class HTTP:
         # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
         # print("\nheaders => " + str(self.session.headers) + "\n")
         res = result.text
-        print("response => " + str(res))
-
         try:
-            res = res[res.find('{'):res.rfind('}')+1]
+            res = res[res.find('{'):res.rfind('}') + 1]
+        except Exception as e:
+            print(e.__traceback__)
+        return res, d_var
+
+
+    def put(self, iPath, iParam, d_var):
+        '''put 请求'''
+        iPath = protocol + "://" + ip + ":" + port + iPath
+        if iParam == None:
+            result = self.session.put(iPath, headers=self.headers, verify=False)
+        else:
+            result = self.session.put(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
+        d_response = json.loads(result.text)
+        print("response => " + str(d_response))
+        for k, v in d_var.items():
+            if "$." in str(v):
+                res_value = jsonpath.jsonpath(d_response, expr=v)
+                d_var[k] = res_value[0]
+        # print("\nparam => " + str(iParam))
+        # print("\nmethod => post")
+        # print("\n<font color='blue'>response => " + str(result.text) + "</font>")
+        # print("\nheaders => " + str(self.session.headers) + "\n")
+        res = result.text
+        try:
+            res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
             print(e.__traceback__)
         return res, d_var
@@ -160,7 +185,6 @@ class HTTP:
 
     def delete(self, iPath, iParam, d_var):
         ''' delete 请求'''
-
         iPath = protocol + "://" + ip + ":" + port + iPath
         print("request => " + str(iPath))
         if iParam == None:
@@ -176,16 +200,15 @@ class HTTP:
         res = result.text
         print("response => " + str(res))
         try:
-            res = res[res.find('{'):res.rfind('}')+1]
+            res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
             print(e.__traceback__)
         return res, d_var
 
-    def downFileGet(self, iPath, iParam, d_var):
 
+    def downFileGet(self, iPath, iParam, d_var):
         '''下载文件之get请求'''
         # 文件名放在 d_var中，格式：{'file': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/sfb.xlsx'
-
         iPath = protocol + "://" + ip + ":" + port + iPath
         print("request => " + str(iPath))
         # result = self.session.get(path, stream=True)
@@ -195,13 +218,11 @@ class HTTP:
             if chunk:
                 f.write(chunk)
         # d_var = json.loads(g_var)
-
         return None, d_var
 
+
     def downFilePost(self, iPath, iParam, d_var):
-
         '''下载文件之post请求'''
-
         iPath = protocol + "://" + ip + ":" + port + iPath
         print("request => " + str(iPath))
         self.headers = {"Content-Type": "application/json", "token": self.session.headers['token']}
@@ -212,10 +233,10 @@ class HTTP:
                 f.write(chunk)
         return None, d_var
 
-    def upFile(self, iPath, filePath ,d_var):
-        ''' 上传文件之post请求  '''
-       # 参考 http://www.manongjc.com/detail/23-edxwzduohhtlzhf.html
 
+    def upFile(self, iPath, filePath, d_var):
+        ''' 上传文件之post请求  '''
+        # 参考 http://www.manongjc.com/detail/23-edxwzduohhtlzhf.html
         x = os.path.split(filePath)
         m = MultipartEncoder(fields={'file': (x[1], open(filePath, 'rb'), 'text/plain')})
         self.headers = {'Content-Type': m.content_type, }
@@ -237,9 +258,8 @@ class HTTP:
         return res, d_var
 
 
-
     # 定义断言相等的关键字，用来判断json的key对应的值和期望相等。
-    def assertequals(self,jsonpaths,value):
+    def assertequals(self, jsonpaths, value):
         res = 'None'
         try:
             res = str(jsonpath.jsonpath(self.jsonres, jsonpaths)[0])
@@ -254,16 +274,17 @@ class HTTP:
             return False
 
     # 给头添加一个键值对的关键字
-    def addheader(self,key,value):
+    def addheader(self, key, value):
         value = self.__getparams(value)
         self.session.headers[key] = value
         return True
+
     # 88-93
     #
     #     return True
 
     # 定义保存一个json值为参数的关键字
-    def savejson(self,key,p):
+    def savejson(self, key, p):
         res = ''
         try:
             res = self.jsonres[key]
@@ -273,12 +294,12 @@ class HTTP:
         return True
 
     # 获取参数里面的值
-    def __getparams(self,s):
+    def __getparams(self, s):
         for key in self.params:
-            s = s.replace('{' + key +'}',self.params[key])
+            s = s.replace('{' + key + '}', self.params[key])
         return s
 
-    def __strTodict(self,s):
+    def __strTodict(self, s):
         '''
         字符型键值队格式 转 字典类型
         :param s: username=will&password=123456
@@ -289,7 +310,7 @@ class HTTP:
         param = s.split('&')
         for ss in param:
             p = ss.split('=')
-            if len(p)>1:
+            if len(p) > 1:
                 httpparam[p[0]] = p[1]
             else:
                 httpparam[p[0]] = ''
@@ -342,6 +363,7 @@ class HTTP:
         file.close()
         attachment.add_header('Content-Disposition', 'attachment', filename=os.path.basename(attachmentFilePath))
         return attachment
+
     def sendemail(self, subject, text, *attachmentFilePaths):
         gmailUser = 'skducn@163.com'
         gmailPassword = 'jinhao123'
@@ -364,6 +386,7 @@ class HTTP:
         mailServer.sendmail(gmailUser, recipient, msg.as_string())
         mailServer.close()
         print('Sent email to %s' % recipient)
+
     def send1(self):
 
         import smtplib
@@ -391,4 +414,3 @@ class HTTP:
         smtpObj.login(mail_user, mail_pass)
         smtpObj.sendmail(sender, receivers, message.as_string())
         print("邮件发送成功")
-
