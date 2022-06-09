@@ -23,22 +23,33 @@ argvParam = sys.argv[1:3]
 
 # 如果没有参数，默认test环境
 if len(argvParam) == 0 :
-    print("语法：python run.py 参数1 参数2")
-    print("实例1： python run2.py all    // 执行后自动打开html报表，加载所有字段，如'路径,方法'。")
-    print("实例2： python run2.py nohtml  // 执行后不打开html报表")
-    print("实例3： python run2.py html  // 执行后自动打开html报表，加载部分字段")
+    print("实例1: 测试结束后发邮件（简化报表）, python run2.py email")
+    print("实例2: 测试结束后打开简化报表, python run2.py rpt1")
+    print("实例3: 测试结束后打开标准报表, python run2.py rpt2")
+    print("实例4: 测试结束后打开完整报表, python run2.py rpt3")
     sys.exit(0)
 elif len(argvParam) == 1:
-    if argvParam[0] == "html":
-        varReport = 1
-        varAll = 0
-    elif argvParam[0] == "nohtml":
-        varReport = 0
-        varAll = 0
-    elif argvParam[0] == "all":
-        varAll = 1
-        varReport = 1
+    if argvParam[0] == "email":
+        openRpt2 = "off"
+        sendEmail2 = "on"
+        varRptCol = "less"
+    elif argvParam[0] == "rpt1":
+        openRpt2 = "on"
+        sendEmail2 = "off"
+        varRptCol = "less"
+    elif argvParam[0] == "rpt2":
+        openRpt2 = "on"
+        sendEmail2 = "off"
+        varRptCol = "standard"
+    elif argvParam[0] == "rp3":
+        openRpt2 = "on"
+        sendEmail2 = "off"
+        varRptCol = "all"
     else:
+        print("实例1: 测试结束后发邮件（简化报表）, python run2.py email")
+        print("实例2: 测试结束后打开简化报表, python run2.py rpt1")
+        print("实例3: 测试结束后打开标准报表, python run2.py rpt2")
+        print("实例4: 测试结束后打开完整报表, python run2.py rpt3")
         sys.exit(0)
 else:
     sys.exit(0)
@@ -65,11 +76,16 @@ from PO.HtmlPO import *
 Html_PO = HtmlPO()
 
 localReadConfig = readConfig.ReadConfig()
+
+openRpt = localReadConfig.get_switch("openRpt")
+sendEmail = localReadConfig.get_switch("sendEmail")
+
 xlsName = localReadConfig.get_system("xlsName")
 rptName = localReadConfig.get_system("rptName")
 rptTitle = localReadConfig.get_system("rptTitle")
 xlsSheetName = localReadConfig.get_system("xlsSheetName")
 varAddresser = localReadConfig.get_email("varAddresser")
+
 varTo = localReadConfig.get_email("varTo")
 varCc = localReadConfig.get_email("varCc")
 if varCc != 'None':
@@ -87,7 +103,7 @@ varContent_html = localReadConfig.get_email("varContent_html")
 varHead_html = localReadConfig.get_email("varHead_html")
 varFoot_html = localReadConfig.get_email("varFoot_html")
 
-if localReadConfig.get_env("switchENV") == "test":
+if localReadConfig.get_env("env") == "test":
     db_ip = localReadConfig.get_test("db_ip")
     db_username = localReadConfig.get_test("db_username")
     db_password = localReadConfig.get_test("db_password")
@@ -368,10 +384,12 @@ if __name__ == '__main__':
 
     # 生成report.html
     # ['0编号', '1执行', '2类型', '3模块', '4名称', '5路径', '6方法', '7参数', '8担当者', '9i检查接口返回值', '10i结果', '11db检查表值', '12db结果', '13f检查文件', '14f结果', '15全局变量'，'16备注']
-    if varAll == 1:
+    if varRptCol == "all":
         df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[6], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[13], l_m[14], l_m[15], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
-    else:
+    elif varRptCol == "standard":
         df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
+    else:
+        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[10], l_m[12], l_m[14], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
 
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
@@ -416,20 +434,17 @@ if __name__ == '__main__':
     tf.write(str(html_text))
     tf.close()
 
-    if varReport == 1:
-        if platform.system() == 'Darwin':
-            os.system("open ./" + rptNameDate)
-        if platform.system() == 'Windows':
-            os.system("start ./" + rptNameDate)
 
-    # 邮件正文是文本
-    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
-    #                  "plain", varHead, varContent, varFoot,
-    #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
-    #                  )
+    # 判断是否打开报告
+    if openRpt2 == "on":
+        Sys_PO.openFile(rptNameDate)
 
-    # 邮件正文是html
-    Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
-                     "htmlFile", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html", varFoot_html,
-                     "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
-                     )
+
+    # 判断是否发邮件
+    if sendEmail2 == "on":
+        # 邮件正文是报告和附件报告
+        Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
+                         "htmlFile", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html",
+                         varFoot_html,
+                         "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
+                         )

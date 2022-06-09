@@ -10,6 +10,14 @@
 # pip3 install mysqlclient  (MySQLdb)
 # css样式（外链） https://blog.csdn.net/qq_38316655/article/details/104663077
 # css样式（内嵌） https://www.cnpython.com/qa/91356
+# 展开
+# 展开当前代码块ctrl =
+# 彻底展开当前代码块ctrl alt =
+# 展开所有代码块ctrl shift +
+# 折叠
+# 折叠当前代码块ctrl -
+# 彻底折叠当前代码块ctrl alt -
+# 折叠所有代码块ctrl shift -
 # *****************************************************************
 import sys, platform, json, jsonpath
 import reflection
@@ -40,11 +48,16 @@ from PO.HtmlPO import *
 Html_PO = HtmlPO()
 
 localReadConfig = readConfig.ReadConfig()
+
+openRpt = localReadConfig.get_switch("openRpt")
+sendEmail = localReadConfig.get_switch("sendEmail")
+
 xlsName = localReadConfig.get_system("xlsName")
 rptName = localReadConfig.get_system("rptName")
 rptTitle = localReadConfig.get_system("rptTitle")
 xlsSheetName = localReadConfig.get_system("xlsSheetName")
 varAddresser = localReadConfig.get_email("varAddresser")
+
 varTo = localReadConfig.get_email("varTo")
 varCc = localReadConfig.get_email("varCc")
 if varCc != 'None':
@@ -62,7 +75,7 @@ varContent_html = localReadConfig.get_email("varContent_html")
 varHead_html = localReadConfig.get_email("varHead_html")
 varFoot_html = localReadConfig.get_email("varFoot_html")
 
-if localReadConfig.get_env("switchENV") == "test":
+if localReadConfig.get_env("env") == "test":
     db_ip = localReadConfig.get_test("db_ip")
     db_username = localReadConfig.get_test("db_username")
     db_password = localReadConfig.get_test("db_password")
@@ -86,6 +99,7 @@ Mysql_PO.xlsx2db(xlsName, db_table, sheet_name=xlsSheetName)
 l_m = Mysql_PO.getTableField(db_table)
 # print(l_m)
 
+
 class Run:
 
     def __init__(self):
@@ -103,7 +117,6 @@ class Run:
         # Mysql_PO.execQuery("update %s set i返回值=null" % (db_table))
         # Mysql_PO.execQuery("update %s set i结果=null" % (db_table))
         # Mysql_PO.execQuery("update %s set s结果=null" % (db_table))
-
 
     def result(self, indexs, iName, iPath, iMethod, iParam, iCheck, dbCheck, fCheck, g_var):
 
@@ -298,7 +311,6 @@ class Run:
         print("global_var => " + str(self.d_tmp))
         # print("<font color='purple'>globalVar => " + str(self.d_tmp) + "</font>")
 
-
     def setDb(self, varCheck, id, varStatus, varMemo):
 
         ''' 写入数据库 '''
@@ -343,7 +355,7 @@ if __name__ == '__main__':
 
     # 生成report.html
     # ['0编号', '1执行', '2类型', '3模块', '4名称', '5路径', '6方法', '7参数', '8担当者', '9i检查接口返回值', '10i结果', '11db检查表值', '12db结果', '13f检查文件', '14f结果', '15全局变量'，'16备注']
-    df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
+    df = pd.read_sql(sql="select %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(rptTitle) + '''</title></head>
@@ -387,19 +399,16 @@ if __name__ == '__main__':
     tf.write(str(html_text))
     tf.close()
 
-    if platform.system() == 'Darwin':
-        os.system("open ./" + rptNameDate)
-    if platform.system() == 'Windows':
-        os.system("start ./" + rptNameDate)
 
-    # 邮件正文是文本
-    # Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
-    #                  "plain", varHead, varContent, varFoot,
-    #                  "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
-    #                  )
+    # 判断是否打开报告
+    if openRpt == "on":
+        Sys_PO.openFile(rptNameDate)
 
-    # 邮件正文是html
-    Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
+
+    # 判断是否发邮件
+    if sendEmail == "on":
+        # 邮件正文是报告和附件报告
+        Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
                      "htmlFile", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html", varFoot_html,
                      "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
                      )
