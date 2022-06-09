@@ -37,6 +37,10 @@ class ReadConfig:
         value = self.cf.get("ENV", name)
         return value
 
+    def get_switch(self, name):
+        value = self.cf.get("SWITCH", name)
+        return value
+
     def get_system(self, name):
         value = self.cf.get("SYSTEM", name)
         return value
