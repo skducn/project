@@ -167,7 +167,7 @@ class NetPO():
         smtp.login("skducn@163.com", "MKOMAGNTQDECWXFI")
         smtp.sendmail("skducn@163.com", reciver, msg.as_string())
         smtp.quit()
-        print(u"邮件已发送给：" + str(reciver) + "")
+        print(u"\n邮件已发送给：" + str(reciver) + "")
 
 
 
