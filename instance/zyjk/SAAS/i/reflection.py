@@ -7,6 +7,9 @@
 # 对于任意一个对象,都能够调用它的任意方法和属性;
 # 这种动态获取信息以及动态调用对象方法的功能称为面向对象语言的反射机制.
 # getattr() 函数用于返回一个对象属性值。
+
+# res, d_var = reflection.run([iName, iPath, iMethod, iQueryParam, iParam, d_var])
+
 #****************************************************************
 
 import sys, inspect
@@ -28,11 +31,12 @@ def run(line):
     if l == 0:
         return func()
     elif l == 2:
-        return func(line[1], line[3])  # [iPath, iParam]
+        return func(line[1], line[3])  # [iPath, iQueryParam]
     elif l == 3:
-        return func(line[1], line[3], line[4])  # [iPath, iParam, g_var]
-    # elif l == 4:
-    #     return func(line[2],line[3],line[4],line[5])
+        return func(line[1], line[3], line[4])  # [iPath, iQueryParam, iParam]
+    elif l == 4:
+        return func(line[1], line[3], line[4], line[5])  # [iPath, iQueryParam, iParam, d_var]
+
 
 
 

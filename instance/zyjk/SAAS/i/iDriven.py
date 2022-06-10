@@ -66,7 +66,7 @@ class HTTP:
 
 
 
-    def header(self, iPath, iParam, d_var):
+    def header(self, iPath, iQueryParam, iParam, d_var):
 
         '''  请求方式 header，用于设置header值 '''
 
@@ -75,7 +75,7 @@ class HTTP:
         print("headers => " + str(self.session.headers))
 
 
-    def token(self, iPath, iParam, d_var):
+    def token(self, iPath, iQueryParam, iParam, d_var):
 
         '''  请求方式 post，用于登录后将token加入header '''
 
@@ -106,19 +106,24 @@ class HTTP:
             return res, d_var
 
 
-    def get(self, iPath, iParam, d_var):
+    def get(self, iPath, iQueryParam, iParam, d_var):
 
         ''' 请求方式 get '''
 
-        if iParam == None:
-            path = protocol + "://" + ip + ":" + port + iPath
-            # print("request => " + str(path))
-            result = self.session.get(path, data=None)
+        # query参数
+        if iQueryParam != None and iParam == None:
+            path = protocol + "://" + ip + ":" + port + iPath + "?" + iQueryParam
+            print("request => " + str(path))
+            result = self.session.get(path, headers=self.headers, verify=False)
+        # elif iQueryParam == None and iParam != None:
+        #     iPath = protocol + "://" + ip + ":" + port + iPath + "?" + iParam
+        #     result = self.session.get(iPath, headers=self.headers, verify=False)
+        #     print("request => " + str(iPath))
+        #     # print("param => " + str(iParam))
         else:
-            iPath = protocol + "://" + ip + ":" + port + iPath + "?" + iParam
-            result = self.session.get(iPath, headers=self.headers, verify=False)
-            # print("request => " + str(iPath))
-            # print("param => " + str(iParam))
+            path = protocol + "://" + ip + ":" + port + iPath
+            result = self.session.get(path, data=None)
+
         d_response = json.loads(result.text)
 
         for k, v in d_var.items():
@@ -137,15 +142,15 @@ class HTTP:
         return res, d_var
 
 
-    def post(self, iPath, iParam, d_var):
+    def post(self, iPath, iQueryParam, iParam, d_var):
 
         ''' 请求方式 post '''
 
-        iPath = protocol + "://" + ip + ":" + port + iPath
+        path = protocol + "://" + ip + ":" + port + iPath
         if iParam == None:
-            result = self.session.post(iPath, data=None)
+            result = self.session.post(path, data=None)
         else:
-            result = self.session.post(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
+            result = self.session.post(path, headers=self.headers, json=json.loads(iParam), verify=False)
         d_response = json.loads(result.text)
         for k, v in d_var.items():
             if "$." in str(v):
@@ -164,16 +169,30 @@ class HTTP:
         return res, d_var
 
 
-    def put(self, iPath, iParam, d_var):
+    def put(self, iPath, iQueryParam, iParam, d_var):
 
         ''' 请求方式 put '''
 
-        iPath = protocol + "://" + ip + ":" + port + iPath
-        if iParam == None:
-            result = self.session.put(iPath, headers=self.headers, verify=False)
+        # query参数
+        if iQueryParam != None and iParam == None:
+            path = protocol + "://" + ip + ":" + port + iPath + "?" + iQueryParam
+            print("request => " + str(path))
+            result = self.session.put(path, headers=self.headers, verify=False)
+        elif iQueryParam == None and iParam != None:
+            path = protocol + "://" + ip + ":" + port + iPath
+            result = self.session.put(path, headers=self.headers, json=json.loads(iParam), verify=False)
         else:
-            result = self.session.put(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
+            path = protocol + "://" + ip + ":" + port + iPath
+            result = self.session.put(path, data=None)
+
         d_response = json.loads(result.text)
+
+        # iPath = protocol + "://" + ip + ":" + port + iPath
+        # if iParam == None:
+        #     result = self.session.put(iPath, headers=self.headers, verify=False)
+        # else:
+        #     result = self.session.put(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
+        # d_response = json.loads(result.text)
         for k, v in d_var.items():
             if "$." in str(v):
                 res_value = jsonpath.jsonpath(d_response, expr=v)
@@ -187,7 +206,7 @@ class HTTP:
         return res, d_var
 
 
-    def delete(self, iPath, iParam, d_var):
+    def delete(self, iPath, iQueryParam, iParam, d_var):
 
         ''' 请求方式 delete '''
 
@@ -211,7 +230,7 @@ class HTTP:
         return res, d_var
 
 
-    def downFileGet(self, iPath, iParam, d_var):
+    def downFileGet(self, iPath, iQueryParam, iParam, d_var):
 
         ''' 请求方式 get 之下载文件 '''
 
@@ -228,7 +247,7 @@ class HTTP:
         return None, d_var
 
 
-    def downFilePost(self, iPath, iParam, d_var):
+    def downFilePost(self, iPath, iQueryParam, iParam, d_var):
 
         ''' 请求方式 post 之下载文件 '''
 
@@ -242,7 +261,7 @@ class HTTP:
         return None, d_var
 
 
-    def upFile(self, iPath, filePath, d_var):
+    def upFile(self, iPath, iQueryParam, filePath, d_var):
 
         ''' 请求方式 post 之上传文件 '''
 
