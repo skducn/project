@@ -85,12 +85,12 @@ class ExcelPO():
     def __init__(self, file):
         self.file = file
         # 判断是不是xlsx文件，如果是xls则转换成xlsx,同时删除xls文件
-        if str(self.file).split(".")[1] == "xls":
-            self.xls2xlsx(self.file)
-            self.file = str(self.file).replace(".xls", ".xlsx")
-            # 删除xls文件
-            File_PO.delFile(file)
-        self.wb = xlrd.open_workbook(self.file)
+        # if str(self.file).split(".")[1] == "xls":
+        #     self.xls2xlsx(self.file)
+        #     self.file = str(self.file).replace(".xls", ".xlsx")
+        #     # 删除xls文件
+        #     File_PO.delFile(file)
+        # self.wb = xlrd.open_workbook(self.file)
 
         # self.wb1 = load_workbook(self.file)
         # self.sheetNames = self.wb1.sheetnames
@@ -224,9 +224,9 @@ class ExcelPO():
             # 判断 varSheet 是数字还是字符
             if isinstance(varSheet, int):  # 判断是int类型
                 # 定位到相应sheet页,[0]为sheet页索引
-                sh = self.wb1[self.sheetNames[varSheet]]
+                sh = self.wb2[self.sheetNames[varSheet]]
             elif isinstance(varSheet, str):
-                sh = self.wb1[varSheet]
+                sh = self.wb2[varSheet]
             else:
                 print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             if varType == "col":
@@ -235,10 +235,35 @@ class ExcelPO():
             elif varType == "row":
                 for i in range(sh.max_row):
                     sh.cell(row=varNums + 1, column=i + 1, value="")  # 清除第row行的第col列
-            self.wb1.save(self.file)
+            self.wb2.save(self.file)
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
                 sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+    # 2.6 清空所有内容（for xlsx）
+    def clrAllValues(self, varSheet=0):
+
+        # try:
+        # 判断 varSheet 是数字还是字符
+        if isinstance(varSheet, int):  # 判断是int类型
+            # 定位到相应sheet页,[0]为sheet页索引
+            sh = self.wb2[self.sheetNames[varSheet]]
+        elif isinstance(varSheet, str):
+            sh = self.wb2[varSheet]
+        else:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+
+        print(sh.max_row)
+        for i in range(sh.max_row):
+            sh.cell(row=i+1, column=i+1, value="")
+
+        # sh.cell(row=3, column=3, value="")
+
+        self.wb2.save(self.file)
+        # except:
+        #     print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
+        #         sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
     # 3.1 获取所有工作表名
@@ -648,7 +673,7 @@ class ExcelPO():
 
 if __name__ == "__main__":
 
-    Excel_PO = ExcelPO("c:\\drugTemplet.xls")
+    Excel_PO = ExcelPO("ExcelPO/fold.xlsx")
 
     # Excel_PO = ExcelPO("d:\\1.xlsx")
     # Excel_PO.setCellColor(11, 7, "00E400")
@@ -660,7 +685,7 @@ if __name__ == "__main__":
 
 
     # print("1，新建excel（by openpyxl）".center(100, "-"))
-    Excel_PO.newExcel("d:\\123.xlsx")  # 新建excel，默认生成一个工作表Sheet1
+    # Excel_PO.newExcel("d:\\123.xlsx")  # 新建excel，默认生成一个工作表Sheet1
     # Excel_PO.newExcel("d:\\test1.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
     #
     # print("2.1 写操作（只支持.xlsx）".center(100, "-"))
@@ -687,10 +712,12 @@ if __name__ == "__main__":
     # Excel_PO.clrRowColValues("col", 3)  # 清空第4列
     # Excel_PO.clrRowColValues("col", 3, "mySheet3")  # 清空mySheet3的第4列
 
-
+    # print("2.6 清空所有内容".center(100, "-"))
+    Excel_PO.clrAllValues()
 
     # print("3.1 获取所有工作表名".center(100, "-"))
     # print(Excel_PO.l_getSheet())  # ['mySheet1', 'mySheet2', 'mySheet3']
+    # print(Excel_PO.l_getSheet()[1])  # ['mySheet1', 'mySheet2', 'mySheet3']
     #
     # print("3.2 获取单个工作表名".center(100, "-"))
     # print(Excel_PO.getSheet(0))  # mySheet1

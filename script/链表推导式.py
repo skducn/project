@@ -37,6 +37,8 @@ print([x.replace("名字", "name") for x in vec])  # ['我的name', '你的name'
 print("4，批量替换列表值".center(100, "-"))
 abc = [['abc\n'], ['cde\n'], ['def\n']]
 print([[x[i].replace("\n", "") for i in range(1)] for x in abc])  # [['abc'], ['cde'], ['def']]
+abc = [['abc\n','555\n'], ['cde\n', '\nbaidu'], ['def\n','te\nst']]
+print([[x[i].replace("\n", "") for i in range(2)] for x in abc])  # [['abc', '555'], ['cde', 'baidu'], ['def', 'test']]
 abc = ['abc\n', 'cde\n', 'def\n']
 print([x.replace("\n", "") for x in abc])  # ['abc', 'cde', 'def']
 abc = ['a\tbc\n', 'cde\n', 'def\n']
@@ -52,7 +54,7 @@ print("6，两个列所有值乘积（相加）后的列".center(100, "-"))
 vec1 = [2, 4, 6]
 vec2 = [4, 3, -9]
 print([x * y for x in vec1 for y in vec2])  # [8, 6, -18, 16, 12, -36, 24, 18, -54]
-print([x+y for x in vec1 for y in vec2])  # [6, 5, -7, 8, 7, -5, 10, 9, -3]
+print([x + y for x in vec1 for y in vec2])  # [6, 5, -7, 8, 7, -5, 10, 9, -3]
 print([vec1[i]*vec2[i] for i in range(len(vec1))])  # [8, 12, -54]
 
 
@@ -71,10 +73,6 @@ print("9，输出 1-9 的2次方值".center(100, "-"))
 print([x ** 2 for x in range(1, 10)])  # # [1, 4, 9, l_s4, 25, 36, 49, 64, 81]
 
 
-print("10，找出100以内的能够被3整除的正整数".center(100, "-"))
-print([n for n in range(1, 100) if n % 3 == 0])  # [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99]
-
-
 print("11，range对象转列表".center(100, "-"))
 print(list(range(1, 5)))  # [1, 2, 3, 4]
 
@@ -86,10 +84,10 @@ print(reduce(lambda x, y: x * y, range(1, 11)))  # 3628800
 print("13，将字典key与value互换".center(100, "-"))
 a_dict = {'a': 1, 'b': 2, 'c': 3}
 print({value: key for key, value in a_dict.items()})   # {1: 'a', 2: 'b', 3: 'c'}
-print([value for key, value in a_dict.items() if key == 'c'][0])   #  3
+print([value for key, value in a_dict.items() if key == 'c'])   #  [3]
 
 
-print("14，获取某个元素的index值".center(100, "-"))
+print("14，获取元素的index值".center(100, "-"))
 list1 = [2019, 2018, 2017, 2016]
-print([list1.index(x) for x in list1 if x == 2017][0])
+print([list1.index(x) for x in list1 if x == 2017][0])  # 2
 

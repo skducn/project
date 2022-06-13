@@ -382,7 +382,7 @@ if __name__ == "__main__":
 
     # 获取当前日期年月日时分秒
     # print(Time_PO.getDate())  # 20200319
-    # print(Time_PO.getDateByMinus())  # 2020-03-19
+    print(Time_PO.getDateByMinus())  # 2020-03-19
     # print(Time_PO.getDateByDivide())  # 2020/03/19
     # print(Time_PO.getDateTime())  # 20200319151928
     # print(Time_PO.getDateTimeByDivide())  # 2020/03/19 15:19:28
