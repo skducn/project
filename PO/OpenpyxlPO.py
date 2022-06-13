@@ -107,6 +107,9 @@ class OpenpyxlPO():
         # self.wb.properties  # 获取文档的元数据，如标题，创建者，创建日期等
         # self.wb.active = 0  # 通过索引值设置当前活跃的worksheet
 
+    def getSheets(self):
+        return self.wb.sheetnames
+
     def sh(self, varSheet):
         if isinstance(varSheet, int):
             sh = self.wb[self.wb.sheetnames[varSheet]]
@@ -916,7 +919,11 @@ if __name__ == "__main__":
 
     Sys_PO.killPid('EXCEL.EXE')
 
-    Openpyxl_PO = OpenpyxlPO("./data/loanStats.xlsx")
+    Openpyxl_PO = OpenpyxlPO("ExcelPO/fold.xlsx")
+    Openpyxl_PO.delSheet("南京")
+    Openpyxl_PO.addSheetCover("mySheet1", 1)   # 当index足够大时，则在最后一个位置添加工作表
+
+    print(Openpyxl_PO.getSheets())
 
     # print("1.1 新建excel ".center(100, "-"))
     # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
@@ -1022,7 +1029,7 @@ if __name__ == "__main__":
     # print(Openpyxl_PO.getCoordinate(2, 5))   # E2
 
     # print("3.8 获取工作表数据的坐标".center(100, "-"))
-    print(Openpyxl_PO.getdimensions())  # A1:E17
+    # print(Openpyxl_PO.getdimensions())  # A1:E17
 
 
     # print("4.1 清空行".center(100, "-"))

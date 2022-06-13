@@ -54,23 +54,23 @@ class NewexcelPO():
         1.1 新建excel(覆盖)
         :param varFileName: 文件名
         :param varSheetName: N个工作表
-        # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
-        # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
+        # NewexcelPO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
+        # NewexcelPO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
         # 注意：如果文件已存在则会先删除后再新建！
         '''
 
-        try:
-            wb = openpyxl.Workbook()
-            ws = wb.active
-            if len(varSheetName) == 0:
-                ws.title = "Sheet1"
-            else:
-                ws.title = varSheetName[0]
-            for i in range(1, len(varSheetName)):
-                wb.create_sheet(varSheetName[i])
-            wb.save(varFileName)
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+        # try:
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        if len(varSheetName) == 0:
+            ws.title = "Sheet1"
+        else:
+            ws.title = varSheetName[0]
+        for i in range(1, len(varSheetName)):
+            wb.create_sheet(varSheetName[i])
+        wb.save(varFileName)
+        # except:
+        #     print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def open(self, file):
         if platform.system() == 'Darwin':
@@ -83,9 +83,10 @@ if __name__ == "__main__":
     Sys_PO.killPid('EXCEL.EXE')
 
     # 新建excel，默认生成一个工作表Sheet1
-    Newexcel_PO = NewexcelPO("./OpenpyxlPO/KILL.xlsx", "mySheet1", "mySheet2", "mySheet3")
+    # Newexcel_PO = NewexcelPO("./ExcelPO/KILL.xlsx", "mySheet1", "mySheet2", "mySheet3")
+    Newexcel_PO = NewexcelPO("./ExcelPO/KILL.xlsx")
 
-    Newexcel_PO.open("./OpenpyxlPO/KILL.xlsx")
+    # Newexcel_PO.open("./OpenpyxlPO/KILL.xlsx")
 
 
 

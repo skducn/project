@@ -7,6 +7,7 @@
 # 如： foo.bar().baz() 连续执行2个方法
 # 注意，方法链的一个限制是，只能用在不需要返回其他值的方法上，因为你需要返回 self 对象。即使Python支持用一个 return 语句返回多个值，也可能无法解决这个问题。
 # *****************************************************************
+import copy
 
 class Person:
     def name(self, value):
@@ -21,10 +22,8 @@ class Person:
         print("Hello, my name is", self.name, "and I am", self.age, "years old.")
 
 person = Person()
-person.name("EarlGrey").age(21).introduce()
+person.name("EarlGrey").age(21).introduce()  # Hello, my name is EarlGrey and I am 21 years old.
 
-
-import copy
 
 class StringProcessor(object):
     '''

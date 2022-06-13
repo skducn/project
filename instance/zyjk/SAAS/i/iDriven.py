@@ -72,6 +72,7 @@ class HTTP:
 
         for k, v in d_var.items():
             self.session.headers[k] = str(v)
+        # self.session.headers.update({'x-test': 'true'})  # 更新表头
         print("headers => " + str(self.session.headers))
 
 

@@ -9,9 +9,22 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-s = "tet"
+# l = ['baidu','taobao']
+# if 'baidu' in l :
+#     print("121212")
 
-print(s.split(","))
+def sum(x):
+
+    for i in range(1,10):
+        print(x)
+        x = x + 1
+        if x == 10:
+            sum(x)
+
+sum(1)
+
+# s = "tet"
+# print(s.split(","))  # ['tet']
 
 # # list0 =
 # if "kill" not in ['t','kill']:

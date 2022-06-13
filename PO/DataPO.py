@@ -56,7 +56,7 @@
 
 '''
 
-import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid, requests
+import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid, requests,datetime
 import random
 from datetime import date
 from datetime import timedelta
@@ -82,6 +82,46 @@ class DataPO():
     def autoPhone(self):
         prelist = ["130", "131", "132", "133", "134", "135", "136", "137", "138", "139", "147", "150", "151", "152", "153", "155", "156", "157", "158", "159", "186", "187", "188","199"]
         return random.choice(prelist) + "".join(random.choice("0123456789") for i in range(8))
+
+    def get_check_digit(self, id_number):
+        """通过身份证号获取校验码"""
+        check_sum = 0
+        for i in range(0, 17):
+            check_sum += ((1 << (17 - i)) % 11) * int(id_number[i])
+        check_digit = (12 - (check_sum % 11)) % 11
+        return check_digit if check_digit < 10 else 'X'
+
+    def generate_id(self, start="1950-01-01"):
+        """
+        随机生成身份证号，sex = 0表示女性，sex = 1表示男性
+        """
+
+        # 随机生成一个区域码(6位数)
+        # area_info = random.randint(0, len(addr))
+        # id_number = str(addr[area_info][0])
+        id_number = '110102'
+        # 限定出生日期范围(8位数),  从 start - 今天
+        end = str(date.today())
+        days = (datetime.datetime.strptime(end, "%Y-%m-%d") - datetime.datetime.strptime(start, "%Y-%m-%d")).days + 1
+        birth_days = datetime.datetime.strftime(
+            datetime.datetime.strptime(start, "%Y-%m-%d") + datetime.timedelta(random.randint(0, days)), "%Y%m%d"
+        )
+        id_number += str(birth_days)
+        # 顺序码(2位数)
+        id_number += str(random.randint(10, 99))
+        # 性别码(1位数)
+        id_number += str(random.randrange(random.randint(0,1), 10, step=2))
+        # 校验码(1位数)
+        check_sum = 0
+        for i in range(0, 17):
+            check_sum += ((1 << (17 - i)) % 11) * int(id_number[i])
+        check_digit = (12 - (check_sum % 11)) % 11
+        if check_digit < 10:
+            check_digit
+        else:
+            check_digit = "X"
+        return id_number + str(check_digit)
+
 
     # 3.1，随机生成身份证号
     def autoIdcard(self):
@@ -117,7 +157,7 @@ class DataPO():
         return id
 
     # 3.2，判断是否是有效身份证
-    def isIdcard(self, id_card):
+    def verify_id(self, id_card):
         # 判断是否是有效身份证
         # errors = ['验证通过!', '身份证号码位数不对!', '身份证号码出生日期超出范围或含有非法字符!', '身份证号码校验错误!', '身份证地区非法!']
         errors = [True, False, False, False, False]
@@ -190,13 +230,15 @@ class DataPO():
         else:
             return(errors[1])
 
+
+
     # 3.3，获取身份证的出生年月(只限大陆身份证)
     def getBirthday(self, varIdcard):
         # 获取身份证的出生年月(只限大陆身份证)
         # 先判断身份证是否有效，再获取身份证的出生年月(只限大陆身份证)
         # 如 getBirthday(getRandomIdcard())
         try:
-            if Data_PO.isIdcard(varIdcard) == True:
+            if Data_PO.verify_id(varIdcard) == True:
                 yearMonthDay = (varIdcard[6:10], varIdcard[10:12], varIdcard[12:14])
                 return yearMonthDay
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
@@ -209,7 +251,7 @@ class DataPO():
         # 先判断身份证是否有效，再获取身份证的年龄(只限大陆身份证)
         # 如 getAge('310101198004110014')
         try:
-            if Data_PO.isIdcard(varIdcard) == True:
+            if Data_PO.verify_id(varIdcard) == True:
                 Date = varIdcard[6:10] + "." + varIdcard[10:12] + "." + varIdcard[12:14]
                 Date = Date.split('.')
                 BirthDate = datetime.date(int(Date[0]), int(Date[1]), int(Date[2]))
@@ -244,7 +286,7 @@ class DataPO():
         # 先判断身份证是否有效，再获取身份证的性别(只限大陆身份证)
         # 如：getSex("310101198004110014")
         try:
-            if Data_PO.isIdcard(varIdcard) == True:
+            if Data_PO.verify_id(varIdcard) == True:
                 if (int(varIdcard[16:17]) % 2) == 0:
                     # print("{0} 是偶数".format(IdCard[16:17]))
                     return u"女"
@@ -588,10 +630,10 @@ if __name__ == '__main__':
     # print(Data_PO.autoPhone())  # 14790178656
     #
     # print("3.1，随机生成身份证号".center(100, "-"))
-    print(Data_PO.autoIdcard())   # 441427196909022802   // 随机生成身份证号
+    # print(Data_PO.autoIdcard())   # 441427196909022802   // 随机生成身份证号
     #
     # print("3.2，判断是否是有效身份证".center(100, "-"))
-    # print(Data_PO.isIdcard(Data_PO.autoIdcard()))
+    # print(Data_PO.verify_id(Data_PO.autoIdcard()))
     #
     # print("3.3，获取身份证的出生年月(只限大陆身份证)".center(100, "-"))
     # print(Data_PO.getBirthday(Data_PO.autoIdcard()))  # ('1965', '04', '16')
@@ -639,7 +681,7 @@ if __name__ == '__main__':
     # Data_PO.getURL("./DataPO/baidu.jpg")
 
     # print("12 获取国内高匿ip代理(ip代理池)".center(100, "-"))
-    print(Data_PO.getIpAgent())
+    # print(Data_PO.getIpAgent())
     #
     # # print("13.1 通过fake版本随机获取用户代理".center(100, "-"))
     # # print(Data_PO.getUserAgentFromFakeUrl("https://fake-useragent.herokuapp.com/browsers/0.1.11"))
@@ -660,4 +702,11 @@ if __name__ == '__main__':
     #
     # print("14 随机获取1-101之间的20个整数".center(100, "-"))
     # print(random.sample(range(1, 101), 20))  # random.sample()生成不相同的随机数
+
+    print(Data_PO.generate_id())
+
+    # print(Data_PO.get_check_digit("310101198004110014"))
+    # print(Data_PO.get_check_digit("410123198210235047"))
+    # print(Data_PO.get_check_digit("310115201911270276"))
+    print(Data_PO.verify_id("410123198210235047"))
 
