@@ -54,18 +54,18 @@ class HtmlPO:
             Sys_PO.outMsg("error",str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name,
                                sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
 
-    # 4，生成headers和proxies代理
-    def getHeadersProxies(self):
-        try:
-            self.headers = {'User-Agent': Data_PO.getUserAgent()}
-            # print(self.headers)
-            # self.headers = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'}
-            varIp = Data_PO.getIpAgent()
-            self.proxies = {str(varIp).split("://")[0]: str(varIp).split("://")[1]}
-            # print(self.proxies)
 
-        except:
-            Sys_PO.outMsg("warning", str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)
+    # 4.1 生成headers
+    def getHeaders(self):
+        return {'User-Agent': Data_PO.getUserAgent()}
+
+    # 4.2 生成proxies代理
+    def getProxies(self):
+        varIp = Data_PO.getIpAgent()
+        self.proxies = {str(varIp).split("://")[0]: varIp}
+        print(varIp)
+        return self.proxies
+
 
 
     # 5，获取json网页内容
@@ -79,10 +79,10 @@ class HtmlPO:
 
 
     # 6，解析session.get
-    def sessionGet(self, varUrl):
+    def sessionGet(self, varUrl, headers, proxies):
         try:
             self.session = requests.session()
-            ir = self.session.get(varUrl, headers=self.headers)
+            ir = self.session.get(varUrl, headers=headers, proxies=proxies)
             return ir
         except:
             Sys_PO.outMsg("error",str(sys._getframe(1).f_lineno), sys._getframe(1).f_code.co_name, sys._getframe().f_code.co_filename, sys._getframe(0).f_code.co_name)

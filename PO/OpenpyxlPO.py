@@ -417,7 +417,7 @@ class OpenpyxlPO():
                 for i in range(len(v)):
                     if v[i] != None:
                         sh.cell(row=k, column=i+1, value=v[i])
-            self.save()
+            # self.save()
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
@@ -615,13 +615,13 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-    def l_getRowValue(self, varSheet=0):
+    def l_getEachRow(self, varSheet=0):
         '''
         3.3 获取每行数据
         :param varSheet:
         :return:
-         # print(Openpyxl_PO.l_getRowValue())
-        # print(Openpyxl_PO.l_getRowValue("python"))
+         # print(Openpyxl_PO.l_getEachRow())
+        # print(Openpyxl_PO.l_getEachRow("python"))
         '''
 
         try:
@@ -637,13 +637,13 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-    def l_getColValue(self, varSheet=0):
+    def l_getEachCol(self, varSheet=0):
         '''
         3.4 获取每列数据
         :param varSheet:
         :return:
-        # print(Openpyxl_PO.l_getColValue())
-        # print(Openpyxl_PO.l_getColValue("python"))
+        # print(Openpyxl_PO.l_getEachCol())
+        # print(Openpyxl_PO.l_getEachCol("python"))
         '''
 
         try:
@@ -658,7 +658,6 @@ class OpenpyxlPO():
             return (l_allData)
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
-
 
     def l_getRowValueByPartCol(self, l_varCol, varSheet=0):
         '''
@@ -682,7 +681,6 @@ class OpenpyxlPO():
             return l_allData
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
-
 
     def l_getColValueByPartCol(self, l_varCol, l_varIgnoreRowNum, varSheet=0):
         '''
@@ -734,6 +732,23 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
                 sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+    def l_getOneRow(self, varRow, varSheet=0):
+        '''
+        3.9 获取某一行数据
+        :param varSheet:
+        :return:
+         # print(Openpyxl_PO.l_getOneRow(1))
+        # print(Openpyxl_PO.l_getOneRow("sheet"))
+        '''
+
+        list1 = []
+
+        sh = self.sh(varSheet)
+        row = [val for val in sh.rows][varRow]  # 获取第一行
+        for cel in row:
+            list1.append(cel.value)
+        return list1
 
 
 
@@ -920,10 +935,13 @@ if __name__ == "__main__":
     Sys_PO.killPid('EXCEL.EXE')
 
     Openpyxl_PO = OpenpyxlPO("ExcelPO/fold.xlsx")
-    Openpyxl_PO.delSheet("南京")
-    Openpyxl_PO.addSheetCover("mySheet1", 1)   # 当index足够大时，则在最后一个位置添加工作表
+    # Openpyxl_PO.delSheet("南京")
+    # Openpyxl_PO.addSheetCover("mySheet1", 1)   # 当index足够大时，则在最后一个位置添加工作表
 
-    print(Openpyxl_PO.getSheets())
+    # print(Openpyxl_PO.getSheets())
+
+    x= Openpyxl_PO.l_getOneRow(2,"北京")
+    print(x)
 
     # print("1.1 新建excel ".center(100, "-"))
     # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
@@ -1010,15 +1028,15 @@ if __name__ == "__main__":
 
 
     # print("3.3 获取每行数据".center(100, "-"))
-    # print(Openpyxl_PO.l_getRowValue())
-    # # print(Openpyxl_PO.l_getRowValue("python"))
+    # print(Openpyxl_PO.l_getEachRow())
+    # # print(Openpyxl_PO.l_getEachRow("python"))
     #
     # print("3.4 获取每列数据".center(100, "-"))
-    # print(Openpyxl_PO.l_getColValue())
-    # # print(Openpyxl_PO.l_getColValue("python"))
+    # print(Openpyxl_PO.l_getEachCol())
+    # # print(Openpyxl_PO.l_getEachCol("python"))
     #
     # print("3.5 获取指定列的行数据".center(100, "-"))
-    # print(Openpyxl_PO.l_getRowValueByPartCol([1, 2, 4]))   # 获取第1，2，4列的行数据
+    print(Openpyxl_PO.l_getRowValueByPartCol([2]))   # 获取第1，2，4列的行数据
     # # print(Openpyxl_PO.l_getRowValueByPartCol([1, 2, 4], -1))   # 获取最后一个工作表的第1，2，4列的行数据
     #
     # print("3.6 获取某些列的列数据，可忽略多行".center(100, "-"))
@@ -1034,7 +1052,7 @@ if __name__ == "__main__":
 
     # print("4.1 清空行".center(100, "-"))
     # # Openpyxl_PO.clsRow(2)  # 清空第2行
-    # # Openpyxl_PO.save()
+    # Openpyxl_PO.save()
     #
     # print("4.2 清空列".center(100, "-"))
     # # Openpyxl_PO.clsCol(2)  # 清空第2列
