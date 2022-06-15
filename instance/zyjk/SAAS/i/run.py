@@ -324,7 +324,9 @@ class Run:
 
         # 全局变量
         self.d_tmp = dict(self.d_tmp, **d_var)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
-        print("global_var => " + str(self.d_tmp))
+        # print("global_var => " + str(self.d_tmp))
+        Color_PO.consoleColor("31", "33", "global_var => " + str(self.d_tmp), "")
+
         # print("<font color='purple'>globalVar => " + str(self.d_tmp) + "</font>")
 
 

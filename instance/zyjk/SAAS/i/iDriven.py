@@ -43,7 +43,7 @@ class HTTP:
 
         self.session = requests.session()
         self.headers = {"Content-Type": "application/json"}
-        # self.headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        self.headersWWW = {"Content-Type": "application/x-www-form-urlencoded"}
 
         # self.session.headers['Content-type'] = 'application/x-www-form-urlencoded'
         # self.session.headers['User Agent'] = 'Mozilla/5.0 (Windows NT 10.0; …) Gecko/20100101 Firefox/64.0'   # 添加默认UA，模拟chrome浏览器
@@ -153,9 +153,14 @@ class HTTP:
         else:
             result = self.session.post(path, headers=self.headers, json=json.loads(iParam), verify=False)
         d_response = json.loads(result.text)
+        # print(d_response)
         for k, v in d_var.items():
             if "$." in str(v):
                 res_value = jsonpath.jsonpath(d_response, expr=v)
+                if res_value == False:
+                    print("Error, 返回值是False，无效的jsonpath")
+                    sys.exit(0)
+                # print(d_var[k],res_value)
                 d_var[k] = res_value[0]
         # print("param => " + str(iParam))
         # print("method => post")
@@ -186,6 +191,44 @@ class HTTP:
             path = protocol + "://" + ip + ":" + port + iPath
             result = self.session.put(path, data=None)
 
+        d_response = json.loads(result.text)
+
+        # iPath = protocol + "://" + ip + ":" + port + iPath
+        # if iParam == None:
+        #     result = self.session.put(iPath, headers=self.headers, verify=False)
+        # else:
+        #     result = self.session.put(iPath, headers=self.headers, json=json.loads(iParam), verify=False)
+        # d_response = json.loads(result.text)
+        for k, v in d_var.items():
+            if "$." in str(v):
+                res_value = jsonpath.jsonpath(d_response, expr=v)
+                d_var[k] = res_value[0]
+        res = result.text
+        print("response => " + str(d_response))
+        try:
+            res = res[res.find('{'):res.rfind('}') + 1]
+        except Exception as e:
+            print(e.__traceback__)
+        return res, d_var
+    def putWWW(self, iPath, iQueryParam, iParam, d_var):
+
+        ''' 请求方式 put '''
+
+        # self.headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        self.session.headers['Content-type'] = 'application/x-www-form-urlencoded'
+
+        # query参数
+        if iQueryParam != None and iParam == None:
+            path = protocol + "://" + ip + ":" + port + iPath + "?" + iQueryParam
+            print("request => " + str(path))
+            result = self.session.put(path, headers=self.headersWWW, verify=False)
+        elif iQueryParam == None and iParam != None:
+            path = protocol + "://" + ip + ":" + port + iPath
+            result = self.session.put(path, headers=self.headersWWW, json=json.loads(iParam), verify=False)
+        else:
+            path = protocol + "://" + ip + ":" + port + iPath
+            result = self.session.put(path, data=None)
+        print("headers => " + str(self.session.headers))
         d_response = json.loads(result.text)
 
         # iPath = protocol + "://" + ip + ":" + port + iPath
