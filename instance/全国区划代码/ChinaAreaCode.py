@@ -272,26 +272,54 @@ class ChinaAreaCodePO():
     def jixu(self, varProvince):
 
         sign = 0
+        l_last = []
         # 判断是否有参数的sheet
         for j in range(len(self.Openpyxl_PO.getSheets())):
             if varProvince == self.Openpyxl_PO.getSheets()[j]:
+                # 获取最后一条的行数
+                # print(self.Openpyxl_PO.l_getTotalRowCol(varProvince)[0])
+                varLastRow = self.Openpyxl_PO.l_getTotalRowCol(varProvince)[0]
+
                 # 获取最后一条记录内容
-                xx = self.Openpyxl_PO.l_getOneRow(self.Openpyxl_PO.l_getTotalRowCol(varProvince)[0]-1, varProvince)
-                print(xx)
-                print(xx[7])
-                b = self.Openpyxl_PO.l_getColValueByPartCol([4], [1], varProvince)
-                # print(b[0])
-                print([x for x in b[0] if x != None][-1])
-                # print(b)
-                self.getList([varProvince, [x for x in b[0] if x != None][-1], xx[5], xx[7]])
+                l_record = self.Openpyxl_PO.l_getOneRow(self.Openpyxl_PO.l_getTotalRowCol(varProvince)[0]-1, varProvince)
+                # print(l_record)  # [None, None, None, None, '320104', '秦淮区', '320104007', '洪武路街道', '320104007010', '王府园社区居委会']
+
+                # 获取市
+                province = self.Openpyxl_PO.l_getColValueByPartCol([4], [1], varProvince)
+                # print([x for x in province[0] if x != None][-1])
+                strProvince = ([x for x in province[0] if x != None][-1])
+
+                # 获取区
+                # print(l_record[5])
+
+                # 获取街道
+                # print(l_record[7])
+
+                # 获取居委会
+                # print(l_record[9])
+
+                l_last.append(varLastRow)
+                l_last.append(strProvince)
+                l_last.append(l_record[5])
+                l_last.append(l_record[7])
+                l_last.append( l_record[9])
+                break
+        print(l_last)
+                # self.getList([varProvince, [x for x in province[0] if x != None][-1], l_record[5], l_record[7]])
+
                 # 获取这个街道第一次出现的行号，删除所有此街道所有记录，插入此街道所有居委会
-                # print(self.Openpyxl_PO.l_getRowValueByPartCol([6], varProvince))
-                r = self.Openpyxl_PO.l_getRowValueByPartCol([8], varProvince)
-                print(r)
-                print([r.index(x)+1 for x in r if x == [xx[7]]][0])
-                op = [r.index(x)+1 for x in r if x == [xx[7]]][0]
-                self.Openpyxl_PO.delRow(op, 333)
-                self.Openpyxl_PO.save()
+                # r = self.Openpyxl_PO.l_getRowValueByPartCol([8], varProvince)
+                # print(r)
+
+
+                # # 定位到第一次出现街道名的行号
+                # print([r.index(x)+1 for x in r if x == [l_record[7]]][0])
+
+                # # 删除此行号
+                # op = [r.index(x)+1 for x in r if x == [l_record[7]]][0]
+                # # self.Openpyxl_PO.delRow(op, 333)
+                # # self.Openpyxl_PO.save()
+
                 # 插入后续记录
 
 
@@ -464,6 +492,35 @@ class ChinaAreaCodePO():
 
 
 
+
+    def update(self, varProvince):
+        sign = 0
+        # 判断是否有参数的sheet
+        for j in range(len(self.Openpyxl_PO.getSheets())):
+            if varProvince == self.Openpyxl_PO.getSheets()[j]:
+                # 删除参数sheet
+                self.Openpyxl_PO.delSheet(varProvince)
+                # 原位置插入参数sheet
+                self.Openpyxl_PO.addSheetCover(varProvince, j)
+                sign = 1
+                self.xx(varProvince)
+        if sign == 0 :
+            # 新增参数sheet
+            self.Openpyxl_PO.addSheetCover(varProvince, 0)
+            self.xx(varProvince)
+    def update2(self, varProvince):
+        sign = 0
+        # 判断是否有参数的sheet
+        for j in range(len(self.Openpyxl_PO.getSheets())):
+            if varProvince == self.Openpyxl_PO.getSheets()[j]:
+                sign = 1
+                self.xx2(varProvince)
+        if sign == 0 :
+            # 新增参数sheet
+            self.Openpyxl_PO.addSheetCover(varProvince, 0)
+            self.xx2(varProvince)
+
+
     def xx(self, varArea):
         # 抓取省份页面
         province_url = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/index.html"
@@ -502,23 +559,17 @@ class ChinaAreaCodePO():
                 # print(self.get_prefix(province_url)) # http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/
                 # s = 1
                 self.spider_next(self.s, self.get_prefix(province_url) + href, 2)
+    def xx2(self, varArea):
+        # 抓取省份页面
+        province_url = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/index.html"
+        province_list = self.get_html(province_url).select('tr.provincetr a')
+        # print(province_list)  # [<a href="11.html">北京市<br/></a>, <a href="12.html">天津市<br/></a>,
+        for province in province_list:
+            if province.text == varArea:
+                # print(self.get_prefix(province_url) + province.get("href"))
+                # print(self.s)
 
-    def update(self, varProvince):
-        sign = 0
-        # 判断是否有参数的sheet
-        for j in range(len(self.Openpyxl_PO.getSheets())):
-            if varProvince == self.Openpyxl_PO.getSheets()[j]:
-                # 删除参数sheet
-                self.Openpyxl_PO.delSheet(varProvince)
-                # 原位置插入参数sheet
-                self.Openpyxl_PO.addSheetCover(varProvince, j)
-                sign = 1
-                self.xx(varProvince)
-        if sign == 0 :
-            # 新增参数sheet
-            self.Openpyxl_PO.addSheetCover(varProvince, 0)
-            self.xx(varProvince)
-
+                self.spider_next2(self.s, self.get_prefix(province_url) + province.get("href"), 2)
 
     # 获取地址前缀（用于相对地址）
     def get_prefix(self, url):
@@ -618,6 +669,114 @@ class ChinaAreaCodePO():
                 # print(self.get_prefix(url)) # http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/31/01/
                 # print(item_href) # 01/310101015.html
                 self.spider_next(self.s, self.get_prefix(url) + item_href, lev + 1)
+    def spider_next2(self, s, url, lev):
+
+        print(s,url,lev)
+
+        if lev == 2:
+            spider_class = "city"
+        elif lev == 3:
+            spider_class = "county"
+        elif lev == 4:
+            spider_class = "town"
+        else:
+            spider_class = "village"
+
+        # print(url)
+        # print(spider_class)
+        # print(self.get_html(url).select("tr." + spider_class + "tr"))
+        for item in self.get_html(url).select("tr." + spider_class + "tr"):
+            # print(item)
+            # <tr class="citytr"><td><a href="32/3201.html">320100000000</a></td><td><a href="32/3201.html">南京市</a></td></tr>
+            item_td = item.select("td")
+            # print(item_td)
+            # [<td><a href="32/3201.html">320100000000</a></td>, <td><a href="32/3201.html">南京市</a></td>]
+            item_td_code = item_td[0].select_one("a")
+            # print(item_td_code)
+            # <a href="32/3201.html">320100000000</a>
+            item_td_name = item_td[1].select_one("a")
+            # print(item_td_name)
+            # <a href="32/3201.html">南京市</a>
+
+            # [94, '南京市', '秦淮区', '红花街道', None]
+
+
+            if item_td_code is None:
+                item_href = None
+                item_code = item_td[0].text
+                item_name = item_td[1].text
+                if lev == 5:
+                    item_name = item_td[2].text
+            else:
+                item_href = item_td_code.get("href")  # 31/3101.html
+                item_code = item_td_code.text  # 310100000000
+                item_name = item_td_name.text  # 市辖区
+
+            # if item_name == "南京市" or item_name == '秦淮区' or item_name == '红花街道':
+            #     pass
+            # sys.exit(0)
+            # 输出：级别、区划代码、名称
+            # content2 = str(lev) + "\t" + item_code + "\t" + item_name
+            # print(content2)
+            # print(self.listMain)
+            if lev == 2:
+                self.list1.append(None)
+                self.list1.append(None)
+                self.list1.append(item_code)
+                self.list1.append(item_name)
+            elif lev == 3:
+                # 区
+                self.list1.append(None)
+                self.list1.append(None)
+                self.list1.append(None)
+                self.list1.append(None)
+                self.list1.append(item_code[:6])
+                self.list1.append(item_name)
+                # print([x for x in self.list1 if x is not None])
+                self.l_county.append([x for x in self.list1 if x is not None])
+            elif lev == 4:
+                # 街道
+                self.list1.append(None)
+                self.list1.append(None)
+                self.list1.append(None)
+                self.list1.append(None)
+                for i in range(len(self.l_county)):
+                    if self.l_county[i][0] in item_code:
+                        self.list1.append(self.l_county[i][0])
+                        self.list1.append(self.l_county[i][1])
+                self.list1.append(item_code[:9])
+                self.list1.append(item_name)
+                self.l_street.append([x for x in self.list1 if x is not None])
+                # print(self.l_street)
+            elif lev == 5:
+                # 居委
+                self.list1.append(None)
+                self.list1.append(None)
+                self.list1.append(None)
+                self.list1.append(None)
+                for i in range(len(self.l_county)):
+                    if self.l_county[i][0] in item_code:
+                        self.list1.append(self.l_county[i][0])
+                        self.list1.append(self.l_county[i][1])
+                for i in range(len(self.l_street)):
+                    if self.l_street[i][2] in item_code:
+                        self.list1.append(self.l_street[i][2])
+                        self.list1.append(self.l_street[i][3])
+                self.list1.append(item_code)
+                self.list1.append(item_name)
+
+            self.s = self.s+1
+            print(self.s, self.list1)
+            # self.Openpyxl_PO.setRowValue({self.s: self.list1})
+            self.list1 = []
+
+            # sys.exit()
+
+            if item_href is not None:
+                # self.Openpyxl_PO.save()
+                # print(self.get_prefix(url)) # http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/31/01/
+                # print(item_href) # 01/310101015.html
+                self.spider_next2(self.s, self.get_prefix(url) + item_href, lev + 1)
 
 
 # 入口
@@ -634,13 +793,16 @@ if __name__ == '__main__':
     ChinaAreaCode_PO = ChinaAreaCodePO("123.xlsx")
 
     # 下载（覆盖）
-    ChinaAreaCode_PO.update("江苏省")
+    # ChinaAreaCode_PO.update("江苏省")
 
     # 断点续传，获取区列表，街道列表，居委会列表，从表格最后一条记录开始，与列表比对，并继续递归
     # ChinaAreaCode_PO.jixu("上海市")
     # ChinaAreaCode_PO.jixu("江苏省")
 
+    # ChinaAreaCode_PO.update2("江苏省")
+
+
     # 获取列表
     # ChinaAreaCode_PO.getList(["江苏省", '', ''])
     # ChinaAreaCode_PO.getList(["上海市", '市辖区', '浦东新区', ""])
-    # ChinaAreaCode_PO.getList(["江苏省", '常州市', '',''])
+    ChinaAreaCode_PO.getList(["江苏省", '常州市', '',''])
