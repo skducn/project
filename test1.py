@@ -9,19 +9,28 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
+d = {2: ['医患交流信息表接口', '群发消息-PC', '/saasuser/afPreoperativeCounselingInfo/addMassMessage', 'post', 'application/json', [{'in': 'body', 'name': 'chatVos', 'description': '数据对象', 'required': False, 'schema': {'type': 'array', 'items': {'$ref': '#/definitions/ChatVO'}}}]]}
+
+for k, v in d.items():
+    for i in range(len(v)):
+        if v[i] != None:
+            print(v[i])
+
+
+
 # l = ['baidu','taobao']
 # if 'baidu' in l :
 #     print("121212")
 
-def sum(x):
-
-    for i in range(1,10):
-        print(x)
-        x = x + 1
-        if x == 10:
-            sum(x)
-
-sum(1)
+# def sum(x):
+#
+#     for i in range(1,10):
+#         print(x)
+#         x = x + 1
+#         if x == 10:
+#             sum(x)
+#
+# sum(1)
 
 # s = "tet"
 # print(s.split(","))  # ['tet']

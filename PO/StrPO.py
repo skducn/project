@@ -201,7 +201,13 @@ if __name__ == "__main__":
     # print(Str_PO.str2list("123", ""))  # ['123']
     # print(Str_PO.str2list("123,"))  # [123]   // 当一个数字元素转列表，且转换后仍然是数字作为列表元素时，需在单个元素最后加上逗号
     # print(Str_PO.str2list("123"))  # ['123']
-    print(Str_PO.str2list("test"))  # ['test']
+    x = "[{'name': 'currentPage', 'in': 'query', 'description': '当前页码(必填)', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'docId', 'in': 'query', 'description': '医生id(当前登录用户id(必填))', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'itemId', 'in': 'query', 'description': '项目id(当前登录用户项目id(必填))', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'pageSize', 'in': 'query', 'description': '每页条数(必填)', 'required': True, 'type': 'integer', 'format': 'int32'}]"
+    print(Str_PO.str2list(x))  #
+    print(Str_PO.str2list(x)[0]['name'])  #
+
+
+
+    # print(Str_PO.str2list("test"))  # ['test']
     # print(Str_PO.str2list(121131313))  # None   //错误参数返回None
     # print(Str_PO.str2list())  # None   //无参数返回None
     #
