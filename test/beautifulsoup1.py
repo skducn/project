@@ -4,6 +4,8 @@
 # Created on : 2020-12-30
 # Description: beautifulsoup
 # https://cuiqingcai.com/1319.html
+# beautifulsoup官网：https://beautifulsoup.readthedocs.io/zh_CN/latest/
+# 使用方法：https://cuiqingcai.com/1319.html
 #***************************************************************
 
 import requests

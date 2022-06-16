@@ -411,15 +411,13 @@ class OpenpyxlPO():
         # Openpyxl_PO.setRowValue({7: ["你好", 12345, "7777"], 8: ["44", None, "777777777"]}, -1)  # 对最后一个sheet表，对第7，8行分别写入内容，如遇None则跳过该单元格
         '''
 
-        try:
-            sh = self.sh(varSheet)
-            for k, v in d_var.items():
-                for i in range(len(v)):
-                    if v[i] != None:
-                        sh.cell(row=k, column=i+1, value=v[i])
-            # self.save()
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+        sh = self.sh(varSheet)
+        for k, v in d_var.items():
+            for i in range(len(v)):
+                if v[i] != None:
+                    sh.cell(row=k, column=i + 1, value=str(v[i]))
+        # self.save()
+
 
     def setColValue(self, d_var, varSheet=0):
         '''

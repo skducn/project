@@ -3,7 +3,7 @@
 # Author        : John
 # Date          : 2021-11-15
 # Description   : saas高血压接口自动化
-# 接口文档：http://192.168.0.238:8001/swagger-ui.html
+# 接口文档：http://192.168.0.238:8801/doc.html
 # web页：
 # pip3 install jsonpath
 # pip3 install pymysql
