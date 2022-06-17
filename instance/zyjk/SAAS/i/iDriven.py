@@ -84,10 +84,10 @@ class HTTP:
         # print("request => " + str(path))
         # print("param => " + str(d_iParam))
         # print("method => post")
-        # print("<font color='blue'>response => " + str(result.text) + "</font>")
+        # print("<font color='blue'>res => " + str(result.text) + "</font>")
 
         res = result.text
-        print("response => " + str(res))
+        print("res => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -112,9 +112,9 @@ class HTTP:
                 else:
                     d_var[k] = res_value[0]
         # print("method => get")
-        # print("<font color='blue'>response => " + str(result.text) + "</font>")
+        # print("<font color='blue'>res => " + str(result.text) + "</font>")
         res = result.text
-        print("response => " + str(d_response))
+        print("res => " + str(d_response))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -141,7 +141,7 @@ class HTTP:
                 else:
                     d_var[k] = res_value[0]
         res = result.text
-        print("response => " + str(d_response))
+        print("res => " + str(d_response))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -156,7 +156,7 @@ class HTTP:
         else:
             result = self.session.delete(varUrl + iPath, headers={"Content-Type": iConsumes}, json=json.loads(iParam), verify=False)
         res = result.text
-        print("response => " + str(res))
+        print("res => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -204,12 +204,12 @@ class HTTP:
         self.jsonres = json.loads(result.text)
         # print("request => " + str(iPath))
         # print("upFile => " + str(filePath))
-        # print("<font color='blue'>response => " + str(result.text) + "</font>\n")
+        # print("<font color='blue'>res => " + str(result.text) + "</font>\n")
         # self.headers = {"Content-Type": "application/json"}
         # print("\nheaders => " + str(self.session.headers) + "\n")
         # d_var = json.loads(g_var)
         res = result.text
-        print("response => " + str(res))
+        print("res => " + str(res))
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
