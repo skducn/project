@@ -8,7 +8,7 @@
 # 这种动态获取信息以及动态调用对象方法的功能称为面向对象语言的反射机制.
 # getattr() 函数用于返回一个对象属性值。
 
-# res, d_var = reflection.run([iName, iPath, iMethod, iQueryParam, iParam, d_var])
+# res, d_var = reflection.run([iName, iPath, iMethod, iConsumes, iQueryParam, iParam, d_var])
 
 #****************************************************************
 
@@ -21,7 +21,11 @@ http = HTTP()
 def run(line):
 
     global http
+
+    # print(line[1])
+    # print(line[2])
     func = getattr(http, line[2])  # line[2] = iMethod
+    # print(func)
     args = inspect.getfullargspec(func).__str__()
     # FullArgSpec(args=['self', 'interURL', 'param'], varargs=None, varkw=None, defaults=None, kwonlyargs=[], kwonlydefaults=None, annotations={})
     args = args[args.find('args=') + 5:args.find(', varargs')]
@@ -36,7 +40,8 @@ def run(line):
         return func(line[1], line[3], line[4])  # [iPath, iQueryParam, iParam]
     elif l == 4:
         return func(line[1], line[3], line[4], line[5])  # [iPath, iQueryParam, iParam, d_var]
-
+    elif l == 5:
+        return func(line[1], line[3], line[4], line[5], line[6])  # [iPath, iConsumes, iQueryParam, iParam, d_var]
 
 
 
