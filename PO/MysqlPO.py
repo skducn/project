@@ -371,7 +371,7 @@ class MysqlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-    def xlsx2db(self, varExcelFile, varTable, usecols=None, nrows=None, skiprows=None, dtype=None, parse_dates=None, date_parser=None, converters=None, sheet_name=None):
+    def xlsx2db(self, varExcelFile, varTable, usecols=None, nrows=None, skiprows=None, dtype=None, parse_dates=None, date_parser=None, converters=None, sheet_name=None, index=False):
 
         '''
         4.4 excel导入数据库表(覆盖)
@@ -382,7 +382,7 @@ class MysqlPO():
 
         try:
             df = pd.read_excel(varExcelFile, usecols=usecols, nrows=usecols, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
-            df.to_sql(varTable, con=self.getMysqldbEngine(), if_exists='replace', index=False)
+            df.to_sql(varTable, con=self.getMysqldbEngine(), if_exists='replace', index=index)
         except Exception as e:
             print(e)
 
