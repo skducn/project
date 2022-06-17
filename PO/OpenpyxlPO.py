@@ -56,6 +56,8 @@ from PO.MysqlPO import *
 1.2 添加保留工作表  addSheet()
 1.3 添加覆盖工作表 addSheetCover()
 1.4 删除工作表  delSheet()
+1.5 切换工作表 switchSheet() 
+1.6 获取所有工作表 getSheet()
 
 2.1 初始化数据 initData()
 2.2 设置单元格行高与列宽 setCellDimensions()
@@ -100,9 +102,12 @@ class OpenpyxlPO():
 
         self.file = file
         self.wb = openpyxl.load_workbook(self.file)
-        self.wb.sheetnames  # 工作表名称
+        self.wb.sheetnames  # 工作表名称，如 ['北京', 'mySheet1', '上海']
         # self.wb.active  # 获取当前活跃的Worksheet对象
-        # self.wb.worksheets  # 以列表的形式返回所有的Worksheet对象
+        # print(self.wb.active)  # <Worksheet "北京">
+        # self.wb.worksheets  # 以列表的形式返回所有的Worksheet对象，如：[<Worksheet "北京">, <Worksheet "mySheet1">, <Worksheet "上海">]
+        # sh2 = self.wb['上海']
+        # print(sh2)
         # self.wb.encoding  # 获取文档的字符集编码
         # self.wb.properties  # 获取文档的元数据，如标题，创建者，创建日期等
         # self.wb.active = 0  # 通过索引值设置当前活跃的worksheet
@@ -241,7 +246,12 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-        # 21 初始化数据
+
+     # 1.5 qiehua切换工作表
+    def switchSheet(self, varSheet):
+
+        varSheet = self.wb[varSheet]
+        sh = self.sh(varSheet)
 
 
 
@@ -930,7 +940,7 @@ class OpenpyxlPO():
 
 if __name__ == "__main__":
 
-    Sys_PO.killPid('EXCEL.EXE')
+    # Sys_PO.killPid('EXCEL.EXE')
 
     Openpyxl_PO = OpenpyxlPO("ExcelPO/fold.xlsx")
     # Openpyxl_PO.delSheet("南京")
@@ -938,8 +948,8 @@ if __name__ == "__main__":
 
     # print(Openpyxl_PO.getSheets())
 
-    x= Openpyxl_PO.l_getOneRow(2,"北京")
-    print(x)
+    # x= Openpyxl_PO.l_getOneRow(2,"北京")
+    # print(x)
 
     # print("1.1 新建excel ".center(100, "-"))
     # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
@@ -1034,12 +1044,12 @@ if __name__ == "__main__":
     # # print(Openpyxl_PO.l_getEachCol("python"))
     #
     # print("3.5 获取指定列的行数据".center(100, "-"))
-    print(Openpyxl_PO.l_getRowValueByPartCol([2]))   # 获取第1，2，4列的行数据
+    # print(Openpyxl_PO.l_getRowValueByPartCol([2]))   # 获取第1，2，4列的行数据
     # # print(Openpyxl_PO.l_getRowValueByPartCol([1, 2, 4], -1))   # 获取最后一个工作表的第1，2，4列的行数据
     #
     # print("3.6 获取某些列的列数据，可忽略多行".center(100, "-"))
     # print(Openpyxl_PO.l_getColValueByPartCol([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
-    # # print(Openpyxl_PO.l_getColValueByPartCol([2], [], "python"))  # 获取第2列所有值。
+    print(Openpyxl_PO.l_getColValueByPartCol([2], [], "上海"))  # 获取第2列所有值。
 
     # print("3.7 获取单元格的坐标".center(100, "-"))
     # print(Openpyxl_PO.getCoordinate(2, 5))   # E2

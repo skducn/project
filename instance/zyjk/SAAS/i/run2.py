@@ -3,56 +3,32 @@
 # Author        : John
 # Date          : 2021-11-15
 # Description   : saas高血压接口自动化
-# 接口文档：http://192.168.0.238:8001/swagger-ui.html
+# 接口文档：http://192.168.0.238:8801/doc.html
 # web页：
 # pip3 install jsonpath
 # pip3 install pymysql
 # pip3 install mysqlclient  (MySQLdb)
 # css样式（外链） https://blog.csdn.net/qq_38316655/article/details/104663077
 # css样式（内嵌） https://www.cnpython.com/qa/91356
+# 展开
+# 展开当前代码块ctrl =
+# 彻底展开当前代码块ctrl alt =
+# 展开所有代码块ctrl shift +
+# 折叠
+# 折叠当前代码块ctrl -
+# 彻底折叠当前代码块ctrl alt -
+# 折叠所有代码块ctrl shift -
+# 参考：pandas之read_sql_query-params设置， https://zhuanlan.zhihu.com/p/281422144
+# 参考：颜色对照表，https://bbs.bianzhirensheng.com/color01.html
+# 参考 Python 通过Request上传(form-data Multipart)\下载文件, http://www.manongjc.com/detail/23-edxwzduohhtlzhf.html
 # *****************************************************************
 import sys, platform, json, jsonpath
 import reflection
 import readConfig as readConfig
 import pandas as pd
 
-sys.path.append("../../../../")
-
-# 参数切换 test dev 环境
-argvParam = sys.argv[1:3]
-
-# 如果没有参数，默认test环境
-if len(argvParam) == 0 :
-    print("实例1: 测试结束后发邮件（简化报表）, python run2.py email")
-    print("实例2: 测试结束后打开简化报表, python run2.py rpt1")
-    print("实例3: 测试结束后打开标准报表, python run2.py rpt2")
-    print("实例4: 测试结束后打开完整报表, python run2.py rpt3")
-    sys.exit(0)
-elif len(argvParam) == 1:
-    if argvParam[0] == "email":
-        openRpt2 = "off"
-        sendEmail2 = "on"
-        varRptCol = "less"
-    elif argvParam[0] == "rpt1":
-        openRpt2 = "on"
-        sendEmail2 = "off"
-        varRptCol = "less"
-    elif argvParam[0] == "rpt2":
-        openRpt2 = "on"
-        sendEmail2 = "off"
-        varRptCol = "standard"
-    elif argvParam[0] == "rp3":
-        openRpt2 = "on"
-        sendEmail2 = "off"
-        varRptCol = "all"
-    else:
-        print("实例1: 测试结束后发邮件（简化报表）, python run2.py email")
-        print("实例2: 测试结束后打开简化报表, python run2.py rpt1")
-        print("实例3: 测试结束后打开标准报表, python run2.py rpt2")
-        print("实例4: 测试结束后打开完整报表, python run2.py rpt3")
-        sys.exit(0)
-else:
-    sys.exit(0)
+# sys.path.append("../../../")
+sys.path.append("./")
 
 from PO.TimePO import *
 Time_PO = TimePO()
@@ -66,6 +42,7 @@ Color_PO = ColorPO()
 from PO.SysPO import *
 Sys_PO = SysPO()
 
+
 from PO.DictPO import *
 Dict_PO = DictPO()
 
@@ -75,17 +52,24 @@ Data_PO = DataPO()
 from PO.HtmlPO import *
 Html_PO = HtmlPO()
 
-localReadConfig = readConfig.ReadConfig()
 
+
+from ProjectI import *
+project_I = ProjectI()
+# Sys_PO.killPid('EXCEL.EXE')
+# project_I.getI("saasuser", "saas_interface_case2.xlsx")
+# project_I.getI("auth", "saas_interface_case2.xlsx")
+
+
+
+localReadConfig = readConfig.ReadConfig()
 openRpt = localReadConfig.get_switch("openRpt")
 sendEmail = localReadConfig.get_switch("sendEmail")
-
 xlsName = localReadConfig.get_system("xlsName")
 rptName = localReadConfig.get_system("rptName")
 rptTitle = localReadConfig.get_system("rptTitle")
 xlsSheetName = localReadConfig.get_system("xlsSheetName")
 varAddresser = localReadConfig.get_email("varAddresser")
-
 varTo = localReadConfig.get_email("varTo")
 varCc = localReadConfig.get_email("varCc")
 if varCc != 'None':
@@ -118,14 +102,31 @@ else:
     db_database = localReadConfig.get_dev("db_database")
     db_table = localReadConfig.get_test("db_table")
 
+
 from PO.MysqlPO import *
 Mysql_PO = MysqlPO(db_ip, db_username, db_password, db_database, db_port)
 
+from PO.OpenpyxlPO import *
+Openpyxl_PO = OpenpyxlPO(xlsName)
+
 # excel导入数据库表
-Mysql_PO.xlsx2db(xlsName, db_table, sheet_name=xlsSheetName)
+Mysql_PO.xlsx2db(xlsName, db_table, sheet_name=xlsSheetName, index=True)
+# 数据库index与excel编号一致
+Mysql_PO.execQuery('update %s set `index` = `index` + 2' % (db_table))
+
 # 获取表格字段列表
 l_m = Mysql_PO.getTableField(db_table)
 # print(l_m)
+# ['index', '执行', '类型', '模块', '接口名称', '用例名称', '路径', '方法', '方式', 'query参数', 'body参数', 'i检查接口返回值', 'i结果', 'db检查表值', 'db结果', 'f检查文件', 'f结果', '全局变量', '备注']
+
+# 获取列表的索引号
+def getIndex(l_m, varText):
+    for i in range(len(l_m)):
+        if l_m[i] == varText:
+            return i
+    print("error，列表中没有找到" + str(varText))
+    sys.exit(0)
+
 
 class Run:
 
@@ -134,109 +135,83 @@ class Run:
         # 全局字典
         self.d_tmp = {}
 
-
         # 执行用例
-        # 参考：https://zhuanlan.zhihu.com/p/281422144
-        self.df = pd.read_sql_query("select * from %s where %s is null " % (db_table, l_m[1]), Mysql_PO.getMysqldbEngine())
+        self.df = pd.read_sql_query("select * from %s where %s is null " % (db_table, l_m[getIndex(l_m, '执行')]), Mysql_PO.getMysqldbEngine())
 
 
-        # # 初始化数据，清空字段值（i返回值，i结果，s结果）
-        # Mysql_PO.execQuery("update %s set i返回值=null" % (db_table))
-        # Mysql_PO.execQuery("update %s set i结果=null" % (db_table))
-        # Mysql_PO.execQuery("update %s set s结果=null" % (db_table))
+    def _escape(self, var):
+
+        # 转义
+        if "{{" in var:
+            for k in self.d_tmp:
+                if "{{" + k + "}}" in var:
+                    var = str(var).replace("{{" + k + "}}", str(self.d_tmp[k]))
+        d_var = dict(eval(var))
+        # print(d_var)
+        for k, v in d_var.items():
+            # 其他封装函数返回内容转字符串，如str(Data_PO.autoNum(3))
+            if "str(" in str(v):
+                d_var[k] = eval(d_var[k])
+
+            if "select" in str(v) and "from" in str(v):
+                sql_value = Mysql_PO.execQuery(str(v))
+                d_var[k] = sql_value[0][0]
+        return d_var
+
+    def _escape2(self, var):
+
+        if "{{" in var:
+            for k in self.d_tmp:
+                if "{{" + k + "}}" in var:
+                    var = str(var).replace("{{" + k + "}}", str(self.d_tmp[k]))
+        return var
 
 
-    def result(self, indexs, iName, iPath, iMethod, iQueryParam, iParam, iCheck, dbCheck, fCheck, g_var):
+    def result(self, indexs, iName, iPath, iMethod, iConsumes, iQueryParam, iParam, iCheck, dbCheck, fCheck, g_var):
 
-        # 参数：数据库表里数据索引，名称，路径，方法，query参数，body参数，i检查接口返回值，s检查db表值, f检查文件, 全局变量
-        # 1, 初始化设置全局变量
+        # 字段：数据库表里数据索引, 4用例名称，5路径，6方法，7方式，8query参数，9body参数，10i检查接口返回值，11db检查表值, 12f检查文件, 13全局变量
+        # run.result(indexs, r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13])
+
+        d_var = {}
+
+
         if iName == "设置全局变量":
             if g_var != None:
-                # 转义全局变量
-                if "{{" in g_var:
-                    for k in self.d_tmp:
-                        if "{{" + k + "}}" in g_var:
-                            g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
-                d_var = dict(eval(g_var))
-                # print(d_var)
-                for k, v in d_var.items():
-                    # 其他封装函数返回内容转字符串，如str(Data_PO.autoNum(3))
-                    if "str(" in str(v):
-                        d_var[k] = eval(d_var[k])
-                    if "select" in v and "from" in v :
-                        sql_value = Mysql_PO.execQuery(v)
-                        d_var[k] = sql_value[0][0]
+                d_var = self._escape(g_var)
             else:
                 d_var = {}
+
         elif iName == "设置请求头":
-            if g_var != None:
-                # 转义全局变量
-                if "{{" in g_var:
-                    for k in self.d_tmp:
-                        if "{{" + k + "}}" in g_var:
-                            g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
-                d_var = dict(eval(g_var))
-                # print(d_var)
-                for k, v in d_var.items():
-                    # 其他封装函数返回内容转字符串，如str(Data_PO.autoNum(3))
-                    if "str(" in str(v):
-                        d_var[k] = eval(d_var[k])
-                    if "select" in v and "from" in v :
-                        sql_value = Mysql_PO.execQuery(v)
-                        d_var[k] = sql_value[0][0]
-                reflection.run([iName, iPath, iMethod, iQueryParam, iParam, d_var])
-            else:
-                d_var = {}
-
-
-        else:
-            # 2, 转义路径
-            if "{{" in iPath:
-                for k in self.d_tmp:
-                    if "{{" + k + "}}" in iPath:
-                        iPath = str(iPath).replace("{{" + k + "}}", str(self.d_tmp[k]))
-            # 3, 转义参数
-            if iQueryParam != None:
-                if "{{" in iQueryParam:
-                    for k in self.d_tmp:
-                        if "{{" + k + "}}" in iQueryParam:
-                            iQueryParam = str(iQueryParam).replace("{{" + k + "}}", str(self.d_tmp[k]))
-            # 3, 转义参数
             if iParam != None:
-                if "{{" in iParam:
-                    for k in self.d_tmp :
-                        if "{{" + k + "}}" in iParam:
-                            iParam = str(iParam).replace("{{" + k + "}}", str(self.d_tmp[k]))
-            # 4, 转义全局变量
-            if g_var != None:
-                if "{{" in g_var:
-                    for k in self.d_tmp:
-                        if "{{" + k + "}}" in g_var:
-                            g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
-                d_var = dict(eval(g_var))
-                for k, v in d_var.items():
-                    if "str(" in str(v):
-                        d_var[k] = eval(d_var[k])
-                    if "select" in v and "from" in v :
-                        sql_value = Mysql_PO.execQuery(v)
-                        d_var[k] = sql_value[0][0]
-            else:
-                d_var = {}
-            # 5, 转义i检查接口返回值
+                d_var2 = self._escape(iParam)
+                self.session = requests.session()
+                for k, v in d_var2.items():
+                    self.session.headers[k] = str(v)
+                    # self.session.headers.update({'x-test': 'true'})  # 更新表头
+                print("headers => " + str(self.session.headers))
+        else:
+
+            # 转义
+            if iQueryParam != None:
+                iQueryParam = self._escape2(iQueryParam)
+
+            if iParam != None:
+                iParam = self._escape2(iParam)
+
             if iCheck != None:
-                if "{{" in iCheck:
-                    for k in self.d_tmp:
-                        if "{{" + k + "}}" in iCheck:
-                            iCheck = str(iCheck).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
+                iCheck = self._escape2(iCheck)
+
+            if g_var != None:
+                d_var = self._escape(g_var)
 
 
             # 6, 输出当前变量
             if d_var != {}:
-                # print("curr_var => " + str(d_var))
-                Color_PO.consoleColor("31", "33", "curr_var => " + str(d_var), "")
+                print("c_var => " + str(d_var))
+                # Color_PO.consoleColor("31", "33", "c_var => " + str(d_var), "")
 
             # 7, 解析接口，获取返回值
-            res, d_var = reflection.run([iName, iPath, iMethod, iQueryParam, iParam, d_var])
+            res, d_var = reflection.run([iName, iPath, iMethod, iConsumes, iQueryParam, iParam, d_var])
 
             # 用于downFile情况
             if res == None:
@@ -351,9 +326,11 @@ class Run:
                     Color_PO.consoleColor("31", "31", "[Fail], 不存在或错误！", "")
 
         # 全局变量
-        self.d_tmp = dict(self.d_tmp, **d_var)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
-        print("global_var => " + str(self.d_tmp))
-        # print("<font color='purple'>globalVar => " + str(self.d_tmp) + "</font>")
+        if d_var != {}:
+            self.d_tmp = dict(self.d_tmp, **d_var)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
+            # print("g_var => " + str(self.d_tmp))
+            Color_PO.consoleColor("31", "33", "g_var => " + str(self.d_tmp), "")
+            # print("<font color='purple'>globalVar => " + str(self.d_tmp) + "</font>")
 
 
     def setDb(self, varCheck, id, varStatus, varMemo):
@@ -364,35 +341,68 @@ class Run:
         # 'i结果'
         if varCheck == "iCheck":
             if varStatus == "Ok":
-                self.df.update(pd.Series(varStatus, index=[id], name=l_m[11]))
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[getIndex(l_m, "i结果")]))
             else:
-                self.df.update(pd.Series(varStatus, index=[id], name=l_m[11]))
-                self.df.update(pd.Series(varMemo, index=[id], name=l_m[17]))  # '错误写入备注'
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[getIndex(l_m, "i结果")]))
+                self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "备注")]))
         elif varCheck == "dbCheck":
             if varStatus == "Ok":
-                self.df.update(pd.Series(varStatus, index=[id], name=l_m[13]))
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[getIndex(l_m, "db结果")]))
             else:
-                self.df.update(pd.Series(varStatus, index=[id], name=l_m[13]))
-                self.df.update(pd.Series(varMemo, index=[id], name=l_m[17]))  # '错误写入备注'
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[getIndex(l_m, "db结果")]))
+                self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "备注")]))
         elif varCheck == "fCheck":
             if varStatus == "Ok":
-                self.df.update(pd.Series(varStatus, index=[id], name=l_m[15]))
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[getIndex(l_m, "f结果")]))
             else:
-                self.df.update(pd.Series(varStatus, index=[id], name=l_m[15]))
-                self.df.update(pd.Series(varMemo, index=[id], name=l_m[17]))  # '错误写入备注'
+                self.df.update(pd.Series(varStatus, index=[id], name=l_m[getIndex(l_m, "f结果")]))
+                self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "备注")]))
 
 
 if __name__ == '__main__':
 
     run = Run()
-
     # 遍历用例
-    for indexs in run.df.index:
-        r = run.df.loc[indexs].values[0:]
-        Color_PO.consoleColor("31", "36", "\n" + str(r[0]) + ", " + str(r[3]) + " - " + str(r[4]) + " _" * 50, "")
+    for index in run.df.index:
+        r = run.df.loc[index].values[0:]
+        # print(r)
+        Color_PO.consoleColor("31", "36", "\n" + str(r[0]) + ", " + str(r[4]) + " - " + str(r[5]) + " - " + str(r[6]) + " _" * 50, "")
 
-        # 参数：indexs数据库表里数据索引，4名称，5路径，6方法，7query参数，8body参数，10i检查接口返回值，12db检查表值, 14f检查文件, 16全局变量
-        run.result(indexs, r[4], r[5], r[6], r[7], r[8], r[10], r[12], r[14], r[16])
+
+        l_paths_method_consumes = []
+
+        if r[3] == None:
+            r3 = "saasuser"
+        else:
+            r3 = r[3]
+
+        if r[6] == "设置全局变量" or r[6] == "设置请求头":
+            run.result(index, r[6], "", "", "",  r[7], r[8], r[9], r[11], r[13], r[15])  # 读取数据库里的内容
+        elif r[4] == "" or r[5] == "":
+            Color_PO.consoleColor("31", "31", "[warning], excel表格的第" + str(index) + "缺少模块或接口名称，程序中断！", "")
+            # print("[warning], excel表格的第" + str(index) + "缺少模块或接口名称，程序中断！")
+            sys.exit()
+        else:
+            list1 = Openpyxl_PO.l_getColValueByPartCol([1,2,3,4,5], [], r3)
+            # print(r[3])
+            # print(r3)
+            # print(list1)
+            for i in range(len(list1[0])):
+                if list1[0][i] == r[4] and list1[1][i] == r[5]:
+                    l_paths_method_consumes.append(list1[2][i])
+                    l_paths_method_consumes.append(list1[3][i])
+                    l_paths_method_consumes.append(list1[4][i])
+                    break
+
+            # 字段：index, 5用例名称，6路径，7方法，8方式，9query参数，10body参数，11i检查接口返回值，13db检查表值, 15f检查文件, 17全局变量
+            if l_paths_method_consumes != []:
+                # print(index, r[6], l_paths_method_consumes[0], l_paths_method_consumes[1], l_paths_method_consumes[2],  r[7], r[8], r[9], r[11], r[13], r[15])
+                run.result(index, r[6], l_paths_method_consumes[0], l_paths_method_consumes[1], l_paths_method_consumes[2],  r[7], r[8], r[9], r[11], r[13], r[15])  # 读取数据库里的内容
+            else:
+                Color_PO.consoleColor("31", "31", "[warning], excel表格的第" + str(index) + "模块或接口名称有错误，程序中断！", "")
+                # print("[warning], excel表格的第" + str(index) + "模块或接口名称有错误，程序中断！")
+                sys.exit()
+
         # pd.set_option('display.max_columns', None)  //显示所有列
         # run.df.loc[indexs]['i返回值'] = ""   # 不写入，因为内容过多表里可能报错
 
@@ -400,17 +410,15 @@ if __name__ == '__main__':
 
     # 生成report.html
     # ['0编号', '1执行', '2类型', '3模块', '4名称', '5路径', '6方法', '7query参数'，'8body参数', '9担当者', '10i检查接口返回值', '11i结果', '12db检查表值', '13db结果', '14f检查文件', '15f结果', '16全局变量'，'17备注']
-    if varRptCol == "all":
-        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[6], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[13], l_m[14], l_m[15], l_m[16], l_m[17], db_table), con=Mysql_PO.getPymysqlEngine())
-    elif varRptCol == "standard":
-        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[8], l_m[11], l_m[13], l_m[15], l_m[16], l_m[17], db_table), con=Mysql_PO.getPymysqlEngine())
-    else:
-        df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[11], l_m[13], l_m[15], l_m[17], db_table), con=Mysql_PO.getPymysqlEngine())
+    # df = pd.read_sql(sql="select %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
+    # df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[11], l_m[13], l_m[15], l_m[17], db_table), con=Mysql_PO.getPymysqlEngine())
 
+    # ['编号', '1类型', '2模块', ‘3接口名称’，'4用例名称',  '10i结果',  '11db结果',  '12f结果', '14备注']
+    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[12], l_m[14], l_m[16], l_m[18], db_table), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(rptTitle) + '''</title></head>
-    <body><b><caption>''' + str(rptTitle) + ''' ( ''' + str(Time_PO.getDate()) + ''' )</caption></b><br><br>{table}</body></html>'''
+    <body><b><caption>''' + str(rptTitle) + '''_''' + str(Time_PO.getDate()) + '''</caption></b><br><br>{table}</body></html>'''
     style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
     rptNameDate = "report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
     with open(rptNameDate, 'w') as f:
@@ -419,12 +427,10 @@ if __name__ == '__main__':
 
     # df.to_html(htmlFile,col_space=100,na_rep="0")
 
-    # 优化report.html
-    # 去掉None、修改颜色
-    # https://bbs.bianzhirensheng.com/color01.html
+    # 优化report.html, 去掉None、修改颜色
     html_text = BeautifulSoup(open(rptNameDate), features='html.parser')
     html_text = str(html_text).replace("<td>None</td>", "<td></td>"). \
-        replace(">" + l_m[0] + "</th>", 'bgcolor="#90d7ec">' + l_m[0] + '</th>'). \
+        replace(">" + str(l_m[0]) + "</th>", 'bgcolor="#90d7ec">' + str(l_m[0]) + '</th>'). \
         replace(">" + l_m[1] + "</th>", 'bgcolor="#90d7ec">' + l_m[1] + '</th>'). \
         replace(">" + l_m[2] + "</th>", 'bgcolor="#90d7ec">' + l_m[2] + '</th>'). \
         replace(">" + l_m[3] + "</th>", 'bgcolor="#90d7ec">' + l_m[3] + '</th>'). \
@@ -442,6 +448,7 @@ if __name__ == '__main__':
         replace(">" + l_m[15] + "</th>", 'bgcolor="#90d7ec">' + l_m[15] + '</th>'). \
         replace(">" + l_m[16] + "</th>", 'bgcolor="#90d7ec">' + l_m[16] + '</th>'). \
         replace(">" + l_m[17] + "</th>", 'bgcolor="#90d7ec">' + l_m[17] + '</th>'). \
+        replace(">" + l_m[18] + "</th>", 'bgcolor="#90d7ec">' + l_m[18] + '</th>'). \
         replace("<td>Ok</td>", '<td bgcolor="#c6efce">Ok</td>'). \
         replace("<td>Fail</td>", '<td bgcolor="#f69c9f">Fail</td>'). \
         replace("<td>Error</td>", '<td bgcolor="#ed1941">Error</td>'). \
@@ -454,15 +461,14 @@ if __name__ == '__main__':
 
 
     # 判断是否打开报告
-    if openRpt2 == "on":
+    if openRpt == "on":
         Sys_PO.openFile(rptNameDate)
 
 
     # 判断是否发邮件
-    if sendEmail2 == "on":
+    if sendEmail == "on":
         # 邮件正文是报告和附件报告
         Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
-                         "htmlFile", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html",
-                         varFoot_html,
-                         "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
-                         )
+                     "htmlFile", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html", varFoot_html,
+                     "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
+                     )

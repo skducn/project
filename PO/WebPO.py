@@ -3,11 +3,14 @@
 # Author     : John
 # Date       : 2018-7-2
 # Description: webdriverPO 对象层
+
 # geckodriver 0.14.0 for selenium3.0 下载地址：https://github.com/mozilla/geckodriver/releases
 # ff 66.0.4 (64 位) , selenium =3.141.0，gecko = 0.24.0
 # geckodriver下载：https://github.com/mozilla/geckodriver/releases
 
-# chromedriver驱动，下载地址：https://npm.taobao.org/mirrors/chromedriver
+# chromedriver驱动，
+# 下载地址：https://npm.taobao.org/mirrors/chromedriver
+# 下载地址：http://chromedriver.storage.googleapis.com/index.html
 # 查看Chrome浏览器版本，chrome://version/
 # chrome浏览器的options参数，https://blog.csdn.net/xc_zhou/article/details/82415870
 # Q1：WebDriverException:Message:'geckodriver'executable needs to be in Path
@@ -92,6 +95,17 @@ class WebPO(BasePO):
             return self.driver
 
         if self.driver == "chrome" :
+            option = webdriver.ChromeOptions()
+            option.add_argument('disable-infobars')
+            # option.headless = True  # 无界面模式
+            option.add_experimental_option('excludeSwitches', ['enable-logging'])
+            # option.add_argument("user-data-dir = C:\Python37\profile")
+            # option.add_argument('--ignore-certificate-errors')
+            self.driver = webdriver.Chrome(options=option)
+            self.driver.get(varURL)
+        return self.driver
+
+        if self.driver == "chromeHeadless":
             option = webdriver.ChromeOptions()
             option.add_argument('disable-infobars')
             option.headless = True  # 无界面模式
@@ -285,13 +299,16 @@ class WebPO(BasePO):
 if __name__ == '__main__':
 
     Web_PO = WebPO("chrome")
+    # Web_PO = WebPO("chromeHeadless")
+    # Web_PO.driver.maximize_window()  # 全屏
+
     # Web_PO = WebPO("firefox")
 
     # Web_PO.driver.set_window_size(1366, 768)  # 按分辨率1366*768打开浏览器
 
 
     # print("1.1，打开网站".center(100, "-"))
-    # Web_PO.openURL('https://www.baidu.com/')
+    Web_PO.openURL('https://www.baidu.com/')
     #
     # print("2，获取当前全屏浏览器分辨率".center(100, "-"))
     # print(Web_PO.getBrowserSize())  # (1920, 1040)
