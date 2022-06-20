@@ -6,7 +6,13 @@
 # http://192.168.0.238:8801/doc.html
 # *********************************************************************
 
-import requests,json,sys
+
+import requests, json, sys
+
+sys.path.append("../../../../")
+sys.path.append("C:\Python39\Lib\site-packages")
+
+
 from bs4 import BeautifulSoup
 from PO.OpenpyxlPO import *
 from PO.NewexcelPO import *

@@ -7,10 +7,12 @@
 <th style="min-width: 100px;"bgcolor="#90d7ec">模块</th>
 <th style="min-width: 100px;"bgcolor="#90d7ec">接口名称</th>
 <th style="min-width: 100px;"bgcolor="#90d7ec">用例名称</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">方法</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">方式</th>
 <th style="min-width: 100px;"bgcolor="#90d7ec">i结果</th>
 <th style="min-width: 100px;"bgcolor="#90d7ec">db结果</th>
 <th style="min-width: 100px;"bgcolor="#90d7ec">f结果</th>
-<th style="min-width: 100px;"bgcolor="#90d7ec">备注</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">全局变量</th>
 </tr>
 </thead>
 <tbody>
@@ -24,6 +26,8 @@
 <td></td>
 <td></td>
 <td></td>
+<td></td>
+<td>{"userNo":"16766667777","orgno":"\'wgzx\' + str(Data_PO.getFigures(3))","orgId":"select orgCode from sys_user_detail where userNo='16766667777'"}</td>
 </tr>
 <tr>
 <td>3</td>
@@ -31,6 +35,8 @@
 <td>鉴权中心</td>
 <td></td>
 <td>pc登录-必填非必填参数都有值</td>
+<td>post</td>
+<td>application/json</td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -42,6 +48,8 @@
 <td>高血压首页</td>
 <td></td>
 <td>查询高血压首页数据</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
@@ -53,6 +61,8 @@
 <td>高血压首页</td>
 <td></td>
 <td>查询高血压首页数据-orgids错误</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -64,6 +74,8 @@
 <td>统计查询</td>
 <td></td>
 <td>入组患者-分页查询-全参</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -75,6 +87,8 @@
 <td>统计查询</td>
 <td></td>
 <td>入组患者-分页查询-必填参数</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -86,6 +100,8 @@
 <td>统计查询</td>
 <td></td>
 <td>随访情况统计-全参</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -97,10 +113,12 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>分页查询患者信息-全参</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
-<td></td>
+<td>{"empiId":"$.data.list[0].empiId","itemId":"$.data.list[0].itemId"}</td>
 </tr>
 <tr>
 <td>17</td>
@@ -108,6 +126,8 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>分页查询患者信息-必填参数</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -122,7 +142,9 @@
 <td></td>
 <td></td>
 <td></td>
-<td>{"phone":"str(Data_PO.autoPhone())","idCardNo":"str(Data_PO.autoIdcard())","itemId":"select itemId from saashypertensiontest.ecf_follow_info where orgId = {{orgId}} and followUpName = '一级1' limit 1"}</td>
+<td></td>
+<td></td>
+<td>{"phone":"str(Data_PO.getPhone())","idCardNo":"str(Data_PO.getIdCard())"}</td>
 </tr>
 <tr>
 <td>19</td>
@@ -130,10 +152,12 @@
 <td></td>
 <td></td>
 <td>设置请求头</td>
+<td>header</td>
 <td></td>
 <td></td>
 <td></td>
 <td></td>
+<td>{"deviceTag":"app"}</td>
 </tr>
 <tr>
 <td>20</td>
@@ -141,6 +165,8 @@
 <td>鉴权中心</td>
 <td></td>
 <td>医生端小程序登录-全参</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -152,6 +178,8 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-新增患者-必填参数</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -163,6 +191,8 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-患者列表-全参</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -174,10 +204,12 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-患者列表-必填参数</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
-<td></td>
+<td>{"ldt_idCardNo":"select idCardNo from saashypertensiontest.t_patient_info where name = '李大头'","glempild":"{{empiId}}"}</td>
 </tr>
 <tr>
 <td>26</td>
@@ -185,6 +217,8 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-单个患者查询</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -196,6 +230,8 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-查询对照组患者-必填参数</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -207,6 +243,8 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-修改对照组患者-全参</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -218,10 +256,12 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-删除对照组患者-全参</td>
+<td>post</td>
+<td>application/x-www-form-urlencoded</td>
 <td bgcolor="#f69c9f">Fail</td>
 <td></td>
 <td></td>
-<td>d_res =&gt; {"$.data": false}, 没找到 {"$.code":200,"$.msg":"success","$.data":"true"}</td>
+<td></td>
 </tr>
 <tr>
 <td>32</td>
@@ -229,6 +269,8 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-患者组别下拉框</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -240,6 +282,8 @@
 <td>高血压患者信息</td>
 <td></td>
 <td>医生端-分级代码</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -251,6 +295,8 @@
 <td>高血压随访接口</td>
 <td></td>
 <td>医生端-更改管理组别</td>
+<td>put</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -262,6 +308,8 @@
 <td>高血压随访接口</td>
 <td></td>
 <td>医生端-查询患者随访记录信息</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -273,6 +321,8 @@
 <td>高血压随访接口</td>
 <td></td>
 <td>医生端-分层分级查询</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -284,6 +334,8 @@
 <td>高血压随访接口</td>
 <td></td>
 <td>医生端-建议转诊患者-全参</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -295,6 +347,8 @@
 <td>高血压随访接口</td>
 <td></td>
 <td>医生端-建议转诊患者-必填参数</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -306,6 +360,8 @@
 <td>高血压随访接口</td>
 <td></td>
 <td>医生端-一周内待随访患者查询</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -317,6 +373,8 @@
 <td>高血压随访接口</td>
 <td></td>
 <td>医生端-逾期随访患者查询</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -328,10 +386,12 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-新增转诊</td>
+<td>post</td>
+<td></td>
 <td bgcolor="#f69c9f">Fail</td>
 <td></td>
 <td></td>
-<td>d_res =&gt; {"$.code": 500, "$.msg": "请勿重复操作已转出的患者！"}, 没找到 {"$.code":200,"$.msg":"success"}</td>
+<td>{"zz_id":"select max(id) from saashypertensiontest.hy_referral_record where empiId = {{glempild}}"}</td>
 </tr>
 <tr>
 <td>42</td>
@@ -339,6 +399,8 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-待处理查询</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -350,6 +412,8 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-转入确认</td>
+<td>put</td>
+<td>application/x-www-form-urlencoded</td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -361,6 +425,8 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-转回申请</td>
+<td>put</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -372,6 +438,8 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-转回确认</td>
+<td>put</td>
+<td>application/x-www-form-urlencoded</td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -383,6 +451,8 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-待处理查询</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -394,6 +464,8 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-已接收查询</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -405,6 +477,8 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-转诊记录查询</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
@@ -416,6 +490,8 @@
 <td>转诊记录表接口</td>
 <td></td>
 <td>医生端-通过id获取一条数据</td>
+<td>get</td>
+<td></td>
 <td bgcolor="#c6efce">Ok</td>
 <td></td>
 <td></td>
