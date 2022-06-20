@@ -29,17 +29,17 @@ class SysPO():
         注意：如果 os.system 输出出现乱码，需将 File->Settings->Editor->File Encodings 中 Global Encoding 设置成 GBK
         '''
 
-        pids = psutil.pids()
-        for pid in pids:
-            try:
+        try:
+            pids = psutil.pids()
+            for pid in pids:
                 p = psutil.Process(pid)
                 # print('pid=%s,pname=%s' % (pid, p.name()))
                 if p.name() == varApplication:
                     cmd = 'taskkill /F /IM ' + varApplication
                     os.system(cmd)
                     sleep(2)
-            except:
-                print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+        except:
+            None
 
 
     def outMsg1(self, msgStatus, errLine, func2, errMsg):
