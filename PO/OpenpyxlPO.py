@@ -290,6 +290,28 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
+
+    def setCellAlignment(self, row, rowQty, col, colQty, varSheet=0):
+        '''
+        2.2 设置单元格行高与列宽
+        :param row:
+        :param rowQty:
+        :param col:
+        :param colQty:
+        :param varSheet:
+        :return:
+                # Openpyxl_PO.setCellDimensions(3, 30, 'f', 50)  ， 设置第三行行高30，第f列列宽50
+        '''
+
+        try:
+            sh = self.sh(varSheet)
+
+
+            sh.row_dimensions[row].height = rowQty  # 行高
+            sh.column_dimensions[col].width = colQty  # 列宽
+        except:
+            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
     def setSheetDimensions(self, rowQty, colQty, varSheet=0):
         '''
         2.3 设置工作表所有单元格的行高与列宽

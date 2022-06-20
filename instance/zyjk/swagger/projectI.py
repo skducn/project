@@ -69,6 +69,14 @@ class projectI():
         Openpyxl_PO.setRowValue({1: ["tags", "summary", "paths", "method", "consumes", "query", "body", "parameters [参数名称，参数说明，请求类型，是否必须，数据类型，schema]"]})
         for i in range(len(d['tags'])):
             Openpyxl_PO.setRowValue({i+2: [d['tags'][i]['name']]})
+
+        # 设置第三行行高30，第f列列宽50
+        Openpyxl_PO.setCellDimensions(1, 30, 'a', 30)
+        Openpyxl_PO.setCellDimensions(1, 30, 'b', 30)
+        Openpyxl_PO.setCellDimensions(1, 30, 'f', 30)
+        Openpyxl_PO.setCellDimensions(1, 30, 'g', 30)
+        Openpyxl_PO.setCellDimensions(1, 30, 'h', 60)
+
         Openpyxl_PO.save()
 
         l_i = []
@@ -192,18 +200,18 @@ class projectI():
         Openpyxl_PO.save()
 
 
-# if __name__ == '__main__':
-#
-#     Sys_PO.killPid('EXCEL.EXE')
-#
-#     project_I = projectI()
-#
-#     project_I.getI("auth", "i.xlsx")
-#     project_I.getI("saasuser", "saasuser.xlsx")
-#     # project_I.getI("cms")
-#     # project_I.getI("oss")
-#     # project_I.getI("saascrf")
-#     # project_I.getI("ecg")
-#     # project_I.getI("cuser")
-#     # project_I.getI("hypertension")
+if __name__ == '__main__':
+
+    Sys_PO.killPid('EXCEL.EXE')
+
+    project_I = projectI()
+
+    project_I.getI("auth", "i.xlsx")
+    project_I.getI("saasuser", "saasuser.xlsx")
+    # project_I.getI("cms")
+    # project_I.getI("oss")
+    # project_I.getI("saascrf")
+    # project_I.getI("ecg")
+    # project_I.getI("cuser")
+    # project_I.getI("hypertension")
 
