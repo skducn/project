@@ -701,19 +701,22 @@ class OpenpyxlPO():
         # print(Openpyxl_PO.l_getColValueByPartCol([2], [], "python"))  # 获取第2列所有值。
         '''
 
+
+        l_colData = []  # 每列的数据
+        l_allData = []  # 所有的数据
         try:
-            l_colData = []  # 每列的数据
-            l_allData = []  # 所有的数据
             sh = self.sh(varSheet)
-            for col in l_varCol:
-                for row in range(1, sh.max_row+1):
-                    if row not in l_varIgnoreRowNum:
-                        l_colData.append(sh.cell(row, col).value)
-                l_allData.append(l_colData)
-                l_colData = []
-            return l_allData
         except:
-            print("errorrrrrrrrrr, line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe().f_code.co_name + "() ")
+            print("[Error], " + varSheet + "不存在！")
+            sys.exit(0)
+        for col in l_varCol:
+            for row in range(1, sh.max_row+1):
+                if row not in l_varIgnoreRowNum:
+                    l_colData.append(sh.cell(row, col).value)
+            l_allData.append(l_colData)
+            l_colData = []
+        return l_allData
+
 
     def getCoordinate(self, varRow, varCol, varSheet=0):
         '''
