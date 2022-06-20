@@ -111,6 +111,8 @@ class projectI():
                         for i in range(len(list1)):
                             # print(list1[i])
                             if list1[i]['in'] == 'query' and list1[i]['required'] == True:
+                                s = s + list1[i]['name'] + "=" + "{*" + list1[i]['type'] + "}&"
+                            if list1[i]['in'] == 'query' and list1[i]['required'] == False:
                                 s = s + list1[i]['name'] + "=" + "{" + list1[i]['type'] + "}&"
                         # print(s[:-1])  # currentPage={integer}&docId={integer}&itemId={integer}&pageSize={integer}
                         l_i.append(str(s[:-1]))
@@ -190,18 +192,18 @@ class projectI():
         Openpyxl_PO.save()
 
 
-if __name__ == '__main__':
-
-    Sys_PO.killPid('EXCEL.EXE')
-
-    project_I = projectI()
-
-    project_I.getI("auth", "i.xlsx")
-    project_I.getI("saasuser", "saasuser.xlsx")
-    # project_I.getI("cms")
-    # project_I.getI("oss")
-    # project_I.getI("saascrf")
-    # project_I.getI("ecg")
-    # project_I.getI("cuser")
-    # project_I.getI("hypertension")
+# if __name__ == '__main__':
+#
+#     Sys_PO.killPid('EXCEL.EXE')
+#
+#     project_I = projectI()
+#
+#     project_I.getI("auth", "i.xlsx")
+#     project_I.getI("saasuser", "saasuser.xlsx")
+#     # project_I.getI("cms")
+#     # project_I.getI("oss")
+#     # project_I.getI("saascrf")
+#     # project_I.getI("ecg")
+#     # project_I.getI("cuser")
+#     # project_I.getI("hypertension")
 

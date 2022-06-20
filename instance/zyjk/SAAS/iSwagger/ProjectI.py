@@ -111,6 +111,8 @@ class ProjectI():
                         for i in range(len(list1)):
                             # print(list1[i])
                             if list1[i]['in'] == 'query' and list1[i]['required'] == True:
+                                s = s + list1[i]['name'] + "=" + "{*" + list1[i]['type'] + "}&"
+                            if list1[i]['in'] == 'query' and list1[i]['required'] == False:
                                 s = s + list1[i]['name'] + "=" + "{" + list1[i]['type'] + "}&"
                         # print(s[:-1])  # currentPage={integer}&docId={integer}&itemId={integer}&pageSize={integer}
                         l_i.append(str(s[:-1]))
@@ -196,7 +198,7 @@ if __name__ == '__main__':
 
     project_I = ProjectI()
 
-    project_I.getI("auth", "i.xlsx")
+    # project_I.getI("auth", "i.xlsx")
     project_I.getI("saasuser", "saasuser.xlsx")
     # project_I.getI("cms")
     # project_I.getI("oss")
