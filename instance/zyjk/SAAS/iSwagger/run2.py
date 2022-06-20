@@ -42,7 +42,6 @@ Color_PO = ColorPO()
 from PO.SysPO import *
 Sys_PO = SysPO()
 
-
 from PO.DictPO import *
 Dict_PO = DictPO()
 
@@ -52,70 +51,82 @@ Data_PO = DataPO()
 from PO.HtmlPO import *
 Html_PO = HtmlPO()
 
-
-
 from ProjectI import *
 project_I = ProjectI()
-# Sys_PO.killPid('EXCEL.EXE')
-# project_I.getI("saasuser", "saas_interface_case2.xlsx")
-# project_I.getI("auth", "saas_interface_case2.xlsx")
 
 
 
 localReadConfig = readConfig.ReadConfig()
-openRpt = localReadConfig.get_switch("openRpt")
-sendEmail = localReadConfig.get_switch("sendEmail")
-xlsName = localReadConfig.get_system("xlsName")
-rptName = localReadConfig.get_system("rptName")
-rptTitle = localReadConfig.get_system("rptTitle")
-xlsSheetName = localReadConfig.get_system("xlsSheetName")
-varAddresser = localReadConfig.get_email("varAddresser")
-varTo = localReadConfig.get_email("varTo")
-varCc = localReadConfig.get_email("varCc")
-if varCc != 'None':
-    print(varCc.split(","))
-else:
-    varCc = None
-# ConfigParser的value如果包含\r\n的话都会被当成普通字符处理（自动转义成\\r\\n），只有编译器在编译时才会对\r\n等进行转义，只需 str.replace("\\n", "\n")即可。
-varContent = localReadConfig.get_email("varContent")
-varContent = varContent.replace("\\n", "\n")
-varHead = localReadConfig.get_email("varHead")
-varHead = varHead.replace("\\n", "\n")
-varFoot = localReadConfig.get_email("varFoot")
-varFoot = varFoot.replace("\\n", "\n")
-varContent_html = localReadConfig.get_email("varContent_html")
-varHead_html = localReadConfig.get_email("varHead_html")
-varFoot_html = localReadConfig.get_email("varFoot_html")
 
-if localReadConfig.get_env("env") == "test":
-    db_ip = localReadConfig.get_test("db_ip")
-    db_username = localReadConfig.get_test("db_username")
-    db_password = localReadConfig.get_test("db_password")
-    db_port = localReadConfig.get_test("db_port")
-    db_database = localReadConfig.get_test("db_database")
-    db_table = localReadConfig.get_test("db_table")
+cf_default_project = localReadConfig.get_default("project")
+cf_default_iCheck = localReadConfig.get_default("iCheck")
+cf_switch_openRpt = localReadConfig.get_switch("openRpt")
+cf_switch_sendEmail = localReadConfig.get_switch("sendEmail")
+cf_default_xlsName = localReadConfig.get_default("xlsName")
+cf_default_rptName = localReadConfig.get_default("rptName")
+cf_default_rptTitle = localReadConfig.get_default("rptTitle")
+cf_default_caseSheet = localReadConfig.get_default("caseSheet")
+
+
+# 拉取swagger上项目接口
+cf_switch_updateProject = localReadConfig.get_switch("updateProject")
+if cf_switch_updateProject == "on":
+    cf_switch_pullProject = localReadConfig.get_switch("pullProject")
+    cf_switch_pullProject = json.loads(cf_switch_pullProject)
+    Sys_PO.killPid('EXCEL.EXE')
+    for k, v in cf_switch_pullProject.items():
+        if v == "on":
+            project_I.getI(k, cf_default_xlsName)
+            print("[update], 拉取" + k)
+
+
+cf_email_addresser = localReadConfig.get_email("addresser")
+cf_email_to = localReadConfig.get_email("to")
+cf_email_cc = localReadConfig.get_email("cc")
+if cf_email_cc != 'None':
+    print(cf_email_cc.split(","))
 else:
-    db_ip = localReadConfig.get_dev("db_ip")
-    db_username = localReadConfig.get_dev("db_username")
-    db_password = localReadConfig.get_dev("db_password")
-    db_port = localReadConfig.get_dev("db_port")
-    db_database = localReadConfig.get_dev("db_database")
-    db_table = localReadConfig.get_test("db_table")
+    cf_email_cc = None
+# ConfigParser的value如果包含\r\n的话都会被当成普通字符处理（自动转义成\\r\\n），只有编译器在编译时才会对\r\n等进行转义，只需 str.replace("\\n", "\n")即可。
+cf_email_content = localReadConfig.get_email("content")
+cf_email_content = cf_email_content.replace("\\n", "\n")
+cf_email_head = localReadConfig.get_email("head")
+cf_email_head = cf_email_head.replace("\\n", "\n")
+cf_email_foot = localReadConfig.get_email("foot")
+cf_email_foot = cf_email_foot.replace("\\n", "\n")
+cf_email_content_html = localReadConfig.get_email("content_html")
+cf_email_head_html = localReadConfig.get_email("head_html")
+cf_email_foot_html = localReadConfig.get_email("foot_html")
+
+if localReadConfig.get_default("env") == "test":
+    cf_test_db_ip = localReadConfig.get_test("db_ip")
+    cf_test_db_username = localReadConfig.get_test("db_username")
+    cf_test_db_password = localReadConfig.get_test("db_password")
+    cf_test_db_port = localReadConfig.get_test("db_port")
+    cf_test_db_database = localReadConfig.get_test("db_database")
+    cf_test_db_table = localReadConfig.get_test("db_table")
+else:
+    cf_dev_db_ip = localReadConfig.get_dev("db_ip")
+    cf_dev_db_username = localReadConfig.get_dev("db_username")
+    cf_dev_db_password = localReadConfig.get_dev("db_password")
+    cf_dev_db_port = localReadConfig.get_dev("db_port")
+    cf_dev_db_database = localReadConfig.get_dev("db_database")
+    cf_dev_db_table = localReadConfig.get_test("db_table")
 
 
 from PO.MysqlPO import *
-Mysql_PO = MysqlPO(db_ip, db_username, db_password, db_database, db_port)
+Mysql_PO = MysqlPO(cf_test_db_ip, cf_test_db_username, cf_test_db_password, cf_test_db_database, cf_test_db_port)
 
 from PO.OpenpyxlPO import *
-Openpyxl_PO = OpenpyxlPO(xlsName)
+Openpyxl_PO = OpenpyxlPO(cf_default_xlsName)
 
 # excel导入数据库表
-Mysql_PO.xlsx2db(xlsName, db_table, sheet_name=xlsSheetName, index=True)
+Mysql_PO.xlsx2db(cf_default_xlsName, cf_test_db_table, sheet_name=cf_default_caseSheet, index=True)
 # 数据库index与excel编号一致
-Mysql_PO.execQuery('update %s set `index` = `index` + 2' % (db_table))
+Mysql_PO.execQuery('update %s set `index` = `index` + 2' % (cf_test_db_table))
 
 # 获取表格字段列表
-l_m = Mysql_PO.getTableField(db_table)
+l_m = Mysql_PO.getTableField(cf_test_db_table)
 # print(l_m)
 # ['index', '执行', '类型', '模块', '接口名称', '用例名称', '路径', '方法', '方式', 'query参数', 'body参数', 'i检查接口返回值', 'i结果', 'db检查表值', 'db结果', 'f检查文件', 'f结果', '全局变量', '备注']
 
@@ -136,7 +147,7 @@ class Run:
         self.d_tmp = {}
 
         # 执行用例
-        self.df = pd.read_sql_query("select * from %s where %s is null " % (db_table, l_m[getIndex(l_m, '执行')]), Mysql_PO.getMysqldbEngine())
+        self.df = pd.read_sql_query("select * from %s where %s is null " % (cf_test_db_table, l_m[getIndex(l_m, '执行')]), Mysql_PO.getMysqldbEngine())
 
 
     def _escape(self, var):
@@ -198,7 +209,9 @@ class Run:
             if iParam != None:
                 iParam = self._escape2(iParam)
 
-            if iCheck != None:
+            if iCheck == None:
+                iCheck = self._escape2(cf_default_iCheck)
+            else:
                 iCheck = self._escape2(iCheck)
 
             if g_var != None:
@@ -372,14 +385,16 @@ if __name__ == '__main__':
         l_paths_method_consumes = []
 
         if r[3] == None:
-            r3 = "saasuser"
+            r3 = cf_default_project
         else:
             r3 = r[3]
 
         if r[6] == "设置全局变量" or r[6] == "设置请求头":
             run.result(index, r[6], "", "", "",  r[7], r[8], r[9], r[11], r[13], r[15])  # 读取数据库里的内容
-        elif r[4] == "" or r[5] == "":
-            Color_PO.consoleColor("31", "31", "[warning], excel表格的第" + str(index) + "缺少模块或接口名称，程序中断！", "")
+
+        elif r[4] == None or r[5] == None:
+            # 模块、接口名称
+            Color_PO.consoleColor("31", "31", "[warning], 缺少模块或接口名称，程序已中断！", "")
             # print("[warning], excel表格的第" + str(index) + "缺少模块或接口名称，程序中断！")
             sys.exit()
         else:
@@ -399,28 +414,28 @@ if __name__ == '__main__':
                 # print(index, r[6], l_paths_method_consumes[0], l_paths_method_consumes[1], l_paths_method_consumes[2],  r[7], r[8], r[9], r[11], r[13], r[15])
                 run.result(index, r[6], l_paths_method_consumes[0], l_paths_method_consumes[1], l_paths_method_consumes[2],  r[7], r[8], r[9], r[11], r[13], r[15])  # 读取数据库里的内容
             else:
-                Color_PO.consoleColor("31", "31", "[warning], excel表格的第" + str(index) + "模块或接口名称有错误，程序中断！", "")
+                Color_PO.consoleColor("31", "31", "[warning], 模块或接口名称不匹配，程序已中断！", "")
                 # print("[warning], excel表格的第" + str(index) + "模块或接口名称有错误，程序中断！")
                 sys.exit()
 
         # pd.set_option('display.max_columns', None)  //显示所有列
         # run.df.loc[indexs]['i返回值'] = ""   # 不写入，因为内容过多表里可能报错
 
-    run.df.to_sql(db_table, con=Mysql_PO.getMysqldbEngine(), if_exists='replace', index=False)
+    run.df.to_sql(cf_test_db_table, con=Mysql_PO.getMysqldbEngine(), if_exists='replace', index=False)
 
     # 生成report.html
     # ['0编号', '1执行', '2类型', '3模块', '4名称', '5路径', '6方法', '7query参数'，'8body参数', '9担当者', '10i检查接口返回值', '11i结果', '12db检查表值', '13db结果', '14f检查文件', '15f结果', '16全局变量'，'17备注']
-    # df = pd.read_sql(sql="select %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], l_m[16], db_table), con=Mysql_PO.getPymysqlEngine())
-    # df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[11], l_m[13], l_m[15], l_m[17], db_table), con=Mysql_PO.getPymysqlEngine())
+    # df = pd.read_sql(sql="select %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[7], l_m[9], l_m[10], l_m[11], l_m[12], l_m[14], l_m[15], l_m[16], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
+    # df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[11], l_m[13], l_m[15], l_m[17], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
 
     # ['编号', '1类型', '2模块', ‘3接口名称’，'4用例名称',  '10i结果',  '11db结果',  '12f结果', '14备注']
-    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[12], l_m[14], l_m[16], l_m[18], db_table), con=Mysql_PO.getPymysqlEngine())
+    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[10], l_m[12], l_m[14], l_m[16], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
-    html = '''<html><head><title>''' + str(rptTitle) + '''</title></head>
-    <body><b><caption>''' + str(rptTitle) + '''_''' + str(Time_PO.getDate()) + '''</caption></b><br><br>{table}</body></html>'''
+    html = '''<html><head><title>''' + str(cf_default_rptTitle) + '''</title></head>
+    <body><b><caption>''' + str(cf_default_rptTitle) + '''_''' + str(Time_PO.getDate()) + '''</caption></b><br><br>{table}</body></html>'''
     style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
-    rptNameDate = "report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
+    rptNameDate = "report/" + str(cf_default_rptName) + str(Time_PO.getDate()) + ".html"
     with open(rptNameDate, 'w') as f:
         f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
         # f.write(html.format(table=df.to_html(classes="mystyle", col_space=50)))
@@ -447,8 +462,6 @@ if __name__ == '__main__':
         replace(">" + l_m[14] + "</th>", 'bgcolor="#90d7ec">' + l_m[14] + '</th>'). \
         replace(">" + l_m[15] + "</th>", 'bgcolor="#90d7ec">' + l_m[15] + '</th>'). \
         replace(">" + l_m[16] + "</th>", 'bgcolor="#90d7ec">' + l_m[16] + '</th>'). \
-        replace(">" + l_m[17] + "</th>", 'bgcolor="#90d7ec">' + l_m[17] + '</th>'). \
-        replace(">" + l_m[18] + "</th>", 'bgcolor="#90d7ec">' + l_m[18] + '</th>'). \
         replace("<td>Ok</td>", '<td bgcolor="#c6efce">Ok</td>'). \
         replace("<td>Fail</td>", '<td bgcolor="#f69c9f">Fail</td>'). \
         replace("<td>Error</td>", '<td bgcolor="#ed1941">Error</td>'). \
@@ -461,14 +474,14 @@ if __name__ == '__main__':
 
 
     # 判断是否打开报告
-    if openRpt == "on":
+    if cf_switch_openRpt == "on":
         Sys_PO.openFile(rptNameDate)
 
 
     # 判断是否发邮件
-    if sendEmail == "on":
+    if cf_switch_sendEmail == "on":
         # 邮件正文是报告和附件报告
-        Net_PO.sendEmail(varAddresser, varTo.split(","), varCc, str(rptTitle) + str(Time_PO.getDate()),
-                     "htmlFile", varHead_html, "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html", varFoot_html,
-                     "./report/" + str(rptName) + str(Time_PO.getDate()) + ".html"
+        Net_PO.sendEmail(cf_email_addresser, cf_email_to.split(","), cf_email_cc, str(cf_default_rptTitle) + str(Time_PO.getDate()),
+                     "htmlFile", cf_email_head_html, "./report/" + str(cf_default_rptName) + str(Time_PO.getDate()) + ".html", cf_email_foot_html,
+                     "./report/" + str(cf_default_rptName) + str(Time_PO.getDate()) + ".html"
                      )
