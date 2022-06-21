@@ -164,7 +164,8 @@ class projectI():
                                                         d_parameters[k2] = '?'
 
                                     # print(d_parameters)
-                                    l_i.append(str(d_parameters))
+                                    # print(json.dumps(d_parameters))
+                                    l_i.append(json.dumps(d_parameters))
                                     break
                             elif "items" in l_parameters[0]['schema']:
                                 # print(l_parameters[0]['schema']['items']['$ref'].split("#/definitions/")[1])
@@ -180,7 +181,9 @@ class projectI():
                                                 elif v2['type'] == "integer":
                                                     d_parameters[k2] = 0
                                     # print(d_parameters)
-                                    l_i.append(str(d_parameters))
+                                    # l_i.append(str(d_parameters))
+                                    l_i.append(json.dumps(d_parameters))
+
                                     break
                     else:
                         l_i.append(None)
@@ -206,7 +209,7 @@ if __name__ == '__main__':
 
     project_I = projectI()
 
-    project_I.getI("auth", "i.xlsx")
+    # project_I.getI("auth", "i.xlsx")
     project_I.getI("saasuser", "saasuser.xlsx")
     # project_I.getI("cms")
     # project_I.getI("oss")

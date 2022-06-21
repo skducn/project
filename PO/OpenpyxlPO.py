@@ -38,7 +38,7 @@
 from openpyxl import load_workbook
 import openpyxl, sys, platform, os
 import openpyxl.styles
-from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, Protection, Alignment
+from openpyxl.styles import Font, PatternFill, GradientFill, Border, Side, Alignment, Protection, Alignment
 from openpyxl.utils import get_column_letter,column_index_from_string
 from datetime import date
 from time import sleep
@@ -52,21 +52,28 @@ Sys_PO = SysPO()
 from PO.MysqlPO import *
 
 '''
+
+操作工作表 sh()
+保存 save()
+打开excel open()
+
 1.1 新建excel  newExcel()
-1.2 添加保留工作表  addSheet()
-1.3 添加覆盖工作表 addSheetCover()
+1.2 添加工作表(不覆盖)  addSheet()
+1.3 添加工作表(覆盖) addSheetCover()
 1.4 删除工作表  delSheet()
-1.5 切换工作表 switchSheet() 
-1.6 获取所有工作表 getSheet()
+1.5 切换工作表 switchSheet() ？
+1.6 获取所有工作表 getSheets()
 
 2.1 初始化数据 initData()
 2.2 设置单元格行高与列宽 setCellDimensions()
 2.3 设置工作表所有单元格的行高与列宽 setSheetDimensions()
-2.4.1 设置字体类（字体颜色） setFont()
-2.4.2 设置填充类（背景色） setFille()
-2.4.3 设置边框类 setBorder()
-2.4.4 设置位置类 setAlignment()
 2.4 设置单元格值 setCellValue()
+2.4.1 设置单元格字体（字体、字号、粗斜体、下划线、颜色） setsetCellFont()
+2.4.2 设置单元格填充背景色 setPatternFill()
+      设置单元格填充渐变色 setGradientFill()
+2.4.3 设置单元格边框 setBorder()
+
+
 2.5 设置整行值  setRowValue()
 2.6 设置整列值  setColValue()
 2.7 设置工作表背景颜色 setSheetColor()
@@ -75,6 +82,9 @@ from PO.MysqlPO import *
 2.10 设置整列(可间隔)背景色  setColColor()
 2.11 设置固定单元格  setFreezeCell()
 2.12 设置筛选列  setFilterCol()
+2.13 设置所有单元格自动换行 setAllWordWrap()
+2.14 冻结首行 setFreeze()
+2.15 设置单元格对齐样式 setAlignment()
 
 3.1 获取总行数和总列数 l_getTotalRowCol()
 3.2 获取单元格的值 getCellValue()
@@ -94,6 +104,7 @@ from PO.MysqlPO import *
 5.2 对一张表的两个sheet进行数据比对，差异数据标注颜色  setCellColorByCmpSheets()
 
 6 将excel表格导入数据库 xlsx2db()
+
 '''
 
 class OpenpyxlPO():
@@ -102,7 +113,7 @@ class OpenpyxlPO():
 
         self.file = file
         self.wb = openpyxl.load_workbook(self.file)
-        self.wb.sheetnames  # 工作表名称，如 ['北京', 'mySheet1', '上海']
+        self.wb.sheetnames
         # self.wb.active  # 获取当前活跃的Worksheet对象
         # print(self.wb.active)  # <Worksheet "北京">
         # self.wb.worksheets  # 以列表的形式返回所有的Worksheet对象，如：[<Worksheet "北京">, <Worksheet "mySheet1">, <Worksheet "上海">]
@@ -112,10 +123,12 @@ class OpenpyxlPO():
         # self.wb.properties  # 获取文档的元数据，如标题，创建者，创建日期等
         # self.wb.active = 0  # 通过索引值设置当前活跃的worksheet
 
-    def getSheets(self):
-        return self.wb.sheetnames
+
 
     def sh(self, varSheet):
+
+        # 操作工作表
+
         if isinstance(varSheet, int):
             sh = self.wb[self.wb.sheetnames[varSheet]]
             return sh
@@ -123,26 +136,20 @@ class OpenpyxlPO():
             sh = self.wb[varSheet]
             return sh
         else:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
             exit(0)
-    def ws(self, active_row):
-        '''
-        # 废弃
-        :param active_row:
-        :return:
-        '''
-        worksheet = self.wb.get_sheet_by_name(self.sh)
-        coords = "A" + str(active_row)
-        print(coords)
-        # worksheet.cell(row=active_row, column=1)
-        worksheet.sheet_view.selection[0].activeCell = coords
-        worksheet.sheet_view.selection[0].sqref = coords
+
+
     def save(self):
-        '''
-        保存
-        '''
+
+        # 保存
+
         self.wb.save(self.file)
+
+
     def open(self, otherFile=0):
+
+        # 打开excel
+
         if platform.system() == 'Darwin':
             if otherFile != 0:
                 os.system("open " + otherFile)
@@ -154,6 +161,8 @@ class OpenpyxlPO():
             else:
                 os.system("start " + self.file)
 
+
+
     def newExcel(self, varFileName, *varSheetName):
         '''
         1.1 新建excel(覆盖)
@@ -161,7 +170,7 @@ class OpenpyxlPO():
         :param varSheetName: N个工作表
         # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
         # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
-        # 注意：如果文件已存在则会先删除后再新建！
+        # 注意：如果文件已存在则会先删除后再新建。
         '''
 
         try:
@@ -181,14 +190,14 @@ class OpenpyxlPO():
 
     def addSheet(self, varSheetName, varIndex=0):
         '''
-        1.2 添加保留工作表  addSheet()
+        1.2 添加工作表(不覆盖)  addSheet()
         :param varSheetName:
         :param varIndex:
         :return:
         # Openpyxl_PO.addSheet("mysheet1")  # 默认在第一个位置上添加工作表
         # Openpyxl_PO.addSheet("mysheet1", 99)   # 当index足够大时，则在最后一个位置添加工作表
         # Openpyxl_PO.addSheet("mysheet1", -1)   # 倒数第二个位置添加工作表
-        # 注意：如果工作表名已存在，则保留原工作表。
+        # 注意：如果工作表名已存在，则不添加工作表，即保留原工作表。
         '''
 
         try:
@@ -203,16 +212,17 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
+
     def addSheetCover(self, varSheetName, varIndex=0):
         '''
-        1.3 添加覆盖工作表 addSheetCover
+        1.3 添加工作表(覆盖)
         :param varSheetName:
         :param varIndex:
         :return:
-        # Openpyxl_PO.addSheet("mySheet1")
-        # Openpyxl_PO.addSheet("mySheet1", 0 )  # 在第一个工作表前添加工作表
-        # Openpyxl_PO.addSheet("mySheet2",99)   # 在第99个位置添加工作表
-         Openpyxl_PO.addSheet("mySheet3", -1)   # 在倒数第二个位置添加工作表。
+        # Openpyxl_PO.addSheetCover("mySheet1")
+        # Openpyxl_PO.addSheetCover("mySheet1", 0 )  # 在第一个工作表前添加工作表
+        # Openpyxl_PO.addSheetCover("mySheet2",99)   # 在第99个位置添加工作表
+         Openpyxl_PO.addSheetCover("mySheet3", -1)   # 在倒数第二个位置添加工作表。
         '''
 
         try:
@@ -225,6 +235,7 @@ class OpenpyxlPO():
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(
                 sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
 
     def delSheet(self, varSheetName):
         '''
@@ -247,11 +258,19 @@ class OpenpyxlPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
-     # 1.5 qiehua切换工作表
     def switchSheet(self, varSheet):
+
+        # 1.5 切换工作表 ?
 
         varSheet = self.wb[varSheet]
         sh = self.sh(varSheet)
+        return sh
+
+
+    def getSheets(self):
+
+        # 1.6 获取工作表名称，如 ['mySheet1', 'mySheet2', 'mySheet3']
+        return self.wb.sheetnames
 
 
 
@@ -287,30 +306,10 @@ class OpenpyxlPO():
             sh = self.sh(varSheet)
             sh.row_dimensions[row].height = rowQty  # 行高
             sh.column_dimensions[col].width = colQty  # 列宽
+            self.save()
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-
-    def setCellAlignment(self, row, rowQty, col, colQty, varSheet=0):
-        '''
-        2.2 设置单元格行高与列宽
-        :param row:
-        :param rowQty:
-        :param col:
-        :param colQty:
-        :param varSheet:
-        :return:
-                # Openpyxl_PO.setCellDimensions(3, 30, 'f', 50)  ， 设置第三行行高30，第f列列宽50
-        '''
-
-        try:
-            sh = self.sh(varSheet)
-
-
-            sh.row_dimensions[row].height = rowQty  # 行高
-            sh.column_dimensions[col].width = colQty  # 列宽
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def setSheetDimensions(self, rowQty, colQty, varSheet=0):
         '''
@@ -334,65 +333,8 @@ class OpenpyxlPO():
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
 
-    def setFont(self, size, color):
-        '''
-        2.4.1 设置字体类 (字体，字号，粗体，斜体，？，下划线，？，字体颜色)
-        :param size:
-        :param color:
-        :return:
-        '''
 
-        try:
-            return Font(name=u'微软雅黑', size='' + size + '', bold=False, italic=False, vertAlign='baseline', underline='none',strike=False, color='' + color + '')
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-    def setFille(self, patternType, fgColor):
-        '''
-        2.4.2 设置填充类，可设置单元格填充颜色等
-        :param patternType:
-        :param fgColor:
-        :return:
-         # patternType = {'lightVertical', 'mediumGray', 'lightGrid', 'darkGrid', 'gray125', 'lightHorizontal', 'gray0625','lightTrellis', 'darkUp', 'lightGray', 'darkVertical', 'darkGray', 'solid', 'darkTrellis', 'lightUp','darkHorizontal', 'darkDown', 'lightDown'}
-         # return PatternFill(patternType='solid', fgColor='006100')  # 背景色
-        '''
-
-        try:
-            return PatternFill(patternType='' + patternType + '', fgColor='' + fgColor + '')  # 背景色
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
-
-    def setBorder(self):
-        '''
-        2.4.3 设置边框类，可以设置单元格各种类型的边框
-        # 设置边框样式，上下左右边框
-        :return:
-        '''
-
-        try:
-            return Border(left=Side(style='medium', color='FF000000'), right=Side(style='medium', color='FF000000'),
-                          top=Side(style='medium', color='FF000000'), bottom=Side(style='medium', color='FF000000'),
-                          diagonal=Side(style='medium', color='FF000000'), diagonal_direction=0,
-                          outline=Side(style='medium', color='FF000000'),
-                          vertical=Side(style='medium', color='FF000000'),
-                          horizontal=Side(style='medium', color='FF000000'))
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
-
-    def setAlignment(self, l_var):
-        '''
-        2.4.4 设置位置类，可以设置单元格内数据各种对齐方式
-        :param l_var:
-        :return:
-        horizontal = ("general", "left", "center", "right", "fill", "justify", "centerContinuous","distributed",)
-        vertical = ("top", "center", "bottom", "justify", "distributed")
-        setALignment(['center','top'])
-        '''
-
-        try:
-            return Alignment(horizontal=l_var[0], vertical=l_var[1])
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def setCellValue(self, varRow, varCol, varContent, font, fill, border, alignment, number_format, protection, varSheet=0):
         '''
@@ -432,6 +374,81 @@ class OpenpyxlPO():
             self.save()
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+
+    def setCellFont(self, varRow, varCol, name=u'微软雅黑', size=16, bold=False, italic=False, color="000000", varSheet=0):
+
+        '''
+        2.4.1 设置单元格字体
+        :param varRow:  行
+        :param varCol:  列
+        :param font: 字体类 (字体，字号，粗体，斜体，？，下划线，？，字体颜色)
+        Font(name=u'微软雅黑', size='' + size + '', bold=False, italic=False, vertAlign='baseline', underline='none',strike=False, color='' + color + '')
+        '''
+
+        sh = self.sh(varSheet)
+        sh.cell(row=varRow, column=varCol).font = Font(name=name, size=size, bold=bold, italic=italic, color=color)
+        self.save()
+
+
+    def setPatternFill(self, row, col, fill_type="solid", fgColor="99ccff", varSheet=0):
+        '''
+        2.4.2 设置单元格填充背景色
+        :param patternType:
+        :param fgColor:
+        :return:
+         # patternType = {'lightVertical', 'mediumGray', 'lightGrid', 'darkGrid', 'gray125', 'lightHorizontal', 'gray0625','lightTrellis', 'darkUp', 'lightGray', 'darkVertical', 'darkGray', 'solid', 'darkTrellis', 'lightUp','darkHorizontal', 'darkDown', 'lightDown'}
+         # return PatternFill(patternType='solid', fgColor='006100')  # 背景色
+         PatternFill(fill_type=填充样式，fgColor=填充颜色）
+        '''
+
+        sh = self.sh(varSheet)
+        pattern_fill = PatternFill(fill_type=fill_type, fgColor=fgColor)
+        sh.cell(row=row, column=col).fill = pattern_fill
+        self.save()
+
+        # return PatternFill(patternType='' + patternType + '', fgColor='' + fgColor + '')  # 背景色
+
+    def setGradientFill(self, row, col, stop=["FFFFFF", "99ccff", "000000"], varSheet=0):
+        '''
+        2.4.2 设置单元格填充渐变色
+        :param patternType:
+        :param fgColor:
+        :return:
+         GradientFill(stop=(渐变颜色 1，渐变颜色 2……))        '''
+
+        sh = self.sh(varSheet)
+        gradient_fill = GradientFill(stop=(stop[0], stop[1], stop[2]))
+        sh.cell(row=row, column=col).fill = gradient_fill
+        self.save()
+
+
+
+    def setBorder(self, row, col, left = ['thin','ff0000'], right = ['thick','ff0000'], top = ['thin','ff0000'],bottom = ['thick','ff0000'],  varSheet=0):
+        '''
+        2.4.3 设置单元格边框
+        # 设置边框样式，上下左右边框
+        Side(style=边线样式，color=边线颜色)
+         * style 参数的种类： 'double, 'mediumDashDotDot', 'slantDashDot',
+        'dashDotDot','dotted','hair', 'mediumDashed, 'dashed', 'dashDot', 'thin',
+        'mediumDashDot','medium', 'thick'
+
+        Border(row,col, left=左边线样式，right=右边线样式，top=上边线样式，bottom=下边线样式)
+         left = ['thin','ff0000'] , right = ['thin','ff0000']
+        :return:
+        '''
+
+        sh = self.sh(varSheet)
+        border = Border(left=Side(style=left[0], color=left[1]), right=Side(style=right[0], color=right[1]),
+                        top=Side(style=top[0], color=top[1]), bottom=Side(style=bottom[0], color=bottom[1]))
+        sh.cell(row=row, column=col).border = border
+        self.save()
+        # return Border(left=Side(style='medium', color='FF000000'), right=Side(style='medium', color='FF000000'),
+        #                   top=Side(style='medium', color='FF000000'), bottom=Side(style='medium', color='FF000000'),
+        #                   diagonal=Side(style='medium', color='FF000000'), diagonal_direction=0,
+        #                   outline=Side(style='medium', color='FF000000'),
+        #                   vertical=Side(style='medium', color='FF000000'),
+        #                   horizontal=Side(style='medium', color='FF000000'))
 
     def setRowValue(self, d_var, varSheet=0):
         '''
@@ -611,6 +628,41 @@ class OpenpyxlPO():
         self.save()
 
 
+    def setAllWordWrap(self, varSheet=0):
+
+        '''
+        2.13 设置所有单元格自动换行 setAllWordWrap()
+        '''
+
+        sh = self.sh(varSheet)
+        # print(list(sh._cells.keys())) # [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3), (4, 1), (4, 2), (4, 3), (5, 1), (5, 2), (5, 3), (6, 1), (6, 2), (6, 3), (7, 1), (7, 2), (7, 3)]
+
+        for key in list(sh._cells.keys()):
+            sh._cells[key].alignment = Alignment(wrapText=True)
+        self.save()
+
+
+    def setFreeze(self, coordinate, varSheet=0):
+
+        '''2.14 冻结窗口'''
+
+        sh = self.sh(varSheet)
+        sh.freeze_panes = coordinate
+        self.save()
+
+
+    def setAlignment(self, row, col, horizontal='center', vertical='center', text_rotation=0, wrap_text=False, varSheet=0):
+
+        # 2.15 设置单元格对齐样式
+        # Alignment(horizonta水平对齐模式, vertical=垂直对齐模式, text_rotation=旋转角度, wrap_text=是否自动换行)
+        # horizontal = ("general", "left", "center", "right", "fill", "justify", "centerContinuous", "distributed",)
+        # vertical = ("top", "center", "bottom", "justify", "distributed")
+
+        sh = self.sh(varSheet)
+        sh.cell(row=row, column=col).alignment = Alignment(horizontal=horizontal, vertical=vertical, text_rotation=text_rotation, wrap_text=wrap_text)
+        self.save()
+
+
 
     def l_getTotalRowCol(self, varSheet=0):
         '''
@@ -629,6 +681,9 @@ class OpenpyxlPO():
             return [rows, cols]
         except:
             print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+
+
 
     def getCellValue(self, varRow, varCol, varSheet=0):
         '''
@@ -965,11 +1020,13 @@ class OpenpyxlPO():
 
 if __name__ == "__main__":
 
-    # Sys_PO.killPid('EXCEL.EXE')
+    Sys_PO.killPid('EXCEL.EXE')
 
-    Openpyxl_PO = OpenpyxlPO("ExcelPO/fold.xlsx")
-    # Openpyxl_PO.delSheet("南京")
-    # Openpyxl_PO.addSheetCover("mySheet1", 1)   # 当index足够大时，则在最后一个位置添加工作表
+    Openpyxl_PO = OpenpyxlPO("ExcelPO/saasuser.xlsx")
+
+
+
+    # Openpyxl_PO.setCellFont(1, 1, name=u'微软雅黑', size=16, bold=True, italic=True, color="000000")
 
     # print(Openpyxl_PO.getSheets())
 
@@ -980,14 +1037,16 @@ if __name__ == "__main__":
     # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
     # print("1.2 添加保留工作表".center(100, "-"))
-    # Openpyxl_PO.addSheet("mySheet1")
+    # Openpyxl_PO.addSheet("saasuser1")
 
     # print("1.3 添加覆盖工作表".center(100, "-"))
-    # Openpyxl_PO.addSheetCover("mySheet1", 99)   # 当index足够大时，则在最后一个位置添加工作表
+    # Openpyxl_PO.addSheetCover("Sheet1", 1)    # 当index足够大时，则在最后一个位置添加工作表
+    # Openpyxl_PO.open()
 
     # print("1.4 删除工作表".center(100, "-"))
     # Openpyxl_PO.delSheet("Sheet1")
     # Openpyxl_PO.delSheet("mySheet1")
+
 
 
     # print("2.1 初始化保留数据".center(100, "-"))
@@ -997,7 +1056,7 @@ if __name__ == "__main__":
     # print("2.2 设置单元格行高与列宽".center(100, "-"))
     # Openpyxl_PO.setCellDimensions(3, 30, 'f', 30)
 
-    # print("2.3 设置工作表所有单元格的行高与列宽".center(100, "-"))
+    # print("2.3 设置所有单元格的行高与列宽".center(100, "-"))
     # Openpyxl_PO.setSheetDimensions(30, 20)
     # Openpyxl_PO.open()
 
@@ -1006,16 +1065,16 @@ if __name__ == "__main__":
     # font = Openpyxl_PO.setFont('16', '000000')  # 16号字体颜色
     #
     # print("2.4.2 设置填充类（背景色）".center(100, "-"))
-    # fille = Openpyxl_PO.setFille('solid', '006100')  # 单元格背景色
-    #
-    # print("2.4.3 设置边框类".center(100, "-"))
-    # border = Openpyxl_PO.setBorder()  # 黑色直线边框
-    #
-    # print("2.4.4 设置位置类".center(100, "-"))
-    # alignment = Openpyxl_PO.setAlignment(['center', 'top'])  # 文字左右居中，位置在上
+    # Openpyxl_PO.setPatternFill(2, 2, 'solid', '006100')  # 单元格背景色
+    Openpyxl_PO.setGradientFill(3, 3, stop=["FFFFFF", "99ccff", "000000"])
+
+
+    # print("2.4.3 设置边框样式".center(100, "-"))
+    # Openpyxl_PO.setBorder(1, 2, left = ['thin','ff0000'], right = ['thick','ff0000'], top = ['thin','ff0000'],bottom = ['thick','ff0000'])
+
     #
     # print("2.4 设置单元格值".center(100, "-"))
-    # Openpyxl_PO.setCellValue(1, 6, "jinhao", font, fille, border, "", "", "")  # 引用font和fille对2行6列写入值
+    # Openpyxl_PO.setCellValue(1, 6, "jinhao", Openpyxl_PO.setFont('16', '000000'), "", "", "", "", "")  # 引用font和fille对2行6列写入值
     # Openpyxl_PO.setCellValue(1, 6, "jinhao", font, fille, "", "", "", "")  # 引用font和fille对2行6列写入值
     # Openpyxl_PO.setCellValue(2, 4, "upup", font, "", border, "", "", "")
     # Openpyxl_PO.setCellValue(3, 4, "upup", "", "", border, "", "", "")
@@ -1036,8 +1095,15 @@ if __name__ == "__main__":
     # Openpyxl_PO.open()
 
     # print("2.8 设置单元格背景色".center(100, "-"))
-    # Openpyxl_PO.setCellColor(4, 1, None, "", "Sheet1")  # 清除第四行第1列的背景色
-    # Openpyxl_PO.setCellColor(5, 1, "solid", "ff0000", "Sheet1")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(4, 1, None, "", "saasuser")  # 清除第四行第1列的背景色
+    # Openpyxl_PO.setCellColor(1, 1, "solid", "ff0000", "saasuser")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(1, 2, "solid", "ff0000", "saasuser")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(1, 3, "solid", "ff0000", "saasuser")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(1, 4, "solid", "ff0000", "saasuser")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(1, 5, "solid", "ff0000", "saasuser")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(1, 6, "solid", "ff0000", "saasuser")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(1, 7, "solid", "ff0000", "saasuser")  # 第五行第一列设置红色
+    # Openpyxl_PO.setCellColor(1, 8, "solid", "ff0000", "saasuser")  # 第五行第一列设置红色
     # Openpyxl_PO.setCellColor(None, None, "", "", "Sheet1")  # 清除表格里所有背景色
     # Openpyxl_PO.open()
 
@@ -1049,6 +1115,21 @@ if __name__ == "__main__":
     # Openpyxl_PO.setColColor(2, 1, "ff0000")  # 从第2列开始不间隔地设置每列颜色为红色
     # Openpyxl_PO.setColColor(2, 2, "ff0000")  # 从第2行开始每隔1列设置颜色为红色
 
+
+    # print("2.13 设置所有单元格自动换行".center(100, "-"))
+    Openpyxl_PO.setAllWordWrap()
+    # Openpyxl_PO.setAllWordWrap("Sheet1")
+
+
+    # print("2.14 冻结首行 ".center(100, "-"))
+    # Openpyxl_PO.setFreeze('A2', "saasuser")
+
+
+    # print("2.15 设置单元格对齐样式".center(100, "-"))
+    # Openpyxl_PO.setAlignment(5, 4, 'center', 'top')
+    # Openpyxl_PO.setAlignment(1, 1, 'center', 'top', 45)
+    # Openpyxl_PO.setAlignment(1, 1, 'center', 'top', 45, True)
+    # Openpyxl_PO.setAlignment(5, 4, 'center', 'center', "saasuser1")
 
 
     # print("3.1 获取总行数和总列数".center(100, "-"))
@@ -1074,7 +1155,7 @@ if __name__ == "__main__":
     #
     # print("3.6 获取某些列的列数据，可忽略多行".center(100, "-"))
     # print(Openpyxl_PO.l_getColValueByPartCol([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
-    print(Openpyxl_PO.l_getColValueByPartCol([2], [], "上海"))  # 获取第2列所有值。
+    # print(Openpyxl_PO.l_getColValueByPartCol([2], [], "上海"))  # 获取第2列所有值。
 
     # print("3.7 获取单元格的坐标".center(100, "-"))
     # print(Openpyxl_PO.getCoordinate(2, 5))   # E2
@@ -1110,5 +1191,7 @@ if __name__ == "__main__":
     
     # print("5.2 对一张表的两个sheet进行数据比对，差异数据标注颜色 ".center(100, "-"))
     # Openpyxl_PO.setCellColorByCmpSheets("Sheet1", "Sheet2")
-    # Openpyxl_PO.open()
+
+
+    Openpyxl_PO.open()
 
