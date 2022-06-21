@@ -73,6 +73,31 @@ class ProjectI():
         Openpyxl_PO.addSheetCover(varProject)
 
         Openpyxl_PO.setRowValue({1: ["tags", "summary", "paths", "method", "consumes", "query", "body", "parameters [参数名称，参数说明，请求类型，是否必须，数据类型，schema]"]})
+        Openpyxl_PO.setCellColor(1, 1, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 2, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 3, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 4, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 5, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 6, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 7, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 8, "solid", "ff0000")
+        Openpyxl_PO.setCellDimensions(1, 30, 'a', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'b', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'c', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'e', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'f', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'g', 40)
+        Openpyxl_PO.setCellDimensions(1, 30, 'h', 70)
+
+        Openpyxl_PO.setCellFont(1, 1, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 2, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 3, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 4, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 5, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 6, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 7, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 8, name=u'微软雅黑', size=11, bold=True, italic=True)
+
         for i in range(len(d['tags'])):
             Openpyxl_PO.setRowValue({i+2: [d['tags'][i]['name']]})
         Openpyxl_PO.save()
@@ -162,7 +187,9 @@ class ProjectI():
                                                         d_parameters[k2] = '?'
 
                                     # print(d_parameters)
-                                    l_i.append(str(d_parameters))
+                                    # l_i.append(str(d_parameters))
+                                    l_i.append(json.dumps(d_parameters))
+
                                     break
                             elif "items" in l_parameters[0]['schema']:
                                 # print(l_parameters[0]['schema']['items']['$ref'].split("#/definitions/")[1])
@@ -178,7 +205,9 @@ class ProjectI():
                                                 elif v2['type'] == "integer":
                                                     d_parameters[k2] = 0
                                     # print(d_parameters)
-                                    l_i.append(str(d_parameters))
+                                    # l_i.append(str(d_parameters))
+                                    l_i.append(json.dumps(d_parameters))
+
                                     break
                     else:
                         l_i.append(None)
@@ -195,6 +224,17 @@ class ProjectI():
 
         for i in range(len(l_all)):
             Openpyxl_PO.setRowValue({i+2: l_all[i]})
+        Openpyxl_PO.setAllWordWrap()
+        Openpyxl_PO.setAlignment(1, 1, 'center', 'center')
+        Openpyxl_PO.setAlignment(1, 2, 'center', 'center')
+        Openpyxl_PO.setAlignment(1, 3, 'center', 'center')
+        Openpyxl_PO.setAlignment(1, 4, 'center', 'center')
+        Openpyxl_PO.setAlignment(1, 5, 'center', 'center')
+        Openpyxl_PO.setAlignment(1, 6, 'center', 'center')
+        Openpyxl_PO.setAlignment(1, 7, 'center', 'center')
+        Openpyxl_PO.setAlignment(1, 8, 'center', 'center')
+        Openpyxl_PO.setFreeze('A2')
+
         Openpyxl_PO.save()
 
 

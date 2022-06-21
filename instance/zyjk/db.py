@@ -164,8 +164,8 @@ mysql_PO = MysqlPO.MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 
 # mysql_PO.dbRecord('*', 'int', '246903925362249729')
 # mysql_PO.dbDesc()   # 所有表结构
 # mysql_PO.dbRecord('*', 'varchar', '16766667777')  # 模糊搜索所有表中带yoy的char类型。
-mysql_PO.dbRecord('sys_user_detail', 'varchar', '16766667777')  # 模糊搜索所有表中带yoy的char类型。
-# mysql_PO.dbRecord('*', 'varchar', '16766667777')  # 模糊搜索所有表中带yoy的char类型。
+# mysql_PO.dbRecord('sys_user_detail', 'varchar', '16766667777')  # 模糊搜索所有表中带yoy的char类型。
+mysql_PO.dbRecord('*', 'varchar', '16766667777')  # 模糊搜索所有表中带yoy的char类型。
 
 # SAAS(生产 121.36.248.183)
 # mysql_PO = MysqlPO.MysqlPO("121.36.248.183", "root", "Tunicorn3y2dH", "saasusertest", 2306)
