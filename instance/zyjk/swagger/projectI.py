@@ -23,9 +23,11 @@ Sys_PO = SysPO()
 from PO.WebPO import *
 
 
-iUrl = 'http://192.168.0.238:8801'
-iDoc = '/doc.html'
-
+# iUrl = 'http://192.168.0.238:8801'
+# iDoc = '/doc.html'
+#
+# # iUrl = 'http://192.168.0.238:8090'
+# # iDoc = '/doc.html'
 
 class projectI():
 
@@ -33,23 +35,20 @@ class projectI():
 
         global d_all
 
+
+
+
+
+
+    def getI(self, iUrl, iDoc, varProject, toSave):
+
         Web_PO = WebPO("chrome")
-        Web_PO.openURL(iUrl+iDoc)
-        # Web_PO.driver.maximize_window()  # 全屏
+        Web_PO.openURL(iUrl + iDoc)
         l_project = Web_PO.getXpathsText("//option")
         l_url = Web_PO.getXpathsAttr("//option", "data-url")
-        # print(l_url)
         l_url = [iUrl + i for i in l_url]
-        # l_url = ['http://192.168.0.238:8801' + i for i in l_url]
         d_all = List_PO.twoList2dict(l_project, l_url)
-        # print(d_all)
-        #
-        # sys.exit(0)
         Web_PO.closeURL()
-
-
-
-    def getI(self, varProject, toSave):
 
         html = requests.get(d_all[varProject])
         html.encoding = 'utf-8'
@@ -67,16 +66,32 @@ class projectI():
         Openpyxl_PO.addSheetCover(varProject)
 
         Openpyxl_PO.setRowValue({1: ["tags", "summary", "paths", "method", "consumes", "query", "body", "parameters [参数名称，参数说明，请求类型，是否必须，数据类型，schema]"]})
+        Openpyxl_PO.setCellColor(1, 1, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 2, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 3, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 4, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 5, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 6, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 7, "solid", "ff0000")
+        Openpyxl_PO.setCellColor(1, 8, "solid", "ff0000")
+        Openpyxl_PO.setCellDimensions(1, 30, 'a', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'b', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'c', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'e', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'f', 20)
+        Openpyxl_PO.setCellDimensions(1, 30, 'g', 40)
+        Openpyxl_PO.setCellDimensions(1, 30, 'h', 70)
+
+        Openpyxl_PO.setCellFont(1, 1, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 2, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 3, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 4, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 5, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 6, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 7, name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellFont(1, 8, name=u'微软雅黑', size=11, bold=True, italic=True)
         for i in range(len(d['tags'])):
             Openpyxl_PO.setRowValue({i+2: [d['tags'][i]['name']]})
-
-        # 设置第三行行高30，第f列列宽50
-        Openpyxl_PO.setCellDimensions(1, 30, 'a', 30)
-        Openpyxl_PO.setCellDimensions(1, 30, 'b', 30)
-        Openpyxl_PO.setCellDimensions(1, 30, 'f', 30)
-        Openpyxl_PO.setCellDimensions(1, 30, 'g', 30)
-        Openpyxl_PO.setCellDimensions(1, 30, 'h', 60)
-
         Openpyxl_PO.save()
 
         l_i = []
@@ -133,6 +148,13 @@ class projectI():
                 # body
                 l_parameters = []
                 d_parameters = {}
+
+                d_parameters_1 = {}
+                l_parameters_1 = []
+
+                d_parameters_2 = {}
+                l_parameters_2 = []
+
                 if 'parameters' in v:
                     l_parameters = Str_PO.str2list(str(v['parameters']))
                     # print(l_parameters)
@@ -142,6 +164,7 @@ class projectI():
 
                         for k, v in d['definitions'].items():
                             # print(l_parameters[0])
+                            # print(k)
                             if "$ref" in l_parameters[0]['schema']:
                                 # print(l_parameters[0]['schema']['$ref'].split("#/definitions/")[1])
                                 if k == l_parameters[0]['schema']['$ref'].split("#/definitions/")[1]:  # ChatVO
@@ -159,9 +182,59 @@ class projectI():
                                                     elif v2['type'] == "integer":
                                                         d_parameters[k2] = 0
                                                     elif v2['type'] == "array":
-                                                        d_parameters[k2] = []
+                                                        # d_parameters[k2] = []
+
+                                                        # 第二层array
+                                                        if "items" in v2:
+                                                            if "$ref" in v2['items']:
+                                                                # print(v2['items']['$ref'].split("#/definitions/")[1])
+                                                                # print(k)
+                                                                for k9, v in d['definitions'].items():
+                                                                    if k9 == v2['items']['$ref'].split("#/definitions/")[1]:  # 会议反馈人员记录DTO
+                                                                        for k10, v10 in d['definitions'][k9].items():
+                                                                            if k10 == "properties":
+                                                                                # print(v1)
+                                                                                for k20, v20 in v10.items():
+                                                                                    # print(v20)
+                                                                                    if "type" in v20:
+                                                                                        if v20['type'] == "string":
+                                                                                            d_parameters_1[k20] = ""
+                                                                                        elif v20['type'] == "integer":
+                                                                                            d_parameters_1[k20] = 0
+                                                                                        elif v20['type'] == "array":
+                                                                                            d_parameters_1[k20] = []
+
+                                                                                            # 第三层array
+                                                                                            for k119, v in d['definitions'].items():
+                                                                                                # print(v20['items'])
+                                                                                                if "$ref" in v20['items']:
+                                                                                                    if k119 == v20['items']['$ref'].split("#/definitions/")[1]:  # 产品观念DTO
+                                                                                                        # print(k119)
+                                                                                                        for k100, v100 in d['definitions'][k119].items():
+                                                                                                            if k100 == "properties":
+                                                                                                                for k200, v200 in v100.items():
+                                                                                                                    # print(v200)
+                                                                                                                    if "type" in v200:
+                                                                                                                        if v200['type'] == "string":
+                                                                                                                            d_parameters_2[k200] = ""
+                                                                                                                        elif v200['type'] == "integer":
+                                                                                                                            d_parameters_2[k200] = 0
+                                                                                                                        elif v200['type'] == "array":
+                                                                                                                            d_parameters_2[k200] = []
+                                                                                                                l_parameters_2.append(d_parameters_2)
+                                                                                                                # print(l_parameters_2)
+                                                                                                                d_parameters_1[k20] = l_parameters_2
+
+
+                                                                                l_parameters_1.append(d_parameters_1)
+                                                                                d_parameters[k2] = l_parameters_1
+
+                                                    elif v2['type'] == "number":
+                                                        d_parameters[k2] = 0.00
                                                     else:
                                                         d_parameters[k2] = '?'
+
+
 
                                     # print(d_parameters)
                                     # print(json.dumps(d_parameters))
@@ -183,7 +256,6 @@ class projectI():
                                     # print(d_parameters)
                                     # l_i.append(str(d_parameters))
                                     l_i.append(json.dumps(d_parameters))
-
                                     break
                     else:
                         l_i.append(None)
@@ -200,7 +272,19 @@ class projectI():
 
         for i in range(len(l_all)):
             Openpyxl_PO.setRowValue({i+2: l_all[i]})
+        Openpyxl_PO.setAllWordWrap()
+        Openpyxl_PO.setCellAlignment(1, 1, 'center', 'center')
+        Openpyxl_PO.setCellAlignment(1, 2, 'center', 'center')
+        Openpyxl_PO.setCellAlignment(1, 3, 'center', 'center')
+        Openpyxl_PO.setCellAlignment(1, 4, 'center', 'center')
+        Openpyxl_PO.setCellAlignment(1, 5, 'center', 'center')
+        Openpyxl_PO.setCellAlignment(1, 6, 'center', 'center')
+        Openpyxl_PO.setCellAlignment(1, 7, 'center', 'center')
+        Openpyxl_PO.setCellAlignment(1, 8, 'center', 'center')
+        Openpyxl_PO.setFreeze('A2')
         Openpyxl_PO.save()
+
+        print("[Done] => " + toSave)
 
 
 if __name__ == '__main__':
@@ -209,12 +293,17 @@ if __name__ == '__main__':
 
     project_I = projectI()
 
-    # project_I.getI("auth", "i.xlsx")
-    project_I.getI("saasuser", "saasuser.xlsx")
-    # project_I.getI("cms")
-    # project_I.getI("oss")
-    # project_I.getI("saascrf")
-    # project_I.getI("ecg")
-    # project_I.getI("cuser")
-    # project_I.getI("hypertension")
+
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"auth", "auth.xlsx")
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html', "saasuser", "saasuser.xlsx")
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"cms", "cms.xlsx")
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"oss", "oss.xlsx")
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"saascrf", "saascrf.xlsx")
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"ecg", "ecg.xlsx")
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"cuser", "cuser.xlsx")
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"hypertension", "hypertension.xlsx")
+
+
+    project_I.getI('http://192.168.0.238:8090', '/doc.html', "default", "erp.xlsx")
+
 
