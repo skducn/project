@@ -76,8 +76,8 @@ class ProjectI():
         Openpyxl_PO.setRowColColor(1, "all", "ff0000")
         Openpyxl_PO.setRowColDimensions(1, 30, ['a', 'f'], 20)  # 设置第五行行高30，f - h列宽33
         Openpyxl_PO.setCellDimensions(1, 30, 'g', 40)
-        Openpyxl_PO.setCellDimensions(1, 30, 'h', 70)
-        Openpyxl_PO.setRowColFont(1, [1, 8], name=u'微软雅黑', size=11, bold=True, italic=True)
+        Openpyxl_PO.setCellDimensions(1, 30, 'h', 80)
+        Openpyxl_PO.setRowColFont(1, ["a", "h"], size=11, bold=True, italic=True)
 
         for i in range(len(d['tags'])):
             Openpyxl_PO.setRowValue({i+2: [d['tags'][i]['name']]})
@@ -206,7 +206,7 @@ class ProjectI():
         for i in range(len(l_all)):
             Openpyxl_PO.setRowValue({i+2: l_all[i]})
         Openpyxl_PO.setAllWordWrap()
-        Openpyxl_PO.setRowColAlignment(1, [1, 8], 'center', 'center')
+        Openpyxl_PO.setRowColAlignment(1, ["a", "h"], 'center', 'center')
         Openpyxl_PO.setFreeze('A2')
 
         Openpyxl_PO.save()

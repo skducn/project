@@ -37,6 +37,7 @@ class ChinaAreaCodePO():
 
         # print(Html_PO.getHeaders())
         # response = Html_PO.sessionGet(url, Html_PO.getHeaders())
+        # print(Html_PO.getHeaders())
         response = requests.get(url, headers=Html_PO.getHeaders())
         response.encoding = "GBK"
         return BeautifulSoup(response.text, "lxml")
@@ -278,14 +279,14 @@ class ChinaAreaCodePO():
             if varProvince == self.Openpyxl_PO.getSheets()[j]:
                 # 获取最后一条的行数
                 # print(self.Openpyxl_PO.l_getTotalRowCol(varProvince)[0])
-                varLastRow = self.Openpyxl_PO.l_getTotalRowCol(varProvince)[0]
+                varLastRow = self.Openpyxl_PO.getRowCol(varProvince)[0]
 
                 # 获取最后一条记录内容
-                l_record = self.Openpyxl_PO.l_getOneRow(self.Openpyxl_PO.l_getTotalRowCol(varProvince)[0]-1, varProvince)
+                l_record = self.Openpyxl_PO.getOneRowValue(self.Openpyxl_PO.getRowCol(varProvince)[0]-1, varProvince)
                 # print(l_record)  # [None, None, None, None, '320104', '秦淮区', '320104007', '洪武路街道', '320104007010', '王府园社区居委会']
 
                 # 获取市
-                province = self.Openpyxl_PO.l_getColValueByPartCol([4], [1], varProvince)
+                province = self.Openpyxl_PO.getColValueByCol([4], [1], varProvince)
                 # print([x for x in province[0] if x != None][-1])
                 strProvince = ([x for x in province[0] if x != None][-1])
 
@@ -508,6 +509,7 @@ class ChinaAreaCodePO():
             # 新增参数sheet
             self.Openpyxl_PO.addSheetCover(varProvince, 0)
             self.xx(varProvince)
+
     def update2(self, varProvince):
         sign = 0
         # 判断是否有参数的sheet
@@ -540,7 +542,7 @@ class ChinaAreaCodePO():
 
                 # 添加上海市sheet
                 self.Openpyxl_PO.addSheet(province_name)
-                self.Openpyxl_PO.initData([['区划代码', '地区', '区划代码', '名称', '区划代码', '名称', '区划代码', '名称', '区划代码', '名称']])
+                self.Openpyxl_PO.addOnRowValue([['区划代码', '地区', '区划代码', '名称', '区划代码', '名称', '区划代码', '名称', '区划代码', '名称']])
 
                 # print(province_code)
                 # print(province_name)
@@ -773,7 +775,7 @@ class ChinaAreaCodePO():
             # sys.exit()
 
             if item_href is not None:
-                # self.Openpyxl_PO.save()
+                self.Openpyxl_PO.save()
                 # print(self.get_prefix(url)) # http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/31/01/
                 # print(item_href) # 01/310101015.html
                 self.spider_next2(self.s, self.get_prefix(url) + item_href, lev + 1)
@@ -793,7 +795,8 @@ if __name__ == '__main__':
     ChinaAreaCode_PO = ChinaAreaCodePO("123.xlsx")
 
     # 下载（覆盖）
-    # ChinaAreaCode_PO.update("江苏省")
+    ChinaAreaCode_PO.update("江苏省")
+
 
     # 断点续传，获取区列表，街道列表，居委会列表，从表格最后一条记录开始，与列表比对，并继续递归
     # ChinaAreaCode_PO.jixu("上海市")
@@ -805,4 +808,4 @@ if __name__ == '__main__':
     # 获取列表
     # ChinaAreaCode_PO.getList(["江苏省", '', ''])
     # ChinaAreaCode_PO.getList(["上海市", '市辖区', '浦东新区', ""])
-    ChinaAreaCode_PO.getList(["江苏省", '常州市', '',''])
+    # ChinaAreaCode_PO.getList(["江苏省", '常州市', '',''])

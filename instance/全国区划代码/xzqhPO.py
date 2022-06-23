@@ -2,8 +2,12 @@
 # *********************************************************************
 # Author        : John
 # Date          : 2022-6-13
-# Description   : 获取swagger内容 另存为excel
-# http://192.168.0.238:8801/doc.html
+# Description   : 2020 年全国统计用区划代码
+# 五级行政区域划分API接口 https://www.wenjiangs.com/api/v2/xzqh
+# 可选参数 code    https://www.wenjiangs.com/api/v2/xzqh?code=110100000000
+# 三级行政区域划分API接口 https://www.wenjiangs.com/api/v2/xzqhSimple
+
+# 参考：https://www.wenjiangs.com/division?code=350725203000
 # *********************************************************************
 
 import requests,json,sys
@@ -23,13 +27,11 @@ Sys_PO = SysPO()
 from PO.WebPO import *
 
 
-# iUrl = 'http://192.168.0.238:8801'
-# iDoc = '/doc.html'
-#
-# # iUrl = 'http://192.168.0.238:8090'
-# # iDoc = '/doc.html'
+# iUrl = 'https://www.wenjiangs.com/api/v2/xzqh'
+# iUrl = 'https://www.wenjiangs.com/api/v2/xzqh?code=110100000000'
+# iUrl = 'https://www.wenjiangs.com/api/v2/xzqhSimple'
 
-class projectI():
+class XzqhPO():
 
     def __init__(self):
 
@@ -257,23 +259,45 @@ class projectI():
 
         print("[Done] => " + toSave)
 
+    def getFive(self, varProvince):
+        html = requests.get("https://www.wenjiangs.com/api/v2/xzqh")
+        html.encoding = 'utf-8'
+        l_province = json.loads(html.text)
+        # print(l_province)
+        # print(len(l_province))
+        for i in range(len(l_province)):
+            # print(l_province[i])
+            for j in range(len(l_province[i])):
+                if l_province[i]['name'] == varProvince:
+                    print(l_province[i]['code'])
+                    break
+
+    def getArea(self, varCode):
+        html = requests.get("https://www.wenjiangs.com/api/v2/xzqh?code=" + str(varCode))
+        html.encoding = 'utf-8'
+        l_area = json.loads(html.text)
+        print(l_area)
+        print(len(l_area))
+        for i in range(len(l_area)):
+            print(l_area[i])
+            # for j in range(len(l_province[i])):
+            #     if l_province[i]['name'] == varProvince:
+            #         print(l_province[i]['code'])
+            #         break
 
 if __name__ == '__main__':
 
     Sys_PO.killPid('EXCEL.EXE')
 
-    project_I = projectI()
+    Xzqh_PO = XzqhPO()
 
-    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"auth", "auth.xlsx")
-    # project_I.getI('http://192.168.0.238:8801', '/doc.html', "saasuser", "saasuser.xlsx")
-    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"cms", "cms.xlsx")
-    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"oss", "oss.xlsx")
-    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"saascrf", "saascrf.xlsx")
-    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"ecg", "ecg.xlsx")
-    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"cuser", "cuser.xlsx")
-    # project_I.getI('http://192.168.0.238:8801', '/doc.html',"hypertension", "hypertension.xlsx")
+    code = Xzqh_PO.getFive("上海市")
+
+    Xzqh_PO.getArea(code)
+    #
+    # Xzqh_PO.getThree('上海市', '市辖区', "auth", "auth.xlsx")
+    # Xzqh_PO.getThree('江苏省', '南京市', "市辖区", "auth.xlsx")
 
 
-    project_I.getI('http://192.168.0.238:8090', '/doc.html', "default", "erp.xlsx")
 
 
