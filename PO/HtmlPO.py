@@ -57,7 +57,7 @@ class HtmlPO:
 
     # 4.1 生成headers
     def getHeaders(self):
-        return {'User-Agent': Data_PO.getUserAgent()}
+        return {'User-Agent': Data_PO.getUserAgent2()}
 
     # 4.2 生成proxies代理
     def getProxies(self):
