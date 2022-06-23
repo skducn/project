@@ -36,7 +36,7 @@
 # 绿色 = 00E400，黄色 = FFFF00，橙色 = FF7E00，红色 = FF0000，粉色 = 99004C，褐色 =7E0023,'c6efce = 淡绿', '006100 = 深绿'，'ffffff=白色', '000000=黑色'，'ffeb9c'= 橙色
 
 # todo: 表格列 A，B，C 与 1，2，3 互转
-# from openpyxl.utils import get_column_letter,column_index_from_string
+from openpyxl.utils import get_column_letter,column_index_from_string
 # get_column_letter(2)  # 'B'
 # column_index_from_string('B')  # 2
 # *********************************************************************
@@ -74,17 +74,22 @@ from PO.MysqlPO import *
 2.4 追加整行值 addOnRowValue([['姓名', '电话', '成绩', '学科'], ['毛泽东', 15266606298, 14, '化学'], ['周恩来', 15201077791, 78, '美术']])
 
 2.5 设置单元格行高与列宽 setCellDimensions(3, 30, 'f', 30) //设置第三行行高30，第f列列宽50
-2.6 设置工作表所有单元格的行高与列宽 setSheetDimensions(30, 20) //设置所有单元格高30，宽50
+2.6 设置工作表所有单元格的行高与列宽 setAllCellDimensions(30, 20) //设置所有单元格高30，宽50
 2.7 设置所有单元格自动换行 setAllWordWrap()
 2.8 设置冻结首行 setFreeze('A2'）
 2.9 设置单元格对齐样式  setCellAlignment(5, 4, 'center', 'center')
+2.9.2 设置单行多列对齐样式 setRowColAlignment(5, [1,4], 'center', 'center')
+2.9.3 设置所有单元格对齐样式 setAllCellAlignment('center', 'center')
 2.10 设置筛选列  setFilterCol("all") # 全部筛选, setFilterCol("") # 取消筛选 , setFilterCol("A2") # 对A2筛选 
-
 2.11 设置单元格字体（字体、字号、粗斜体、下划线、颜色） setCellFont(1, 1, name=u'微软雅黑', size=16, bold=True, italic=True, color="000000")
+2.11.2 设置单行多列字体  setRowColFont(1, [1, 5])
+2.11.3 设置所有单元格字体  setAllCellFont(color="000000")
 2.12 设置单元格边框 setBorder(1, 2, left = ['thin','ff0000'], right = ['thick','ff0000'], top = ['thin','ff0000'],bottom = ['thick','ff0000'])
 2.13 设置单元格填充背景色 setPatternFill(2, 2, 'solid', '006100')
 2.14 设置单元格填充渐变色 setGradientFill(3, 3, stop=["FFFFFF", "99ccff", "000000"])
 2.15 设置单元格背景色 setCellColor(1, 1, "solid", "ff0000")  # 第1行第一列设置红色
+2.15.2 设置单行多列背景色 setRowColColor(5, ['b', 'd'], "ff0000")
+2.15.3 设置所有单元格背景色 setAllCellColor("ff0000")
 2.16 设置整行(可间隔)背景色  setRowColor(3, 1, "ff0000")  # 从第3行开始每隔1行颜色标红色
 2.17 设置整列(可间隔)背景色  setColColor(2, 1, "ff0000")  # 从第2列开始每隔1列设置颜色为红色
 2.18 设置工作表背景颜色 setSheetColor("FF0000")
@@ -310,9 +315,30 @@ class OpenpyxlPO():
         sh.column_dimensions[col].width = colQty  # 列宽
         self.save()
 
-    def setSheetDimensions(self, rowQty, colQty, varSheet=0):
+    def setRowColDimensions(self, row, rowQty, l_col, colQty, varSheet=0):
 
-        # 2.6 设置工作表所有单元格的行高与列宽
+        # 2.5.2 设置单行多列行高与列宽
+        # Openpyxl_PO.setRowColDimensions(5, 30, ['f', 'h'], 30)  #
+
+        sh = self.sh(varSheet)
+        cols = sh.max_column
+        sh.row_dimensions[row].height = rowQty  # 行高
+
+        if l_col == "all":
+            for i in range(1, cols + 1):
+                sh.column_dimensions[get_column_letter(i)].width = colQty  # 列宽
+        else:
+            # print(column_index_from_string(l_col[0]))  # 6
+            # print(column_index_from_string(l_col[1]))  # 8
+
+            for i in range(column_index_from_string(l_col[0]), int(column_index_from_string(l_col[1])) + 1):
+                sh.column_dimensions[get_column_letter(i)].width = colQty  # 列宽
+
+        self.save()
+
+    def setAllCellDimensions(self, rowQty, colQty, varSheet=0):
+
+        # 2.6 设置所有单元格的行高与列宽
 
         sh = self.sh(varSheet)
         rows = sh.max_row
@@ -346,12 +372,54 @@ class OpenpyxlPO():
     def setCellAlignment(self, row, col, horizontal='center', vertical='center', text_rotation=0, wrap_text=False, varSheet=0):
 
         # 2.9 设置单元格对齐样式
+        # Openpyxl_PO.setCellAlignment(5, 4, 'center', 'top')
+        # Openpyxl_PO.setCellAlignment(5, "f", 'center', 'top')
         # Alignment(horizonta水平对齐模式, vertical=垂直对齐模式, text_rotation=旋转角度, wrap_text=是否自动换行)
         # horizontal = ("general", "left", "center", "right", "fill", "justify", "centerContinuous", "distributed",)
         # vertical = ("top", "center", "bottom", "justify", "distributed")
 
         sh = self.sh(varSheet)
-        sh.cell(row=row, column=col).alignment = Alignment(horizontal=horizontal, vertical=vertical, text_rotation=text_rotation, wrap_text=wrap_text)
+        if isinstance(col, int):
+            sh.cell(row=row, column=col).alignment = Alignment(horizontal=horizontal, vertical=vertical, text_rotation=text_rotation, wrap_text=wrap_text)
+        else:
+            sh.cell(row, column_index_from_string(col)).alignment = Alignment(horizontal=horizontal, vertical=vertical, text_rotation=text_rotation, wrap_text=wrap_text)
+        self.save()
+
+
+    def setRowColAlignment(self, row, l_col, horizontal='center', vertical='center', text_rotation=0, wrap_text=False, varSheet=0):
+
+        # 2.9.2 设置单行多列对齐样式
+        # Openpyxl_PO.setRowColAlignment(1, [4, 6], 'center', 'center')  # 第一行第四五六列居中
+        # Openpyxl_PO.setRowColAlignment(9, "all", 'center', 'center')  # 第九行全部居中
+        # Alignment(horizonta水平对齐模式, vertical=垂直对齐模式, text_rotation=旋转角度, wrap_text=是否自动换行)
+        # horizontal = ("general", "left", "center", "right", "fill", "justify", "centerContinuous", "distributed",)
+        # vertical = ("top", "center", "bottom", "justify", "distributed")
+
+        sh = self.sh(varSheet)
+        cols = sh.max_column
+        if l_col == "all":
+            for i in range((cols)):
+                sh.cell(row=row, column=i+1).alignment = Alignment(horizontal=horizontal, vertical=vertical, text_rotation=text_rotation, wrap_text=wrap_text)
+        else:
+            for i in range(column_index_from_string(l_col[0]), int(column_index_from_string(l_col[1])) + 1):
+                sh.cell(row=row, column=i).alignment = Alignment(horizontal=horizontal, vertical=vertical, text_rotation=text_rotation, wrap_text=wrap_text)
+        self.save()
+
+    def setAllCellAlignment(self, horizontal='center', vertical='center', text_rotation=0, wrap_text=False, varSheet=0):
+
+        # 2.9.3 设置所有单元格对齐样式
+        # Openpyxl_PO.setAllCellAlignment('center', 'center')
+        # Alignment(horizonta水平对齐模式, vertical=垂直对齐模式, text_rotation=旋转角度, wrap_text=是否自动换行)
+        # horizontal = ("general", "left", "center", "right", "fill", "justify", "centerContinuous", "distributed",)
+        # vertical = ("top", "center", "bottom", "justify", "distributed")
+
+        sh = self.sh(varSheet)
+        rows = sh.max_row
+        cols = sh.max_column
+
+        for r in range(rows):
+            for c in range(cols):
+                sh.cell(row=r+1, column=c+1).alignment = Alignment(horizontal=horizontal, vertical=vertical, text_rotation=text_rotation, wrap_text=wrap_text)
         self.save()
 
     def setFilterCol(self, varCell="all", varSheet=0):
@@ -370,14 +438,51 @@ class OpenpyxlPO():
             sh.auto_filter.ref = varCell
         self.save()
 
-    def setCellFont(self, varRow, varCol, name=u'微软雅黑', size=16, bold=False, italic=False, color="000000", varSheet=0):
+    def setCellFont(self, row, col, name=u'微软雅黑', size=16, bold=False, italic=False, color=None, varSheet=0):
 
         # 2.11 设置单元格字体（字体、字号、粗斜体、下划线、颜色）
-        # setCellFont(1, 1, name=u'微软雅黑', size=16, bold=True, italic=True, color="000000")
+        # setCellFont(1, 1)
+        # setCellFont(1, "f")
+        # setCellFont(1, "f", size=16, bold=True, color="ff0000")
 
         sh = self.sh(varSheet)
-        sh.cell(row=varRow, column=varCol).font = Font(name=name, size=size, bold=bold, italic=italic, color=color)
+        if isinstance(col, int):
+            sh.cell(row, col).font = Font(name=name, size=size, bold=bold, italic=italic, color=color)
+        else:
+            sh.cell(row, column_index_from_string(col)).font = Font(name=name, size=size, bold=bold, italic=italic, color=color)
         self.save()
+
+    def setRowColFont(self, row, l_col, name=u'微软雅黑', size=16, bold=False, italic=False, color="000000", varSheet=0):
+
+        # 2.11.2 设置单行多列字体（字体、字号、粗斜体、下划线、颜色）
+        # setRowColFont(1, ["e", "h"])
+        # setRowColFont(1, "all", color="000000")
+
+        sh = self.sh(varSheet)
+        cols = sh.max_column
+
+        if l_col == "all":
+            for i in range((cols)):
+                sh.cell(row=row, column=i + 1).font = Font(name=name, size=size, bold=bold, italic=italic, color=color)
+        else:
+            for i in range(column_index_from_string(l_col[0]), int(column_index_from_string(l_col[1])) + 1):
+                sh.cell(row=row, column=i).font = Font(name=name, size=size, bold=bold, italic=italic, color=color)
+        self.save()
+
+    def setAllCellFont(self, name=u'微软雅黑', size=16, bold=False, italic=False, color="000000", varSheet=0):
+
+        # 2.11.2 设置所有单元格字体（字体、字号、粗斜体、下划线、颜色）
+        # setAllCellFont()
+
+        sh = self.sh(varSheet)
+        rows = sh.max_row
+        cols = sh.max_column
+
+        for r in range(rows):
+            for c in range(cols):
+                sh.cell(row=r + 1, column=c + 1).font = Font(name=name, size=size, bold=bold, italic=italic, color=color)
+        self.save()
+
 
     def setBorder(self, row, col, left = ['thin','ff0000'], right = ['thick','ff0000'], top = ['thin','ff0000'],bottom = ['thick','ff0000'],  varSheet=0):
 
@@ -402,7 +507,6 @@ class OpenpyxlPO():
         2.13 设置单元格填充背景色
         patternType = {'lightVertical', 'mediumGray', 'lightGrid', 'darkGrid', 'gray125', 'lightHorizontal', 'gray0625','lightTrellis', 'darkUp', 'lightGray', 'darkVertical', 'darkGray', 'solid', 'darkTrellis', 'lightUp','darkHorizontal', 'darkDown', 'lightDown'}
         PatternFill(fill_type=填充样式，fgColor=填充颜色）
-
         setPatternFill(2, 2, 'solid', '006100')
         '''
 
@@ -424,11 +528,14 @@ class OpenpyxlPO():
         sh.cell(row=row, column=col).fill = gradient_fill
         self.save()
 
-    def setCellColor(self, row, col, varFillType, varColor, varSheet=0):
+    def setCellColor(self, row, col, varColor=None, varSheet=0):
 
         # 2.15 设置单元格背景色
-        # Openpyxl_PO.setCellColor(6, 7, "solid", "FF0000")   将单元格第6行第7列的背景色设置为红色（FF0000）
-        # Openpyxl_PO.setCellColor(6, 7, None, "")  消除单元格颜色
+        # Openpyxl_PO.setCellColor(5, 1)  # 清除第5行第1列的背景色
+        # Openpyxl_PO.setCellColor(5, "d")  # 清除第5行d列的背景色
+        # Openpyxl_PO.setCellColor(5, 1, "ff0000")  # 设置第五行第1列设置红色
+        # Openpyxl_PO.setCellColor(5, "e", "ff0000")  # 设置第五行e列设置红色
+        # Openpyxl_PO.setCellColor(None, None)  # 清除所有背景色
 
         sh = self.sh(varSheet)
         rows = sh.max_row
@@ -441,12 +548,53 @@ class OpenpyxlPO():
                 for j in range(1, cols + 1):
                     sh.cell(i, j).fill = style
         else:
-            if varFillType == None:
+            if varColor == None:
                 style = PatternFill(fill_type=None)  # 消除单元格颜色
             else:
-                style = PatternFill(varFillType, fgColor=varColor)
-            sh.cell(row, col).fill = style
+                style = PatternFill("solid", fgColor=varColor)
+            if isinstance(col, int):
+                sh.cell(row, col).fill = style
+            else:
+                sh.cell(row, column_index_from_string(col)).fill = style
         self.save()
+    def setRowColColor(self, row, l_col, varColor, varSheet=0):
+
+        # 2.15.2 设置单行多列背景色
+        # Openpyxl_PO.setRowColColor(5, ['b', 'd'], "ff0000")
+        # Openpyxl_PO.setRowColColor(5, "all", "ff0000")
+
+
+        sh = self.sh(varSheet)
+        cols = sh.max_column
+        style = PatternFill("solid", fgColor=varColor)
+
+        if l_col == "all":
+            for i in range((cols)):
+                sh.cell(row=row, column=i+1).fill = style
+        else:
+            for i in range(column_index_from_string(l_col[0]), int(column_index_from_string(l_col[1])) + 1):
+                sh.cell(row=row, column=i).fill = style
+        self.save()
+    def setAllCellColor(self, varColor=None, varSheet=0):
+
+        # 2.15.3 设置所有单元格背景色
+        # setAllCellColor("ff0000")
+        # setAllCellColor()
+
+        sh = self.sh(varSheet)
+        rows = sh.max_row
+        cols = sh.max_column
+        if varColor == None:
+            style = PatternFill(fill_type=None)  # 消除单元格颜色
+        else:
+            style = PatternFill("solid", fgColor=varColor)
+
+        for r in range(rows):
+            for c in range(cols):
+                sh.cell(row=r+1, column=c+1).fill = style
+        self.save()
+
+
 
     def setRowColor(self, row, varSkip, varColor, varSheet=0):
 
@@ -721,15 +869,15 @@ class OpenpyxlPO():
                 if l_sheetOneRow[i] != l_sheetTwoRow[i]:
                     for j in range(len(l_sheetOneRow[i])):
                         if l_sheetOneRow[i][j] != l_sheetTwoRow[i][j]:
-                            self.setCellColor(i+1, j+1, "solid", "FF0000")
-                            self.setCellColor(i+1, j+1, "solid", "ffeb9c", "Sheet2")
+                            self.setCellColor(i+1, j+1, "FF0000")
+                            self.setCellColor(i+1, j+1, "ffeb9c", "Sheet2")
                         else:
-                            self.setCellColor(i+1, j+1, None, "", "Sheet1")
-                            self.setCellColor(i+1, j+1, None, "", "Sheet2")
+                            self.setCellColor(i+1, j+1, None, "Sheet1")
+                            self.setCellColor(i+1, j+1, None, "Sheet2")
                 else:
                     for j in range(len(l_sheetOneRow[i])):
-                        self.setCellColor(i + 1, j + 1, None, "", "Sheet1")
-                        self.setCellColor(i + 1, j + 1, None, "", "Sheet2")
+                        self.setCellColor(i + 1, j + 1, None, "Sheet1")
+                        self.setCellColor(i + 1, j + 1, None, "Sheet2")
             self.save()
         else:
             print("[warning], 两sheet的行数不一致！")
@@ -775,10 +923,13 @@ if __name__ == "__main__":
     # Openpyxl_PO.addOnRowValue([['姓名', '电话', '成绩', '学科'], ['毛泽东', 15266606298, 14, '化学'], ['周恩来', 15201077791, 78, '美术']])   # 保留原有数据，在原数据下生成数据。
 
     # print("2.5 设置单元格行高与列宽".center(100, "-"))
-    # Openpyxl_PO.setCellDimensions(3, 30, 'f', 30)
+    # Openpyxl_PO.setCellDimensions(3, 30, 'f', 34)  # 设置第三行行高30，第f列宽34
+
+    # print("2.5.2 设置单行多列行高与列宽".center(100, "-"))
+    # Openpyxl_PO.setRowColDimensions(5, 30, ['f', 'h'], 33)  # 设置第五行行高30，f - h列宽33
 
     # print("2.6 设置所有单元格的行高与列宽".center(100, "-"))
-    # Openpyxl_PO.setSheetDimensions(30, 20)
+    # Openpyxl_PO.setAllCellDimensions(30, 20)
 
     # print("2.7 设置所有单元格自动换行".center(100, "-"))
     # Openpyxl_PO.setAllWordWrap()
@@ -787,19 +938,44 @@ if __name__ == "__main__":
     # print("2.8 设置冻结首行".center(100, "-"))
     # Openpyxl_PO.setFreeze('A2', "saasuser")
 
+
+
     # print("2.9 设置单元格对齐样式".center(100, "-"))
     # Openpyxl_PO.setCellAlignment(5, 4, 'center', 'top')
-    # Openpyxl_PO.setCellAlignment(1, 1, 'center', 'top', 45)
+    # Openpyxl_PO.setCellAlignment(1, "e", 'center', 'top', 45)
     # Openpyxl_PO.setCellAlignment(1, 1, 'center', 'top', 45, True)
     # Openpyxl_PO.setCellAlignment(5, 4, 'center', 'center', "saasuser1")
+
+    # print("2.9.2 设置单行多列对齐样式".center(100, "-"))
+    # Openpyxl_PO.setRowColAlignment(1, ["c", "e"], 'center', 'center')  # 第一行第c,d,e列居中
+    # Openpyxl_PO.setRowColAlignment(9, "all", 'center', 'center')  # 第九行全部居中
+
+    # print("2.9.3 设置所有单元格对齐样式".center(100, "-"))
+    # Openpyxl_PO.setAllCellAlignment('center', 'center')
+
 
     # print("2.10 设置筛选列".center(100, "-"))
     # Openpyxl_PO.setFilterCol("all")  # 全部筛选
     # Openpyxl_PO.setFilterCol("") # 取消筛选
     # Openpyxl_PO.setFilterCol("A2") # 对A2筛选
 
+
+
     # print("2.11 设置单元格字体（字体、字号、粗斜体、下划线、颜色）".center(100, "-"))
-    # Openpyxl_PO.setCellFont(1, 1, name=u'微软雅黑', size=16, bold=True, italic=True, color="000000")
+    # Openpyxl_PO.setCellFont(1, 6)  # 设置第一行第六列字体（默认微软雅黑字号16粗体）
+    # Openpyxl_PO.setCellFont(2, "f")  # 设置第一行第f列字体（默认微软雅黑字号16粗体）
+    # Openpyxl_PO.setCellFont(5, "f", size=14, bold=True, color="ff0000")
+    # Openpyxl_PO.setCellFont(5, "f", size=14, bold=True)
+
+    # print("2.11.2 设置单行多列字体".center(100, "-"))
+    # Openpyxl_PO.setRowColFont(1, ["b", "h"])  # 第一行第b-h列
+    # Openpyxl_PO.setRowColFont(9, "all")  # 第九行
+
+    # print("2.11.3 设置所有单元格字体".center(100, "-"))
+    Openpyxl_PO.setAllCellFont()
+
+
+
 
     # print("2.12 设置单元格边框".center(100, "-"))
     # Openpyxl_PO.setBorder(1, 2, left = ['thin','ff0000'], right = ['thick','ff0000'], top = ['thin','ff0000'],bottom = ['thick','ff0000'])
@@ -810,11 +986,24 @@ if __name__ == "__main__":
     # print("2.14 设置单元格填充渐变色".center(100, "-"))
     # Openpyxl_PO.setGradientFill(3, 3, stop=["FFFFFF", "99ccff", "000000"])
 
+
+
     # print("2.15 设置单元格背景色".center(100, "-"))
-    # Openpyxl_PO.setCellColor(4, 1, None, "")  # 清除第四行第1列的背景色
-    # Openpyxl_PO.setCellColor(1, 1, "solid", "ff0000")  # 第五行第一列设置红色
-    # Openpyxl_PO.setCellColor(None, None, "", "", "Sheet1")  # 清除表格里所有背景色
-    # Openpyxl_PO.open()
+    # Openpyxl_PO.setCellColor(5, 1)  # 清除第5行第1列的背景色
+    Openpyxl_PO.setCellColor(5, "d")  # 清除第5行d列的背景色
+    # Openpyxl_PO.setCellColor(5, 1, "ff0000")  # 设置第五行第1列设置红色
+    # Openpyxl_PO.setCellColor(5, "e", "ff0000")  # 设置第五行e列设置红色
+    # Openpyxl_PO.setCellColor(None, None)  # 清除所有背景色
+
+    # print("2.15.2 设置单行多列背景色".center(100, "-"))
+    # Openpyxl_PO.setRowColColor(5, ['b', 'd'], "ff0000") # 设置第五行第b，c，d列背景色
+    # Openpyxl_PO.setRowColColor(7, "all", "ff0000")  # 设置第五行所有列背景色
+
+    # print("2.15.3 设置所有单元格背景色".center(100, "-"))
+    # Openpyxl_PO.setAllCellColor("ff0000")  # 设置所有单元格背景色
+    # Openpyxl_PO.setAllCellColor(None)  # 清除所有单元格背景色
+
+
 
     # print("2.16 设置整行(可间隔)背景色".center(100, "-"))
     # Openpyxl_PO.setRowColor(5, 0, "ff0000")  # 从第3行开始每行颜色标红色
@@ -884,9 +1073,9 @@ if __name__ == "__main__":
 
 
     # print("5.1 两表比较获取差异内容（两表标题与行数必须一致） ".center(100, "-"))
-    Openpyxl_PO = OpenpyxlPO("./data/loanStats.xlsx")
-    Openpyxl_PO2 = OpenpyxlPO("./data/loanStats2.xlsx")
-    print(Openpyxl_PO.getDiffValueByCmp(Openpyxl_PO.getRowValue("Sheet2"), Openpyxl_PO2.getRowValue("Sheet2")))
+    # Openpyxl_PO = OpenpyxlPO("./data/loanStats.xlsx")
+    # Openpyxl_PO2 = OpenpyxlPO("./data/loanStats2.xlsx")
+    # print(Openpyxl_PO.getDiffValueByCmp(Openpyxl_PO.getRowValue("Sheet2"), Openpyxl_PO2.getRowValue("Sheet2")))
 
     # # print("5.2 对一张表的两个sheet进行数据比对，差异数据标注颜色 ".center(100, "-"))
     # Openpyxl_PO = OpenpyxlPO("./data/loanStats.xlsx")
