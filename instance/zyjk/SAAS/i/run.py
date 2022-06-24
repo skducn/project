@@ -167,113 +167,26 @@ class Run:
             else:
                 d_var = {}
 
-        elif iName == "设置请求头":
-            if iParam != None:
-                d_var2 = self._escape(iParam)
-                self.session = requests.session()
-                for k, v in d_var2.items():
-                    self.session.headers[k] = str(v)
-                    # self.session.headers.update({'x-test': 'true'})  # 更新表头
-                print("headers => " + str(self.session.headers))
         else:
 
             # 转义
-            if iQueryParam != None:
-                iQueryParam = self._escape2(iQueryParam)
-
-            if iParam != None:
-                iParam = self._escape2(iParam)
-
-            if iCheck == None:
-                iCheck = self._escape2(cf_default_iCheck)
+            if iName == "设置请求头" and iParam != None:
+                iParam = self._escape(iParam)
+                iMethod = "header"
             else:
-                iCheck = self._escape2(iCheck)
+                if iQueryParam != None:
+                    iQueryParam = self._escape2(iQueryParam)
 
-            if g_var != None:
-                d_var = self._escape(g_var)
+                if iParam != None:
+                    iParam = self._escape2(iParam)
 
+                if iCheck == None:
+                    iCheck = self._escape2(cf_default_iCheck)
+                else:
+                    iCheck = self._escape2(iCheck)
 
-        # # 1, 初始化设置全局变量
-        # if iName == "设置全局变量":
-        #     if g_var != None:
-        #         # 转义全局变量
-        #         if "{{" in g_var:
-        #             for k in self.d_tmp:
-        #                 if "{{" + k + "}}" in g_var:
-        #                     g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        #         d_var = dict(eval(g_var))
-        #         # print(d_var)
-        #         for k, v in d_var.items():
-        #             # 其他封装函数返回内容转字符串，如str(Data_PO.autoNum(3))
-        #             if "str(" in str(v):
-        #                 d_var[k] = eval(d_var[k])
-        #             if "select" in v and "from" in v :
-        #                 sql_value = Mysql_PO.execQuery(v)
-        #                 d_var[k] = sql_value[0][0]
-        #     else:
-        #         d_var = {}
-        # elif iName == "设置请求头":
-        #     if g_var != None:
-        #         # 转义全局变量
-        #         if "{{" in g_var:
-        #             for k in self.d_tmp:
-        #                 if "{{" + k + "}}" in g_var:
-        #                     g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        #         d_var = dict(eval(g_var))
-        #         # print(d_var)
-        #         for k, v in d_var.items():
-        #             # 其他封装函数返回内容转字符串，如str(Data_PO.autoNum(3))
-        #             if "str(" in str(v):
-        #                 d_var[k] = eval(d_var[k])
-        #             if "select" in v and "from" in v :
-        #                 sql_value = Mysql_PO.execQuery(v)
-        #                 d_var[k] = sql_value[0][0]
-        #
-        #         reflection.run([iName, iPath, iMethod, iConsumes, iQueryParam, iParam, d_var])
-        #     else:
-        #         d_var = {}
-        #
-        #
-        # else:
-        #     # # 2, 转义路径
-        #     # if "{{" in iPath:
-        #     #     for k in self.d_tmp:
-        #     #         if "{{" + k + "}}" in iPath:
-        #     #             iPath = str(iPath).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        #
-        #     # 3, 转义query参数
-        #     if iQueryParam != None:
-        #         if "{{" in iQueryParam:
-        #             for k in self.d_tmp:
-        #                 if "{{" + k + "}}" in iQueryParam:
-        #                     iQueryParam = str(iQueryParam).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        #     # 3, 转义body参数
-        #     if iParam != None:
-        #         if "{{" in iParam:
-        #             for k in self.d_tmp :
-        #                 if "{{" + k + "}}" in iParam:
-        #                     iParam = str(iParam).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        #     # 4, 转义全局变量
-        #     if g_var != None:
-        #         if "{{" in g_var:
-        #             for k in self.d_tmp:
-        #                 if "{{" + k + "}}" in g_var:
-        #                     g_var = str(g_var).replace("{{" + k + "}}", str(self.d_tmp[k]))
-        #         d_var = dict(eval(g_var))
-        #         for k, v in d_var.items():
-        #             if "str(" in str(v):
-        #                 d_var[k] = eval(d_var[k])
-        #             if "select" in v and "from" in v :
-        #                 sql_value = Mysql_PO.execQuery(v)
-        #                 d_var[k] = sql_value[0][0]
-        #     else:
-        #         d_var = {}
-        #     # 5, 转义i检查接口返回值
-        #     if iCheck != None:
-        #         if "{{" in iCheck:
-        #             for k in self.d_tmp:
-        #                 if "{{" + k + "}}" in iCheck:
-        #                     iCheck = str(iCheck).replace("{{" + k + "}}", '"' + str(self.d_tmp[k]) + '"')
+                if g_var != None:
+                    d_var = self._escape(g_var)
 
 
             # 6, 输出当前变量
@@ -397,10 +310,14 @@ class Run:
                     Color_PO.consoleColor("31", "31", "[Fail], 不存在或错误！", "")
 
         # 全局变量
-        self.d_tmp = dict(self.d_tmp, **d_var)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
-        # print("global_var => " + str(self.d_tmp))
-        Color_PO.consoleColor("31", "33", "global_var => " + str(self.d_tmp), "")
-        # print("<font color='purple'>globalVar => " + str(self.d_tmp) + "</font>")
+        if d_var != {}:
+            self.d_tmp = dict(self.d_tmp, **d_var)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
+            Color_PO.consoleColor("31", "33", "g_var => " + str(self.d_tmp), "")
+            self.setDb("g_var", indexs, "", str(json.dumps(d_var, ensure_ascii=False)))
+
+        # header
+        if iName == "设置请求头" and iParam != None:
+            self.setDb("header", indexs, "", str(json.dumps(iParam, ensure_ascii=False)))
 
 
     def setDb(self, varCheck, id, varStatus, varMemo):
@@ -427,6 +344,10 @@ class Run:
             else:
                 self.df.update(pd.Series(varStatus, index=[id], name=l_m[getIndex(l_m, "f结果")]))
                 self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "备注")]))
+        elif varCheck == "header":
+            self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "备注")]))
+        elif varCheck == "g_var":
+            self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "全局变量")]))
 
 
 if __name__ == '__main__':
@@ -452,7 +373,7 @@ if __name__ == '__main__':
     # df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[11], l_m[13], l_m[15], l_m[17], db_table), con=Mysql_PO.getPymysqlEngine())
 
     # ['编号', '1类型', '2模块', ‘3接口名称’，'4用例名称',  '10i结果',  '11db结果',  '12f结果', '14备注']
-    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[12], l_m[14], l_m[16], l_m[18], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
+    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[12], l_m[14], l_m[16], l_m[17], l_m[18], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(cf_default_rptTitle) + '''</title></head>
@@ -480,17 +401,17 @@ if __name__ == '__main__':
         replace(">" + l_m[9] + "</th>", 'bgcolor="#90d7ec">' + l_m[9] + '</th>'). \
         replace(">" + l_m[10] + "</th>", 'bgcolor="#90d7ec">' + l_m[10] + '</th>'). \
         replace(">" + l_m[11] + "</th>", 'bgcolor="#90d7ec">' + l_m[11] + '</th>'). \
-        replace(">" + l_m[12] + "</th>", 'bgcolor="#90d7ec">' + l_m[12] + '</th>'). \
+        replace(">" + l_m[12] + "</th>", 'bgcolor="#50b7c1">' + l_m[12] + '</th>'). \
         replace(">" + l_m[13] + "</th>", 'bgcolor="#90d7ec">' + l_m[13] + '</th>'). \
-        replace(">" + l_m[14] + "</th>", 'bgcolor="#90d7ec">' + l_m[14] + '</th>'). \
+        replace(">" + l_m[14] + "</th>", 'bgcolor="#50b7c1">' + l_m[14] + '</th>'). \
         replace(">" + l_m[15] + "</th>", 'bgcolor="#90d7ec">' + l_m[15] + '</th>'). \
-        replace(">" + l_m[16] + "</th>", 'bgcolor="#90d7ec">' + l_m[16] + '</th>'). \
+        replace(">" + l_m[16] + "</th>", 'bgcolor="#50b7c1">' + l_m[16] + '</th>'). \
         replace(">" + l_m[17] + "</th>", 'bgcolor="#90d7ec">' + l_m[17] + '</th>'). \
         replace(">" + l_m[18] + "</th>", 'bgcolor="#90d7ec">' + l_m[18] + '</th>'). \
-        replace("<td>Ok</td>", '<td bgcolor="#c6efce">Ok</td>'). \
+        replace("<td>Ok</td>", '<td bgcolor="#00ae9d">Ok</td>'). \
         replace("<td>Fail</td>", '<td bgcolor="#f69c9f">Fail</td>'). \
         replace("<td>Error</td>", '<td bgcolor="#ed1941">Error</td>'). \
-        replace("<td>异常</td>", '<td><font color="red">异常</font></td>')
+        replace("<td>反向</td>", '<td><font color="red">反向</font></td>')
 
     # 另存为report.html
     tf = open(rptNameDate, 'w', encoding='utf-8')
