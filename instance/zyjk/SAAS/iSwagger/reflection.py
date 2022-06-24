@@ -24,6 +24,7 @@ def run(line):
 
     # print(line[1])
     # print(line[2])
+
     func = getattr(http, line[2])  # line[2] = iMethod
     # print(func)
     args = inspect.getfullargspec(func).__str__()
