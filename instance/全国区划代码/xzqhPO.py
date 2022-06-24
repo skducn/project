@@ -260,10 +260,13 @@ class XzqhPO():
         print("[Done] => " + toSave)
 
     def getFive(self, varProvince):
-        html = requests.get("https://www.wenjiangs.com/api/v2/xzqh")
+        html = requests.get("http://192.168.1.106/11.html")
         html.encoding = 'utf-8'
+        # print(html.text)
+        # print(type(html.text))
         l_province = json.loads(html.text)
-        # print(l_province)
+        print(l_province['data']['title'])
+        sys.exit(0)
         # print(len(l_province))
         for i in range(len(l_province)):
             # print(l_province[i])

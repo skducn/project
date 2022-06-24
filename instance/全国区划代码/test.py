@@ -25,6 +25,13 @@ class ChinaAreaCodePO():
         self.l_county = []
         self.l_street = []
         self.s = 1
+
+        self.d_city = {}
+        self.d_county = {}
+        self.d_town = {}
+        self.d_village = {}
+
+
         self.toSave = toSave
         if os.path.isfile(toSave):
             self.Openpyxl_PO = OpenpyxlPO(toSave)
@@ -561,7 +568,6 @@ class ChinaAreaCodePO():
                 # print(self.get_prefix(province_url)) # http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/
                 # s = 1
                 self.spider_next(self.s, self.get_prefix(province_url) + href, 2)
-
     def xx2(self, varArea):
         # 抓取省份页面
         province_url = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/index.html"
@@ -617,12 +623,18 @@ class ChinaAreaCodePO():
             # print(content2)
             # print(self.listMain)
             if lev == 2:
+
+                self.d_city[item_code] = item_name
+
                 self.list1.append(None)
                 self.list1.append(None)
                 self.list1.append(item_code)
                 self.list1.append(item_name)
             elif lev == 3:
                 # 区
+
+                self.d_county[item_code] = item_name
+
                 self.list1.append(None)
                 self.list1.append(None)
                 self.list1.append(None)
@@ -633,6 +645,9 @@ class ChinaAreaCodePO():
                 self.l_county.append([x for x in self.list1 if x is not None])
             elif lev == 4:
                 # 街道
+
+                self.d_town[item_code] = item_name
+
                 self.list1.append(None)
                 self.list1.append(None)
                 self.list1.append(None)
@@ -647,6 +662,10 @@ class ChinaAreaCodePO():
                 # print(self.l_street)
             elif lev == 5:
                 # 居委
+
+                self.d_village[item_code] = item_name
+
+
                 self.list1.append(None)
                 self.list1.append(None)
                 self.list1.append(None)
@@ -663,7 +682,11 @@ class ChinaAreaCodePO():
                 self.list1.append(item_name)
 
             self.s = self.s+1
-            print(self.s, self.list1)
+            # print(self.s, self.list1)
+            print(self.d_city)
+            print(self.d_county)
+            print(self.d_town)
+            print(self.d_village)
             self.Openpyxl_PO.setRowValue({self.s: self.list1})
             self.list1 = []
 
@@ -672,7 +695,6 @@ class ChinaAreaCodePO():
                 # print(self.get_prefix(url)) # http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/31/01/
                 # print(item_href) # 01/310101015.html
                 self.spider_next(self.s, self.get_prefix(url) + item_href, lev + 1)
-
     def spider_next2(self, s, url, lev):
 
         print(s,url,lev)
@@ -813,3 +835,12 @@ if __name__ == '__main__':
     # ChinaAreaCode_PO.getList(["江苏省", '常州市', '',''])
 
 
+# https://www.json.cn/
+
+# {"310000000000":"上海市"}
+# {"310100000000":"市辖区"}
+# {"310101":"黄浦区"}
+# {"310101002":"南京东路街道"}
+# {"310101002001":"云南中路居委会"}
+
+# [{"code":"110000","name":"北京市","city":[{"code":"110100","name":"市辖区","county":[{"code":"110101","name":"东城区","town":[{"code":"222222","name":"南京东路街道","village":[{"code":"33333","name":"云南中路居委会"}]}]},{"code":"110102","name":"西城区"},{"code":"110105","name":"朝阳区"},{"code":"110106","name":"丰台区"},{"code":"110107","name":"石景山区"},{"code":"110108","name":"海淀区"},{"code":"110109","name":"门头沟区"},{"code":"110111","name":"房山区"},{"code":"110112","name":"通州区"},{"code":"110113","name":"顺义区"},{"code":"110114","name":"昌平区"},{"code":"110115","name":"大兴区"},{"code":"110116","name":"怀柔区"},{"code":"110117","name":"平谷区"},{"code":"110118","name":"密云区"},{"code":"110119","name":"延庆区"}]}]}]
