@@ -1,0 +1,729 @@
+<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style><html><head><title>高血压接口自动化报告</title></head>
+<body><b><caption>高血压接口自动化报告_20220624</caption></b><br/><br/><table border="1" class="dataframe mystyle">
+<thead>
+<tr style="text-align: center;">
+<th style="min-width: 100px;"bgcolor="#90d7ec">index</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">类型</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">模块</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">接口名称</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">用例名称</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">路径</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">方法</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">query参数</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">body参数</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">i检查接口返回值</th>
+<th style="min-width: 100px;"bgcolor="#50b7c1">i结果</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">db检查表值</th>
+<th style="min-width: 100px;"bgcolor="#50b7c1">db结果</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">f检查文件</th>
+<th style="min-width: 100px;"bgcolor="#50b7c1">f结果</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">全局变量</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td>设置全局变量</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"userNo": "16766667777", "orgno": "wgzx457", "orgId": 299}</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>鉴权中心</td>
+<td></td>
+<td>pc登录-必填非必填参数都有值</td>
+<td>/auth/login</td>
+<td>post</td>
+<td></td>
+<td>{"coordinate": "1", "isEasyPSW": 10, "newFirstPassword": "", "newSecondPassword": "", "password": "123456", "secretCardCode": "1", "userNo":"{{userNo}}"}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td>高血压首页</td>
+<td></td>
+<td>查询高血压首页数据</td>
+<td>/saasuser/home/queryHomeData</td>
+<td>post</td>
+<td></td>
+<td>[{{orgId}}]</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td>{"orgId":299}</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td><font color="red">反向</font></td>
+<td>高血压首页</td>
+<td></td>
+<td>查询高血压首页数据-orgids错误</td>
+<td>/saasuser/home/queryHomeData</td>
+<td>post</td>
+<td></td>
+<td>[123123]</td>
+<td>{"$.code":500,"$.msg":"hypertension 系统出现异常,请联系管理员-DTO！","$.data":null}</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td></td>
+<td>统计查询</td>
+<td></td>
+<td>入组患者-分页查询-全参</td>
+<td>/saasuser/hbpStatistics/enrolledPatient</td>
+<td>post</td>
+<td></td>
+<td>{ "currPage": 1, "dateBegin": "2022-01-01 00:00:00", "dateEnd": "2022-05-25 23:59:59", "orgIdList": [{{orgId}}], "pageSize": 10}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td></td>
+<td>统计查询</td>
+<td></td>
+<td>入组患者-分页查询-必填参数</td>
+<td>/saasuser/hbpStatistics/enrolledPatient</td>
+<td>post</td>
+<td></td>
+<td>{ "currPage": 0, "orgIdList": [ {{orgId}}], "pageSize": 0}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td></td>
+<td>统计查询</td>
+<td></td>
+<td>随访情况统计-全参</td>
+<td>/saasuser/hbpStatistics/findFollowUpSituation</td>
+<td>get</td>
+<td>orgCode={{orgId}}&amp;pageNum=1&amp;pageSize=10</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>分页查询患者信息-全参</td>
+<td>/saasuser/tPatientInfo/queryPatientPageByOrgId</td>
+<td>post</td>
+<td></td>
+<td>{ "beginAge": 1, "currentPage": 1, "docName": "dc", "endAge": 100, "groupType": "1", "name": "斤斤计较", "orgId":  {{orgId}}, "orgIdList": [], "pageSize": 10, "statusList": [2]}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"empiId": "410729963367206913", "itemId": 61}</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>分页查询患者信息-必填参数</td>
+<td>/saasuser/tPatientInfo/queryPatientPageByOrgId</td>
+<td>post</td>
+<td></td>
+<td>{ "beginAge": 1, "currentPage": 1, "docName": "dc", "endAge": 0, "groupType": "1", "name": "", "orgId":  {{orgId}}, "orgIdList": [], "pageSize": 10, "statusList": []}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td></td>
+<td></td>
+<td></td>
+<td>设置全局变量</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"phone": "13172941024", "idCardNo": "110102195607283577", "itemId": 79}</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td></td>
+<td></td>
+<td></td>
+<td>设置请求头</td>
+<td></td>
+<td>header</td>
+<td></td>
+<td>{"deviceTag":"app"}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"deviceTag": "app"}</td>
+</tr>
+<tr>
+<td>20</td>
+<td></td>
+<td>鉴权中心</td>
+<td></td>
+<td>医生端小程序登录-全参</td>
+<td>/auth/miniLogin</td>
+<td>post</td>
+<td></td>
+<td>{ "jsCode": "013ZFHkl2Ym7c94Kxtnl2ko52B4ZFHkn", "loginEnum": "ACCOUNT", "password": "123456", "userNo": "16766667777"}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-新增患者-必填参数</td>
+<td>/saasuser/tPatientInfo/save</td>
+<td>post</td>
+<td></td>
+<td>{ "idCardNo": "{{idCardNo}}", "name": "大黑", "phone": "{{phone}}"}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-患者列表-全参</td>
+<td>/saasuser/tPatientInfo/queryPatientList</td>
+<td>post</td>
+<td></td>
+<td>{ "currPage": 1, "followId": "1", "itemId": {{itemId}}, "pageSize": 10, "patientName": "李大头", "riskLevel": "0"}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-患者列表-必填参数</td>
+<td>/saasuser/tPatientInfo/queryPatientList</td>
+<td>post</td>
+<td></td>
+<td>{ "currPage": 1, "itemId": {{itemId}}, "pageSize": 10, "riskLevel": ""}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"ldt_idCardNo": "110112200011116328", "glempild": "410729963367206913"}</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-单个患者查询</td>
+<td>/saasuser/tPatientInfo/querySinglePatient</td>
+<td>get</td>
+<td>idCardNo={{ldt_idCardNo}}</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-查询对照组患者-必填参数</td>
+<td>/saasuser/tPatientInfo/findPatientContrast</td>
+<td>get</td>
+<td>name=&amp;pageNum=1&amp;pageSize=1</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-修改对照组患者-全参</td>
+<td>/saasuser/tPatientInfo/updPatientContrast</td>
+<td>post</td>
+<td></td>
+<td>{ "empiId": "{{dzempild}}", "idCardNo": "110112199902047352", "name": "刘老头", "phone": "18923232323"}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-删除对照组患者-全参</td>
+<td>/saasuser/tPatientInfo/depPatientContrast</td>
+<td>post</td>
+<td></td>
+<td>{"empiId":"{{dzempiId}}"}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-患者组别下拉框</td>
+<td>/saasuser/tPatientInfo/groupTypeList</td>
+<td>get</td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>33</td>
+<td></td>
+<td>高血压患者信息</td>
+<td></td>
+<td>医生端-分级代码</td>
+<td>/saasuser/tPatientInfo/queryGroup</td>
+<td>get</td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td></td>
+<td>高血压随访接口</td>
+<td></td>
+<td>医生端-更改管理组别</td>
+<td>/saasuser/ecfFollowInfo/updateManageGrade</td>
+<td>put</td>
+<td>followUpStatus=1&amp;pId={{glempild}}</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>35</td>
+<td></td>
+<td>高血压随访接口</td>
+<td></td>
+<td>医生端-查询患者随访记录信息</td>
+<td>/saasuser/ecfFollowInfo/queryFollowDetailInfo</td>
+<td>get</td>
+<td>currPage=1&amp;itemId={{itemId}}&amp;pId={{glempild}}&amp;pageSize=50</td>
+<td></td>
+<td></td>
+<td bgcolor="#f69c9f">Fail</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>d_res =&gt; {"$.code": 500, "$.msg": "患者随访信息不存在"}, 没找到 {"$.code":200,"$.msg":"success"}</td>
+</tr>
+<tr>
+<td>36</td>
+<td></td>
+<td>高血压随访接口</td>
+<td></td>
+<td>医生端-分层分级查询</td>
+<td>/saasuser/ecfFollowInfo/queryHierarchyInfo</td>
+<td>get</td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>37</td>
+<td></td>
+<td>高血压随访接口</td>
+<td></td>
+<td>医生端-建议转诊患者-全参</td>
+<td>/saasuser/ecfFollowInfo/queryNotQualified</td>
+<td>get</td>
+<td>currPage=1&amp;entrance=0&amp;itemId=79&amp;orgIdList=299&amp;pageSize=10</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>38</td>
+<td></td>
+<td>高血压随访接口</td>
+<td></td>
+<td>医生端-建议转诊患者-必填参数</td>
+<td>/saasuser/ecfFollowInfo/queryNotQualified</td>
+<td>get</td>
+<td>currPage=1&amp;itemId=79&amp;orgIdList=299&amp;pageSize=10</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>39</td>
+<td></td>
+<td>高血压随访接口</td>
+<td></td>
+<td>医生端-一周内待随访患者查询</td>
+<td>/saasuser/ecfFollowInfo/queryOneWeekFollow</td>
+<td>get</td>
+<td>currPage=1&amp;itemId=79&amp;pageSize=10</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>40</td>
+<td></td>
+<td>高血压随访接口</td>
+<td></td>
+<td>医生端-逾期随访患者查询</td>
+<td>/saasuser/ecfFollowInfo/queryOverdueFollow</td>
+<td>get</td>
+<td>currPage=1&amp;itemId=79&amp;pageSize=10</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>41</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-新增转诊</td>
+<td>/saasuser/hyReferralRecord/create</td>
+<td>post</td>
+<td></td>
+<td>{ "empiId": "{{glempild}}","historyState": 0, "receptionOrgNo": "306","signsAndSymptoms": "就这样", "treatmentOf": "好的"}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"zz_id": 223}</td>
+<td></td>
+</tr>
+<tr>
+<td>42</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-待处理查询</td>
+<td>/saasuser/hyReferralRecord/pendingQueryPage</td>
+<td>get</td>
+<td>currPage=1&amp;orgCode=299&amp;pageSize=10</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>43</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-转入确认</td>
+<td>/saasuser/hyReferralRecord/pendingAffirm</td>
+<td>put</td>
+<td>id={{zz_id}}</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>44</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-转回申请</td>
+<td>/saasuser/hyReferralRecord/backApplyFor</td>
+<td>put</td>
+<td></td>
+<td>{ "id": {{zz_id}}, "patientInfo": "就这吧","recommendedTreatment": "啥事没有"}</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>45</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-转回确认</td>
+<td>/saasuser/hyReferralRecord/backAffirm</td>
+<td>put</td>
+<td>id={{zz_id}}</td>
+<td></td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>46</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-待处理查询</td>
+<td>/saasuser/hyReferralRecord/pendingQueryPage</td>
+<td>get</td>
+<td>currPage=1&amp;orgCode=299&amp;pageSize=10</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>47</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-已接收查询</td>
+<td>/saasuser/hyReferralRecord/acceptedQueryPage</td>
+<td>get</td>
+<td>currPage=1&amp;orgCode=299&amp;pageSize=10</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>48</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-转诊记录查询</td>
+<td>/saasuser/hyReferralRecord/recordQueryPage</td>
+<td>get</td>
+<td>currPage=1&amp;orgCode=299&amp;pageSize=10</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>49</td>
+<td></td>
+<td>转诊记录表接口</td>
+<td></td>
+<td>医生端-通过id获取一条数据</td>
+<td>/saasuser/hyReferralRecord/getReferralRecordById</td>
+<td>get</td>
+<td>id={{zz_id}}</td>
+<td></td>
+<td>{"$.code":200}</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></body></html>

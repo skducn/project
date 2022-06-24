@@ -54,10 +54,11 @@ class HTTP:
 
         '''  设置header '''
 
-        for k, v in d_var.items():
+
+        for k, v in iParam.items():
             self.session.headers[k] = str(v)
-        # self.session.headers.update({'x-test': 'true'})  # 更新表头
         print("headers => " + str(self.session.headers))
+        return None, {}
 
 
     def post(self, iPath, iConsumes, iQueryParam, iParam, d_var):

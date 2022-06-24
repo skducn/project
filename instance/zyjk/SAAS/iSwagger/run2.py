@@ -191,9 +191,7 @@ class Run:
                 d_var = self._escape(g_var)
             else:
                 d_var = {}
-
         else:
-
             # 转义
             if iName == "设置请求头" and iParam != None:
                 iParam = self._escape(iParam)
@@ -399,13 +397,9 @@ if __name__ == '__main__':
         elif r[4] == None or r[5] == None:
             # 模块、接口名称
             Color_PO.consoleColor("31", "31", "[warning], 缺少模块或接口名称，程序已中断！", "")
-            # print("[warning], excel表格的第" + str(index) + "缺少模块或接口名称，程序中断！")
             sys.exit()
         else:
-            list1 = Openpyxl_PO.getColValueByCol([1,2,3,4,5], [], r3)
-            # print(r[3])
-            # print(r3)
-            # print(list1)
+            list1 = Openpyxl_PO.getColValueByCol([1, 2, 3, 4, 5], [], r3)
             for i in range(len(list1[0])):
                 if list1[0][i] == r[4] and list1[1][i] == r[5]:
                     l_paths_method_consumes.append(list1[2][i])

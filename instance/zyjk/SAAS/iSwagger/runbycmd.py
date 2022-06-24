@@ -30,6 +30,7 @@ import pandas as pd
 sys.path.append("../../../../")
 sys.path.append("./")
 
+
 # 参数切换 test dev 环境
 argvParam = sys.argv[1:3]
 
@@ -45,9 +46,11 @@ elif len(argvParam) == 1:
     if argvParam[0] == "email":
         openRpt = "off"
         sendEmail = "on"
+        updateProject = "off"
     elif argvParam[0] == "rpt":
         openRpt = "on"
         sendEmail = "off"
+        updateProject = "off"
     elif argvParam[0] == "pull":
         openRpt = "off"
         sendEmail = "off"
@@ -228,30 +231,26 @@ class Run:
             else:
                 d_var = {}
 
-        elif iName == "设置请求头":
-            if iParam != None:
-                d_var2 = self._escape(iParam)
-                self.session = requests.session()
-                for k, v in d_var2.items():
-                    self.session.headers[k] = str(v)
-                    # self.session.headers.update({'x-test': 'true'})  # 更新表头
-                print("headers => " + str(self.session.headers))
         else:
 
             # 转义
-            if iQueryParam != None:
-                iQueryParam = self._escape2(iQueryParam)
-
-            if iParam != None:
-                iParam = self._escape2(iParam)
-
-            if iCheck == None:
-                iCheck = self._escape2(cf_default_iCheck)
+            if iName == "设置请求头" and iParam != None:
+                iParam = self._escape(iParam)
+                iMethod = "header"
             else:
-                iCheck = self._escape2(iCheck)
+                if iQueryParam != None:
+                    iQueryParam = self._escape2(iQueryParam)
 
-            if g_var != None:
-                d_var = self._escape(g_var)
+                if iParam != None:
+                    iParam = self._escape2(iParam)
+
+                if iCheck == None:
+                    iCheck = self._escape2(cf_default_iCheck)
+                else:
+                    iCheck = self._escape2(iCheck)
+
+                if g_var != None:
+                    d_var = self._escape(g_var)
 
 
             # 6, 输出当前变量
@@ -376,11 +375,16 @@ class Run:
 
         # 全局变量
         if d_var != {}:
+            # print(d_var)
             self.d_tmp = dict(self.d_tmp, **d_var)  # 合并字典，如key重复，则前面字典key值被后面字典所替换
             # print("g_var => " + str(self.d_tmp))
             Color_PO.consoleColor("31", "33", "g_var => " + str(self.d_tmp), "")
             # print("<font color='purple'>globalVar => " + str(self.d_tmp) + "</font>")
+            self.setDb("g_var", indexs, "", str(json.dumps(d_var, ensure_ascii=False)))
 
+        # header
+        if iName == "设置请求头" and iParam != None:
+            self.setDb("header", indexs, "", str(json.dumps(iParam, ensure_ascii=False)))
 
     def setDb(self, varCheck, id, varStatus, varMemo):
 
@@ -406,7 +410,10 @@ class Run:
             else:
                 self.df.update(pd.Series(varStatus, index=[id], name=l_m[getIndex(l_m, "f结果")]))
                 self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "备注")]))
-
+        elif varCheck == "header":
+            self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "备注")]))
+        elif varCheck == "g_var":
+            self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "全局变量")]))
 
 if __name__ == '__main__':
 
@@ -431,13 +438,9 @@ if __name__ == '__main__':
         elif r[4] == None or r[5] == None:
             # 模块、接口名称
             Color_PO.consoleColor("31", "31", "[warning], 缺少模块或接口名称，程序已中断！", "")
-            # print("[warning], excel表格的第" + str(index) + "缺少模块或接口名称，程序中断！")
             sys.exit()
         else:
-            list1 = Openpyxl_PO.l_getColValueByPartCol([1,2,3,4,5], [], r3)
-            # print(r[3])
-            # print(r3)
-            # print(list1)
+            list1 = Openpyxl_PO.getColValueByCol([1, 2, 3, 4, 5], [], r3)
             for i in range(len(list1[0])):
                 if list1[0][i] == r[4] and list1[1][i] == r[5]:
                     l_paths_method_consumes.append(list1[2][i])
@@ -465,7 +468,7 @@ if __name__ == '__main__':
     # df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[11], l_m[13], l_m[15], l_m[17], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
 
     # ['编号', '1类型', '2模块', ‘3接口名称’，'4用例名称',  '10i结果',  '11db结果',  '12f结果', '14备注']
-    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[10], l_m[12], l_m[14], l_m[16], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
+    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[6], l_m[10], l_m[12], l_m[14], l_m[15], l_m[16], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(cf_default_rptTitle) + '''</title></head>
@@ -491,17 +494,18 @@ if __name__ == '__main__':
         replace(">" + l_m[7] + "</th>", 'bgcolor="#90d7ec">' + l_m[7] + '</th>'). \
         replace(">" + l_m[8] + "</th>", 'bgcolor="#90d7ec">' + l_m[8] + '</th>'). \
         replace(">" + l_m[9] + "</th>", 'bgcolor="#90d7ec">' + l_m[9] + '</th>'). \
-        replace(">" + l_m[10] + "</th>", 'bgcolor="#90d7ec">' + l_m[10] + '</th>'). \
+        replace(">" + l_m[10] + "</th>", 'bgcolor="#50b7c1">' + l_m[10] + '</th>'). \
         replace(">" + l_m[11] + "</th>", 'bgcolor="#90d7ec">' + l_m[11] + '</th>'). \
-        replace(">" + l_m[12] + "</th>", 'bgcolor="#90d7ec">' + l_m[12] + '</th>'). \
+        replace(">" + l_m[12] + "</th>", 'bgcolor="#50b7c1">' + l_m[12] + '</th>'). \
         replace(">" + l_m[13] + "</th>", 'bgcolor="#90d7ec">' + l_m[13] + '</th>'). \
-        replace(">" + l_m[14] + "</th>", 'bgcolor="#90d7ec">' + l_m[14] + '</th>'). \
+        replace(">" + l_m[14] + "</th>", 'bgcolor="#50b7c1">' + l_m[14] + '</th>'). \
         replace(">" + l_m[15] + "</th>", 'bgcolor="#90d7ec">' + l_m[15] + '</th>'). \
         replace(">" + l_m[16] + "</th>", 'bgcolor="#90d7ec">' + l_m[16] + '</th>'). \
-        replace("<td>Ok</td>", '<td bgcolor="#c6efce">Ok</td>'). \
+        replace("<td>Ok</td>", '<td bgcolor="#00ae9d">Ok</td>'). \
         replace("<td>Fail</td>", '<td bgcolor="#f69c9f">Fail</td>'). \
         replace("<td>Error</td>", '<td bgcolor="#ed1941">Error</td>'). \
-        replace("<td>异常</td>", '<td><font color="red">异常</font></td>')
+        replace("<td>反向</td>", '<td><font color="red">反向</font></td>'). \
+        replace("\\n", '')
 
     # 另存为report.html
     tf = open(rptNameDate, 'w', encoding='utf-8')
