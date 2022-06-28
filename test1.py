@@ -15,13 +15,33 @@
 #     for i in range(len(v)):
 #         if v[i] != None:
 #             print(v[i])
+x = '110100000000'
+print(x[-6:])
+
+a= {'code': '310101002001', 'name': '云南中路居委会',"village":[{'code': '110101001001', 'name': '多福巷社区居委会'},{'code': '110', 'name': '多福巷社区居委会2'}]}
+# b= {'code': '310101002002', 'name': '龙泉园路居委会'}
+# c= {'code': '310101002003', 'name': '贵州路居委会'}
+# list1 = []
+# list1.append(a)
+# list1.append(b)
+# list1.append(c)
+# print(list1)
+a.update({"village":[{"a:":"22"}]})
+print(a)
 
 
-d = {'type': 'array', 'description': '参会者反馈信息', 'items': {'originalRef': '会议反馈人员记录DTO', '$ref': '#/definitions/会议反馈人员记录DTO'}}
-if "items" in d:
-    if "$ref" in d['items']:
-        print(121212)
-print(d['items']['$ref'].split("#/definitions/")[1])
+# d = [{'type': 'array', 'description': '参会者反馈信息', 'items': {'originalRef': '会议反馈人员记录DTO', '$ref': '#/definitions/会议反馈人员记录DTO'}}]
+# # if "items" in d:
+# #     if "$ref" in d['items']:
+# #         print(121212)
+# # print(d['items']['$ref'].split("#/definitions/")[1])
+# import json
+# print(d)
+# b = json.dumps(d, ensure_ascii=False)
+# print(b)
+
+
+
 
 # l = ['baidu','taobao']
 # if 'baidu' in l :
