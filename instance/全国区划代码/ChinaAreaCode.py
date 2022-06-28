@@ -35,32 +35,32 @@ class ChinaAreaCodePO():
     # 根据地址获取页面内容，并返回BeautifulSoup
     def get_html(self, url):
 
-        # print(Html_PO.getHeaders())
-        # response = Html_PO.sessionGet(url, Html_PO.getHeaders())
-        # print(Html_PO.getHeaders())
-        response = requests.get(url, headers=Html_PO.getHeaders())
-        response.encoding = "GBK"
-        return BeautifulSoup(response.text, "lxml")
+
+        # response = requests.get(url, headers=Html_PO.getHeaders())
+        # response.encoding = "GBK"
+        # return BeautifulSoup(response.text, "lxml")
         # print(response.text)
 
         # 若页面打开失败，则无限重试，没有后退可言
-        # while True:
-        #     try:
-        #         # 超时时间为1秒
-        #         # print(Html_PO.getHeaders())
-        #         # print(Html_PO.getProxies())
-        #         # response = Html_PO.sessionGet(url, Html_PO.getHeaders(), Html_PO.getProxies())
-        #         # response = Html_PO.sessionGet(url, Html_PO.getHeaders(), proxies={'HTTP': 'http://122.9.101.6:8888'})
-        #         # print(response)
-        #         response = requests.get(url)
-        #         print(response.text)
-        #         response.encoding = "GBK"
-        #         if response.status_code == 200:
-        #             return BeautifulSoup(response.text, "lxml")
-        #         else:
-        #             continue
-        #     except Exception:
-        #         continue
+        while True:
+            try:
+                # 超时时间为1秒
+                # print(Html_PO.getHeaders())
+                # print(Html_PO.getProxies())
+                # response = Html_PO.sessionGet(url, Html_PO.getHeaders(), Html_PO.getProxies())
+                # response = Html_PO.sessionGet(url, Html_PO.getHeaders(), proxies={'HTTP': 'http://122.9.101.6:8888'})
+                # print(response)
+                # response = requests.get(url)
+                response = requests.get(url, headers=Html_PO.getHeaders())
+
+                # print(response.text)
+                response.encoding = "GBK"
+                if response.status_code == 200:
+                    return BeautifulSoup(response.text, "lxml")
+                else:
+                    continue
+            except Exception:
+                continue
 
     def getList(self, l_name):
         # 抓取省份页面
