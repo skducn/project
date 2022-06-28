@@ -63,7 +63,7 @@ class HtmlPO:
     def getProxies(self):
         varIp = Data_PO.getIpAgent()
         self.proxies = {str(varIp).split("://")[0]: varIp}
-        print(varIp)
+        # print(varIp)
         return self.proxies
 
 

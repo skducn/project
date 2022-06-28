@@ -52,11 +52,29 @@ class ChinaAreaCodePO():
 
         # 根据地址获取页面内容，并返回BeautifulSoup
 
-        response = requests.get(url, headers=Html_PO.getHeaders())
-        response.encoding = "GBK"
-        return BeautifulSoup(response.text, "lxml")
+        # response = requests.get(url, headers=Html_PO.getHeaders())
+        # response.encoding = "GBK"
+        # return BeautifulSoup(response.text, "lxml")
         # print(response.text)
-
+        while True:
+            try:
+                # 超时时间为1秒
+                # print(Html_PO.getHeaders())
+                # print(Html_PO.getProxies())
+                # response = Html_PO.sessionGet(url, Html_PO.getHeaders(), Html_PO.getProxies())
+                # response = Html_PO.sessionGet(url, Html_PO.getHeaders(), proxies={'HTTP': 'http://122.9.101.6:8888'})
+                # print(response)
+                # response = requests.get(url)
+                response = requests.get(url, headers=Html_PO.getHeaders())
+                # response = Html_PO.sessionGet(url, headers=Html_PO.getHeaders(), proxies=Html_PO.getProxies())
+                # print(response.text)
+                response.encoding = "GBK"
+                if response.status_code == 200:
+                    return BeautifulSoup(response.text, "lxml")
+                else:
+                    continue
+            except Exception:
+                continue
 
 
     # 获取地址前缀（用于相对地址）
@@ -113,6 +131,8 @@ class ChinaAreaCodePO():
             if lev == 2:
                 # 市辖区
                 self.d_province[item_code] = item_name
+                print(2, item_name)
+
 
             elif lev == 3:
                 # 区
@@ -183,7 +203,11 @@ if __name__ == '__main__':
     # 下载城市到文件(字典格式)
     # ChinaAreaCode_PO.update("北京市", "json_bj.txt")
     # ChinaAreaCode_PO.update("上海市", "json_sh.txt")
-    ChinaAreaCode_PO.update("重庆市", "json_cq.txt")
+    # ChinaAreaCode_PO.update("天津市", "json_tj.txt")
+    # ChinaAreaCode_PO.update("辽宁省", "json_ln.txt")
+
+    # ChinaAreaCode_PO.update("河北省", "json_hb.txt")
+
 
 
 
