@@ -237,7 +237,7 @@ if __name__ == "__main__":
     print(Char_PO.byte2chinese(b'\xbd\xf0\xba\xc6', "gbk"))  # 金浩
 
     print("1.3 中文转拼音".center(100, "-"))
-    print(Char_PO.chinese2pinyin("曾祥云"))  # cengzengxiangyun
+    print(Char_PO.chinese2pinyin("上海市"))  # cengzengxiangyun
     print(Char_PO.chinese2pinyin("金浩", True))  # jinhaogaoge
 
     print("1.4 中文转拼音（带声调）".center(100, "-"))
@@ -247,7 +247,7 @@ if __name__ == "__main__":
     print("1.5 中文转拼音（声调，分隔符，大小写）".center(100, "-"))
     print(Char_PO.chinese2pinyin3("你好", splitter="-"))  # ni-hao
     print(Char_PO.chinese2pinyin3("你好", tone_marks="marks"))  # nǐhǎo
-    print(Char_PO.chinese2pinyin3("你好", tone_marks="marks", convert="upper"))  # NǏHǍO
+    # print(Char_PO.chinese2pinyin3("你好", tone_marks="marks", convert="upper"))  # NǏHǍO
     print(Char_PO.chinese2pinyin3("你好", tone_marks="numbers", splitter="-"))  # ni3-hao3
 
 

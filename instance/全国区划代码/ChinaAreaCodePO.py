@@ -68,7 +68,8 @@ class ChinaAreaCodePO():
                 response = requests.get(url, headers=Html_PO.getHeaders())
                 # response = Html_PO.sessionGet(url, headers=Html_PO.getHeaders(), proxies=Html_PO.getProxies())
                 # print(response.text)
-                response.encoding = "GBK"
+                # response.encoding = "GBK"
+                response.encoding = "utf-8"
                 if response.status_code == 200:
                     return BeautifulSoup(response.text, "lxml")
                 else:
@@ -82,25 +83,53 @@ class ChinaAreaCodePO():
         return url[0:url.rindex("/") + 1]
 
 
-    def update(self, varProvince, file):
+    def update(self, varProvince):
+
+        d_file = {}
 
         # 抓取省份页面
-        province_url = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/index.html"
+        province_url = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2021/index.html"
         province_list = self.get_html(province_url).select('tr.provincetr a')
         # print(province_list)  # [<a href="11.html">北京市<br/></a>, <a href="12.html">天津市<br/></a>,
 
         for province in province_list:
             name = province.text
-            if name == varProvince:
-                href = province.get("href")
-                code = href[0: 2] + "0000000000"
-                self.d_province[code] = name
-                d = self.spider_next(self.get_prefix(province_url) + href, 2)
-                print(d)
-                with open(file, mode='w', encoding='utf-8') as f:
-                    f.write(json.dumps(d, ensure_ascii=False))
+            d_file[name] = Char_PO.chinese2pinyin(name) + ".txt"
+        print(d_file)
 
-                break
+
+        for province in province_list:
+            name = province.text
+            # 下载单个省市
+            for k, v in d_file.items():
+                if name == varProvince and name == k:
+                    if os.path.isfile(v) == False:
+                        href = province.get("href")
+                        code = href[0: 2] + "0000000000"
+                        self.d_province[code] = name
+                        d = self.spider_next(self.get_prefix(province_url) + href, 2)
+                        print(d)
+                        with open(v, mode='w', encoding='utf-8') as f:
+                            f.write(json.dumps(d, ensure_ascii=False))
+
+
+                # 下载所有省市
+                if varProvince == "":
+                    if os.path.isfile(v) == False:
+                        if k == name:
+                            href = province.get("href")
+                            code = href[0: 2] + "0000000000"
+                            self.d_province[code] = name
+                            print(self.d_province)
+                            print(name.center(100, "-"))
+
+                            d = self.spider_next(self.get_prefix(province_url) + href, 2)
+                            print(d)
+                            with open(v, mode='w', encoding='utf-8') as f:
+                                f.write(json.dumps(d, ensure_ascii=False))
+                    else:
+                        print(v+ "已存在")
+
 
     # 递归抓取下一页面
     def spider_next(self, url, lev):
@@ -114,6 +143,7 @@ class ChinaAreaCodePO():
         else:
             spider_class = "village"
         for item in self.get_html(url).select("tr." + spider_class + "tr"):
+            # print(item_td)
             item_td = item.select("td")
             item_td_code = item_td[0].select_one("a")
             item_td_name = item_td[1].select_one("a")
@@ -164,33 +194,40 @@ class ChinaAreaCodePO():
         return (userline)
 
 
-    def find(self, d_bj, varCity):
+    def find(self, d_bj, l_area):
 
         # 获取直辖市下的区
         dict1 = {}
 
-        for k,v in d_bj.items():
-            # 直辖市
-            if v == varCity and k[4:] == "00000000":
+        for k, v in d_bj.items():
+
+            # 市(直辖)
+            if l_area[1] == "" and v == l_area[0] and k[4:] == "00000000":
                 varLeft = k[:4]
-                varRight = "000000"
-                for k1,v1 in d_bj.items():
-                    if k1[:4] == varLeft and k1[-6:] == varRight:
-                        dict1[k1] = v1
-                break
-            # 区
-            if v == varCity and k[6:] == "000000":
-                varLeft = k[:6]
-                varRight = "000"
-                for k,v in d_bj.items():
-                    if k[:6] == varLeft and k[-3:] == varRight:
+                for k, v in d_bj.items():
+                    if k[:4] == varLeft and k[-6:] == "000000" and v != l_area[0]:
                         dict1[k] = v
+
+
+            # 区(直辖)
+            if v == l_area[0] and k[4:] == "00000000":
+                varLeft = k[:4]
+                for k, v in d_bj.items():
+                    if v == l_area[1] and k[:4] == varLeft and k[-6:] == "000000" and v != l_area[0]:
+                        varLeft = k[:6]
+                        for k,v in d_bj.items():
+                            if k[:6] == varLeft and k[-3:] == "000" and v != l_area[1]:
+                                dict1[k] = v
+
             # 街道
-            if v == varCity and k[9:] == "000":
-                varLeft = k[:9]
-                for k,v in d_bj.items():
-                    if k[:9] == varLeft and k[-3:] != "000":
-                        dict1[k] = v
+            if v == l_area[0] and k[6:] == "000000":
+                varLeft = k[:6]
+                for k, v in d_bj.items():
+                    if v == l_area[1] and k[9:] == "000" and k[:6] == varLeft:
+                        varLeft = k[:9]
+                        for k, v in d_bj.items():
+                            if k[:9] == varLeft and k[-3:] != "000":
+                                dict1[k] = v
 
         return dict1
 
@@ -200,13 +237,21 @@ if __name__ == '__main__':
 
     ChinaAreaCode_PO = ChinaAreaCodePO()
 
-    # 下载城市到文件(字典格式)
-    # ChinaAreaCode_PO.update("北京市", "json_bj.txt")
-    # ChinaAreaCode_PO.update("上海市", "json_sh.txt")
-    # ChinaAreaCode_PO.update("天津市", "json_tj.txt")
-    # ChinaAreaCode_PO.update("辽宁省", "json_ln.txt")
+    # 下载所有省市
+    # ChinaAreaCode_PO.update("")
 
-    # ChinaAreaCode_PO.update("河北省", "json_hb.txt")
+    # 下载省市
+    # ChinaAreaCode_PO.update("北京市")
+    # ChinaAreaCode_PO.update("上海市")
+    # ChinaAreaCode_PO.update("天津市")
+    # ChinaAreaCode_PO.update("辽宁省")
+    # ChinaAreaCode_PO.update("山西省")
+    # ChinaAreaCode_PO.update("内蒙古自治区")
+    # ChinaAreaCode_PO.update("吉林省")
+    ChinaAreaCode_PO.update("河北省")
+
+
+
 
 
 
@@ -214,10 +259,16 @@ if __name__ == '__main__':
 
     # # 获取区、街道、居委
 
-    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_bj.txt"), "市辖区"))
-    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_bj.txt"), "东城区"))
-    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_bj.txt"), "永定门外街道"))
+    # 市下属所有区
+    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_nmg.txt"), ["呼伦贝尔市", ""]))
+    #
+    # # 区下属所有街道
+    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_nmg.txt"), ["呼伦贝尔市", "海拉尔区"]))
+    #
+    # # 街道下属所有居委会
+    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_nmg.txt"), ["海拉尔区", "胜利街道"]))
 
-    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_sh.txt"), "市辖区"))
-    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_sh.txt"), "浦东新区"))
-    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_sh.txt"), "金杨新村街道"))
+
+    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_sh.txt"), ["市辖区", ""]))
+    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_sh.txt"), ["市辖区", "浦东新区"]))
+    # print(ChinaAreaCode_PO.find(ChinaAreaCode_PO.getDict("json_sh.txt"), ["浦东新区", "金杨新村街道"]))
