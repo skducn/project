@@ -116,19 +116,17 @@ class ChinaAreaCodePO():
                 # 下载所有省市
                 if varProvince == "":
                     if os.path.isfile(v) == False:
-                        if k == name:
+                        if k == name and name != "河北省":
                             href = province.get("href")
                             code = href[0: 2] + "0000000000"
                             self.d_province[code] = name
-                            print(self.d_province)
+                            # print(self.d_province)
                             print(name.center(100, "-"))
-
                             d = self.spider_next(self.get_prefix(province_url) + href, 2)
-                            print(d)
+                            # print(d)
                             with open(v, mode='w', encoding='utf-8') as f:
                                 f.write(json.dumps(d, ensure_ascii=False))
-                    else:
-                        print(v+ "已存在")
+
 
 
     # 递归抓取下一页面
@@ -238,7 +236,7 @@ if __name__ == '__main__':
     ChinaAreaCode_PO = ChinaAreaCodePO()
 
     # 下载所有省市
-    # ChinaAreaCode_PO.update("")
+    ChinaAreaCode_PO.update("")
 
     # 下载省市
     # ChinaAreaCode_PO.update("北京市")
@@ -248,7 +246,14 @@ if __name__ == '__main__':
     # ChinaAreaCode_PO.update("山西省")
     # ChinaAreaCode_PO.update("内蒙古自治区")
     # ChinaAreaCode_PO.update("吉林省")
-    ChinaAreaCode_PO.update("河北省")
+    # ChinaAreaCode_PO.update("黑龙江省")
+    # ChinaAreaCode_PO.update("江苏省")
+    # ChinaAreaCode_PO.update("浙江省")
+
+    # ChinaAreaCode_PO.update("河北省")
+
+
+
 
 
 
