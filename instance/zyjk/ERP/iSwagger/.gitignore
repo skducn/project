@@ -1,0 +1,7 @@
+.env
+__pycache__/*
+readme.txt
+encrypted_data.*
+private_key.*
+*.pem
+*.bin

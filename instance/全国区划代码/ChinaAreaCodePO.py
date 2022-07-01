@@ -116,7 +116,8 @@ class ChinaAreaCodePO():
                 # 下载所有省市
                 if varProvince == "":
                     if os.path.isfile(v) == False:
-                        if k == name and name != "河北省":
+                        if k == name :
+                            self.d_province = {}
                             href = province.get("href")
                             code = href[0: 2] + "0000000000"
                             self.d_province[code] = name
@@ -126,6 +127,7 @@ class ChinaAreaCodePO():
                             # print(d)
                             with open(v, mode='w', encoding='utf-8') as f:
                                 f.write(json.dumps(d, ensure_ascii=False))
+
 
 
 

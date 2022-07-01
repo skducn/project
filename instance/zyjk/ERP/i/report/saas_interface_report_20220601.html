@@ -1,0 +1,231 @@
+<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style><html><head><title>saas高血压接口自动化报告</title></head>
+<body><b><caption>saas高血压接口自动化报告 ( 20220601 ) </caption></b><br/><br/><table border="1" class="dataframe mystyle">
+<thead>
+<tr style="text-align: center;">
+<th style="min-width: 100px;"bgcolor="#90d7ec">编号</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">类型</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">模块</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">名称</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">参数</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">i检查接口返回值</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">i结果</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">db检查表值</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">db结果</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">f结果</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">全局变量</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">全局变量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td>设置全局变量</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"userNo":"16766667777","orgno":"\'wgzx\' + str(Data_PO.autoNum(3))","orgId":"select orgCode from sys_user_detail where userNo='16766667777'"}</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>正常</td>
+<td>鉴权中心</td>
+<td>pc登录-必填非必填参数都有值</td>
+<td>{\n"coordinate": "1",\n "isEasyPSW": 10,\n "newFirstPassword": "",\n "newSecondPassword": "",\n "password": "123456",\n "secretCardCode": "1",\n "userNo":"{{userNo}}"\n}</td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"orgno":"select orgCode from sys_user_detail where userNo='16766667777'","userNo":"select orgCode from sys_user_detail where userNo='16766667777'"}</td>
+<td bgcolor="#f69c9f">Fail</td>
+<td></td>
+<td></td>
+<td>{"orgno": "wgzx664", "userNo": "16766667777"}</td>
+</tr>
+<tr>
+<td>10</td>
+<td>正常</td>
+<td>高血压首页</td>
+<td>查询高血压首页数据</td>
+<td>[{{orgId}}]</td>
+<td>{"$.code":200}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"orgId":299}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td><font color="red">异常</font></td>
+<td>高血压首页</td>
+<td>查询高血压首页数据-orgids错误</td>
+<td>[123123]</td>
+<td>{"$.code":500,"$.msg":"hypertension 系统出现异常,请联系管理员-DTO！","$.data":null}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"userNo":"select orgCode from sys_user_detail where userNo='16766667777'"}</td>
+<td bgcolor="#f69c9f">Fail</td>
+<td></td>
+<td></td>
+<td>{"userNo": "16766667777"}</td>
+</tr>
+<tr>
+<td>20</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>导出随访表记录</td>
+<td>{\n "beginAge": 0,\n "currentPage": 1,\n "docName": "dc",\n "endAge": 0,\n "groupType": "1",\n "name": "张小三",\n "orgId": {{orgId}},\n "orgIdList": [],\n "pageSize": 10,\n "statusList": []\n}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"file":"/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb.xlsx"}</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>导出随访表记录全参</td>
+<td>{\n "beginAge": 1,\n "currentPage": 1,\n "docName": "dc",\n "endAge": 100,\n "groupType": "1",\n "name": "斤斤计较",\n "orgId":  {{orgId}},\n "orgIdList": [],\n "pageSize": 10,\n "statusList": [2]\n}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"file":"/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb2.xlsx"}</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>导出随访表记录必填参数</td>
+<td>{\n "beginAge": 0,\n "currentPage": 1,\n "docName": "dc",\n "endAge": 0,\n "groupType": "1",\n "orgId":  {{orgId}},\n "orgIdList": [],\n "pageSize": 10,\n "statusList": []\n}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"file":"/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb.xlsx"}</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>正常</td>
+<td>统计查询</td>
+<td>入组患者-分页查询-全参</td>
+<td>{\n "currPage": 1,\n "dateBegin": "2022-01-01 00:00:00",\n "dateEnd": "2022-05-25 23:59:59",\n "orgIdList": [{{orgId}}],\n "pageSize": 10\n}</td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"orgId":2929}</td>
+<td bgcolor="#f69c9f">Fail</td>
+<td></td>
+<td></td>
+<td>{"orgId": 299}</td>
+</tr>
+<tr>
+<td>31</td>
+<td>正常</td>
+<td>统计查询</td>
+<td>入组患者-分页查询-必填参数</td>
+<td>{\n "currPage": 0,\n "orgIdList": [ {{orgId}}],\n "pageSize": 0\n}</td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"orgId3":"select orgCode from sys_user_detail where userNo='16766667777'","userNo":"select orgCode from sys_user_detail where userNo='16766667777'"}</td>
+<td bgcolor="#f69c9f">Fail</td>
+<td></td>
+<td></td>
+<td>不存在或错误！</td>
+</tr>
+<tr>
+<td>32</td>
+<td>正常</td>
+<td>统计查询</td>
+<td>入组患者-导出-全参</td>
+<td>{\n "currPage": 1,\n "dateBegin": "2022-01-01 00:00:00",\n "dateEnd": "2022-05-25 23:59:59",\n "orgIdList": [ {{orgId}}],\n "pageSize": 10\n}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"file":"/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb.xlsx"}</td>
+<td></td>
+</tr>
+<tr>
+<td>33</td>
+<td>正常</td>
+<td>统计查询</td>
+<td>入组患者-导出-必填参数</td>
+<td>{"currPage": 0,\n "dateBegin": "",\n "dateEnd": "",\n "orgIdList": [ {{orgId}}],\n "pageSize": 0\n}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"file":"/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb.xlsx"}</td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>正常</td>
+<td>统计查询</td>
+<td>随访情况统计-全参</td>
+<td>{\n"orgCode":" {{orgId}}"\n"pageNum":"1"\n"pageSize":"10"\n}</td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#f69c9f">Fail</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"$.code": 500, "$.msg": "route:RibbonRoutingFilter"}</td>
+</tr>
+<tr>
+<td>35</td>
+<td>正常</td>
+<td>统计查询</td>
+<td>随访情况-导出-全参</td>
+<td>{"orgCode":" {{orgId}}"}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td bgcolor="#c6efce">Ok</td>
+<td>{"file":"/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/data/sfb.xlsx"}</td>
+<td></td>
+</tr>
+<tr>
+<td>40</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>分页查询患者信息-全参</td>
+<td>{\n "beginAge": 1,\n "currentPage": 1,\n "docName": "dc",\n "endAge": 100,\n "groupType": "1",\n "name": "斤斤计较",\n "orgId":  {{orgId}},\n "orgIdList": [],\n "pageSize": 10,\n "statusList": [2]\n}</td>
+<td>{"$.code":200,"$.msg":"success"}</td>
+<td bgcolor="#c6efce">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"empiId":"$.data.list[0].empiId"}</td>
+<td></td>
+</tr>
+<tr>
+<td>41</td>
+<td>正常</td>
+<td>高血压患者信息</td>
+<td>分页查询患者信息-必填参数</td>
+<td>{\n "beginAge": 1,\n "currentPage": 1,\n "docName": "dc",\n "endAge": 0,\n "groupType": "1",\n "name": "",\n "orgId":  {{orgId}},\n "orgIdList": [],\n "pageSize": 10,\n "statusList": []\n}</td>
+<td>{"$.code":200,"$.msg":"suc23cess"}</td>
+<td bgcolor="#f69c9f">Fail</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"$.msg": "success"}</td>
+</tr>
+</tbody>
+</table></body></html>

@@ -1,0 +1,488 @@
+<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style><html><head><title>run2高血压接口自动化报告</title></head>
+<body><b><caption>run2高血压接口自动化报告_20220624</caption></b><br/><br/><table border="1" class="dataframe mystyle">
+<thead>
+<tr style="text-align: center;">
+<th style="min-width: 100px;"bgcolor="#90d7ec">index</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">类型</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">数据源</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">模块</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">接口名称</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">用例名称</th>
+<th style="min-width: 100px;"bgcolor="#50b7c1">i结果</th>
+<th style="min-width: 100px;"bgcolor="#50b7c1">db结果</th>
+<th style="min-width: 100px;"bgcolor="#50b7c1">f结果</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">全局变量</th>
+<th style="min-width: 100px;"bgcolor="#90d7ec">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>设置全局变量</td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"userNo": "16766667777", "orgno": "wgzx349", "orgId": 299}</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>auth</td>
+<td>鉴权中心</td>
+<td>pc用户登录</td>
+<td>全参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td></td>
+<td>高血压首页-PC</td>
+<td>查询高血压首页数据</td>
+<td></td>
+<td bgcolor="#00ae9d">Ok</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td><font color="red">反向</font></td>
+<td></td>
+<td>高血压首页-PC</td>
+<td>查询高血压首页数据</td>
+<td>设置错误orgId</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td></td>
+<td></td>
+<td>统计查询-PC</td>
+<td>入组患者-分页查询</td>
+<td>全参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td></td>
+<td></td>
+<td>统计查询-PC</td>
+<td>入组患者-分页查询</td>
+<td>必参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td></td>
+<td></td>
+<td>统计查询-PC</td>
+<td>随访情况统计</td>
+<td>全参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>根据机构id，分页查询患者信息-pc、app</td>
+<td>全参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td>{"empiId": "410729963367206913", "itemId": 61}</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>根据机构id，分页查询患者信息-pc、app</td>
+<td>必参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>设置全局变量</td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"phone": "18815495731", "idCardNo": "110102196712212759", "itemId": 79}</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>设置请求头</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>{"deviceTag": "app"}</td>
+</tr>
+<tr>
+<td>21</td>
+<td></td>
+<td>auth</td>
+<td>鉴权中心</td>
+<td>医生小程序登录</td>
+<td>全参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>新增患者-app</td>
+<td>必参，医生端新增患者</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>患者列表查询-app</td>
+<td>必参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td>{"ldt_idCardNo": "110112200011116328", "glempild": "410729963367206913"}</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>单个患者查询-app</td>
+<td>医生端-单个患者查询</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>查询医生对照组下的患者-app</td>
+<td>医生端-查询对照组患者-必填参数</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>修改对照组患者-app</td>
+<td>医生端-修改对照组患者-全参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>删除对照组患者-app</td>
+<td>医生端-删除对照组患者-全参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>33</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>患者组别下拉框-pc、app</td>
+<td>医生端-患者组别下拉框</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td></td>
+<td></td>
+<td>高血压患者信息</td>
+<td>分级代码-app</td>
+<td>医生端-分级代码</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>35</td>
+<td></td>
+<td></td>
+<td>高血压随访接口</td>
+<td>更改管理级别</td>
+<td>医生端-更改管理组别</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>36</td>
+<td></td>
+<td></td>
+<td>高血压随访接口</td>
+<td>查询患者随访记录信息</td>
+<td>医生端-查询患者随访记录信息</td>
+<td bgcolor="#f69c9f">Fail</td>
+<td></td>
+<td></td>
+<td></td>
+<td>d_res =&gt; {"$.code": 500, "$.msg": "患者随访信息不存在"}, 没找到 {"$.code":200,"$.msg":"success"}</td>
+</tr>
+<tr>
+<td>37</td>
+<td></td>
+<td></td>
+<td>高血压随访接口</td>
+<td>分层分级管理查询</td>
+<td>医生端-分层分级查询</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>38</td>
+<td></td>
+<td></td>
+<td>高血压随访接口</td>
+<td>两次随访血压未达标患者</td>
+<td>医生端-建议转诊患者-全参</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>39</td>
+<td></td>
+<td></td>
+<td>高血压随访接口</td>
+<td>两次随访血压未达标患者</td>
+<td>医生端-建议转诊患者-必填参数</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>40</td>
+<td></td>
+<td></td>
+<td>高血压随访接口</td>
+<td>一周内待随访患者查询</td>
+<td>医生端-一周内待随访患者查询</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>41</td>
+<td></td>
+<td></td>
+<td>高血压随访接口</td>
+<td>逾期随访患者查询</td>
+<td>医生端-逾期随访患者查询</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>42</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>新增-APP</td>
+<td>医生端-新增转诊</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td>{"zz_id": 228}</td>
+<td></td>
+</tr>
+<tr>
+<td>43</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>待处理查询-APP</td>
+<td>医生端-待处理查询</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>44</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>转入确认-APP</td>
+<td>医生端-转入确认</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>45</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>转回申请-APP</td>
+<td>医生端-转回申请</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>46</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>转回确认-APP</td>
+<td>医生端-转回确认</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>47</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>待处理查询-APP</td>
+<td>医生端-待处理查询</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>48</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>已接收查询-APP</td>
+<td>医生端-已接收查询</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>49</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>转诊记录查询-APP</td>
+<td>医生端-转诊记录查询</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>50</td>
+<td></td>
+<td></td>
+<td>转诊记录表接口</td>
+<td>通过ID获取一条数据-APP</td>
+<td>医生端-通过id获取一条数据</td>
+<td bgcolor="#00ae9d">Ok</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></body></html>

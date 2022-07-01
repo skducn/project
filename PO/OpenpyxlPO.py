@@ -87,7 +87,7 @@ from PO.MysqlPO import *
 2.12 设置单元格边框 setBorder(1, 2, left = ['thin','ff0000'], right = ['thick','ff0000'], top = ['thin','ff0000'],bottom = ['thick','ff0000'])
 2.13 设置单元格填充背景色 setPatternFill(2, 2, 'solid', '006100')
 2.14 设置单元格填充渐变色 setGradientFill(3, 3, stop=["FFFFFF", "99ccff", "000000"])
-2.15 设置单元格背景色 setCellColor(1, 1, "solid", "ff0000")  # 第1行第一列设置红色
+2.15 设置单元格背景色 setCellColor(1, 1, "ff0000")  # 第1行第一列设置红色
 2.15.2 设置单行多列背景色 setRowColColor(5, ['b', 'd'], "ff0000")
 2.15.3 设置所有单元格背景色 setAllCellColor("ff0000")
 2.16 设置整行(可间隔)背景色  setRowColor(3, 1, "ff0000")  # 从第3行开始每隔1行颜色标红色
@@ -990,8 +990,8 @@ if __name__ == "__main__":
 
     # print("2.15 设置单元格背景色".center(100, "-"))
     # Openpyxl_PO.setCellColor(5, 1)  # 清除第5行第1列的背景色
-    Openpyxl_PO.setCellColor(5, "d")  # 清除第5行d列的背景色
-    # Openpyxl_PO.setCellColor(5, 1, "ff0000")  # 设置第五行第1列设置红色
+    # Openpyxl_PO.setCellColor(5, "d")  # 清除第5行d列的背景色
+    Openpyxl_PO.setCellColor(5, 1, "ff0000", "Sheet2")  # 设置第五行第1列设置红色
     # Openpyxl_PO.setCellColor(5, "e", "ff0000")  # 设置第五行e列设置红色
     # Openpyxl_PO.setCellColor(None, None)  # 清除所有背景色
 
@@ -1031,7 +1031,7 @@ if __name__ == "__main__":
     # print(Openpyxl_PO.getOneRowValue(2))
 
     # print("3.4 获取每行数据".center(100, "-"))
-    # print(Openpyxl_PO.getRowValue())
+    print(Openpyxl_PO.getRowValue())
     # # print(Openpyxl_PO.getRowValue("python"))
     #
     # print("3.5 获取每列数据".center(100, "-"))
