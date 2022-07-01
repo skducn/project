@@ -257,7 +257,7 @@ if __name__ == "__main__":
 
 
     # print("4，统计字符串中字符重复的次数".center(100, "-"))
-    # print(Str_PO.getRepeatCount("123%123234%", "%"))  # 2
+    print(Str_PO.getRepeatCount("123%s1232%s34%", "%s"))  # 2
     # print(Str_PO.getRepeatCount("123%123234%", "?"))  # 0
 
 
