@@ -398,9 +398,11 @@ class Run:
         elif varCheck == "g_var":
             self.df.update(pd.Series(varMemo, index=[id], name=l_m[getIndex(l_m, "全局变量")]))
 
+
 if __name__ == '__main__':
 
     run = Run()
+
     # 遍历用例
     for index in run.df.index:
         r = run.df.loc[index].values[0:]
