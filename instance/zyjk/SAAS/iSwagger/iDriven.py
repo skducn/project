@@ -61,6 +61,8 @@ class HTTP:
 
     def post(self, iPath, iConsumes, iQueryParam, iParam, d_var):
 
+        print(iParam)
+        print(json.loads(iParam))
         result = self.session.post(varUrl + iPath, headers={"Content-Type": iConsumes}, json=json.loads(iParam), verify=False)
         d_response = json.loads(result.text)
 
