@@ -65,7 +65,7 @@ def visitAnalysis(tblField, iResField, sql):
     Openpyxl_PO.setCellValue(1, currCol, tblField, varSheet)
 
     # 计划拜访人次
-    print(tblField, "--------------------------------------------------")
+    # print(tblField, "--------------------------------------------------")
     # print(res_visitAnalysis['data'])
 
     for i in range(len(res_visitAnalysis['data'])):
@@ -126,28 +126,33 @@ for i in range(1, len(l_getRowValue_case)):
         varSheet = "temp"
         Openpyxl_PO.delSheet(varSheet)
         # varSheet = startTime[5:7] + startTime[8:10] + "-" + endTime[5:7] + endTime[8:10]
-        Openpyxl_PO.addSheetCover(varSheet, -1)
+        Openpyxl_PO.addSheetCover(varSheet, 99)
         Openpyxl_PO.setRowValue({1: ["结果", "代表"]}, varSheet)
 
 
         # 获取拜访分析报表数据（接口）
-        if l_getRowValue_case[i][1] == "拜访分析报表":
-            r = requests.post("http://192.168.0.238:8090/visit/visitAnalysis",
-                                   headers={"content-type": "application/json", "token" : token, "traceId" : "123"},
-                                   json={"endTime": endTime, "searchName": "", "starTime": startTime}, verify=False)
-            str1 = r.text.encode('gbk', 'ignore').decode('gbk')
-            res_visitAnalysis = json.loads(str1)
-            # print(res_visitAnalysis)
-            l_getRowValue = (Openpyxl_PO.getRowValue("拜访分析报表"))
+        l_getRowValue_i = (Openpyxl_PO.getRowValue("default"))
+        varSign1 = 0
+        for j in range(1, len(l_getRowValue_i)):
 
-        # 获取协防分析报表数据（接口）
-        elif l_getRowValue_case[i][1] == "协防分析报表":
+            if l_getRowValue_case[i][1] == l_getRowValue_i[j][1]: # "拜访分析报表":
+                r = requests.post("http://192.168.0.238:8090" + l_getRowValue_i[j][2],
+                                       headers={"content-type": "application/json", "token" : token, "traceId" : "123"},
+                                       json={"endTime": endTime, "searchName": "", "starTime": startTime}, verify=False)
+                str1 = r.text.encode('gbk', 'ignore').decode('gbk')
+                res_visitAnalysis = json.loads(str1)
+                # print(res_visitAnalysis)
+                l_getRowValue = (Openpyxl_PO.getRowValue(l_getRowValue_case[i][1]))
+
+
+                varSign1 = 1
+                break
+
+        if varSign1 == 0:
+            print("[warning], " + l_getRowValue_case[i][1] + " 没有对应的接口文档，程序已退出！")
             sys.exit(0)
-        else:
-            sys.exit(0)
 
-
-
+        # print(l_getRowValue)
         for j in range(1, len(l_getRowValue)):
             if l_getRowValue[j][0] != "N":
                 visitAnalysis(l_getRowValue[j][1], l_getRowValue[j][2], l_getRowValue[j][3])
@@ -175,6 +180,7 @@ for i in range(1, len(l_getRowValue_case)):
         tf.write(str(html_text))
         tf.close()
 
+        Openpyxl_PO.delSheet(varSheet)
         print("[done], " + str(rptNameDate))
 
         Sys_PO.openFile(rptNameDate)

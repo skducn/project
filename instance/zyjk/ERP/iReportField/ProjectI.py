@@ -28,10 +28,13 @@ Sys_PO = SysPO()
 
 from PO.WebPO import *
 
-import readConfig as readConfig
-localReadConfig = readConfig.ReadConfig()
-cf_test_swaggerIpPort = localReadConfig.get_test("swaggerIpPort")
-cf_test_swaggerDoc = localReadConfig.get_test("swaggerDoc")
+# import readConfig as readConfig
+# localReadConfig = readConfig.ReadConfig()
+# cf_test_swaggerIpPort = localReadConfig.get_test("swaggerIpPort")
+# cf_test_swaggerDoc = localReadConfig.get_test("swaggerDoc")
+
+cf_test_swaggerIpPort = "http://192.168.0.238:8090"
+cf_test_swaggerDoc = "http://192.168.0.238:8090/doc.html"
 
 
 class ProjectI():
@@ -221,6 +224,6 @@ if __name__ == '__main__':
 
     project_I = ProjectI()
 
-    # project_I.getI("auth", "i.xlsx")
-    project_I.getI("default", "i_erp_swagger_case.xlsx")
+    # project_I.getI("default", "i_erp_swagger.xlsx")
+    project_I.getI("default", "i_erp_reportField_case.xlsx")
 
