@@ -95,6 +95,10 @@ class ProjectI():
                 # print(method)  # post
                 # print(v['tags'])  # ['医患交流信息表接口']
                 # print(v['summary'])  # 群发消息-PC
+
+                # if v['summary'] == "新增系统管理用户":
+                # print(v)
+                # sys.exit(0)
                 # print(v['consumes'])  # ['application/json']
                 # print(v['parameters'])
                 # print(d['paths'][paths])
@@ -137,15 +141,16 @@ class ProjectI():
                 # body
                 l_parameters = []
                 d_parameters = {}
+                d_parameters_sub1 = {}
                 if 'parameters' in v:
                     l_parameters = Str_PO.str2list(str(v['parameters']))
                     # print(l_parameters)
-                    # print(l_parameters[0]['in'])
+
 
                     if "in" in l_parameters[0] and l_parameters[0]['in'] == 'body' :
-
+                        # print(d['definitions'])
                         for k, v in d['definitions'].items():
-                            # print(l_parameters[0])
+
                             if "$ref" in l_parameters[0]['schema']:
                                 # print(l_parameters[0]['schema']['$ref'].split("#/definitions/")[1])
                                 if k == l_parameters[0]['schema']['$ref'].split("#/definitions/")[1]:  # ChatVO
@@ -155,7 +160,7 @@ class ProjectI():
                                         if k1 == "properties":
                                             # print(v1)
                                             for k2, v2 in v1.items():
-                                                # print(v2)
+                                                print(v2)
 
                                                 if "type" in v2:
                                                     if v2['type'] == "string":
@@ -163,11 +168,44 @@ class ProjectI():
                                                     elif v2['type'] == "integer":
                                                         d_parameters[k2] = 0
                                                     elif v2['type'] == "array":
-                                                        d_parameters[k2] = []
+
+                                                        # print(v2["items"]["$ref"].split("#/definitions/")[1])
+                                                        # print(3, v2)
+                                                        if "items" in v2:
+                                                            for k6, v6 in d['definitions'].items():
+                                                                # print(1, "~~~~~~~~~`")
+                                                                if "$ref" in v2["items"]:
+                                                                    # print(v2["items"]["$ref"].split("#/definitions/")[1])
+                                                                    # sys.exit(0)
+                                                                    if k6 == v2["items"]["$ref"].split("#/definitions/")[1] :  # SysRoleVO对象
+                                                                        # print(d['definitions'][k6])
+
+                                                                        for k7, v8 in d['definitions'][k6].items():
+                                                                            if k7 == "properties":
+                                                                                # print(v8)
+                                                                                for k9, v9 in v8.items():
+                                                                                    # print(v9)
+                                                                                    if "type" in v9:
+                                                                                        if v9['type'] == "string":
+                                                                                            d_parameters_sub1[k9] = ""
+                                                                                        elif v9['type'] == "integer":
+                                                                                            d_parameters_sub1[k9] = 0
+                                                                                        elif v9['type'] == "array":
+                                                                                            d_parameters_sub1[k9] = []
+                                                                                        else:
+                                                                                            d_parameters_sub1[k9] = '?'
+                                                            # print(4, d_parameters_sub1)
+                                                        d_parameters[k2] = [d_parameters_sub1]
+
                                                     else:
                                                         d_parameters[k2] = '?'
 
-                                    # print(d_parameters)
+                                                if "$ref" in v2:   # {'description': '用户登录信息详情', '$ref': '#/definitions/SysUserVO对象'}
+                                                    # print(v2["$ref"].split("#/definitions/")[1])
+                                                    # print(v2["$ref"].split("#/definitions/")[1][:-2])
+                                                    d_parameters[v2["$ref"].split("#/definitions/")[1][:-2]] = []
+
+                                    print(5, d_parameters)
                                     # l_i.append(str(d_parameters))
                                     l_i.append(json.dumps(d_parameters))
 
@@ -201,6 +239,7 @@ class ProjectI():
                     l_i.append(None)
 
             l_all.append(l_i)
+            # print(l_all)
             l_i = []
 
         for i in range(len(l_all)):
