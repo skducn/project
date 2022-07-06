@@ -29,7 +29,8 @@ from email.mime.multipart import MIMEMultipart
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import readConfig as readConfig
 localReadConfig = readConfig.ReadConfig()
-
+from PO.DictPO import *
+Dict_PO = DictPO()
 
 class HTTP:
     def __init__(self):
@@ -48,6 +49,7 @@ class HTTP:
         varUrl = protocol + "://" + ip + ":" + port
 
         self.session = requests.session()
+        self.session.headers = {"Content-Type": "application/json"}
 
 
     def header(self, iPath, iConsumes, iQueryParam, iParam, d_var):
@@ -62,8 +64,13 @@ class HTTP:
     def post(self, iPath, iConsumes, iQueryParam, iParam, d_var):
 
         print(iParam)
-        print(json.loads(iParam))
-        result = self.session.post(varUrl + iPath, headers={"Content-Type": iConsumes}, json=json.loads(iParam), verify=False)
+        # print(iConsumes)
+
+        if Dict_PO.is_dict(iParam) == True:
+            result = self.session.post(varUrl + iPath, headers={"Content-Type": iConsumes}, json=json.loads(iParam), verify=False)
+        else:
+            result = self.session.post(varUrl + iPath, headers={"Content-Type": iConsumes}, data=str(iParam).encode("utf-8"), verify=False)
+
         d_response = json.loads(result.text)
 
         # '判断有无token，添加到headers'
@@ -98,11 +105,27 @@ class HTTP:
 
     def get(self, iPath, iConsumes, iQueryParam, iParam, d_var):
 
+        print(iQueryParam)
+        print(iConsumes)
+
         # query参数
-        if iQueryParam != None and iParam == None:
-            result = self.session.get(varUrl + iPath + "?" + iQueryParam, headers={"Content-Type": iConsumes}, verify=False)
+        if iConsumes != None:
+            print("00000000000")
+            if iQueryParam != None and iParam == None :
+                result = self.session.get(varUrl + iPath + "?" + iQueryParam, headers={"Content-Type": iConsumes}, verify=False)
+            else:
+                result = self.session.get(varUrl + iPath, data=None, headers={"Content-Type": iConsumes}, verify=False)
         else:
-            result = self.session.get(varUrl + iPath, data=None, headers={"Content-Type": iConsumes}, verify=False)
+
+            if iQueryParam != None and iParam == None :
+                print(varUrl + iPath + "?" + iQueryParam)
+                result = self.session.get(varUrl + iPath + "?" + iQueryParam, verify=False)
+            else:
+                print("12121212")
+                print(varUrl + iPath)
+                result = self.session.get(varUrl + iPath, verify=False)
+
+        print("headers => " + str(self.session.headers))
         d_response = json.loads(result.text)
         for k, v in d_var.items():
             if "$." in str(v):
@@ -114,8 +137,11 @@ class HTTP:
                     d_var[k] = res_value[0]
         # print("method => get")
         # print("<font color='blue'>res => " + str(result.text) + "</font>")
-        res = result.text
-        print("res => " + str(d_response))
+        # res = result.text
+        # print("res => " + str(d_response))
+        res = str(result.text).encode("gbk", "ignore").decode("gbk")
+        print("res => " + res)
+
         try:
             res = res[res.find('{'):res.rfind('}') + 1]
         except Exception as e:
@@ -125,11 +151,20 @@ class HTTP:
 
     def put(self, iPath, iConsumes, iQueryParam, iParam, d_var):
 
+
+        print(iParam)
+
+
         # query参数
+
         if iQueryParam != None and iParam == None:
             result = self.session.put(varUrl + iPath + "?" + iQueryParam, headers={"Content-Type": iConsumes}, verify=False)
         elif iQueryParam == None and iParam != None:
-            result = self.session.put(varUrl + iPath, headers={"Content-Type": iConsumes}, json=json.loads(iParam), verify=False)
+
+            if Dict_PO.is_dict(iParam) == True:
+                result = self.session.put(varUrl + iPath, headers={"Content-Type": iConsumes}, json=json.loads(iParam), verify=False)
+            else:
+                result = self.session.put(varUrl + iPath, headers={"Content-Type": iConsumes}, data=str(iParam).encode("utf-8"), verify=False)
         else:
             result = self.session.put(varUrl + iPath, data=None, headers={"Content-Type": iConsumes}, verify=False)
         d_response = json.loads(result.text)

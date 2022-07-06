@@ -9,25 +9,128 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
+d = '''{
+	"projectId": 0,
+	"roleList": [
+		{
+			"createId": 0,
+			"createTime": "",
+			"creator": "",
+			"id": 174,
+			"isSelected": 0,
+			"menuCodes": [],
+			"projectId": [],
+			"remark": "",
+			"roleName": "",
+			"status": 0,
+			"systemType": 0,
+			"updateId": 0,
+			"updateTime": "",
+			"updater": ""
+		}
+	],
+	"sysUserVO": {
+		"accountEffectTime": "2020-09-11 00:00:00",
+		"accountInvalidTime": "2024-09-26 00:00:00",
+		"allowErrorNum":100,
+		"allowLoginTime": "08:30:00-18:30:00",
+		"crcFlag": true,
+		"deptCodeName": "",
+		"deptStr": "",
+		"email": "",
+		"id": 0,
+		"isCanLoginApplet": 0,
+		"isForcedPasswordExpiration": 0,
+		"lastLoginoutProject": 0,
+		"mobile": "",
+		"orgId": 0,
+		"password": "",
+		"passwordEffectDay": 1110,
+		"passwordErrorNum": 0,
+		"passwordInvalidDate": "2049-11-15 16:26:01",
+		"passwordLockDuration": "5",
+		"passwordLockTimes": 0,
+		"professionalTechJobName": "",
+		"profilePicture": "",
+		"roleStr": "",
+		"secretEffectTime": "",
+		"secretInvalidTime": "",
+		"status": 1,
+		"statusStr": "",
+		"type": 0,
+		"userDetailId": 0,
+		"userName": "",
+		"userNo": "",
+		"userRoleList": []
+	},
+	"userDetailId": 174,
+	"userId": 161,
+	"userName": "admin",
+	"userNo": "admin"
+}'''
+
+def is_dict(str1):
+    '''
+    判断字符串是否是json格式的字典
+    :return:
+    '''
+
+    false = False
+    true = True
+    null = ''
+
+    try:
+        eval(str1)
+    except SyntaxError:
+        return False
+    return True
+
+print(is_dict(d))
+
+if is_dict(d) == True:
+
+    print(123)
+import json
+print(json.loads(d))
+
+
+
+# print(json.loads(d))
+# d = '''{
+# 	"bucket": "",
+# 	"isCover": "",
+# 	"name": "",
+# 	"password": "",
+# 	"size": 0,
+# 	"userName": ""
+# }'''
+
+# d = "conten={}"
+# if is_dict(d):
+#     print("is dict")
+# else:
+#     print("no")
+
+
 # d = {2: ['医患交流信息表接口', '群发消息-PC', '/saasuser/afPreoperativeCounselingInfo/addMassMessage', 'post', 'application/json', [{'in': 'body', 'name': 'chatVos', 'description': '数据对象', 'required': False, 'schema': {'type': 'array', 'items': {'$ref': '#/definitions/ChatVO'}}}]]}
 #
 # for k, v in d.items():
 #     for i in range(len(v)):
 #         if v[i] != None:
 #             print(v[i])
-x = '110100000000'
-print(x[-6:])
-
-a= {'code': '310101002001', 'name': '云南中路居委会',"village":[{'code': '110101001001', 'name': '多福巷社区居委会'},{'code': '110', 'name': '多福巷社区居委会2'}]}
-# b= {'code': '310101002002', 'name': '龙泉园路居委会'}
-# c= {'code': '310101002003', 'name': '贵州路居委会'}
-# list1 = []
-# list1.append(a)
-# list1.append(b)
-# list1.append(c)
-# print(list1)
-a.update({"village":[{"a:":"22"}]})
-print(a)
+# x = '110100000000'
+# print(x[-6:])
+#
+# a= {'code': '310101002001', 'name': '云南中路居委会',"village":[{'code': '110101001001', 'name': '多福巷社区居委会'},{'code': '110', 'name': '多福巷社区居委会2'}]}
+# # b= {'code': '310101002002', 'name': '龙泉园路居委会'}
+# # c= {'code': '310101002003', 'name': '贵州路居委会'}
+# # list1 = []
+# # list1.append(a)
+# # list1.append(b)
+# # list1.append(c)
+# # print(list1)
+# a.update({"village":[{"a:":"22"}]})
+# print(a)
 
 
 # d = [{'type': 'array', 'description': '参会者反馈信息', 'items': {'originalRef': '会议反馈人员记录DTO', '$ref': '#/definitions/会议反馈人员记录DTO'}}]

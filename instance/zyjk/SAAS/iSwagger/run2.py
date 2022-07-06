@@ -127,8 +127,8 @@ Mysql_PO.execQuery('update %s set `index` = `index` + 2' % (cf_test_db_table))
 
 # 获取表格字段列表
 l_m = Mysql_PO.getTableField(cf_test_db_table)
-# print(l_m)
-# ['index', '执行', '类型', '模块', '接口名称', '用例名称', '路径', '方法', '方式', 'query参数', 'body参数', 'i检查接口返回值', 'i结果', 'db检查表值', 'db结果', 'f检查文件', 'f结果', '全局变量', '备注']
+print(l_m)
+# ['index', '执行', '类型', '数据源', '模块', '接口名称', '用例名称', '重置paths', 'query参数', 'body参数', 'i检查接口返回值', 'i结果', 'db检查表值', 'db结果', 'f检查文件', 'f结果', '全局变量', '备注']
 
 # 获取列表的索引号
 def getIndex(l_m, varText):
@@ -175,13 +175,17 @@ class Run:
             for k in self.d_tmp:
                 if "{{" + k + "}}" in var:
                     var = str(var).replace("{{" + k + "}}", str(self.d_tmp[k]))
+        if "={{" in var:
+            var1 = var.split("={{")[0]
+            var2 = eval(var.split("={{")[1].split("}}")[0])
+            var = str(var1) + "=" + str(var2)
         return var
 
 
-    def result(self, indexs, iName, iPath, iMethod, iConsumes, iQueryParam, iParam, iCheck, dbCheck, fCheck, g_var):
+    def result(self, indexs, iName, iPath, iMethod, iConsumes, rePaths, iQueryParam, iParam, iCheck, dbCheck, fCheck, g_var):
 
-        # 字段：数据库表里数据索引, 4用例名称，5路径，6方法，7方式，8query参数，9body参数，10i检查接口返回值，11db检查表值, 12f检查文件, 13全局变量
-        # run.result(indexs, r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13])
+        # 字段：数据库表里数据索引, 6用例名称，路径，方法，方式，7重置paths，8query参数，9body参数，10i检查接口返回值，12db检查表值, 14f检查文件, 16全局变量
+        # run.result(indexs, r[6], "","","", r[7], r[8], r[9], r[10], r[12], r[14], r[16])
 
         d_var = {}
 
@@ -218,13 +222,16 @@ class Run:
                 # Color_PO.consoleColor("31", "33", "d_var => " + str(d_var), "")
 
             # 7, 解析接口，获取返回值
-            res, d_var = reflection.run([iName, iPath, iMethod, iConsumes, iQueryParam, iParam, d_var])
+            if rePaths == "" or rePaths == None:
+                res, d_var = reflection.run([iName, iPath, iMethod, iConsumes, iQueryParam, iParam, d_var])
+            else:
+                res, d_var = reflection.run([iName, rePaths, iMethod, iConsumes, iQueryParam, iParam, d_var])
 
             # 用于downFile情况
             if res == None:
                 d_res = None
             else:
-                d_res = json.loads(res)
+                d_res = json.loads(res, strict=False)
 
 
             # 8, i检查接口返回值 iCheck（如 $.code=200）
@@ -236,6 +243,7 @@ class Run:
                     # print(d_res)
                     # print(d_iCheck)  # {'$.code': 200}
                     if len(d_iCheck) == 1:
+                        varsign2 = 0
                         for k, v in d_iCheck.items():
                             iResValue = jsonpath.jsonpath(d_res, expr=k)
                             # print(iResValue)
@@ -244,12 +252,14 @@ class Run:
                                 self.setDb("iCheck", indexs, "Ok", "")
                             else:
                                 dict1[k] = iResValue[0]
-                                # print("111")
                                 # print(dict1)
                                 # print(type(dict1))
                                 # print(str(json.dumps(dict1)))
-                                self.setDb("iCheck", indexs, "Fail", str(json.dumps(dict1, ensure_ascii=False)))
-                                Color_PO.consoleColor("31", "31", "[Fail], " + str(iCheck) + " 不存在或格式错误！", "")
+                                # self.setDb("iCheck", indexs, "Fail", str(json.dumps(dict1, ensure_ascii=False)))
+                                varsign2 = 1
+                        if varsign2 == 1:
+                            self.setDb("iCheck", indexs, "Fail", 'd_res => ' + str(json.dumps(dict1, ensure_ascii=False)) + ", 没找到 " + str(iCheck))
+                            Color_PO.consoleColor("31", "31", "[Fail], " + str(iCheck) + " 不存在或格式错误！", "")
                     else:
                         for k, v in d_iCheck.items():
                             iResValue = jsonpath.jsonpath(d_res, expr=k)
@@ -392,7 +402,7 @@ if __name__ == '__main__':
             r3 = r[3]
 
         if r[6] == "设置全局变量" or r[6] == "设置请求头":
-            run.result(index, r[6], "", "", "",  r[7], r[8], r[9], r[11], r[13], r[15])  # 读取数据库里的内容
+            run.result(index, r[6], "", "", "",  r[7], r[8], r[9], r[10], r[12], r[14], r[16])  # 读取数据库里的内容
 
         elif r[4] == None or r[5] == None:
             # 模块、接口名称
@@ -410,7 +420,8 @@ if __name__ == '__main__':
             # 字段：index, 5用例名称，6路径，7方法，8方式，9query参数，10body参数，11i检查接口返回值，13db检查表值, 15f检查文件, 17全局变量
             if l_paths_method_consumes != []:
                 # print(index, r[6], l_paths_method_consumes[0], l_paths_method_consumes[1], l_paths_method_consumes[2],  r[7], r[8], r[9], r[11], r[13], r[15])
-                run.result(index, r[6], l_paths_method_consumes[0], l_paths_method_consumes[1], l_paths_method_consumes[2],  r[7], r[8], r[9], r[11], r[13], r[15])  # 读取数据库里的内容
+                # run.result(index, r[6], l_paths_method_consumes[0], l_paths_method_consumes[1], l_paths_method_consumes[2],  r[7], r[8], r[9], r[11], r[13], r[15])  # 读取数据库里的内容
+                run.result(index, r[6], l_paths_method_consumes[0], l_paths_method_consumes[1], l_paths_method_consumes[2],  r[7], r[8], r[9], r[10], r[12], r[14], r[16])  # 读取数据库里的内容
             else:
                 Color_PO.consoleColor("31", "31", "[warning], 模块或接口名称不匹配，程序已中断！", "")
                 # print("[warning], excel表格的第" + str(index) + "模块或接口名称有错误，程序中断！")
@@ -427,7 +438,7 @@ if __name__ == '__main__':
     # df = pd.read_sql(sql="select %s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[11], l_m[13], l_m[15], l_m[17], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
 
     # ['编号', '1类型', '2模块', ‘3接口名称’，'4用例名称',  '10i结果',  '11db结果',  '12f结果', '16备注']
-    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[6], l_m[10], l_m[12], l_m[14], l_m[15], l_m[16], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
+    df = pd.read_sql(sql="select `%s`,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from %s" % (l_m[0], l_m[2], l_m[3], l_m[4], l_m[5], l_m[6], l_m[11], l_m[13], l_m[15], l_m[16], l_m[17], cf_test_db_table), con=Mysql_PO.getPymysqlEngine())
 
     pd.set_option('colheader_justify', 'center')  # 对其方式居中
     html = '''<html><head><title>''' + str(cf_default_rptTitle) + '''</title></head>
@@ -460,6 +471,7 @@ if __name__ == '__main__':
         replace(">" + l_m[14] + "</th>", 'bgcolor="#50b7c1">' + l_m[14] + '</th>'). \
         replace(">" + l_m[15] + "</th>", 'bgcolor="#90d7ec">' + l_m[15] + '</th>'). \
         replace(">" + l_m[16] + "</th>", 'bgcolor="#90d7ec">' + l_m[16] + '</th>'). \
+        replace(">" + l_m[17] + "</th>", 'bgcolor="#90d7ec">' + l_m[17] + '</th>'). \
         replace("<td>Ok</td>", '<td bgcolor="#00ae9d">Ok</td>'). \
         replace("<td>Fail</td>", '<td bgcolor="#f69c9f">Fail</td>'). \
         replace("<td>Error</td>", '<td bgcolor="#ed1941">Error</td>'). \
