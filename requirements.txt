@@ -52,7 +52,7 @@ jsonpath-rw==1.4.0
 kiwisolver==1.2.0
 linecache2==1.0.0
 lunardate==0.2.0
-lxml==4.4.1
+lxml==4.9.1
 macholib==1.5.1
 Markdown==3.2.1
 MarkupSafe==1.1.1
