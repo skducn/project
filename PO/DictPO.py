@@ -17,6 +17,7 @@ todo:【转换】
     with open("dict.json", "w+") as f:
         json.dump(dict(a=5, b=6), f)
 1.3 字典（单个或多个）key转列表（去重）dictKey2list(*dict1)   # ['a', 'b', 'dev', 'test']
+1.4 判断字符串是否是字典格式 is_dict()
 
 todo:【组合、交换key与value、】
 2.1 合并字典（合并时如遇重复key,则保留第一个字典键值）mergeDictReserveLeft(*dict1) mergeDictReserveLeft(d1, d2))  # {'a': 1, 'b': 2, 'dev': 444, 'test': 123}
@@ -39,7 +40,6 @@ todo:【value】
 todo:[高级用法 分组]
 6.1 按性别分组显示姓名    Dict_PO.groupByValue(varTuple, 'gender', 'name')
 6.2 按性别分组显示所有值
-
 
 
 6.1 collections中defaultdict之字典的 value 是字典
@@ -76,6 +76,24 @@ class DictPO():
             return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4]))
         else:
             return 0
+
+    # 1.4 判断字符串是否是字典格式
+    def is_dict(self, str1):
+        '''
+        判断字符串是否是json格式的字典
+        :return:
+        '''
+
+        global false,true,null
+        false = False
+        true = True
+        null = ''
+
+        try:
+            eval(str1)
+        except SyntaxError:
+            return False
+        return True
 
     # 2.1 合并字典（合并时如遇重复key,则保留第一个字典键值）
     def mergeDictReserveLeft(self, *varDict):
