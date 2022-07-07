@@ -4,9 +4,16 @@
 # Date          : 2022-6-13
 # Description   : 获取swagger内容 另存为excel
 # http://192.168.0.238:8801/doc.html
+# http://192.168.0.238:8801/saasuser/v2/api-docs
 # *********************************************************************
 
-import requests,json,sys
+
+import requests, json, sys
+
+sys.path.append("../../../../")
+sys.path.append("C:\Python39\Lib\site-packages")
+
+
 from bs4 import BeautifulSoup
 from PO.OpenpyxlPO import *
 from PO.NewexcelPO import *
@@ -23,17 +30,30 @@ Sys_PO = SysPO()
 from PO.WebPO import *
 
 
-# iUrl = 'http://192.168.0.238:8801'
-# iDoc = '/doc.html'
-#
-# # iUrl = 'http://192.168.0.238:8090'
-# # iDoc = '/doc.html'
+iUrl = 'http://192.168.0.238:8801'
+iDoc = '/doc.html'
 
-class projectI():
+
+class ProjectI():
 
     def __init__(self):
 
         global d_all
+
+        # Web_PO = WebPO("chrome")
+        # Web_PO.openURL(iUrl+iDoc)
+        # # Web_PO.driver.maximize_window()  # 全屏
+        # l_project = Web_PO.getXpathsText("//option")
+        # l_url = Web_PO.getXpathsAttr("//option", "data-url")
+        # # print(l_url)
+        # l_url = [iUrl + i for i in l_url]
+        # # l_url = ['http://192.168.0.238:8801' + i for i in l_url]
+        # d_all = List_PO.twoList2dict(l_project, l_url)
+        # # print(d_all)
+        # #
+        # # sys.exit(0)
+        # Web_PO.closeURL()
+
 
 
     def getI(self, iUrl, iDoc, varProject, toSave):
@@ -66,7 +86,7 @@ class projectI():
         Openpyxl_PO.setRowColDimensions(1, 30, ['a', 'f'], 20)  # 设置第五行行高30，f - h列宽33
         Openpyxl_PO.setCellDimensions(1, 30, 'g', 40)
         Openpyxl_PO.setCellDimensions(1, 30, 'h', 80)
-        Openpyxl_PO.setRowColFont(1, ["a", "h"],  size=11)
+        Openpyxl_PO.setRowColFont(1, ["a", "h"], size=11, bold=True, italic=True)
 
         for i in range(len(d['tags'])):
             Openpyxl_PO.setRowValue({i+2: [d['tags'][i]['name']]})
@@ -84,6 +104,10 @@ class projectI():
                 # print(method)  # post
                 # print(v['tags'])  # ['医患交流信息表接口']
                 # print(v['summary'])  # 群发消息-PC
+
+                # if v['summary'] == "新增系统管理用户":
+                # print(v)
+                # sys.exit(0)
                 # print(v['consumes'])  # ['application/json']
                 # print(v['parameters'])
                 # print(d['paths'][paths])
@@ -126,23 +150,17 @@ class projectI():
                 # body
                 l_parameters = []
                 d_parameters = {}
-
-                d_parameters_1 = {}
-                l_parameters_1 = []
-
-                d_parameters_2 = {}
-                l_parameters_2 = []
-
+                d_parameters_sub1 = {}
+                d_parameters_sub2 = {}
                 if 'parameters' in v:
                     l_parameters = Str_PO.str2list(str(v['parameters']))
                     # print(l_parameters)
-                    # print(l_parameters[0]['in'])
+
 
                     if "in" in l_parameters[0] and l_parameters[0]['in'] == 'body' :
-
+                        # print(d['definitions'])
                         for k, v in d['definitions'].items():
-                            # print(l_parameters[0])
-                            # print(k)
+
                             if "$ref" in l_parameters[0]['schema']:
                                 # print(l_parameters[0]['schema']['$ref'].split("#/definitions/")[1])
                                 if k == l_parameters[0]['schema']['$ref'].split("#/definitions/")[1]:  # ChatVO
@@ -160,63 +178,69 @@ class projectI():
                                                     elif v2['type'] == "integer":
                                                         d_parameters[k2] = 0
                                                     elif v2['type'] == "array":
-                                                        # d_parameters[k2] = []
 
-                                                        # 第二层array
+                                                        # print(v2["items"]["$ref"].split("#/definitions/")[1])
+                                                        # print(3, v2)
                                                         if "items" in v2:
-                                                            if "$ref" in v2['items']:
-                                                                # print(v2['items']['$ref'].split("#/definitions/")[1])
-                                                                # print(k)
-                                                                for k9, v in d['definitions'].items():
-                                                                    if k9 == v2['items']['$ref'].split("#/definitions/")[1]:  # 会议反馈人员记录DTO
-                                                                        for k10, v10 in d['definitions'][k9].items():
-                                                                            if k10 == "properties":
-                                                                                # print(v1)
-                                                                                for k20, v20 in v10.items():
-                                                                                    # print(v20)
-                                                                                    if "type" in v20:
-                                                                                        if v20['type'] == "string":
-                                                                                            d_parameters_1[k20] = ""
-                                                                                        elif v20['type'] == "integer":
-                                                                                            d_parameters_1[k20] = 0
-                                                                                        elif v20['type'] == "array":
-                                                                                            d_parameters_1[k20] = []
+                                                            for k6, v6 in d['definitions'].items():
+                                                                # print(1, "~~~~~~~~~`")
+                                                                if "$ref" in v2["items"]:
+                                                                    # print(v2["items"]["$ref"].split("#/definitions/")[1])
+                                                                    # sys.exit(0)
+                                                                    if k6 == v2["items"]["$ref"].split("#/definitions/")[1] :  # SysRoleVO对象
+                                                                        # print(d['definitions'][k6])
 
-                                                                                            # 第三层array
-                                                                                            for k119, v in d['definitions'].items():
-                                                                                                # print(v20['items'])
-                                                                                                if "$ref" in v20['items']:
-                                                                                                    if k119 == v20['items']['$ref'].split("#/definitions/")[1]:  # 产品观念DTO
-                                                                                                        # print(k119)
-                                                                                                        for k100, v100 in d['definitions'][k119].items():
-                                                                                                            if k100 == "properties":
-                                                                                                                for k200, v200 in v100.items():
-                                                                                                                    # print(v200)
-                                                                                                                    if "type" in v200:
-                                                                                                                        if v200['type'] == "string":
-                                                                                                                            d_parameters_2[k200] = ""
-                                                                                                                        elif v200['type'] == "integer":
-                                                                                                                            d_parameters_2[k200] = 0
-                                                                                                                        elif v200['type'] == "array":
-                                                                                                                            d_parameters_2[k200] = []
-                                                                                                                l_parameters_2.append(d_parameters_2)
-                                                                                                                # print(l_parameters_2)
-                                                                                                                d_parameters_1[k20] = l_parameters_2
+                                                                        for k7, v8 in d['definitions'][k6].items():
+                                                                            if k7 == "properties":
+                                                                                # print(v8)
+                                                                                for k9, v9 in v8.items():
+                                                                                    # print(v9)
+                                                                                    if "type" in v9:
+                                                                                        if "string" in v9['type']:
+                                                                                            d_parameters_sub1[k9] = ""
+                                                                                        elif "integer" in v9['type']:
+                                                                                            d_parameters_sub1[k9] = 0
+                                                                                        elif v9['type'] == "array":
+                                                                                            d_parameters_sub1[k9] = []
+                                                                                        elif v9['type'] == "boolean":
+                                                                                            d_parameters_sub1[k9] = True
+                                                                                        else:
+                                                                                            d_parameters_sub1[k9] = '?'
+                                                            # print(4, d_parameters_sub1)
+                                                        d_parameters[k2] = [d_parameters_sub1]
 
-
-                                                                                l_parameters_1.append(d_parameters_1)
-                                                                                d_parameters[k2] = l_parameters_1
-
-                                                    elif v2['type'] == "number":
-                                                        d_parameters[k2] = 0.00
                                                     else:
                                                         d_parameters[k2] = '?'
 
+                                                if "$ref" in v2:   # {'description': '用户登录信息详情', '$ref': '#/definitions/SysUserVO对象'}
+                                                    # print(v2["$ref"].split("#/definitions/")[1])
+                                                    # print(v2["$ref"].split("#/definitions/")[1][:-2])
+                                                    # d_parameters[v2["$ref"].split("#/definitions/")[1][:-2]] = {}  # 增加 SysUserVO 键
+
+                                                    # print(9,d['definitions'][v2["$ref"].split("#/definitions/")[1]])
+                                                    for k77, v88 in d['definitions'][v2["$ref"].split("#/definitions/")[1]].items():
+                                                        if k77 == "properties":
+                                                            # print(v8)
+                                                            for k99, v99 in v88.items():
+                                                                # print(v9)
+                                                                if "type" in v99:
+                                                                    if "string" in v99['type']:
+                                                                        d_parameters_sub2[k99] = ""
+                                                                    elif "integer" in v99['type']:
+                                                                        d_parameters_sub2[k99] = 0
+                                                                    elif v99['type'] == "array":
+                                                                        d_parameters_sub2[k99] = []
+                                                                    elif v99['type'] == "boolean":
+                                                                        d_parameters_sub2[k99] = True
+                                                                    else:
+                                                                        d_parameters_sub2[k99] = '?'
+                                                    d_parameters[v2["$ref"].split("#/definitions/")[1][:-2]] = d_parameters_sub2
 
 
-                                    # print(d_parameters)
-                                    # print(json.dumps(d_parameters))
+                                    # print(5, d_parameters)
+                                    # l_i.append(str(d_parameters))
                                     l_i.append(json.dumps(d_parameters))
+
                                     break
                             elif "items" in l_parameters[0]['schema']:
                                 # print(l_parameters[0]['schema']['items']['$ref'].split("#/definitions/")[1])
@@ -234,6 +258,7 @@ class projectI():
                                     # print(d_parameters)
                                     # l_i.append(str(d_parameters))
                                     l_i.append(json.dumps(d_parameters))
+
                                     break
                     else:
                         l_i.append(None)
@@ -246,6 +271,7 @@ class projectI():
                     l_i.append(None)
 
             l_all.append(l_i)
+            # print(l_all)
             l_i = []
 
         for i in range(len(l_all)):
@@ -253,16 +279,15 @@ class projectI():
         Openpyxl_PO.setAllWordWrap()
         Openpyxl_PO.setRowColAlignment(1, ["a", "h"], 'center', 'center')
         Openpyxl_PO.setFreeze('A2')
-        Openpyxl_PO.save()
 
-        print("[Done] => " + toSave)
+        Openpyxl_PO.save()
 
 
 if __name__ == '__main__':
 
     Sys_PO.killPid('EXCEL.EXE')
 
-    project_I = projectI()
+    project_I = ProjectI()
 
     # project_I.getI('http://192.168.0.238:8801', '/doc.html',"auth", "auth.xlsx")
     # project_I.getI('http://192.168.0.238:8801', '/doc.html', "saasuser", "saasuser.xlsx")
@@ -273,7 +298,7 @@ if __name__ == '__main__':
     # project_I.getI('http://192.168.0.238:8801', '/doc.html',"cuser", "cuser.xlsx")
     # project_I.getI('http://192.168.0.238:8801', '/doc.html',"hypertension", "hypertension.xlsx")
 
-
     project_I.getI('http://192.168.0.238:8090', '/doc.html', "default", "erp.xlsx")
+
 
 
