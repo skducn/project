@@ -63,11 +63,19 @@ class HTTP:
 
     def post(self, iPath, iConsumes, iQueryParam, iParam, d_var):
 
-        print(iParam)
+        # print(iParam)
         # print(iConsumes)
 
         if Dict_PO.is_dict(iParam) == True:
             result = self.session.post(varUrl + iPath, headers={"Content-Type": iConsumes}, json=json.loads(iParam), verify=False)
+            ''' 请求方式 post 之下载文件 '''
+            if "saveToFile" in d_var:
+                # print(d_var)
+                f = open(d_var['saveToFile'], "wb")
+                for chunk in result.iter_content(chunk_size=512):
+                    if chunk:
+                        f.write(chunk)
+                return None, d_var
         else:
             result = self.session.post(varUrl + iPath, headers={"Content-Type": iConsumes}, data=str(iParam).encode("utf-8"), verify=False)
 
@@ -105,27 +113,42 @@ class HTTP:
 
     def get(self, iPath, iConsumes, iQueryParam, iParam, d_var):
 
-        print(iQueryParam)
-        print(iConsumes)
+        # print(iQueryParam)
+        # print(iConsumes)
 
         # query参数
-        if iConsumes != None:
-            print("00000000000")
-            if iQueryParam != None and iParam == None :
-                result = self.session.get(varUrl + iPath + "?" + iQueryParam, headers={"Content-Type": iConsumes}, verify=False)
-            else:
-                result = self.session.get(varUrl + iPath, data=None, headers={"Content-Type": iConsumes}, verify=False)
+        ''' 请求方式 get 之下载文件 '''
+        if "saveToFile" in d_var:
+            print(varUrl + iPath + "?" + iQueryParam)
+            print(iConsumes)
+            r = self.session.get(varUrl + iPath + "?" + iQueryParam, headers={"Content-Type": iConsumes}, stream=True)
+            # r = requests.get(varUrl + iPath + "?" + iQueryParam, headers={"Content-Type": iConsumes}, stream=True)
+            f = open(d_var['saveToFile'], "wb")
+            for chunk in r.iter_content(chunk_size=512):
+                if chunk:
+                    f.write(chunk)
+            return None, d_var
         else:
-
-            if iQueryParam != None and iParam == None :
-                print(varUrl + iPath + "?" + iQueryParam)
-                result = self.session.get(varUrl + iPath + "?" + iQueryParam, verify=False)
+            if iConsumes != None:
+                # print("00000000000")
+                if iQueryParam != None and iParam == None:
+                    result = self.session.get(varUrl + iPath + "?" + iQueryParam, headers={"Content-Type": iConsumes},
+                                              verify=False)
+                else:
+                    result = self.session.get(varUrl + iPath, data=None, headers={"Content-Type": iConsumes},
+                                              verify=False)
             else:
-                print("12121212")
-                print(varUrl + iPath)
-                result = self.session.get(varUrl + iPath, verify=False)
 
-        print("headers => " + str(self.session.headers))
+                if iQueryParam != None and iParam == None:
+                    print(varUrl + iPath + "?" + iQueryParam)
+                    result = self.session.get(varUrl + iPath + "?" + iQueryParam, verify=False)
+                else:
+                    # print("12121212")
+                    # print(varUrl + iPath)
+                    result = self.session.get(varUrl + iPath, verify=False)
+
+
+        # print("headers => " + str(self.session.headers))
         d_response = json.loads(result.text)
         for k, v in d_var.items():
             if "$." in str(v):
@@ -152,7 +175,7 @@ class HTTP:
     def put(self, iPath, iConsumes, iQueryParam, iParam, d_var):
 
 
-        print(iParam)
+        # print(iParam)
 
 
         # query参数
@@ -200,33 +223,7 @@ class HTTP:
         return res, d_var
 
 
-    def getDownfile(self, iPath, iConsumes, iQueryParam, iParam, d_var):
 
-        ''' 请求方式 get 之下载文件 '''
-
-        # 文件名放在 d_var中，格式：{'file': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/i/sfb.xlsx'
-        # print("request => " + str(iPath))
-        # result = self.session.get(path, stream=True)
-        r = requests.get(varUrl + iPath, headers={"Content-Type": iConsumes}, stream=True)
-        f = open(d_var['file'], "wb")
-        for chunk in r.iter_content(chunk_size=512):
-            if chunk:
-                f.write(chunk)
-        # d_var = json.loads(g_var)
-        return None, d_var
-
-
-    def postDownfile(self, iPath, iConsumes, iQueryParam, iParam, d_var):
-
-        ''' 请求方式 post 之下载文件 '''
-
-        # self.headers = {"Content-Type": "application/json", "token": self.session.headers['token']}
-        r = self.session.post(varUrl + iPath, headers={"Content-Type": iConsumes}, json=json.loads(iParam), verify=False)
-        f = open(d_var['file'], "wb")
-        for chunk in r.iter_content(chunk_size=512):
-            if chunk:
-                f.write(chunk)
-        return None, d_var
 
 
     def postUpfile(self, iPath, iConsumes, iQueryParam, filePath, d_var):
