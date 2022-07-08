@@ -34,7 +34,7 @@ class StrPO():
 
     # 1.1 字符串 转 列表
     def str2list(self, varStr=None, varMode='digit'):
-        # print(Str_PO.str2list("1,2,3"))  # [1, 2, 3]    //列表元素是数字， 默认字符串是数字，转换后仍然是数字作为列表元素。
+        # print(Str_PO.str2list("actualVisitsNumber,plannedVisitsNumber"))  # [1, 2, 3]    //列表元素是数字， 默认字符串是数字，转换后仍然是数字作为列表元素。
         # print(Str_PO.str2list("a1,2,3"))  # ['a1', '2', '3']
         # print(Str_PO.str2list("1,2,3", ""))  # ['1', '2', '3']   //列表元素是字符，第二个空参数表示转换后列表元素是字符。
         # print(Str_PO.str2list("123", ""))  # ['123']
@@ -195,7 +195,7 @@ if __name__ == "__main__":
     Str_PO = StrPO()
 
     # print("1.1，字符串转列表".center(100, "-"))
-    # print(Str_PO.str2list("1,2,3"))  # [1, 2, 3]    //列表元素是数字， 默认字符串是数字，转换后仍然是数字作为列表元素。
+    print(Str_PO.str2list("actualVisitsNumber,plannedVisitsNumber"))  # [1, 2, 3]    //列表元素是数字， 默认字符串是数字，转换后仍然是数字作为列表元素。
     # print(Str_PO.str2list("a1,2,3"))  # ['a1', '2', '3']
     # print(Str_PO.str2list("1,2,3", ""))  # ['1', '2', '3']   //列表元素是字符，第二个空参数表示转换后列表元素是字符。
     # print(Str_PO.str2list("123", ""))  # ['123']

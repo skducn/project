@@ -53,6 +53,7 @@ r = requests.get(url, headers={"Cookie":"PHPSESSID=" + a["PHPSESSID"]}, verify=F
 # print(r.url)
 token = str(r.url).split("token=")[1]
 
+d = {}
 
 def visitAnalysis(tblField, iResField, sql):
 
@@ -65,19 +66,23 @@ def visitAnalysis(tblField, iResField, sql):
     Openpyxl_PO.setCellValue(1, currCol, tblField, varSheet)
 
     # 计划拜访人次
-    # print(tblField, "--------------------------------------------------")
-    # print(res_visitAnalysis['data'])
+    print(tblField, "--------------------------------------------------")
+    # print(res_visitAnalysis)
+    # print(json.dumps(res_visitAnalysis))
+    # sys.exit(0)
+    # print(res_visitAnalysis['data']['detail'])
 
-    for i in range(len(res_visitAnalysis['data'])):
-        for k, v in res_visitAnalysis['data'][i].items():
+    for i in range(len(res_visitAnalysis['data']['detail'])):
+        for k, v in res_visitAnalysis['data']['detail'][i].items():
             # 遍历报表上所有的人
             for j in range(len(db_t_userId_userName)):
                 if k == "delegateId" and v == db_t_userId_userName[j][1]:
                     # print(res_visitAnalysis['data'][i])
                     # print(res_visitAnalysis['data'][i][iResField])
 
+                    # print(d)
 
-                    if iResField != None:
+                    if iResField != None and sql != None:
 
                         # sql = str(sql).replace("$id", str(db_t_userId_userName[j][1])).replace("$startTime", str(startTime)).replace("$endTime", str(endTime))
                         # print(str(sql))
@@ -88,15 +93,17 @@ def visitAnalysis(tblField, iResField, sql):
                             plannedVisitsNumber = Mysql_PO.execQuery(sql % (db_t_userId_userName[j][1], startTime, endTime))
                         # print(plannedVisitsNumber[0][0])
 
-                        if res_visitAnalysis['data'][i][iResField] == plannedVisitsNumber[0][0]:
 
+                        if res_visitAnalysis['data']['detail'][i][iResField] == plannedVisitsNumber[0][0]:
+
+                            d[iResField] = plannedVisitsNumber[0][0]
                             # print("表格,写入每个用户")
                             # print(db_t_userId_userName[j][2])  # 钮学彬
                             Openpyxl_PO.setCellValue(currRow, 2, db_t_userId_userName[j][2], varSheet)  # 第一行第四列写入代表名字
                             Openpyxl_PO.setCellValue(currRow, currCol, plannedVisitsNumber[0][0], varSheet)
                         else:
                             Openpyxl_PO.setCellValue(currRow, 2, db_t_userId_userName[j][2], varSheet)  # 第一行第四列写入代表名字
-                            Openpyxl_PO.setCellValue(currRow, currCol, str(plannedVisitsNumber[0][0]) + "(sql)/" + str(res_visitAnalysis['data'][i][iResField]) + "", varSheet)
+                            Openpyxl_PO.setCellValue(currRow, currCol, str(plannedVisitsNumber[0][0]) + "(sql)/" + str(res_visitAnalysis['data']['detail'][i][iResField]) + "", varSheet)
                             Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
                             sign = 1
 
@@ -104,6 +111,14 @@ def visitAnalysis(tblField, iResField, sql):
                             Openpyxl_PO.setCellValue(currRow, 1, "error", varSheet)  # 第一行第四列写入代表名字
                             Openpyxl_PO.setCellColor(currRow, 1, "ff0000", varSheet)  # 错误标红色
                             sign = 0
+
+
+                    else:
+                        # 各拜访率的计算
+
+                        Openpyxl_PO.setCellValue(currRow, currCol, res_visitAnalysis['data']['detail'][i][iResField], varSheet)
+
+
 
                     currRow = currRow + 1
         Openpyxl_PO.save()
