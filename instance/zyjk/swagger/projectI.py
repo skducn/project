@@ -5,6 +5,7 @@
 # Description   : 获取swagger内容 另存为excel
 # http://192.168.0.238:8801/doc.html
 # http://192.168.0.238:8801/saasuser/v2/api-docs
+# http://192.168.0.238:8090/doc.html
 # *********************************************************************
 
 
@@ -152,6 +153,7 @@ class ProjectI():
                 d_parameters = {}
                 d_parameters_sub1 = {}
                 d_parameters_sub2 = {}
+                d_parameters_sub3 = {}
                 if 'parameters' in v:
                     l_parameters = Str_PO.str2list(str(v['parameters']))
                     # print(l_parameters)
@@ -175,7 +177,7 @@ class ProjectI():
                                                 if "type" in v2:
                                                     if v2['type'] == "string":
                                                         d_parameters[k2] = ""
-                                                    elif v2['type'] == "integer":
+                                                    elif v2['type'] == "integer" or v2['type'] == "number":
                                                         d_parameters[k2] = 0
                                                     elif v2['type'] == "array":
 
@@ -198,16 +200,52 @@ class ProjectI():
                                                                                     if "type" in v9:
                                                                                         if "string" in v9['type']:
                                                                                             d_parameters_sub1[k9] = ""
-                                                                                        elif "integer" in v9['type']:
+                                                                                        elif "integer" in v9['type'] or "number" in v9['type'] :
                                                                                             d_parameters_sub1[k9] = 0
                                                                                         elif v9['type'] == "array":
                                                                                             d_parameters_sub1[k9] = []
+                                                                                            # ?
+
+
+                                                                                            if "items" in v9:
+                                                                                                for k16, v16 in d['definitions'].items():
+                                                                                                    # print(1, "~~~~~~~~~`")
+                                                                                                    if "$ref" in v9["items"]:
+                                                                                                        # print(v2["items"]["$ref"].split("#/definitions/")[1])
+                                                                                                        # sys.exit(0)
+                                                                                                        if k16 == v9["items"]["$ref"].split("#/definitions/")[1] :  # SysRoleVO对象
+                                                                                                            # print(d['definitions'][k6])
+
+                                                                                                            for k17, v18 in d['definitions'][k16].items():
+                                                                                                                if k17 == "properties":
+                                                                                                                    # print(v18)
+                                                                                                                    for k19, v19 in v18.items():
+                                                                                                                        # print(v19)
+                                                                                                                        if "type" in v19:
+                                                                                                                            if "string" in v19['type']:
+                                                                                                                                d_parameters_sub3[k19] = ""
+                                                                                                                            elif "integer" in v19['type'] or "number" in v19['type'] :
+                                                                                                                                d_parameters_sub3[k19] = 0
+                                                                                                                            elif v19['type'] == "array":
+                                                                                                                                d_parameters_sub3[k19] = []
+                                                                                                                            elif v19['type'] == "boolean":
+                                                                                                                                d_parameters_sub3[k19] = True
+                                                                                                                            else:
+                                                                                                                                d_parameters_sub3[k19] = '?'
+
+                                                                                                d_parameters_sub1[k9] = [d_parameters_sub3]
+
                                                                                         elif v9['type'] == "boolean":
                                                                                             d_parameters_sub1[k9] = True
                                                                                         else:
                                                                                             d_parameters_sub1[k9] = '?'
-                                                            # print(4, d_parameters_sub1)
-                                                        d_parameters[k2] = [d_parameters_sub1]
+                                                                # print(4, d_parameters_sub1)
+                                                                else:
+                                                                    d_parameters_sub1 = None
+                                                        if d_parameters_sub1 == None:
+                                                            d_parameters[k2] = []
+                                                        else:
+                                                            d_parameters[k2] = [d_parameters_sub1]
 
                                                     else:
                                                         d_parameters[k2] = '?'
@@ -226,7 +264,7 @@ class ProjectI():
                                                                 if "type" in v99:
                                                                     if "string" in v99['type']:
                                                                         d_parameters_sub2[k99] = ""
-                                                                    elif "integer" in v99['type']:
+                                                                    elif "integer" in v99['type'] or "number" in v99['type']:
                                                                         d_parameters_sub2[k99] = 0
                                                                     elif v99['type'] == "array":
                                                                         d_parameters_sub2[k99] = []
