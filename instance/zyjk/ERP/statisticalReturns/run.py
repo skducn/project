@@ -141,6 +141,7 @@ for i in range(1, len(l_getRowValue_case)):
         tbl_name = l_getRowValue_case[i][3]
         tbl_startTime = l_getRowValue_case[i][4]
         tbl_endTime = l_getRowValue_case[i][5]
+        tbl_endTime = tbl_endTime + " 23:59:59"
 
         # 获取代表的id
         for k in range(len(db_t_userId_userName)):
@@ -172,7 +173,7 @@ for i in range(1, len(l_getRowValue_case)):
             if l_getRowValue_case[i][1] == l_getRowValue_i[j][1]: # "拜访分析报表":
                 r = requests.post("http://192.168.0.238:8090" + l_getRowValue_i[j][2],
                                        headers={"content-type": "application/json", "token" : token, "traceId" : "123"},
-                                       json={"endTime": tbl_endTime + " 23:59:59", "searchId": tbl_name, "deptId": db_t_deptId, "starTime": tbl_startTime}, verify=False)
+                                       json={"endTime": tbl_endTime, "searchId": tbl_name, "deptId": db_t_deptId, "starTime": tbl_startTime}, verify=False)
                 str1 = r.text.encode('gbk', 'ignore').decode('gbk')
                 res_visitAnalysis = json.loads(str1)
                 l_getRowValue = (Openpyxl_PO.getRowValue(tbl_report))
@@ -184,7 +185,8 @@ for i in range(1, len(l_getRowValue_case)):
             sys.exit(0)
 
         # print(l_getRowValue)
-        print(("erp_" + tbl_report + tbl_startTime + "~" + tbl_endTime).center(100, "-"))
+        print(("erp_" + tbl_report + tbl_startTime + "~" + tbl_endTime[:10]).center(100, "-"))
+
         for j in range(1, len(l_getRowValue)):
             if l_getRowValue[j][0] != "N":
                 visitAnalysis(l_getRowValue[j][1], l_getRowValue[j][2], l_getRowValue[j][3])
@@ -198,9 +200,9 @@ for i in range(1, len(l_getRowValue_case)):
         df = pd.read_sql(sql="select * from `12345`", con=Mysql_PO.getPymysqlEngine())
         pd.set_option('colheader_justify', 'center')  # 对其方式居中
         html = '''<html><head><title>''' + str("erp_" + tbl_report) + '''</title></head>
-        <body><b><caption>''' + str("erp_" + tbl_report) + '''(''' + str(tbl_startTime) + ''' ~ ''' + str(tbl_endTime)  + ''') 更新于 ''' + str(Time_PO.getDateTimeByDivide()) + '''</caption></b><br><br>{table}</body></html>'''
+        <body><b><caption>''' + str("erp_" + tbl_report) + '''(''' + str(tbl_startTime) + ''' ~ ''' + str(tbl_endTime[:10])  + ''') 更新于 ''' + str(Time_PO.getDateTimeByDivide()) + '''</caption></b><br><br>{table}</body></html>'''
         style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
-        rptNameDate = "report/" + str("erp_" + tbl_report) + "_" + str(tbl_startTime) + "~" + str(tbl_endTime) + ".html"
+        rptNameDate = "report/" + str("erp_" + tbl_report) + "_" + str(tbl_startTime) + "~" + str(tbl_endTime[:10]) + ".html"
         with open(rptNameDate, 'w') as f:
             f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
         from bs4 import BeautifulSoup
