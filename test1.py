@@ -9,8 +9,18 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 
-x = "weri测试"
-print(x[:-2])
+# x = 10.555
+# print(1/8*100)
+# print(round(12.5,))
+
+x = "2022-06-30 23:59:59"
+print(x[:10])
+
+import time
+print(now)
+
+# x = "weri测试"
+# print(x[:-2])
 # d = '''{
 # 	"projectId": 0,
 # 	"roleList": [
