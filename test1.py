@@ -8,16 +8,26 @@
 # 学习：https://www.cnblogs.com/wj5633/p/6931187.html
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
-
+from decimal import Decimal
 # x = 10.555
 # print(1/8*100)
-# print(round(12.5,))
+f = 12.5
+f = 13.5
+f = (1/8*100)
 
-x = "2022-06-30 23:59:59"
-print(x[:10])
-
-import time
-print(now)
+ff = int(f)
+if ff % 2 == 0:
+    print(round(f+1)-1)
+else:
+    print(round(f))
+#
+#
+# print(round(12.5*100)/100)
+# print(round(Decimal("12.5"),0))
+# print(Decimal("12.5").quantize(Decimal("0")))
+# s = '{"currPage": 0, "deptId": "", "endTime": "", "pageSize": 0, "searchId": "", "searchName": "", "starTime": ""}'
+#
+# print()
 
 # x = "weri测试"
 # print(x[:-2])

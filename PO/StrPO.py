@@ -195,15 +195,15 @@ if __name__ == "__main__":
     Str_PO = StrPO()
 
     # print("1.1，字符串转列表".center(100, "-"))
-    print(Str_PO.str2list("actualVisitsNumber,plannedVisitsNumber"))  # [1, 2, 3]    //列表元素是数字， 默认字符串是数字，转换后仍然是数字作为列表元素。
+    # print(Str_PO.str2list("actualVisitsNumber,plannedVisitsNumber"))  # [1, 2, 3]    //列表元素是数字， 默认字符串是数字，转换后仍然是数字作为列表元素。
     # print(Str_PO.str2list("a1,2,3"))  # ['a1', '2', '3']
     # print(Str_PO.str2list("1,2,3", ""))  # ['1', '2', '3']   //列表元素是字符，第二个空参数表示转换后列表元素是字符。
     # print(Str_PO.str2list("123", ""))  # ['123']
     # print(Str_PO.str2list("123,"))  # [123]   // 当一个数字元素转列表，且转换后仍然是数字作为列表元素时，需在单个元素最后加上逗号
     # print(Str_PO.str2list("123"))  # ['123']
-    x = "[{'name': 'currentPage', 'in': 'query', 'description': '当前页码(必填)', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'docId', 'in': 'query', 'description': '医生id(当前登录用户id(必填))', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'itemId', 'in': 'query', 'description': '项目id(当前登录用户项目id(必填))', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'pageSize', 'in': 'query', 'description': '每页条数(必填)', 'required': True, 'type': 'integer', 'format': 'int32'}]"
-    print(Str_PO.str2list(x))  #
-    print(Str_PO.str2list(x)[0]['name'])  #
+    # x = "[{'name': 'currentPage', 'in': 'query', 'description': '当前页码(必填)', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'docId', 'in': 'query', 'description': '医生id(当前登录用户id(必填))', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'itemId', 'in': 'query', 'description': '项目id(当前登录用户项目id(必填))', 'required': True, 'type': 'integer', 'format': 'int32'}, {'name': 'pageSize', 'in': 'query', 'description': '每页条数(必填)', 'required': True, 'type': 'integer', 'format': 'int32'}]"
+    # print(Str_PO.str2list(x))  #
+    # print(Str_PO.str2list(x)[0]['name'])  #
 
 
 
@@ -216,9 +216,11 @@ if __name__ == "__main__":
     # print(Str_PO.str2tuple("1,"))  # (1,)   //一个字符转元组的话，需要再后面添加逗号
     # print(Str_PO.str2tuple("1,2,3,[1,2,3]"))  # (1, 2, 3, [1, 2, 3])
     #
-    # print("1.3，字符串转字典".center(100, "-"))
+    print("1.3，字符串转字典".center(100, "-"))
     # print(Str_PO.str2dict("{'a':'123', 'b':456}"))  # {'a': '123', 'b': 456}
     # print(Str_PO.str2dict("{'a':'1', 'b':2, 'c'}"))  # None
+    x = Str_PO.str2dict('{"currPage": 0, "deptId": "", "endTime": "", "pageSize": 0, "searchId": "", "searchName": "", "starTime": ""}')
+    print(x['pageSize'])
     #
     # print("1.4，日期字符串转换成日期".center(100, "-"))
     # print(Str_PO.str2date('2020年11月23日'))
@@ -257,7 +259,7 @@ if __name__ == "__main__":
 
 
     # print("4，统计字符串中字符重复的次数".center(100, "-"))
-    print(Str_PO.getRepeatCount("123%s1232%s34%", "%s"))  # 2
+    # print(Str_PO.getRepeatCount("123%s1232%s34%", "%s"))  # 2
     # print(Str_PO.getRepeatCount("123%123234%", "?"))  # 0
 
 

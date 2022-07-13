@@ -57,6 +57,8 @@
 
 14 随机获取1-101之间的20个整数 getRandomInt()
 
+15 优化round 四舍五入 newRound()
+
 '''
 
 import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid, requests,datetime
@@ -619,6 +621,17 @@ class DataPO():
     def getRandomInt(self, varEndInt, varNum):
         # random.sample()生成不相同的随机数
         return random.sample(range(1, varEndInt), varNum)
+
+
+    # 15 优化round 四舍五入
+    def newRound(self, varFloat):
+        # 四舍五入取整， 原本遇偶数不进如：round(12.5) =12 , 遇期数进位如：round(13.5)=14 ，现优化为奇偶数都进位
+
+        ff = int(varFloat)
+        if ff % 2 == 0:
+            return (round(varFloat + 1) - 1)
+        else:
+            return (round(varFloat))
 
 
 if __name__ == '__main__':
