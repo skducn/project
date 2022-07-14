@@ -67,7 +67,7 @@ def reportAnalysis(tbl_report, tblField, iResField, sql, d_tbl_param):
     Openpyxl_PO.setCellValue(1, currCol, tblField, varSheet)
 
     print(tblField)
-
+    # print(res_visitAnalysis)
 
     if iResField != None and sql == None:
         pass
@@ -181,11 +181,7 @@ Sys_PO.killPid('EXCEL.EXE')
 Openpyxl_PO = OpenpyxlPO("i_erp_reportField_case.xlsx")
 l_getRowValue_case = (Openpyxl_PO.getRowValue("case"))
 
-# 生成临时sheet
-varSheet = "temp"
-Openpyxl_PO.delSheet(varSheet)
-Openpyxl_PO.addSheetCover(varSheet, 99)
-Openpyxl_PO.setRowValue({1: ["结果", "代表（id）"]}, varSheet)
+
 
 # 获取default（接口）
 l_getRowValue_i = (Openpyxl_PO.getRowValue("default"))
@@ -194,6 +190,12 @@ for i in range(1, len(l_getRowValue_case)):
     if l_getRowValue_case[i][0] != "N":
         tbl_report = l_getRowValue_case[i][1]  # 报表
         d_tbl_param = Str_PO.str2dict(l_getRowValue_case[i][2])  # 参数2字典
+
+        # 生成临时sheet
+        varSheet = "temp"
+        Openpyxl_PO.delSheet(varSheet)
+        Openpyxl_PO.addSheetCover(varSheet, 99)
+        Openpyxl_PO.setRowValue({1: ["结果", "代表（id）"]}, varSheet)
 
         # 遍历参数
         varSign1 = 0
@@ -227,12 +229,14 @@ for i in range(1, len(l_getRowValue_case)):
 
 
         # 生成report.html
+        varNowTime = str(Time_PO.getDateTime())
+        varTitle = "erp_" + tbl_report + "(" + str(l_getRowValue_case[i][4]) + ")_" + varNowTime
         df = pd.read_sql(sql="select * from `12345`", con=Mysql_PO.getPymysqlEngine())
         pd.set_option('colheader_justify', 'center')  # 对其方式居中
-        html = '''<html><head><title>''' + str("erp_" + tbl_report) + '''</title></head>
-        <body><b><caption>''' + str("erp_" + tbl_report) + '''(''' + str(l_getRowValue_case[i][4])  + ''') 更新于 ''' + str(Time_PO.getDateTimeByDivide()) + '''</caption></b><br><br>{table}</body></html>'''
+        html = '''<html><head><title>''' + varTitle + '''</title></head>
+        <body><b><caption>''' + varTitle + '''</caption></b><br><br>{table}</body></html>'''
         style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
-        rptNameDate = "report/" + str("erp_" + tbl_report) + "_" + str(l_getRowValue_case[i][4]) + ".html"
+        rptNameDate = "report/" + varTitle + ".html"
         with open(rptNameDate, 'w') as f:
             f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
         from bs4 import BeautifulSoup
@@ -245,7 +249,7 @@ for i in range(1, len(l_getRowValue_case)):
         tf.write(str(html_text))
         tf.close()
 
-        # Openpyxl_PO.delSheet(varSheet)
+        Openpyxl_PO.delSheet(varSheet)
         print("[done], " + str(rptNameDate))
 
         Sys_PO.openFile(rptNameDate)
