@@ -19,7 +19,6 @@ urllib3.disable_warnings()
 
 from PO.StrPO import *
 Str_PO = StrPO()
-
 from PO.TimePO import *
 Time_PO = TimePO()
 from PO.DataPO import *
@@ -68,6 +67,7 @@ d = {}
 d_field = {}
 
 
+
 def reportAnalysis(tbl_report, tblField, iResField, sql, d_tbl_param):
 
     # visitAnalysis( "计划拜访人次", "plannedVisitsNumber", "sql", {"endTime": "2022-06-30  23:59:59", "startTime": "2022-06-01", "uid": 0})
@@ -79,7 +79,6 @@ def reportAnalysis(tbl_report, tblField, iResField, sql, d_tbl_param):
     Openpyxl_PO.setCellValue(1, currCol, tblField, varSheet)
 
     print(tblField)
-    # print(res_visitAnalysis)
 
     if iResField != None and sql == None:
         pass
@@ -93,15 +92,19 @@ def reportAnalysis(tbl_report, tblField, iResField, sql, d_tbl_param):
 
             if tbl_report == "拜访分析报表":
                 if Str_PO.getRepeatCount(sql, "%s") == 1:
-                    sql_value = Mysql_PO.execQuery(sql % (res_visitAnalysis['data']['detail'][i]['delegateId']))
+                    sql1 = sql % (res_visitAnalysis['data']['detail'][i]['delegateId'])
                 elif Str_PO.getRepeatCount(sql, "%s") == 3:
-                    sql_value = Mysql_PO.execQuery(sql % (res_visitAnalysis['data']['detail'][i]['delegateId'], d_tbl_param["starTime"], d_tbl_param["endTime"]))
-                    # print(sql_value)
+                    sql1 = sql % (res_visitAnalysis['data']['detail'][i]['delegateId'], d_tbl_param["starTime"], d_tbl_param["endTime"])
+                sql_value = Mysql_PO.execQuery(sql1)
+
+
                 if len(sql_value) == 0:
-                # if sql_value[0][0] == None:
                     sql_value = 0
                 else:
-                    sql_value = sql_value[0][0]
+                    if sql_value[0][0] == None:
+                        sql_value = 0
+                    else:
+                        sql_value = sql_value[0][0]
 
                 # 接口和sql比对
                 if res_visitAnalysis['data']['detail'][i][iResField] == sql_value:
@@ -110,6 +113,8 @@ def reportAnalysis(tbl_report, tblField, iResField, sql, d_tbl_param):
                     Openpyxl_PO.setCellValue(currRow, currCol, sql_value, varSheet)  # 指标值
                     Openpyxl_PO.setCellValue(currRow, 1, "ok", varSheet)
                 else:
+                    # print(sql_value)
+                    # print(type(sql_value))
                     s = s + sql_value
                     Openpyxl_PO.setCellValue(currRow, 2, res_visitAnalysis['data']['detail'][i]['representativeName'] + "(" + str(res_visitAnalysis['data']['detail'][i]['delegateId']) + ")", varSheet)
                     Openpyxl_PO.setCellValue(currRow, currCol, str(sql_value) + "(sql)/" + str(res_visitAnalysis['data']['detail'][i][iResField]), varSheet)
@@ -208,7 +213,6 @@ from PO.OpenpyxlPO import *
 Sys_PO.killPid('EXCEL.EXE')
 Openpyxl_PO = OpenpyxlPO("i_erp_reportField_case.xlsx")
 l_getRowValue_case = (Openpyxl_PO.getRowValue("case"))
-
 
 
 # 获取default（接口）
