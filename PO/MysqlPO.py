@@ -30,6 +30,7 @@ pandas引擎（mysqldb）  getMysqldbEngine()
 
 5 获取单个表的所有字段
 
+6 expain SQL语句的执行计划
 
 '''
 import sys
@@ -441,15 +442,49 @@ class MysqlPO():
         except Exception as e:
             print(e, ",很抱歉，出现异常您搜索的<" + varTable + ">不存在！")
 
+    def explainSingle(self, sql):
+
+        # 6 expain SQL语句的执行计划
+
+        execExplain = 'explain ' + sql
+        db_result = self.execQuery(execExplain)
+        print(execExplain)
+        print("(id, selecrt_type, table, partitions, type, possible_keys, key, key_len, ref, rows, filtered, Extra)")
+        for i in range(len(db_result)):
+            print(db_result[i])
+
+    def explainMore(self, varFile, varSheet, getCol, varCol, varRow):
+
+        # 6 expain SQL语句的执行计划
+
+        Openpyxl_PO = OpenpyxlPO(varFile)
+        x = Openpyxl_PO.getColValueByCol([getCol], [], varSheet)
+        l_sql = x[0][1:]
+        print(l_sql)
+        for i in range(len(l_sql)):
+            if l_sql[i] != None:
+                execExplain = 'explain ' + str(l_sql[i])
+                if "select " in execExplain:
+                    db_result = self.execQuery(execExplain)
+                    print(execExplain)
+                    print("(id, selecrt_type, table, partitions, type, possible_keys, key, key_len, ref, rows, filtered, Extra)")
+                    for j in range(len(db_result)):
+                        print(db_result[j])
+                        Openpyxl_PO.setCellValue(i+varRow, j+varCol, str(db_result[j]))
+                    print("\n")
+        Openpyxl_PO.save()
+
 
 if __name__ == '__main__':
 
 
     # 238 sass高血压（测试） ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 3306)
+    # Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 3306)
     # t_userNo = Mysql_PO.execQuery('select id from sys_user_detail where userNo="%s"' % ("16766667777"))
     # print(t_userNo[0][0])  # 278
 
+    # # 244 erp (预发布) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    Mysql_PO = MysqlPO("192.168.0.244", "root", "ZAQ!2wsx", "crm", 3306)
 
     # # 238 erp (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     # Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "crmtest", 3306)
@@ -530,4 +565,11 @@ if __name__ == '__main__':
 
 
     # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
-    print(Mysql_PO.getTableField('test_interface'))
+    # print(Mysql_PO.getTableField('test_interface'))
+
+
+    # print("6 expain SQL语句的执行计划".center(100, "-"))
+    # Mysql_PO.explainSingle("select sum(双A客户实际拜访人数) from(SELECT count(DISTINCT customer_id) 双A客户实际拜访人数 from t_visit WHERE user_id=84 and double_a_mark=1 and state=3 and valid_status=1 and created_at>='2022-06-01' and  created_at<='2022-06-30 23:59:59' GROUP BY  customer_id  HAVING(count(*)>=6))双A客户实际拜访人数")
+
+    print("6.2 expain SQL语句的执行计划文件".center(100, "-"))
+    Mysql_PO.explainMore("./data/i_erp_reportField_case.xlsx", "拜访分析报表", 4, 5, 2)
