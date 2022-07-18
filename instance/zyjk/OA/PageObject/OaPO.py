@@ -38,10 +38,10 @@ class OaPO(object):
         self.List_PO = ListPO()
         self.Str_PO = StrPO()
         self.Char_PO = CharPO()
-        self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
+        # self.Log_PO = LogPO(logFile, fmt='%(levelname)s - %(message)s - %(asctime)s')  # 输出日志
 
     '''打开浏览器'''
-    def open(self):
+    def open(self, varURL):
         self.Web_PO = WebPO("chrome")
         self.Web_PO.openURL(varURL)
         self.Web_PO.driver.maximize_window()  # 全屏
@@ -85,6 +85,31 @@ class OaPO(object):
                 for k in range(len(list4)):
                     if list4[k] == varSubName:
                         self.Web_PO.clickXpath("//ul[@id='first_menu']/li[" + str(j+1) + "]/div[2]/ul/li[" + str(k+1) + "]/a", 2)
+
+
+    def memuERP(self, menu1, menu2):
+
+        # 盛蕴ERP管理平台 之菜单树
+
+        l_menu1 = self.Web_PO.getXpathsText("//li")
+        l_menu1_tmp = self.List_PO.delRepeatElem(l_menu1)
+        for i in range(len(l_menu1_tmp)):
+            if menu1 in l_menu1_tmp[i]:
+                self.Web_PO.clickXpath('//*[@id="app"]/section/section/aside/section/main/div/div[1]/div/ul/li[' + str(i + 1) + ']/div', 2)
+                l_menu2_a = self.Web_PO.getXpathsText('//*[@id="app"]/section/section/aside/section/main/div/div[1]/div/ul/li[' + str(i + 1) + ']/ul/li/ul/a')
+                # print(l_menu2_a)  # ['拜访分析报表', '会议分析表', '投入产出分析表', '协访分析表', '重点客户投入有效性分析', '开发计划总揽']
+                for j in range(len(l_menu2_a)):
+                    if menu2 == l_menu2_a[j]:
+                        self.Web_PO.clickXpath('//*[@id="app"]/section/section/aside/section/main/div/div[1]/div/ul/li[' + str(i + 1) + ']/ul/li/ul/a[' + str(j + 1) + ']', 2)
+
+        self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/div[2]/div/div[1]/input', "1234测试")
+
+    def maxBrowser(self, varWhichWindows):
+        # 对当前browse全屏
+        # Oa_Po.maxBrowser(1)
+        self.Web_PO.switchLabel(varWhichWindows)
+        self.Web_PO.driver.maximize_window()  # 全屏
+        sleep(2)
 
 
     '''左侧菜单选择模块及浮层模块（有标题）'''
@@ -1285,9 +1310,6 @@ class OaPO(object):
         Excel_PO.writeXlsx(excelFile, varApplicationName, i, 7, "ok")
 
 
-
-
-
     # 申请单
     def application(self, varApplicationName, varStaffList, varDay=0):
         excelFile = File_PO.getLayerPath("../config") + "\\oa.xlsx"
@@ -1364,6 +1386,17 @@ class OaPO(object):
             os.system("open " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
         if platform.system() == 'Windows':
             os.system("start " + File_PO.getLayerPath("../config") + "\\oa.xlsx")
+
+
+if __name__ == '__main__':
+
+    Oa_Po = OaPO()
+
+    Oa_Po.open("http://192.168.0.65")
+    Oa_Po.login("liuting", "")
+    Oa_Po.memu("盛蕴ERP", "盛蕴ERP（演示）")
+    Oa_Po.maxBrowser(1)
+    Oa_Po.memuERP("统计报表", "会议分析表")
 
 
 

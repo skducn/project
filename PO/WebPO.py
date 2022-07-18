@@ -266,7 +266,7 @@ class WebPO(BasePO):
 
     # todo [browser]
 
-    # 7 浏览器中多个标签页切换（同时打开2个标签页）
+    # 7 切换窗口，浏览器中多个标签页切换（同时打开2个标签页）
     def openSwitchLabel(self, varURL1, varURL2, varSwitch):
         # 如：先打开 varURL1，再打开 varURL2，且激活第一个标签页
         # Web_PO.switchWindow("http://www.baidu.com", "http://www.taobao.com", 0)   # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页
@@ -308,7 +308,8 @@ if __name__ == '__main__':
 
 
     # print("1.1，打开网站".center(100, "-"))
-    Web_PO.openURL('https://www.baidu.com/')
+    # Web_PO.openURL('https://www.baidu.com/')
+    Web_PO.openURL('http://192.168.0.65')
     #
     # print("2，获取当前全屏浏览器分辨率".center(100, "-"))
     # print(Web_PO.getBrowserSize())  # (1920, 1040)
