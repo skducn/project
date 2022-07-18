@@ -2,7 +2,8 @@
 #***************************************************************
 # Author     : John
 # Created on : 2022-6-30
-# Description: erp - 统计报表 - 拜访分析报表
+# Description: erp - 统计报表 - 开发计划总揽
+# http://192.168.0.245/statisticalReports/developmentPlanOverview
 # 测试：
 # 接口文档：http://192.168.0.238:8090/doc.html
 # 数据库：192.168.0.238
@@ -88,7 +89,9 @@ def reportAnalysis(tbl_report, tblField, iResField, sql, d_tbl_param):
         # 遍历所有人的字段值
         s = 0
         for i in range(len(res_visitAnalysis['data']['detail'])):
-            # print(res_visitAnalysis['data']['detail'][i]) # {'delegateId': 84, 'managerName': '廖荣平', 'representativeName': '黄新晖', 'plannedVisitsNumber': 0, 'actualVisitsNumber': 0, 'actualVisitsPersonNumber': 0, 'actualVisitRate': 0, 'twoACustomerVisitNumber': 0, 'twoACustomerVisitRate': 0, 'highPotentialCustomerVisitNumber': 0, 'highPotentialCustomerVisitRate': 0, 'newAddCustomerNumber': 0, 'allNumber': 0, 'actualVisitCoverRate': 0, 'doubleTotal': 0, 'potentialityTotal': 0, 'plannedMeetingFollowNumber': 0, 'actualMeetingFollowNumber': 0, 'actualConcludeMeetingFollowNumber': 0, 'actualConcludeDoubleANumber': 0, 'actualConcludePotentialityNumber': 0, 'doubleARatioRate': 0, 'doubleAFrequencyRate': 0, 'highRatioRate': 0, 'highFrequencyRate': 0, 'meetingFollowRate': 0, 'locationMatchNumber': 0}
+            print(res_visitAnalysis['data']['detail'][i]) # {'delegateId': 84, 'managerName': '廖荣平', 'representativeName': '黄新晖', 'plannedVisitsNumber': 0, 'actualVisitsNumber': 0, 'actualVisitsPersonNumber': 0, 'actualVisitRate': 0, 'twoACustomerVisitNumber': 0, 'twoACustomerVisitRate': 0, 'highPotentialCustomerVisitNumber': 0, 'highPotentialCustomerVisitRate': 0, 'newAddCustomerNumber': 0, 'allNumber': 0, 'actualVisitCoverRate': 0, 'doubleTotal': 0, 'potentialityTotal': 0, 'plannedMeetingFollowNumber': 0, 'actualMeetingFollowNumber': 0, 'actualConcludeMeetingFollowNumber': 0, 'actualConcludeDoubleANumber': 0, 'actualConcludePotentialityNumber': 0, 'doubleARatioRate': 0, 'doubleAFrequencyRate': 0, 'highRatioRate': 0, 'highFrequencyRate': 0, 'meetingFollowRate': 0, 'locationMatchNumber': 0}
+
+            sys.exit(0)
 
             if tbl_report == "拜访分析报表":
                 if Str_PO.getRepeatCount(sql, "%s") == 1:
@@ -222,6 +225,8 @@ for i in range(1, len(l_getRowValue_case)):
     if l_getRowValue_case[i][0] != "N":
         tbl_report = l_getRowValue_case[i][1]  # 报表
         d_tbl_param = Str_PO.str2dict(l_getRowValue_case[i][2])  # 参数2字典
+        # print(d_tbl_param)
+        # print(d_tbl_param["productId"])
 
         # 生成临时sheet
         varSheet = "temp"
@@ -235,11 +240,12 @@ for i in range(1, len(l_getRowValue_case)):
             # summary
             if l_getRowValue_case[i][1] == l_getRowValue_i[j][1]:
                 # paths
-
-                r = requests.post(iUrl + l_getRowValue_i[j][2],
-                                       headers={"content-type": "application/json", "token" : token, "traceId" : "123"},
-                                       json=d_tbl_param, verify=False)
+                # print(iUrl + l_getRowValue_i[j][2] + "?productId=" + str(d_tbl_param["productId"]))
+                r = requests.get(iUrl + l_getRowValue_i[j][2] + "?productId=" + str(d_tbl_param["productId"]), headers={"content-type": "application/json", "token" : token, "traceId" : "123"}, verify=False)
                 str1 = r.text.encode('gbk', 'ignore').decode('gbk')
+                print(str1)
+                # sys.exit(0)
+
                 res_visitAnalysis = json.loads(str1)
                 l_getRowValue = (Openpyxl_PO.getRowValue(tbl_report))
                 varSign1 = 1
