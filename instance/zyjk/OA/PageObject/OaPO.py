@@ -1396,7 +1396,14 @@ if __name__ == '__main__':
     Oa_Po.login("liuting", "")
     Oa_Po.memu("盛蕴ERP", "盛蕴ERP（演示）")
     Oa_Po.maxBrowser(1)
-    Oa_Po.memuERP("统计报表", "会议分析表")
+    # Oa_Po.memuERP("统计报表", "会议分析表")
+    Oa_Po.memuERP("统计报表", "开发计划总揽")
+
+    x = Oa_Po.Web_PO.getXpathsText("//tr")
+    print(x)
+
+
+
 
 
 
