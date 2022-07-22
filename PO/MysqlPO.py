@@ -27,6 +27,7 @@ pandas引擎（mysqldb）  getMysqldbEngine()
 4.3，数据库表导出csv db2csv()
 4.4 excel导入数据库表 xlsx2db()
 4.5 所有表结构导出excel dbDesc2xlsx()
+4.6 从数据库生成报表
 
 5 获取单个表的所有字段
 
@@ -40,6 +41,7 @@ import MySQLdb
 from PO.ExcelPO import *
 import pandas as pd
 from sqlalchemy import create_engine
+from bs4 import BeautifulSoup
 from PO.OpenpyxlPO import *
 from PO.NewexcelPO import *
 from PO.ColorPO import *
@@ -425,6 +427,34 @@ class MysqlPO():
         Openpyxl_PO.setRowValue(dict1)
         Openpyxl_PO.save()
 
+    def getReportFromDb(self, varTitle, varNowTime, arDbTable):
+
+        '''
+            4.6 从数据库生成报表
+            # getReportFromDb("erp_开发计划总揽_","2022-11-12","12345")
+            # getReportFromDb("erp_开发计划总揽_",str(Time_PO.getDateTime()),"12345")
+        '''
+
+        # 生成report.html
+        varTitle = varTitle + "_" + varNowTime
+        df = pd.read_sql(sql="select * from `%s`" % arDbTable, con=self.getPymysqlEngine())
+        pd.set_option('colheader_justify', 'center')  # 对其方式居中
+        html = '''<html><head><title>''' + varTitle + '''</title></head>
+        <body><b><caption>''' + varTitle + '''</caption></b><br><br>{table}</body></html>'''
+        style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
+
+        File_PO.createFolder("report")
+        rptNameDate = "report/" + varTitle + ".html"
+        with open(rptNameDate, 'w') as f:
+            f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
+
+        # # 优化report.html, 去掉None、修改颜色
+        # html_text = BeautifulSoup(open(rptNameDate), features='html.parser')
+        # tf = open(rptNameDate, 'w', encoding='utf-8')
+        # tf.write(str(html_text))
+        # tf.close()
+
+
 
     def getTableField(self, varTable):
 
@@ -564,6 +594,9 @@ if __name__ == '__main__':
     # Mysql_PO.dbDesc2xlsx("/Users/linghuchong/Desktop/mac/sassDesc.xlsx")
 
 
+    # print("4.6 从数据库生成报表".center(100, "-"))
+    Mysql_PO.getReportFromDb("erp_开发计划总揽_", "2022-11-12", "12345")
+
     # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
     # print(Mysql_PO.getTableField('test_interface'))
 
@@ -571,5 +604,5 @@ if __name__ == '__main__':
     # print("6 expain SQL语句的执行计划".center(100, "-"))
     # Mysql_PO.explainSingle("select sum(双A客户实际拜访人数) from(SELECT count(DISTINCT customer_id) 双A客户实际拜访人数 from t_visit WHERE user_id=84 and double_a_mark=1 and state=3 and valid_status=1 and created_at>='2022-06-01' and  created_at<='2022-06-30 23:59:59' GROUP BY  customer_id  HAVING(count(*)>=6))双A客户实际拜访人数")
 
-    print("6.2 expain SQL语句的执行计划文件".center(100, "-"))
-    Mysql_PO.explainMore("./data/i_erp_reportField_case.xlsx", "拜访分析报表", 4, 5, 2)
+    # print("6.2 expain SQL语句的执行计划文件".center(100, "-"))
+    # Mysql_PO.explainMore("./data/i_erp_reportField_case.xlsx", "拜访分析报表", 4, 5, 2)

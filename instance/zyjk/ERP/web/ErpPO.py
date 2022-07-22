@@ -36,22 +36,18 @@ class ErpPO(object):
         self.Char_PO = CharPO()
 
 
-    def open(self, varURL):
+    def login(self, varURL, varUser, varPass):
         self.Web_PO = WebPO("chrome")
         self.Web_PO.openURL(varURL)
         self.Web_PO.driver.maximize_window()  # 全屏
         # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
-
-
-
-    def login(self, varUser, varPass):
         self.Web_PO.inputId("name", varUser)
         self.Web_PO.inputId("password", varPass)
         self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
 
 
 
-    def memuOA(self, varMemuName, varSubName):
+    def clickMemuOA(self, varMemuName, varSubName):
 
         '''左侧菜单选择模块及浮层模块（无标题）'''
 
@@ -87,7 +83,7 @@ class ErpPO(object):
                         self.Web_PO.clickXpath(
                             "//ul[@id='first_menu']/li[" + str(j + 1) + "]/div[2]/ul/li[" + str(k + 1) + "]/a", 2)
 
-    def memuERP(self, menu1, menu2):
+    def clickMemuERP(self, menu1, menu2):
 
         # 盛蕴ERP管理平台 之菜单树
 

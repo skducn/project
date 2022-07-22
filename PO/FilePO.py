@@ -156,6 +156,16 @@ class FilePO():
         except:
             None
 
+    def createFolder(self, varFolder):
+
+        # 判断目录是否存在，不存在则新建目录
+        if os.path.isdir(varFolder):
+            pass
+        else:
+            os.mkdir(varFolder)
+
+
+
     # 3.16 遍历目录中指定扩展名文件(级联目录)
     def getfilelist(self, varPathList, varPath, EXTEND):
         file = os.listdir(varPath)
@@ -449,6 +459,8 @@ if __name__ == "__main__":
     # print("3.14 判断目录是否存在".center(100, "-"))
     # print(os.path.isdir(""))  # False
     # print(os.path.isdir("d:\\51\\python"))  # True
+
+    # File_PO.createFolder("report")
     #
     # print("3.15 判断文件是否存在".center(100, "-"))
     # print(os.path.isfile("D:\\51\\python\\project\\PO\\FilePO\\test.txt"))  # True
