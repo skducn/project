@@ -120,11 +120,11 @@ class WebPO(BasePO):
         self._openURL(varURL)
 
     # 1.2 关闭（当前窗口）
-    def closeURL(self):
+    def close(self):
         self.driver.close()
 
     # 1.3 关闭所有窗口（退出驱动）
-    def quitURL(self):
+    def quit(self):
         self.driver.quit()
 
     # todo [screen]
