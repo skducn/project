@@ -36,6 +36,20 @@ class ErpPO(object):
         self.Char_PO = CharPO()
 
 
+    def getToken(self):
+
+        # 获取token
+        url = "http://192.168.0.65/logincheck.php"
+        header = {"content-type": "application/x-www-form-urlencoded"}
+        d_iParam = {'USERNAME': "niuxuebin"}
+        r = requests.post(url, headers=header, data=d_iParam, verify=False)
+        a = r.cookies.get_dict()
+        url = "http://192.168.0.65/general/appbuilder/web/business/product/crm"
+        r = requests.get(url, headers={"Cookie": "PHPSESSID=" + a["PHPSESSID"]}, verify=False)
+        token = str(r.url).split("token=")[1]
+        # print(token)
+        return token
+
     def login(self, varURL, varUser, varPass):
         self.Web_PO = WebPO("chrome")
         self.Web_PO.openURL(varURL)
@@ -44,8 +58,6 @@ class ErpPO(object):
         self.Web_PO.inputId("name", varUser)
         self.Web_PO.inputId("password", varPass)
         self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
-
-
 
     def clickMemuOA(self, varMemuName, varSubName):
 
@@ -120,3 +132,5 @@ class ErpPO(object):
 
     def close(self):
         self.Web_PO.close()
+
+

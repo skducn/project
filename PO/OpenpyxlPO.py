@@ -897,8 +897,8 @@ class OpenpyxlPO():
 
             # 生成临时sheet
             varSheet = varSheet1 + "%" + varSheet2
-            Openpyxl_PO.delSheet(varSheet)
-            Openpyxl_PO.addSheetCover(varSheet, 99)
+            self.delSheet(varSheet)
+            self.addSheetCover(varSheet, 99)
 
             for i in range(len(l_sheetOneRow)):
                 for j in range(len(l_sheetOneRow[i])):
@@ -911,6 +911,7 @@ class OpenpyxlPO():
                     else:
                         self.setCellValue(i+1, j+1, str(l_sheetOneRow[i][j]), varSheet)
             self.save()
+            return varSheet
         else:
             print("[warning], 两sheet的行数不一致！")
             sys.exit(0)
@@ -1080,7 +1081,7 @@ if __name__ == "__main__":
 
     # print("3.4 获取每行数据".center(100, "-"))
     # print(Openpyxl_PO.getRowValue())
-    # # print(Openpyxl_PO.getRowValue("python"))
+    # print(Openpyxl_PO.getRowValue("browser%interface"))
     #
     # print("3.5 获取每列数据".center(100, "-"))
     # print(Openpyxl_PO.getColValue())
@@ -1136,20 +1137,25 @@ if __name__ == "__main__":
     # Openpyxl_PO.moveValue('C1:D2', 3, -2)  # 把'C1:D2'区域移动到 下三行左二列
     # Openpyxl_PO.moveValue('A1:C14', 0, 3)  # 把'A1:C14'区域向右移动3列
 
-    Openpyxl_PO.insertCols(1, 1)
+
     r = Openpyxl_PO.getRowCol("browser%interface")[0]
     c = Openpyxl_PO.getRowCol("browser%interface")[1]
-    print(r,c)
+
     varSign = 0
+    list11 = []
     for i in range(r):
         for j in range(c):
-            if "/" in Openpyxl_PO.getCellValue(i+1, j+1, "browser%interface"):
+            if "/" in Openpyxl_PO.getCellValue(i + 1, j + 1, "browser%interface"):
                 varSign = 1
         if varSign == 1:
-            Openpyxl_PO.setCellValue(i+1, 1, "error", "browser%interface")
+            list11.append("error")
         else:
-            Openpyxl_PO.setCellValue(i+1, 1, "ok", "browser%interface")
+            list11.append("ok")
         varSign = 0
+
+    Openpyxl_PO.insertCols(1, 1, "browser%interface")
+    Openpyxl_PO.setColValue({"A": list11},"browser%interface")
+    Openpyxl_PO.setCellValue(1,1,"result","browser%interface")
 
 
     Openpyxl_PO.open()
