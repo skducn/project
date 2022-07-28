@@ -268,9 +268,6 @@ for i in range(1, len(l_getRowValue_case)):
             print("[warning], " + tbl_report + " 没有对应的接口文档，程序已退出！")
             sys.exit(0)
 
-        # print("1，获取‘" + tbl_report + "’接口数据")
-        # print(("erp_" + tbl_report + "(" + str(l_getRowValue_case[i][4]) + ")_" + db_ip).center(100, "-"))
-
         for j in range(1, len(l_getRowValue)):
             if l_getRowValue[j][0] != "N":
                 reportAnalysis(tbl_report, l_getRowValue[j][1], l_getRowValue[j][2], l_getRowValue[j][3], d_tbl_param)
@@ -284,7 +281,6 @@ for i in range(1, len(l_getRowValue_case)):
                 # print(i)
                 Openpyxl_PO.delSeriesCol(i+1, 10, varSheet)  # 删除第“拜访定位匹配人次”列及之后的所有列
                 break
-
         Openpyxl_PO.save()
 
 print("2，获取浏览器前端页面数据")
@@ -299,29 +295,8 @@ getResult(varNewSheet)
 print("5，excel导入数据库表")
 Mysql_PO.xlsx2db(caseExcel, "12345", sheet_name=varNewSheet, index=True)
 
-# 生成report.html
-# varNowTime = str(Time_PO.getDateTime())
-# varTitle = "erp_" + tbl_report + "(" + str(l_getRowValue_case[i][4]) + ")_" + db_ip + "_" + varNowTime
-df = pd.read_sql(sql="select * from `12345`", con=Mysql_PO.getPymysqlEngine())
-pd.set_option('colheader_justify', 'center')  # 对其方式居中
-html = '''<html><head><title>''' + varTitle + '''</title></head>
-<body><b><caption>''' + varTitle + '''</caption></b><br><br>{table}</body></html>'''
-style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
-rptNameDate = "report/" + varTitle + ".html"
-with open(rptNameDate, 'w') as f:
-    f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
-from bs4 import BeautifulSoup
-# 优化report.html, 去掉None、修改颜色
-html_text = BeautifulSoup(open(rptNameDate), features='html.parser')
-html_text = str(html_text).replace("<td>None</td>", "<td></td>").replace("<td>error</td>", '<td bgcolor="#ed1941">error</td>').\
-    replace("<td>ok</td>", '<td bgcolor="#00ae9d">ok</td>')
-# 另存为report.html
-tf = open(rptNameDate, 'w', encoding='utf-8')
-tf.write(str(html_text))
-tf.close()
+print("6，生成report.html")
+Erp_PO.getReport(Mysql_PO, varTitle)
 
-print("[done], " + str(rptNameDate))
-
-Sys_PO.openFile(rptNameDate)
 
 Openpyxl_PO.open()
