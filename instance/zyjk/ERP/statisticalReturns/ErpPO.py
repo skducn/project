@@ -35,31 +35,37 @@ class ErpPO():
         self.List_PO = ListPO()
         self.Str_PO = StrPO()
         self.Char_PO = CharPO()
-
         self.List_PO = ListPO()
+
+        self.oaURL = "http://192.168.0.65"
+
+
+
+    def loginOA(self):
+
+        '''登录oa'''
+
+        self.Web_PO = WebPO("chrome")
+        self.Web_PO.openURL(self.oaURL)
+        self.Web_PO.driver.maximize_window()  # 全屏
+        self.Web_PO.inputId("name", "liuting")
+        # self.Web_PO.inputId("password", "")
+        self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
 
     def getToken(self):
 
-        # 获取token
-        url = "http://192.168.0.65/logincheck.php"
+        '''获取token'''
+
+        url = self.oaURL + "/logincheck.php"
         header = {"content-type": "application/x-www-form-urlencoded"}
         d_iParam = {'USERNAME': "niuxuebin"}
         r = requests.post(url, headers=header, data=d_iParam, verify=False)
         a = r.cookies.get_dict()
-        url = "http://192.168.0.65/general/appbuilder/web/business/product/crm"
+        url = self.oaURL + "/general/appbuilder/web/business/product/crm"
         r = requests.get(url, headers={"Cookie": "PHPSESSID=" + a["PHPSESSID"]}, verify=False)
         token = str(r.url).split("token=")[1]
         # print(token)
         return token
-
-    def login(self, varURL, varUser, varPass):
-        self.Web_PO = WebPO("chrome")
-        self.Web_PO.openURL(varURL)
-        self.Web_PO.driver.maximize_window()  # 全屏
-        # self.Web_PO.driver.set_window_size(1366,768)  # 按分辨率1366*768打开
-        self.Web_PO.inputId("name", varUser)
-        self.Web_PO.inputId("password", varPass)
-        self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
 
     def clickMemuOA(self, varMemuName, varSubName):
 
@@ -99,7 +105,7 @@ class ErpPO():
 
     def clickMemuERP(self, menu1, menu2):
 
-        # 盛蕴ERP管理平台 之菜单树
+        '''盛蕴ERP管理平台 之菜单树'''
 
         l_menu1 = self.Web_PO.getXpathsText("//li")
         l_menu1_tmp = self.List_PO.delRepeatElem(l_menu1)
@@ -112,118 +118,11 @@ class ErpPO():
                     if menu2 == l_menu2_a[j]:
                         self.Web_PO.clickXpath('//*[@id="app"]/section/section/aside/section/main/div/div[1]/div/ul/li[' + str(i + 1) + ']/ul/li/ul/a[' + str(j + 1) + ']', 2)
 
-        self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/div[2]/div/div[1]/input', "1234测试")
-
-    def maxBrowser(self, varWhichWindows):
-        # 对当前browse全屏
-        # Oa_Po.maxBrowser(1)
-        self.Web_PO.switchLabel(varWhichWindows)
-        self.Web_PO.driver.maximize_window()  # 全屏
-        sleep(2)
-
-    def zoom(self, percent):
-
-        # 缩放比率
-
-        # js = "document.body.style.zoom='70%'"
-        js = "document.body.style.zoom='" + str(percent) + "%'"
-        self.Web_PO.driver.execute_script(js)
-
-    def quit(self):
-        self.Web_PO.quit()
-
-    def close(self):
-        self.Web_PO.close()
+        # self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/div[2]/div/div[1]/input', "1234测试")
 
 
-    def getReport(self, Mysql_PO, varTitle):
 
-        # 生成report.html
-        # varNowTime = str(Time_PO.getDateTime())
-        # varTitle = "erp_" + tbl_report + "(" + str(l_getRowValue_case[i][4]) + ")_" + db_ip + "_" + varNowTime
-        df = pd.read_sql(sql="select * from `12345`", con=Mysql_PO.getPymysqlEngine())
-        pd.set_option('colheader_justify', 'center')  # 对其方式居中
-        html = '''<html><head><title>''' + varTitle + '''</title></head>
-        <body><b><caption>''' + varTitle + '''</caption></b><br><br>{table}</body></html>'''
-        style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
-        rptNameDate = "report/" + varTitle + ".html"
-        with open(rptNameDate, 'w') as f:
-            f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
-        from bs4 import BeautifulSoup
-        # 优化report.html, 去掉None、修改颜色
-        html_text = BeautifulSoup(open(rptNameDate), features='html.parser')
-        html_text = str(html_text).replace("<td>None</td>", "<td></td>").replace("<td>error</td>",
-                                                                                 '<td bgcolor="#ed1941">error</td>'). \
-            replace("<td>ok</td>", '<td bgcolor="#00ae9d">ok</td>')
-        # 另存为report.html
-        tf = open(rptNameDate, 'w', encoding='utf-8')
-        tf.write(str(html_text))
-        tf.close()
-        Sys_PO.openFile(rptNameDate)
-
-    def getBrowserData_helpingAnalysis(self, varSheet, Openpyxl_PO):
-
-        # 获取浏览器页面数据
-
-        # 1，打开oa
-        self.login("http://192.168.0.65", "liuting", "")
-        self.clickMemuOA("盛蕴ERP", "盛蕴ERP（演示）")
-        self.maxBrowser(1)  # 全屏
-
-        # 2，获取协访分析表字段与值
-        self.clickMemuERP("统计报表", "协访分析表")
-        self.zoom("20")  # 缩小页面20%便于抓取元素
-        l_fieldValueArea = self.Web_PO.getXpathsText("//tr")  # 获取数据
-        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "明细")
-        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "总计")
-        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "操作")
-        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "")
-        l_fieldValue = self.List_PO.sliceList(l_fieldValueArea, '区域经理', 0)
-        l_area = self.List_PO.sliceList(l_fieldValueArea, '区域经理', 1)
-        l_area.insert(0, '区域经理')
-        l_area.append('总计')
-
-        # 3, 新建sheet
-        Openpyxl_PO.delSheet(varSheet)
-        Openpyxl_PO.addSheetCover(varSheet, 99)
-
-        # 4, 将字段与值写入表格
-        for i in range(len(l_fieldValue)):
-            list3 = str(l_fieldValue[i]).split("\n")
-            Openpyxl_PO.setRowValue({i + 1: list3}, varSheet)
-
-        # 5, 将区域经理插入表格
-        Openpyxl_PO.insertCols(1, 1, varSheet)
-        Openpyxl_PO.setColValue({"A": l_area}, varSheet)
-
-        self.close()
-
-
-    def getResult(self, varSheet, Openpyxl_PO):
-
-        # 对新表生成结果状态
-
-        r = Openpyxl_PO.getRowCol(varSheet)[0]
-        c = Openpyxl_PO.getRowCol(varSheet)[1]
-
-        varSign = 0
-        list11 = []
-        for i in range(r):
-            for j in range(c):
-                if "/" in Openpyxl_PO.getCellValue(i + 1, j + 1, varSheet):
-                    varSign = 1
-            if varSign == 1:
-                list11.append("error")
-            else:
-                list11.append("ok")
-            varSign = 0
-
-        Openpyxl_PO.insertCols(1, 1, varSheet)
-        Openpyxl_PO.setColValue({"A": list11}, varSheet)
-        Openpyxl_PO.setCellValue(1, 1, "结果", varSheet)
-
-
-    def helpingAnalysis(self, res_visitAnalysis, tbl_report, tblField, iResField, sql, d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO):
+    def _helpingAnalysis(self, res_visitAnalysis, tbl_report, tblField, iResField, sql, d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO):
 
         d = {}
 
@@ -366,7 +265,91 @@ class ErpPO():
 
                 for j in range(1, len(l_getRowValue)):
                     if l_getRowValue[j][0] != "N":
-                        self.helpingAnalysis(res_visitAnalysis, tbl_report, l_getRowValue[j][1], l_getRowValue[j][2],
+                        self._helpingAnalysis(res_visitAnalysis, tbl_report, l_getRowValue[j][1], l_getRowValue[j][2],
                                               l_getRowValue[j][3], d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO)
 
         return varTitle
+
+    def getBrowserData_helpingAnalysis(self, varSheet, Openpyxl_PO):
+
+        # 获取浏览器页面数据
+
+        # 1，打开oa
+        self.loginOA()
+        self.clickMemuOA("盛蕴ERP", "盛蕴ERP（演示）")
+        self.Web_PO.maxBrowser(1)
+
+        # 2，获取协访分析表字段与值
+        self.clickMemuERP("统计报表", "协访分析表")
+        self.Web_PO.zoom("20")  # 缩小页面20%便于抓取元素
+        l_fieldValueArea = self.Web_PO.getXpathsText("//tr")  # 获取数据
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "明细")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "总计")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "操作")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "")
+        l_fieldValue = self.List_PO.sliceList(l_fieldValueArea, '区域经理', 0)
+        l_area = self.List_PO.sliceList(l_fieldValueArea, '区域经理', 1)
+        l_area.insert(0, '区域经理')
+        l_area.append('总计')
+
+        # 3, 新建sheet
+        Openpyxl_PO.delSheet(varSheet)
+        Openpyxl_PO.addSheetCover(varSheet, 99)
+
+        # 4, 将字段与值写入表格
+        for i in range(len(l_fieldValue)):
+            list3 = str(l_fieldValue[i]).split("\n")
+            Openpyxl_PO.setRowValue({i + 1: list3}, varSheet)
+
+        # 5, 将区域经理插入表格
+        Openpyxl_PO.insertCols(1, 1, varSheet)
+        Openpyxl_PO.setColValue({"A": l_area}, varSheet)
+
+        self.Web_PO.close()
+
+    def getResult(self, varSheet, Openpyxl_PO):
+
+        # 对新表生成结果状态
+
+        r = Openpyxl_PO.getRowCol(varSheet)[0]
+        c = Openpyxl_PO.getRowCol(varSheet)[1]
+
+        varSign = 0
+        list11 = []
+        for i in range(r):
+            for j in range(c):
+                if "/" in Openpyxl_PO.getCellValue(i + 1, j + 1, varSheet):
+                    varSign = 1
+            if varSign == 1:
+                list11.append("error")
+            else:
+                list11.append("ok")
+            varSign = 0
+
+        Openpyxl_PO.insertCols(1, 1, varSheet)
+        Openpyxl_PO.setColValue({"A": list11}, varSheet)
+        Openpyxl_PO.setCellValue(1, 1, "结果", varSheet)
+
+    def db2html(self, Mysql_PO, varTitle):
+
+        # 生成report.html
+        # varNowTime = str(Time_PO.getDateTime())
+        # varTitle = "erp_" + tbl_report + "(" + str(l_getRowValue_case[i][4]) + ")_" + db_ip + "_" + varNowTime
+        df = pd.read_sql(sql="select * from `12345`", con=Mysql_PO.getPymysqlEngine())
+        pd.set_option('colheader_justify', 'center')  # 对其方式居中
+        html = '''<html><head><title>''' + varTitle + '''</title></head>
+        <body><b><caption>''' + varTitle + '''</caption></b><br><br>{table}</body></html>'''
+        style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
+        rptNameDate = "report/" + varTitle + ".html"
+        with open(rptNameDate, 'w') as f:
+            f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
+        from bs4 import BeautifulSoup
+        # 优化report.html, 去掉None、修改颜色
+        html_text = BeautifulSoup(open(rptNameDate), features='html.parser')
+        html_text = str(html_text).replace("<td>None</td>", "<td></td>").replace("<td>error</td>",'<td bgcolor="#ed1941">error</td>'). \
+            replace("<td>ok</td>", '<td bgcolor="#00ae9d">ok</td>')
+        # 另存为report.html
+        tf = open(rptNameDate, 'w', encoding='utf-8')
+        tf.write(str(html_text))
+        tf.close()
+        Sys_PO.openFile(rptNameDate)
