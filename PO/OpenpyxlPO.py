@@ -15,6 +15,9 @@
 # openpyxl 读取大数据的效率没有 xlrd 高
 # openpyxl 与 xlsxwriter xlrd xlwt xlutils 的比较，这些库都不支持 excel 写操作，一般只能将原excel中的内容读出、做完处理后，再写入一个新的excel文件。
 
+# 扩展学习 xlwings https://blog.csdn.net/qfxietian/article/details/123822358
+# import xlwings as wx
+
 # todo: 使用方法
 # 参考：openpyxl常用模块用法 https://www.debug8.com/python/t_41519.html
 # 基础使用方法：https://blog.csdn.net/four91/article/details/106141274
@@ -57,9 +60,12 @@ from PO.SysPO import *
 Sys_PO = SysPO()
 from PO.MysqlPO import *
 
+
+
 '''
 1.1 新建  newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3") 
 1.2 打开 open()
+1.2.2 打开指定sheet openSheet(varSheet="分类")
 1.3 获取所有工作表 getSheets()
 1.4 操作工作表 sh()
 1.5 切换工作表 switchSheet("Sheet2") 
@@ -163,7 +169,8 @@ class OpenpyxlPO():
 
     def open(self, otherFile=0):
 
-        # 1.2 打开
+        '''1.2 打开'''
+
         if platform.system() == 'Darwin':
             if otherFile != 0:
                 os.system("open " + otherFile)
@@ -174,6 +181,48 @@ class OpenpyxlPO():
                 os.system("start " + otherFile)
             else:
                 os.system("start " + self.file)
+
+
+    def openSheet(self, otherFile=0, Sheet=1):
+
+        '''1.2.2 打开指定的Sheet'''
+
+        # openSheet(varSheet="Sheet1")  # 打开文档后定位在指定的Sheet，如果指定的sheet不存在，默认打开第一个sheet,
+
+        if platform.system() == 'Darwin':
+            if otherFile != 0:
+                self._toSheet(Sheet)
+            else:
+                self._toSheet(Sheet)
+            os.system("open " + self.file)
+
+        if platform.system() == 'Windows':
+            if otherFile != 0 :
+                self._toSheet(Sheet)
+            else:
+                self._toSheet(Sheet)
+            os.system("start " + self.file)
+
+
+    def _toSheet(self, varSheet):
+
+        '''切换到指定的Sheet，如不存在，则默认定位第一个Sheet'''
+
+        import xlwings as xw
+
+        xb = xw.Book(self.file)
+        var1 = 0
+        l_sheets = self.getSheets()
+        for i in range(len(l_sheets)):
+            if l_sheets[i] == varSheet:
+                sht = xw.Sheet(sheet=varSheet)
+                var1 = 1
+                break
+        if var1 == 0:
+            sht = xw.Sheet(sheet=1)
+        sht.select()
+        xb.save()
+        xb.app.quit()
 
 
     def getSheets(self):
@@ -935,6 +984,15 @@ if __name__ == "__main__":
     # print("1.1 新建".center(100, "-"))
     # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
+
+    # print("1.2 打开".center(100, "-"))
+    # Openpyxl_PO.open()
+
+    # print("1.2 打开指定的sheet".center(100, "-"))
+    Openpyxl_PO.openSheet(Sheet="interface")
+    # Openpyxl_PO.openSheet(Sheet="interfa23ce")
+    # Openpyxl_PO.openSheet()
+
     # print("1.6 添加工作表(不覆盖)".center(100, "-"))
     # Openpyxl_PO.addSheet("saasuser1")
 
@@ -1138,25 +1196,5 @@ if __name__ == "__main__":
     # Openpyxl_PO.moveValue('A1:C14', 0, 3)  # 把'A1:C14'区域向右移动3列
 
 
-    r = Openpyxl_PO.getRowCol("browser%interface")[0]
-    c = Openpyxl_PO.getRowCol("browser%interface")[1]
 
-    varSign = 0
-    list11 = []
-    for i in range(r):
-        for j in range(c):
-            if "/" in Openpyxl_PO.getCellValue(i + 1, j + 1, "browser%interface"):
-                varSign = 1
-        if varSign == 1:
-            list11.append("error")
-        else:
-            list11.append("ok")
-        varSign = 0
-
-    Openpyxl_PO.insertCols(1, 1, "browser%interface")
-    Openpyxl_PO.setColValue({"A": list11},"browser%interface")
-    Openpyxl_PO.setCellValue(1,1,"result","browser%interface")
-
-
-    Openpyxl_PO.open()
 

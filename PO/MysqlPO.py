@@ -427,12 +427,12 @@ class MysqlPO():
         Openpyxl_PO.setRowValue(dict1)
         Openpyxl_PO.save()
 
-    def getReportFromDb(self, varTitle, varNowTime, arDbTable):
+    def db2html(self, varTitle, varNowTime, arDbTable):
 
         '''
             4.6 从数据库生成报表
-            # getReportFromDb("erp_开发计划总揽_","2022-11-12","12345")
-            # getReportFromDb("erp_开发计划总揽_",str(Time_PO.getDateTime()),"12345")
+            # db2html("erp_开发计划总揽_","2022-11-12","12345")
+            # db2html("erp_开发计划总揽_",str(Time_PO.getDateTime()),"12345")
         '''
 
         # 生成report.html
@@ -595,7 +595,7 @@ if __name__ == '__main__':
 
 
     # print("4.6 从数据库生成报表".center(100, "-"))
-    Mysql_PO.getReportFromDb("erp_开发计划总揽_", "2022-11-12", "12345")
+    Mysql_PO.db2html("erp_开发计划总揽_", "2022-11-12", "12345")
 
     # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
     # print(Mysql_PO.getTableField('test_interface'))
