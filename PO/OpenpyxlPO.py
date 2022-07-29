@@ -108,6 +108,7 @@ from PO.MysqlPO import *
 3.1 获取总行数和总列数 getRowCol()
 3.2 获取单元格的值 getCellValue()
 3.3 获取单行数据 getOneRowValue(2)
+3.3.2 获取单列数据 getOneColValue(2)
 3.4 获取每行数据 getRowValue()
 3.5 获取每列数据 getColValue()
 3.6 获取指定列的行数据 getRowValueByCol([1, 2, 4], -1))   # 获取最后一个工作表的第1，2，4列的行数据
@@ -725,6 +726,17 @@ class OpenpyxlPO():
             list1.append(cel.value)
         return list1
 
+    def getOneColValue(self, varCol, varSheet=0):
+
+        # 3.3.2 获取单列数据
+        # getOneColValue(2)
+        list1 = []
+        sh = self.sh(varSheet)
+        col = [val for val in sh.columns][varCol]  # 获取第一行
+        for cel in col:
+            list1.append(cel.value)
+        return list1
+
 
     def getRowValue(self, varSheet=0):
 
@@ -1136,6 +1148,8 @@ if __name__ == "__main__":
 
     # print("3.3 获取单行数据".center(100, "-"))
     # print(Openpyxl_PO.getOneRowValue(2))
+    print(Openpyxl_PO.getOneColValue(2))
+    # Openpyxl_PO.open()
 
     # print("3.4 获取每行数据".center(100, "-"))
     # print(Openpyxl_PO.getRowValue())

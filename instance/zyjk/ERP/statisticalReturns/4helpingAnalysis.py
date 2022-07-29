@@ -39,10 +39,7 @@ Mysql_PO = MysqlPO(db_ip, "root", "ZAQ!2wsx", "crm", 3306)
 # print(db_t_userId_userName)  # (('niuxuebin', 81, '钮学彬'), ('huangxinhui', 84, '黄新晖'),
 
 
-
 # [main]
-
-
 print("1，获取协访分析表接口数据")
 varTitle = Erp_PO.helpingAnalysis_I(db_ip, iUrl, Openpyxl_PO, Mysql_PO)
 
