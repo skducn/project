@@ -222,7 +222,7 @@ class BasePO(object):
             self.find_element(*(By.XPATH, varPath)).clear()
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
-            sleep(2)
+
         except:
             return None
 
@@ -764,7 +764,7 @@ class BasePO(object):
     '''[ 8js ]'''
     def jsExecute(self, varJs, t=0):
         # 执行js
-        # varJs = 'document.querySelector("input[type=number]").value="";    //清除input输入框内哦那个
+        varJs = 'document.querySelector("input[type=number]").value=""'  # 清除input输入框内哦那个
         self.driver.execute_script(varJs)
         sleep(t)
 

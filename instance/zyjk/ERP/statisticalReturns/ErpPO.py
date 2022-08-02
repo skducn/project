@@ -64,7 +64,7 @@ class ErpPO():
         url = self.oaURL + "/general/appbuilder/web/business/product/crm"
         r = requests.get(url, headers={"Cookie": "PHPSESSID=" + a["PHPSESSID"]}, verify=False)
         token = str(r.url).split("token=")[1]
-        print(token)
+        # print(token)
         return token
 
     def clickMemuOA(self, varMemuName, varSubName):
@@ -189,8 +189,8 @@ class ErpPO():
             # 各比率的计算
 
             for i in range(len(res_visitAnalysis['data']['detail'])):
-                if res_visitAnalysis['data']['detail'][i][sql.split("/")[1]] == 0 or \
-                        res_visitAnalysis['data']['detail'][i][sql.split("/")[0]] == 0:
+                # print(res_visitAnalysis['data']['detail'][i])
+                if res_visitAnalysis['data']['detail'][i][sql.split("/")[1]] == 0 or res_visitAnalysis['data']['detail'][i][sql.split("/")[0]] == 0:
                     Openpyxl_PO.setCellValue(currRow, currCol, "0%", varSheet)
                 else:
                     tmp1 = Data_PO.newRound(res_visitAnalysis['data']['detail'][i][sql.split("/")[0]] /
@@ -219,8 +219,6 @@ class ErpPO():
                 Openpyxl_PO.setCellValue(currRow, currCol, str(d[iResField]) + "%(计算1)/" + str(
                     res_visitAnalysis['data']['total'][iResField]), varSheet)
                 Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
-
-
         else:
             if sql != None:
                 if res_visitAnalysis['data']['total'][sql.split("/")[1]] == 0 or res_visitAnalysis['data']['total'][
@@ -247,8 +245,13 @@ class ErpPO():
             if l_getRowValue_case[i][1] == "拜访分析报表":
                 tbl_report = l_getRowValue_case[i][1]  # 报表
                 d_tbl_param = Str_PO.str2dict(l_getRowValue_case[i][2])  # 参数2字典
+                tbl_endTime = d_tbl_param["endTime"]
+                tbl_endTime = tbl_endTime.split(" ")[0]
+                tbl_startTime = d_tbl_param["starTime"]
+                # print(tbl_startTime,tbl_endTime)
+                # sys.exit(0)
                 varNowTime = str(Time_PO.getDateTime())
-                varTitle = "erp_" + tbl_report + "(" + str(l_getRowValue_case[i][4]) + ")_" + db_ip + "_" + varNowTime
+                varTitle = "erp_" + tbl_report + "(" + str(tbl_startTime) + "~" + str(tbl_endTime) + ")_" + db_ip + "_" + varNowTime
 
                 # 生成临时sheet
                 varSheet = "i"
@@ -292,9 +295,9 @@ class ErpPO():
                         Openpyxl_PO.delSeriesCol(i + 1, 10, varSheet)  # 删除第“拜访定位匹配人次”列及之后的所有列
                         break
                 Openpyxl_PO.save()
-        return varTitle
+        return varTitle, tbl_startTime, tbl_endTime
 
-    def getBrowserData_visitAnalysis(self, varSheet, Openpyxl_PO):
+    def getBrowserData_visitAnalysis(self, startTime, endTime, varSheet, Openpyxl_PO):
 
         # 获取浏览器页面数据
 
@@ -305,6 +308,13 @@ class ErpPO():
 
         # 2，获取协访分析表字段与值
         self.clickMemuERP("统计报表", "拜访分析报表")
+
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[3]/div/div/div/input[1]', startTime)
+        self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[3]/div/div/div/input[1]', startTime)
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[3]/div/div/div/input[2]', endTime)
+        self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[3]/div/div/div/input[2]', endTime)
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[4]/div/button', 2)
+
         self.Web_PO.zoom("20")  # 缩小页面20%便于抓取元素
         l_fieldValueArea = self.Web_PO.getXpathsText("//tr")  # 获取数据
         l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "明细")
@@ -368,11 +378,9 @@ class ErpPO():
             # 遍历所有人的字段值
             s = 0
             for i in range(len(res_visitAnalysis['data']['detail'])):
-
-
                 if tbl_report == "协访分析":
                     sql_value = Mysql_PO.execQuery(sql % (res_visitAnalysis['data']['detail'][i]['uid'], d_tbl_param["startTime"], d_tbl_param["endTime"]))
-                    print(sql_value)
+                    # print(sql_value)
 
                     if len(sql_value) == 0:
                         sql_value = 0
@@ -381,11 +389,9 @@ class ErpPO():
                             sql_value = 0
                         else:
                             sql_value = sql_value[0][0]
-
                     # 接口和sql比对
                     s = s + sql_value
                     Openpyxl_PO.setCellValue(currRow, 1, res_visitAnalysis['data']['detail'][i]['userName'], varSheet)  # 第1列区域
-
                 if res_visitAnalysis['data']['detail'][i][iResField] == sql_value:
                     Openpyxl_PO.setCellValue(currRow, currCol, str(sql_value), varSheet)  # 指标值
                 else:
@@ -394,10 +400,7 @@ class ErpPO():
 
                 currRow = currRow + 1
                 d[iResField] = s
-
             Openpyxl_PO.save()
-
-
         else:
             # 各比率的计算
 
@@ -418,15 +421,12 @@ class ErpPO():
         # 合计
         Openpyxl_PO.setCellValue(currRow, 1, "总计", varSheet)
 
-
         if iResField in d:
             if d[iResField] == res_visitAnalysis['data']['total'][iResField]:
                 Openpyxl_PO.setCellValue(currRow, currCol, str(res_visitAnalysis['data']['total'][iResField]), varSheet)
             else:
                 Openpyxl_PO.setCellValue(currRow, currCol, str(d[iResField]) + "%(计算1)/" + str(res_visitAnalysis['data']['total'][iResField]), varSheet)
                 Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
-
-
         else:
             if sql != None:
                 if res_visitAnalysis['data']['total'][sql.split("/")[1]] == 0 or res_visitAnalysis['data']['total'][sql.split("/")[0]] == 0:
@@ -451,8 +451,13 @@ class ErpPO():
             if l_getRowValue_case[i][1] == "协访分析":
                 tbl_report = l_getRowValue_case[i][1]  # 报表
                 d_tbl_param = Str_PO.str2dict(l_getRowValue_case[i][2])  # 参数2字典
+                tbl_endTime = d_tbl_param["endTime"]
+                tbl_endTime = tbl_endTime.split(" ")[0]
+                tbl_startTime = d_tbl_param["startTime"]
+                # print(tbl_startTime,tbl_endTime)
+                # sys.exit(0)
                 varNowTime = str(Time_PO.getDateTime())
-                varTitle = "erp_" + tbl_report + "(" + str(l_getRowValue_case[i][4]) + ")_" + db_ip + "_" + varNowTime
+                varTitle = "erp_" + tbl_report + "(" + str(tbl_startTime) + "~" + str(tbl_endTime) + ")_" + db_ip + "_" + varNowTime
 
                 # 生成临时sheet
                 varSheet = "i"
@@ -487,9 +492,9 @@ class ErpPO():
                         self._helpingAnalysis(res_visitAnalysis, tbl_report, l_getRowValue[j][1], l_getRowValue[j][2],
                                               l_getRowValue[j][3], d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO)
 
-        return varTitle
+        return varTitle, tbl_startTime, tbl_endTime
 
-    def getBrowserData_helpingAnalysis(self, varSheet, Openpyxl_PO):
+    def getBrowserData_helpingAnalysis(self, startTime, endTime, varSheet, Openpyxl_PO):
 
         # 获取浏览器页面数据
 
@@ -500,6 +505,13 @@ class ErpPO():
 
         # 2，获取协访分析表字段与值
         self.clickMemuERP("统计报表", "协访分析表")
+
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[1]/div/div/div/input[1]', startTime)
+        self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[1]/div/div/div/input[1]', startTime)
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[1]/div/div/div/input[2]', endTime)
+        self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[1]/div/div/div/input[2]', endTime)
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[2]/div/button', 2)
+
         self.Web_PO.zoom("20")  # 缩小页面20%便于抓取元素
         l_fieldValueArea = self.Web_PO.getXpathsText("//tr")  # 获取数据
         l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "明细")

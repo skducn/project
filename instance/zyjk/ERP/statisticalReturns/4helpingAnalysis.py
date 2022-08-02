@@ -41,10 +41,10 @@ Mysql_PO = MysqlPO(db_ip, "root", "ZAQ!2wsx", "crm", 3306)
 
 # [main]
 print("1，获取协访分析表接口数据")
-varTitle = Erp_PO.helpingAnalysis_I(db_ip, iUrl, Openpyxl_PO, Mysql_PO)
+varTitle, startTime, endTime = Erp_PO.helpingAnalysis_I(db_ip, iUrl, Openpyxl_PO, Mysql_PO)
 
 print("2，获取浏览器前端页面数据")
-Erp_PO.getBrowserData_helpingAnalysis('b', Openpyxl_PO)
+Erp_PO.getBrowserData_helpingAnalysis(startTime, endTime, 'b', Openpyxl_PO)
 
 print("3，接口sheet（i）与浏览器sheet（b）比对，生成差异表i%b")
 varNewSheet = Openpyxl_PO.setSheetByDiff("i", "b")
