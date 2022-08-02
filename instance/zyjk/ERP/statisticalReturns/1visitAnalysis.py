@@ -41,10 +41,10 @@ Mysql_PO_OA = MysqlPO("192.168.0.65", "ceshi", "123456", "TD_OA", 3336)
 
 # [main]
 print("1，获取拜访分析表接口数据")
-varTitle = Erp_PO.visitAnalysis_I(db_ip, iUrl, Openpyxl_PO, Mysql_PO)
+varTitle, startTime, endTime = Erp_PO.visitAnalysis_I(db_ip, iUrl, Openpyxl_PO, Mysql_PO)
 
 print("2，获取浏览器前端页面数据")
-Erp_PO.getBrowserData_visitAnalysis('b', Openpyxl_PO)
+Erp_PO.getBrowserData_visitAnalysis(startTime, endTime, 'b', Openpyxl_PO)
 
 print("3，将i接口sheet与b浏览器数据sheet比对,生成新表i%b")
 varNewSheet = Openpyxl_PO.setSheetByDiff("i", "b")

@@ -1001,7 +1001,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.open()
 
     # print("1.2 打开指定的sheet".center(100, "-"))
-    Openpyxl_PO.openSheet(Sheet="interface")
+    # Openpyxl_PO.openSheet(Sheet="interface")
     # Openpyxl_PO.openSheet(Sheet="interfa23ce")
     # Openpyxl_PO.openSheet()
 
@@ -1013,7 +1013,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.open()
 
     # print("1.8 删除工作表".center(100, "-"))
-    # Openpyxl_PO.delSheet("Sheet1")
+    Openpyxl_PO.delSheet("Sheet1")
     # Openpyxl_PO.delSheet("mySheet1")
 
     # print("2.0.1 插入一行或多行".center(100, "-"))
@@ -1148,7 +1148,7 @@ if __name__ == "__main__":
 
     # print("3.3 获取单行数据".center(100, "-"))
     # print(Openpyxl_PO.getOneRowValue(2))
-    print(Openpyxl_PO.getOneColValue(2))
+    # print(Openpyxl_PO.getOneColValue(2))
     # Openpyxl_PO.open()
 
     # print("3.4 获取每行数据".center(100, "-"))

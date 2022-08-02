@@ -37,7 +37,8 @@ Str_PO = StrPO()
 class Douyin:
 
 	def __init__(self):
-		Html_PO.getHeadersProxies()
+		self.headers = Html_PO.getHeaders()
+		self.proxies = Html_PO.getProxies()
 
 	def downOneVideoByPhone(self, url, toSave):
 		'''
@@ -49,11 +50,11 @@ class Douyin:
 		'''
 
 		# 解析复制链接及API地址并获取视频ID
-		res = Html_PO.sessionGet(url)
+		res = Html_PO.sessionGet(url, self.headers, self.proxies)
 		# print(res.url)
 		aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)  # ['6976835684271279400']
 		apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
-		res = Html_PO.sessionGet(apiUrl)
+		res = Html_PO.sessionGet(apiUrl, self.headers, self.proxies)
 		res = (str(res.text).encode('gbk', 'ignore').decode('gbk'))
 		tmp = json.loads(res)
 		# print(tmp)
@@ -74,7 +75,7 @@ class Douyin:
 			# 视频标题
 			varTitle = re.findall('"share_title":"(.+?)"', res)
 			# 优化文件名不支持的9个字符
-			varTitle = Str_PO.escapeSpecialCharacters(str(varTitle[0]))
+			varTitle = Str_PO.delSpecialCharacters(str(varTitle[0]))
 			# 生成目录
 			if platform.system() == 'Darwin':
 				File_PO.newLayerFolder(toSave + "/" + nickname[0])
@@ -86,7 +87,7 @@ class Douyin:
 			videoUrl = tmp['item_list'][0]['video']['play_addr']['url_list'][0]  # v0200fg10000ca0rof3c77u9aib3u93g
 			# videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
 
-			ir = Html_PO.sessionGet(videoUrl)
+			ir = Html_PO.sessionGet(videoUrl, self.headers, self.proxies)
 			open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
 
 			# 输出结果
@@ -110,10 +111,10 @@ class Douyin:
 		'''
 
 		# 解析复制链接及API地址并获取视频ID 获取sec_uid
-		res = Html_PO.sessionGet(copyURL)
+		res = Html_PO.sessionGet(copyURL, self.headers, self.proxies)
 		seu_udi = re.findall(r'sec_uid=(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)   # ['MS4wLjABAAAA641dgYSbDRfR9YDDe3ve46BGVqE0doMTy0uDK10CYBw']
 		sum_url = 'https://www.iesdouyin.com/web/api/v2/user/info/?sec_uid={0}'.format(seu_udi[0])  # https://www.iesdouyin.com/web/api/v2/user/info/?sec_uid=MS4wLjABAAAA641dgYSbDRfR9YDDe3ve46BGVqE0doMTy0uDK10CYBw
-		se = Html_PO.sessionGet(sum_url)
+		se = Html_PO.sessionGet(sum_url, self.headers, self.proxies)
 
 		# 用户名
 		nickname = re.findall('"nickname":"(.+?)"', se.text)
@@ -160,7 +161,7 @@ class Douyin:
 						varTitle = s['desc']
 
 						# 优化文件名不支持的9个字符
-						varTitle = Str_PO.escapeSpecialCharacters(str(varTitle))
+						varTitle = Str_PO.delSpecialCharacters(str(varTitle))
 
 						# 过滤掉#后的广告
 						varTitle = re.sub("(\#\w+)|(\@\w+)", '', varTitle)
@@ -184,7 +185,7 @@ class Douyin:
 							if scope >= int(count):
 								# 优化文件名不支持的9个字符
 								varTitle = str(count) + "_" + varTitle
-								ir = Html_PO.sessionGet(videoURL)
+								ir = Html_PO.sessionGet(videoURL, self.headers, self.proxies)
 								open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
 								# 输出结果
 								l_result = []
@@ -199,7 +200,7 @@ class Douyin:
 							# 下载所有视频
 							if scope == "all":
 								varTitle = str(count) + "_" + varTitle
-								ir = Html_PO.sessionGet(videoURL)
+								ir = Html_PO.sessionGet(videoURL, self.headers, self.proxies)
 								open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
 								# 输出结果
 								l_result = []
@@ -213,7 +214,7 @@ class Douyin:
 							# 下载标题中带关键字的音频
 							elif scope in varTitle:
 								varTitle = str(count) + "_" + varTitle
-								ir = Html_PO.sessionGet(videoURL)
+								ir = Html_PO.sessionGet(videoURL, self.headers, self.proxies)
 								open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
 								# 输出结果
 								l_result = []
@@ -240,7 +241,7 @@ class Douyin:
 
 		# API解析地址
 		apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id
-		res = Html_PO.sessionGet(apiUrl)
+		res = Html_PO.sessionGet(apiUrl, self.headers, self.proxies)
 		tmp = json.loads(res.text)
 
 		# 获取视频Id
@@ -250,7 +251,7 @@ class Douyin:
 		# 视频标题
 		varTitle = re.findall('"share_title":"(.+?)"', res.text)  # 视频标题
 		# 优化文件名不支持的9个字符
-		varTitle = Str_PO.escapeSpecialCharacters(str(varTitle[0]))
+		varTitle = Str_PO.delSpecialCharacters(str(varTitle[0]))
 		# 生成目录
 		if platform.system() == 'Darwin':
 			File_PO.newLayerFolder(toSave + "/" + nickname[0])
@@ -261,7 +262,7 @@ class Douyin:
 
 		# 下载（API地址）
 		videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
-		ir = Html_PO.sessionGet(videoUrl)
+		ir = Html_PO.sessionGet(videoUrl, self.headers, self.proxies)
 		open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
 
 		# 输出列表 [目录，名称，地址]
@@ -336,7 +337,7 @@ class Douyin:
 						varTitle = s['desc']
 
 						# 优化文件名不支持的9个字符
-						varTitle = Str_PO.escapeSpecialCharacters(str(varTitle))
+						varTitle = Str_PO.delSpecialCharacters(str(varTitle))
 
 						# 过滤掉#后的广告
 						# varTitle = re.sub("(\#\w+)|(\@\w+)", '', varTitle)
@@ -352,7 +353,7 @@ class Douyin:
 							if scope >= int(workQTY):
 								# 优化文件名不支持的9个字符
 								varTitle = str(workQTY) + "_" + varTitle
-								ir = Html_PO.sessionGet(videoURL)
+								ir = Html_PO.sessionGet(videoURL, self.headers, self.proxies)
 								open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
 								# 输出结果
 								l_result = []
@@ -367,7 +368,7 @@ class Douyin:
 							# 下载所有视频
 							if scope == "all":
 								varTitle = str(workQTY) + "_" + varTitle
-								ir = Html_PO.sessionGet(videoURL)
+								ir = Html_PO.sessionGet(videoURL, self.headers, self.proxies)
 								open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
 								# 输出结果
 								l_result = []
@@ -381,7 +382,7 @@ class Douyin:
 							# 下载标题中带关键字的音频
 							elif scope in varTitle:
 								varTitle = str(workQTY) + "_" + varTitle
-								ir = Html_PO.sessionGet(videoURL)
+								ir = Html_PO.sessionGet(videoURL, self.headers, self.proxies)
 								open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
 								# 输出结果
 								l_result = []
@@ -400,9 +401,9 @@ if __name__ == '__main__':
 	douyin = Douyin()
 
 	print("1，单视频下载（手机版）".center(100, "-"))
-	douyin.downOneVideoByPhone(" https://v.douyin.com/FCVrdKw/", "/Users/linghuchong/Desktop/mac")
+	# douyin.downOneVideoByPhone("https://v.douyin.com/2cYv7qG/", "/Users/linghuchong/Desktop/mac")
 	# douyin.downOneVideoByPhone("https://v.douyin.com/NHePEyX/", "/Users/linghuchong/Desktop/mac")
-	# douyin.downOneVideoByPhone("https://v.douyin.com/F6m9KFb/", "c:\\51\\tmp")  # 作品已下架
+	douyin.downOneVideoByPhone("https://v.douyin.com/2c6fEbw/", "d:\\11")  # 作品已下架
 	# douyin.downOneVideoByPhone("https://v.douyin.com/NdLh3fT/", "/Users/linghuchong/Desktop/mac")
 	# douyin.downOneVideoByPhone(" https://v.douyin.com/FxTSCxU/", "/Users/linghuchong/Desktop/mac")
 
