@@ -624,14 +624,21 @@ class DataPO():
 
 
     # 15 优化round 四舍五入
-    def newRound(self, varFloat):
+    def newRound(self, varFloat, xiaoshu=0):
         # 四舍五入取整， 原本遇偶数不进如：round(12.5) =12 , 遇期数进位如：round(13.5)=14 ，现优化为奇偶数都进位
 
         ff = int(varFloat)
         if ff % 2 == 0:
-            return (round(varFloat + 1) - 1)
+            if xiaoshu == 0:
+                return (round(varFloat + 1) - 1)
+            else:
+                return round(round(varFloat + 1, 2) - 1, 2)
+
         else:
-            return (round(varFloat))
+            if xiaoshu == 0:
+                return round(varFloat)
+            else:
+                return round(varFloat, xiaoshu)
 
 
 if __name__ == '__main__':
@@ -729,9 +736,20 @@ if __name__ == '__main__':
     # print("14 随机获取1-101之间的10个整数".center(100, "-"))
     # print(Data_PO.getRandomInt(101, 10))
 
+    # print("15 优化round 四舍五入".center(100, "-"))
+    print(Data_PO.newRound(12.2555,0))
+
+    print(Data_PO.newRound(0.10000000000000009,2))
+
+    # print(round(1.10000000000000009,2))
+    #
+    # varFloat = 0.10000000000000009
+    # print(round(round(varFloat + 1, 2) - 1,2))
+    # print((round(1.10000000000000009, 2) ))
+    # x = round(1.10000000000000009, 2)
+    # print(x-1)
 
 
-
-
-
-
+    x = {1:"依叶",2:"氨叶",3:"整肠生"}
+    print(x)
+    print(x[1])

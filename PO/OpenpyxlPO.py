@@ -966,7 +966,7 @@ class OpenpyxlPO():
                     if l_sheetOneRow[i][j] == "" and l_sheetTwoRow[i][j] == "":
                         pass
                     elif l_sheetOneRow[i][j] != l_sheetTwoRow[i][j]:
-                        print(l_sheetOneRow[i][j], l_sheetTwoRow[i][j])
+                        print(l_sheetOneRow[i][j],l_sheetTwoRow[i][j])
                         self.setCellValue(i+1, j+1, str(l_sheetOneRow[i][j]) + "/" + str(l_sheetTwoRow[i][j]), varSheet)
                         self.setCellColor(i+1, j+1, "FF0000", varSheet)
                     else:

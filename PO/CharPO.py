@@ -218,10 +218,8 @@ class CharPO():
     # 3.3 小数点后自动去0
     def zeroByDel(self, varValue):
         # 清除小数点后多余的无效0，如100.00
-        try:
-            return ('{:g}'.format(float(varValue)))
-        except:
-            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+        return ('{:g}'.format(float(varValue)))
+
 
 
 if __name__ == "__main__":
@@ -305,8 +303,9 @@ if __name__ == "__main__":
     print(Char_PO.zeroByDel("1.10"))  # 1.1
     print(Char_PO.zeroByDel("1"))  # 1
     print(Char_PO.zeroByDel("0"))  # 0
-    print(Char_PO.zeroByDel("0.00"))  # 0
-    print(Char_PO.zeroByDel("123.45"))  # 123.45
+    print(Char_PO.zeroByDel("0.0"))  # 0
+    print(Char_PO.zeroByDel("123.5"))  # 123.5
+    print(Char_PO.zeroByDel("123.05"))  # 123.05
     print(Char_PO.zeroByDel(1.00))  # 1
     print(Char_PO.zeroByDel(1.10))  # 1.1
     print(Char_PO.zeroByDel(1))  # 1
