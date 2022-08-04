@@ -9,17 +9,27 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # *****************************************************************
 from decimal import Decimal
+
+list1 = ["12","4,000","5,000"]
+# list1 = [x.replace(",","") for x in list1]
+# print(list1)
+
+list1.pop(0)
+list1.insert(0,333)
+print(list1)
+
+
 # x = 10.555
 # print(1/8*100)
-f = 12.5
-f = 13.5
-f = (1/8*100)
-
-ff = int(f)
-if ff % 2 == 0:
-    print(round(f+1)-1)
-else:
-    print(round(f))
+# f = 12.5
+# f = 13.5
+# f = (1/8*100)
+#
+# ff = int(f)
+# if ff % 2 == 0:
+#     print(round(f+1)-1)
+# else:
+#     print(round(f))
 #
 #
 # print(round(12.5*100)/100)

@@ -19,6 +19,7 @@ from PO.FilePO import *
 from PO.StrPO import *
 from PO.WebPO import *
 from PO.ListPO import *
+from PO.CharPO import *
 
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -36,6 +37,7 @@ class ErpPO():
         self.Str_PO = StrPO()
         self.Char_PO = CharPO()
         self.List_PO = ListPO()
+        self.Char_PO = CharPO()
 
         self.oaURL = "http://192.168.0.65"
 
@@ -65,6 +67,7 @@ class ErpPO():
         r = requests.get(url, headers={"Cookie": "PHPSESSID=" + a["PHPSESSID"]}, verify=False)
         token = str(r.url).split("token=")[1]
         # print(token)
+        # sys.exit(0)
         return token
 
     def clickMemuOA(self, varMemuName, varSubName):
@@ -147,7 +150,7 @@ class ErpPO():
             s = 0
             sql_value = 0
             for i in range(len(res_visitAnalysis['data']['detail'])):
-                # print(res_visitAnalysis['data']['detail'][i]) # {'delegateId': 84, 'managerName': '廖荣平', 'representativeName': '黄新晖', 'plannedVisitsNumber': 0, 'actualVisitsNumber': 0, 'actualVisitsPersonNumber': 0, 'actualVisitRate': 0, 'twoACustomerVisitNumber': 0, 'twoACustomerVisitRate': 0, 'highPotentialCustomerVisitNumber': 0, 'highPotentialCustomerVisitRate': 0, 'newAddCustomerNumber': 0, 'allNumber': 0, 'actualVisitCoverRate': 0, 'doubleTotal': 0, 'potentialityTotal': 0, 'plannedMeetingFollowNumber': 0, 'actualMeetingFollowNumber': 0, 'actualConcludeMeetingFollowNumber': 0, 'actualConcludeDoubleANumber': 0, 'actualConcludePotentialityNumber': 0, 'doubleARatioRate': 0, 'doubleAFrequencyRate': 0, 'highRatioRate': 0, 'highFrequencyRate': 0, 'meetingFollowRate': 0, 'locationMatchNumber': 0}
+                # print(str(res_visitAnalysis['data']['detail'][i]) # {'delegateId': 84, 'managerName': '廖荣平', 'representativeName': '黄新晖', 'plannedVisitsNumber': 0, 'actualVisitsNumber': 0, 'actualVisitsPersonNumber': 0, 'actualVisitRate': 0, 'twoACustomerVisitNumber': 0, 'twoACustomerVisitRate': 0, 'highPotentialCustomerVisitNumber': 0, 'highPotentialCustomerVisitRate': 0, 'newAddCustomerNumber': 0, 'allNumber': 0, 'actualVisitCoverRate': 0, 'doubleTotal': 0, 'potentialityTotal': 0, 'plannedMeetingFollowNumber': 0, 'actualMeetingFollowNumber': 0, 'actualConcludeMeetingFollowNumber': 0, 'actualConcludeDoubleANumber': 0, 'actualConcludePotentialityNumber': 0, 'doubleARatioRate': 0, 'doubleAFrequencyRate': 0, 'highRatioRate': 0, 'highFrequencyRate': 0, 'meetingFollowRate': 0, 'locationMatchNumber': 0}
 
                 if tbl_report == "拜访分析报表":
                     if Str_PO.getRepeatCount(sql, "%s") == 1:
@@ -189,7 +192,7 @@ class ErpPO():
             # 各比率的计算
 
             for i in range(len(res_visitAnalysis['data']['detail'])):
-                # print(res_visitAnalysis['data']['detail'][i])
+                # print(str(res_visitAnalysis['data']['detail'][i])
                 if res_visitAnalysis['data']['detail'][i][sql.split("/")[1]] == 0 or res_visitAnalysis['data']['detail'][i][sql.split("/")[0]] == 0:
                     Openpyxl_PO.setCellValue(currRow, currCol, "0%", varSheet)
                 else:
@@ -214,7 +217,7 @@ class ErpPO():
         if iResField in d:
             if d[iResField] == res_visitAnalysis['data']['total'][iResField]:
                 Openpyxl_PO.setCellValue(currRow, currCol, str(res_visitAnalysis['data']['total'][iResField]), varSheet)
-                # print(res_visitAnalysis['data']['total'][iResField])
+                # print(str(res_visitAnalysis['data']['total'][iResField])
             else:
                 Openpyxl_PO.setCellValue(currRow, currCol, str(d[iResField]) + "%(计算1)/" + str(
                     res_visitAnalysis['data']['total'][iResField]), varSheet)
@@ -235,9 +238,7 @@ class ErpPO():
                         Openpyxl_PO.setCellValue(currRow, currCol, str(tmp) + "%(计算)/" + str(
                             int(res_visitAnalysis['data']['total'][iResField])) + "%", varSheet)
                         Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
-
         Openpyxl_PO.save()
-
     def visitAnalysis_I(self, db_ip, iUrl, Openpyxl_PO, Mysql_PO):
 
         l_getRowValue_case = (Openpyxl_PO.getRowValue("case"))
@@ -296,7 +297,6 @@ class ErpPO():
                         break
                 Openpyxl_PO.save()
         return varTitle, tbl_startTime, tbl_endTime
-
     def getBrowserData_visitAnalysis(self, startTime, endTime, varSheet, Openpyxl_PO):
 
         # 获取浏览器页面数据
@@ -351,6 +351,394 @@ class ErpPO():
 
         self.Web_PO.close()
 
+
+
+    def _meetingAnalysis(self, res_visitAnalysis, tbl_report, d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO):
+
+        d = {}
+        sign = 0
+        sign2 = 0
+        l_result = []
+
+        l_rowcol = Openpyxl_PO.getRowCol(varSheet)
+        # print(l_rowcol)
+        currCol = l_rowcol[1] + 1
+        # print(currCol)
+        currRow = 2
+
+        # print(str(res_visitAnalysis['data']['total'])
+
+        # 遍历所有人的字段值
+        s = 0
+        sql_value = 0
+        for i in range(len(res_visitAnalysis['data']['detail'])):
+            if tbl_report == "会议分析-代表":
+
+                # 区域经理
+                Openpyxl_PO.setCellValue(currRow, 1, str(res_visitAnalysis['data']['detail'][i]['managerName']), varSheet)
+                # 代表名字
+                Openpyxl_PO.setCellValue(currRow, 2, str(res_visitAnalysis['data']['detail'][i]['delegateName']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 3, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['planMeetingNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 4, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['actualMeetingNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 5, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['planJoinMeetingPeopleNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 6, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['actualJoinMeetingPeopleNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 7, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['planDoubleAJoinMeetingPeopleNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 8, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['actualDoubleAJoinMeetingPeopleNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 9, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['planPotentialityJoinMeetingPeopleNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 10, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['actualPotentialityJoinMeetingPeopleNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 11, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['planMeetingCostBudget']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 12, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['actualMeetingCostBudget']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 13, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['planLaborCostBudget']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 14, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail'][i]['actualLaborCostBudget']), varSheet)
+                currRow = currRow + 1
+        
+        Openpyxl_PO.setCellValue(currRow, 1, str(res_visitAnalysis['data']['total']['managerName']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 2, str(res_visitAnalysis['data']['total']['delegateName']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 3, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['planMeetingNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 4, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['actualMeetingNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 5, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['planJoinMeetingPeopleNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 6, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['actualJoinMeetingPeopleNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 7, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['planDoubleAJoinMeetingPeopleNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 8, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['actualDoubleAJoinMeetingPeopleNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 9, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['planPotentialityJoinMeetingPeopleNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 10, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['actualPotentialityJoinMeetingPeopleNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 11, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['planMeetingCostBudget']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 12, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['actualMeetingCostBudget']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 13, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['planLaborCostBudget']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 14, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['actualLaborCostBudget']), varSheet)
+        Openpyxl_PO.save()
+
+        # else:
+        #     # 各比率的计算
+        #
+        #     for i in range(len(str(res_visitAnalysis['data']['detail'])):
+        #         # print(str(res_visitAnalysis['data']['detail'][i])
+        #         if str(res_visitAnalysis['data']['detail'][i][sql.split("/")[1]] == 0 or str(res_visitAnalysis['data']['detail'][i][sql.split("/")[0]] == 0:
+        #             Openpyxl_PO.setCellValue(currRow, currCol, "0%", varSheet)
+        #         else:
+        #             tmp1 = Data_PO.newRound(str(res_visitAnalysis['data']['detail'][i][sql.split("/")[0]] /
+        #                                     str(res_visitAnalysis['data']['detail'][i][sql.split("/")[1]] * 100)
+        #             if tmp1 == int(str(res_visitAnalysis['data']['detail'][i][iResField]):
+        #                 Openpyxl_PO.setCellValue(currRow, currCol,
+        #                                          str(int(str(res_visitAnalysis['data']['detail'][i][iResField])) + "%",
+        #                                          varSheet)
+        #                 # Openpyxl_PO.setCellValue(currRow, 1, "ok", varSheet)
+        #             else:
+        #                 Openpyxl_PO.setCellValue(currRow, currCol, str(tmp1) + "%(计算)/" + str(
+        #                     int(str(res_visitAnalysis['data']['detail'][i][iResField])) + "%", varSheet)
+        #                 Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
+        #         currRow = currRow + 1
+        #     Openpyxl_PO.save()
+        #
+        # # 合计
+        # Openpyxl_PO.setCellValue(currRow, 1, "总计", varSheet)
+        # Openpyxl_PO.setCellValue(currRow, 2, "None", varSheet)
+        #
+        # if iResField in d:
+        #     if d[iResField] == str(res_visitAnalysis['data']['total'][iResField]:
+        #         Openpyxl_PO.setCellValue(currRow, currCol, str(str(res_visitAnalysis['data']['total'][iResField]), varSheet)
+        #         # print(str(res_visitAnalysis['data']['total'][iResField])
+        #     else:
+        #         Openpyxl_PO.setCellValue(currRow, currCol, str(d[iResField]) + "%(计算1)/" + str(
+        #             str(res_visitAnalysis['data']['total'][iResField]), varSheet)
+        #         Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
+        # else:
+        #     if sql != None:
+        #         if str(res_visitAnalysis['data']['total'][sql.split("/")[1]] == 0 or str(res_visitAnalysis['data']['total'][
+        #             sql.split("/")[0]] == 0:
+        #             Openpyxl_PO.setCellValue(currRow, currCol, "0%", varSheet)
+        #         else:
+        #             tmp = Data_PO.newRound(
+        #                 str(res_visitAnalysis['data']['total'][sql.split("/")[0]] / str(res_visitAnalysis['data']['total'][
+        #                     sql.split("/")[1]] * 100)
+        #             # print(tmp)
+        #             if tmp == int(str(res_visitAnalysis['data']['total'][iResField]):
+        #                 Openpyxl_PO.setCellValue(currRow, currCol, str(tmp) + "%", varSheet)
+        #             else:
+        #                 Openpyxl_PO.setCellValue(currRow, currCol, str(tmp) + "%(计算)/" + str(
+        #                     int(str(res_visitAnalysis['data']['total'][iResField])) + "%", varSheet)
+        #                 Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
+        #
+        # Openpyxl_PO.save()
+    def meetingAnalysis_I(self, db_ip, iUrl, Openpyxl_PO, Mysql_PO):
+
+        l_getRowValue_case = (Openpyxl_PO.getRowValue("case"))
+        for i in range(1, len(l_getRowValue_case)):
+            # summary
+            if l_getRowValue_case[i][1] == "会议分析-代表":
+                tbl_report = l_getRowValue_case[i][1]  # 报表
+                d_tbl_param = Str_PO.str2dict(l_getRowValue_case[i][2])  # 参数转字典
+                tbl_endTime = d_tbl_param["endTime"]
+                tbl_endTime = tbl_endTime.split(" ")[0]
+                tbl_startTime = d_tbl_param["beginTime"]
+                varNowTime = str(Time_PO.getDateTime())
+                varTitle = "erp_" + tbl_report + "(" + str(tbl_startTime) + "~" + str(tbl_endTime) + ")_" + db_ip + "_" + varNowTime
+
+                # 生成临时sheet
+                varSheet = "i"
+                Openpyxl_PO.delSheet(varSheet)
+                Openpyxl_PO.addSheetCover(varSheet, 99)
+                Openpyxl_PO.setRowValue({1: ["区域经理", "代表名称"]}, varSheet)
+
+                # 遍历参数
+                varSign1 = 0
+                # 获取default（接口）
+                l_getRowValue_i = (Openpyxl_PO.getRowValue("default"))
+                for j in range(1, len(l_getRowValue_i)):
+                    # summary
+                    if l_getRowValue_case[i][1] == l_getRowValue_i[j][1]:
+                        # paths
+                        r = requests.post(iUrl + l_getRowValue_i[j][2],
+                                          headers={"content-type": "application/json", "token": self.getToken(),
+                                                   "traceId": "123"},
+                                          json=d_tbl_param, verify=False)
+                        str1 = r.text.encode('gbk', 'ignore').decode('gbk')
+                        res = json.loads(str1)
+                        # print(res)
+                        # l_getRowValue = (Openpyxl_PO.getRowValue(tbl_report))
+                        varSign1 = 1
+                        break
+
+                # print(l_getRowValue)
+
+
+                if varSign1 == 0:
+                    print("[warning], " + tbl_report + " 没有对应的接口文档，程序已退出！")
+                    sys.exit(0)
+
+                self._meetingAnalysis(res, tbl_report, d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO)
+
+                # # 读取sheet中sal语句
+                # for j in range(1, len(l_getRowValue)):
+                #     if l_getRowValue[j][0] != "N":
+                #         self._meetingAnalysis(res, tbl_report, l_getRowValue[j][1], l_getRowValue[j][2], l_getRowValue[j][3],
+                #                        d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO)
+
+                Openpyxl_PO.save()
+        return varTitle, tbl_startTime, tbl_endTime
+    def getBrowserData_meetingAnalysis(self, startTime, endTime, varSheet, Openpyxl_PO):
+
+        # 《会议分析表》前端数据
+
+        # 1，打开oa
+        self.loginOA()
+        self.clickMemuOA("盛蕴ERP", "盛蕴ERP（演示）")
+        self.Web_PO.maxBrowser(1)
+
+        # 2，获取协访分析表字段与值
+        self.clickMemuERP("统计报表", "会议分析表")
+
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/div[3]/div/input[1]', startTime)
+        self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/div[3]/div/input[1]', startTime)
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/div[3]/div/input[2]', endTime)
+        self.Web_PO.inputXpathClear('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/div[3]/div/input[2]', endTime)
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/div[4]/button', 2)
+
+        self.Web_PO.zoom("20")  # 缩小页面20%便于抓取元素
+        l_fieldValueArea = self.Web_PO.getXpathsText("//tr")  # 获取数据
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "明细")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "总计")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "操作")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "")
+
+        l_fieldValue = self.List_PO.sliceList(l_fieldValueArea, '区域经理\n代表名称', 0)
+        l_area = self.List_PO.sliceList(l_fieldValueArea, '区域经理\n代表名称', 1)
+        l_area.insert(0, '区域经理\n代表名称')
+        l_area.append('总计\nNone')
+
+        # 3, 新建sheet
+        Openpyxl_PO.delSheet(varSheet)
+        Openpyxl_PO.addSheetCover(varSheet, 99)
+
+        # 4, 将字段与值写入表格
+        for i in range(len(l_fieldValue)):
+            list3 = str(l_fieldValue[i]).split("\n")
+            list3 = [x.replace(",", "") for x in list3]
+            Openpyxl_PO.setRowValue({i + 1: list3}, varSheet)
+
+        # 5, 将区域和代表插入表格
+        Openpyxl_PO.insertCols(1, 2, varSheet)
+        for i in range(len(l_area)):
+            list4 = str(l_area[i]).split("\n")
+            Openpyxl_PO.setRowValue({i + 1: list4}, varSheet)
+
+        self.Web_PO.close()
+
+
+
+    def _inputOutput(self, res_visitAnalysis, tbl_report, Openpyxl_PO, varSheet, Mysql_PO):
+
+        d = {}
+        sign = 0
+        sign2 = 0
+        l_result = []
+
+        l_rowcol = Openpyxl_PO.getRowCol(varSheet)
+        # print(l_rowcol)
+        currCol = l_rowcol[1] + 1
+        # print(currCol)
+        currRow = 2
+
+        # print(str(res_visitAnalysis['data']['total'])
+
+        # 遍历所有人的字段值
+        s = 0
+        sql_value = 0
+        for i in range(len(res_visitAnalysis['data']['detail']['records'])):
+            print(res_visitAnalysis['data']['detail']['records'][i])
+            if tbl_report == "投入产出分析-医院":
+                Openpyxl_PO.setCellValue(currRow, 1, str(res_visitAnalysis['data']['detail']['records'][i]['regionManagerName']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 2, str(res_visitAnalysis['data']['detail']['records'][i]['hospitalName']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 3, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['conferenceCost']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 4, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['conferenceLabourCost']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 5, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['lunchCost']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 6, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['deptConferenceCost']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 7, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['areaCost']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 8, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['cityConferenceCost']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 9, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['nationalConferenceCost']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 10, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['conferenceFee1']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 11, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['conferenceFee2']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 12, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['discussionFee']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 13, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['hospitalCasesNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 14, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['consultationCost']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 15, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['currentCaseNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 16, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['hospitalPatientNum']), varSheet)
+                Openpyxl_PO.setCellValue(currRow, 17, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['roi']) + "%", varSheet)
+                # Openpyxl_PO.setCellValue(currRow, 16, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['purchaseNum']), varSheet)
+                # Openpyxl_PO.setCellValue(currRow, 18, self.Char_PO.zeroByDel(res_visitAnalysis['data']['detail']['records'][i]['monthHypertensionNum']), varSheet)
+                currRow = currRow + 1
+
+        # 总计
+        Openpyxl_PO.setCellValue(currRow, 1, str(res_visitAnalysis['data']['total']['regionManagerName']),varSheet)
+        Openpyxl_PO.setCellValue(currRow, 2, str(res_visitAnalysis['data']['total']['hospitalName']),varSheet)
+        Openpyxl_PO.setCellValue(currRow, 3, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['conferenceCost']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 4, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['conferenceLabourCost']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 5, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['lunchCost']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 6, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['deptConferenceCost']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 7, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['areaCost']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 8, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['cityConferenceCost']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 9, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['nationalConferenceCost']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 10, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['conferenceFee1']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 11, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['conferenceFee2']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 12, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['discussionFee']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 13, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['hospitalCasesNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 14, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['consultationCost']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 15, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['currentCaseNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 16, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['hospitalPatientNum']), varSheet)
+        Openpyxl_PO.setCellValue(currRow, 17, self.Char_PO.zeroByDel(res_visitAnalysis['data']['total']['roi'])+ "%", varSheet)
+        Openpyxl_PO.save()
+    def inputOutput_I(self, db_ip, iUrl, Openpyxl_PO, Mysql_PO):
+
+        l_getRowValue_case = (Openpyxl_PO.getRowValue("case"))
+        for i in range(1, len(l_getRowValue_case)):
+            # summary
+            if l_getRowValue_case[i][1] == "投入产出分析-医院":
+                tbl_report = l_getRowValue_case[i][1]  # 报表
+                tbl_endTime = l_getRowValue_case[i][2].split("endDate=")[1]
+                tbl_endTime = tbl_endTime.split("&")[0]
+                tbl_startTime = l_getRowValue_case[i][2].split("startDate=")[1]
+                varNowTime = str(Time_PO.getDateTime())
+                varTitle = "erp_" + tbl_report + "(" + str(tbl_startTime) + "~" + str(
+                    tbl_endTime) + ")_" + db_ip + "_" + varNowTime
+
+                # 生成临时sheet
+                varSheet = "i"
+                Openpyxl_PO.delSheet(varSheet)
+                Openpyxl_PO.addSheetCover(varSheet, 99)
+                Openpyxl_PO.setRowValue({1: ["区域经理", "医院"]}, varSheet)
+
+                # 遍历参数
+                varSign1 = 0
+                # 获取default（接口）
+                l_getRowValue_i = (Openpyxl_PO.getRowValue("default"))
+                for j in range(1, len(l_getRowValue_i)):
+                    # summary
+                    if l_getRowValue_case[i][1] == l_getRowValue_i[j][1]:
+                        # paths
+                        # print(iUrl + l_getRowValue_i[j][2] + "?" + str(l_getRowValue_case[i][2]))
+                        r = requests.get(iUrl + l_getRowValue_i[j][2] + "?" + str(l_getRowValue_case[i][2]),
+                                         headers={"content-type": "application/json", "token": self.getToken(),
+                                                  "traceId": "123"},
+                                         verify=False)
+
+
+                        str1 = r.text.encode('gbk', 'ignore').decode('gbk')
+                        res = json.loads(str1)
+                        print(res)
+                        varSign1 = 1
+                        break
+
+                # print(l_getRowValue)
+
+                if varSign1 == 0:
+                    print("[warning], " + tbl_report + " 没有对应的接口文档，程序已退出！")
+                    sys.exit(0)
+
+                self._inputOutput(res, tbl_report, Openpyxl_PO, varSheet, Mysql_PO)
+
+                Openpyxl_PO.save()
+        return varTitle, tbl_startTime, tbl_endTime
+    def getBrowserData_inputOutput(self, startTime, endTime, varSheet, Openpyxl_PO):
+
+
+        # 1，打开oa
+        self.loginOA()
+        self.clickMemuOA("盛蕴ERP", "盛蕴ERP（演示）")
+        self.Web_PO.maxBrowser(1)
+
+        # 2，获取协访分析表字段与值
+        self.clickMemuERP("统计报表", "投入产出分析表")
+
+        self.Web_PO.clickXpath(
+            '//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[2]/div/div/div/input[1]', 2)
+        self.Web_PO.inputXpathClear(
+            '//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[2]/div/div/div/input[1]', startTime)
+        self.Web_PO.clickXpath(
+            '//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[2]/div/div/div/input[2]', 2)
+        self.Web_PO.inputXpathClear(
+            '//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[2]/div/div/div/input[2]', endTime)
+        self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/footer/div/span[2]/div/div/input', 2)
+        self.Web_PO.clickXpath('/html/body/div[3]/div[1]/div[1]/ul/li[5]', 3)
+
+        self.Web_PO.clickXpath(
+            '//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[3]/div/button', 2)
+
+        self.Web_PO.zoom("20")  # 缩小页面20%便于抓取元素
+        l_fieldValueArea = self.Web_PO.getXpathsText("//tr")  # 获取数据
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "明细")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "总计")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "操作")
+        l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "")
+
+        l_fieldValue = self.List_PO.sliceList(l_fieldValueArea, '区域经理\n医院', 0)
+        l_area = self.List_PO.sliceList(l_fieldValueArea, '区域经理\n医院', 1)
+        l_area.insert(0, '区域经理\n医院')
+        l_area.append('总计\nNone')
+
+        # 3, 新建sheet
+        Openpyxl_PO.delSheet(varSheet)
+        Openpyxl_PO.addSheetCover(varSheet, 99)
+
+        x = l_fieldValue[1] + "\n"
+        x = (l_fieldValue[0].replace("实际费用 ", x))
+        l_fieldValue.pop(0)
+        l_fieldValue.insert(0, x)
+        l_fieldValue.pop(1)
+        # print(l_fieldValue)
+
+        # 4, 将字段与值写入表格
+        for i in range(len(l_fieldValue)):
+            list3 = str(l_fieldValue[i]).split("\n")
+            list3 = [x.replace(",", "") for x in list3]
+            Openpyxl_PO.setRowValue({i + 1: list3}, varSheet)
+
+        # 5, 将区域和代表插入表格
+        Openpyxl_PO.insertCols(1, 2, varSheet)
+        for i in range(len(l_area)):
+            list4 = str(l_area[i]).split("\n")
+            Openpyxl_PO.setRowValue({i + 1: list4}, varSheet)
+
+        self.Web_PO.close()
 
 
     def _helpingAnalysis(self, res_visitAnalysis, tbl_report, tblField, iResField, sql, d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO):
@@ -441,7 +829,6 @@ class ErpPO():
                         Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
 
         Openpyxl_PO.save()
-
     def helpingAnalysis_I(self, db_ip, iUrl, Openpyxl_PO, Mysql_PO):
 
         # 1，获取协访分析表接口数据
@@ -493,7 +880,6 @@ class ErpPO():
                                               l_getRowValue[j][3], d_tbl_param, Openpyxl_PO, varSheet, Mysql_PO)
 
         return varTitle, tbl_startTime, tbl_endTime
-
     def getBrowserData_helpingAnalysis(self, startTime, endTime, varSheet, Openpyxl_PO):
 
         # 获取浏览器页面数据
@@ -568,9 +954,13 @@ class ErpPO():
             for i in range(len(res_visitAnalysis['data']['detail'])):
 
                 if tbl_report == "开发计划总揽":
-                    sql1 = sql % (res_visitAnalysis['data']['detail'][i]['areaManagerId'], str(product_id))
+                    if product_id == "None":
+                        sql = sql.replace("and product_id=%s","")
+                        sql1 = sql % (res_visitAnalysis['data']['detail'][i]['areaManagerId'])
+                    else:
+                        sql1 = sql % (res_visitAnalysis['data']['detail'][i]['areaManagerId'], str(product_id))
                     sql_value = Mysql_PO.execQuery(sql1)
-                    print(sql_value)
+                    # print(sql_value)
 
 
                     if len(sql_value) == 0:
@@ -607,20 +997,19 @@ class ErpPO():
                     Openpyxl_PO.setCellValue(currRow, currCol, "0%", varSheet)
                 else:
                     tmp1 = Data_PO.newRound(res_visitAnalysis['data']['detail'][i][sql.split("/")[0]] /
-                                            res_visitAnalysis['data']['detail'][i][sql.split("/")[1]] * 100)
-                    if tmp1 == int(res_visitAnalysis['data']['detail'][i][iResField]):
+                                            res_visitAnalysis['data']['detail'][i][sql.split("/")[1]] * 100, 2)
+                    if tmp1 == res_visitAnalysis['data']['detail'][i][iResField]:
                         Openpyxl_PO.setCellValue(currRow, currCol,
-                                                 str(int(res_visitAnalysis['data']['detail'][i][iResField])) + "%",
+                                                 str(res_visitAnalysis['data']['detail'][i][iResField]) + "%",
                                                  varSheet)
-                        # Openpyxl_PO.setCellValue(currRow, 1, "ok", varSheet)
                     else:
                         Openpyxl_PO.setCellValue(currRow, currCol, str(tmp1) + "%(计算)/" + str(
-                            int(res_visitAnalysis['data']['detail'][i][iResField])) + "%", varSheet)
+                            res_visitAnalysis['data']['detail'][i][iResField]) + "%", varSheet)
                         Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
                 currRow = currRow + 1
             Openpyxl_PO.save()
 
-        # 合计
+        # 总计
         Openpyxl_PO.setCellValue(currRow, 1, "总计", varSheet)
 
         if iResField in d:
@@ -630,8 +1019,6 @@ class ErpPO():
                 Openpyxl_PO.setCellValue(currRow, currCol, str(d[iResField]) + "%(计算1)/" + str(
                     res_visitAnalysis['data']['total'][iResField]), varSheet)
                 Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
-
-
         else:
             if sql != None:
                 if res_visitAnalysis['data']['total'][sql.split("/")[1]] == 0 or res_visitAnalysis['data']['total'][
@@ -640,28 +1027,33 @@ class ErpPO():
                 else:
                     tmp = Data_PO.newRound(
                         res_visitAnalysis['data']['total'][sql.split("/")[0]] / res_visitAnalysis['data']['total'][
-                            sql.split("/")[1]] * 100)
+                            sql.split("/")[1]] * 100, 2)
                     # print(tmp)
-                    if tmp == int(res_visitAnalysis['data']['total'][iResField]):
+                    if tmp == res_visitAnalysis['data']['total'][iResField]:
                         Openpyxl_PO.setCellValue(currRow, currCol, str(tmp) + "%", varSheet)
                     else:
-                        Openpyxl_PO.setCellValue(currRow, currCol, str(tmp) + "%(计算)/" + str(
-                            int(res_visitAnalysis['data']['total'][iResField])) + "%", varSheet)
+                        Openpyxl_PO.setCellValue(currRow, currCol, str(tmp) + "%(计算2)/" + str(
+                            res_visitAnalysis['data']['total'][iResField]) + "%", varSheet)
                         Openpyxl_PO.setCellColor(currRow, currCol, "ff0000", varSheet)  # 错误标红色
 
         Openpyxl_PO.save()
-
     def devPlanOverall_I(self, db_ip, iUrl, Openpyxl_PO, Mysql_PO):
 
         # 1，获取协访分析表接口数据
 
         l_getRowValue_case = (Openpyxl_PO.getRowValue("case"))
         for i in range(1, len(l_getRowValue_case)):
-            if l_getRowValue_case[i][1] == "开发计划总揽":
+            if l_getRowValue_case[i][1] == "开发计划总揽" and l_getRowValue_case[i][0] != "N":
                 tbl_report = l_getRowValue_case[i][1]  # 报表
                 product_id = str(l_getRowValue_case[i][2])
                 varNowTime = str(Time_PO.getDateTime())
-                varTitle = "erp_" + tbl_report + "(" + str(l_getRowValue_case[i][4]) + ")_" + db_ip + "_" + varNowTime
+                d_title = Str_PO.str2dict(l_getRowValue_case[i][3])  # 参数2字典
+                # print(d_title)
+                # print(product_id)
+                if product_id == "None":
+                    varTitle = "erp_" + tbl_report + "(所有产品)_" + db_ip + "_" + varNowTime
+                else:
+                    varTitle = "erp_" + tbl_report + "(" + str(d_title[product_id]) + ")_" + db_ip + "_" + varNowTime
 
                 # 生成临时sheet
                 varSheet = "i"
@@ -677,10 +1069,17 @@ class ErpPO():
                     # summary
                     if l_getRowValue_case[i][1] == l_getRowValue_i[j][1]:
                         # paths
-                        print(iUrl + l_getRowValue_i[j][2] + "?productId=" + str(product_id))
-                        r = requests.get(iUrl + l_getRowValue_i[j][2] + "?productId=" + str(l_getRowValue_case[i][2]),
-                                         headers={"content-type": "application/json", "token": self.getToken(), "traceId": "123"},
-                                         verify=False)
+                        # print(iUrl + l_getRowValue_i[j][2] + "?productId=" + str(product_id))
+                        if product_id == 'None':
+                            r = requests.get(
+                                iUrl + l_getRowValue_i[j][2] ,
+                                headers={"content-type": "application/json", "token": self.getToken(),
+                                         "traceId": "123"},
+                                verify=False)
+                        else:
+                            r = requests.get(iUrl + l_getRowValue_i[j][2] + "?productId=" + str(l_getRowValue_case[i][2]),
+                                             headers={"content-type": "application/json", "token": self.getToken(), "traceId": "123"},
+                                             verify=False)
                         str1 = r.text.encode('gbk', 'ignore').decode('gbk')
                         res_visitAnalysis = json.loads(str1)
                         l_getRowValue = (Openpyxl_PO.getRowValue(tbl_report))
@@ -696,9 +1095,8 @@ class ErpPO():
                     if l_getRowValue[j][0] != "N":
                         self._devPlanOverall(res_visitAnalysis, tbl_report, l_getRowValue[j][1], l_getRowValue[j][2], l_getRowValue[j][3], product_id, Openpyxl_PO, varSheet, Mysql_PO)
 
-        return varTitle
-
-    def getBrowserData_devPlanOverall(self, varSheet, Openpyxl_PO):
+        return varTitle, product_id
+    def getBrowserData_devPlanOverall(self, product_id, varSheet, Openpyxl_PO):
 
         # 获取浏览器页面数据
 
@@ -709,14 +1107,22 @@ class ErpPO():
 
         # 2，获取协访分析表字段与值
         self.clickMemuERP("统计报表", "开发计划总揽")
+        if product_id == "None":
+            ...
+        else:
+            self.Web_PO.jsXpathReadonly('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[1]/div/div/div/div[1]/input', 2)
+            self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[1]/div/div/div/div/input', 2)
+            self.Web_PO.clickXpath('/html/body/div[2]/div[1]/div[1]/ul/li[' + str(product_id) + ']', 2)
+            # self.Web_PO.clickXpath('/html/body/div[2]/div[1]/div[1]/ul/li[1]', 2)
+            self.Web_PO.clickXpath('//*[@id="app"]/section/section/section/main/div[2]/section/header/div/form/div[2]/div/button', 2)
         self.Web_PO.zoom("20")  # 缩小页面20%便于抓取元素
         l_fieldValueArea = self.Web_PO.getXpathsText("//tr")  # 获取数据
         l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "明细")
         l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "总计")
         l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "操作")
         l_fieldValueArea = self.List_PO.listBatchDel(l_fieldValueArea, "")
-        l_fieldValue = self.List_PO.sliceList(l_fieldValueArea, '区域', 0)
-        l_area = self.List_PO.sliceList(l_fieldValueArea, '区域', 1)
+        l_fieldValueArea1 = l_fieldValueArea[0].split("\n")
+        l_area = self.List_PO.sliceList(l_fieldValueArea1, '区域', 1)
         l_area.insert(0, '区域')
         l_area.append('总计')
 
@@ -725,13 +1131,13 @@ class ErpPO():
         Openpyxl_PO.addSheetCover(varSheet, 99)
 
         # 4, 将字段与值写入表格
-        for i in range(len(l_fieldValue)):
-            list3 = str(l_fieldValue[i]).split("\n")
+        for i in range(len(l_fieldValueArea)):
+            list3 = str(l_fieldValueArea[i]).split("\n")
             Openpyxl_PO.setRowValue({i + 1: list3}, varSheet)
 
-        # 5, 将区域经理插入表格
-        Openpyxl_PO.insertCols(1, 1, varSheet)
-        Openpyxl_PO.setColValue({"A": l_area}, varSheet)
+        # # 5, 将区域列插入表格
+        # Openpyxl_PO.insertCols(1, 1, varSheet)
+        # Openpyxl_PO.setColValue({"A": l_area}, varSheet)
 
         self.Web_PO.close()
 
@@ -789,3 +1195,4 @@ class ErpPO():
         tf.write(str(html_text))
         tf.close()
         Sys_PO.openFile(rptNameDate)
+
