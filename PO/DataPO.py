@@ -547,7 +547,7 @@ class DataPO():
 
 
 
-    def getUserAgent(self, varVersionUrl):
+    def getUserAgent(self, varVersionUrl="https://fake-useragent.herokuapp.com/browsers/0.1.11"):
 
         # 13.1 随机获取用户代理(通过fake版本)
 
@@ -720,7 +720,7 @@ if __name__ == '__main__':
 
 
     # print("13.1 随机获取用户代理".center(100, "-"))
-    # print(Data_PO.getUserAgent("https://fake-useragent.herokuapp.com/browsers/0.1.11"))
+    print(Data_PO.getUserAgent("https://fake-useragent.herokuapp.com/browsers/0.1.11"))
 
     # print("13.2 获取用户代理2".center(100, "-"))
     # print(Data_PO.getUserAgent2())
