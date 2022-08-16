@@ -7,8 +7,40 @@
 # 官网：https://docs.python.org/zh-cn/3.8/library/textwrap.html
 # 学习：https://www.cnblogs.com/wj5633/p/6931187.html
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
-# *****************************************************************
+# ***************************************************************u**
 from decimal import Decimal
+
+# dingding机器人
+# url = "https://oapi.dingtalk.com/robot/send?access_token=0708efc5088d851887a18f31a2effc31a9f1d2ba2340ab5643a5b53b3e88cb7d"
+url = "https://oapi.dingtalk.com/robot/send?access_token=528fb490067de67a0bce13c344504aeacd45d268150d86a57b949d75553a9d12"
+sign = "SEC31686f219dcb7356c3a4281f8fe4e7cc42bc40cb9f9fa63f7bca29665c06aa9e"
+
+json_text={
+    "at": {
+        "atMobiles":[
+            "180xxxxxx"
+        ],
+        "atUserIds":[
+            "user123"
+        ],
+        "isAtAll": False
+    },
+    "text": {
+        "content":"测试机器人推送服务"
+    },
+    "msgtype":"text"
+}
+
+
+import requests,json
+m = requests.post(url, json.dumps(json_text), headers={"Content-Type":"application/json"}).content
+print(m)
+
+print((m.decode("utf-8", 'strict')))
+
+# requests.post(url, json.dumps(json_text), headers={"Content-Type":"application/json;charset=utf-8"})
+
+
 
 list1 = ["12","4,000","5,000"]
 # list1 = [x.replace(",","") for x in list1]
