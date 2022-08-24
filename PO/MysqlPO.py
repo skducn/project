@@ -33,6 +33,8 @@ pandas引擎（mysqldb）  getMysqldbEngine()
 
 6 expain SQL语句的执行计划
 
+7 获取mysql关键字列表
+
 '''
 import sys
 import pymysql
@@ -208,12 +210,15 @@ class MysqlPO():
                     Color_PO.consoleColor("31", "31", "[ERROR], 没有找到'" + str(varTable) + "'前缀的表!", "")
 
 
-    def _dbRecord_search(self, varDB, varTable, varType, varValue):
+    def _dbRecord_search(self, varDB, varTable, varType, varValue, varMysqlKeywordFile):
 
         '''dbRecord函数中子查询'''
 
-        # mysql关键字和保留字，涉及的关键字将不处理（谨慎！）
-        l_keyword = ['desc', 'limit', 'key', 'group', 'usage']
+        # mysql关键字和保留字，涉及的关键字将不处理 l_keyword = ['desc', 'limit', 'key', 'group', 'usage', 'read']
+        Openpyxl_PO = OpenpyxlPO(varMysqlKeywordFile)
+        l_keyword = Openpyxl_PO.getColValueByCol([1], [])
+        l_keyword = [str(i).lower() for i in l_keyword[0]]
+
 
         l_field = []
         l_fieldComment = []
@@ -248,18 +253,22 @@ class MysqlPO():
             if varSign == 0 :
                 t_record = self.execQuery('select * from `%s` where %s LIKE "%s" ' % (varTable, l_field[i], varValue))
                 if len(t_record) != 0:
-                    print("- - " * 50)
+                    print("- - " * 30)
                     Color_PO.consoleColor("31", "36",
-                                          "[" + self.varDB + "." + varTable + "(" + str(t_comment[0][0]) + ")." +
-                                          l_field[i] + "(" + str(l_fieldComment[i]) + ")]", "")
+                                          self.varDB + "." + varTable + "(" + str(t_comment[0][0]) + ")." +
+                                          l_field[i] + "(" + str(l_fieldComment[i]) + ")", "")
+                    Color_PO.consoleColor("31", "36",
+                                          'select * from `%s` where %s LIKE "%s"' % (varTable, l_field[i], varValue), "")
                     for j in range(len(t_record)):
                         print(str(t_record[j]).encode('gbk', 'ignore').decode('gbk'))
             else:
-                Color_PO.consoleColor("31", "33", "[warning]，字段'" + str(l_field[i]) + "'是关键字, 不处理！", "")
+                print("- - " * 30)
+                Color_PO.consoleColor("31", "33", "[warning, " + self.varDB + "." + varTable + "(" + str(t_comment[0][0]) + ")." +
+                                          l_field[i] + "(" + str(l_fieldComment[i]) + ")是关键字, 忽略不处理!]", "")
                 varSign = 0
         l_fields = []
         l_fieldComment = []
-    def dbRecord(self, varTable, varType, varValue):
+    def dbRecord(self, varTable, varType, varValue, varMysqlKeywordFile="D:\\51\\python\\project\\PO\\mysqlKeyword.xlsx"):
         '''
         # 2, 搜索表记录
         # 参数1：varTable = 表名（*表示所有的表）
@@ -274,15 +283,16 @@ class MysqlPO():
         if varType in "float,money,int,nchar,nvarchar,datetime,timestamp":
             if "*" in varTable:
                 t_tables = self.execQuery('SELECT TABLE_NAME FROM information_schema. TABLES WHERE table_type = "BASE TABLE" AND table_schema ="%s" ' % (self.varDB))
-                # print(t_table)  # (('af_preoperative_counseling_detail',), ('af_preoperative_counseling_info',))
+                # print(t_tables)  # (('af_preoperative_counseling_detail',), ('af_preoperative_counseling_info',))
 
                 if len(t_tables) != 0:
                     for t in range(len(t_tables)):
-                        self._dbRecord_search(self.varDB, t_tables[t][0], varType, varValue)
+                        # print(t_tables[t][0])
+                        self._dbRecord_search(self.varDB, t_tables[t][0], varType, varValue, varMysqlKeywordFile)
                 else:
                     Color_PO.consoleColor("31", "31", "[ERROR], 没有找到 " + varTable.split("*")[0] + " 前缀的表!", "")
             elif "*" not in varTable:
-                self._dbRecord_search(self.varDB, varTable, varType, varValue)
+                self._dbRecord_search(self.varDB, varTable, varType, varValue, varMysqlKeywordFile)
 
     def dbCreateDate(self, *args):
 
@@ -345,14 +355,11 @@ class MysqlPO():
         :param sql:
         :param xlsxFile:
         :return:
-                # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
+        # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
         '''
+        df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
+        df.to_excel(xlsxFile)
 
-        try:
-            df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
-            df.to_excel(xlsxFile)
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) +" row" )
 
     def db2html(self, sql, htmlFile):
 
@@ -368,26 +375,21 @@ class MysqlPO():
                 https://www.jianshu.com/p/946481cd288a
         '''
 
-        try:
-            df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
-            df.to_html(htmlFile, col_space=100, na_rep="0")
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+        df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
+        df.to_html(htmlFile, col_space=100, na_rep="0")
+
 
     def xlsx2db(self, varExcelFile, varTable, usecols=None, nrows=None, skiprows=None, dtype=None, parse_dates=None, date_parser=None, converters=None, sheet_name=None, index=False):
 
         '''
         4.4 excel导入数据库表(覆盖)
         :return:
-
         参数参考：https://zhuanlan.zhihu.com/p/96203752
         '''
 
-        try:
-            df = pd.read_excel(varExcelFile, usecols=usecols, nrows=usecols, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
-            df.to_sql(varTable, con=self.getMysqldbEngine(), if_exists='replace', index=index)
-        except Exception as e:
-            print(e)
+        df = pd.read_excel(varExcelFile, usecols=usecols, nrows=usecols, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
+        df.to_sql(varTable, con=self.getMysqldbEngine(), if_exists='replace', index=index)
+
 
     def dbDesc2xlsx(self, varFileName):
 
@@ -400,32 +402,29 @@ class MysqlPO():
         listSub = []
         listMain = []
         dict1 = {}
-
-        try:
-            tblName = self.execQuery('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
-            # print(tblName)
-            listSub.append("表名")
-            listSub.append("表说明")
-            listSub.append("名称")
-            listSub.append("数据类型(长度)")
-            listSub.append("允许空值")
-            listSub.append("主键")
-            listSub.append("默认值")
-            listSub.append("说明")
-            dict1[1] = listSub
-            for k in range(len(tblName)):
-                tblFields = self.execQuery('select column_name,column_type,is_nullable,column_key,column_default,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
-                for i in range(len(tblFields)):
-                    list3 = list(tblName[k]) + list(tblFields[i])
-                    listMain.append(list3)
-            for i in range(len(listMain)):
-                dict1[i+2] = listMain[i]
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+        tblName = self.execQuery('select TABLE_NAME,TABLE_COMMENT from information_schema.`TABLES` where table_schema="%s" ' % self.varDB)
+        # print(tblName)
+        listSub.append("表名")
+        listSub.append("表说明")
+        listSub.append("名称")
+        listSub.append("数据类型(长度)")
+        listSub.append("允许空值")
+        listSub.append("主键")
+        listSub.append("默认值")
+        listSub.append("说明")
+        dict1[1] = listSub
+        for k in range(len(tblName)):
+            tblFields = self.execQuery('select column_name,column_type,is_nullable,column_key,column_default,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" ' % (self.varDB, tblName[k][0]))
+            for i in range(len(tblFields)):
+                list3 = list(tblName[k]) + list(tblFields[i])
+                listMain.append(list3)
+        for i in range(len(listMain)):
+            dict1[i+2] = listMain[i]
         NewexcelPO(varFileName)
         Openpyxl_PO = OpenpyxlPO(varFileName)
         Openpyxl_PO.setRowValue(dict1)
         Openpyxl_PO.save()
+
 
     def db2html(self, varTitle, varNowTime, arDbTable):
 
@@ -505,6 +504,15 @@ class MysqlPO():
         Openpyxl_PO.save()
 
 
+    def getKeyword(self, xlsxFile):
+
+        # 7 获取mysql关键字列表
+        Openpyxl_PO = OpenpyxlPO(xlsxFile)
+        x= Openpyxl_PO.getColValueByCol([1], [])
+        return x
+
+
+
 if __name__ == '__main__':
 
 
@@ -514,7 +522,7 @@ if __name__ == '__main__':
     # print(t_userNo[0][0])  # 278
 
     # # 244 erp (预发布) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    Mysql_PO = MysqlPO("192.168.0.244", "root", "ZAQ!2wsx", "crm", 3306)
+    # Mysql_PO = MysqlPO("192.168.0.244", "root", "ZAQ!2wsx", "crm", 3306)
 
     # # 238 erp (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     # Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "crmtest", 3306)
@@ -534,8 +542,6 @@ if __name__ == '__main__':
     # # 195 ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测试环境
 
-    # # 64 ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测试环境
 
 
 
@@ -590,12 +596,12 @@ if __name__ == '__main__':
 
 
     # print("4.5 将所有表结构导出到excel(覆盖)".center(100, "-"))
-    # Mysql_PO.dbDesc2xlsx("d:\\sassDesc.xlsx")
+    Mysql_PO.dbDesc2xlsx("d:\\crmtest.xlsx")
     # Mysql_PO.dbDesc2xlsx("/Users/linghuchong/Desktop/mac/sassDesc.xlsx")
 
 
     # print("4.6 从数据库生成报表".center(100, "-"))
-    Mysql_PO.db2html("erp_开发计划总揽_", "2022-11-12", "12345")
+    # Mysql_PO.db2html("erp_开发计划总揽_", "2022-11-12", "12345")
 
     # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
     # print(Mysql_PO.getTableField('test_interface'))

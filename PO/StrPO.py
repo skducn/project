@@ -22,8 +22,7 @@ todo：【转换】
 
 5 删除特殊字符 delSpecialCharacters()
 
-
-
+6 大写转小写  print([str(i).lower() for i in x])
 '''
 
 import sys, re
@@ -216,11 +215,11 @@ if __name__ == "__main__":
     # print(Str_PO.str2tuple("1,"))  # (1,)   //一个字符转元组的话，需要再后面添加逗号
     # print(Str_PO.str2tuple("1,2,3,[1,2,3]"))  # (1, 2, 3, [1, 2, 3])
     #
-    print("1.3，字符串转字典".center(100, "-"))
-    # print(Str_PO.str2dict("{'a':'123', 'b':456}"))  # {'a': '123', 'b': 456}
-    # print(Str_PO.str2dict("{'a':'1', 'b':2, 'c'}"))  # None
-    x = Str_PO.str2dict('{"currPage": 0, "deptId": "", "endTime": "", "pageSize": 0, "searchId": "", "searchName": "", "starTime": ""}')
-    print(x['pageSize'])
+    # print("1.3，字符串转字典".center(100, "-"))
+    # # print(Str_PO.str2dict("{'a':'123', 'b':456}"))  # {'a': '123', 'b': 456}
+    # # print(Str_PO.str2dict("{'a':'1', 'b':2, 'c'}"))  # None
+    # x = Str_PO.str2dict('{"currPage": 0, "deptId": "", "endTime": "", "pageSize": 0, "searchId": "", "searchName": "", "starTime": ""}')
+    # print(x['pageSize'])
     #
     # print("1.4，日期字符串转换成日期".center(100, "-"))
     # print(Str_PO.str2date('2020年11月23日'))
@@ -267,4 +266,6 @@ if __name__ == "__main__":
     # print(Str_PO.delSpecialCharacters('#创作灵感/ 只需三\招，就能:让你*成为一<个狠>人！#|人生?感悟 #智慧人生 #为人处世',"/","\\","?"))
 
 
-
+    # print("6，大写转小写".center(100, "-"))
+    x = ['ADD', 'ANALYZE', 'ASC', 'BETWEEN', 'BLOB', 'CALL', 'CHANGE', 'CHECK', 'CONDITION', 'CONTINUE', 'CROSS', 'CURRENT_TIMESTAMP', 'DATABASE', 'DAY_MICROSECOND', 'DEC', 'DEFAULT', 'DESC', 'DISTINCT', 'DOUBLE', 'EACH', 'ENCLOSED', 'EXIT', 'FETCH', 'FLOAT8', 'FOREIGN', 'GOTO', 'HAVING', 'HOUR_MINUTE', 'IGNORE', 'INFILE', 'INSENSITIVE', 'INT1', 'INT4', 'INTERVAL', 'ITERATE', 'KEYS', 'LEADING', 'LIKE', 'LINES', 'LOCALTIMESTAMP', 'LONGBLOB', 'LOW_PRIORITY', 'MEDIUMINT', 'MINUTE_MICROSECOND', 'MODIFIES', 'NO_WRITE_TO_BINLOG', 'ON', 'OPTIONALLY', 'OUT', 'PRECISION', 'PURGE', 'READ', 'REFERENCES', 'RENAME', 'REQUIRE', 'REVOKE', 'SCHEMA', 'SELECT', 'SET', 'SPATIAL', 'SQLEXCEPTION', 'SQL_BIG_RESULT', 'SSL', 'TABLE', 'TINYBLOB', 'TO', True, 'UNIQUE', 'UPDATE', 'USING', 'UTC_TIMESTAMP', 'VARCHAR', 'WHEN', 'WITH', 'XOR', 'ALL', 'AND', 'ASENSITIVE', 'BIGINT', 'BOTH', 'CASCADE', 'CHAR', 'COLLATE', 'CONNECTION', 'CONVERT', 'CURRENT_DATE', 'CURRENT_USER', 'DATABASES', 'DAY_MINUTE', 'DECIMAL', 'DELAYED', 'DESCRIBE', 'DISTINCTROW', 'DROP', 'ELSE', 'ESCAPED', 'EXPLAIN', 'FLOAT', 'FOR', 'FROM', 'GRANT', 'HIGH_PRIORITY', 'HOUR_SECOND', 'IN', 'INNER', 'INSERT', 'INT2', 'INT8', 'INTO', 'JOIN', 'KILL', 'LEAVE', 'LIMIT', 'LOAD', 'LOCK', 'LONGTEXT', 'MATCH', 'MEDIUMTEXT', 'MINUTE_SECOND', 'NATURAL', 'NULL', 'OPTIMIZE', 'OR', 'OUTER', 'PRIMARY', 'RAID0', 'READS', 'REGEXP', 'REPEAT', 'RESTRICT', 'RIGHT', 'SCHEMAS', 'SENSITIVE', 'SHOW', 'SPECIFIC', 'SQLSTATE', 'SQL_CALC_FOUND_ROWS', 'STARTING', 'TERMINATED', 'TINYINT', 'TRAILING', 'UNDO', 'UNLOCK', 'USAGE', 'UTC_DATE', 'VALUES', 'VARCHARACTER', 'WHERE', 'WRITE', 'YEAR_MONTH', 'ALTER', 'AS', 'BEFORE', 'BINARY', 'BY', 'CASE', 'CHARACTER', 'COLUMN', 'CONSTRAINT', 'CREATE', 'CURRENT_TIME', 'CURSOR', 'DAY_HOUR', 'DAY_SECOND', 'DECLARE', 'DELETE', 'DETERMINISTIC', 'DIV', 'DUAL', 'ELSEIF', 'EXISTS', False, 'FLOAT4', 'FORCE', 'FULLTEXT', 'GROUP', 'HOUR_MICROSECOND', 'IF', 'INDEX', 'INOUT', 'INT', 'INT3', 'INTEGER', 'IS', 'KEY', 'LABEL', 'LEFT', 'LINEAR', 'LOCALTIME', 'LONG', 'LOOP', 'MEDIUMBLOB', 'MIDDLEINT', 'MOD', 'NOT', 'NUMERIC', 'OPTION', 'ORDER', 'OUTFILE', 'PROCEDURE', 'RANGE', 'REAL', 'RELEASE', 'REPLACE', 'RETURN', 'RLIKE', 'SECOND_MICROSECOND', 'SEPARATOR', 'SMALLINT', 'SQL', 'SQLWARNING', 'SQL_SMALL_RESULT', 'STRAIGHT_JOIN', 'THEN', 'TINYTEXT', 'TRIGGER', 'UNION', 'UNSIGNED', 'USE', 'UTC_TIME', 'VARBINARY', 'VARYING', 'WHILE', 'X509', 'ZEROFILL']
+    print([str(i).lower() for i in x])

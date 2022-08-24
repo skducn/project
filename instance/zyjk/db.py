@@ -74,29 +74,15 @@ from PO import SqlserverPO, MysqlPO
 # sqlserver_PO.dbRecord('*','timestamp', u'%2019-01%')  # 模糊搜索所有表中带2019-01的timestamp类型。
 
 
-# ***************************************************************
-# ***************************************************************
-
-
 
 # EHR 电子健康档案(sqlserver)
 # Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "utf8")  # 测试环境
 # Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRITF", "utf8")  # 测试环境
-# 1，输出所有表结构信息（表名、别称、字段个数、字段、类型、大小、可空、注释）
 # Sqlserver_PO.dbDesc()
-
-# 2，输出单个表结构信息
 # Sqlserver_PO.dbDesc('itf_tb_chronic_main')
-
-# 3，输出单个表的部分字段结构信息
 # Sqlserver_PO.dbDesc('ITF_TB_EXAMINATION_INFO',  ['registerTypeCode', 'name'])
-
-# 4，批量输出tb_dc开头的表结构信息
 # Sqlserver_PO.dbDesc('tb_dc_dm_*')
-
-# 5，批量输出tb开头表中包含id或page字段的表结构信息
-# Sqlserver_PO.dbDesc('tb_dc_dm_*', ['guid', 'drugTypeCodeSystem'])
-
+# Sqlserver_PO.dbDesc('tb_dc_dm_*', ['guid', 'drugTypeCodeSystem'])  # # 5，批量输出tb开头表中包含id或page字段的表结构信息
 # sqlserver_PO.dbDesc('*', ["idCardNo", "ehrNum"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
 
 
@@ -115,78 +101,21 @@ from PO import SqlserverPO, MysqlPO
 
 
 # **********************************************************************************************************************************
+# 招远防疫
 # mysql_PO = MysqlPO.MysqlPO("121.36.248.183", "root", "Tunicorn3y2dH", "saascmstest", 2306)  # 环境
 # mysql_PO = MysqlPO.MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 测试环境
-# mysql_PO.dbDesc()   # 所有表结构
-
-# 盛蕴CRM小程序(mysql)
-# mysql_PO = MysqlPO.MysqlPO("192.168.0.233", "ceshi", "123456", "TD_APP", 3336)  # 测试环境
-# mysql_PO.dbDesc()   # 所有表结构
-# mysql_PO.dbDesc('fact*')  # 查看所有b开头的表结构（通配符*）
-# mysql_PO.dbDesc('app_info')   # app_info表结构
-# mysql_PO.dbDesc('fact*', 'Id,page')  # 查看所有b开头的表中id字段的结构（通配符*）
-# mysql_PO.dbDesc('app_info', 'id,mid')   # 查看book表id,page字段的结构
-# mysql_PO.dbRecord('user','char', '%13816109050%')  # 搜索myclass表中内容包含yoyo的char类型记录。
-# mysql_PO.dbRecord('*', 'char', '金医生')  # 模糊搜索所有表中带yoy的char类型。
-# mysql_PO.dbRecord('*', 'varchar', u'%一次性使用有创压力传感器%')  # 模糊搜索所有表中带35的double类型。
-# mysql_PO.dbRecord('*', 'datetime', u'%2019-04-12 15:13:23%')  # 模糊搜索所有表中日期类型为datetime的2019-04-12 15:13:23记录。
-# mysql_PO.dbCreateDate()   # 查看所有表的创建时间
-# mysql_PO.dbCreateDate('app_code')   # 查看book表创建时间
-# mysql_PO.dbCreateDate('fact*')   # 查看所有b开头表的创建时间，通配符*
-# mysql_PO.dbCreateDate('after', '2019-02-18')  # 查看所有在2019-02-18之后创建的表
-# mysql_PO.dbCreateDate('>', '2019-02-18')  # 查看所有在2019-02-18之后创建的表
-# mysql_PO.dbCreateDate('before', "2019-04-10")  # 显示所有在2019-12-08之前创建的表
-# mysql_PO.dbCreateDate('<', "2019-02-18")  # 显示所有在2019-12-08之前创建的表
 
 
-# # BI集成平台(mysql)
+# BI集成平台
 # mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "bidev", 3306)  # 测试环境
 # mysql_PO.dbRecord('*', 'char', u'%耳、鼻、咽喉科%')
 # # mysql_PO.dbRecord('*', 'float', u'%295.54%')
 
-# # 患者360(mysql)
+# 患者360
 # mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "upvdev", 3306)  # 测试环境
 # # mysql_PO.dbRecord('*', 'char', u'%郑和成%')
 # # mysql_PO.dbRecord('*', 'float', u'%295.54%')
-# # mysql_PO.dbDesc()   # 所有表结构
-# mysql_PO.dbDesc('upv_blood_match_report')   # UpmsUser表结构
 
 
-#
-# # # SAAS(开发195)
-# # mysql_PO = MysqlPO.MysqlPO("192.168.0.195", "root", "Zy123456", "saasuserdev", 3306)
-# # mysql_PO.dbRecord('*', 'char', u'%什么是脑血栓%')
-#
-#
-
-# # erp(测试238)
-mysql_PO = MysqlPO.MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "crmtest", 3306)
-mysql_PO.dbDesc()
-
-# # SAAS(测试238)
-# mysql_PO = MysqlPO.MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 3306)
-# mysql_PO = MysqlPO.MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saashypertensiontest", 3306)
-# mysql_PO.dbRecord('*', 'int', '246903925362249729')
-# mysql_PO.dbDesc()   # 所有表结构
-# mysql_PO.dbRecord('*', 'varchar', '16766667777')  # 模糊搜索所有表中带yoy的char类型。
-# mysql_PO.dbRecord('sys_user_detail', 'varchar', '16766667777')  # 模糊搜索所有表中带yoy的char类型。
-# mysql_PO.dbRecord('*', 'varchar', '16766667777')  # 模糊搜索所有表中带yoy的char类型。
-
-# SAAS(生产 121.36.248.183)
-# mysql_PO = MysqlPO.MysqlPO("121.36.248.183", "root", "Tunicorn3y2dH", "saasusertest", 2306)
-# mysql_PO.dbDesc()   # 所有表结构
-
-# mysql_PO.dbRecord('*', 'char', '386374212106911746')  # empiId = 386374212106911746
-# mysql_PO.dbRecord('*', 'char', '金浩') # id =181
-# mysql_PO.dbRecord('*', 'char', 'dc') # id =223
-
-# mysql_PO.dbRecord('*', 'datetime', '2022-02-16 14:03%')  # 精准搜索所有表中搜索char类型的关键字
-# mysql_PO.dbRecord('*', 'char', '金%')  # 模糊搜索所有表中搜索char类型的关键字
-# mysql_PO.dbRecord('sys_user_detail', 'char', '金医生')
-# mysql_PO.dbRecord('sys_user_detail', 'char', '金%')
-
-
-# # # # 禅道
+# 禅道
 # mysql_PO = MysqlPO.MysqlPO("192.168.0.211", "readonly", "benetech123", "zentaoep", 3306)
-# # mysql_PO.dbDesc()   # 所有表结构
-# mysql_PO.dbRecord('*', 'char', '金浩')
