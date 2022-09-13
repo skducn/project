@@ -401,9 +401,9 @@ if __name__ == '__main__':
 	douyin = Douyin()
 
 	print("1，单视频下载（手机版）".center(100, "-"))
-	# douyin.downOneVideoByPhone("https://v.douyin.com/2cYv7qG/", "/Users/linghuchong/Desktop/mac")
+	douyin.downOneVideoByPhone("https://v.douyin.com/6hHBR9K", "/Users/linghuchong/Desktop/mac")
 	# douyin.downOneVideoByPhone("https://v.douyin.com/NHePEyX/", "/Users/linghuchong/Desktop/mac")
-	douyin.downOneVideoByPhone("https://v.douyin.com/2c6fEbw/", "d:\\11")  # 作品已下架
+	# douyin.downOneVideoByPhone("https://v.douyin.com/2c6fEbw/", "d:\\11")  # 作品已下架
 	# douyin.downOneVideoByPhone("https://v.douyin.com/NdLh3fT/", "/Users/linghuchong/Desktop/mac")
 	# douyin.downOneVideoByPhone(" https://v.douyin.com/FxTSCxU/", "/Users/linghuchong/Desktop/mac")
 
