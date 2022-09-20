@@ -54,20 +54,31 @@ class ErpPO():
         # self.Web_PO.inputId("password", "")
         self.Web_PO.clickXpath(u"//button[@id='submit']", 2)
 
-    def getToken(self):
+    def getToken(self, username):
 
         '''获取token'''
 
         url = self.oaURL + "/logincheck.php"
         header = {"content-type": "application/x-www-form-urlencoded"}
-        d_iParam = {'USERNAME': "niuxuebin"}
+        d_iParam = {'USERNAME': username}
         r = requests.post(url, headers=header, data=d_iParam, verify=False)
         a = r.cookies.get_dict()
         url = self.oaURL + "/general/appbuilder/web/business/product/crm"
         r = requests.get(url, headers={"Cookie": "PHPSESSID=" + a["PHPSESSID"]}, verify=False)
-        token = str(r.url).split("token=")[1]
-        print(token)
-        return token
+        self.token = str(r.url).split("token=")[1]
+        # print(self.token)
+        return self.token
+
+    def getResponseByApplet(self, url):
+        r = requests.get(url,headers={"content-type": "application/json", "token": self.token,"traceId": "123"},verify=False)
+        print(r.text)
+
+    def postResponseByApplet(self, url, param):
+        r = requests.post(url,headers={"content-type": "application/json", "token": self.token,"traceId": "123"}, json=param, verify=False)
+        str1 = r.text.encode('gbk', 'ignore').decode('gbk')
+        res_visitAnalysis = json.loads(str1)
+        print(res_visitAnalysis)
+
 
     def clickMemuOA(self, varMemuName, varSubName):
 
@@ -268,7 +279,7 @@ class ErpPO():
                     if l_getRowValue_case[i][1] == l_getRowValue_i[j][1]:
                         # paths
                         r = requests.post(iUrl + l_getRowValue_i[j][2],
-                                          headers={"content-type": "application/json", "token": self.getToken(),
+                                          headers={"content-type": "application/json", "token": self.token,
                                                    "traceId": "123"},
                                           json=d_tbl_param, verify=False)
                         str1 = r.text.encode('gbk', 'ignore').decode('gbk')
@@ -562,7 +573,6 @@ class ErpPO():
             Openpyxl_PO.setRowValue({i + 1: list4}, varSheet)
 
         self.Web_PO.close()
-
 
 
     def _inputOutput(self, res_visitAnalysis, tbl_report, Openpyxl_PO, varSheet, Mysql_PO):
@@ -922,7 +932,6 @@ class ErpPO():
         Openpyxl_PO.setColValue({"A": l_area}, varSheet)
 
         self.Web_PO.close()
-
 
 
     def _customerInput(self, res_visitAnalysis, tbl_report, Openpyxl_PO, varSheet, Mysql_PO):
@@ -1331,7 +1340,6 @@ class ErpPO():
         # Openpyxl_PO.setColValue({"A": l_area}, varSheet)
 
         self.Web_PO.close()
-
 
 
 
