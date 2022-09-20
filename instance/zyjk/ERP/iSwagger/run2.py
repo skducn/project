@@ -30,7 +30,7 @@ import pandas as pd
 import urllib3
 urllib3.disable_warnings()
 
-1232二位
+yes
 # sys.path.append("../../../")
 sys.path.append("./")
 
