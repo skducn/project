@@ -27,11 +27,16 @@
 '''
 
 
-from PO.MysqlPO import *
-Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "crmtest", 3306)   # 测试
+host = "192.168.0.234"
+name = "root"
+password = "Zy123456"
+db = "mcis"
+port = 3306
 
+from PO.MysqlPO import *
 from sqlalchemy import create_engine
-engine = create_engine('mysql+mysqldb://root:Zy123456@192.168.0.234:3306/crmtest')
+Mysql_PO = MysqlPO(host, name, password, db, port)
+engine = create_engine('mysql+mysqldb://' + name + ':' + password + '@' + host + ':' + str(port) + '/' + db)
 # engine = create_engine('mysql+mysqldb://root:Zy123456@192.168.0.234:3306/crmtest?charset=utf8')
 
 
@@ -123,8 +128,8 @@ if __name__ == '__main__':
     # print("2.1 xlsx导入数据库表".center(100, "-"))
     # Pandas_PO.xlsx2db("./data/test.xlsx", 'test2')
 
-    # print("2.2 数据库表导出到xlsx".center(100, "-"))
-    # Pandas_PO.db2xlsx("SELECT * FROM t_visit where id=1", 'student.xlsx')
+    print("2.2 数据库表导出到xlsx".center(100, "-"))
+    Pandas_PO.db2xlsx("SELECT * FROM t_emphasis_follow_basis_info", 'student.xlsx')
     # Pandas_PO.db2xlsx("SELECT * FROM t_visit where id=1", 'student.xlsx', None)  # 不导出字段名
 
     # print("3.1 字典数据另存xlsx".center(100, "-"))
