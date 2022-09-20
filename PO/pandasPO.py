@@ -11,8 +11,16 @@
 # ********************************************************************************************************************
 
 '''
-1 将xlsx导入数据库表
-2 执行sql
+
+1 执行sql  execute()
+
+2.1 xlsx导入数据库 xlsx2db()
+2.2 数据库导出到xlsx  db2xlsx()  含字段或不含字段
+
+3.1 字典数据另存xlsx  data2xlsx()
+3.2 字典数据另存xlsx（csv）  data2csv()
+3.3 字典数据另存文本（text）  data2text()
+3.4 字典数据导入数据库  data2db()
 
 数据库表复制
 
@@ -20,18 +28,31 @@
 
 
 from PO.MysqlPO import *
-Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
+Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "crmtest", 3306)   # 测试
 
 from sqlalchemy import create_engine
-engine = create_engine('mysql+mysqldb://root:123456@192.168.0.234:3306/epd')
-# engine = create_engine('mysql+mysqldb://root:123456@192.168.0.234:3306/epd?charset=utf8')
+engine = create_engine('mysql+mysqldb://root:Zy123456@192.168.0.234:3306/crmtest')
+# engine = create_engine('mysql+mysqldb://root:Zy123456@192.168.0.234:3306/crmtest?charset=utf8')
+
 
 class PandasPO():
 
-    def xlsx2db(self, varExcelFile, varTable):
+    def execute(self, varSql):
+
         '''
-        1 将xlsx导入数据库表(覆盖)
-        :return:
+        1 执行sql
+        '''
+
+        try:
+            return engine.execute(varSql).fetchall()
+        except Exception as e:
+            print(e)
+
+
+    def xlsx2db(self, varExcelFile, varTable):
+
+        '''
+        2 xlsx导入数据库表(覆盖)
         '''
         try:
             engine = Mysql_PO.getMysqldbEngine()
@@ -41,30 +62,83 @@ class PandasPO():
             print(e)
 
 
-    def execute(self, varSql):
+    def db2xlsx(self, sql, varExcelFile,  header=1):
+
         '''
-        2 执行sql
-        :param varSql:
-        :return:
+        3 数据库表导出到xlsx
         '''
-        try:
-            return engine.execute(varSql).fetchall()
-        except Exception as e:
-            print(e)
+
+        df = pd.read_sql(sql, engine)
+        # print(df.head())
+
+        # header=None表示不含列名
+        if header == None:
+            df.to_excel(varExcelFile, index=None, header=None)
+        else:
+            df.to_excel(varExcelFile, index=None)
+
+
+
+    def data2xlsx(self,varDict, varExcelFile):
+
+        '''3.1 字典数据另存xlsx
+        '''
+
+        df = pd.DataFrame(varDict)
+        df.to_excel(varExcelFile, encoding="utf_8_sig", index=False)
+
+    def data2csv(self, varDict, varExcelFile):
+        '''
+        3.2 字典数据另存csv
+        '''
+        df = pd.DataFrame(varDict)
+        df.to_csv(varExcelFile, encoding="utf_8_sig", index=False)
+
+    def data2text(self, varDict, varTextFile):
+        '''
+        3.3 字典数据另存文本（text）
+        '''
+        df = pd.DataFrame(varDict)
+        df.to_json(varTextFile)
+
+    def data2db(self,varDict, varDbTable):
+        '''
+        3.4 字典数据导入数据库
+        '''
+        df = pd.DataFrame(varDict)
+        engine = Mysql_PO.getMysqldbEngine()
+        df.to_sql(name=varDbTable, con=engine, if_exists='append', index=False)
+
 
 if __name__ == '__main__':
 
     Pandas_PO = PandasPO()
 
-    # print("1 将xlsx导入数据库表（覆盖）".center(100, "-"))
-    # Pandas_PO.xlsx2db("./OpenpyxlPO/loanStats.xlsx", 'test2')
-
-    # print("2 执行sql".center(100, "-"))
-    # print(Pandas_PO.execute("SELECT * FROM test2 where loan_amnt=500"))
+    # print("1 执行sql".center(100, "-"))
+    # print(Pandas_PO.execute("SELECT * FROM t_visit where id<3"))
     # print(Pandas_PO.execute("SELECT * FROM test2 where loan_amnt=%s" % "500"))
     # print(Pandas_PO.execute("SELECT * FROM test2 where loan_amnt=%s" % "500")[0][2])
 
 
+    # print("2.1 xlsx导入数据库表".center(100, "-"))
+    # Pandas_PO.xlsx2db("./data/test.xlsx", 'test2')
+
+    # print("2.2 数据库表导出到xlsx".center(100, "-"))
+    # Pandas_PO.db2xlsx("SELECT * FROM t_visit where id=1", 'student.xlsx')
+    # Pandas_PO.db2xlsx("SELECT * FROM t_visit where id=1", 'student.xlsx', None)  # 不导出字段名
+
+    # print("3.1 字典数据另存xlsx".center(100, "-"))
+    # Pandas_PO.data2xlsx({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "ee.xlsx")
+
+    # print("3.2 字典数据另存csv".center(100, "-"))
+    # Pandas_PO.data2csv({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "ee.csv")
+
+    # print("3.3 字典数据另存text".center(100, "-"))
+    # Pandas_PO.data2text({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "111.txt")
+    # {"A":{"0":3,"1":4,"2":8,"3":9},"B":{"0":1.2,"1":2.4,"2":4.5,"3":7.3},"C":{"0":"aa","1":"bb","2":"cc","3":"dd"}}
+
+    # print("3.4 字典数据导入数据库".center(100, "-"))
+    # Pandas_PO.data2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test33")
 
 
 
