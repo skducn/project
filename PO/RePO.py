@@ -84,4 +84,7 @@ if __name__ == "__main__":
 
     x = (Re_PO.split_list("0etrerta3B9", '[a-z]+', 0))  # ['0', '3', '9']
 
+
+
+
     print(Re_PO.findall_list("JGood is a handsome boy, he is cool, clever, and so on...", r'\w*oo\w*'))  # 匹配所有包含'oo'的单词 ， ['JGood', 'cool']
