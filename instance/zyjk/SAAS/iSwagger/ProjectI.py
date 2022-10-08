@@ -64,7 +64,7 @@ class ProjectI():
         l_url = Web_PO.getXpathsAttr("//option", "data-url")
         l_url = [iUrl + i for i in l_url]
         d_all = List_PO.twoList2dict(l_project, l_url)
-        Web_PO.closeURL()
+        Web_PO.close()
 
         html = requests.get(d_all[varProject])
         html.encoding = 'utf-8'
@@ -298,6 +298,7 @@ if __name__ == '__main__':
     # project_I.getI("cuser")
     # project_I.getI("hypertension")
 
-    project_I.getI('http://192.168.0.238:8801', '/doc.html', "saasuser", "saasuser.xlsx")
+    # project_I.getI('http://192.168.0.238:8801', '/doc.html', "saasuser", "saasuser.xlsx")
+    project_I.getI('http://192.168.0.238:8801', '/doc.html', "saasuser", "i_sassuser_swagger_case.xlsx")
 
 
