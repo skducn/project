@@ -40,7 +40,7 @@ class Douyin:
 		self.headers = Html_PO.getHeaders()
 		self.proxies = Html_PO.getProxies()
 
-	def downOneVideoByPhone(self, url, toSave):
+	def getVidoeByPhone(self, url, toSave):
 		'''
 		1，单视频下载（手机版）
 		:param copyURL:
@@ -98,8 +98,7 @@ class Douyin:
 			l_result.append(videoUrl)
 			# print(l_result)
 			print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
-
-	def downMoreVideoByPhone(self, copyURL, toSave, scope="all"):
+	def getVidoesByPhone(self, copyURL, toSave, scope="all"):
 		'''
 		2，多视频下载（手机版）
 		:param copyURL:
@@ -228,9 +227,7 @@ class Douyin:
 						count = int(count) - 1
 					break
 
-
-
-	def downOneVideoByWeb(self, aweme_id, toSave):
+	def getVidoeByWeb(self, aweme_id, toSave):
 		'''
 		# 3，单视频下载（网页版）
 		:param videoId:
@@ -272,9 +269,7 @@ class Douyin:
 		l_result.append(videoUrl)
 		# print(l_result)
 		print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
-
-
-	def downMoreVideoByWeb(self, sec_id, toSave,scope="all"):
+	def getVidoesByWeb(self, sec_id, toSave,scope="all"):
 		'''
 		4，多视频下载（网页版）
 		:param sec_id:
@@ -401,22 +396,22 @@ if __name__ == '__main__':
 	douyin = Douyin()
 
 	print("1，单视频下载（手机版）".center(100, "-"))
-	douyin.downOneVideoByPhone("https://v.douyin.com/6hHBR9K", "/Users/linghuchong/Desktop/mac")
-	# douyin.downOneVideoByPhone("https://v.douyin.com/NHePEyX/", "/Users/linghuchong/Desktop/mac")
-	# douyin.downOneVideoByPhone("https://v.douyin.com/2c6fEbw/", "d:\\11")  # 作品已下架
-	# douyin.downOneVideoByPhone("https://v.douyin.com/NdLh3fT/", "/Users/linghuchong/Desktop/mac")
-	# douyin.downOneVideoByPhone(" https://v.douyin.com/FxTSCxU/", "/Users/linghuchong/Desktop/mac")
+	douyin.getVidoeByPhone("https://v.douyin.com/6hHBR9K", "d:\\1")
+	# douyin.getVidoeByPhone("https://v.douyin.com/NHePEyX/", "/Users/linghuchong/Desktop/mac")
+	# douyin.getVidoeByPhone("https://v.douyin.com/2c6fEbw/", "d:\\11")  # 作品已下架
+	# douyin.getVidoeByPhone("https://v.douyin.com/NdLh3fT/", "/Users/linghuchong/Desktop/mac")
+	# douyin.getVidoeByPhone(" https://v.douyin.com/FxTSCxU/", "/Users/linghuchong/Desktop/mac")
 
 	# print("2，多视频下载（手机版）".center(100, "-"))
-	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 下载所有视频，走遍中国5A景区-大龙
-	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", 3)  # 下载从序号《3》之前的音频
-	# douyin.downMoreVideoByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", scope="三星")  # 下载标题中带“XXX”关键字的音频
+	# douyin.getVidoesByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 下载所有视频，走遍中国5A景区-大龙
+	# douyin.getVidoesByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", 3)  # 下载从序号《3》之前的音频
+	# douyin.getVidoesByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", scope="三星")  # 下载标题中带“XXX”关键字的音频
 
 	# print("3，单视频下载（网页版）".center(100, "-"))
-	# douyin.downOneVideoByWeb("7050823376893381902", "/Users/linghuchong/Desktop/mac")
+	# douyin.getVidoeByWeb("7050823376893381902", "/Users/linghuchong/Desktop/mac")
 
 	# print("4，多视频下载（网页版）".center(100, "-"))
 	# "https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg"
-	# douyin.downMoreVideoByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3")  # 下载所有视频
-	# douyin.downMoreVideoByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3", 5)  # 下载从序号《5》之前的音频
-	# douyin.downMoreVideoByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3", scope="中国")  # 下载标题中带“XXX”关键字的音频
+	# douyin.getVidoesByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3")  # 下载所有视频
+	# douyin.getVidoesByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3", 5)  # 下载从序号《5》之前的音频
+	# douyin.getVidoesByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3", scope="中国")  # 下载标题中带“XXX”关键字的音频

@@ -112,7 +112,7 @@ if __name__ == '__main__':
     # Html_PO.getHeaders()
     #
     # print("4.2 生成proxies代理".center(100, "-"))
-    # Html_PO.getProxies()
+    Html_PO.getProxies()
     #
     # print("5，获取json网页内容".center(100, "-"))
     # print(Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId=13738175&pageNum=1"))
