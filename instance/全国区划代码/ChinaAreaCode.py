@@ -3,6 +3,7 @@
 # Author        : John
 # Date          : 2022-6-13
 # Description   : 获取全国22个省4个市5个自治区
+# 当前位置 > 首页 > 统计数据 > 统计标准 > 统计用区划和城乡划分代码
 # 国家统计局 http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2021/index.html
 # *********************************************************************
 
