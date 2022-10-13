@@ -136,8 +136,8 @@ class Dy:
 
 	@click.command()
 	@click.option('-u',"--url", help='url地址')
-	@click.option("-s", '--save', help='保存路径')
-	def getVidoeByPhone(self, url, toSave):
+	# @click.option("-s", '--save', help='保存路径')
+	def getVidoeByPhone(self, url, toSave="d:\\1"):
 		'''
 		1，单视频下载（手机版）
 		:param copyURL:
@@ -145,6 +145,10 @@ class Dy:
 		:return:
 			# 参数：用户页链接 - 分享 - 复制链接
 		'''
+
+		print(url)
+		print(toSave)
+
 
 		# 解析复制链接及API地址并获取视频ID
 		res = Html_PO.sessionGet(url, self.headers, self.proxies)
@@ -172,7 +176,7 @@ class Dy:
 			# 视频标题
 			varTitle = re.findall('"share_title":"(.+?)"', res)
 			# 优化文件名不支持的9个字符
-			varTitle = Str_PO.delSpecialCharacters(str(varTitle[0]))
+			varTitle = Str_PO.delSpecialChar(str(varTitle[0]))
 			# 生成目录
 			if platform.system() == 'Darwin':
 				File_PO.newLayerFolder(toSave + "/" + nickname[0])
@@ -233,6 +237,6 @@ if __name__ == '__main__':
 
 	print("1，单视频下载（手机版）".center(100, "-"))
 	douyin.getVidoeByPhone()  # 单个抖音链接
-	# cmd 命令：python dy.py -u "https://v.douyin.com/6hHBR9K" -s d:\1
+	# cmd 命令：python dy.py -u "https://v.douyin.com/2c6fEbw/" -s d:\1
 
 

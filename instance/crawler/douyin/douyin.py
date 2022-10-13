@@ -75,7 +75,7 @@ class Douyin:
 			# 视频标题
 			varTitle = re.findall('"share_title":"(.+?)"', res)
 			# 优化文件名不支持的9个字符
-			varTitle = Str_PO.delSpecialCharacters(str(varTitle[0]))
+			varTitle = Str_PO.delSpecialChar(str(varTitle[0]))
 			# 生成目录
 			if platform.system() == 'Darwin':
 				File_PO.newLayerFolder(toSave + "/" + nickname[0])
@@ -396,9 +396,9 @@ if __name__ == '__main__':
 	douyin = Douyin()
 
 	print("1，单视频下载（手机版）".center(100, "-"))
-	douyin.getVidoeByPhone("https://v.douyin.com/6hHBR9K", "d:\\1")
+	# douyin.getVidoeByPhone("https://v.douyin.com/6hHBR9K", "d:\\1")
 	# douyin.getVidoeByPhone("https://v.douyin.com/NHePEyX/", "/Users/linghuchong/Desktop/mac")
-	# douyin.getVidoeByPhone("https://v.douyin.com/2c6fEbw/", "d:\\11")  # 作品已下架
+	douyin.getVidoeByPhone("https://v.douyin.com/2c6fEbw/", "d:\\11")
 	# douyin.getVidoeByPhone("https://v.douyin.com/NdLh3fT/", "/Users/linghuchong/Desktop/mac")
 	# douyin.getVidoeByPhone(" https://v.douyin.com/FxTSCxU/", "/Users/linghuchong/Desktop/mac")
 
