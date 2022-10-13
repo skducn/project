@@ -1,1 +1,1 @@
-python dy.py -u " https://v.douyin.com/dhcD9HP/" -s d:\1
+python dy.py -u " https://v.douyin.com/dhcD9HP/" 
