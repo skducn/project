@@ -1,0 +1,8 @@
+2022-10-12 11:03:07,328 base.py[line:444] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-10-12 11:03:07,328 base.py[line:885] INFO Added job "sch_test" to job store "default"
+2022-10-12 11:03:07,329 base.py[line:171] INFO Scheduler started
+2022-10-12 11:03:10,009 test2.py[line:97] ERROR   File "C:\Python39\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "D:\51\python\project\instance\apscheduler1\test2.py", line 115, in sch_test
+    print(1/0)
+
