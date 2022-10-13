@@ -45,6 +45,8 @@ import logging
 import logging.handlers
 import os
 import datetime
+
+
 class LoggerUtils():
     def init_logger(self, logger_name):
         # logging.basicConfig(level=logging.INFO,
@@ -108,18 +110,21 @@ class Scheduler(LoggerUtils):
         self.scheduler.start()
 
 
+import os
 # 测试任务
+
 def sch_test(job_type):
-    now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print('时间：{}, {}测试apscheduler'.format(now, job_type))
-    print(1/0)
+    os.system("python D:\\51\\python\\project\\instance\\crawler\\douyin\\dy2.py -u https://v.douyin.com/2c6fEbw/")
+    # now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    #     # print('时间：{}, {}测试apscheduler'.format(now, job_type))
+    #     # # print(1/0)
 
 sched = Scheduler()
-sched.add_job(func=sch_test, args=('定时任务',), trigger='cron', second='*/5')
+sched.add_job(func=sch_test, args=('定时任务',), trigger='cron', second='*/15')
 sched.start()
 
 
-
+# python test2.py   // 执行后，每个15s下载抖音视频。
 
 
 

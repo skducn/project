@@ -1,8 +1,53 @@
-2022-10-12 11:03:07,328 base.py[line:444] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2022-10-12 11:03:07,328 base.py[line:885] INFO Added job "sch_test" to job store "default"
-2022-10-12 11:03:07,329 base.py[line:171] INFO Scheduler started
-2022-10-12 11:03:10,009 test2.py[line:97] ERROR   File "C:\Python39\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+2022-10-13 12:01:09,139 base.py[line:444] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-10-13 12:01:09,242 base.py[line:885] INFO Added job "sch_test" to job store "default"
+2022-10-13 12:01:09,243 base.py[line:171] INFO Scheduler started
+2022-10-13 12:01:10,019 test2.py[line:97] ERROR   File "C:\ProgramData\Anaconda3\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
     retval = job.func(*job.args, **job.kwargs)
-  File "D:\51\python\project\instance\apscheduler1\test2.py", line 115, in sch_test
+  File "test2.py", line 115, in sch_test
     print(1/0)
 
+2022-10-13 12:01:15,018 test2.py[line:97] ERROR   File "C:\ProgramData\Anaconda3\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "test2.py", line 115, in sch_test
+    print(1/0)
+
+2022-10-13 12:01:20,008 test2.py[line:97] ERROR   File "C:\ProgramData\Anaconda3\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "test2.py", line 115, in sch_test
+    print(1/0)
+
+2022-10-13 12:01:25,014 test2.py[line:97] ERROR   File "C:\ProgramData\Anaconda3\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "test2.py", line 115, in sch_test
+    print(1/0)
+
+2022-10-13 12:01:30,022 test2.py[line:97] ERROR   File "C:\ProgramData\Anaconda3\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "test2.py", line 115, in sch_test
+    print(1/0)
+
+2022-10-13 12:01:35,018 test2.py[line:97] ERROR   File "C:\ProgramData\Anaconda3\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "test2.py", line 115, in sch_test
+    print(1/0)
+
+2022-10-13 12:01:40,010 test2.py[line:97] ERROR   File "C:\ProgramData\Anaconda3\lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "test2.py", line 115, in sch_test
+    print(1/0)
+
+2022-10-13 12:01:59,970 base.py[line:444] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-10-13 12:01:59,970 base.py[line:885] INFO Added job "sch_test" to job store "default"
+2022-10-13 12:01:59,970 base.py[line:171] INFO Scheduler started
+2022-10-13 12:39:40,341 base.py[line:444] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-10-13 12:39:40,341 base.py[line:885] INFO Added job "sch_test" to job store "default"
+2022-10-13 12:39:40,341 base.py[line:171] INFO Scheduler started
+2022-10-13 12:40:28,306 base.py[line:444] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-10-13 12:40:28,306 base.py[line:885] INFO Added job "sch_test" to job store "default"
+2022-10-13 12:40:28,306 base.py[line:171] INFO Scheduler started
+2022-10-13 12:42:05,892 base.py[line:444] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-10-13 12:42:05,893 base.py[line:885] INFO Added job "sch_test" to job store "default"
+2022-10-13 12:42:05,893 base.py[line:171] INFO Scheduler started
+2022-10-13 12:42:56,510 base.py[line:444] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-10-13 12:42:56,510 base.py[line:885] INFO Added job "sch_test" to job store "default"
+2022-10-13 12:42:56,510 base.py[line:171] INFO Scheduler started

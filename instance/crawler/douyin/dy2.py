@@ -10,9 +10,9 @@
 import requests, re, os, platform
 import click
 import sys
-sys.path.append("../../../")
-from PO.DataPO import *
-Data_PO = DataPO()
+sys.path.append("../../")
+# from PO.DataPO import *
+# Data_PO = DataPO()
 from PO.FilePO import *
 File_PO = FilePO()
 from PO.HtmlPO import *
@@ -92,7 +92,7 @@ def getVidoeByPhone(url, toSave="d:\\2"):
 print("1，单视频下载（手机版）".center(100, "-"))
 getVidoeByPhone()  # 单个抖音链接
 
-# cmd 命令：python dy2.py -u "https://v.douyin.com/2c6fEbw/" -s d:\1
+# cmd 命令：python dy2.py -u https://v.douyin.com/2c6fEbw/
 
 
 
