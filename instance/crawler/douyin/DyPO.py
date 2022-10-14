@@ -14,12 +14,6 @@
 # print(b.encode('gbk', 'ignore').decode('gbk') )   # 型换季收纳法叠衣
 #***************************************************************
 
-'''
-1，单视频下载（手机版）
-2，多视频下载（手机版）
-3，单视频下载（网页版）
-4，多视频下载（网页版）
-'''
 
 import requests, re, os, platform
 import sys
@@ -34,11 +28,12 @@ from PO.StrPO import *
 Str_PO = StrPO()
 
 
-class Douyin:
+class DyPO:
 
 	def __init__(self):
 		self.headers = Html_PO.getHeaders()
 		self.proxies = Html_PO.getProxies()
+
 
 	def getVidoeByPhone(self, url, toSave):
 		'''
@@ -269,6 +264,7 @@ class Douyin:
 		l_result.append(videoUrl)
 		# print(l_result)
 		print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
 	def getVidoesByWeb(self, sec_id, toSave,scope="all"):
 		'''
 		4，多视频下载（网页版）
@@ -393,7 +389,7 @@ class Douyin:
 
 if __name__ == '__main__':
 
-	douyin = Douyin()
+	douyin = DyPO()
 
 	print("1，单视频下载（手机版）".center(100, "-"))
 	# douyin.getVidoeByPhone("https://v.douyin.com/6hHBR9K", "d:\\1")

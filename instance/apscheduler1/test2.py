@@ -114,7 +114,7 @@ import os
 # 测试任务
 
 def sch_test(job_type):
-    os.system("python D:\\51\\python\\project\\instance\\crawler\\douyin\\dy2.py -u https://v.douyin.com/2c6fEbw/")
+    os.system("python D:\\51\\python\\project\\instance\\crawler\\douyin\\dyCMD.py -u https://v.douyin.com/2c6fEbw/")
     # now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     #     # print('时间：{}, {}测试apscheduler'.format(now, job_type))
     #     # # print(1/0)
