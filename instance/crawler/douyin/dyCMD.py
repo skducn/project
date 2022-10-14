@@ -10,7 +10,7 @@
 import requests, re, os, platform
 import click
 import sys
-sys.path.append("../../")
+sys.path.append("../../..")
 # from PO.DataPO import *
 # Data_PO = DataPO()
 from PO.FilePO import *
@@ -26,8 +26,9 @@ proxies = Html_PO.getProxies()
 
 
 @click.command()
-@click.option("-u", "--url", help='url地址')
-def getVidoeByPhone(url, toSave="d:\\2"):
+@click.option('--url', help='description')
+@click.option('--ra', help='description')
+def getVidoeByPhone(url, toSave):
 	'''
 	1，单视频下载（手机版）
 	:param copyURL:
@@ -92,7 +93,7 @@ def getVidoeByPhone(url, toSave="d:\\2"):
 print("1，单视频下载（手机版）".center(100, "-"))
 getVidoeByPhone()  # 单个抖音链接
 
-# cmd 命令：python dy2.py -u https://v.douyin.com/2c6fEbw/
+# cmd 命令：python dyCMD.py -u https://v.douyin.com/2c6fEbw/
 
 
 
