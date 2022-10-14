@@ -26,6 +26,12 @@ Sys_PO = SysPO()
 
 class HtmlPO:
 
+    # def __init__(self):
+    #     # 初始化代理
+    #     # Html_PO.getHeadersProxies()
+    #     self.getHeaders()
+    #     self.getProxies()
+
 
     def getCode(self, varUrl):
 
@@ -35,16 +41,16 @@ class HtmlPO:
         return response.status_code
 
 
-    def getHeaders(self, varUrl):
-
-        # 2 获取网站的header
-
-        # {'Cache-Control': 'private, no-cache, no-store, proxy-revalidate, no-transform', 'Connection': 'Keep-Alive',
-        #  'Content-Encoding': 'gzip', 'Content-Type': 'text/html', 'Date': 'Fri, 20 Sep 2019 07:12:16 GMT',
-        #  'Last-Modified': 'Mon, 23 Jan 2017 13:23:55 GMT', 'Pragma': 'no-cache', 'Server': 'bfe/1.0.8.18',
-        #  'Set-Cookie': 'BDORZ=27315; max-age=86400; domain=.baidu.com; path=/', 'Transfer-Encoding': 'chunked'}'''
-        response = requests.get(varUrl)
-        return response.headers
+    # def getHeaders(self, varUrl):
+    #
+    #     # 2 获取网站的header
+    #
+    #     # {'Cache-Control': 'private, no-cache, no-store, proxy-revalidate, no-transform', 'Connection': 'Keep-Alive',
+    #     #  'Content-Encoding': 'gzip', 'Content-Type': 'text/html', 'Date': 'Fri, 20 Sep 2019 07:12:16 GMT',
+    #     #  'Last-Modified': 'Mon, 23 Jan 2017 13:23:55 GMT', 'Pragma': 'no-cache', 'Server': 'bfe/1.0.8.18',
+    #     #  'Set-Cookie': 'BDORZ=27315; max-age=86400; domain=.baidu.com; path=/', 'Transfer-Encoding': 'chunked'}'''
+    #     response = requests.get(varUrl)
+    #     return response.headers
 
 
     def getText(self, varUrl):
@@ -71,15 +77,16 @@ class HtmlPO:
 
         varIp = Data_PO.getIpAgent()
         self.proxies = {str(varIp).split("://")[0]: varIp}
+
         return self.proxies
 
 
-    def getJson(self, varUrl):
+    def getJson(self, varUrl, headers, proxies):
 
         # 5 获取json网页内容
 
         self.session = requests.session()
-        response = requests.get(url=varUrl, headers=self.headers, proxies=self.proxies)
+        response = requests.get(url=varUrl, headers=headers, proxies=proxies)
         return response.json()
 
 
