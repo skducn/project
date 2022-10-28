@@ -128,6 +128,7 @@ from PO.MysqlPO import *
  
 6 移动范围数据 moveValue(rows, cols, 'C1:D2')
 
+7 将excel中标题（第一行字段）排序（从小打大）sortFields()
 
 '''
 
@@ -348,11 +349,14 @@ class OpenpyxlPO():
 
         # 2.3 设置整列值
         # Openpyxl_PO.setColValue({"A": ["k1", 666, "777"], "F": ["name", None, "888"]}, -1)
+        # Openpyxl_PO.setColValue({3: ["k1", 666, "777"], 4: ["name", None, "888"]}, -1)
         sh = self.sh(varSheet)
         for k, v in d_var.items():
             for i in range(len(v)):
-                if v[i] != None:
+                if v[i] != None and k.isalpha():
                     sh.cell(row=i + 1, column=column_index_from_string(k), value=v[i])
+                elif v[i] != None and k.isdigit():
+                    sh.cell(row=i + 1, column=int(k), value=v[i])
         self.save()
 
 
@@ -986,11 +990,42 @@ class OpenpyxlPO():
         self.save()
 
 
+    def sortFields(self, varSheet1):
+
+        # 7 将excel中标题（第一行字段）排序（从小打大）
+
+        l_sortAsc = []
+        l_title = self.getOneRowValue(0)
+        for k in range(len(l_title)):
+            x = "z"
+            for i in range(len(l_title)):
+                if x > l_title[i]:
+                    x = l_title[i]
+            l_sortAsc.append(x)
+            l_title.remove(x)
+        # print(l_sortAsc)
+
+        self.addSheet("sortAsc")
+        self.setRowValue({1: l_sortAsc}, "sortAsc")
+        col = self.getColValue(varSheet1)
+        # print(col)
+        for i in range(len(col)):
+            for j in range(len(l_sortAsc)):
+                if col[i][0] == l_sortAsc[j]:
+                    self.setColValue({str(j+1): col[i]}, "sortAsc")
+
+        self.save()
+
+
+
 
 if __name__ == "__main__":
 
     Sys_PO.killPid('EXCEL.EXE')
-    Openpyxl_PO = OpenpyxlPO("ExcelPO/i_erp_reportField_case.xlsx")
+    # Openpyxl_PO = OpenpyxlPO("ExcelPO/i_erp_reportField_case.xlsx")
+    Openpyxl_PO = OpenpyxlPO("student.xlsx")
+
+
 
 
     # print("1.1 新建".center(100, "-"))
@@ -1013,7 +1048,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.open()
 
     # print("1.8 删除工作表".center(100, "-"))
-    Openpyxl_PO.delSheet("Sheet1")
+    # Openpyxl_PO.delSheet("Sheet1")
     # Openpyxl_PO.delSheet("mySheet1")
 
     # print("2.0.1 插入一行或多行".center(100, "-"))
@@ -1210,5 +1245,6 @@ if __name__ == "__main__":
     # Openpyxl_PO.moveValue('A1:C14', 0, 3)  # 把'A1:C14'区域向右移动3列
 
 
-
+    # # print("7 将excel中标题（第一行字段）排序（从小打大）".center(100, "-"))
+    # Openpyxl_PO.sortFields("Sheet1")
 
