@@ -55,8 +55,8 @@ class BeautifulsoupPO:
         html.encoding = 'utf-8'
         html = html.text
         soup = BeautifulSoup(html, 'html.parser')
-        img_list = soup.find(tag1, {attr1:value1}).findAll(tag2)
-        return img_list[0].attrs[attr2]
+        l_value = soup.find(tag1, {attr1:value1}).findAll(tag2)
+        return l_value[0].attrs[attr2]
 
 
     def downPic(self, picUrl, tosave):
@@ -396,5 +396,7 @@ if __name__ == '__main__':
     picUrl = Beautifulsoup_PO.getValue('http://tieba.baidu.com/p/4468445702', "div", 'id', 'post_content_87286618651', "img", "src")
     print(picUrl)
 
-    print('将在线图片下载到本地'.center(100, "-"))
+    # print('将在线图片下载到本地'.center(100, "-"))
     Beautifulsoup_PO.downPic(picUrl, "d://1/123.jpg")
+
+    # bsop.find('div', {'class': 'img'}).find("p").findAll("img")[0].attrs['alt']
