@@ -5,6 +5,9 @@
 # Description: 抖音视频下载（单个，多个（获取抖音视频用户列表进行批量下载））
 # 抖音 user_url 用户列表链接的获取方法：右上角...  - 分享 - 复制链接
 # 参数哈 click（）， 参考：https://blog.csdn.net/weixin_33506900/article/details/112187887
+
+# cmd 命令：python dycmd.py --url https://v.douyin.com/2c6fEbw/
+
 #***************************************************************
 
 import requests, re, os, platform
@@ -21,14 +24,9 @@ from PO.StrPO import *
 Str_PO = StrPO()
 
 
-headers = Html_PO.getHeaders()
-proxies = Html_PO.getProxies()
-
-
 @click.command()
 @click.option('--url', help='description')
-@click.option('--ra', help='description')
-def getVidoeByPhone(url, toSave):
+def getVidoeByPhone(url, toSave="d://11"):
 	'''
 	1，单视频下载（手机版）
 	:param copyURL:
@@ -39,13 +37,13 @@ def getVidoeByPhone(url, toSave):
 
 
 	# 解析复制链接及API地址并获取视频ID
-	res = Html_PO.sessionGet(url, headers, proxies)
-	# print(res.url)
-	aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', res.url)  # ['6976835684271279400']
+	rsp = Html_PO.rspGet(url)
+	# print(rsp.url)
+	aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
 	apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
-	res = Html_PO.sessionGet(apiUrl, headers, proxies)
-	res = (str(res.text).encode('gbk', 'ignore').decode('gbk'))
-	tmp = json.loads(res)
+	rsp = Html_PO.rspGet(apiUrl)
+	rsp = (str(rsp.text).encode('gbk', 'ignore').decode('gbk'))
+	tmp = json.loads(rsp)
 	# print(tmp)
 
 	if tmp['item_list'] == [] and tmp['filter_list'][0]['notice'] == "抱歉，作品不见了":
@@ -60,9 +58,9 @@ def getVidoeByPhone(url, toSave):
 		# 视频Id
 		# video_id = re.findall(r'/?video_id=(\w+)', res1.text)  #  # v0300f3d0000bvn9r1prh6u8gbdusbdg
 		# 用户名
-		nickname = re.findall('"nickname":"(.+?)"', res)
+		nickname = re.findall('"nickname":"(.+?)"', rsp)
 		# 视频标题
-		varTitle = re.findall('"share_title":"(.+?)"', res)
+		varTitle = re.findall('"share_title":"(.+?)"', rsp)
 		# 优化文件名不支持的9个字符
 		varTitle = Str_PO.delSpecialChar(str(varTitle[0]))
 		# 生成目录
@@ -76,7 +74,7 @@ def getVidoeByPhone(url, toSave):
 		videoUrl = tmp['item_list'][0]['video']['play_addr']['url_list'][0]  # v0200fg10000ca0rof3c77u9aib3u93g
 		# videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
 
-		ir = Html_PO.sessionGet(videoUrl, headers, proxies)
+		ir = Html_PO.rspGet(videoUrl)
 		open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
 
 		# 输出结果
@@ -88,12 +86,8 @@ def getVidoeByPhone(url, toSave):
 		# print(l_result)
 		print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
 
-
-
-print("1，单视频下载（手机版）".center(100, "-"))
 getVidoeByPhone()  # 单个抖音链接
 
-# cmd 命令：python dyCMD.py -u https://v.douyin.com/2c6fEbw/
 
 
 

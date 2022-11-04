@@ -26,7 +26,7 @@
 1.3，随机获取n位数 getFigures(n)
 1.4，随机获取n个整数 getIntList()
 1.5，随机获取列表中元素 getElement(list,n)
-1.6，随机获取国内高匿ip代理  getIpAgent()
+1.6，随机获取国内高匿ip代理  getProxies()
 1.7.1，随机获取用户代理1 getUserAgent()
 1.7.2，随机获取用户代理2(访问fake地址) getUserAgent2()
 1.7.3，随机获取用户代理3(解析fake地址另存为json，本地访问json文件) getUserAgent3()
@@ -63,6 +63,7 @@ from MyQR import myqr
 # from pyzbar.pyzbar import decode
 from PIL import Image
 
+from time import sleep
 
 class DataPO():
 
@@ -110,17 +111,28 @@ class DataPO():
         # 如：getElement(['411', '1023', '0906', '0225'],'2')
         return random.sample(l_Content, varNum)
 
-    def getIpAgent(self):
+
+
+
+    def getProxies(self):
 
         '''1.6，随机获取国内高匿ip代理
-        解析 https://www.kuaidaili.com/free/inha/1/
+        解析 "https://www.kuaidaili.com/free"  或 https://www.kuaidaili.com/free/inha/1/
         return: HTTP://223.96.90.216:8085
         '''
+
 
         baseURL = "https://www.kuaidaili.com/free"
         # baseURL = "https://www.kuaidaili.com/free/inha/1/"
 
-        html = requests.get(baseURL, headers={"User-Agent": str(UserAgent().random)})
+        headers = {
+            'User-Agent': str(UserAgent().random)
+        }
+
+        html = requests.get(baseURL, headers=headers)
+        # print(html.status_code)
+        # print(str(UserAgent().random))
+
         # html.encoding = 'gb2312'
         # html.encoding = 'utf-8'
         # html.encoding = 'gbk'
@@ -129,7 +141,7 @@ class DataPO():
 
         # 获取 IP 列表
         l_ips = bsop.findAll('td', {'data-title': 'IP'})
-        # print(l_ips)
+        # print (l_ips)
         l_ip = []
         for l in l_ips:
             l_ip.append(str(l).replace('<td data-title="IP">', '').replace('</td>', ''))
@@ -151,6 +163,7 @@ class DataPO():
         for i in range(len(l_ip)):
             l_ipPort.append(l_type[i] + "://" + l_ip[i] + ":" + l_port[i])
 
+        sleep(1)
         # print(l_ipPort)
         return(l_ipPort[random.randint(0, len(l_ipPort)-1)])   # HTTP://223.243.255.4:65309
 
@@ -158,7 +171,7 @@ class DataPO():
 
         '''1.7.1，随机获取用户代理1'''
 
-        # 如报错，则更新 pip3 install -U fake-useragent
+        # 如报错fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fake-useragent
         # ua = UserAgent(use_cache_server=False)  # 禁用服务器缓存
         # ua = UserAgent(cache=False)  # 不缓存数据
         # ua = UserAgent(verify_ssl=False)  # 忽略ssl验证
@@ -630,8 +643,10 @@ if __name__ == '__main__':
     # print("1.5，随机获取列表中元素".center(100, "-"))
     # print(Data_PO.getElement(['411', '1023', '0906', '0225'], 2))  # ['1023', '0906']
     #
-    # print("1.6，随机获取国内高匿ip代理".center(100, "-"))
-    # print(Data_PO.getIpAgent())
+    print("1.6，随机获取国内高匿ip代理".center(100, "-"))
+    print(Data_PO.getProxies())
+    print(Data_PO.getProxies())
+    print(Data_PO.getProxies())
 
     # print("1.7.1，随机获取用户代理1".center(100, "-"))
     # print(Data_PO.getUserAgent())
