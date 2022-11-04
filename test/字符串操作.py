@@ -14,7 +14,7 @@ print('{0}, {1}, {2}'.format('a', 'b', 'c'))  # a, b, c
 print('{}, {}, {}'.format('a', 'b', 'c'))  # a, b, c
 print('{2}, {1}, {0}'.format('a', 'b', 'c'))  # c, b, a
 # unpacking argument sequence
-print('{2}, {1}, {0}'.format(*'a2bc'))  # b, 2, a
+print('{2}{1}{0}'.format(*'a2bc'))  # b2a
 print('{2}, {1}, {0}'.format(*string))  # 7,6,5
 print('{0}{1}{0}'.format('123', 'cad'))  # 123cad123
 
