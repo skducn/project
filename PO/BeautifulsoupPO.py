@@ -46,6 +46,27 @@ class BeautifulsoupPO:
         self.soup = BeautifulSoup(html, 'lxml')
 
 
+    def getValue(self, url,tag1,attr1,value1,tag2,attr2):
+
+        # 获取页面上标签中属性的值
+        # 如：获取url中div标签中id为post_content_87286618651下img标签中src的值
+        # Beautifulsoup_PO.getValue('http://tieba.baidu.com/p/4468445702',"div",'id','post_content_87286618651',"img","src")
+        html = requests.get(url)
+        html.encoding = 'utf-8'
+        html = html.text
+        soup = BeautifulSoup(html, 'html.parser')
+        img_list = soup.find(tag1, {attr1:value1}).findAll(tag2)
+        return img_list[0].attrs[attr2]
+
+
+    def downPic(self, picUrl, tosave):
+
+        # 下载在线图片
+
+        img = requests.get(picUrl)
+        with open(tosave, 'ab') as f:
+            f.write(img.content)
+            f.close()
 
 
 if __name__ == '__main__':
@@ -371,33 +392,9 @@ if __name__ == '__main__':
     # Tillie
 
 
+    print('获取url中div标签中id为post_content_87286618651下img标签中src的值'.center(100, "-"))
+    picUrl = Beautifulsoup_PO.getValue('http://tieba.baidu.com/p/4468445702', "div", 'id', 'post_content_87286618651', "img", "src")
+    print(picUrl)
 
-    # html = requests.get(url,headers=headers)
-    # html.encoding = 'utf-8'
-    # text = html.text
-    # # print(text)
-    #
-    # soup = BeautifulSoup(text, 'html.parser')
-    # # soup = BeautifulSoup(text, 'lxml')
-    # # soup = BeautifulSoup(text, 'html5lib')
-    # # soup = BeautifulSoup(text)
-    # # print(soup.select('img'))
-    # nameTags = soup.findAll('img',{"alt":True})
-    # for n in nameTags:
-    #     url = n["src"]
-    #     alt = n['alt']
-    #     print(url,alt)
-    #     # Do your processing
-    #
-    # # for i in bsop.select('img'):
-    # #     # print(i.get_text())
-    # #     print(i)
-    # #     break
-
-
-
-
-
-
-
-
+    print('将在线图片下载到本地'.center(100, "-"))
+    Beautifulsoup_PO.downPic(picUrl, "d://1/123.jpg")

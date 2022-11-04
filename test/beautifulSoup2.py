@@ -18,11 +18,12 @@ html = html.text
 # 创建 beautifulsoup 对象
 soup = BeautifulSoup(html, 'html.parser')
 img_list = soup.find('div',{'id':'post_content_87286618651'}).findAll('img')
+print(img_list)
 img_src = img_list[0].attrs['src']
 print("文件名：" + img_src)
 
-# 下载
-img = requests.get(img_src)
-with open('d://a.jpg', 'ab') as f:
-    f.write(img.content)
-    f.close()
+# # 下载
+# img = requests.get(img_src)
+# with open('d://a.jpg', 'ab') as f:
+#     f.write(img.content)
+#     f.close()
