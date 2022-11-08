@@ -119,3 +119,8 @@ from PO import SqlserverPO, MysqlPO
 
 # 禅道
 # mysql_PO = MysqlPO.MysqlPO("192.168.0.211", "readonly", "benetech123", "zentaoep", 3306)
+
+
+# 区域平台
+mysql_PO = MysqlPO.MysqlPO("192.168.0.234", "root", "Zy123456", "regional-user", 3306)   # 测试环境
+mysql_PO.dbRecord('*', 'char', u'%金浩%')

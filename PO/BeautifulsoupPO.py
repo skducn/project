@@ -430,6 +430,11 @@ if __name__ == '__main__':
     # print('将在线图片下载到本地'.center(100, "-"))
     # Beautifulsoup_PO.downPic(picUrl, "d://1/123.jpg")
 
+
+
+
+
+
     # bsop.find('div', {'class': 'img'}).find("p").findAll("img")[0].attrs['alt']
 
     # Beautifulsoup_PO.getValue2('https://www.ximalaya.com/album/13738175', "span", 'class_', 'title _nO')
