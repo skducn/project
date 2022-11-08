@@ -2,7 +2,7 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2021-1-7
-# Description: # numppy
+# Description: # numpy
 # https://blog.csdn.net/weixin_40040404/article/details/80776678
 # https://www.cnblogs.com/q735613050/p/9130312.html
 # http://www.voidcn.com/article/p-cylcldlk-btm.html
@@ -637,8 +637,6 @@ arr = np.arange(6)  # array([0, 1, 2, 3, 4, 5])
 print(np.ones_like(arr))  # array([1, 1, 1, 1, 1, 1])
 
 
-def ee():
-    Ellipsis
 
 ary = np.arange(27).reshape(3,3,3)
 print(ary)
@@ -658,16 +656,8 @@ l = [[[1, 2, 3], [4, 5, 6,333]]]
 print(sum(l, []))
 
 
-# nums = [1, 3, 7]
-# print(sum(nums))
-# print(7+_)
+nums = [1, 3, 7]
+print(sum(nums))
 
 
-try:
-    test =123
-    ewr
-except:
-    print("44444")
-else:
-    print("ok")
-    print(test)
+

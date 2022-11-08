@@ -32,23 +32,20 @@ json_text={
 }
 
 
-import requests,json
-m = requests.post(url, json.dumps(json_text), headers={"Content-Type":"application/json"}).content
-print(m)
-
-print((m.decode("utf-8", 'strict')))
+# import requests, json, sys
+# m = requests.post(url, json.dumps(json_text), headers={"Content-Type": "application/json"}).content
+# print(m)
+#
+# sys.exit(0)
+#
+#
+#
+# print((m.decode("utf-8", 'strict')))
 
 # requests.post(url, json.dumps(json_text), headers={"Content-Type":"application/json;charset=utf-8"})
 
 
 
-list1 = ["12","4,000","5,000"]
-# list1 = [x.replace(",","") for x in list1]
-# print(list1)
-
-list1.pop(0)
-list1.insert(0,333)
-print(list1)
 
 
 # x = 10.555
@@ -71,167 +68,18 @@ print(list1)
 #
 # print()
 
-# x = "weri测试"
-# print(x[:-2])
-# d = '''{
-# 	"projectId": 0,
-# 	"roleList": [
-# 		{
-# 			"createId": 0,
-# 			"createTime": "",
-# 			"creator": "",
-# 			"id": 174,
-# 			"isSelected": 0,
-# 			"menuCodes": [],
-# 			"projectId": [],
-# 			"remark": "",
-# 			"roleName": "",
-# 			"status": 0,
-# 			"systemType": 0,
-# 			"updateId": 0,
-# 			"updateTime": "",
-# 			"updater": ""
-# 		}
-# 	],
-# 	"sysUserVO": {
-# 		"accountEffectTime": "2020-09-11 00:00:00",
-# 		"accountInvalidTime": "2024-09-26 00:00:00",
-# 		"allowErrorNum":100,
-# 		"allowLoginTime": "08:30:00-18:30:00",
-# 		"crcFlag": true,
-# 		"deptCodeName": "",
-# 		"deptStr": "",
-# 		"email": "",
-# 		"id": 0,
-# 		"isCanLoginApplet": 0,
-# 		"isForcedPasswordExpiration": 0,
-# 		"lastLoginoutProject": 0,
-# 		"mobile": "",
-# 		"orgId": 0,
-# 		"password": "",
-# 		"passwordEffectDay": 1110,
-# 		"passwordErrorNum": 0,
-# 		"passwordInvalidDate": "2049-11-15 16:26:01",
-# 		"passwordLockDuration": "5",
-# 		"passwordLockTimes": 0,
-# 		"professionalTechJobName": "",
-# 		"profilePicture": "",
-# 		"roleStr": "",
-# 		"secretEffectTime": "",
-# 		"secretInvalidTime": "",
-# 		"status": 1,
-# 		"statusStr": "",
-# 		"type": 0,
-# 		"userDetailId": 0,
-# 		"userName": "",
-# 		"userNo": "",
-# 		"userRoleList": []
-# 	},
-# 	"userDetailId": 174,
-# 	"userId": 161,
-# 	"userName": "admin",
-# 	"userNo": "admin"
-# }'''
-#
-# def is_dict(str1):
-#     '''
-#     判断字符串是否是json格式的字典
-#     :return:
-#     '''
-#
-#     false = False
-#     true = True
-#     null = ''
-#
-#     try:
-#         eval(str1)
-#     except SyntaxError:
-#         return False
-#     return True
-#
-# print(is_dict(d))
-#
-# if is_dict(d) == True:
-#
-#     print(123)
-# import json
-# print(json.loads(d))
-
-
-
-# print(json.loads(d))
-# d = '''{
-# 	"bucket": "",
-# 	"isCover": "",
-# 	"name": "",
-# 	"password": "",
-# 	"size": 0,
-# 	"userName": ""
-# }'''
-
-# d = "conten={}"
-# if is_dict(d):
-#     print("is dict")
-# else:
-#     print("no")
-
-
-# d = {2: ['医患交流信息表接口', '群发消息-PC', '/saasuser/afPreoperativeCounselingInfo/addMassMessage', 'post', 'application/json', [{'in': 'body', 'name': 'chatVos', 'description': '数据对象', 'required': False, 'schema': {'type': 'array', 'items': {'$ref': '#/definitions/ChatVO'}}}]]}
-#
-# for k, v in d.items():
-#     for i in range(len(v)):
-#         if v[i] != None:
-#             print(v[i])
-# x = '110100000000'
-# print(x[-6:])
-#
-# a= {'code': '310101002001', 'name': '云南中路居委会',"village":[{'code': '110101001001', 'name': '多福巷社区居委会'},{'code': '110', 'name': '多福巷社区居委会2'}]}
-# # b= {'code': '310101002002', 'name': '龙泉园路居委会'}
-# # c= {'code': '310101002003', 'name': '贵州路居委会'}
-# # list1 = []
-# # list1.append(a)
-# # list1.append(b)
-# # list1.append(c)
-# # print(list1)
-# a.update({"village":[{"a:":"22"}]})
-# print(a)
-
-
-# d = [{'type': 'array', 'description': '参会者反馈信息', 'items': {'originalRef': '会议反馈人员记录DTO', '$ref': '#/definitions/会议反馈人员记录DTO'}}]
-# # if "items" in d:
-# #     if "$ref" in d['items']:
-# #         print(121212)
-# # print(d['items']['$ref'].split("#/definitions/")[1])
-# import json
-# print(d)
-# b = json.dumps(d, ensure_ascii=False)
-# print(b)
 
 
 
 
-# l = ['baidu','taobao']
-# if 'baidu' in l :
-#     print("121212")
 
-# def sum(x):
-#
-#     for i in range(1,10):
-#         print(x)
-#         x = x + 1
-#         if x == 10:
-#             sum(x)
-#
-# sum(1)
 
-# s = "tet"
-# print(s.split(","))  # ['tet']
 
-# # list0 =
-# if "kill" not in ['t','kill']:
-#     print("1111")
-# else:
-#     print("2222")
+
+
+
+
+
 
 #
 # from docx import Document
@@ -524,17 +372,21 @@ print(list1)
 # #
 # #
 # #
-# # a = ["welcome,linuxmi.com,33"]
-# # for i in a:
-# #     print(i.count(',') + 1)
-# #
-# #
-# # import numpy as np
-# # #创建数组
-# # a = np.array([2,1,0,5])
-# # print(a)
-# # print(a[:3])
-# # print(a.min())
-# # a.sort()
-# # b = np.array([1,2,3],[4,5,6])
+
+
+# a = ["welcome,linuxmi.com,33"]
+# for i in a:
+#     print(i.count(',') + 1)
+
+
+
+# import numpy as np
+# # 列表排序
+# a = np.array([2,1,0,5])
+# print(a)
+# print(a[:3])
+# print(a.min())
+# a.sort()
+# print(a)
+# b = np.array([1,2,3])
 # print(b*b)

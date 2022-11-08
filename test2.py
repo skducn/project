@@ -2,7 +2,7 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2021-1-7
-# Description: # textwrap 调整换行符的位置来格式化文本
+# Description: # textwrap 文本自动换行与填充
 # __all__ = ['TextWrapper', 'wrap', 'fill', 'dedent', 'indent', 'shorten']
 # 官网：https://docs.python.org/zh-cn/3.8/library/textwrap.html
 # 学习：https://www.cnblogs.com/wj5633/p/6931187.html
@@ -15,9 +15,11 @@ import urllib.request
 import urllib.error
 import requests
 from selenium import webdriver
-
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.wait import WebDriverWait
 from bs4 import BeautifulSoup
+
+
 ###配置logging日志###
 logging.basicConfig(level=logging.ERROR,
                    filename='./log.txt',
@@ -38,6 +40,7 @@ with open(file, 'r+', encoding='utf-8') as f:
     for url in lines:
         list.append(url)
 print("共有{0}个url开始访问......".format(len(list)))  # 打印url的个数
+
 ###浏览器初始化，设置异步模式####
 desired_capabilities = DesiredCapabilities.CHROME
 desired_capabilities["pageLoadStrategy"] = "none"
@@ -63,18 +66,19 @@ for index, url1 in enumerate(list):    # 遍历索引和值
     time.sleep(5)
 
 
-    ###处理URI资源名，准备截图保存
-    file = url1.rsplit("/", 1)[1]
-    if "." in file:
-        file = file.rsplit(".", 1)[0]
-    try:
-        picnum = picnum + 1
-        name = r"\\" + str(picnum)+"_" + file + '.png'
-        filename = path + name
-        driver.get_screenshot_as_file(filename)
-        print("保存第{0}个url截图成功".format(index+1))
-    except:
-        print("保存第{0}个url截图失败".format(index+1))
+    # ###处理URI资源名，准备截图保存
+    # file = url1.rsplit("/", 1)[1]
+    # if "." in file:
+    #     file = file.rsplit(".", 1)[0]
+    # try:
+    #     picnum = picnum + 1
+    #     name = r"\\" + str(picnum)+"_" + file + '.png'
+    #     filename = path + name
+    #     driver.get_screenshot_as_file(filename)
+    #     print("保存第{0}个url截图成功".format(index+1))
+    # except:
+    #     print("保存第{0}个url截图失败".format(index+1))
+
     ###判断页面状态，保存异常URL
     url3 = driver.current_url
     print("当前URL地址：",url3)
