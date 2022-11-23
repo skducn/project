@@ -2,11 +2,7 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2021-1-7
-# Description: # textwrap 文本自动换行与填充
-# __all__ = ['TextWrapper', 'wrap', 'fill', 'dedent', 'indent', 'shorten']
-# 官网：https://docs.python.org/zh-cn/3.8/library/textwrap.html
-# 学习：https://www.cnblogs.com/wj5633/p/6931187.html
-# 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
+
 # *****************************************************************
 
 import time
