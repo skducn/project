@@ -12,26 +12,33 @@
 import pandas as pd, numpy as np
 
 # todo Series类型
-arr1 = np.arange(10)
-print(arr1)  # [0 1 2 3 4 5 6 7 8 9]
+# Series和ndarray之间的主要区别在于Series之间的操作会根据索引自动对齐数据。
+arr1 = np.arange(2,10)
+print(arr1)  # [2 3 4 5 6 7 8 9]
 print(type(arr1))  # <class 'numpy.ndarray'>
 for i in arr1:
     print(i)
-
+# 2
+# 3
+# 4
+# 5
+# 6
+# 7
+# 8
+# 9
 s1 = pd.Series(arr1)
 print(s1)   # 第一列是索引，第二列是列表值
-# 0    0
-# 1    1
-# 2    2
-# 3    3
-# 4    4
-# 5    5
-# 6    6
-# 7    7
-# 8    8
-# 9    9
+# 0    2
+# 1    3
+# 2    4
+# 3    5
+# 4    6
+# 5    7
+# 6    8
+# 7    9
+# dtype: int32
+print("````````````````````````")
 
-# Series和ndarray之间的主要区别在于Series之间的操作会根据索引自动对齐数据。
 
 
 # todo DataFrame类型
@@ -52,7 +59,8 @@ print(df)
 # 4  Nevada  2002  2.9
 # 5  Nevada  2003  3.2
 
-# 输出指定列（columns） , 及指定索引号（index）#，不存在的列debt则输出NaN
+
+# 输出指定列（columns） 及指定索引号（index）#，不存在的列debt则输出NaN
 df2 = pd.DataFrame(data, columns=['year', 'state', 'pop', 'debt'], index=['one', 'two', 'three', 'four', 'five', 'six'])
 print(df2)
 #        year   state  pop debt
@@ -75,7 +83,8 @@ print(df2['state'])
 # six      Nevada
 # Name: state, dtype: object
 
-#列可以通过赋值的方式进行修改。例如，我们可以给那个空的"debt"列赋上一个标量值或一组值
+# 修改某列的所有值
+# 例如，给"debt"列赋上一个标量值或一组值
 df2['debt'] = 16.5
 print(df2)
 #        year   state  pop  debt
@@ -85,11 +94,20 @@ print(df2)
 # four   2001  Nevada  2.4  16.5
 # five   2002  Nevada  2.9  16.5
 # six    2003  Nevada  3.2  16.5
+df2['debt'] = 666
+print(df2)
+#        year   state  pop  debt
+# one    2000    Ohio  1.5   666
+# two    2001    Ohio  1.7   666
+# three  2002    Ohio  3.6   666
+# four   2001  Nevada  2.4   666
+# five   2002  Nevada  2.9   666
+# six    2003  Nevada  3.2   666
 
 
 
-# DataFrame方式是可以使用嵌套字典，如果嵌套字典传给DataFrame，pandas就会被解释为外层字典的键作为列，内层字典键则作为行索引：
-pop = {'Nevada': {2001: 2.4, 2002: 2.9},'Ohio': {2000: 1.5, 2001: 1.7, 2002: 3.6}}
+# DataFrame方式是使用嵌套字典时，外层字典的键作为列名，内层字典的键作为行索引
+pop = {'Nevada': {2001: 2.4, 2002: 2.9}, 'Ohio': {2000: 1.5, 2001: 1.7, 2002: 3.6}}
 df3 = pd.DataFrame(pop)
 print(df3)
 #       Nevada  Ohio
@@ -102,15 +120,24 @@ print(df3)
 # 读取数据
 data = pd.read_csv('test.csv')
 print(data)
-data = pd.read_csv('test.csv', sep=';',  nrows=20, skiprows=[2, 5])    # 读取前 20 行数据，并移除第 2 行和第 5 行
+print("~~~~~~~~~~~~~~~~~~~~~~~")
+#    姓名  age sex
+# 0  张三   30   女
+# 1  李四   28   1
+# 2  王五   88   男
+
+data = pd.read_csv('test.csv', sep=';',  nrows=1, skiprows=[3, 5])    # 读取前 20 行数据，并移除第 2 行和第 5 行
 print(data)
+print("~~~~~~~~~~~~~~~~~~~~~~~")
+#   姓名,age,sex
+# 0    张三,30,女
 
 # 保存数据
-data.to_csv('test.csv', index=None)
+# data.to_csv('test.csv', index=None)
 # data.to_csv('test.csv')   # 如果没有Index=None 则每次保存后会多一列序号。
 
 # 查看前三行数据
-print(data.head(3))
+print(data.head(6))
 
 # print(data.loc[1,"level"])
 #
