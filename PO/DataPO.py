@@ -171,7 +171,7 @@ class DataPO():
 
         '''1.7.1，随机获取用户代理1'''
 
-        # 如报错fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fake-useragent
+        # 如报错fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fakefake-useragent
         # ua = UserAgent(use_cache_server=False)  # 禁用服务器缓存
         # ua = UserAgent(cache=False)  # 不缓存数据
         # ua = UserAgent(verify_ssl=False)  # 忽略ssl验证
