@@ -25,7 +25,8 @@
 10 生成N个经度纬度  genLatitudeLongitude
 11 生成N个text  genText
 
-生成N个测试数据  genTest
+12 生成N个测试数据  genTest
+13，生成10条测试数据并写入数据库test55
 '''
 
 import sys,os
