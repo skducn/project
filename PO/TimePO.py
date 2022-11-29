@@ -5,11 +5,14 @@
 # Description   : 日期时间
 # *********************************************************************
 
-from time import strftime, localtime
+from time import strftime, localtime, sleep
 from datetime import date, datetime, timedelta
 import calendar, datetime, time
 from workalendar.asia import China
 cal = China()
+
+import pandas as pd
+
 
 class TimePO():
 
@@ -382,7 +385,7 @@ if __name__ == "__main__":
 
     # 获取当前日期年月日时分秒
     # print(Time_PO.getDate())  # 20200319
-    print(Time_PO.getDateByMinus())  # 2020-03-19
+    # print(Time_PO.getDateByMinus())  # 2020-03-19
     # print(Time_PO.getDateByDivide())  # 2020/03/19
     # print(Time_PO.getDateTime())  # 20200319151928
     # print(Time_PO.getDateTimeByDivide())  # 2020/03/19 15:19:28
@@ -446,3 +449,23 @@ if __name__ == "__main__":
     #
     # # 获取每月工作日天数（不包括双休日与节假日）
     # print(Time_PO.get_weekday("2020-12"))
+
+
+    # 求时间差
+    date_start = pd.to_datetime(datetime.datetime.now())  # Timestamp('2021-05-19 08:06:08.683355')
+    sleep(6)
+    date_end = pd.to_datetime(datetime.datetime.now())  # Timestamp('2021-05-19 08:06:08.683355')
+    print(date_end - date_start)  # 0 days 00:00:06.010230
+
+    # 秒转换为时分秒
+    seconds = 170
+    # divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。
+    m, s = divmod(seconds, 60)
+    h, m = divmod(m, 60)
+    print("%02d:%02d:%02d" % (h, m, s))  # 00:02:50
+
+
+    # 秒转换为时分秒
+    from time import strftime
+    from time import gmtime
+    print(strftime("%H:%M:%S", gmtime(170)))  # 00:02:50
