@@ -772,3 +772,29 @@ print(df.isna().values.tolist())  # [[False, False, True, False, False]]
 
 
 print(np.nan != np.nan)  # True
+
+
+print("2，numpy中，通过 ... 或 Ellipsis 切片获取某列所有值'".center(100, "-"))
+arr = np.arange(27).reshape(3, 3, 3)
+print(arr)
+# [[[ 0  1  2]
+#   [ 3  4  5]
+#   [ 6  7  8]]
+#
+#  [[ 9 10 11]
+#   [12 13 14]
+#   [15 16 17]]
+#
+#  [[18 19 20]
+#   [21 22 23]
+#   [24 25 26]]]
+print("2.1，numpy中，通过 ... 或 Ellipsis 切片获取数组中第一列的所有值'".center(100, "-"))
+print(arr[..., 1])
+# [[ 1  4  7]
+#  [10 13 16]
+#  [19 22 25]]
+print("2。2，numpy中，通过 ... 或 Ellipsis 切片获取数组中第二列的所有值'".center(100, "-"))
+print(arr[Ellipsis, 2])
+# [[ 2  5  8]
+#  [11 14 17]
+#  [20 23 26]]
