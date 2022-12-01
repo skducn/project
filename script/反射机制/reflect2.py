@@ -11,7 +11,7 @@ KEYWORD = "john"
 print('index')
 
 def sayHello():
-    print('hello index')
+    print('hello yoyo')
 
 def sayHelloZhCn():
-    print('你好 index')
+    print('你好 peter')
