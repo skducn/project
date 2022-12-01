@@ -3,7 +3,7 @@
 # Author     : John
 # Date       : 2018/7/20 11:00
 # Description: request1.py
-# https://www.cnblogs.com/ranxf/p/7808537.html python3_requests 模块详解
+# python3_requests 模块详解 https://www.cnblogs.com/ranxf/p/7808537.html
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # def get(url: str | bytes,
 #         params: Any = ...,
