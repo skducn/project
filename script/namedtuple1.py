@@ -2,12 +2,41 @@
 # ********************************************************************************************************************
 # Author     : John
 # Date       : 2020-7-17
-# Description: collections - namedtuple
-# https://blog.csdn.net/june_young_fan/article/details/91359194
-# typename：实际上就是你通过namedtuple创建的一个元组的子类的类名，通过这样的方式我们可以初始化各种各样的实例化元组对象。
+# Description: collections.namedtuple(typename, field_names, *, rename=False, defaults=None, module=None) 命名元组的工厂函数
+
+# 定义：命名元组赋予每个位置一个含义，提供可读性和自文档性。它们可以用于任何普通元组，并添加了通过名字获取值的能力，通过索引值也是可以的。
+# namedtuple 命名元组应用于元组tuple数据，可读性更强、内存占用也不会太多。
+# 一般我们会将从文件或者数据库中读取出来的数据使用namedtuple去进行转化，让原始数据代表的含义依然能在这样的数据结构中保留，增加数据的可读性和操作的便捷性。
+
+# Collections之namedtuple: https://blog.csdn.net/june_young_fan/article/details/91359194
+
+# 标准库：https://docs.python.org/zh-cn/3.7/library/collections.html?highlight=collections#collections.namedtuple
+# 英文：https://docs.python.org/3.6/library/collections.html#collections.namedtuple
 # ********************************************************************************************************************
 
 from collections import namedtuple
+
+
+print("8".center(100, "-"))
+
+EmployeeRecord = namedtuple('EmployeeRecord', 'name, age, birthday, score, sex')
+
+import csv
+count = 0
+for emp in map(EmployeeRecord._make, csv.reader(open("name12.csv", "r", encoding="gbk"))):
+    print(emp.name, emp.score)
+    print(emp._asdict())  # {'name': '张三', 'age': '30', 'birthday': '1990/12/12', 'score': '数学', 'sex': '男'}
+
+
+
+# import sqlite3
+# conn = sqlite3.connect('/companydata')
+# cursor = conn.cursor()
+# cursor.execute('SELECT name, age, title, department, paygrade FROM employees')
+# for emp in map(EmployeeRecord._make, cursor.fetchall()):
+#     print(emp.name, emp.title)
+
+
 
 Point1 = namedtuple('Point', ['x', 'y'])
 p = Point1(11, y=22)   # 创建的一个元组的子类，并实例化元组对象p
@@ -47,3 +76,6 @@ d = {'x': 11, 'y': 2554}
 print(Point1(**d))  # Point(x=11, y=2554)
 p1 = Point1(**d)
 print(p1[1])  # 2554
+
+
+
