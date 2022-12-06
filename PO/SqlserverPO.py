@@ -24,13 +24,12 @@
 
 '''
 
-1 查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
-2 查找记录 dbRecord('*', 'money', '%34.5%')
-
-3 判断字段是否存在
-4 获取字段的类型
-5 获取单个表的所有字段
-6 获取所有表名
+1 查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写  dbDesc()
+2 查找记录  dbRecord('*', 'money', '%34.5%')
+3 判断字段是否存在 isField(self, varTable, varField)
+4 获取字段的类型  getFieldType(self, varTable, varField)
+5 获取单个表的所有字段  getTableField(self, varTable)
+6 获取所有表名  getAllTable(self)
 
 '''
 import sys
