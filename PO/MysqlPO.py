@@ -27,13 +27,13 @@ pandas引擎（mysqldb）  getMysqldbEngine()
 4.3，数据库表导出csv db2csv()
 4.4 excel导入数据库表 xlsx2db()
 4.5 所有表结构导出excel dbDesc2xlsx()
-4.6 从数据库生成报表
+4.6 数据库表转html db2html("erp_开发计划总揽_","2022-11-12","12345")
 
-5 获取单个表的所有字段
+5 获取单个表的所有字段 getTableField(self, varTable)
 
 6 expain SQL语句的执行计划
 
-7 获取mysql关键字列表
+7 获取mysql关键字列表 ？
 
 '''
 import sys
@@ -426,17 +426,17 @@ class MysqlPO():
         Openpyxl_PO.save()
 
 
-    def db2html(self, varTitle, varNowTime, arDbTable):
+    def db2html(self, varTitle, varNowTime, varTable):
 
         '''
-            4.6 从数据库生成报表
+            4.6 数据库表转html
             # db2html("erp_开发计划总揽_","2022-11-12","12345")
             # db2html("erp_开发计划总揽_",str(Time_PO.getDateTime()),"12345")
         '''
 
         # 生成report.html
         varTitle = varTitle + "_" + varNowTime
-        df = pd.read_sql(sql="select * from `%s`" % arDbTable, con=self.getPymysqlEngine())
+        df = pd.read_sql(sql="select * from `%s`" % varTable, con=self.getPymysqlEngine())
         pd.set_option('colheader_justify', 'center')  # 对其方式居中
         html = '''<html><head><title>''' + varTitle + '''</title></head>
         <body><b><caption>''' + varTitle + '''</caption></b><br><br>{table}</body></html>'''
@@ -516,6 +516,8 @@ class MysqlPO():
 if __name__ == '__main__':
 
 
+
+    ...
     # 238 sass高血压（测试） ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     # Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 3306)
     # t_userNo = Mysql_PO.execQuery('select id from sys_user_detail where userNo="%s"' % ("16766667777"))
@@ -596,11 +598,11 @@ if __name__ == '__main__':
 
 
     # print("4.5 将所有表结构导出到excel(覆盖)".center(100, "-"))
-    Mysql_PO.dbDesc2xlsx("d:\\crmtest.xlsx")
+    # Mysql_PO.dbDesc2xlsx("d:\\crmtest.xlsx")
     # Mysql_PO.dbDesc2xlsx("/Users/linghuchong/Desktop/mac/sassDesc.xlsx")
 
 
-    # print("4.6 从数据库生成报表".center(100, "-"))
+    # print("4.6 数据库表转html".center(100, "-"))
     # Mysql_PO.db2html("erp_开发计划总揽_", "2022-11-12", "12345")
 
     # print("5 将所有表结构导出到excel(覆盖)".center(100, "-"))
