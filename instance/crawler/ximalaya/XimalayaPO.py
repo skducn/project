@@ -28,14 +28,14 @@ Str_PO = StrPO()
 class XimalayaPO:
 
 	def __init__(self):
-		self.headers = Html_PO.getHeaders()
+		self.headers = Html_PO.getUserAgent()
 		self.proxies = Html_PO.getProxies()
 
 	# 1，获取音频列表
 	def getAlbumList(self, albumId):
 
 		# 获取专辑音频总数
-		cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId), self.headers, self.proxies)
+		cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId))
 		# print(cjson)
 
 
@@ -62,7 +62,7 @@ class XimalayaPO:
 			l_indexTitle = []
 			l_tmp = []
 			for num in range(1, pageNum + 1):
-				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum={}".format(albumId, num), self.headers, self.proxies)
+				cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum={}".format(albumId, num))
 				countByPage = len(cjson['data']['tracks'])
 				if countByPage == 30:
 					for i in range(30):
@@ -70,7 +70,7 @@ class XimalayaPO:
 						title = cjson['data']['tracks'][i]['title']
 						trackId = cjson['data']['tracks'][i]['trackId']
 
-						res = Html_PO.sessionGet("https://mobile.ximalaya.com/shortcontent-web/track/subtitle?trackId=" + str(trackId), self.headers, self.proxies)
+						res = Html_PO.rspGet("https://mobile.ximalaya.com/shortcontent-web/track/subtitle?trackId=" + str(trackId))
 						# print(res.text)
 						d = json.loads(res.text)
 						testASR = d["data"]["subtitlesContent"]
@@ -86,8 +86,8 @@ class XimalayaPO:
 						index = cjson['data']['tracks'][i]['index']
 						title = cjson['data']['tracks'][i]['title']
 						trackId = cjson['data']['tracks'][i]['trackId']
-						res = Html_PO.sessionGet(
-							"https://mobile.ximalaya.com/shortcontent-web/track/subtitle?trackId=" + str(trackId), self.headers, self.proxies)
+						res = Html_PO.rspGet(
+							"https://mobile.ximalaya.com/shortcontent-web/track/subtitle?trackId=" + str(trackId))
 						# d = dict(eval(res.text))
 						d = json.loads(res.text)
 						testASR = d["data"]["subtitlesContent"]
@@ -103,7 +103,7 @@ class XimalayaPO:
 			l_titleSrc = []
 			l_tmp = []
 			for num in range(1, pageNum + 1):
-				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num), self.headers, self.proxies)
+				cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num))
 				for i in range(cjson['data']['pageSize']):
 					try:
 						if cjson['data']['tracksAudioPlay'][i]['canPlay'] == True:
@@ -131,7 +131,7 @@ class XimalayaPO:
 	def getOneAudio(self, albumId, varKeyword, toSave):
 
 		# 获取专辑音频总数
-		cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId), self.headers, self.proxies)
+		cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId))
 		if cjson["ret"] != 200 :
 			print("[errorrrrrrrrr] albumId不存在！")
 			os._exit(0)
@@ -155,7 +155,7 @@ class XimalayaPO:
 			l_indexTitle = []
 			l_tmp = []
 			for num in range(1, pageNum + 1):
-				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum={}".format(albumId, num), self.headers, self.proxies)
+				cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum={}".format(albumId, num))
 				countByPage = len(cjson['data']['tracks'])
 				if countByPage == 30:
 					for i in range(30):
@@ -179,7 +179,7 @@ class XimalayaPO:
 			l_titleSrc = []
 			l_tmp = []
 			for num in range(1, pageNum + 1):
-				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num), self.headers, self.proxies)
+				cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num))
 				for i in range(30):
 					try:
 						if cjson['data']['tracksAudioPlay'][i]['canPlay'] == True:
@@ -208,7 +208,7 @@ class XimalayaPO:
 				if isinstance(varKeyword, int):
 					if l_indexTitle[i][0] == varKeyword :
 						if l_indexTitle[i][2] != None:
-							ir = Html_PO.sessionGet(l_indexTitle[i][2], self.headers, self.proxies)
+							ir = Html_PO.rspGet(l_indexTitle[i][2])
 							# 优化文件名不支持的9个字符
 							varTitle = Str_PO.delSpecialChar(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
@@ -225,7 +225,7 @@ class XimalayaPO:
 	def getMoreAudio(self, albumId, toSave, scope="all", keyword="all"):
 
 		# 获取专辑音频总数
-		cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId), self.headers, self.proxies)
+		cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum=1".format(albumId))
 		if cjson["ret"] != 200 :
 			print("[errorrrrrrrrr] albumId不存在！")
 			os._exit(0)
@@ -248,7 +248,7 @@ class XimalayaPO:
 			l_indexTitle = []
 			l_tmp = []
 			for num in range(1, pageNum + 1):
-				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum={}".format(albumId, num), self.headers, self.proxies)
+				cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/album/getTracksList?albumId={}&pageNum={}".format(albumId, num))
 				countByPage = len(cjson['data']['tracks'])
 				if countByPage == 30:
 					for i in range(30):
@@ -272,7 +272,7 @@ class XimalayaPO:
 			l_titleSrc = []
 			l_tmp = []
 			for num in range(1, pageNum + 1):
-				cjson = Html_PO.getJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num), self.headers, self.proxies)
+				cjson = Html_PO.rspGetJson("https://www.ximalaya.com/revision/play/album?albumId={}&pageNum={}".format(albumId, num))
 				for i in range(30):
 					try:
 						if cjson['data']['tracksAudioPlay'][i]['canPlay'] == True:
@@ -305,7 +305,7 @@ class XimalayaPO:
 					# 下载指定序号之前的音频
 					if scope == "before":
 						if keyword >= l_indexTitle[i][0]:
-							ir = Html_PO.sessionGet(l_indexTitle[i][2], self.headers, self.proxies)
+							ir = Html_PO.rspGet(l_indexTitle[i][2])
 							# 优化文件名不支持的9个字符
 							varTitle = Str_PO.delSpecialChar(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
@@ -315,7 +315,7 @@ class XimalayaPO:
 					# 下载指定序号之后的音频
 					elif scope == "after":
 						if keyword <= l_indexTitle[i][0]:
-							ir = Html_PO.sessionGet(l_indexTitle[i][2], self.headers, self.proxies)
+							ir = Html_PO.rspGet(l_indexTitle[i][2])
 							# 优化文件名不支持的9个字符
 							varTitle = Str_PO.delSpecialChar(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
@@ -328,7 +328,7 @@ class XimalayaPO:
 					# print(l_indexTitle[i][1])
 					if keyword in l_indexTitle[i][1]:
 						if l_indexTitle[i][2] != None:
-							ir = Html_PO.sessionGet(l_indexTitle[i][2], self.headers, self.proxies)
+							ir = Html_PO.rspGet(l_indexTitle[i][2])
 							# 优化文件名不支持的9个字符
 							varTitle = Str_PO.delSpecialChar(str(l_indexTitle[i][1]))
 							varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
@@ -339,7 +339,7 @@ class XimalayaPO:
 							print("[warning] => 空地址可能是付费音频，无法下载")
 				# 下载所有视频
 				if scope == "all":
-					ir = Html_PO.sessionGet(l_indexTitle[i][2], self.headers, self.proxies)
+					ir = Html_PO.rspGet(l_indexTitle[i][2])
 					# 优化文件名不支持的9个字符
 					varTitle = Str_PO.delSpecialChar(str(l_indexTitle[i][1]))
 					varTitle = str(l_indexTitle[i][0]) + "_" + varTitle
@@ -348,12 +348,12 @@ class XimalayaPO:
 					print(l_indexTitle[i])
 
 	def getTapescriptASR(self, trackId):
-		resTrack = Html_PO.sessionGet("https://mobile.ximalaya.com/shortcontent-web/track/subtitle?trackId=" + trackId, self.headers, self.proxies)
+		resTrack = Html_PO.rspGet("https://mobile.ximalaya.com/shortcontent-web/track/subtitle?trackId=" + trackId)
 		d_resTrack = json.loads(resTrack.text)
 		print(d_resTrack["data"]["subtitlesContent"])  # https://fdfs.xmcdn.com/storages/7a1e-audiofreehighqps/2B/78/GKwRIUEHGXcjAAAcXgGu5H4M.txt
 
 		# 解析链接，转换编码
-		resTxt = Html_PO.sessionGet(d_resTrack["data"]["subtitlesContent"], self.headers, self.proxies)
+		resTxt = Html_PO.rspGet(d_resTrack["data"]["subtitlesContent"])
 		resTxt = resTxt.text.encode('raw_unicode_escape').decode("utf-8")
 		# print(list(eval(resTxt)))
 
