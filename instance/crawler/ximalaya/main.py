@@ -39,6 +39,6 @@ ximalaya_PO = XimalayaPO()
 # 通过专辑id获取每个音频的trackId再取音频的文本
 # 如专辑 https://www.ximalaya.com/revision/album/getTracksList?albumId=13738175&pageNum=1 中的某个trackId是 575798239
 # 专辑id，albumId=13738175， 音频trackId: 575798239
-# ximalaya_PO.getTapescriptASR("572912514")  #  trackId = 575798239
+ximalaya_PO.getTapescriptASR("572912514")  #  trackId = 575798239
 
 

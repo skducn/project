@@ -28,7 +28,8 @@ speech_to_text = SpeechToTextV1(
     authenticator=authenticator
 )
 speech_to_text.set_service_url('https://api.au-syd.speech-to-text.watson.cloud.ibm.com/instances/6e18be11-8598-4401-98c3-7622f12d73b6/')
-with open(join(dirname(__file__), 'd:/600/', 'haha_0.wav'), 'rb') as audio_file:
+with open(join(dirname(__file__), 'D://11//家师卫道', '如何培养一个新习惯，就是一个舒适圈走入另一个舒适圈的过程。#家庭教育 #自驱力 #学习方法 #父母课堂 .mp4'), 'rb') as audio_file:
+# with open(join(dirname(__file__), 'd:/600/', 'haha_0.wav'), 'rb') as audio_file:
     speech_recognition_results = speech_to_text.recognize(
         audio=audio_file,
         content_type='audio/wav',
