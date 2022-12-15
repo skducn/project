@@ -1,0 +1,32 @@
+﻿
+参考：https://www.bilibili.com/read/cv16505484/ 纯Python完成视频人声和背景音分离
+链接：https://pan.baidu.com/s/1Tr2bzoNWq5ewnORdqwtVJw  提取码：d9os
+
+1，安装spleeter
+pip3.9 install spleeter -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+2，下载预训练模型
+https://github.com/deezer/spleeter/releases/tag/v1.4.0
+2stems.tar.gz  是分离人声和伴奏（背景声）,解压到 2stem目录
+4stems.tar.gz
+5stems.tar.gz
+
+3，创建测试目录结构
+c:\test\pretrained_models\2stem
+c:\test\pretrained_models\4stem
+c:\test\pretrained_models\5stem
+c:\test\output
+c:\test\22.mp3
+
+
+4，执行命令
+C:\test>spleeter separate -p spleeter:2stems -o output 22.mp3
+INFO:spleeter:File output\22/vocals.wav written succesfully   人声
+INFO:spleeter:File output\22/accompaniment.wav written succesfully   伴奏
+
+
+-p 后接分轨数量，默认2 轨，即人声 + 伴奏。 还有4 轨（ spleeter:4stems ）为人声 + 鼓点 + 贝斯 + 其他、 5 轨（ spleeter:5stems ）为人声 + 鼓点 + 贝斯 + 钢琴 + 其他。自行按需下载。
+
+-o 后接导出文件夹路径，若按默认只写 output ，则在命令行前缀路径下的 output 文件夹。如果路径中有空格，则整个路径两端需用半角引号括起来。
+
+代码最后是原音频文件的路径。如果路径中有空格，则整个路径两端需用半角引号括起来。如果原音频文件在命令行的前缀路径下，则只写文件名即可。
