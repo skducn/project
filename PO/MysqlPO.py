@@ -12,11 +12,14 @@
 # Python中没有NULL，只有None，None有自己的特殊类型NoneType
 # None不等于0、任何空字符串、False等。
 # 在Python中，None、False、0、""(空字符串)、[](空列表)、()(空元组)、{}(空字典)都相当于False
+
+# python sqlalchemy中create_engine用法 https://blog.csdn.net/xc_zhou/article/details/118829588
+
 #***************************************************************
 
 '''
-pandas引擎（pymysql）  getPymysqlEngine()
-pandas引擎（mysqldb）  getMysqldbEngine()
+pandas引擎（pymysql）  getEngine_pymysql()
+pandas引擎（mysqldb）  getEngine_mysqldb()
 
 1，查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写 dbDesc()
 2，搜索表记录 dbRecord('*', 'money', '%34.5%')
@@ -52,54 +55,62 @@ Color_PO = ColorPO()
 class MysqlPO():
 
     def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
-        self.varHost = varHost
-        self.varUser = varUser
-        self.varPassword = varPassword
-        self.varDB = varDB
-        self.varPort = int(varPort)
-
-    def __GetConnect(self):
-
-        '''连接数据库'''
-
-        if not self.varDB:
-            raise (NameError, "没有设置数据库信息")
-        self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.varDB, port=int(self.varPort), use_unicode=True)
+        self.host = varHost
+        self.user = varUser
+        self.password = varPassword
+        self.db = varDB
+        self.port = varPort
+        self.conn = MySQLdb.connect(host=varHost, user=varUser, passwd=varPassword, db=varDB, port=int(varPort), use_unicode=True)
         self.cur = self.conn.cursor()
         if not self.cur:
-            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
-        else:
-            return self.cur
+            raise (NameError, "error，创建游标失败！")
+
 
     def execQuery(self, sql):
 
-        ''' 执行查询语句
-        返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
-        '''
+        ''' 执行sql'''
 
-        cur = self.__GetConnect()
-        self.conn.commit()  # 用于新增后立即查询
-        cur.execute(sql)
+        # self.conn.commit()
+
 
         try:
-            result = cur.fetchall()
-        except:
+            self.cur.execute(sql)
+            result = self.cur.fetchall()
             self.conn.commit()
-            cur.close()
-            self.conn.close()
-            return
-        self.conn.commit()
-        cur.close()
+            return result
+        except Exception as e:
+            # print(e.args)  # ('table hh already exists',)
+            # print(str(e))  # table hh already exists
+            # print(NameError(e))  # table hh already exists
+            print(repr(e))  # OperationalError('table hh already exists')
+
+
+    def close(self):
+        self.cur.close()
         self.conn.close()
-        return result
 
-    def getPymysqlEngine(self):
-        # pandas引擎（pymysql）
-        return create_engine('mysql+pymysql://' + self.varUser + ":" + self.varPassword + "@" + self.varHost + ":" + str(self.varPort) + "/" + self.varDB)
+    def getEngine(self):
+        # mysql 引擎
+        return create_engine('mysql://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
 
-    def getMysqldbEngine(self):
-        # pandas引擎（mysqldb）
-        return create_engine('mysql+mysqldb://' + self.varUser + ":" + self.varPassword + "@" + self.varHost + ":" + str(self.varPort) + "/" + self.varDB)
+    def getEngine_pymysql(self):
+        # pymysql 引擎
+        return create_engine('mysql+pymysql://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+        # return create_engine('mysql+pymysql://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db + "?charset=utf8")
+
+    def getEngine_mysqlconnector(self):
+        # mysqlconnector 引擎
+        return create_engine('mysql+mysqlconnector://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+
+    def getEngine_mysqldb(self):
+        # mysqldb 引擎
+        return create_engine('mysql+mysqldb://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+
+    def getEngine_oursql(self):
+        # oursql 引擎
+        return create_engine('mysql+oursql://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+
+
 
     def _dbDesc_search(self, varTable, var_l_field=0):
 
@@ -357,7 +368,7 @@ class MysqlPO():
         :return:
         # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
         '''
-        df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
+        df = pd.read_sql(sql=sql, con=self.getEngine_pymysql())
         df.to_excel(xlsxFile)
 
 
@@ -375,7 +386,7 @@ class MysqlPO():
                 https://www.jianshu.com/p/946481cd288a
         '''
 
-        df = pd.read_sql(sql=sql, con=self.getPymysqlEngine())
+        df = pd.read_sql(sql=sql, con=self.getEngine_pymysql())
         df.to_html(htmlFile, col_space=100, na_rep="0")
 
 
@@ -388,7 +399,7 @@ class MysqlPO():
         '''
 
         df = pd.read_excel(varExcelFile, usecols=usecols, nrows=usecols, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
-        df.to_sql(varTable, con=self.getMysqldbEngine(), if_exists='replace', index=index)
+        df.to_sql(varTable, con=self.getEngine_mysqldb(), if_exists='replace', index=index)
 
 
     def dbDesc2xlsx(self, varFileName):
@@ -436,7 +447,7 @@ class MysqlPO():
 
         # 生成report.html
         varTitle = varTitle + "_" + varNowTime
-        df = pd.read_sql(sql="select * from `%s`" % varTable, con=self.getPymysqlEngine())
+        df = pd.read_sql(sql="select * from `%s`" % varTable, con=self.getEngine_pymysql())
         pd.set_option('colheader_justify', 'center')  # 对其方式居中
         html = '''<html><head><title>''' + varTitle + '''</title></head>
         <body><b><caption>''' + varTitle + '''</caption></b><br><br>{table}</body></html>'''
@@ -515,24 +526,32 @@ class MysqlPO():
 
 if __name__ == '__main__':
 
-
-
     ...
-    # 238 sass高血压（测试） ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "saasusertest", 3306)
-    # t_userNo = Mysql_PO.execQuery('select id from sys_user_detail where userNo="%s"' % ("16766667777"))
-    # print(t_userNo[0][0])  # 278
+
+    # sass ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "saasusertest", 3306)
+    t_userNo = Mysql_PO.execQuery('select * from sys_user_detail where userNo="%s"' % ("16766667777"))
+    print(t_userNo)
+    print(t_userNo[0][0])  # 278
+
+    t_userNo = Mysql_PO.execQuery('select * from sys_user_detail where id="%s"' % ("277"))
+    print(t_userNo)
+
+    Mysql_PO.close()
+
+
+    # # # 238 erp (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "crmtest", 3306)
+    # # crm小程序清空账号权限
+    # # Mysql_PO.execQuery("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
+    # l_result = Mysql_PO.execQuery('select USER_NAME from user where USER_PRIV_NO=%s ' % (999))
+    # print(l_result)  # (('测试',), ('系统管理员',))
+    # print(l_result[0][0])  # 测试
 
     # # 244 erp (预发布) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     # Mysql_PO = MysqlPO("192.168.0.244", "root", "ZAQ!2wsx", "crm", 3306)
 
-    # # 238 erp (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.238", "root", "ZAQ!2wsx", "crmtest", 3306)
-    # crm小程序清空账号权限
-    # Mysql_PO.execQuery("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
-    # l_result = Mysql_PO.execQuery('select USER_NAME from user where USER_PRIV_NO=%s ' % (999))
-    # print(l_result)
-    # print(l_result[0][0])
+
 
     # 234 epd 招远防疫 (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     # Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发

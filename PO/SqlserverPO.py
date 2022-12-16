@@ -38,71 +38,59 @@ from collections.abc import Iterable, Iterator
 import pymssql
 # print(pymssql.__version__)
 # from adodbapi import connect
-from PO.ColorPO import *
-Color_PO = ColorPO()
+from sqlalchemy import create_engine
+
 
 class SqlServerPO():
 
-    def __init__(self, varHost, varUser, varPassword, varDB, varPort, varCharset):
-        self.varHost = varHost
-        self.varUser = varUser
-        self.varPassword = varPassword
-        self.varDB = varDB
-        self.varPort = int(varPort)
+    def __init__(self, varHost, varUser, varPassword, varDB, varCharset=''):
+        self.host = varHost
+        self.user = varUser
+        self.password = varPassword
+        self.db = varDB
+        # self.port = int(varPort)
         self.varCharset = varCharset
+        self.conn = pymssql.connect(server=varHost, user=varUser, password=varPassword, database=varDB, charset=varCharset, autocommit=True)
+        # self.conn = pymssql.connect(server=varHost, user=varUser, password=varPassword, port=varPort, charset=varCharset, autocommit=True)
+        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf-8', autocommit=True)
+        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
+        # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='CP936', autocommit=True, login_timeout=10)
+        # self.conn = connect('Provider=SQLOLEDB.1;Data Source=%s;Initial Catalog=%s;UserID = %s;Password = %s;'%(self.varHost, self.varDB, self.varUser, self.varPassword))
 
-    # def __GetConnect123(self):
-    #     # 得到数据库连接信息，返回conn.cursor()
-    #     if not self.varDB:
-    #         raise (NameError, "没有设置数据库信息")
-    #     # self.conn = connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB)
-    #     self.conn = connect('Provider=SQLOLEDB.1;Data Source=%s;Initial Catalog=%s;UserID = %s;Password = %s;'%(self.varHost, self.varDB, self.varUser, self.varPassword))
-    #
-    #     cur = self.conn.cursor()  # 创建一个游标对象
-    #     if not cur:
-    #         raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
-    #     else:
-    #         return cur
+        self.cur = self.conn.cursor()
+        if not self.cur:
+            raise (NameError, "error，创建游标失败！")
 
-    def __GetConnect(self):
-        # 连接数据库
-        if not self.varDB:
-            raise (NameError, "没有设置数据库信息")
-        if self.varCharset == "":
-            self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, port=self.varPort, autocommit=True)
-        else:
-            self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, port=self.varPort, charset=self.varCharset, autocommit=True)
-            # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf-8', autocommit=True)
-            # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
-            # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='CP936', autocommit=True, login_timeout=10)
-
-        cur = self.conn.cursor()  # 创建一个游标对象
-        if not cur:
-            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
-        else:
-            return cur
 
     def execQuery(self, sql):
 
-        ''' 执行查询语句
-        返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
-        '''
+        ''' 执行sql'''
 
-        cur = self.__GetConnect()
-        self.conn.commit()  # 用于新增后立即查询
-        cur.execute(sql)
+        # self.conn.commit()
 
         try:
-            result = cur.fetchall()
-        except:
+            self.cur.execute(sql)
+            result = self.cur.fetchall()
             self.conn.commit()
-            cur.close()
-            self.conn.close()
-            return
-        self.conn.commit()
-        cur.close()
+            return result
+        except Exception as e:
+            # print(e.args)  # ('table hh already exists',)
+            # print(str(e))  # table hh already exists
+            # print(NameError(e))  # table hh already exists
+            print(repr(e))  # OperationalError('table hh already exists')
+
+    def close(self):
+        self.cur.close()
         self.conn.close()
-        return result
+
+    def getEngine_pyodbc(self):
+        # pyodbc 引擎
+        return create_engine('mssql+pyodbc://' + self.user + ":" + self.password + "@mydsn")
+
+    def getEngine_pymssql(self):
+        # pymssql 引擎
+        return create_engine('mssql+pymssql://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+
 
     def execQueryParam(self, sql, param):
 
@@ -426,14 +414,17 @@ if __name__ == '__main__':
 
 
     # 234 ehr ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "GBK")  # EHR 测试环境
+    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "EHR_CDRINFO", "GBK")  # 测试环境
     # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHR_CDRINFO", 1433, "GBK")  # 测试环境
-    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHR_CDRINFO", 1433, "")  # 测试环境
+    # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHR_CDRINFO", 1433, "")  # 测试环境
+
+    r = Sqlserver_PO.execQuery('select * from tb_org where id=%s ' % ('1'))
+    print(r)
 
     # tmpList = Sqlserver_PO.execQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
     # l_result = Sqlserver_PO.execQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
     # print(l_result)
-    # l_result = Sqlserver_PO.execQuery('select ehrNum from HrCover where id=%s ' % (1))
+
     # l_result = Sqlserver_PO.execQuery('select convert(nvarchar(20), Name) from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
     # l_result = Sqlserver_PO.execQuery('select Name from HrCover where id=%s ' % (1))  # 中文乱码使用 convert(nvarchar(20), 字段)
     # print(l_result)
@@ -466,7 +457,7 @@ if __name__ == '__main__':
 
     # print("4 获取单个表的所有字段".center(100, "-"))
     # print(Sqlserver_PO.getTableField(Sqlserver_PO.getAllTable()[0]))  # ['id', 'sd_id', 'category', 'item', 'itemValue', 'sign', 'logic', 'isAccurate', 'type']
-    print(Sqlserver_PO.getTableField('condition_item'))
+    # print(Sqlserver_PO.getTableField('condition_item'))
 
     # print("6 获取所有表名".center(100, "-"))
     # print(Sqlserver_PO.getAllTable())  # ['condition_item', 'patient_demographics', 'patient_diagnosis']
