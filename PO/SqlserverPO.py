@@ -39,7 +39,8 @@ import pymssql
 # print(pymssql.__version__)
 # from adodbapi import connect
 from sqlalchemy import create_engine
-
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
 class SqlServerPO():
 
@@ -50,7 +51,7 @@ class SqlServerPO():
         self.db = varDB
         # self.port = int(varPort)
         self.varCharset = varCharset
-        self.conn = pymssql.connect(server=varHost, user=varUser, password=varPassword, database=varDB, charset=varCharset, autocommit=True)
+        self.conn = pymssql.connect(server=varHost, user=varUser, password=varPassword, database=varDB,charset=varCharset, as_dict=True, tds_version="7.3", autocommit=True)
         # self.conn = pymssql.connect(server=varHost, user=varUser, password=varPassword, port=varPort, charset=varCharset, autocommit=True)
         # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='utf-8', autocommit=True)
         # self.conn = pymssql.connect(server=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, charset='GBK', autocommit=True)
@@ -415,11 +416,13 @@ if __name__ == '__main__':
 
     # 234 ehr ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "EHR_CDRINFO", "GBK")  # 测试环境
+    # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "EHR_CDRINFO", "utf8")  # 测试环境
+    # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "EHR_CDRINFO")  # 测试环境
     # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHR_CDRINFO", 1433, "GBK")  # 测试环境
     # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHR_CDRINFO", 1433, "")  # 测试环境
 
-    r = Sqlserver_PO.execQuery('select * from tb_org where id=%s ' % ('1'))
-    print(r)
+    # r = Sqlserver_PO.execQuery('select * from tb_org where id=%s ' % ('1'))
+    # print(r)
 
     # tmpList = Sqlserver_PO.execQuery("SELECT convert(nvarchar(255), Categories)  FROM HrRule where RuleId='00081d1c0cce49fd88ac68b7627d6e1c' ")  # 数据库数据自造
     # l_result = Sqlserver_PO.execQuery('select top 1 (select sum(live_people_num) from (select live_people_num,org_name from report_qyyh group by org_code,org_name,live_people_num) a)  livePeopleNum from report_qyyh')
@@ -431,9 +434,9 @@ if __name__ == '__main__':
 
 
 
-    # print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
+    print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
     # Sqlserver_PO.dbDesc()  # 1，所有表结构
-    # Sqlserver_PO.dbDesc('tb_org')   # 2，单表结构
+    Sqlserver_PO.dbDesc('tb_org')   # 2，单表结构
     # Sqlserver_PO.dbDesc('s%')  # 3，带通配符表结构
     # Sqlserver_PO.dbDesc('tb_org', ['id', 'org_name'])  # 4,单表结构的可选字段
     # Sqlserver_PO.dbDesc('s%', ['id', 'kaId'])  # 5，带通配符表结构的可选字段(只输出找到字段的表)

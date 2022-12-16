@@ -34,16 +34,20 @@ import numpy
 
 class PandasPO():
 
-    def __init__(self, host, name, password, db, port):
+    def __init__(self):
 
-        self.host = host
-        self.name = name
-        self.password = password
-        self.db = db
-        self.port = port
-        self.Mysql_PO = MysqlPO(self.host, self.name, self.password, self.db, self.port)
-        self.engine = create_engine('mysql+mysqldb://' + self.name + ':' + self.password + '@' + self.host + ':' + str(self.port) + '/' + self.db)
-        # self.engine = create_engine('mysql+mysqldb://root:Zy123456@192.168.0.234:3306/crmtest?charset=utf8')
+        pass
+
+    # def __init__(self, host, name, password, db, port):
+    #
+    #     self.host = host
+    #     self.name = name
+    #     self.password = password
+    #     self.db = db
+    #     self.port = port
+    #     self.Mysql_PO = MysqlPO(self.host, self.name, self.password, self.db, self.port)
+    #     self.engine = create_engine('mysql+mysqldb://' + self.name + ':' + self.password + '@' + self.host + ':' + str(self.port) + '/' + self.db)
+    #     # self.engine = create_engine('mysql+mysqldb://root:Zy123456@192.168.0.234:3306/crmtest?charset=utf8')
 
     def execute(self, varSql):
 
@@ -60,9 +64,21 @@ class PandasPO():
             print(e)
 
 
+    def xlsx2db(self, varExcelFile, varTable, usecols=None, nrows=None, skiprows=None, dtype=None, parse_dates=None, date_parser=None, converters=None, sheet_name=None, index=False):
+
+        '''
+        4.4 excel导入数据库表(覆盖)
+        :return:
+        参数参考：https://zhuanlan.zhihu.com/p/96203752
+        '''
+
+        df = pd.read_excel(varExcelFile, usecols=usecols, nrows=usecols, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
+        df.to_sql(varTable, con=self.getEngine_mysqldb(), if_exists='replace', index=index)
+
+
     def xlsx2db(self, varExcelFile, varTable):
 
-        '''2.1 xlsx转数据库'''
+        '''2.1 xlsx导入数据库'''
         try:
             df = pd.read_excel(varExcelFile)
             engine = self.Mysql_PO.getMysqldbEngine()
@@ -72,7 +88,7 @@ class PandasPO():
 
     def dict2db(self, varDict, varDbTable, index):
 
-        '''2.2 字典转数据库'''
+        '''2.2 字典导入数据库'''
 
         try:
             df = pd.DataFrame(varDict)
@@ -86,7 +102,7 @@ class PandasPO():
 
     def list2db(self, varList, varDbTable, index):
 
-        '''2.3 列表转数据库'''
+        '''2.3 列表导入数据库'''
 
         try:
             df = pd.DataFrame(varList, columns=None)
@@ -97,6 +113,7 @@ class PandasPO():
                 df.to_sql(name=varDbTable, con=engine, if_exists='replace')
         except Exception as e:
             print(e)
+
 
     def db2xlsx(self, sql, varExcelFile,  header=1):
 
@@ -157,7 +174,9 @@ class PandasPO():
 
 if __name__ == '__main__':
 
-    Pandas_PO = PandasPO("192.168.0.234", "root", "Zy123456", "mcis", 3306)
+    # Pandas_PO = PandasPO("192.168.0.234", "root", "Zy123456", "mcis", 3306)
+
+    Pandas_PO = PandasPO()
 
 
     # print("1 执行sql".center(100, "-"))
