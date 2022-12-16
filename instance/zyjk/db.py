@@ -76,9 +76,9 @@ from PO import SqlserverPO, MysqlPO
 
 
 # EHR 电子健康档案(sqlserver)
-# Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRDC", "utf8")  # 测试环境
+Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "EHRDC", "GBK")  # 测试环境
 # Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRITF", "utf8")  # 测试环境
-# Sqlserver_PO.dbDesc()
+Sqlserver_PO.dbDesc()
 # Sqlserver_PO.dbDesc('itf_tb_chronic_main')
 # Sqlserver_PO.dbDesc('ITF_TB_EXAMINATION_INFO',  ['registerTypeCode', 'name'])
 # Sqlserver_PO.dbDesc('tb_dc_dm_*')
@@ -122,5 +122,5 @@ from PO import SqlserverPO, MysqlPO
 
 
 # 区域平台
-mysql_PO = MysqlPO.MysqlPO("192.168.0.234", "root", "Zy123456", "regional-user", 3306)   # 测试环境
-mysql_PO.dbRecord('*', 'char', u'%金浩%')
+# mysql_PO = MysqlPO.MysqlPO("192.168.0.234", "root", "Zy123456", "regional-user", 3306)   # 测试环境
+# mysql_PO.dbRecord('*', 'char', u'%金浩%')
