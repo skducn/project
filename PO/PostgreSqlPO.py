@@ -5,60 +5,63 @@
 # Description: PostgreSQL 对象层
 # pip3.9 install psycopg2
 # 参考：http://www.51testing.com/html/85/n-7794185.html
+# python sqlalchemy中create_engine用法 https://blog.csdn.net/xc_zhou/article/details/118829588
+# PostgreSQL  https://docs.sqlalchemy.org/en/14/dialects/postgresql.html
 #***************************************************************
 
 import psycopg2
-
+from sqlalchemy import create_engine
 
 class PostgreSqlPO():
 
-    def __init__(self, varUser, varPassword, varHost, varDB, varPort):
+    def __init__(self, varHost, varUser, varPassword, varDB, varPort):
 
-        self.varUser = varUser
-        self.varPassword = varPassword
-        self.varHost = varHost
-        self.varDB = varDB
-        self.varPort = varPort
-
-    def __GetConnect(self):
-
-        '''连接数据库'''
-
-        if not self.varDB:
-            raise (NameError, "没有设置数据库信息")
-        self.conn = psycopg2.connect(host=self.varHost, user=self.varUser, password=self.varPassword, database=self.varDB, port=str(self.varPort), use_unicode=True)
+        self.host = varHost
+        self.user = varUser
+        self.password = varPassword
+        self.db = varDB
+        self.port = varPort
+        self.conn = psycopg2.connect(host=varHost, user=varUser, password=varPassword, database=varDB, port=str(varPort), use_unicode=True)
         self.cur = self.conn.cursor()
         if not self.cur:
-            raise (NameError, "连接数据库失败")  # 将DBC信息赋值给cur
-        else:
-            return self.cur
+            raise (NameError, "error，创建游标失败！")
+
 
     def execQuery(self, sql):
 
-        ''' 执行查询语句
-        返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
-        '''
-
-        cur = self.__GetConnect()
-        self.conn.commit()  # 用于新增后立即查询
-        cur.execute(sql)
+        ''' 执行sql'''
 
         try:
-            result = cur.fetchall()
-        except:
+            r = self.cur.execute(sql).fetchall()
             self.conn.commit()
-            cur.close()
-            self.conn.close()
-            return
-        self.conn.commit()
-        cur.close()
-        self.conn.close()
-        return result
+            return r
+        except Exception as e:
+            # print(e.args)  # ('table hh already exists',)
+            # print(str(e))  # table hh already exists
+            # print(NameError(e))  # table hh already exists
+            print(repr(e))  # OperationalError('table hh already exists')
+            return None
 
+
+
+
+    def getEngine_psycopg2(self):
+        return create_engine('postgresql+psycopg2://' + self.user + ':' + self.password + '@' + self.host + '/' + self.db)
+
+    def getEngine(self):
+        return create_engine('postgresql://' + self.user + ':' + self.password + '@' + self.host + '/' + self.db)
+
+    def getEngine_pg8000(self):
+        return create_engine('postgresql+pg8000://' + self.user + ':' + self.password + '@' + self.host + '/' + self.db)
+
+
+    def close(self):
+        self.cur.close()
+        self.conn.close()
 
 
 if __name__ == '__main__':
 
 
-    PostgreSql_PO = PostgreSqlPO("user","password","host","db","port")
+    PostgreSql_PO = PostgreSqlPO("host", "user", "password", "db","port")
     # t_userNo = PostgreSql_PO.execQuery('select id from sys_user_detail where userNo="%s"' % ("16766667777"))
