@@ -75,8 +75,6 @@ class HtmlPO:
         return requests.get(url=varUrl, headers=self.getUserAgent(), proxies=self.getProxies())
 
 
-
-
     def getUserAgent(self):
 
         # 2.1 生成UserAgent

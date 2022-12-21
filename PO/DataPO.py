@@ -52,18 +52,24 @@
 
 '''
 
-import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid, requests,datetime
+import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid, requests,datetime,os
 import random
 from datetime import date
 from datetime import timedelta
-from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 import pandas as pd
 from MyQR import myqr
 # from pyzbar.pyzbar import decode
 from PIL import Image
-
 from time import sleep
+
+from fake_useragent import UserAgent
+
+# 如报错 fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fake-useragent
+# location = 'D:/51/python/project/PO/fake_useragent_0.1.11.json'
+# print(location)
+# ua = UserAgent(path=location)
+
 
 class DataPO():
 
@@ -171,12 +177,23 @@ class DataPO():
 
         '''1.7.1，随机获取用户代理1'''
 
-        # 如报错fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fakefake-useragent
+        # 如报错 fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fake-useragent
         # ua = UserAgent(use_cache_server=False)  # 禁用服务器缓存
         # ua = UserAgent(cache=False)  # 不缓存数据
         # ua = UserAgent(verify_ssl=False)  # 忽略ssl验证
         # print(ua.chrome)
-        return (str(UserAgent().random))
+        # print(ua.browsers)
+        # print(ua.data_browsers['browsers']['chrome'][0])
+        # print(ua.data_browsers['browsers'])
+        # return (str(UserAgent(path='D:/51/python/project/PO/fake_useragent_0.1.11.json')))
+        try:
+            userAgent = str(UserAgent().random)
+        except:
+            os.system('pip3.9 install -U fake-useragent')
+            userAgent = str(UserAgent().random)
+
+        return (userAgent)
+
 
     def getUserAgent2(self, varVersionUrl="https://fake-useragent.herokuapp.com/browsers/0.1.11"):
 
@@ -643,14 +660,14 @@ if __name__ == '__main__':
     # print("1.5，随机获取列表中元素".center(100, "-"))
     # print(Data_PO.getElement(['411', '1023', '0906', '0225'], 2))  # ['1023', '0906']
     #
-    print("1.6，随机获取国内高匿ip代理".center(100, "-"))
-    print(Data_PO.getProxies())
-    print(Data_PO.getProxies())
-    print(Data_PO.getProxies())
+    # print("1.6，随机获取国内高匿ip代理".center(100, "-"))
+    # print(Data_PO.getProxies())
+    # print(Data_PO.getProxies())
+    # print(Data_PO.getProxies())
 
-    # print("1.7.1，随机获取用户代理1".center(100, "-"))
-    # print(Data_PO.getUserAgent())
-    #
+    print("1.7.1，随机获取用户代理1".center(100, "-"))
+    print(Data_PO.getUserAgent())
+
     # print("1.7.2，随机获取用户代理2(访问fake地址)".center(100, "-"))
     # print(Data_PO.getUserAgent2("https://fake-useragent.herokuapp.com/browsers/0.1.11"))
     #
