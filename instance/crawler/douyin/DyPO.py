@@ -40,6 +40,7 @@ class DyPO:
 		'''
 
 		# 解析复制链接   及API地址并获取视频ID
+		url = 'https://v.douyin.com/' + url
 		rsp = Html_PO.rspGet(url)
 		aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
 		apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
@@ -388,8 +389,8 @@ if __name__ == '__main__':
 	douyin = DyPO()
 
 	print("1，单视频下载（手机版）".center(100, "-"))
-	# douyin.getVidoeByPhone("https://v.douyin.com/NHePEyX/", "/Users/linghuchong/Desktop/mac")
-	douyin.getVidoeByPhone(" https://v.douyin.com/McFa68r/", "d:\\11")
+	# douyin.getVidoeByPhone("NHePEyX/", "/Users/linghuchong/Desktop/mac")
+	douyin.getVidoeByPhone("McFa68r", "d:\\11")
 
 
 
