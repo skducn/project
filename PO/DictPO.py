@@ -59,7 +59,7 @@ todo:[分组]
 '''
 
 from collections import ChainMap
-from collections import defaultdict
+
 from collections import Counter
 import json
 from functools import reduce
@@ -391,30 +391,6 @@ if __name__ == "__main__":
 
 
 
-    # # print("6.1 collections中defaultdict之字典的 value 是字典".center(100, "-"))
-    # dict1 = defaultdict(dict)
-    # dict1[5]["a"] = 125
-    # dict1[5]["b"] = 1
-    # print(dict1[5])  # {'a': 125, 'b': 1}
-    # # print(dict1)  # defaultdict(<class 'dict'>, {5: {'a': 125, 'b': 1}})
-    # #
-    # # print("6.2 collections中defaultdict之字典的 value 是列表".center(100, "-"))
-    # list1 = defaultdict(list)
-    # list1[5].append(3)
-    # list1[5].append("45")
-    # print(list1[5])  # [3, '45']
-    # #
-    # # print("6.3 collections中defaultdict之字典的 value 是lambda".center(100, "-"))
-    # a = defaultdict(lambda: 10)
-    # print(a[3])  # 10
-    # print(a[6]+1)  # 11
-    # # print(a)  # defaultdict(<function <lambda> at 0x000001F2D17F0550>, {3: 10, 6: 10})
-    # #
-    # # print("6.4 collections中defaultdict之字典的 value 里又是字典".center(100, "-"))
-    # dict4 = defaultdict(lambda: defaultdict(dict))
-    # dict4[5]["a"] = dict(b=123, c=666)
-    # # print(dict4[5])  # defaultdict(<class 'dict'>, {'a': '123'})
-    # print(dict4[5]['a'])  # {'b': 123, 'c': 666}
 
 
 
