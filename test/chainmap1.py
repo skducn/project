@@ -23,6 +23,9 @@ d1 = {'a': 1, 'b': 2 }
 d2 = {'c': 3, 'd': 4 }
 d3 = {'b': 4, 'c': 5 }
 d4 = {'d': 6, 'e': 6 }
+print(list(ChainMap(d2)))
+
+
 c = ChainMap(d1,d2,d3,d4)
 print(c['b'])  # 2
 print(c['c'])  # 3
