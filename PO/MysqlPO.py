@@ -235,6 +235,7 @@ class MysqlPO():
         '''dbRecord函数中子查询'''
 
         # mysql关键字和保留字，涉及的关键字将不处理 l_keyword = ['desc', 'limit', 'key', 'group', 'usage', 'read']
+
         Openpyxl_PO = OpenpyxlPO(varMysqlKeywordFile)
         l_keyword = Openpyxl_PO.getColValueByCol([1], [])
         l_keyword = [str(i).lower() for i in l_keyword[0]]

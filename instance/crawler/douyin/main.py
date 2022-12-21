@@ -13,7 +13,7 @@ douyin = DyPO()
 
 print("1，单视频下载（手机版）".center(100, "-"))
 # douyin.getVidoeByPhone("https://v.douyin.com/NHePEyX/", "/Users/linghuchong/Desktop/mac")
-douyin.getVidoeByPhone("https://v.douyin.com/hPBkexm/ ", "d:\\11")
+douyin.getVidoeByPhone("https://v.douyin.com/hXCQ5pa/", "d:\\11")
 # douyin.getVidoeByPhone("https://v.douyin.com/rJadwbA/", "d:\\11")
 
 
