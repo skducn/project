@@ -14,9 +14,7 @@ from DyPO import *
 douyin = DyPO()
 
 
-print("下载中...")
 douyin.getVidoeByPhone(os.path.split(sys.argv[1])[1], "d:\\11")
-
 print("\n已完成")
 
 

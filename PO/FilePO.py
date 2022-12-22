@@ -424,9 +424,9 @@ if __name__ == "__main__":
     # print(varFile)  # ex19.py
     #
     # print("3.7 分割文件名和扩展名".center(100, "-"))
-    # varPath, varEXT = os.path.splitext('/home/ubuntu/python_coding/split_func/split_function.py')
-    # print(varPath)  # /home/ubuntu/python_coding/split_func/split_function
-    # print(varEXT)  # .py
+    varPath, varEXT = os.path.splitext('/home/ubuntu/python_coding/split_func/split_function.py')
+    print(varPath)  # /home/ubuntu/python_coding/split_func/split_function
+    print(varEXT)  # .py
     #
     # print("3.8 分割驱动器名和路径（用在windows下）".center(100, "-"))
     # print(os.path.splitdrive('D:\\51\\python\\project\\PO\\123.txt'))  # ('D:', '\\51\\python\\project\\PO\\123.txt')
