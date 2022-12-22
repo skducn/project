@@ -11,6 +11,7 @@
 '''
 1.1 mp3转wav
 1.2 mp4转wav
+1.3 mp4转mp3
 1.3 中文转拼音（不带声调）
 '''
 
@@ -22,24 +23,51 @@ from os.path import join, dirname
 import json
 from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from moviepy.editor import *
 
 class AudioPO():
 
-    def __init__(self):
-        pass
 
-    # 1.1 mp3转wav
     def mp32wav(self, mp3Path, wavPath):
+
+        '''
+        1.1 mp3转wav
+        :return:
+        '''
+
         MP3_File = AudioSegment.from_mp3(file=mp3Path)
         MP3_File.export(wavPath, format="wav")
 
-    # 1.2 mp4转wav
+
     def mp42wav(self, mp4Path, wavPath):
+
+        '''
+        1.2 mp4转wav
+        :return:
+        '''
+
         subprocess.call("ffmpeg -i " + mp4Path + " -ar 16000 -vn " + wavPath, shell=True)
 
+    def mp42mp3(self, varMp4, varMp3):
 
-    # 2 将音频文件进行平均分割
+        '''
+        1.3 mp4转mp3
+        :return:
+        '''
+
+        video = VideoFileClip(varMp4)
+        audio = video.audio
+        audio.write_audiofile(varMp3)
+
+
+
     def divideAudio(self, varSourcePath, varTargetPath, varTargetName, milliseconds):
+
+        '''
+        2 将音频文件进行平均分割
+        :return:
+        '''
+
         # milliseconds  = 50000 表示切割的50毫秒数
         audio = AudioSegment.from_file(varSourcePath, "wav")
         chunks = make_chunks(audio, milliseconds)
@@ -49,16 +77,27 @@ class AudioPO():
             chunk.export(varTargetPath + chunk_name, format="wav")
 
 
-    # 3 pyttsx3文字转语音
     def text2mp3(self, varText, varMp3Path):
+
+        '''
+        3 pyttsx3文字转语音
+        :return:
+        '''
+
         tts = pyttsx3.init()
         tts.setProperty('voice', tts.getProperty('voice')[1])
         tts.save_to_file(varText, varMp3Path)
         tts.runAndWait()
 
 
-    # 4 speech2Text音频转文字
+
     def speech2Text(self, varPath, varFile):
+
+        '''
+        4 speech2Text音频转文字
+        :return:
+        '''
+
         # 需要翻墙 live 每月 500 分钟
         # Speech to Text-lv api密钥和url https://cloud.ibm.com/services/speech-to-text/crn%3Av1%3Abluemix%3Apublic%3Aspeech-to-text%3Aau-syd%3Aa%2Fc729c976a03b4b979c7b0225698d2f5c%3A6e18be11-8598-4401-98c3-7622f12d73b6%3A%3A?paneId=manage
         # API参考 https://cloud.ibm.com/apidocs/speech-to-text?code=python
@@ -87,6 +126,7 @@ class AudioPO():
         # print(result)
         return result
 
+
 if __name__ == "__main__":
 
     Audio_PO = AudioPO()
@@ -97,6 +137,9 @@ if __name__ == "__main__":
     # print("1.2 mp4转wav".center(100, "-"))
     # Audio_PO.mp42wav("D:\\1\\123.mp4", "D:\\1\\test2.wav")
 
+    # print("1.3 mp4转mp3".center(100, "-"))
+    Audio_PO.mp42mp3("D:\\11\\《West Way》是CCTV.mp4", "D:\\11\\《West Way》是CCTV.mp3")
+
 
     # print("2 将音频文件进行平均分割".center(100, "-"))
     # Audio_PO.divideAudio("d:\\600\\bulues0.wav", "d:\\600\\", "haha", 5000)   # 将bulues0.wav文件平均分割若干个5s文件，并另存于d:\\voice\\test\\
@@ -106,7 +149,7 @@ if __name__ == "__main__":
     # Audio_PO.text2mp3("我想测试一下这个系统？不知道明天天气如何", "D:\\600\\text2VoicePyttsx3.mp3")
 
 
-    print("4 speech2Text音频转文字".center(100, "-"))
-    print(Audio_PO.speech2Text('d:/1/', 'test2.wav'))
+    # print("4 speech2Text音频转文字".center(100, "-"))
+    # print(Audio_PO.speech2Text('d:/1/', 'test2.wav'))
 
 

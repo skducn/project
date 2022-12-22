@@ -1,2 +1,0 @@
-python dragFileInto.py %*
-pause
