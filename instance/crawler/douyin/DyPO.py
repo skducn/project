@@ -14,7 +14,7 @@
 #***************************************************************
 
 
-import requests, re, os, platform
+import requests, re, os, platform,bs4
 import sys
 sys.path.append("../../../")
 from PO.DataPO import *
@@ -30,7 +30,7 @@ Str_PO = StrPO()
 class DyPO:
 
 
-	def getVidoeByPhone(self, url, toSave):
+	def getVidoe(self, url, toSave):
 		'''
 		1，单视频下载（手机版）
 		:param copyURL:
@@ -43,10 +43,105 @@ class DyPO:
 		url = 'https://v.douyin.com/' + url
 		rsp = Html_PO.rspGet(url)
 		aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
+		apiUrl = 'https://www.douyin.com/video/' + aweme_id[0]
+		print(apiUrl)
+		# apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
+		# print(apiUrl)
+
+		rsp = Html_PO.rspGet(apiUrl)
+
+
+
+		rsp = (str(rsp.text).encode('gbk', 'ignore').decode('gbk'))
+		print(rsp)
+		tmp = json.loads(rsp)
+		# print(tmp)
+
+		if tmp['item_list'] == [] and tmp['filter_list'][0]['notice'] == "抱歉，作品不见了":
+			# print(tmp['filter_list'][0]['detail_msg'])   # 因作品权限或已被删除，无法观看，去看看其他作品吧
+			noVid = (tmp['filter_list'][0]['notice'])  # 抱歉，作品不见了
+			print(url + " " + noVid)
+		else:
+
+			# 获取视频Id
+			# vid = tmp['item_list'][0]['video']['vid']  # v0200fg10000ca0rof3c77u9aib3u93g
+			# 视频Id
+			# video_id = re.findall(r'/?video_id=(\w+)', res1.text)  #  # v0300f3d0000bvn9r1prh6u8gbdusbdg
+			# 用户名
+			nickname = re.findall('"nickname":"(.+?)"', rsp)
+			# 视频标题
+			varTitle = re.findall('"share_title":"(.+?)"', rsp)
+			# 优化文件名不支持的9个字符
+			varTitle = Str_PO.delSpecialChar(str(varTitle[0]))
+			# 生成目录
+			if platform.system() == 'Darwin':
+				File_PO.newLayerFolder(toSave + "/" + nickname[0])
+				varFolder = str(toSave) + "/" + nickname[0]
+			if platform.system() == 'Windows':
+				File_PO.newLayerFolder(toSave + "\\" + nickname[0])
+				varFolder = str(toSave) + "\\" + nickname[0]
+
+			# 下载（API地址）
+			videoUrl = tmp['item_list'][0]['video']['play_addr']['url_list'][0]  # v0200fg10000ca0rof3c77u9aib3u93g
+			# videoUrl = "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=" + str(vid)
+			ir = Html_PO.rspGet(videoUrl)
+			open(f'{toSave}/{nickname[0]}/{varTitle}.mp4', 'wb').write(ir.content)
+
+			# 输出结果
+			l_result = []
+			l_result.append(varFolder)
+			# l_result.append((str(varTitle).encode("utf-8").decode("utf-8")))
+			l_result.append(varTitle)
+			l_result.append(videoUrl)
+			# print(l_result)
+			print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
+	def getVidoeByPhone(self, url, toSave):
+		'''
+		1，单视频下载（手机版）
+		:param copyURL:
+		:param toSave:
+		:return:
+			# 参数：用户页链接 - 分享 - 复制链接
+		'''
+
+		# 解析复制链接   及API地址并获取视频ID
+		url = 'https://v.douyin.com/' + url
+		url = 'https://www.douyin.com/video/7181427037469478178'
+		print(url)
+		params = {
+
+
+		'cookie': 'douyin.com',
+		'cookie': '__ac_nonce=063aa5a0100b7673dce8f',
+		'cookie': '__ac_signature=_02B4Z6wo00f01Y.agjAAAIDCGwzZPWuENkGP-oaAAABdOHQJK6rYiRJx.OQOyStxRThcSBNeOe1M25zXR7Ap.3izPExi2zsYqC7i7uHGjpil7Ycp0Zyxwc0sO2YBZ5VgMvok9jh1LWIbWIwic3',
+		'cookie': 'ttwid=1%7Cp86LXRgWh0fk-n_zNvpdUCMXtEVCpzgMk2Szh8ADo_M%7C1672108546%7C6cd63c28c5d442fca63fad811e67a32c0f3796ac18b03fa071648386dc476eef',
+		'cookie': 'douyin.com',
+		'cookie': 'passport_csrf_token=afb3e5eb2c82357c5b3e3a9000e87948',
+		'cookie': 'passport_csrf_token_default=afb3e5eb2c82357c5b3e3a9000e87948',
+		'cookie': 's_v_web_id=verify_lc5m98sy_xB4bdKo6_3RuU_4n0w_B1Zu_mm3CMcYylfoH',
+		'cookie': 'download_guide=%223%2F20221227%22',
+		'cookie': 'strategyABtestKey=%221672109894.361%22',
+		'cookie': 'msToken=OORoqRmPx0ci7sL_LpYKJgaJfSrZYXD3QnGEb168Pc2iYtUl8zVqa8Gqb7IxHZ4fd10G00YbjHC5Fq0b94XV8mX7E_1aBKiH5Xn5oD-FRfNcKc53RGsycFE=',
+		'cookie': 'home_can_add_dy_2_desktop=%221%22',
+		'cookie': 'msToken=oSIF5vuTZTLf1fmtywbg_MKqEtv0eL4gxtlDDANKjcjc3PEuUbb8JrMoxo_UvFkuk8JQj8gIOeS5Yw8Fe-91JS16fB7Dw90D46jLa9S9BIwry0pTa6lleC0=',
+		'cookie': 'tt_scid=xy337vrJGEPR0m9.UdkIy5eEp2a39F3fwN0Yt8F.FmCo3zjmWts7VtFEfVp5lzmUa21c'
+
+		}
+		# rsp = Html_PO.rspGetByParam(url,params)
+		rsp = Html_PO.rspGet(url)
+		info = bs4.BeautifulSoup(rsp.text, 'lxml')
+		s = str(info.select_one("script#RENDER_DATA"))
+		print(s)
+		sleep(5)
+		print(rsp.content)
+		aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
 		apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
+		print(apiUrl)
 
 		rsp = Html_PO.rspGet(apiUrl)
 		rsp = (str(rsp.text).encode('gbk', 'ignore').decode('gbk'))
+		print(rsp)
 		tmp = json.loads(rsp)
 		# print(tmp)
 
@@ -390,7 +485,8 @@ if __name__ == '__main__':
 
 	print("1，单视频下载（手机版）".center(100, "-"))
 	# douyin.getVidoeByPhone("NHePEyX/", "/Users/linghuchong/Desktop/mac")
-	douyin.getVidoeByPhone("McFa68r", "d:\\11")
+	# douyin.getVidoeByPhone("McFa68r", "d:\\11")
+	douyin.getVidoe("McFa68r", "d:\\11")
 
 
 

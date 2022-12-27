@@ -16,7 +16,7 @@ with fileinput.input(files=('url.txt',), openhook=fileinput.hook_encoded('utf-8'
         # print(line)
         watchword = str(line).split("https://v.douyin.com/")[1].split('/')[0]
 
-
+print(watchword)
 douyin.getVidoeByPhone(watchword, "d:\\11")
 print("\n已完成")
 

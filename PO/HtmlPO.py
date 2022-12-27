@@ -74,6 +74,12 @@ class HtmlPO:
 
         return requests.get(url=varUrl, headers=self.getUserAgent(), proxies=self.getProxies())
 
+    def rspGetByParam(self, varUrl, params):
+
+        # 1.5 解析get
+
+        return requests.get(url=varUrl, params=params, headers=self.getUserAgent(), proxies=self.getProxies())
+
 
     def getUserAgent(self):
 
