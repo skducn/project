@@ -1,21 +1,27 @@
 # coding=utf-8
 #***************************************************************
 # Author     : John
-# Created on : 2020-12-30
-# Description: 抖音视频下载（手机端，Web端，支持单个视频、视频列表批量下载
+# Created on : 2021-12-27
+# Description: 抖音视频下载
 # 抖音 user_url 用户列表链接的获取方法：右上角...  - 分享 - 复制链接
+# json在线解析 https://www.sojson.com/
+# js在线解密 https://www.sojson.com/jsjiemi.html
 #***************************************************************
 
 
 from DyPO import *
 douyin = DyPO()
 
-import bs4,json
+
+douyin.downVideo("https://v.douyin.com/hbjqhuT", "d:\\11")
+# douyin.downVideo("https://www.douyin.com/video/7151241259796008222", "d:\\11")
 
 
-print("1，单视频下载（手机版）".center(100, "-"))
+
+
+# print("1，单视频下载（手机版）".center(100, "-"))
 # douyin.getVidoeByPhone("NHePEyX", "/Users/linghuchong/Desktop/mac")
-douyin.getVidoeByPhone("hv8sYPh/", "d:\\11")
+# douyin.getVidoeByPhone("hv8sYPh/", "d:\\11")
 # douyin.getVidoeByPhone("rJadwbA", "d:\\11")
 
 # print("2，多视频下载（手机版）".center(100, "-"))

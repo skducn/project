@@ -1,4 +1,0 @@
-python getVideoByUrl.py
-pause
-
-
