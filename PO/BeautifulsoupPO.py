@@ -42,7 +42,7 @@ html = """
 
 class BeautifulsoupPO:
 
-    def __init__(self,url):
+    def __init__(self, url):
 
         # self.soup = BeautifulSoup(html, 'lxml')
 
@@ -103,11 +103,13 @@ class BeautifulsoupPO:
 if __name__ == '__main__':
 
 
-    Beautifulsoup_PO = BeautifulsoupPO("https://www.ximalaya.com/album/13738175")
+    # Beautifulsoup_PO = BeautifulsoupPO("https://www.ximalaya.com/album/13738175")
+    Beautifulsoup_PO = BeautifulsoupPO('https://www.douyin.com/video/7181427037469478178')
 
+    # sleep(6)
 
     # print('.prettify() 格式化输出对象的内容'.center(100, "-"))
-    # # print(Beautifulsoup_PO.soup.prettify())
+    print(Beautifulsoup_PO.soup.prettify())
     #
     # print('获取标签及内容（默认获取第一个标签）'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.title)  # <title>The Dormouse's story</title>
@@ -140,6 +142,7 @@ if __name__ == '__main__':
     # print('删除标签中属性的值'.center(100, "-"))
     # del Beautifulsoup_PO.soup.p['class']
     # print(Beautifulsoup_PO.soup.p)  # <p name="dromouse"><b>The Dormouse's story</b></p>
+    # print(Beautifulsoup_PO.soup.video)  # <p name="dromouse"><b>The Dormouse's story</b></p>
     #
     #
     # print('获取标签内容'.center(100, "-"))
@@ -304,6 +307,7 @@ if __name__ == '__main__':
     #
     #
     # print('find_all () 方法搜索当前 tag 的所有 tag 子节点之传标签名'.center(100, "-"))
+    # print(Beautifulsoup_PO.soup.find_all('video'))  # [<b>The Dormouse's story</b>]
     # print(Beautifulsoup_PO.soup.find_all('b'))  # [<b>The Dormouse's story</b>]
     # print(Beautifulsoup_PO.soup.find_all('a'))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
     #
@@ -439,7 +443,7 @@ if __name__ == '__main__':
 
     # Beautifulsoup_PO.getValue2('https://www.ximalaya.com/album/13738175', "span", 'class_', 'title _nO')
     # Beautifulsoup_PO.getValue2("h1", 'class', 'title dC_')
-    Beautifulsoup_PO.getValue2("div", 'id', 'anchor_sound_list')
+    # Beautifulsoup_PO.getValue2("div", 'id', 'anchor_sound_list')
     # Beautifulsoup_PO.getValue2("span", 'class_', 'title _nO')
-    # Beautifulsoup_PO.getValue2("", 'class_','title _nO')
+    Beautifulsoup_PO.getValue2("", 'class_','title _nO')
 

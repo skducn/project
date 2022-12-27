@@ -1,0 +1,2 @@
+python getVideoById.py %*
+pause

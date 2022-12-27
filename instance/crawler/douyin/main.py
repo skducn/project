@@ -10,12 +10,13 @@
 from DyPO import *
 douyin = DyPO()
 
+import bs4,json
+
 
 print("1，单视频下载（手机版）".center(100, "-"))
 # douyin.getVidoeByPhone("NHePEyX", "/Users/linghuchong/Desktop/mac")
-douyin.getVidoeByPhone("hXCQ5pa", "d:\\11")
+douyin.getVidoeByPhone("hv8sYPh/", "d:\\11")
 # douyin.getVidoeByPhone("rJadwbA", "d:\\11")
-
 
 # print("2，多视频下载（手机版）".center(100, "-"))
 # douyin.getVidoesByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 下载所有视频，走遍中国5A景区-大龙
