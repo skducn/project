@@ -106,9 +106,15 @@ class DyPO:
 		'''
 
 		# 解析复制链接   及API地址并获取视频ID
-		url = 'https://v.douyin.com/' + url
+		# url = 'https://v.douyin.com/' + url
 		url = 'https://www.douyin.com/video/7181427037469478178'
+		url = 'https://www.douyin.com/video/7151241259796008222'
 		print(url)
+
+		headers = {
+			"cookie": "douyin.com; ttwid=1%7CIqtkwPHqatIpgznJ8jawyuSndGDFszyLVKu4K6DobGI%7C1633320493%7C3cfaf78583ec00ee669fac3a8c260cc3b3b1f71f32821b5b077d15777ed5eaed; MONITOR_WEB_ID=b4711595-bde2-460d-870d-4e57a1044873; passport_csrf_token_default=d69fa4085df6e7eb127f873ada4e730d; passport_csrf_token=d69fa4085df6e7eb127f873ada4e730d; ttcid=c571e54e097b4a85a91b067fa4bd74be42; odin_tt=b887aa1a468841ebacf59d00f9bfeff6b0166c796860d532f0550cfa1bb19573784d4eac47c710dc4270d470b6f7063d77c0fb3f699735cbebbb7a8b552516bc; _tea_utm_cache_6383=undefined; douyin.com; home_can_add_dy_2_desktop=0; AB_LOGIN_GUIDE_TIMESTAMP=1638268679122; s_v_web_id=verify_kwlyvfty_u4F0a4eC_HR0R_45qA_BGNr_tcfqSLkaFeIa; _tea_utm_cache_1300=undefined; __ac_nonce=061a6114700def9eb597f; __ac_signature=_02B4Z6wo00f01e59nzAAAIDAZTYE0lZHzxHuWZuAABo7n7oK78zhgb8Ol30kLigl-Pu9Q6sKyLpV-BQ3rbF1vLak-TtxN0ysQpQIX.VKlIbTkVBVA4rBt1JdylfNbrGz2NI4r4d7uQWMRa.r56; tt_scid=tbEntOkthFZL51883ve.2ORcwMNYlHUb6tegsnIzC9HSbV5u3J8ASl23x6S7wONy6e5e; msToken=DV579LPguoS-1pWHm2Bm4YQ5nvIGqayH7j7QhaF-nOq2m2rS_U2cn19NpBQmfZg0HX56S41Q-TI0cp9FAsyXkOByBEBM8hnjZHijZdBIA4BoMxjfUICqsXO5kg==",
+			"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36"
+		}
 		params = {
 
 
@@ -129,15 +135,29 @@ class DyPO:
 
 		}
 		# rsp = Html_PO.rspGetByParam(url,params)
-		rsp = Html_PO.rspGet(url)
+		# rsp = Html_PO.rspGet(url)
+		rsp = requests.get(url=url, headers=headers)
 		info = bs4.BeautifulSoup(rsp.text, 'lxml')
 		s = str(info.select_one("script#RENDER_DATA"))
+		# s = info.find("script",{"id":"RENDER_DATA"}).get_text()
 		print(s)
-		sleep(5)
-		print(rsp.content)
-		aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
-		apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
-		print(apiUrl)
+		from urllib import parse
+		import json,os
+		text = parse.unquote(s)
+		print(text)
+		text = text.replace('<script id="RENDER_DATA" type="application/json">','')
+		text = text.replace('</script>','')
+		text_json = json.loads(text)
+		print(text_json)
+		print(text_json['41']['aweme']['detail']['video']['playApi'])
+		# s = text.find("playApi")
+		# print(s)
+		# sleep(5)
+		# print(rsp.content)
+		# aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
+		# apiUrl = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids=" + aweme_id[0]
+		# print(apiUrl)
+		os.exit(0)
 
 		rsp = Html_PO.rspGet(apiUrl)
 		rsp = (str(rsp.text).encode('gbk', 'ignore').decode('gbk'))
