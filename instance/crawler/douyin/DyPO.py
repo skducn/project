@@ -49,7 +49,6 @@ class DyPO:
 
 		print("待下载的视频链接：" + url)
 
-
 		headers = {
 			"cookie":
 					  "s_v_web_id=verify_kwlyvfty_u4F0a4eC_HR0R_45qA_BGNr_tcfqSLkaFeIa; _"
@@ -60,6 +59,7 @@ class DyPO:
 		}
 
 		rsp = requests.get(url=url, headers=headers)
+		print(rsp.text)
 
 		info = bs4.BeautifulSoup(rsp.text, 'lxml')
 
@@ -176,6 +176,8 @@ class DyPO:
 			l_result.append(videoUrl)
 			# print(l_result)
 			print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
+
+
 
 	def getVidoesByPhone(self, copyURL, toSave, scope="all"):
 		'''
