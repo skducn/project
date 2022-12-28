@@ -18,68 +18,48 @@
 # Comment，是文档中的备注类型，它是一个特殊类型的 NavigableString ，输出注释内容，但不输注释符号，如 注释<!-- Elsie -->，输出 Elsie
 #***************************************************************
 
+'''
+
+1 获取标签属性的值
+2 获取标签的文本内容
+
+'''
+
+
 import requests
 from bs4 import BeautifulSoup
+
 from PO.HtmlPO import *
 Html_PO = HtmlPO()
-import bs4
-
-html = """
-<html><head><title>The Dormouse's story</title></head>
-<body>
-<p class="title" name="dromouse"><b>The Dormouse's story</b></p>
-<p class="story">Once upon a time there were three little sisters; and their names were
-<a href="http://example.com/elsie" class="sister" id="link1"><!-- Elsie --></a>,
-<a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
-<a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>
-<p class="story">...</p>
-"""
-
-# url = 'https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg'
-# headers={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
-#        'cookie':'MONITOR_WEB_ID=bc0ebf54-4beb-4695-9dab-e40fa40f4b48; MONITOR_DEVICE_ID=95754a8d-9842-4e89-989a-0d288d90eae7; douyin.com; ttcid=130e44ae32ad4950a5ec4a602e232cde24; ttwid=1|Eh1Ouec2-ziB4uWFBitPbmXba9wMCha8ZUkabof_Fb0|1639620655|8e3315a1ede4cfbdf421bc4c21b6f58db28769d249e0142c450008162841ff41; _tea_utm_cache_6383=undefined; AB_LOGIN_GUIDE_TIMESTAMP=1639620656172; MONITOR_WEB_ID=ae83c60f-09ea-4225-82ff-d74fa1a41fd3; s_v_web_id=verify_kx8bt03q_EDZ2Uu4P_fxob_41pr_8nJK_PeaKbeLFUohL; passport_csrf_token_default=2386a4b13f60cac7c3d4251f51f187a0; passport_csrf_token=2386a4b13f60cac7c3d4251f51f187a0; THEME_STAY_TIME=299196; IS_HIDE_THEME_CHANGE=1; __ac_nonce=061baad0d003f063b379a; __ac_signature=_02B4Z6wo00f01UcKFxwAAIDBxwjtXI1FrpVHLhOAADB7R928uojvFrV4iIGxAkko1C-KbsGuBlxH3htCQB4dgbVkTJWgpe.qnG8S2IqyEhsZ-lfHkhRiQF-gYZmY7EoMNPrG4mjUHC9yYSmG00; home_can_add_dy_2_desktop=1; tt_scid=4bUDRD1gsLZn4wHYWONAgN7KfK.fWvVhMpNU0weJZa6fjzqxZz8MDSIxoXuiRLdhc58c; pwa_guide_count=2; msToken=7czSYbt_N_VW3Kmthtp-nKMZNKfe_O7DuK3r6LMPDuq3fyPql8hqMQVzgebCEKmikj3L42y5cSJAczVS9tOexeTE6FiwDTDXqGtfwabTFgPOHNbHibg5JhAH'}
 
 
 class BeautifulsoupPO:
 
     def __init__(self, url):
 
-        # self.soup = BeautifulSoup(html, 'lxml')
-
         html = Html_PO.rspGet(url)
         html.encoding = 'utf-8'
-        html = html.text
-        self.soup = BeautifulSoup(html, 'html.parser')
+        self.soup = BeautifulSoup(html.text, 'html.parser')
+        # self.soup = BeautifulSoup(html, 'lxml')
 
 
 
-    def getValue(self, url, tag1, attr1, value1, tag2, attr2):
+    # print(soup.span.string)
 
-        # 获取页面上标签中属性的值
-        # 如：获取url中div标签中id为post_content_87286618651下img标签中src的值
-        # Beautifulsoup_PO.getValue('http://tieba.baidu.com/p/4468445702',"div",'id','post_content_87286618651',"img","src")
-        html = requests.get(url)
-        html.encoding = 'utf-8'
-        html = html.text
-        soup = BeautifulSoup(html, 'html.parser')
-        l_value = soup.find(tag1, {attr1:value1}).findAll(tag2)
-        return l_value[0].attrs[attr2]
+    # return self.soup.find_all(tag1).attrs['title']
 
-    def getValue2(self, tag1, attr1, value1):
 
-        # 获取页面上标签中属性的值
-        # 如：获取url中div标签中id为post_content_87286618651下img标签中src的值
-        # Beautifulsoup_PO.getValue('http://tieba.baidu.com/p/4468445702',"div",'id','post_content_87286618651',"img","src")
 
-        # print(soup.span.string)
-        # l_value = soup.find_all(tag1, {attr1:value1})
-        # l_value = self.soup.find_all(['span'])
-        # l_value = self.soup.find_all(tag1, class_=value1)
-        # l_value = self.soup.find_all(tag1, attrs={attr1:value1})
-        # l_value = self.soup.find('div', class_='sound-list  H_g').find('ul')
+    # self.soup.span.string
+    # print(l_value)
+    # return l_value[0].attrs[attr2]
 
-        for s in self.soup.stripped_strings:
-            print(repr(s))
+
+
+        # x = Beautifulsoup_PO.getValue2("h1", 'class_', 'core_title_txt  ')
+
+        # for s in self.soup.stripped_strings:
+        #     print(repr(s))
         # l_value = self.soup.find_all('ul')
         # l_value = self.soup.find_all('div', {'class': 'text _nO'})
 
@@ -90,31 +70,61 @@ class BeautifulsoupPO:
         # print(l_value)
 
 
-    def downPic(self, picUrl, tosave):
-
-        # 下载在线图片
-
-        img = requests.get(picUrl)
-        with open(tosave, 'ab') as f:
-            f.write(img.content)
-            f.close()
 
 
 if __name__ == '__main__':
 
 
-    # Beautifulsoup_PO = BeautifulsoupPO("https://www.ximalaya.com/album/13738175")
-    Beautifulsoup_PO = BeautifulsoupPO('https://www.douyin.com/video/7181427037469478178')
+    html = """
+    <html><head><title>The Dormouse's story</title></head>
+    <body>
+    <p class="title" name="dromouse"><b>The Dormouse's story</b></p>
+    <p class="story">Once upon a time there were three little sisters; and their names were
+    <a href="http://example.com/elsie" class="sister" id="link1"><!-- Elsie --></a>,
+    <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+    <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>
+    <p class="story">...</p>
+    """
 
-    # sleep(6)
+    Beautifulsoup_PO = BeautifulsoupPO("http://tieba.baidu.com/p/4468445702")
 
-    # print('.prettify() 格式化输出对象的内容'.center(100, "-"))
-    print(Beautifulsoup_PO.soup.prettify())
+
+    # # print('1,获取标签属性的值, 获取div id=post_content_87286618651下img src的值'.center(100, "-"))
+    # x = Beautifulsoup_PO.soup.find("div", {'id': 'post_content_87286618651'}).find_all('img')[0].attrs['src']
+    # print(x)  # https://imgsa.baidu.com/forum/w%3D580/sign=b2310eb7be389b5038ffe05ab534e5f1/680c676d55fbb2fbc7f64cbb484a20a44423dc98.jpg
     #
+    #
+    #
+    # # print('2 获取标签的文本内容'.center(100, "-"))
+    # x = Beautifulsoup_PO.soup.find_all("h1", {'class':'core_title_txt'})
+    # print(x[0].text)  # 为什么pycharm显示找不到reduce函数？如图
+    #
+    # x = Beautifulsoup_PO.soup.find("h1", {'class':'core_title_txt'}).contents[0]
+    # print(x)  # 为什么pycharm显示找不到reduce函数？如图
+
+
+    # print('3 格式化html'.center(100, "-"))
+    # print(Beautifulsoup_PO.soup.prettify())
+
+    # print('4 获取所有文本内容，并去除多余空白内容，即换行符。'.center(100, "-"))
+    # for string in Beautifulsoup_PO.soup.stripped_strings:
+    #     print(repr(string))
+    #
+    # # "The Dormouse's story"
+    # # "The Dormouse's story"
+    # # 'Once upon a time there were three little sisters; and their names were'
+    # # ','
+    # # 'Lacie'
+    # # 'and'
+    # # 'Tillie'
+    # # ';\nand they lived at the bottom of a well.'
+    # # '...'
+
+
     # print('获取标签及内容（默认获取第一个标签）'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.title)  # <title>The Dormouse's story</title>
     # print(Beautifulsoup_PO.soup.head)  # <head><title>The Dormouse's story</title></head>
-    # print(Beautifulsoup_PO.soup.a)  # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>
+    # print(Beautifulsoup_PO.soup.img)  # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>
     # print(Beautifulsoup_PO.soup.p)  # <p class="title" name="dromouse"><b>The Dormouse's story</b></p>
     #
     #
@@ -125,7 +135,7 @@ if __name__ == '__main__':
     # print('标签属性name和attrs'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.name)  # [document]  ，soup 对象的 name 即为 [document]，对于其他内部标签，输出的值便为标签本身的名称。
     # print(Beautifulsoup_PO.soup.head.name)  # head
-    # print(Beautifulsoup_PO.soup.p.attrs)  # {'class': ['title'], 'name': 'dromouse'} , 将标签中的属性转为字典，即可获取key或value
+    # print(Beautifulsoup_PO.soup.img.attrs)  # {'class': ['title'], 'name': 'dromouse'} , 将标签中的属性转为字典，即可获取key或value
     #
     #
     # print('获取标签中属性的值'.center(100, "-"))
@@ -219,19 +229,7 @@ if __name__ == '__main__':
     # # '...'
     # # '\n'
     #
-    # print('.stripped_strings 获取所有内容，并去除多余空白内容，即换行符。'.center(100, "-"))
-    # for string in Beautifulsoup_PO.soup.stripped_strings:
-    #     print(repr(string))
-    #
-    # # "The Dormouse's story"
-    # # "The Dormouse's story"
-    # # 'Once upon a time there were three little sisters; and their names were'
-    # # ','
-    # # 'Lacie'
-    # # 'and'
-    # # 'Tillie'
-    # # ';\nand they lived at the bottom of a well.'
-    # # '...'
+
     #
     # print('.parent属性 获取父节点 '.center(100, "-"))
     # p = Beautifulsoup_PO.soup.p
@@ -427,23 +425,8 @@ if __name__ == '__main__':
     # # Tillie
 
 
-    # print('获取url中div标签中id为post_content_87286618651下img标签中src的值'.center(100, "-"))
-    # picUrl = Beautifulsoup_PO.getValue('http://tieba.baidu.com/p/4468445702', "div", 'id', 'post_content_87286618651', "img", "src")
-    # print(picUrl)
-
-    # print('将在线图片下载到本地'.center(100, "-"))
-    # Beautifulsoup_PO.downPic(picUrl, "d://1/123.jpg")
-
-
-
-
-
 
     # bsop.find('div', {'class': 'img'}).find("p").findAll("img")[0].attrs['alt']
 
-    # Beautifulsoup_PO.getValue2('https://www.ximalaya.com/album/13738175', "span", 'class_', 'title _nO')
-    # Beautifulsoup_PO.getValue2("h1", 'class', 'title dC_')
-    # Beautifulsoup_PO.getValue2("div", 'id', 'anchor_sound_list')
-    # Beautifulsoup_PO.getValue2("span", 'class_', 'title _nO')
-    Beautifulsoup_PO.getValue2("", 'class_','title _nO')
+
 

@@ -9,10 +9,10 @@
 
 1 裁剪图片中的区域（画中画）
 2 设置图片灰色
-
+3 下载图片
 '''
 
-import cv2
+import cv2, requests
 from PIL import Image, ImageDraw, ImageGrab
 
 class PicturePO():
@@ -38,6 +38,17 @@ class PicturePO():
         cv2.imwrite(varTargetImageFile, img)
 
 
+    def downPic(self, picUrl, toSave):
+
+        '''3 下载图片'''
+
+        img = requests.get(picUrl)
+        with open(toSave, 'ab') as f:
+            f.write(img.content)
+            f.close()
+
+
+
 if __name__ == '__main__':
 
     Picture_PO = PicturePO()
@@ -48,6 +59,9 @@ if __name__ == '__main__':
 
     # print("2 设置图片灰色".center(100, "-"))
     Picture_PO.setGrey("d:/11/6/12.jpg", "d:/11/6/back.jpg")
+
+   # print('3 下载图片'.center(100, "-"))
+    Picture_PO.downPic('https://imgsa.baidu.com/forum/w%3D580/sign=b2310eb7be389b5038ffe05ab534e5f1/680c676d55fbb2fbc7f64cbb484a20a44423dc98.jpg', "d:/11/6/123.jpg")
 
 
 

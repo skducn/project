@@ -21,7 +21,7 @@ Dy_PO.downVideo("https://v.douyin.com/hbjqhuT", "d:/11/44")
 
 
 # print("2，下载多个抖音(列表页)视频".center(100, "-"))
-# Dy_PO.downVidoeList("https://www.douyin.com/user/MS4wLjABAAAAOkdsWDIgI7EB8qug52evYguETk729ADZ10MgAQMfysY?vid=7181707656808221964", "d:/11/6")  # 下载所有视频
+Dy_PO.downVidoeList("https://www.douyin.com/user/MS4wLjABAAAAOkdsWDIgI7EB8qug52evYguETk729ADZ10MgAQMfysY?vid=7181707656808221964", "d:/11/6")  # 下载所有视频
 # Dy_PO.downVidoeList("https://www.douyin.com/user/MS4wLjABAAAAOkdsWDIgI7EB8qug52evYguETk729ADZ10MgAQMfysY?vid=7181707656808221964", "d:/11/6", "a", "7181702424485186849")  # 下载 7181702424485186849 之后视频（即最新）
 # Dy_PO.downVidoeList("https://www.douyin.com/user/MS4wLjABAAAAOkdsWDIgI7EB8qug52evYguETk729ADZ10MgAQMfysY?vid=7181707656808221964", "d:/11/6", "b", "7041494252559420685")  # 下载 7041494252559420685 之前视频（即最旧）
 

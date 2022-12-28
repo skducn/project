@@ -117,16 +117,6 @@ class DyPO:
 		:return:
 		'''
 
-
-		headers = {
-			"cookie":
-				"s_v_web_id=verify_kwlyvfty_u4F0a4eC_HR0R_45qA_BGNr_tcfqSLkaFeIa; _"
-				"tea_utm_cache_1300=undefined; __ac_nonce=061a6114700def9eb597f; __"
-				"ac_signature=_02B4Z6wo00f01e59nzAAAIDAZTYE0lZHzxHuWZuAABo7n7oK78zhgb8Ol30kLigl-Pu9Q6sKyLpV-BQ3rbF1vLak-TtxN0ysQpQIX.VKlIbTkVBVA4rBt1JdylfNbrGz2NI4r4d7uQWMRa.r56; tt_scid=tbEntOkthFZL51883ve.2ORcwMNYlHUb6tegsnIzC9HSbV5u3J8ASl23x6S7wONy6e5e; "
-			,
-			"user-agent": Data_PO.getUserAgent()
-		}
-
 		print("[待下载列表页] => " + url)
 
 		# 使用selenium解析动态html
@@ -159,125 +149,8 @@ class DyPO:
 
 			else:
 				# 下载所有
-				print("https://www.douyin.com" + a['href'])
-				# self.downVideo("https://www.douyin.com/video/7151241259796008222", toSave)
-
-
-
-		sys.exit(0)
-
-
-
-		# # 获取网页作品数
-		#
-		# html = requests.get(url)
-		# html.encoding = 'utf-8'
-		# text = html.text
-		# bsop = BeautifulSoup(text, 'html.parser')
-		# for i in bsop.select('span[class="_03811320ee25b81d1c705fae532572ec-scss"]'):
-		# 	# print(i.get_text())
-		# 	workQTY = i.get_text()
-		# 	break
-		#
-		#
-		# # 输出信息
-		# sec_id_url = "https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid={0}&count=50&max_cursor=0&aid=1128&_signature=dF8skQAAK0iTKNSXi9av.XRfLI&dytk=".format(sec_id)
-		# comment = Html_PO.getJson(sec_id_url)
-		# for s in comment['aweme_list']:
-		# 	# 用户名
-		# 	nickname = s['author']['nickname']
-		# 	# 生成目录
-		# 	if platform.system() == 'Darwin':
-		# 		File_PO.newLayerFolder(toSave + "/" + nickname)
-		# 		varFolder = str(toSave) + "/" + nickname
-		# 	if platform.system() == 'Windows':
-		# 		File_PO.newLayerFolder(toSave + "\\" + nickname)
-		# 		varFolder = str(toSave) + "\\" + nickname
-		# 	print("用户名：{}({})".format(nickname, url))
-		# 	print("视频数：{}".format(workQTY))
-		# 	break
-		#
-		# max_cursor = 0
-		#
-		# # 分页功能
-		# while True:
-		# 	while True:
-		# 		if (max_cursor == 0):
-		# 			sec_id_url = "https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid={0}&count=50&max_cursor=0&aid=1128&_signature=dF8skQAAK0iTKNSXi9av.XRfLI&dytk=".format(sec_id)
-		# 		else:
-		# 			sec_id_url = "https://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid={0}&count=50&max_cursor={1}&aid=1128&_signature=dF8skQAAK0iTKNSXi9av.XRfLI&dytk=".format(sec_id, max_cursor)
-		# 		comment = Html_PO.getJson(sec_id_url)
-		# 		if (len(comment['aweme_list']) == 0):
-		# 			os._exit(0)
-		# 		else:
-		# 			# 下一页最大下标
-		# 			max_cursor = comment['max_cursor']
-		#
-		# 			for s in comment['aweme_list']:
-		#
-		# 				# 视频标题
-		# 				varTitle = s['desc']
-		#
-		# 				# 优化文件名不支持的9个字符
-		# 				varTitle = Str_PO.delSpecialCharacters(str(varTitle))
-		#
-		# 				# 过滤掉#后的广告
-		# 				# varTitle = re.sub("(\#\w+)|(\@\w+)", '', varTitle)
-		#
-		# 				# 视频地址(过滤v5-开头的视频)
-		# 				videoURL = s['video']['play_addr_lowbr']['url_list'][0]
-		# 				if "http://v5-" in videoURL:
-		# 					videoURL = s['video']['play_addr_lowbr']['url_list'][1]
-		#
-		# 				# 下载
-		# 				if isinstance(scope, int):
-		# 					# 下载从序号《3》之前的音频
-		# 					if scope >= int(workQTY):
-		# 						# 优化文件名不支持的9个字符
-		# 						varTitle = str(workQTY) + "_" + varTitle
-		# 						ir = Html_PO.rspGet(videoURL)
-		# 						open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
-		# 						# 输出结果
-		# 						l_result = []
-		# 						l_result.append(varFolder)
-		# 						l_result.append(varTitle)
-		# 						l_result.append(videoURL)
-		# 						# print(l_result)
-		# 						print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
-		#
-		# 						l_result = []
-		# 				if isinstance(scope, str):
-		# 					# 下载所有视频
-		# 					if scope == "all":
-		# 						varTitle = str(workQTY) + "_" + varTitle
-		# 						ir = Html_PO.rspGet(videoURL)
-		# 						open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
-		# 						# 输出结果
-		# 						l_result = []
-		# 						l_result.append(varFolder)
-		# 						l_result.append(varTitle)
-		# 						l_result.append(videoURL)
-		# 						# print(l_result)
-		# 						print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
-		#
-		# 						l_result = []
-		# 					# 下载标题中带关键字的音频
-		# 					elif scope in varTitle:
-		# 						varTitle = str(workQTY) + "_" + varTitle
-		# 						ir = Html_PO.rspGet(videoURL)
-		# 						open(f'{toSave}/{nickname}/{varTitle}.mp4', 'wb').write(ir.content)
-		# 						# 输出结果
-		# 						l_result = []
-		# 						l_result.append(varFolder)
-		# 						l_result.append(varTitle)
-		# 						l_result.append(videoURL)
-		# 						# print(l_result)
-		# 						print(str(l_result).encode('gbk', 'ignore').decode('gbk'))
-		#
-		# 						l_result = []
-		# 				workQTY = int(workQTY) - 1
-		# 			break
-
+				# print("https://www.douyin.com" + a['href'])
+				self.downVideo("https://www.douyin.com" + a['href'], toSave)
 
 
 if __name__ == '__main__':
