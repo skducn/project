@@ -198,9 +198,10 @@ class FilePO():
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    # 新建多级目录
+
     def newLayerFolder(self, varLayerFolderPath):
-        # 新建多级目录，如果目录路径不存在，则新建路径目录
+
+        # 新建多级目录
         # File_PO.newLayerFolder(os.getcwd() + "/folder5/h1/h2")  # 新建 /folder5/h1/h2 三层目录，目录存在则忽略
         try:
             if not os.path.exists(varLayerFolderPath):

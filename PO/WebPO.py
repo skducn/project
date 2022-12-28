@@ -37,14 +37,15 @@
 2.2 截取全屏 captureScreen()
 
 [browser]
+3.0 解析动态html滚动到页面底部加载所有数据 pageDown()
 3.1 获取当前浏览器宽高 getBrowserSize()
 3.2 截取浏览器内屏幕 captureBrowser()
 3.3 屏幕左移 scrollLeft('1000',9)
 3.4 屏幕右移 scrollRight('1000', 5)
 3.5 屏幕上移 scrollTop('1000', 5)
 3.6 屏幕下移 scrollDown('1000', 5)
-3.7 元素拖动到可见的元素
-3.8 内嵌窗口中滚动条操作
+3.7 元素拖动到可见的元素 scrollIntoView(varXpath)
+3.8 内嵌窗口中滚动条操作 scrollTopById(varId)
 3.9 切换浏览器全屏 maxBrowser(0)
 
 4.0 新建标签页 openNewLabel("http://www.jd.com")
@@ -55,10 +56,9 @@
 
 6 页面缩放比率 zoom(20)
 
-[pic]
-截屏指定图片中某一区域 capturePicturePart()
 
-获取验证码
+
+获取验证码？？
 
 '''
 
@@ -70,7 +70,7 @@ from selenium import webdriver
 # from selenium.webdriver.support.wait import WebDriverWait
 # from selenium.webdriver.support import expected_conditions as EC
 from PIL import ImageGrab
-import cv2,requests
+import cv2, requests, bs4
 from pytesseract import *
 from PIL import Image, ImageDraw, ImageGrab
 
@@ -106,43 +106,44 @@ class WebPO(BasePO):
                 self.driver.get(varURL)
             return self.driver
 
-        if self.driver == "chrome" :
+        if self.driver == "chrome":
             option = webdriver.ChromeOptions()
-            option.add_argument('disable-infobars')
-            # option.headless = True  # 无界面模式
-            # option.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁止打印日志
-            option.add_experimental_option('excludeSwitches', ['enable-automation'])  # 不显示 chrome正受到自动测试软件的控制的提示
-            option.add_argument('--incognito')  # 无痕隐身模式
             option.add_argument('--start-maximized')  # 最大化
-            option.add_argument("disable-cache")  # 禁用缓存
-            # option.add_argument("user-data-dir = C:\Python37\profile")
+            option.add_argument('--disable-blink-features=AutomationControlled')  # 禁止浏览器出现验证滑块
+            option.add_argument(r'--user-data-dir=c:\selenium_user_data')  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
+            # option.add_argument('--incognito')  # 无痕隐身模式
+            # option.add_argument('disable-infobars')  # 不显示 Chrome正在受到自动软件的控制的提示（已废弃，替代者excludeSwitches）
+            # option.add_argument("disable-cache")  # 禁用缓存
             # option.add_argument('--ignore-certificate-errors')
+            # option.add_argument("--disable-extensions")  # 禁用扩展插件的设置参数项
+            # option.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])  # 屏蔽--ignore-certificate-errors提示信息的设置参数项
+            option.add_experimental_option('excludeSwitches', ['enable-automation'])  # 不显示 chrome正受到自动测试软件的控制的提示
+            # option.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁止打印日志
+            # option.headless = True  # 无界面模式
             self.driver = webdriver.Chrome(options=option)
-            # self.driver.set_window_size(1920, 1080)  # 按分辨率1366*768打开浏览器
+            # self.driver = webdriver.Chrome(executable_path="d:\\chromedriver", chrome_options=option) # 启动带有自定义设置的Chrome浏览器
             self.driver.get(varURL)
             return self.driver
 
         if self.driver == "chromeHeadless":
             option = webdriver.ChromeOptions()
-            option.add_argument('disable-infobars')
+            option.add_argument('--disable-blink-features=AutomationControlled')  # 禁止浏览器出现验证滑块
+            option.add_argument(r'--user-data-dir=c:\selenium_user_data')  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
+            option.add_experimental_option('excludeSwitches', ['enable-automation'])  # 不显示 chrome正受到自动测试软件的控制的提示
+            option.add_experimental_option('excludeSwitches', ['enable-logging'])   # 禁止打印日志
             option.headless = True  # 无界面模式
-            option.add_experimental_option('excludeSwitches', ['enable-logging'])
-            # option.add_argument("user-data-dir = C:\Python37\profile")
-            # option.add_argument('--ignore-certificate-errors')
             self.driver = webdriver.Chrome(options=option)
             self.driver.get(varURL)
             return self.driver
-
-
     def openURL(self, varURL):
         self._openURL(varURL)
-
 
     def close(self):
 
         '''1.2 关闭当前窗口'''
 
         self.driver.close()
+
     def quit(self):
 
         '''1.3 关闭所有窗口（退出驱动）'''
@@ -158,7 +159,6 @@ class WebPO(BasePO):
 
         return self.driver.execute_script('var winW = window.screen.width;var winH = window.screen.height; return([winW,winH]);')
 
-
     def captureScreen(self, varImageFile):
 
         '''2.2 截取全屏'''
@@ -171,6 +171,34 @@ class WebPO(BasePO):
 
 
     # todo [browser]
+
+    def pageDown(self, varClassValue):
+
+        '''3.0 解析动态html滚动到页面底部加载所有数据
+        varClassValue 参数是所需加载数据，如list中class值
+        Web_PO.driver.find_elements(By.CLASS_NAME, "Eie04v01")
+        return: 返回所需加载数据的数量
+        '''
+
+        # pageDown('Eie04v01')
+        num, len_now = 0, 0
+        _input = self.driver.find_element(By.TAG_NAME, "body")
+        while (True):
+            _input.send_keys(Keys.PAGE_DOWN)
+            self.driver.implicitly_wait(2)
+            elem = self.driver.find_elements(By.CLASS_NAME, varClassValue)
+            len_cur = len(elem)
+            # print(len_now, len_cur)
+            if (len_now != len_cur):
+                len_now = len_cur
+                num = 0
+            elif (len_now == len_cur and num <= 2):
+                num = num + 1
+                sleep(0.5)
+            else:
+                sleep(2)
+                break
+        return len_cur
 
     def getBrowserSize(self):
 
@@ -305,23 +333,13 @@ class WebPO(BasePO):
         self.driver.execute_script(js)
 
 
-    # todo [pic]
-
-    def capturePicturePart(self, varSourceImageFile, varTargetImageFile, varHighStart, varHighEnd, varWidthStart, varWidthEnd):
-
-        '''6 截屏指定图片中某一区域'''
-
-        # img = cv2.imread(varSourceImageFile, 0)  # 截图后灰色
-        img = cv2.imread(varSourceImageFile)  # 截图后原色
-        crop_img = img[varHighStart:varHighEnd, varWidthStart:varWidthEnd]
-        cv2.imwrite(varTargetImageFile, crop_img)
-        # cv2.imshow("image", crop_img)
-        # cv2.waitKey(0)
 
 
     def getCode(self, capScrnPic, xStart, yStart, xEnd, yEnd):
 
-        # 5 获取验证码
+
+        '''8 获取验证码 ？？'''
+
         # Level_PO.getCode(u"test.jpg",2060, 850, 2187, 900）
         # 注：地址是图片元素中的位置。
         self.driver.save_screenshot(capScrnPic)
@@ -368,13 +386,12 @@ if __name__ == '__main__':
     Web_PO = WebPO("chrome")
     # Web_PO = WebPO("chromeHeadless")
     # Web_PO = WebPO("firefox")
-
     # Web_PO.driver.maximize_window()  # 全屏
     # Web_PO.driver.set_window_size(1366, 768)  # 按分辨率1366*768打开浏览器
 
 
     # # print("1.1 打开网站".center(100, "-"))
-    Web_PO.openURL('https://www.baidu.com/')
+    # Web_PO.openURL('https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg')
 
 
     # # print("2.1 获取屏幕分辨率".center(100, "-"))
@@ -385,6 +402,18 @@ if __name__ == '__main__':
     # print("2.2，截取全屏".center(100, "-"))
     # Web_PO.captureScreen('d:\\1fullScreen.jpg')
 
+
+    # print("3.0 解析动态html滚动到页面底部加载所有数据".center(100, "-"))
+    # Web_PO.openURL('https://www.douyin.com/user/MS4wLjABAAAARzph2dTaIfZG4w_8czG9Yf5YiqHqc7RGXrqUM3fHtBU?vid=7180299495916326181')
+    # qty = Web_PO.pageDown('Eie04v01')  # 动态加载页面直到最后一个 class=Eie04v01 ,并返回加载的数量。
+    # print(qty)
+    # text = Web_PO.driver.page_source
+    # text = bs4.BeautifulSoup(text, 'lxml')
+    # link = text.find_all('a')
+    # for a in link:
+    #     href = a['href']
+    #     if "/video" in href:
+    #         print("https://www.douyin.com" + href)
 
     # print("3.1 获取当前浏览器宽高".center(100, "-"))
     # print(Web_PO.getBrowserSize())  # (1536, 824)
@@ -404,9 +433,15 @@ if __name__ == '__main__':
     # print("3.6 屏幕下移".center(100, "-"))
     # Web_PO.scrollDown('1000', 5)
 
+    # print("3.7 元素拖动到可见的元素".center(100, "-"))
+    # scrollIntoView(varXpath)
+
+    # print("3.8 内嵌窗口中滚动条操作".center(100, "-"))
+    # scrollTopById(varId)
 
     # # print("3.9 切换浏览器全屏".center(100, "-"))
     # Web_PO.maxBrowser(0)  # 句柄
+
 
     # # print("4.0 新建标签页".center(100, "-"))
     # Web_PO.openNewLabel("http://www.jd.com")
@@ -415,10 +450,10 @@ if __name__ == '__main__':
     # Web_PO.switchLabel(0)
 
 
-    # # print("5 弹出框(未测试)".center(100, "-"))
+    # # print("5.1 弹出框".center(100, "-"))
     # Web_PO.popupAlert("你好吗？")
 
-    # # print("5 弹出框(未测试)".center(100, "-"))
+    # # print("5.2 确认弹出框".center(100, "-"))
     # Web_PO.confirmAlert("accept", 2)
     # Web_PO.confirmAlert("dismiss", 2)
     # print(Web_PO.confirmAlert("text", 2))
@@ -426,12 +461,6 @@ if __name__ == '__main__':
 
     # # print("6 页面缩放比率".center(100, "-"))
     # Web_PO.zoom(20)
-
-
-
-
-    # print("截屏指定图片中某一区域".center(100, "-"))
-    # Web_PO.capturePicturePart("d:\\2browserScreen.jpg", "d:\\3part.jpg", 500, 700, 750, 1050)
-
+    # Web_PO.zoom(220)
 
 
