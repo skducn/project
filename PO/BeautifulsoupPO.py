@@ -5,6 +5,9 @@
 # Description: beautifulsoup  HTML 解析器 封装包
 # beautifulsoup官网：https://beautifulsoup.readthedocs.io/zh_CN/latest/
 # 使用方法：https://cuiqingcai.com/1319.html
+# 官网 https://www.crummy.com/software/BeautifulSoup/bs4/doc/#next-sibling-and-previous-sibling
+# bs4查找标签属性值 https://blog.csdn.net/qq_45060674/article/details/118671494
+# Selenium+BeautifulSoup解析动态HTML页面【附完整代码】 https://blog.csdn.net/weixin_44259720/article/details/127075628
 
 # 三个html解释器比较：
 # pip3.9 install beautifulsoup4  特点：Python 的内置标准库，执行速度适中，文档容错能力强，Python 2.7.3 or 3.2.2) 前 的版本中文档容错能力差；
