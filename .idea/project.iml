@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/instance/zyjk/ERP/statisticalReturns" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/instance/crawler/ximalaya" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/instance/crawler/douyin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/instance/crawler/bilibili" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

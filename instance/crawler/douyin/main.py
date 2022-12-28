@@ -12,30 +12,16 @@
 
 
 from DyPO import *
-douyin = DyPO()
+Dy_PO = DyPO()
 
-
-douyin.downVideo("https://v.douyin.com/hbjqhuT", "d:\\11")
-# douyin.downVideo("https://www.douyin.com/video/7151241259796008222", "d:\\11")
-
-
-
-
-
-# print("2，多视频下载（手机版）".center(100, "-"))
-# douyin.getVidoesByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4")  # 下载所有视频，走遍中国5A景区-大龙
-# douyin.getVidoesByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", 3)  # 下载从序号《3》之前的音频
-# douyin.getVidoesByPhone("https://v.douyin.com/Jp4GEo6/", "d:\\4", scope="三星")  # 下载标题中带“XXX”关键字的音频
+# print("1，下载单个抖音视频".center(100, "-"))
+Dy_PO.downVideo("https://v.douyin.com/hbjqhuT", "d:/11/44")
+# Dy_PO.downVideo("https://www.douyin.com/video/7157633339661307168", "d:/11")
 
 
 
-# print("3，单视频下载（网页版）".center(100, "-"))
-# douyin.getVidoeByWeb("7050823376893381902", "/Users/linghuchong/Desktop/mac")
+# print("2，下载多个抖音(列表页)视频".center(100, "-"))
+# Dy_PO.downVidoeList("https://www.douyin.com/user/MS4wLjABAAAAOkdsWDIgI7EB8qug52evYguETk729ADZ10MgAQMfysY?vid=7181707656808221964", "d:/11/6")  # 下载所有视频
+# Dy_PO.downVidoeList("https://www.douyin.com/user/MS4wLjABAAAAOkdsWDIgI7EB8qug52evYguETk729ADZ10MgAQMfysY?vid=7181707656808221964", "d:/11/6", "a", "7181702424485186849")  # 下载 7181702424485186849 之后视频（即最新）
+# Dy_PO.downVidoeList("https://www.douyin.com/user/MS4wLjABAAAAOkdsWDIgI7EB8qug52evYguETk729ADZ10MgAQMfysY?vid=7181707656808221964", "d:/11/6", "b", "7041494252559420685")  # 下载 7041494252559420685 之前视频（即最旧）
 
-
-
-# print("4，多视频下载（网页版）".center(100, "-"))
-# "https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg"
-# douyin.getVidoesByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3")  # 下载所有视频
-# douyin.getVidoesByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3", 5)  # 下载从序号《5》之前的音频
-# douyin.getVidoesByWeb("MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg", "d:\\3", scope="中国")  # 下载标题中带“XXX”关键字的音频
