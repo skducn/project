@@ -28,30 +28,29 @@
 # *******************************************************************************************************************************
 
 '''
+
 1.1 打开网站 open()
-1.2 关闭当前窗口 close()
-1.3 关闭所有窗口（退出驱动）quit()
+1.2 打开标签页 openLabel("http://www.jd.com")
+1.3 切换标签页 switchLabel(0)
+1.4 获取当前浏览器宽高 getBrowserSize()
+1.5 截取浏览器内屏幕 getBrowserScreen()
 
+2.1 全屏浏览器 maxBrowser(0)
+2.2 缩放页面比率 zoom(20)
+2.3 动态加载页面滚动到底部（加载所有数据） dynamicLoadToEnd()
+2.4 页面滚动条到底部 scrollToEnd()
+2.5 app屏幕左移 scrollLeft('1000',9)
+2.6 app屏幕右移 scrollRight('1000', 5)
+2.7 app屏幕上移 scrollTop('1000', 5)
+2.8 app屏幕下移 scrollDown('1000', 5)
+2.9 元素拖动到可见的元素 scrollIntoView(varXpath)
+2.10 内嵌窗口中滚动条操作 scrollTopById(varId)
 
-3.0 解析动态html滚动到页面底部加载所有数据 pageDown()
-3.1 获取当前浏览器宽高 getBrowserSize()
-3.2 截取浏览器内屏幕 getBrowserScreen()
-3.3 屏幕左移 scrollLeft('1000',9)
-3.4 屏幕右移 scrollRight('1000', 5)
-3.5 屏幕上移 scrollTop('1000', 5)
-3.6 屏幕下移 scrollDown('1000', 5)
-3.7 元素拖动到可见的元素 scrollIntoView(varXpath)
-3.8 内嵌窗口中滚动条操作 scrollTopById(varId)
-3.9 切换浏览器全屏 maxBrowser(0)
+3.1 弹出框 popupAlert()
+3.2 确认弹出框 confirmAlert("accept", 2)
 
-4.0 新建标签页 openNewLabel("http://www.jd.com")
-4.1 切换标签页 switchLabel(0)
-
-5.1 弹出框 popupAlert()
-5.2 确认弹出框 confirmAlert("accept", 2)
-
-6 页面缩放比率 zoom(20)
-
+4.1 关闭当前窗口 close()
+4.2 退出浏览器应用 quit()
 
 获取验证码？？
 
@@ -137,28 +136,76 @@ class WebPO(BasePO):
     def openURL(self, varURL):
         self._openURL(varURL)
 
-    def close(self):
 
-        '''1.2 关闭当前窗口'''
+    def openLabel(self, varURL):
 
-        self.driver.close()
+        '''1.2 打开标签页'''
 
-    def quit(self):
-
-        '''1.3 关闭所有窗口（退出驱动）'''
-
-        self.driver.quit()
+        self.openURL(varURL)
+        self.driver.execute_script('window.open("' + varURL + '");')
 
 
-    def pageDown(self, varClassValue):
+    def switchLabel(self, varSwitch, t=1):
 
-        '''3.0 解析动态html滚动到页面底部加载所有数据
+        '''1.3 切换标签页'''
+
+        # self.Web_PO.switchLabel(0) # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页 , 以此类推。
+
+        all_handles = self.driver.window_handles
+        sleep(t)
+        self.driver.switch_to.window(all_handles[varSwitch])
+
+    def getBrowserSize(self):
+
+        '''1.4 获取当前浏览器宽高'''
+
+        d_size = self.driver.get_window_size()  # {'width': 1936, 'height': 1056}
+        return(d_size['width']-16, d_size['height']+24)
+
+
+    def getBrowserScreen(self, varImageFile):
+
+        ''' 1.5 截取浏览器内屏幕'''
+
+        # 前置条件：先打开浏览器后才能截屏.
+        # self.Web_PO.getBrowserScreen("d:\\screenshot.png")
+        self.driver.get_screenshot_as_file(varImageFile)
+
+
+
+    def setBrowser(self,width, height):
+
+        '''2.0 指定分辨率浏览器'''
+
+        # Web_PO.setBrowser(1366, 768) # 按分辨率1366*768打开浏览器
+        self.driver.set_window_size(width, height)
+
+    def maxBrowser(self, t=1):
+
+        '''2.1 全屏浏览器'''
+
+        # self.switchLabel(varWhichWindows)  # 切换句柄
+        self.driver.maximize_window()  # 全屏
+        sleep(t)
+
+    def zoom(self, percent):
+
+        '''2.2 缩放页面比率'''
+
+        js = "document.body.style.zoom='" + str(percent) + "%'"
+        self.driver.execute_script(js)
+
+
+    def dynamicLoadToEnd(self, varClassValue):
+
+        '''2.3 动态加载页面滚动到底部（加载所有数据）
+
         varClassValue 参数是所需加载数据，如list中class值
         Web_PO.driver.find_elements(By.CLASS_NAME, "Eie04v01")
         return: 返回所需加载数据的数量
         '''
 
-        # pageDown('Eie04v01')
+        # dynamicLoadToEnd('Eie04v01')
         num, len_now = 0, 0
         _input = self.driver.find_element(By.TAG_NAME, "body")
         while (True):
@@ -178,27 +225,20 @@ class WebPO(BasePO):
                 break
         return len_cur
 
-    def getBrowserSize(self):
 
-        '''3.1 获取当前浏览器宽高'''
+    def scrollToEnd(self, t):
 
-        # self.driver.maximize_window()  # 全屏
-        d_size = self.driver.get_window_size()  # {'width': 1936, 'height': 1056}
-        return(d_size['width']-16, d_size['height']+24)
+        ''' 2.4 页面滚动条到底部
+        :return:
+        '''
 
-
-    def getBrowserScreen(self, varImageFile):
-
-        ''' 3.2 截取浏览器屏幕'''
-
-        # 前置条件：先打开浏览器后才能截屏.
-        # self.Web_PO.getBrowserScreen("d:\\screenshot.png")
-        self.driver.get_screenshot_as_file(varImageFile)
+        self.driver.execute_script('window.scrollTo(0,document.body.scrollHeight)')
+        sleep(t)
 
 
     def scrollLeft(self, location, t=1):
 
-        ''' 3.3 屏幕左移'''
+        ''' 2.5 app屏幕左移'''
 
         # Web_PO.scrollLeft('1000', 2)  # 屏幕向左移动1000个像素
         self.driver.execute_script("var q=document.documentElement.scrollLeft=" + location)
@@ -206,7 +246,7 @@ class WebPO(BasePO):
 
     def scrollRight(self, location, t=1):
 
-        ''' 3.4 屏幕右移'''
+        ''' 2.6 app屏幕右移'''
 
         # Web_PO.scrollRight('1000', 2)  # 屏幕向右移动1000个像素
         self.driver.execute_script("var q=document.documentElement.scrollRight=" + location)
@@ -214,7 +254,7 @@ class WebPO(BasePO):
 
     def scrollTop(self, location, t=1):
 
-        ''' 3.5 屏幕上移'''
+        ''' 2.7 app屏幕上移'''
 
         # self.Web_PO.scrollTop("10000",2) # 屏幕向上移动1000个像素
         # self.driver.execute_script("var q=document.body.scrollTop=" + location)
@@ -223,7 +263,7 @@ class WebPO(BasePO):
 
     def scrollDown(self, location, t=1):
 
-        ''' 3.6 屏幕下移'''
+        ''' 2.8 app屏幕下移'''
 
         # self.Web_PO.scrollDown("10000",2) # 屏幕向下移动1000个像素
         self.driver.execute_script("var q=document.documentElement.scrollDown=" + location)
@@ -231,7 +271,7 @@ class WebPO(BasePO):
 
     def scrollIntoView(self, varXpath, t=1):
 
-        '''3.7 元素拖动到可见的元素'''
+        '''2.9 元素拖动到可见的元素'''
 
         element = self.driver.find_element_by_xpath(varXpath)
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
@@ -239,7 +279,7 @@ class WebPO(BasePO):
 
     def scrollTopById(self, varId, t=1):
 
-        '''3.8 内嵌窗口中滚动条操作'''
+        '''2.10 内嵌窗口中滚动条操作'''
 
         # 若要对页面中的内嵌窗口中的滚动条进行操作，要先定位到该内嵌窗口，在进行滚动条操作
         # self.screenTopId("zy.android.healthstatisticssystem:id/vp_content",2)
@@ -248,38 +288,10 @@ class WebPO(BasePO):
         sleep(t)
 
 
-    def maxBrowser(self, varWhichWindows,t=1):
-
-        '''3.9 切换浏览器全屏'''
-        # Oa_Po.maxBrowser(1)
-
-        self.switchLabel(varWhichWindows)  # 切换句柄
-        self.driver.maximize_window()  # 全屏
-        sleep(t)
-
-
-    def openNewLabel(self, varURL):
-
-        '''4.0 新建标签页'''
-
-        self.openURL(varURL)
-        self.driver.execute_script('window.open("' + varURL + '");')
-
-
-    def switchLabel(self, varSwitch, t=1):
-
-        '''4.1 切换标签页'''
-
-        # self.Web_PO.switchLabel(0) # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页 , 以此类推。
-
-        all_handles = self.driver.window_handles
-        sleep(t)
-        self.driver.switch_to.window(all_handles[varSwitch])
-
 
     def popupAlert(self, text, t=1):
 
-        '''5.1 弹出框'''
+        '''3.1 弹出框'''
 
         # 注意这里需要转义引号
         js = 'alert(\'' + text + '\');'
@@ -289,7 +301,7 @@ class WebPO(BasePO):
 
     def confirmAlert(self, operate, t=1):
 
-        '''5.2 确认弹出框'''
+        '''3.2 确认弹出框'''
 
         if operate == "accept":
             self.driver.switch_to.alert.accept()
@@ -302,14 +314,17 @@ class WebPO(BasePO):
             self.driver.switch_to.alert.accept()
             return x
 
+    def close(self):
 
-    def zoom(self, percent):
+        '''4.1 关闭当前窗口'''
 
-        '''6 页面缩放比率'''
+        self.driver.close()
 
-        js = "document.body.style.zoom='" + str(percent) + "%'"
-        self.driver.execute_script(js)
+    def quit(self):
 
+        '''4.2 退出浏览器应用'''
+
+        self.driver.quit()
 
 
 
@@ -364,20 +379,40 @@ if __name__ == '__main__':
     Web_PO = WebPO("chrome")
     # Web_PO = WebPO("chromeHeadless")
     # Web_PO = WebPO("firefox")
-    # Web_PO.driver.maximize_window()  # 全屏
-    # Web_PO.driver.set_window_size(1366, 768)  # 按分辨率1366*768打开浏览器
+
+
 
 
     # # print("1.1 打开网站".center(100, "-"))
-    # Web_PO.openURL('https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg')
+    Web_PO.openURL('https://baijiahao.baidu.com/s?id=1753450036624046728&wfr=spider&for=pc')
+
+    # # print("1.2 打开标签页".center(100, "-"))
+    # Web_PO.openLabel("http://www.jd.com")
+
+    # # print("1.3 切换标签页".center(100, "-"))
+    # Web_PO.switchLabel(0)
+
+    # print("1.4 获取当前浏览器宽高".center(100, "-"))
+    # print(Web_PO.getBrowserSize())  # (1536, 824)
+
+    # print("1.5 截取浏览器内屏幕".center(100, "-"))
+    # Web_PO.getBrowserScreen("d:/222333browserScreen.png")
 
 
 
+    # # print("2.0 指定分辨率浏览器".center(100, "-"))
+    Web_PO.setBrowser(1366, 768)
 
+    # # print("2.1 全屏浏览器".center(100, "-"))
+    # Web_PO.maxBrowser()
 
-    # print("3.0 解析动态html滚动到页面底部加载所有数据".center(100, "-"))
+    # # print("2.2 缩放页面比率".center(100, "-"))
+    # Web_PO.zoom(20)
+    # Web_PO.zoom(220)
+
+    # print("2.3 动态加载页面滚动到底部（加载所有数据）".center(100, "-"))
     # Web_PO.openURL('https://www.douyin.com/user/MS4wLjABAAAARzph2dTaIfZG4w_8czG9Yf5YiqHqc7RGXrqUM3fHtBU?vid=7180299495916326181')
-    # qty = Web_PO.pageDown('Eie04v01')  # 动态加载页面直到最后一个 class=Eie04v01 ,并返回加载的数量。
+    # qty = Web_PO.dynamicLoadToEnd('Eie04v01')  # 动态加载页面直到最后一个 class=Eie04v01 ,并返回加载的数量。
     # print(qty)
     # text = Web_PO.driver.page_source
     # text = bs4.BeautifulSoup(text, 'lxml')
@@ -387,52 +422,46 @@ if __name__ == '__main__':
     #     if "/video" in href:
     #         print("https://www.douyin.com" + href)
 
-    # print("3.1 获取当前浏览器宽高".center(100, "-"))
-    # print(Web_PO.getBrowserSize())  # (1536, 824)
+    # # print("2.4 页面滚动条到底部".center(100, "-"))
+    # Web_PO.openURL('https://baijiahao.baidu.com/s?id=1753450036624046728&wfr=spider&for=pc')
+    # sleep(2)
+    # Web_PO.scrollToEnd(2)
 
-    # print("3.2，截取浏览器内屏幕".center(100, "-"))
-    # Web_PO.getBrowserScreen("d:/222333browserScreen.png")
-
-    # print("3.3 屏幕左移".center(100, "-"))
+    # print("2.5 app屏幕左移".center(100, "-"))
     # Web_PO.scrollLeft('1000',9)
 
-    # print("3.4 屏幕右移".center(100, "-"))
+    # print("2.6 app屏幕右移".center(100, "-"))
     # Web_PO.scrollRight('1000', 5)
 
-    # print("3.5 屏幕上移".center(100, "-"))
+    # print("2.7 app屏幕上移".center(100, "-"))
     # Web_PO.scrollTop('1000', 5)
 
-    # print("3.6 屏幕下移".center(100, "-"))
+    # print("2.8 app屏幕下移".center(100, "-"))
     # Web_PO.scrollDown('1000', 5)
 
-    # print("3.7 元素拖动到可见的元素".center(100, "-"))
-    # scrollIntoView(varXpath)
+    # print("2.9 元素拖动到可见的元素".center(100, "-"))
+    # Web_PO.scrollIntoView(varXpath)
 
-    # print("3.8 内嵌窗口中滚动条操作".center(100, "-"))
-    # scrollTopById(varId)
-
-    # # print("3.9 切换浏览器全屏".center(100, "-"))
-    # Web_PO.maxBrowser(0)  # 句柄
+    # print("2.10 内嵌窗口中滚动条操作".center(100, "-"))
+    # Web_PO.scrollTopById(varId)
 
 
-    # # print("4.0 新建标签页".center(100, "-"))
-    # Web_PO.openNewLabel("http://www.jd.com")
-
-    # # print("4.1 切换标签页".center(100, "-"))
-    # Web_PO.switchLabel(0)
 
 
-    # # print("5.1 弹出框".center(100, "-"))
+    # # print("3.1 弹出框".center(100, "-"))
     # Web_PO.popupAlert("你好吗？")
 
-    # # print("5.2 确认弹出框".center(100, "-"))
+    # # print("3.2 确认弹出框".center(100, "-"))
     # Web_PO.confirmAlert("accept", 2)
     # Web_PO.confirmAlert("dismiss", 2)
     # print(Web_PO.confirmAlert("text", 2))
 
 
-    # # print("6 页面缩放比率".center(100, "-"))
-    # Web_PO.zoom(20)
-    # Web_PO.zoom(220)
+
+    # print("4.1 关闭当前窗口".center(100, "-"))
+    # Web_PO.close()
+    #
+    # print("4.2 退出浏览器应用".center(100, "-"))
+    # Web_PO.quit()
 
 
