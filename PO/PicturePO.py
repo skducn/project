@@ -10,6 +10,8 @@
 1 裁剪图片中的区域（画中画）
 2 设置图片灰色
 3 下载图片
+4 截取全屏
+
 '''
 
 import cv2, requests
@@ -48,6 +50,13 @@ class PicturePO():
             f.close()
 
 
+    def getScreen(self, varImageFile):
+
+        '''4 截取全屏'''
+
+        im = ImageGrab.grab()
+        im.save(varImageFile)
+
 
 if __name__ == '__main__':
 
@@ -57,11 +66,12 @@ if __name__ == '__main__':
     # Picture_PO.PIP("d:/11/6/12.jpg", "d:/11/6/revise12.jpg", 0, 400, 0, 800)
 
 
-    # print("2 设置图片灰色".center(100, "-"))
-    Picture_PO.setGrey("d:/11/6/12.jpg", "d:/11/6/back.jpg")
+   #  # print("2 设置图片灰色".center(100, "-"))
+   #  Picture_PO.setGrey("d:/11/6/12.jpg", "d:/11/6/back.jpg")
+   #
+   # # print('3 下载图片'.center(100, "-"))
+   #  Picture_PO.downPic('https://imgsa.baidu.com/forum/w%3D580/sign=b2310eb7be389b5038ffe05ab534e5f1/680c676d55fbb2fbc7f64cbb484a20a44423dc98.jpg', "d:/11/6/123.jpg")
 
-   # print('3 下载图片'.center(100, "-"))
-    Picture_PO.downPic('https://imgsa.baidu.com/forum/w%3D580/sign=b2310eb7be389b5038ffe05ab534e5f1/680c676d55fbb2fbc7f64cbb484a20a44423dc98.jpg', "d:/11/6/123.jpg")
 
-
-
+    # print("4 截取全屏".center(100, "-"))
+    Picture_PO.getScreen('d:/11/6/1fullScreen.jpg')

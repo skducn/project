@@ -32,14 +32,10 @@
 1.2 关闭当前窗口 close()
 1.3 关闭所有窗口（退出驱动）quit()
 
-[screen]
-2.1 获取屏幕分辨率 getScreenSize()
-2.2 截取全屏 captureScreen()
 
-[browser]
 3.0 解析动态html滚动到页面底部加载所有数据 pageDown()
 3.1 获取当前浏览器宽高 getBrowserSize()
-3.2 截取浏览器内屏幕 captureBrowser()
+3.2 截取浏览器内屏幕 getBrowserScreen()
 3.3 屏幕左移 scrollLeft('1000',9)
 3.4 屏幕右移 scrollRight('1000', 5)
 3.5 屏幕上移 scrollTop('1000', 5)
@@ -57,7 +53,6 @@
 6 页面缩放比率 zoom(20)
 
 
-
 获取验证码？？
 
 '''
@@ -73,7 +68,7 @@ from PIL import ImageGrab
 import cv2, requests, bs4
 from pytesseract import *
 from PIL import Image, ImageDraw, ImageGrab
-
+import pyautogui
 
 class WebPO(BasePO):
 
@@ -109,6 +104,10 @@ class WebPO(BasePO):
         if self.driver == "chrome":
             option = webdriver.ChromeOptions()
             option.add_argument('--start-maximized')  # 最大化
+            # driver_width, driver_height = pyautogui.size()  # 通过pyautogui方法获得屏幕尺寸
+            # print(driver_width, driver_height)
+            # option.add_argument('--window-size=%sx%s' % (driver_width, driver_height))
+
             option.add_argument('--disable-blink-features=AutomationControlled')  # 禁止浏览器出现验证滑块
             option.add_argument(r'--user-data-dir=c:\selenium_user_data')  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
             # option.add_argument('--incognito')  # 无痕隐身模式
@@ -151,27 +150,6 @@ class WebPO(BasePO):
         self.driver.quit()
 
 
-    # todo [screen]
-
-    def getScreenSize(self):
-
-        '''2.1 获取屏幕分辨率(必须先打开浏览器)'''
-
-        return self.driver.execute_script('var winW = window.screen.width;var winH = window.screen.height; return([winW,winH]);')
-
-    def captureScreen(self, varImageFile):
-
-        '''2.2 截取全屏'''
-
-        # self.Web_PO.captureScreen('d:\\allscreen.png')
-        im = ImageGrab.grab()
-        im.save(varImageFile)
-
-
-
-
-    # todo [browser]
-
     def pageDown(self, varClassValue):
 
         '''3.0 解析动态html滚动到页面底部加载所有数据
@@ -209,12 +187,12 @@ class WebPO(BasePO):
         return(d_size['width']-16, d_size['height']+24)
 
 
-    def captureBrowser(self, varImageFile):
+    def getBrowserScreen(self, varImageFile):
 
         ''' 3.2 截取浏览器屏幕'''
 
         # 前置条件：先打开浏览器后才能截屏.
-        # self.Web_PO.captureBrowser("d:\\screenshot.png")
+        # self.Web_PO.getBrowserScreen("d:\\screenshot.png")
         self.driver.get_screenshot_as_file(varImageFile)
 
 
@@ -394,13 +372,7 @@ if __name__ == '__main__':
     # Web_PO.openURL('https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg')
 
 
-    # # print("2.1 获取屏幕分辨率".center(100, "-"))
-    # Web_PO.openURL('https://www.baidu.com/')
-    # print(Web_PO.getScreenSize())  # [1536, 864]
-    # Web_PO.close()
 
-    # print("2.2，截取全屏".center(100, "-"))
-    # Web_PO.captureScreen('d:\\1fullScreen.jpg')
 
 
     # print("3.0 解析动态html滚动到页面底部加载所有数据".center(100, "-"))
@@ -419,7 +391,7 @@ if __name__ == '__main__':
     # print(Web_PO.getBrowserSize())  # (1536, 824)
 
     # print("3.2，截取浏览器内屏幕".center(100, "-"))
-    # Web_PO.captureBrowser(u"d:\\2browserScreen.png")
+    # Web_PO.getBrowserScreen("d:/222333browserScreen.png")
 
     # print("3.3 屏幕左移".center(100, "-"))
     # Web_PO.scrollLeft('1000',9)

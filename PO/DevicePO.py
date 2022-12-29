@@ -2,58 +2,98 @@
 # ***************************************************************
 # Author     : John
 # Created on : 2019-9-19
-# Description: 电脑设备对象层（获取本机mac、本机IP、本机电脑名，调用本机摄像头（笔记本））
+# Description: 硬件设备层（获取系统，mac地址，本机IP，本机电脑名，调用本机摄像头（笔记本），屏幕分辨率，安装卸载apk，获取停用PID）
 # 调用笔记本摄像头，需安装opencv包(cv2)，pip install opencv-python
 # ***************************************************************
 
 '''
-1，获取当前系统平台
-2，获取本机硬件mac地址
-3，获取当前IP地址
-4，获取本机电脑名
-5，调用当前笔记本摄像头拍照
-6.1，安装apk
-6.2，卸载apk
 
-7.1，根据进程名获取PID
-7.2，杀掉进程
-7.3，根据pid获取进程的信息
+1.1，获取当前系统
+1.2，获取本机mac地址
+1.3，获取当前IP地址
+1.4，获取本机电脑名
+1.5，获取当前屏幕分辨率
+
+2，调用当前笔记本摄像头拍照
+
+3.1，安装apk
+3.2，卸载apk
+
+4.1，获取应用程序的PID
+4.2，停止应用程序的PID
+4.3，获取应用程序的信息
+
 '''
 
-import socket, uuid, subprocess, cv2, psutil, re
+import socket, uuid, subprocess, cv2, psutil, re, pyautogui
+
 from PO.TimePO import *
 Time_PO = TimePO()
+
 from PO.FilePO import *
 File_PO = FilePO()
 
+
 class DevicePO():
 
-    # 1，获取当前系统平台
-    def getLocalPlatform(self):
-        # 获取当前系统平台
+
+    def getPlatform(self):
+
+        '''
+        1.1，获取当前系统
         # Windows系统返回 nt
         # Linux/Unix/Mac系统返回 posix
+        :return:
+        '''
+
         return os.name
 
-    # 2，获取本机硬件mac地址
-    def getLocalMac(self):
-        # 获取本机硬件mac地址
+
+    def getMacAddress(self):
+
+        '''
+        1.2，获取本机mac地址
+        :return:
+        '''
+
         mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
         return ":".join([mac[e:e + 2] for e in range(0, 11, 2)])
 
-    # 3，获取当前IP地址
-    def getLocalIp(self):
-        # 获取当前IP地址
+
+    def getIp(self):
+
+        '''
+        1.3，获取当前IP地址
+        :return:
+        '''
+
         varLocalName = socket.getfqdn(socket.gethostname())
         return socket.gethostbyname(varLocalName)
 
-    # 4，获取本机电脑名
-    def getLocalName(self):
-        # 获取本机电脑名
+
+    def getComputerName(self):
+
+        '''
+        1.4，获取本机电脑名
+        :return:
+        '''
+
         return socket.getfqdn(socket.gethostname())
 
-    # 5，调用当前笔记本摄像头拍照
+
+    def getResolution (self):
+
+        '''1.5，获取当前屏幕分辨率'''
+
+        width, height = pyautogui.size()
+        return (width, height)
+
+
+
     def callCamera(self, varFilePath=0):
+
+        '''2，调用当前笔记本摄像头拍照'''
+
         # 调用当前笔记本摄像头拍照
         # 将拍照照片保存到本地.(不支持中文文件名)
         try:
@@ -74,8 +114,10 @@ class DevicePO():
         except:
             print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
 
-    # 6.1，安装apk
+
     def installAPK(self, varPath):
+
+        '''3.1，安装apk'''
         ''' ？ 使用 adb、aapt 安装与查看apk '''
         list1 = []
         l = os.listdir(varPath)
@@ -108,8 +150,10 @@ class DevicePO():
         else:
             print("error，设备未找到！")
 
-    # 6.2，卸载apk
+
     def uninstallAPK(self, varPath):
+
+        '''3.2，卸载apk'''
         ''' 使用 adb、aapt 卸载与查看apk '''
         list1 = []
         l = os.listdir(varPath)
@@ -138,8 +182,11 @@ class DevicePO():
         else:
             print("error，设备未找到！")
 
-    # 7.1，根据进程名获取PID
-    def getProcessPid(self, varProcessName):
+
+    def getPID(self, varProcessName):
+
+        '''4.1，获取应用程序的PID  '''
+
         p = psutil.process_iter()
         for r in p:
             aa = str(r)
@@ -147,47 +194,57 @@ class DevicePO():
             if f.search(aa):
                 return (aa.split('pid=')[1].split(',')[0])
 
-    # 7.2，杀掉进程
+
+
     def killPid(self, varPid):
+
+        '''4.2，停止应用程序的PID'''
+
         os.popen('taskkill.exe /f /pid '+str(varPid))
+
+
 
 
 if __name__ == '__main__':
 
     Device_PO = DevicePO()
 
-    print("1，获取当前系统平台".center(100, "-"))
-    print(Device_PO.getLocalPlatform())  # nt
+    print("1.1，获取当前系统".center(100, "-"))
+    print(Device_PO.getPlatform())  # nt  //表示windows
 
-    print("2，获取本机硬件mac地址".center(100, "-"))
-    print(Device_PO.getLocalMac())  # 50:5b:c2:b6:37:ea
+    print("1.2，获取本机mac地址".center(100, "-"))
+    print(Device_PO.getMacAddress())  # 00:e1:8c:93:f6:76
 
-    print("3，获取当前IP地址".center(100, "-"))
-    print(Device_PO.getLocalIp())  # 172.21.200.153
+    print("1.3，获取当前IP地址".center(100, "-"))
+    print(Device_PO.getIp())  # 192.168.1.111
 
-    print("4，获取本机电脑名".center(100, "-"))
-    print(Device_PO.getLocalName())  # DESKTOP-EOCO1V0
+    print("1.4，获取本机电脑名".center(100, "-"))
+    print(Device_PO.getComputerName())  # DESKTOP-DO7AEPU
 
-    # print("5，调用当前笔记本摄像头拍照".center(100, "-"))
+    print("1.5，获取当前屏幕分辨率".center(100, "-"))
+    print(Device_PO.getResolution())  # [1536, 864]
+  
+
+    # print("2，调用当前笔记本摄像头拍照".center(100, "-"))
     # Device_PO.callCamera()   # 无参数，则默认保存在当前路径，文件名为 callCamera当前日期时间，如 callCamera20200312121012.jpp
     # Device_PO.callCamera("d:/filepo/filepo3/h3/h4/123.jpg")  # 如果目录不存在则自动新建，如果文件名重复则覆盖。
 
 
-    # print("6.1，安装apk".center(100, "-"))
+    # print("3.1，安装apk".center(100, "-"))
     # Device_PO.installAPK(u"c:\\1")  # 自动安装目录里日期最新的包。
 
-    # print("6.2，卸载apk".center(100, "-"))
+    # print("3.2，卸载apk".center(100, "-"))
     # Device_PO.uninstallAPK(u"c:\\1")  # 自动卸载目录里日期最新的包。
 
 
-    print("7.1，根据进程名获取PID".center(100, "-"))
-    print(Device_PO.getProcessPid("pycharm.exe"))  # 34168
+    print("4.1，获取应用程序的PID".center(100, "-"))
+    print(Device_PO.getPID("pycharm.exe"))  # 34168
 
-    print("7.2，杀掉进程".center(100, "-"))
-    print(Device_PO.killPid(Device_PO.getProcessPid("java.exe")))  # None
+    # print("4.2，停止应用程序的PID".center(100, "-"))
+    # print(Device_PO.killPid(Device_PO.getPID("java.exe")))  # None
 
-    print("7.3，根据pid获取进程的信息".center(100, "-"))
-    p = psutil.Process(int(Device_PO.getProcessPid("pycharm.exe")))
+    print("4.3，获取应用程序的信息".center(100, "-"))
+    p = psutil.Process(int(Device_PO.getPID("pycharm.exe")))
 
     # 获取进程名
     print(p.name())  # pycharm.exe
