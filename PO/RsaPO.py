@@ -46,20 +46,17 @@ class RsaPO():
         :return:
         '''
 
-        try:
-            # 加密中文
-            data = varContent.encode("utf-8")  # 转换成bytes , 如：b'\xe6\x8b\x9b\xe8\xbf\x9c\xe9\x98\xb2\xe7\x96\xab\xe9\xa1\xb9\xe7\x9b\xae\xe6\x8e\xa5\xe5\x8f\xa3\xe6\xb5\x8b\xe8\xaf\x95\xe6\x8a\xa5\xe5\x91\x8a'
+        # 加密中文
+        data = varContent.encode("utf-8")  # 转换成bytes , 如：b'\xe6\x8b\x9b\xe8\xbf\x9c\xe9\x98\xb2\xe7\x96\xab\xe9\xa1\xb9\xe7\x9b\xae\xe6\x8e\xa5\xe5\x8f\xa3\xe6\xb5\x8b\xe8\xaf\x95\xe6\x8a\xa5\xe5\x91\x8a'
 
-            # 读公钥
-            public_key = RSA.import_key(open(public_key_pem).read())
-            cipher = PKCS1_OAEP.new(public_key)
-            # 加密
-            encrypted_data = cipher.encrypt(data)
-            # 将加密后的内容写入到文件
-            file_out = open(toBinFile, "wb")
-            file_out.write(encrypted_data)
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+        # 读公钥
+        public_key = RSA.import_key(open(public_key_pem).read())
+        cipher = PKCS1_OAEP.new(public_key)
+        # 加密
+        encrypted_data = cipher.encrypt(data)
+        # 将加密后的内容写入到文件
+        file_out = open(toBinFile, "wb")
+        file_out.write(encrypted_data)
 
 
     def decrypt(self, private_key_pem, fromBinFile):
@@ -70,36 +67,35 @@ class RsaPO():
         :return:
         '''
 
-        try:
-            # 读取私钥
-            private_key = RSA.import_key(open(private_key_pem, "rb").read())
-            cipher = PKCS1_OAEP.new(private_key)
-            # 从文件中读取加密内容
-            encrypted_data = open(fromBinFile, "rb").read()
-            # 解密
-            data = cipher.decrypt(encrypted_data)
-            data = data.decode("utf-8", 'strict')  # 将 bytes转换成字符串
-            return (data)
-        except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
+
+        # 读取私钥
+        private_key = RSA.import_key(open(private_key_pem, "rb").read())
+        cipher = PKCS1_OAEP.new(private_key)
+        # 从文件中读取加密内容
+        encrypted_data = open(fromBinFile, "rb").read()
+        # 解密
+        data = cipher.decrypt(encrypted_data)
+        data = data.decode("utf-8", 'strict')  # 将 bytes转换成字符串
+        return (data)
+
 
 
 if __name__ == "__main__":
 
 
-    Rsa_PO = RsaPO("./data/private_key.pem", "./data/public_key.pem")  # 公钥给客户
+    Rsa_PO = RsaPO("./data/private_key.pem", "./data/public_key.pem")  # 初始化私钥与公钥
 
 
-    print("1 接收数据时，客户公钥加密，自己私钥解密数据，即安全传输".center(100, "-"))
-    Rsa_PO.encrypt("./data/public_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # //客户用公钥加密数据生成encrypted_data.bin发送给A
-    print(Rsa_PO.decrypt("./data/private_key.pem", "./data/encrypted_data.bin"))  # 招远防疫项目接口测试报告  //A用私钥解密encrypted_data.bin
+    print("1 公钥加密数据并生成bin，私钥解密".center(100, "-"))
+    Rsa_PO.encrypt("./data/public_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # //用公钥加密数据生成encrypted_data.bin
+    print(Rsa_PO.decrypt("./data/private_key.pem", "./data/encrypted_data.bin"))  # 招远防疫项目接口测试报告  //用私钥解密encrypted_data.bin
 
 
-    # print("2 发送数据时，自己私钥签名，客户公钥解密，即数字签名".center(100, "-"))
-    # Rsa_PO.encrypt("./data/private_key.pem", "招远防疫项目接口测试报告", "./data/encrypted_data.bin")  # 自己私钥签名
+    # # print("2 发送数据时，自己私钥签名，客户公钥解密，即数字签名".center(100, "-"))
+    # Rsa_PO.encrypt("./data/private_key.pem", "你好", "./data/encrypted_data.bin")  # 自己私钥签名
     # print(Rsa_PO.decrypt("./data/public_key.pem", "./data/encrypted_data.bin"))  # 客户公钥解密
 
-    # ok
+
 
 
 
