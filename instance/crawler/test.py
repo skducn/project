@@ -1,10 +1,10 @@
 # coding=utf-8
-#***************************************************************
+# ***************************************************************
 # Author     : John
 # Created on : 2020-12-30
 # Description: #Python爬取中高风险地区名单代码
 
-#***************************************************************
+# ***************************************************************
 
 
 import re
@@ -25,17 +25,17 @@ def getHTML(url):
 
 def getContent(url):
     html = getHTML(url)
-    soup = BeautifulSoup(html, 'html.parser')
-    paras_tmp = soup.select('.zw-title')+soup.select('p')
+    soup = BeautifulSoup(html, "html.parser")
+    paras_tmp = soup.select(".zw-title") + soup.select("p")
     paras = paras_tmp[0:]
     return paras
 
 
 def saveFile(text):
 
-    datetimes = time.strftime("%Y-%m-%d-%H_%M_%S",time.localtime(time.time()))
-    fname = "D:/"+datetimes+r"Webdata.txt"
-    f = open(fname, 'w')
+    datetimes = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
+    fname = "D:/" + datetimes + r"Webdata.txt"
+    f = open(fname, "w")
     for t in text:
         if len(t) > 0:
             f.writelines(t.get_text() + "\n\n")
@@ -43,7 +43,7 @@ def saveFile(text):
 
 
 def main():
-    url = 'http://www.gd.gov.cn/gdywdt/zwzt/yqfk/yqsj/content/post_3881568.html'
+    url = "http://www.gd.gov.cn/gdywdt/zwzt/yqfk/yqsj/content/post_3881568.html"
     text = getContent(url)
     saveFile(text)
 
