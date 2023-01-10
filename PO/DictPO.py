@@ -17,7 +17,7 @@
 # print(a == b == c == d == e)  # True
 # *********************************************************************
 
-'''
+"""
 todo:【转换】
 1.1 字典转字符串     json.dumps(dict(a=5, b=6)))  # {"a": 5, "b": 6}  双引号是字符串
 1.2 json字符串转字典  json.loads('{"a": 5, "b": 6}')
@@ -56,7 +56,7 @@ todo:[分组]
 6.4 collections中defaultdict之字典的 value 里又是字典
 
 
-'''
+"""
 
 from collections import ChainMap
 
@@ -65,17 +65,15 @@ import json
 from functools import reduce
 import itertools
 
-class DictPO():
 
-
-
+class DictPO:
     def dictKey2list(self, *varDict):
 
-        '''
+        """
         1.5 字典key转换列表（去重）
         :return: list
         此函数最多接收5个字典
-        '''
+        """
 
         if len(varDict) == 1:
             return list(ChainMap(varDict[0]))
@@ -86,33 +84,32 @@ class DictPO():
         elif len(varDict) == 4:
             return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3]))
         elif len(varDict) == 5:
-            return list(ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4]))
+            return list(
+                ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4])
+            )
         else:
             return 0
 
-
     def is_json(self, str1):
 
-        '''
+        """
         1.6 判断字符串是否是json格式的字典
         :return:
-        '''
+        """
 
         try:
             json_object = json.loads(str1)
-        except :
+        except:
             return False
         return True
 
-
-
     def mergeDictReserveFirstKey(self, *varDict):
 
-        '''
+        """
         # 2.1 合并字典（保留字典中第一个重复key的值）
         :param varDict:
         :return: dict
-        '''
+        """
 
         d_varMerge = {}
 
@@ -128,49 +125,46 @@ class DictPO():
             d_varMerge[k] = v
         return d_varMerge
 
-
     def mergeDictReserveLastKey(self, *varDict):
 
-        '''
+        """
         2.2 合并字典（保留字典中最后一个重复key的值）
         :param varDict:
         :return:
-        '''
+        """
 
         d_varMerge = {}
         for i in range(len(varDict)):
             d_varMerge.update(varDict[i])
         return d_varMerge
 
-
     def getKeyBySet(self, varOperator, varDict1, varDict2):
 
-        '''
+        """
         2.3 获取2个字典交、并、对称差集的key
         :param varDict:
         :return:
-        '''
+        """
 
         # 提供  '&', '|' 和'^' ，即交、并、对称差集四种运算符。
         if varOperator == "&":
-            return([k for k in varDict1.keys() & varDict2.keys()])
+            return [k for k in varDict1.keys() & varDict2.keys()]
         elif varOperator == "|":
-            return([k for k in varDict1.keys() | varDict2.keys()])
+            return [k for k in varDict1.keys() | varDict2.keys()]
         elif varOperator == "-":
-            return([k for k in varDict1.keys() - varDict2.keys()])
+            return [k for k in varDict1.keys() - varDict2.keys()]
         elif varOperator == "^":
-            return([k for k in varDict1.keys() ^ varDict2.keys()])
+            return [k for k in varDict1.keys() ^ varDict2.keys()]
         else:
             return None
 
-
     def getKeyValueBySet(self, varOperator, varDict1, varDict2):
 
-        '''
+        """
         2.4 获取2个字典交、并、对称差集(补集)后的keyValue
         :param varDict:
         :return:
-        '''
+        """
 
         if varOperator == "&":
             return list((varDict1.items() & varDict2.items()))
@@ -183,85 +177,76 @@ class DictPO():
         else:
             return None
 
-
-
-
     def delKey(self, varDict, *varKey):
 
-        '''
+        """
         4.1 删除字典中的key
         :param varDict:
         :return:
-        '''
+        """
 
         list1 = []
         for i in range(len(varKey)):
             list1.append(varKey[i])
         remove = set(list1)
-        return ({k: v for k, v in varDict.items() if k not in remove})
-
+        return {k: v for k, v in varDict.items() if k not in remove}
 
     def reserveKey(self, varDict, *varKey):
 
-        '''
+        """
         4.2 保留字典中的key
         :param varDict:
         :return:
-        '''
+        """
 
         list1 = []
         for i in range(len(varKey)):
             list1.append(varKey[i])
         reserve = set(list1)
-        return ({k: v for k, v in varDict.items() if k in reserve})
-
-
+        return {k: v for k, v in varDict.items() if k in reserve}
 
     def sumValueBySameKey(self, *varDict):
 
-        '''
+        """
         5.1 累加相同key的值
         :param varDict:
         :return:
-        '''
+        """
 
         counter = Counter()
         for i in range(len(varDict)):
             counter.update(varDict[i])
-        return (counter.most_common())
-
+        return counter.most_common()
 
     def countValue(self, varOperator, varDict, n):
 
-        '''
+        """
         5.2 字典value的加减乘除
         :param varDict:
         :return:
-        '''
+        """
 
         try:
             if varOperator == "+":
-                return ({k: v + n for k, v in varDict.items()})
+                return {k: v + n for k, v in varDict.items()}
             if varOperator == "-":
-                return ({k: v - n for k, v in varDict.items()})
+                return {k: v - n for k, v in varDict.items()}
             if varOperator == "*":
-                return ({k: v * n for k, v in varDict.items()})
+                return {k: v * n for k, v in varDict.items()}
             if varOperator == "/":
-                return ({k: v / n for k, v in varDict.items()})
+                return {k: v / n for k, v in varDict.items()}
             else:
                 return None
         except:
             return None
 
-
-
     def getOneByGroupField(self, varMoreDict, varGroupBy, varValue):
 
-        '''
+        """
         6.1 对字段1分组并显示对应字段2的值（按性别分组显示姓名）
         :param varDict:
         :return:
-        '''
+        """
 
         def group_by_value(accumulator, value):
             # print(accumulator)
@@ -276,22 +261,21 @@ class DictPO():
 
         return reduce(group_by_value, varMoreDict, dict2)
 
-
     def getAllByGroupField(self, varMoreDict, varGroupBy):
 
-        '''
+        """
         6.2 对字段1分组并显示所有字段的值（按性别分组显示所有值
         :param varDict:
         :return:
-        '''
+        """
 
-        return {item[0]: list(item[1]) for item in itertools.groupby(varMoreDict, lambda x: x[varGroupBy])}
+        return {
+            item[0]: list(item[1])
+            for item in itertools.groupby(varMoreDict, lambda x: x[varGroupBy])
+        }
 
 
 if __name__ == "__main__":
-
-
-
 
     Dict_PO = DictPO()
 
@@ -327,7 +311,6 @@ if __name__ == "__main__":
     # print(Dict_PO.is_json('{"age":100 }'))  # True
     # print(Dict_PO.is_json('{"foo":[5,6.8],"foo":"bar"}'))  # True
 
-
     # print("2.1 合并字典（保留字典中第一个重复key的值）".center(100, "-"))
     # print(Dict_PO.mergeDictReserveFirstKey(d1, d2))  # {'a': 1, 'b': 2, 'dev': 30, 'test': 3}
     # print(Dict_PO.mergeDictReserveFirstKey(d1, d2, d3))  # {'a': 1, 'b': 2, 'prd': 300, 'dev': 30, 'test': 3}
@@ -356,15 +339,12 @@ if __name__ == "__main__":
     # print("2.5 字典key与value互转".center(100, "-"))
     # print({v: k for k, v in a.items()})  # {1: 'python', 2: 'java', 3: 'c'}
 
-
-
     # print("4.1 删除字典中的key".center(100, "-"))
     # print(Dict_PO.delKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'a': 5, 'c': 7}
-    # 
+    #
     # print("4.2 保留字典中的key".center(100, "-"))
     # print(Dict_PO.reserveKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'b': 6, 'd': 8}
-   
-   
+
     # print("5.1 累加相同key的值".center(100, "-"))
     # print(Dict_PO.sumValueBySameKey({"a": 10000, "b": 1}, {"a": 10000, "b": 1}, {"a": 40000, "b": 1, "c" : 333}))  # [('a', 60000), ('c', 333), ('b', 3)]
     #
@@ -376,7 +356,6 @@ if __name__ == "__main__":
     # print(Dict_PO.countValue('*', d5, 2))  # {'a': 12, 'b': 16, 'c': 24.4, 'd': 18}
     # print(Dict_PO.countValue('/', d5, 2))  # {'a': 3.0, 'b': 4.0, 'c': 6.1, 'd': 4.5}
 
-
     # print("6.1 按性别分组显示姓名".center(100, "-"))
     # varTuple = ({'name': 'jinhao', 'age': 105, 'gender': 'male'},
     #             {'name': 'baba', 'age': 76, 'gender': 'male'},
@@ -386,15 +365,3 @@ if __name__ == "__main__":
     #
     # print("6.2 按性别分组显示所有值".center(100, "-"))
     # print(Dict_PO.getAllByGroupField(varTuple, 'gender'))  # {'male': [{'name': 'jinhao', 'age': 105, 'gender': 'male'}, {'name': 'baba', 'age': 76, 'gender': 'male'}], 'female': [{'name': 'mama', 'age': 202, 'gender': 'female'}, {'name': 'yoyo', 'age': 84, 'gender': 'female'}]}
-
-
-
-
-
-
-
-
-
-
-
-

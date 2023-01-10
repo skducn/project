@@ -13,16 +13,18 @@
 # 用法技巧 https://www.cnblogs.com/notzy/p/9312049.html
 # ***************************************************************
 
-'''
+"""
 1 将字典保存到yaml文件中（覆盖）
 2 读取yaml文件中的值
 3 编辑yaml文件中的值并保存
-'''
+"""
 
 from ruamel.yaml import YAML
+
 yaml = YAML()
 
-class YamlPO():
+
+class YamlPO:
 
     # 1，将字典保存到yaml文件中（覆盖）
     def saveFile(self, varYamlFile, varDict):
@@ -35,7 +37,7 @@ class YamlPO():
         # 读取 yaml 中键的值
         with open(varYamlFile, "r", encoding="utf-8") as docs:
             code = yaml.load(docs)
-        return (code[varKey])
+        return code[varKey]
 
     # 3，编辑yaml文件中的值并保存
     def setSave(self, varYamlFile, varKey, varValue):
@@ -46,23 +48,22 @@ class YamlPO():
             yaml.dump(code, f)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     Yaml_PO = YamlPO()
 
     desired_caps = {
-        'platformName': 'Android',
-        'platformVersion': '7.0',
-        'deviceName': 'A5RNW18316011440',
-        'appPackage': 'com.tencent.mm',
-        'appActivity': '.ui.LauncherUI',
-        'automationName': 'Uiautomator2',
-        'unicodeKeyboard': [True, "hh"],
-        'resetKeyboard': True,
-        'noReset': True,
-        'chromeOptions': {'androidProcess': 'com.tencent.mm:tools'}
+        "platformName": "Android",
+        "platformVersion": "7.0",
+        "deviceName": "A5RNW18316011440",
+        "appPackage": "com.tencent.mm",
+        "appActivity": ".ui.LauncherUI",
+        "automationName": "Uiautomator2",
+        "unicodeKeyboard": [True, "hh"],
+        "resetKeyboard": True,
+        "noReset": True,
+        "chromeOptions": {"androidProcess": "com.tencent.mm:tools"},
     }
-
 
     print("1，j将字典保存到yaml文件中（覆盖）".center(100, "-"))
     Yaml_PO.saveFile("YamlPO/dict.yaml", desired_caps)  # // 将字典写入到yamlPO.yaml
@@ -71,10 +72,12 @@ if __name__ == '__main__':
     print(Yaml_PO.getValue("YamlPO/dict.yaml", "deviceName"))  # A5RNW18316011440
 
     print(" 3，编辑yaml文件中的值并保存".center(100, "-"))
-    Yaml_PO.setSave("YamlPO/dict.yaml", "deviceName", {'x': '123', "b":444, "c":555 ,"a":111, "test":"jinhao"})
-    print(Yaml_PO.getValue("YamlPO/dict.yaml", "deviceName"))  #  ordereddict([('x', '123'), ('b', 444), ('c', 555), ('a', 111), ('test', 'jinhao')])
-    print(Yaml_PO.getValue("YamlPO/dict.yaml", "deviceName")['a'])  # 111
-
-
-
-
+    Yaml_PO.setSave(
+        "YamlPO/dict.yaml",
+        "deviceName",
+        {"x": "123", "b": 444, "c": 555, "a": 111, "test": "jinhao"},
+    )
+    print(
+        Yaml_PO.getValue("YamlPO/dict.yaml", "deviceName")
+    )  #  ordereddict([('x', '123'), ('b', 444), ('c', 555), ('a', 111), ('test', 'jinhao')])
+    print(Yaml_PO.getValue("YamlPO/dict.yaml", "deviceName")["a"])  # 111

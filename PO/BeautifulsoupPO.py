@@ -1,5 +1,5 @@
 ﻿# coding=utf-8
-#***************************************************************
+# ***************************************************************
 # Author     : John
 # Created on : 2020-12-30
 # Description: beautifulsoup  HTML 解析器 封装包
@@ -19,64 +19,55 @@
 # NavigableString，获取标签内容
 # BeautifulSoup，表示的是一个文档的全部内容，它是一个特色Tag对象，可获取 类型，名称，属性
 # Comment，是文档中的备注类型，它是一个特殊类型的 NavigableString ，输出注释内容，但不输注释符号，如 注释<!-- Elsie -->，输出 Elsie
-#***************************************************************
+# ***************************************************************
 
-'''
+"""
 
 1 获取标签属性的值
 2 获取标签的文本内容
 
-'''
+"""
 
 
 import requests
 from bs4 import BeautifulSoup
 
 from PO.HtmlPO import *
+
 Html_PO = HtmlPO()
 
 
 class BeautifulsoupPO:
-
     def __init__(self, url):
 
         html = Html_PO.rspGet(url)
-        html.encoding = 'utf-8'
-        self.soup = BeautifulSoup(html.text, 'html.parser')
+        html.encoding = "utf-8"
+        self.soup = BeautifulSoup(html.text, "html.parser")
         # self.soup = BeautifulSoup(html, 'lxml')
-
-
 
     # print(soup.span.string)
 
     # return self.soup.find_all(tag1).attrs['title']
 
-
-
     # self.soup.span.string
     # print(l_value)
     # return l_value[0].attrs[attr2]
 
+    # x = Beautifulsoup_PO.getValue2("h1", 'class_', 'core_title_txt  ')
+
+    # for s in self.soup.stripped_strings:
+    #     print(repr(s))
+    # l_value = self.soup.find_all('ul')
+    # l_value = self.soup.find_all('div', {'class': 'text _nO'})
+
+    # .find_all("a").attrs['title']
+    #
+    #
+    # findAll("")[0].attrs['alt']
+    # print(l_value)
 
 
-        # x = Beautifulsoup_PO.getValue2("h1", 'class_', 'core_title_txt  ')
-
-        # for s in self.soup.stripped_strings:
-        #     print(repr(s))
-        # l_value = self.soup.find_all('ul')
-        # l_value = self.soup.find_all('div', {'class': 'text _nO'})
-
-        # .find_all("a").attrs['title']
-        #
-        #
-        # findAll("")[0].attrs['alt']
-        # print(l_value)
-
-
-
-
-if __name__ == '__main__':
-
+if __name__ == "__main__":
 
     html = """
     <html><head><title>The Dormouse's story</title></head>
@@ -91,7 +82,6 @@ if __name__ == '__main__':
 
     Beautifulsoup_PO = BeautifulsoupPO("http://tieba.baidu.com/p/4468445702")
 
-
     # # print('1,获取标签属性的值, 获取div id=post_content_87286618651下img src的值'.center(100, "-"))
     # x = Beautifulsoup_PO.soup.find("div", {'id': 'post_content_87286618651'}).find_all('img')[0].attrs['src']
     # print(x)  # https://imgsa.baidu.com/forum/w%3D580/sign=b2310eb7be389b5038ffe05ab534e5f1/680c676d55fbb2fbc7f64cbb484a20a44423dc98.jpg
@@ -104,7 +94,6 @@ if __name__ == '__main__':
     #
     # x = Beautifulsoup_PO.soup.find("h1", {'class':'core_title_txt'}).contents[0]
     # print(x)  # 为什么pycharm显示找不到reduce函数？如图
-
 
     # print('3 格式化html'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.prettify())
@@ -122,7 +111,6 @@ if __name__ == '__main__':
     # # 'Tillie'
     # # ';\nand they lived at the bottom of a well.'
     # # '...'
-
 
     # print('获取标签及内容（默认获取第一个标签）'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.title)  # <title>The Dormouse's story</title>
@@ -427,9 +415,4 @@ if __name__ == '__main__':
     # # Lacie
     # # Tillie
 
-
-
     # bsop.find('div', {'class': 'img'}).find("p").findAll("img")[0].attrs['alt']
-
-
-

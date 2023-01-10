@@ -1,11 +1,11 @@
 # coding: utf-8
-#***************************************************************
+# ***************************************************************
 # Author     : John
 # Created on : 2020-3-20
 # Description: 基类封装(通用)
 # # 重新定义 find_element, find_elements, send_keys, input，click，get，print，checkbox，select，iframe，js，exist,alert
 # color
-#***************************************************************
+# ***************************************************************
 
 import sys, os, platform, psutil
 from time import sleep
@@ -15,19 +15,20 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.abstract_event_listener	import *
+from selenium.webdriver.support.abstract_event_listener import *
 from selenium.webdriver.support.event_firing_webdriver import *
-from selenium.webdriver.support.expected_conditions	import *
+from selenium.webdriver.support.expected_conditions import *
 from PO.ColorPO import *
+
 Color_PO = ColorPO()
 
-class BasePO(object):
 
+class BasePO(object):
     def __init__(self, driver):
         self.driver = driver
 
     def find_element(self, *loc):
-        ''' 重写元素定位'''
+        """重写元素定位"""
         try:
             # 注意：入参为元组的元素，需要加*。Python存在这种特性，就是将入参放在元组里。
             # WebDriverWait(self.driver,10).until(lambda driver: driver.find_element(*loc).is_displayed())
@@ -36,18 +37,18 @@ class BasePO(object):
             return self.driver.find_element(*loc)
         except:
             # print u"%s 页面中未能找到元素 %s "%(self, loc)
-            print(u"未找到元素 %s " %(loc))
+            print("未找到元素 %s " % (loc))
 
     def find_elements(self, *loc):
-        ''' 重写元素集定位'''
+        """重写元素集定位"""
         try:
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(loc))
             return self.driver.find_elements(*loc)
         except:
-            print(u"未找到元素集 %s " %(loc))
+            print("未找到元素集 %s " % (loc))
 
     def send_keys(self, loc, vaule, clear_first=True, click_first=True):
-        '''重写键盘方法'''
+        """重写键盘方法"""
         try:
             loc = getattr(self, "_%s" % loc)  # getattr相当于实现self.loc
             if click_first:
@@ -57,7 +58,7 @@ class BasePO(object):
                 self.find_element(*loc).send_keys(vaule)
         except AttributeError:
             # print u"%s 页面中未能找到 %s 元素"%(self, loc)
-            print(u"未找到元素 %s " % (loc))
+            print("未找到元素 %s " % (loc))
 
     def sendKeysId(self, varId, dimValue):
         # 上传文件
@@ -72,20 +73,17 @@ class BasePO(object):
         # Oa_PO.Web_PO.sendKeysXpath("//input[@id='impload'", os.getcwd() + "\\drugTemplet.xls")  # 导入文件
         self.driver.find_element_by_xpath(dimXpath).send_keys(dimValue)
 
-
-
-    '''[ASSERT]'''
+    """[ASSERT]"""
 
     def assertTrue(self, testValue, errMsg):
         try:
-            if testValue == True :
+            if testValue == True:
                 return True
             else:
                 print(errMsg)
                 return False
         except:
             return None
-
 
     def assertEqualTrue(self, expected, actual):
         try:
@@ -95,7 +93,6 @@ class BasePO(object):
                 return False
         except:
             return None
-
 
     def assertEqual(self, expected, actual, okMsg, errMsg):
         try:
@@ -113,13 +110,33 @@ class BasePO(object):
     def assertEqualValue(self, expected, actual, okMsg, errMsg):
         try:
             if expected == actual:
-                Color_PO.consoleColor("31", "36", "[OK]", str(okMsg) + ", " + str(expected))
+                Color_PO.consoleColor(
+                    "31", "36", "[OK]", str(okMsg) + ", " + str(expected)
+                )
                 return True
             else:
-                Color_PO.consoleColor("31", "38", "[ERROR]", str(errMsg) + ", 预期值：" + str(expected) + ", 实测值：" + str(actual))
+                Color_PO.consoleColor(
+                    "31",
+                    "38",
+                    "[ERROR]",
+                    str(errMsg) + ", 预期值：" + str(expected) + ", 实测值：" + str(actual),
+                )
                 return False
         except:
-            Color_PO.consoleColor("31", "33", "[ERROR] call " + sys._getframe(1).f_code.co_name + " (line " + str(sys._getframe(1).f_lineno) + ", call " + sys._getframe(0).f_code.co_name + " from '" + sys._getframe().f_code.co_filename + "')", "")
+            Color_PO.consoleColor(
+                "31",
+                "33",
+                "[ERROR] call "
+                + sys._getframe(1).f_code.co_name
+                + " (line "
+                + str(sys._getframe(1).f_lineno)
+                + ", call "
+                + sys._getframe(0).f_code.co_name
+                + " from '"
+                + sys._getframe().f_code.co_filename
+                + "')",
+                "",
+            )
 
     def assertContain(self, one, all, okMsg, errMsg):
         try:
@@ -132,43 +149,40 @@ class BasePO(object):
         except:
             return None
 
-
     def assertEqualNotNone(self, expected, actual):
         try:
-            if (expected and actual) and (expected != None and actual != None) :
+            if (expected and actual) and (expected != None and actual != None):
                 return 1, expected
             else:
-                return 0,0
+                return 0, 0
         except:
             return None
 
-
-    '''[ERROR TIPS]'''
+    """[ERROR TIPS]"""
 
     def getError(self, varStatus, varErrorInfo, varErrorRow):
         # 当函数返回error时，获取当前语句行号及错误提示。
         # 因此函数必须要有返回值
         # Level_PO.getError(Level_PO.inputId(u"officebundle_tmoffice_officeName", u"自动化科室123"), u"输入框定位错误！",sys._getframe().f_lineno)
         # errorrrrrrrrrrr, 101行, '获取科室文本与对应值的字典'。
-        if varStatus == u"error":
-            print(u"errorrrrrrrrrrr,", varErrorRow, u"行,", varErrorInfo)
+        if varStatus == "error":
+            print("errorrrrrrrrrrr,", varErrorRow, "行,", varErrorInfo)
             os._exit(0)
 
     def check_contain_chinese(self, check_str):
         # 判断字符串中是否包含中文符合
-        for ch in check_str.decode('utf-8'):
-            if u'\u4e00' <= ch <= u'\u9fff':
+        for ch in check_str.decode("utf-8"):
+            if "\u4e00" <= ch <= "\u9fff":
                 return True
         return False
 
-    '''[ INPUT ]'''
+    """[ INPUT ]"""
 
     def inputId(self, varId, vatContent):
         try:
             self.find_element(*(By.ID, varId)).send_keys(vatContent)
         except:
             return None
-
 
     def inputIdClear(self, varId, varContent):
         try:
@@ -177,13 +191,11 @@ class BasePO(object):
         except:
             return None
 
-
     def inputName(self, varName, varContent):
         try:
             self.find_element(*(By.NAME, varName)).send_keys(varContent)
         except:
             return None
-
 
     def inputNameClear(self, varName, varContent):
         try:
@@ -192,14 +204,11 @@ class BasePO(object):
         except:
             return None
 
-
     def inputXpath(self, varPath, varContent):
         try:
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
         except:
             return None
-
-
 
     def inputXpathClear(self, varPath, varContent):
         try:
@@ -208,14 +217,12 @@ class BasePO(object):
         except:
             return None
 
-
     def inputXpathEnter(self, varPath, varContent):
         try:
             self.find_element(*(By.XPATH, varPath)).send_keys(varContent)
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
         except:
             return None
-
 
     def inputXpathClearEnter(self, varPath, varContent):
         try:
@@ -226,11 +233,7 @@ class BasePO(object):
         except:
             return None
 
-
-
-
-
-    '''[ 2click ]'''
+    """[ 2click ]"""
 
     def clickId(self, varId, t=0):
         try:
@@ -239,14 +242,12 @@ class BasePO(object):
         except:
             return None
 
-
     def clickLinktext(self, varContent, t=0):
         try:
             self.find_element(*(By.LINK_TEXT, varContent)).click()
             sleep(t)
         except:
             return None
-
 
     def clickLinkstext(self, varContent, t=0):
         try:
@@ -256,7 +257,6 @@ class BasePO(object):
         except:
             return None
 
-
     def clickTagname(self, varContent, t=0):
         # clickTagname(u"test", 2)
         try:
@@ -264,7 +264,6 @@ class BasePO(object):
             sleep(t)
         except:
             return None
-
 
     def clickXpath(self, varPath, t=0):
         # clickXpath(u"//button[@ng-click='action.callback()']", 2)
@@ -274,15 +273,12 @@ class BasePO(object):
         except:
             return None
 
-
     def clickXpathEnter(self, varPath, t=0):
         try:
             self.find_element(*(By.XPATH, varPath)).send_keys(Keys.ENTER)
             sleep(t)
         except:
             return None
-
-
 
     def clickXpaths(self, varPaths, t=0):
         # 遍历路径
@@ -293,7 +289,6 @@ class BasePO(object):
                 sleep(t)
         except:
             return None
-
 
     def clickXpathsNum(self, varPaths, varNum, t=0):
         # 遍历同一属性的多个click，点击第N个。
@@ -309,7 +304,6 @@ class BasePO(object):
         except:
             return None
 
-
     def clickXpathsTextContain(self, varPaths, varContain, t=0):
         # 遍历路径，点击text中包含某内容的连接。
         # self.Level_PO.clickXpathsTextContain("//td[@aria-describedby='gridTable_run_name']/a", '20190506059', 2)
@@ -321,7 +315,6 @@ class BasePO(object):
             sleep(t)
         except:
             return None
-
 
     def clickXpathsContain(self, varPaths, varAttr, varContain, t=0):
         # 遍历路径，点击属性varAttr中包含某内容的连接。
@@ -336,7 +329,6 @@ class BasePO(object):
         except:
             return None
 
-
     def clickXpathsXpath(self, varPaths, varPaths2, t=0):
         # 遍历路径之路径
         # 一般用于，click后二次确认
@@ -348,7 +340,6 @@ class BasePO(object):
                 sleep(t)
         except:
             return None
-
 
     def clickXpathXpath(self, varPath, varPath2, t=0):
         # ? 未侧式
@@ -362,25 +353,24 @@ class BasePO(object):
         except:
             return None
 
-
     def clickXpathRight(self, varPath, varId):
         # ?
         try:
             xx = self.find_element(*(By.XPATH, varPath))
             yy = self.find_element(*(By.ID, varId))
-            ActionChains(self.driver).drag_and_drop(xx,yy).perform()
+            ActionChains(self.driver).drag_and_drop(xx, yy).perform()
             # ActionChains(self.driver).dra
             # print "end"
             ActionChains(self.driver).click_and_hold(xx).perform()
             # perform()
             # ActionChains(self.driver).click
-            ActionChains(self.driver).move_to_element(self.find_element(*(By.ID, varId)))
+            ActionChains(self.driver).move_to_element(
+                self.find_element(*(By.ID, varId))
+            )
         except:
             return None
 
-
-
-    '''[ 3get ]'''
+    """[ 3get ]"""
 
     def getXpathText(self, varPath):
         # 获取路径的文本
@@ -390,7 +380,6 @@ class BasePO(object):
             return self.find_element(*(By.XPATH, varPath)).text
         except:
             return None
-
 
     def getXpathsText(self, varPaths):
         # 获取文本列表
@@ -402,7 +391,6 @@ class BasePO(object):
             return list1
         except:
             return None
-
 
     def getXpathsTextPart(self, varPaths, varText):
         # 获取部分文本列表（从头开始获取直到遇到varText为止）
@@ -431,7 +419,7 @@ class BasePO(object):
             return None
         except:
             return None
-        
+
     def getXpathsPartTextPlace(self, varPaths, dimPartContent):
         # 获取模糊文本所在的位置
         # getXpathsPartTextPlace("//tr", "test")
@@ -445,7 +433,7 @@ class BasePO(object):
                     return r
         except:
             return None
-        
+
     def getXpathsAttrPlace(self, varPaths, varAttr, varValue):
         # 获取某属性值所在的位置
         # varNoRow = self.Web_PO.getXpathsAttrPlace("//td[9]/a", "href", "1122")
@@ -455,7 +443,7 @@ class BasePO(object):
             for a in self.find_elements(*(By.XPATH, varPaths)):
                 r = r + 1
                 if varValue in a.get_attribute(varAttr):
-                    return r 
+                    return r
         except:
             return None
 
@@ -466,7 +454,7 @@ class BasePO(object):
             return self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr)
         except:
             return None
-        
+
     def getXpathsQty(self, varPaths):
         # 遍历路径数量
         # 如：获取tr下有多少个div标签， Web_PO.getXpathsQty('//*[@id="app"]/tr/div')
@@ -512,8 +500,7 @@ class BasePO(object):
         except:
             return None
 
-
-    '''[ 4print ]'''
+    """[ 4print ]"""
 
     def printLinktextAttr(self, varContent, varAttr):
         # Level_PO.printLinktextAttr(u"测试",u"href")
@@ -525,7 +512,11 @@ class BasePO(object):
     def printIdTagnameText(self, varId, dimTagname):
         # Level_PO.printIdTagnameText('navbar', "button")
         try:
-            print(self.find_element(*(By.ID, varId)).a.find_element_by_tag_name(dimTagname).text)
+            print(
+                self.find_element(*(By.ID, varId))
+                .a.find_element_by_tag_name(dimTagname)
+                .text
+            )
         except:
             return None
 
@@ -546,7 +537,6 @@ class BasePO(object):
         except:
             return None
 
-
     def printXpathsText(self, varPaths):
         # Level_PO.printXpathsText("//tr")
         try:
@@ -555,14 +545,12 @@ class BasePO(object):
         except:
             return None
 
-
     def printXpathAttr(self, varPath, varAttr):
         # Level_PO.printXpathAttr(u"//input[@class="123"]",u"value")
         try:
             print(self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr))
         except:
             return None
-
 
     def printXpathsAttr(self, varPaths, varAttr):
         # Level_PO.printXpathsAttr(u"//tr",u"value")
@@ -572,10 +560,7 @@ class BasePO(object):
         except:
             return None
 
-
-
-
-    '''[ 5checkbox ]'''
+    """[ 5checkbox ]"""
 
     def isCheckbox(self, varPath):
         # ? 判断是否选中复选框 ，返回 True 或 False
@@ -595,7 +580,7 @@ class BasePO(object):
         except:
             return False
 
-    '''[ 6select ]'''
+    """[ 6select ]"""
 
     def selectIdValue(self, varId, dimValue):
         # 通过Id属性选择值
@@ -605,24 +590,25 @@ class BasePO(object):
         except:
             return None
 
-
     def selectIdText(self, varId, varText):
         # 通过Id属性选择文本
         # self.selectIdText(u"id", u'启用')  ，（一般情况 value=1 , Text=启用）
         try:
-            Select(self.driver.find_element_by_id(varId)).select_by_visible_text(varText)
+            Select(self.driver.find_element_by_id(varId)).select_by_visible_text(
+                varText
+            )
         except:
             return None
-
 
     def selectNameText(self, varName, varText):
         # 通过Name属性选择文本
         # 如：Level_PO.selectNameText(u"isAvilable", u"10")
         try:
-            Select(self.driver.find_element_by_name(varName)).select_by_visible_text(varText)
+            Select(self.driver.find_element_by_name(varName)).select_by_visible_text(
+                varText
+            )
         except:
             return None
-
 
     def selectNameValue(self, varName, dimValue):
         # 通过Name属性选择值
@@ -632,24 +618,22 @@ class BasePO(object):
         except:
             return None
 
-
     def selectXpathText(self, varPath, varText):
-         # 遍历Xpath下的Option,
-         # self.selectXpathText(u"//select[@regionlevel='1']", u'启用'), （一般情况 value=1 , Text=启用）
-         s1 = self.driver.find_element_by_xpath(varPath)
-         l_content1 = []
-         l_value1 = []
-         # varContents = self.driver.find_elements_by_xpath(varByXpath + "/option")
-         varContents = self.driver.find_elements_by_xpath(varPath + "/option")
-         for a in varContents:
-             l_content1.append(a.text)
-             l_value1.append(a.get_attribute('value'))
-         d_total1 = dict(zip(l_content1, l_value1))
-         for i in range(len(d_total1)):
-             if sorted(d_total1.items())[i][0] == varText:
-                 Select(s1).select_by_value(sorted(d_total1.items())[i][1])
-                 break
-
+        # 遍历Xpath下的Option,
+        # self.selectXpathText(u"//select[@regionlevel='1']", u'启用'), （一般情况 value=1 , Text=启用）
+        s1 = self.driver.find_element_by_xpath(varPath)
+        l_content1 = []
+        l_value1 = []
+        # varContents = self.driver.find_elements_by_xpath(varByXpath + "/option")
+        varContents = self.driver.find_elements_by_xpath(varPath + "/option")
+        for a in varContents:
+            l_content1.append(a.text)
+            l_value1.append(a.get_attribute("value"))
+        d_total1 = dict(zip(l_content1, l_value1))
+        for i in range(len(d_total1)):
+            if sorted(d_total1.items())[i][0] == varText:
+                Select(s1).select_by_value(sorted(d_total1.items())[i][1])
+                break
 
     def selectIdStyle(self, varByID, varText):
         # ？ 遍历某ID的下的option (不包含 隐藏的属性，如style=display:none），获取varText对应的值
@@ -660,9 +644,9 @@ class BasePO(object):
         s1 = self.driver.find_element_by_id(varByID)
         varContents = s1.find_elements_by_tag_name("option")
         for a in varContents:
-            if a.get_attribute('style') == "" and a.text == varText:
+            if a.get_attribute("style") == "" and a.text == varText:
                 l_content1.append(a.text)
-                l_value1.append(a.get_attribute('value'))
+                l_value1.append(a.get_attribute("value"))
                 varCount = 1
         if varCount == 1:
             d_total1 = dict(zip(l_content1, l_value1))
@@ -672,7 +656,6 @@ class BasePO(object):
                     break
         else:
             return None
-
 
     def selectXpathsMenu1Menu2(self, varPaths1, varMenu, varPaths2, varMenu2, t):
         # 遍历级联菜单（选择一级菜单后再选择二级菜单）
@@ -691,16 +674,17 @@ class BasePO(object):
         except:
             return None
 
-
     def get_selectNAMEvalue(self, varByname, varContent):
         # 获取某select下text的value值。（下拉框，定位ByName，选择内容，text != value ）
         s1 = self.driver.find_element_by_name(varByname)
         l_content1 = []
         l_value1 = []
-        varContents = self.driver.find_elements_by_xpath("//select[@name='" + varByname + "']/option")
+        varContents = self.driver.find_elements_by_xpath(
+            "//select[@name='" + varByname + "']/option"
+        )
         for a in varContents:
             l_content1.append(a.text)
-            l_value1.append(a.get_attribute('value'))
+            l_value1.append(a.get_attribute("value"))
         d_total1 = dict(zip(l_content1, l_value1))
         for i in range(len(d_total1)):
             if sorted(d_total1.items())[i][0] == varContent:
@@ -710,11 +694,11 @@ class BasePO(object):
     def get_selectOptionValue(self, varByname, varNum):
         # 获取某个select中text的value值。
         varValue = self.driver.find_element_by_xpath(
-            "//select[@name='" + varByname + "']/option[" + varNum + "]").get_attribute('value')
+            "//select[@name='" + varByname + "']/option[" + varNum + "]"
+        ).get_attribute("value")
         return varValue
 
-
-    '''[ 7iframe ]'''
+    """[ 7iframe ]"""
 
     def iframeId(self, varId, t=0):
         # 定位iframe的id
@@ -733,11 +717,13 @@ class BasePO(object):
         try:
             for a in self.find_elements(*(By.XPATH, dimXpath)):
                 if varContain in a.get_attribute(varAttr):
-                    self.driver.switch_to_frame(self.driver.find_element_by_xpath(dimXpath))
+                    self.driver.switch_to_frame(
+                        self.driver.find_element_by_xpath(dimXpath)
+                    )
                     break
             sleep(t)
         except:
-           return None
+            return None
 
     def inIframeTopDiv(self, varPath, t=0):
         # 定位iframe的div路径
@@ -760,11 +746,13 @@ class BasePO(object):
         self.driver.switch_to_default_content()
         sleep(t)
 
+    """[ 8js ]"""
 
-    '''[ 8js ]'''
     def jsExecute(self, varJs, t=0):
         # 执行js
-        varJs = 'document.querySelector("input[type=number]").value=""'  # 清除input输入框内哦那个
+        varJs = (
+            'document.querySelector("input[type=number]").value=""'  # 清除input输入框内哦那个
+        )
         self.driver.execute_script(varJs)
         sleep(t)
 
@@ -773,36 +761,42 @@ class BasePO(object):
         self.driver.execute_script('arguments[0].removeAttribute("readonly")', d)
         sleep(t)
 
-
     def jsIdReadonly(self, varId, t=0):
         # 通过id去掉控件只读属性，一般用于第三方日期控件
-        self.jsExecute('document.getElementById("' + varId + '").removeAttribute("readonly")', t)
+        self.jsExecute(
+            'document.getElementById("' + varId + '").removeAttribute("readonly")', t
+        )
 
     def jsNameReadonly(self, varName, t=0):
         # 通过Name去掉控件只读属性，一般用于第三方日期控件
         # 注意：document不支持getElementByName方法，只有getElementsByName方法获取标签数组，可通过数组第一个元素获取，如 array[0]
-        self.jsExecute('document.getElementsByName("' + varName + '")[0].removeAttribute("readonly")', t)
+        self.jsExecute(
+            'document.getElementsByName("'
+            + varName
+            + '")[0].removeAttribute("readonly")',
+            t,
+        )
 
     def jsNameDisplay(self, varName, t=0):
         # 通过name去掉隐藏属性，显示UI
-        self.jsExecute('document.getElementsByName("' + varName + '")[0].style.display=""', t)
+        self.jsExecute(
+            'document.getElementsByName("' + varName + '")[0].style.display=""', t
+        )
 
     def displayBlockID(self, varID):
         # 未验证？
         # varJs = 'document.getElementById("filePath").style.display="block"'
         return self.driver.find_element_by_id(varID).style.display
 
-
-    '''[ 9color ]'''
+    """[ 9color ]"""
 
     def printColor(self, macColor, winColor, varContent):
-        if platform.system() == 'Darwin':
-            print(macColor) + varContent + '\033[0m'
-        if platform.system() == 'Windows':
-            (eval(winColor))(varContent.encode('gb2312') + "\n")
+        if platform.system() == "Darwin":
+            print(macColor) + varContent + "\033[0m"
+        if platform.system() == "Windows":
+            (eval(winColor))(varContent.encode("gb2312") + "\n")
 
-
-    '''[ 10exist ]'''
+    """[ 10exist ]"""
 
     def isElementId(self, varId):
         # 通过Id方式检查元素是否存在
@@ -877,13 +871,13 @@ class BasePO(object):
             flag = False
         return flag
 
-
-
     def isElementVisibleXpath(self, element):
         # 未验证？？？
         driver = self.driver
         try:
-            the_element = EC.visibility_of_element_located(driver.find_element_by_partial_link_text(element))
+            the_element = EC.visibility_of_element_located(
+                driver.find_element_by_partial_link_text(element)
+            )
             assert the_element(driver)
             flag = True
         except:
@@ -900,9 +894,8 @@ class BasePO(object):
         except:
             return None
 
+    """ [11 alert] """
 
-
-    ''' [11 alert] '''
     def alertAccept(self):
         # 点击弹框中的确认
         alert = self.driver.switch_to.alert
@@ -921,8 +914,8 @@ class BasePO(object):
     # 关闭进程
     def closePid(self, varApplication):
 
-        '''关闭进程
-        os.system 输出如果出现乱码，需将 File->Settings->Editor->File Encodings 中 Global Encoding 设置成 GBK'''
+        """关闭进程
+        os.system 输出如果出现乱码，需将 File->Settings->Editor->File Encodings 中 Global Encoding 设置成 GBK"""
         pids = psutil.pids()
         for pid in pids:
             try:
@@ -930,16 +923,19 @@ class BasePO(object):
                 # print('pid=%s,pname=%s' % (pid, p.name()))
                 # 关闭excel进程
                 if p.name() == varApplication:
-                    cmd = 'taskkill /F /IM ' + varApplication
+                    cmd = "taskkill /F /IM " + varApplication
                     os.system(cmd)
                     sleep(2)
             except Exception as e:
                 pass
 
+
 class alert_is_present(object):
     """判断是否有alert弹窗"""
+
     def __init__(self, driver):
         self.driver = driver
+
     def __call__(self):
         try:
             alert = self.driver.switch_to.alert
@@ -949,9 +945,8 @@ class alert_is_present(object):
             return False
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     Base_PO = BasePO()
-    Base_PO.assertEqual(1,1,"555","7777")
+    Base_PO.assertEqual(1, 1, "555", "7777")
     # Base_PO.closePid("chrome.exe")

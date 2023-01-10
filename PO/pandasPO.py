@@ -10,7 +10,7 @@
 # to_sql https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_sql.html
 # ********************************************************************************************************************
 
-'''
+"""
 1 执行sql  execute()
 
 2.1 xlsx转数据库 xlsx2db()
@@ -24,7 +24,7 @@
 
 4 xlsx转列表
 
-'''
+"""
 
 
 from PO.MysqlPO import *
@@ -32,8 +32,7 @@ from sqlalchemy import create_engine
 import numpy
 
 
-class PandasPO():
-
+class PandasPO:
     def __init__(self):
 
         pass
@@ -51,73 +50,95 @@ class PandasPO():
 
     def execute(self, varSql):
 
-        '''
+        """
         1 执行sql
-        '''
+        """
 
         try:
-            if 'SELECT' in varSql or 'select' in varSql:
+            if "SELECT" in varSql or "select" in varSql:
                 return self.engine.execute(varSql).fetchall()
             else:
                 self.engine.execute(varSql)
         except Exception as e:
             print(e)
 
+    def xlsx2db(
+        self,
+        varExcelFile,
+        varTable,
+        usecols=None,
+        nrows=None,
+        skiprows=None,
+        dtype=None,
+        parse_dates=None,
+        date_parser=None,
+        converters=None,
+        sheet_name=None,
+        index=False,
+    ):
 
-    def xlsx2db(self, varExcelFile, varTable, usecols=None, nrows=None, skiprows=None, dtype=None, parse_dates=None, date_parser=None, converters=None, sheet_name=None, index=False):
-
-        '''
+        """
         4.4 excel导入数据库表(覆盖)
         :return:
         参数参考：https://zhuanlan.zhihu.com/p/96203752
-        '''
+        """
 
-        df = pd.read_excel(varExcelFile, usecols=usecols, nrows=usecols, skiprows=skiprows, dtype=dtype, parse_dates=parse_dates, date_parser=date_parser, converters=converters, sheet_name=sheet_name)
-        df.to_sql(varTable, con=self.getEngine_mysqldb(), if_exists='replace', index=index)
-
+        df = pd.read_excel(
+            varExcelFile,
+            usecols=usecols,
+            nrows=usecols,
+            skiprows=skiprows,
+            dtype=dtype,
+            parse_dates=parse_dates,
+            date_parser=date_parser,
+            converters=converters,
+            sheet_name=sheet_name,
+        )
+        df.to_sql(
+            varTable, con=self.getEngine_mysqldb(), if_exists="replace", index=index
+        )
 
     def xlsx2db(self, varExcelFile, varTable):
 
-        '''2.1 xlsx导入数据库'''
+        """2.1 xlsx导入数据库"""
         try:
             df = pd.read_excel(varExcelFile)
             engine = self.Mysql_PO.getMysqldbEngine()
-            df.to_sql(varTable, con=engine, if_exists='replace', index=False)
+            df.to_sql(varTable, con=engine, if_exists="replace", index=False)
         except Exception as e:
             print(e)
 
     def dict2db(self, varDict, varDbTable, index):
 
-        '''2.2 字典导入数据库'''
+        """2.2 字典导入数据库"""
 
         try:
             df = pd.DataFrame(varDict)
             engine = self.Mysql_PO.getMysqldbEngine()
             if index == "False":
-                df.to_sql(name=varDbTable, con=engine, if_exists='replace', index=False)
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace", index=False)
             else:
-                df.to_sql(name=varDbTable, con=engine, if_exists='replace')
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace")
         except Exception as e:
             print(e)
 
     def list2db(self, varList, varDbTable, index):
 
-        '''2.3 列表导入数据库'''
+        """2.3 列表导入数据库"""
 
         try:
             df = pd.DataFrame(varList, columns=None)
             engine = self.Mysql_PO.getMysqldbEngine()
-            if index == 'False' :
-                df.to_sql(name=varDbTable, con=engine, if_exists='replace', index=False)
+            if index == "False":
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace", index=False)
             else:
-                df.to_sql(name=varDbTable, con=engine, if_exists='replace')
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace")
         except Exception as e:
             print(e)
 
+    def db2xlsx(self, sql, varExcelFile, header=1):
 
-    def db2xlsx(self, sql, varExcelFile,  header=1):
-
-        '''3.1 数据库转xlsx(含字段或不含字段)'''
+        """3.1 数据库转xlsx(含字段或不含字段)"""
 
         try:
             df = pd.read_sql(sql, self.engine)
@@ -129,9 +150,9 @@ class PandasPO():
         except Exception as e:
             print(e)
 
-    def dict2xlsx(self,varDict, varExcelFile):
+    def dict2xlsx(self, varDict, varExcelFile):
 
-        '''3.2 字典转xlsx '''
+        """3.2 字典转xlsx"""
 
         try:
             df = pd.DataFrame(varDict)
@@ -141,7 +162,7 @@ class PandasPO():
 
     def dict2csv(self, varDict, varExcelFile):
 
-        '''3.3 字典转csv '''
+        """3.3 字典转csv"""
 
         try:
             df = pd.DataFrame(varDict)
@@ -150,8 +171,8 @@ class PandasPO():
             print(e)
 
     def dict2text(self, varDict, varTextFile):
-        
-        '''3.4 字典转text'''
+
+        """3.4 字典转text"""
 
         try:
             df = pd.DataFrame(varDict)
@@ -159,10 +180,9 @@ class PandasPO():
         except Exception as e:
             print(e)
 
-
     def xlsx2list(self, pathFile, sheetName):
 
-        '''4 xlsx转列表'''
+        """4 xlsx转列表"""
 
         try:
             df = pd.read_excel(pathFile, sheet_name=sheetName, header=None)
@@ -172,16 +192,17 @@ class PandasPO():
             print(e)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     # Pandas_PO = PandasPO("192.168.0.234", "root", "Zy123456", "mcis", 3306)
 
     Pandas_PO = PandasPO()
 
-
     # print("1 执行sql".center(100, "-"))
     # 查询
-    print(Pandas_PO.execute("select * FROM t_third_user where id=%s" % "89"))  # [(89, '37068500001', 'wenyonghong', '370627197007140240', '温永红')]
+    print(
+        Pandas_PO.execute("select * FROM t_third_user where id=%s" % "89")
+    )  # [(89, '37068500001', 'wenyonghong', '370627197007140240', '温永红')]
     # print(Pandas_PO.execute("SELECT * FROM t_third_user where id=%s" % "89")[0][1])  # 37068500001
     # 更新
     Pandas_PO.execute("UPDATE test2 SET B = '5.6' WHERE A = %s" % "4")
@@ -189,10 +210,10 @@ if __name__ == '__main__':
     Pandas_PO.execute(
         "alter table test55 change `index` id int(100), change `0` `name` varchar(30) ,change `1` ssn char(30), change `2` phone_number char(30), change `3` genEmail varchar(30),"
         " change `4` genAddress varchar(50), change `5` genPostcode char(30), change `6` genCompany varchar(30), change `7` genUrl char(50), "
-        "change `8` genIpv4 char(30),change `9` genText text(330)")
+        "change `8` genIpv4 char(30),change `9` genText text(330)"
+    )
     # 设置id主键
     Pandas_PO.execute("alter table test55 add primary key(id)")
-
 
     # print("2.1 xlsx转数据库".center(100, "-"))
     # Pandas_PO.xlsx2db("./data/xlsx2db.xlsx", 'test2')
@@ -201,11 +222,9 @@ if __name__ == '__main__':
     # Pandas_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test33", "")
     # Pandas_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test33", "False")
 
-
     # print("2.3 列表转数据库".center(100, "-"))
     # Pandas_PO.list2db([[1,2,3],['a','b','c']], "test44", "")  # 生成index
     # Pandas_PO.list2db([[1,2,3],['a','b','c']], "test44", "False")  # 不生成index
-
 
     # print("3.1 数据库转xlsx(含字段或不含字段)".center(100, "-"))
     # Pandas_PO.db2xlsx("SELECT * FROM t_pregnancy_evaluate_advice", './data/db2xlsx.xlsx')
@@ -220,14 +239,8 @@ if __name__ == '__main__':
     # print("3.4 字典转text".center(100, "-"))
     # Pandas_PO.dict2text({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "./data/dict2text.txt")
 
-
-
     # print("4 xlsx转列表".center(100, "-"))
     # print(Pandas_PO.xlsx2list('./data/dict2xlsx.xlsx', 'Sheet1'))
-
-
-
-
 
     # # todo Series类型
     # arr1 = np.arange(10)

@@ -31,33 +31,44 @@
 from openpyxl import load_workbook
 import openpyxl, sys, platform, os
 import openpyxl.styles
-from openpyxl.styles import Font, PatternFill, Border, Side, Alignment, Protection, Alignment
+from openpyxl.styles import (
+    Font,
+    PatternFill,
+    Border,
+    Side,
+    Alignment,
+    Protection,
+    Alignment,
+)
 from openpyxl.utils import get_column_letter
 from datetime import date
 from time import sleep
 import psutil
 from PO.ColorPO import *
+
 Color_PO = ColorPO()
 from PO.CharPO import *
+
 Char_PO = CharPO()
 from PO.SysPO import *
+
 Sys_PO = SysPO()
 
-'''
+"""
 1.1 新建excel  newExcel()
-'''
+"""
 
-class NewexcelPO():
 
+class NewexcelPO:
     def __init__(self, varFileName, *varSheetName):
-        '''
+        """
         1.1 新建excel(覆盖)
         :param varFileName: 文件名
         :param varSheetName: N个工作表
         # NewexcelPO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
         # NewexcelPO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
         # 注意：如果文件已存在则会先删除后再新建！
-        '''
+        """
 
         # try:
         wb = openpyxl.Workbook()
@@ -73,20 +84,18 @@ class NewexcelPO():
         #     print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
     def open(self, file):
-        if platform.system() == 'Darwin':
+        if platform.system() == "Darwin":
             os.system("open " + file)
-        if platform.system() == 'Windows':
+        if platform.system() == "Windows":
             os.system("start " + file)
+
 
 if __name__ == "__main__":
 
-    Sys_PO.killPid('EXCEL.EXE')
+    Sys_PO.killPid("EXCEL.EXE")
 
     # 新建excel，默认生成一个工作表Sheet1
     # Newexcel_PO = NewexcelPO("./ExcelPO/KILL.xlsx", "mySheet1", "mySheet2", "mySheet3")
     Newexcel_PO = NewexcelPO("./ExcelPO/KILL.xlsx")
 
     # Newexcel_PO.open("./OpenpyxlPO/KILL.xlsx")
-
-
-

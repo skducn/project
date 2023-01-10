@@ -99,7 +99,6 @@
 # workbook.save('Excel_Workbook.xls')
 
 
-
 # # 对单元格内的文字进行对齐（如：上中下居中，左右居中）
 # import xlwt
 # workbook = xlwt.Workbook()
@@ -111,7 +110,6 @@
 # style.alignment = alignment # Add Alignment to Style
 # worksheet.write(0, 0, 'Cell Contents', style)
 # workbook.save('Excel_Workbook.xls')
-
 
 
 # # 给单元格加边框
@@ -145,4 +143,3 @@
 # style.pattern = pattern # Add Pattern to Style
 # worksheet.write(0, 0, 'Cell Contents', style)
 # workbook.save('Excel_Workbook.xls')
-

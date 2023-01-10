@@ -19,7 +19,7 @@
 # os.path.splitunc(path)  #把路径分割为加载点与文件
 # os.path.supports_unicode_filenames  #设置是否支持unicode路径名
 # *********************************************************************
-'''
+"""
 1，环境变量
 1.1 获取环境变量信息 os.environ.keys()
       获取环境变量的值 os.getenv("JAVA_HOME")
@@ -72,28 +72,28 @@
 4.11 deltreeFolder  强制删除目录
 4.12  delCascadeFiles  级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）
 
-'''
+"""
 
 import os, shutil, glob, sys, pathlib, mimetypes
 
-class FilePO():
 
+class FilePO:
     def __init__(self):
         pass
 
     # 2.3，获取上级目录路径(反斜线)，如：D:\51\python\project\PO
     def getUpPath(self):
-        return (os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
+        return os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
     # 2.4，获取上级目录路径，如：D:/51/Python/09project
     def getUpPathSlash(self):
-        return (os.path.dirname(os.path.dirname(__file__)))
+        return os.path.dirname(os.path.dirname(__file__))
 
     # 2.5，获取自定义上级目录路径
     def getLayerPath(self, varPath):
         # print(File_PO.getLayerPath("../../"))  # 获取上上层路径
         # print(File_PO.getLayerPath("/")) # 获取根路径
-        return (os.path.abspath(os.path.join(os.getcwd(), varPath)))
+        return os.path.abspath(os.path.join(os.getcwd(), varPath))
 
     # 2.6，切换路径
     def getChdirPath(self, varPath):
@@ -108,9 +108,19 @@ class FilePO():
         # 如：['001 基层健康管理平台', '101 智慧门诊', '102 家庭病床管理平台', '103 CRM', '201 UI', '301 模板', 'test.txt', '产品规划']
         # print(File_PO.getListDir(os.getcwd()))
         try:
-            return(os.listdir(varPath))
+            return os.listdir(varPath)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 3.2，获取路径下目录及文件清单（包括路径）
     def getWalk(self, varPath):
@@ -136,13 +146,13 @@ class FilePO():
                 print(os.path.join(root, filename))  # 路径和文件名连接构成完整路径
 
     # 3.3，获取文件清单
-    def getListFile(self, varFilePath='*.*' ):
+    def getListFile(self, varFilePath="*.*"):
         # 获取指定路径下的文件清单，如 所有doc文件, * 所有文件
         # print(File_PO.getListFile("D:\work\\*.doc"))
         # print(File_PO.getListFile("D:\work\\*.*"))
         list1 = []
-        if varFilePath == '*':
-            varFilePath = '*.*'
+        if varFilePath == "*":
+            varFilePath = "*.*"
         for name in glob.glob(varFilePath):
             list1.append(name)
         return list1
@@ -152,7 +162,7 @@ class FilePO():
         # 获取文件大小(字节数)
         # 如  print(File_PO.getFileSize("D:\work\\test.txt")) ，结果 71
         try:
-            return (os.path.getsize(varFilePath))
+            return os.path.getsize(varFilePath)
         except:
             None
 
@@ -163,8 +173,6 @@ class FilePO():
             pass
         else:
             os.mkdir(varFolder)
-
-
 
     # 3.16 遍历目录中指定扩展名文件(级联目录)
     def getfilelist(self, varPathList, varPath, EXTEND):
@@ -185,9 +193,7 @@ class FilePO():
         mime = mimetypes.guess_type(varFileName)
         return str(mime[0])
 
-
-
-    ''' 操作目录和文件 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'''
+    """ 操作目录和文件 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"""
 
     # 新建目录
     def newFolder(self, varFolderPath):
@@ -196,8 +202,17 @@ class FilePO():
         try:
             os.mkdir(varFolderPath)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
-
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     def newLayerFolder(self, varLayerFolderPath):
 
@@ -207,10 +222,20 @@ class FilePO():
             if not os.path.exists(varLayerFolderPath):
                 os.makedirs(varLayerFolderPath)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 复制目录
-    def copyFolder(self, srcFolderPath, tgtFolderPath, varMode='i'):
+    def copyFolder(self, srcFolderPath, tgtFolderPath, varMode="i"):
         # 复制目录（同级目录）
         # 1，目标目录不存在，将源目录所有内容（文件和子目录）进行复制。
         # 2，目标目录存在，选择性覆盖或忽略。  w = 覆盖， i = 忽略
@@ -220,11 +245,21 @@ class FilePO():
             if not os.path.exists(tgtFolderPath):
                 shutil.copytree(srcFolderPath, tgtFolderPath)
             else:
-                if varMode == 'w':
+                if varMode == "w":
                     shutil.rmtree(tgtFolderPath)  # 强制删除目录
                     shutil.copytree(srcFolderPath, tgtFolderPath)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 目录改名
     def renameFolder(self, srcFolder, tgtFolder):
@@ -233,7 +268,17 @@ class FilePO():
         try:
             os.rename(srcFolder, tgtFolder)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 新建文件
     def newFile(self, varPath, name, text=None):
@@ -246,27 +291,37 @@ class FilePO():
             # else:
             #     # shutil.rmtree(varPath)
             #     os.makedirs(varPath)
-            file = open(varPath + "/" + name, 'w')
+            file = open(varPath + "/" + name, "w")
             file.write(text)  # 写入内容信息
             file.close()
         except:
             None
 
     # 复制文件
-    def copyFile(self, srcFilePath, tgtFilePath, varMode='i'):
+    def copyFile(self, srcFilePath, tgtFilePath, varMode="i"):
         # 复制文件，支持文件另存为。
         # File_PO.copyFile(os.getcwd() + "/folder9/13.txt", os.getcwd() + "/folder7/77.txt")  # 将 folder9 下 13.txt 复制到 folder7 下，并改名为 77.txt
         # File_PO.copyFile(os.getcwd() + "/folder9/13.txt", os.getcwd() + "/folder7/77.txt")  # 目标文件已存在，则忽略
         # File_PO.copyFile(os.getcwd() + "/folder9/13.txt", os.getcwd() + "/folder7/77.txt", 'w')  # 目标目录已存在，则覆盖（w = 覆盖）
         try:
             if os.path.exists(tgtFilePath):
-                if varMode == 'w':
+                if varMode == "w":
                     os.remove(tgtFilePath)
                     shutil.copyfile(srcFilePath, tgtFilePath)
             else:
                 shutil.copyfile(srcFilePath, tgtFilePath)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 文件改名
     def renameFile(self, srcFile, tgtFile):
@@ -276,7 +331,17 @@ class FilePO():
         try:
             os.rename(srcFile, tgtFile)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 删除空目录
     def delEmptyFolder(self, varFolderPath):
@@ -285,7 +350,17 @@ class FilePO():
         try:
             os.rmdir(varFolderPath)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 删除递归目录
     def delLayerFolder(self, varFolderPath):
@@ -298,7 +373,17 @@ class FilePO():
         try:
             os.removedirs(varFolderPath)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 强制删除目录
     def deltreeFolder(self, varFolder):
@@ -307,7 +392,17 @@ class FilePO():
         try:
             shutil.rmtree(varFolder)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 删除文件
     def delFile(self, varFilePath):
@@ -315,14 +410,24 @@ class FilePO():
         # File_PO.delFile(os.getcwd() + "/filepo/filepo2/13.txt")
         list1 = []
         try:
-            if '*.' in varFilePath:
+            if "*." in varFilePath:
                 list1 = File_PO.getListFile(varFilePath)
                 for i in range(len(list1)):
                     os.remove(list1[i])
             else:
                 os.remove(varFilePath)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）
     def delCascadeFiles(self, varPath):
@@ -335,7 +440,18 @@ class FilePO():
                 else:
                     os.remove(c_path)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
+
 
 if __name__ == "__main__":
 
@@ -425,7 +541,9 @@ if __name__ == "__main__":
     # print(varFile)  # ex19.py
     #
     # print("3.7 分割文件名和扩展名".center(100, "-"))
-    varPath, varEXT = os.path.splitext('/home/ubuntu/python_coding/split_func/split_function.py')
+    varPath, varEXT = os.path.splitext(
+        "/home/ubuntu/python_coding/split_func/split_function.py"
+    )
     print(varPath)  # /home/ubuntu/python_coding/split_func/split_function
     print(varEXT)  # .py
     #
@@ -544,5 +662,3 @@ if __name__ == "__main__":
     #
     # print("4.12 级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）".center(100, "-"))
     # # File_PO.delCascadeFiles("d:/test1")
-
-

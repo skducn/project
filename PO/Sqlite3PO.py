@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-#***************************************************************
+# ***************************************************************
 # Author     : John
 # Data       : 2022-12-15
 # Description: sqlite3 对象层
 # http://www.51testing.com/html/22/n-7794322.html
 # SQLite Viewer  http://sqlite.zhangningning.com.cn/
 # python sqlalchemy中create_engine用法 https://blog.csdn.net/xc_zhou/article/details/118829588
-#***************************************************************
+# ***************************************************************
 
-'''
+"""
 
 1 建表 execQuery(create)
 2 插入单条数据  execQuery(insert)
@@ -16,24 +16,23 @@
 4 查询  execQuery(select)
 5 将csv导入数据库表  csv2db(varCSV, varTable)
 
-'''
+"""
 
 import sqlite3
 import pandas as pd
 from sqlalchemy import create_engine
 
-class Sqlite3PO():
 
+class Sqlite3PO:
     def __init__(self, db):
 
         self.db = db
         self.conn = sqlite3.connect(db)
         self.cur = self.conn.cursor()
 
-
     def execQuery(self, sql):
 
-        ''' 执行sql'''
+        """执行sql"""
 
         try:
             r = self.cur.execute(sql).fetchall()
@@ -46,10 +45,9 @@ class Sqlite3PO():
             print(repr(e))  # OperationalError('table hh already exists')
             return None
 
-
     def executemany(self, sql, varList):
 
-        ''' 批量插入'''
+        """批量插入"""
 
         try:
             self.cur.executemany(sql, varList)
@@ -60,16 +58,14 @@ class Sqlite3PO():
             # print(NameError(e))  # table hh already exists
             print(repr(e))  # OperationalError('table hh already exists')
 
-
     def getEngine_sqlite(self):
 
-        return create_engine('sqlite:///' + self.db)
+        return create_engine("sqlite:///" + self.db)
         # return create_engine('sqlite:absolute/path/to/' + self.db)
 
+    def csv2db(self, varCSV, varTable, if_exists="fail"):
 
-    def csv2db(self, varCSV, varTable, if_exists='fail'):
-
-        ''' 将 csv 导入 数据库表'''
+        """将 csv 导入 数据库表"""
         # if_exists = 'fail', 'replace', 'append'
         # Sqlite3_PO.csv2db("./data/test12.csv", "population")
 
@@ -87,14 +83,12 @@ class Sqlite3PO():
         self.conn.close()
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     varTable = "baidu"
 
     # 创建或打开 db
-    Sqlite3_PO = Sqlite3PO('./data/student12s.db')
-
+    Sqlite3_PO = Sqlite3PO("./data/student12s.db")
 
     # print("1 建表 school".center(100, "-"))
     # Sqlite3_PO.execQuery("""CREATE TABLE %s (
@@ -116,13 +110,10 @@ if __name__ == '__main__':
     #     ]
     # Sqlite3_PO.executemany("INSERT INTO %s VALUES (?, ?, ?)" % (varTable), c)
 
-
     # print("4 查询".center(100, "-"))
     # r = Sqlite3_PO.execQuery("SELECT * FROM %s" % (varTable))
     # print(r)  # [('mark', 20, 1.44449)]
     # print(r[0][1])  # 20
-
-
 
     # print("5 将csv导入数据库表".center(100, "-"))
     # # Sqlite3_PO.csv2db("./data/test12.csv", varTable)  # 如果表已存在，则返回ValueError("Table 'baidu' already exists.")
@@ -131,8 +122,4 @@ if __name__ == '__main__':
     # x = Sqlite3_PO.execQuery("SELECT * FROM %s" % (varTable))
     # print(x)
 
-
-
     Sqlite3_PO.close()
-
-

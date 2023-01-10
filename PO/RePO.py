@@ -53,40 +53,49 @@ b = re.compile(r"\d+\.\d*")
 
 import re
 
-class RePO():
 
+class RePO:
     def __init__(self):
         pass
-
 
     def purge(self):
         # 清空缓存中的正则表达式
         re.purge()
 
+
 if __name__ == "__main__":
 
     Re_PO = RePO()
 
-
     # 匹配所有包含'oo'的单词
-    print(re.findall(r'\w*oo\w*', "JGood is a handsome boy, he is cool, clever, and so on..."))  #  ['JGood', 'cool']
-
+    print(
+        re.findall(
+            r"\w*oo\w*", "JGood is a handsome boy, he is cool, clever, and so on..."
+        )
+    )  #  ['JGood', 'cool']
 
     # 去掉空格
     print(re.sub(r"\s", "", "hello 111 world"))  #  hello111world
 
     # 数字替换成*
-    print(re.sub(r'[0-9]', "*", "44799217,,,###,,535646343@qq.com. Today is 2021/12/21"))  # ********,,,###,,*********@qq.com. Today is ****/**/**
-
+    print(
+        re.sub(r"[0-9]", "*", "44799217,,,###,,535646343@qq.com. Today is 2021/12/21")
+    )  # ********,,,###,,*********@qq.com. Today is ****/**/**
 
     # 字符串分割成列表
-    print(re.split(r'\W+', "JGood is a ,  so on..+——.", 0, flags=re.IGNORECASE))  # ['JGood', 'is', 'a', 'so', 'on', '']
-    print(re.split(r'(\W+)', "JGood is a ,  so on..+——.", 0, flags=re.IGNORECASE))  # ['JGood', ' ', 'is', ' ', 'a', ' ,  ', 'so', ' ', 'on', '..+——.', '']
-    print(re.split(r'[a-zA-Z]?', "0etrerta3B9"))  # ['', '0', '', '', '', '', '', '', '', '3', '', '9', '']
+    print(
+        re.split(r"\W+", "JGood is a ,  so on..+——.", 0, flags=re.IGNORECASE)
+    )  # ['JGood', 'is', 'a', 'so', 'on', '']
+    print(
+        re.split(r"(\W+)", "JGood is a ,  so on..+——.", 0, flags=re.IGNORECASE)
+    )  # ['JGood', ' ', 'is', ' ', 'a', ' ,  ', 'so', ' ', 'on', '..+——.', '']
+    print(
+        re.split(r"[a-zA-Z]?", "0etrerta3B9")
+    )  # ['', '0', '', '', '', '', '', '', '', '3', '', '9', '']
 
     randstr = "Here is Edureka as Edureka"
-    res = (re.search(r"Edureka", randstr))
-    print(res)   # <re.Match object; span=(8, 15), match='Edureka'>
+    res = re.search(r"Edureka", randstr)
+    print(res)  # <re.Match object; span=(8, 15), match='Edureka'>
     print(res.group())  # Edureka
     print(res.start())  # 8
     print(res.end())  # 15
@@ -100,4 +109,6 @@ if __name__ == "__main__":
     str = 'response body:{"name":"张三","age":20,"Idcard_no":"4100058971","phone":"15011100001"}'
     # 开始匹配
     res = re.search("{.*?}", str)  # 万能的.*?
-    print(res.group())  # {"name":"张三","age":20,"Idcard_no":"4100058971","phone":"15011100001"}
+    print(
+        res.group()
+    )  # {"name":"张三","age":20,"Idcard_no":"4100058971","phone":"15011100001"}

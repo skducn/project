@@ -5,7 +5,7 @@
 # Description   : 列表对象层
 # *********************************************************************
 
-'''
+"""
 todo：【转换】
 1.1 列表转字典（value=None）list2dict([key1, key2])  # {key1: None, key2: None}
                           list2dict([key1, key2], value))  # {key1: value, key2: value}
@@ -57,23 +57,24 @@ todo：【删除】
 
 8 对齐列表的键值对格式 alignKeyValue(['key1,value1', 'key1,value1'], ","))
 
-'''
+"""
 
 import numpy
 from random import choice
 from collections import Counter
 from PO.CharPO import *
+
 Char_PO = CharPO()
 from PO.StrPO import *
+
 Str_PO = StrPO()
 
 
-class ListPO():
-
+class ListPO:
     def __init__(self):
         pass
 
-    '''[转换]'''
+    """[转换]"""
 
     # 1.1 列表转字典（value=None）
     def list2dict(self, varList, value=None):
@@ -86,7 +87,17 @@ class ListPO():
         # list2dictBySerial([key1, value1, key2, value2])  # {key1: value1, key2: value2}
         dict4 = {}
         if len(varList) < 2:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
         elif len(varList) % 2 == 0:
             for i in range(0, len(varList), 2):
                 dict4.update({varList[i]: varList[i + 1]})
@@ -95,7 +106,6 @@ class ListPO():
             for i in range(0, len(varList[:-1]), 2):
                 dict4.update({varList[i]: varList[i + 1]})
             return dict4
-
 
     # 1.3 列表转字典之键值对格式（如遇重复key则取后面的key值）
     def list2dictByKeyValue(self, varList, varSign=":"):
@@ -110,9 +120,17 @@ class ListPO():
                 if varSign in item:
                     keys = item.split(varSign)
                     dict3.update({keys[0]: keys[1]})
-            return (dict3)
+            return dict3
         except:
-            print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) +" row" )
+            print(
+                "errorrrrrrrrrr, call "
+                + sys._getframe().f_code.co_name
+                + "() from "
+                + str(sys._getframe(1).f_lineno)
+                + " row, error from "
+                + str(sys._getframe(0).f_lineno)
+                + " row"
+            )
 
     # 1.4 列表转字典之元组格式（如遇重复key则取后面的key值）
     def list2dictByTuple(self, varList):
@@ -121,16 +139,36 @@ class ListPO():
         try:
             return dict(varList)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 1.5 两列表转字典
     def twoList2dict(self, varList1, varList2):
         # twoList2dict([key1, key2], [value1, value2])  # {key1: value1, key2: value2}
         # py3.x中
         try:
-            return (dict(map(lambda x, y: [x, y], varList1, varList2)))
+            return dict(map(lambda x, y: [x, y], varList1, varList2))
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
         # # py2.x中
         # return (dict(zip(varList1, varList2)))
 
@@ -141,27 +179,44 @@ class ListPO():
         # print(List_PO.joinElem2str([1, 3, "test", "12", "中国", 20]))  # 13test12中国20
         # print(List_PO.list2str([100, 200, [1, 2, 3], {'a': 1, "b": 2}, 500]))  # 100200[1, 2, 3]{'a': 1, 'b': 2}500
         try:
-            result = ''.join(varList)
-            return (result)
+            result = "".join(varList)
+            return result
         except:
             try:
                 varList = list(map(str, varList))
-                result = ''.join(varList)
-                return(result)
+                result = "".join(varList)
+                return result
             except:
-                print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+                print(
+                    "[ERROR], "
+                    + sys._getframe(1).f_code.co_name
+                    + ", line "
+                    + str(sys._getframe(1).f_lineno)
+                    + ", in "
+                    + sys._getframe(0).f_code.co_name
+                    + ", SourceFile '"
+                    + sys._getframe().f_code.co_filename
+                    + "'"
+                )
 
     # 1.7 列表转数组
     def list2array(self, varList, varNum):
         try:
             return numpy.array_split(varList, varNum)
         except:
-            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(
-                sys._getframe(1).f_lineno) + ", in " + sys._getframe(
-                0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
-
-    '''[变换]'''
+    """[变换]"""
 
     # 2.1 数字字符串与数字互相转换
     def convertNumericStr(self, varList, varMode="str"):
@@ -178,7 +233,7 @@ class ListPO():
             for i in range(len(varList)):
                 if Char_PO.isComplex((varList[i])):
                     if str(varList[i]).isdigit():
-                         new_numbers.append(int(varList[i]))
+                        new_numbers.append(int(varList[i]))
                     else:
                         new_numbers.append(float(varList[i]))
                 else:
@@ -214,7 +269,17 @@ class ListPO():
                 i = 1
             return list1
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 2.3 两列表元素相加或连接
     def addTwoList(self, varList1, varList2):
@@ -222,17 +287,36 @@ class ListPO():
         try:
             return [i + j for i, j in zip(varList1, varList2)]
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 2.4 生成元素索引
-    def setIndex(self, varList , varStart=0):
+    def setIndex(self, varList, varStart=0):
         # 默认编号从0开始，或指定从N开始
         # 如：['Spring', 'Summer', 'Fall', 'Winter'] = > [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'),(3, 'Winter')]
         try:
-            return (list(enumerate(varList, start=varStart)))
+            return list(enumerate(varList, start=varStart))
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
-
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 2.5 打散列表
     def resolveList(self, varList, varNum):
@@ -252,7 +336,17 @@ class ListPO():
             #     l_valueAll.append(varList[i:i+varNum])
             # return (l_valueAll)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 2.6 切片列表。
     def sliceList(self, varList, varElement, varMode):
@@ -266,7 +360,7 @@ class ListPO():
                 if a == 1:
                     list3.append(i)
             list3.pop(0)
-            return (list3)
+            return list3
         elif varMode == 0:
             # 将列表中某个元素之前的元素组成一个新的列表， 如 [1,2,3,'审核信息',4,5,6] 变为 [1,2,3]
             list4 = []
@@ -274,16 +368,16 @@ class ListPO():
                 if varElement == i:
                     break
                 list4.append(i)
-            return (list4)
+            return list4
 
-   
-
-    '''[比较]'''
+    """[比较]"""
 
     # 3.1 获取两列表差异元素
     def twoListGetDiff(self, varList1, varList2):
         a = [x for x in varList1 if x in varList2]  # 两个列表中都存在
-        return [y for y in (varList1) if y not in a], [y for y in (varList2) if y not in a]  # 两个列表中的不同元素
+        return [y for y in (varList1) if y not in a], [
+            y for y in (varList2) if y not in a
+        ]  # 两个列表中的不同元素
 
     # 3.2 获取两列表相同元素
     def twoListGetSame(self, varList1, varList2):
@@ -307,19 +401,28 @@ class ListPO():
             if error_index == []:
                 return None
             else:
-                return (error_index)
+                return error_index
         else:
-            return ("error, 两列表元素数量不一致")
+            return "error, 两列表元素数量不一致"
 
-
-    '''[替换]'''
+    """[替换]"""
 
     # 4.1 1 对多替换原列表中元素
     def replaceElemByOne2more(self, varList, varSource, varDest):
         try:
             return [varDest if i == varSource else i for i in varList]
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 4.2 替换元素多对一
     def replaceElemByMore2one(self, varList, varSourceList, varDest):
@@ -328,36 +431,75 @@ class ListPO():
         try:
             return [varDest if i in varSourceList else i for i in varList]
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 4.3 替换元素多对多
     def replaceElemByMore2more(self, varList, varDict):
         try:
             return [varDict[i] if i in varDict else i for i in varList]
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 4.4 替换元素首字母大写且其余小写
     def replaceElemCaptain(self, varList):
         return list(map(lambda s: s[0:1].upper() + s[1:].lower(), varList))
 
-
-    '''[删除]'''
+    """[删除]"""
 
     # 5.1 删除元素左右空格
     def stripElem(self, varList):
         try:
             return [n.strip() for n in varList]
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 5.1 清除原列表元素特殊字符\n\t\r\xa0等
     def listClearSpecialChar(self, varList):
         try:
-            return ([''.join([i.strip() for i in str(a).strip()]) for a in varList])
+            return ["".join([i.strip() for i in str(a).strip()]) for a in varList]
             # return ([''.join([i.strip() for i in str(a).strip().replace(varSource, varDest)]) for a in varList])
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 5.3 删除列表中指定的（或模糊的）元素
     def listBatchDel(self, varList, varPartElement, varMode="-accurate"):
@@ -374,12 +516,21 @@ class ListPO():
                         tmpList.append(varList[i])
             return tmpList
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 5.4 删除列表中重复的元素
     def delRepeatElem(self, varList):
         return [item for item in varList if varList.count(item) == 1]
-
 
     # 5.5 列表元素去重
     def deduplicationElem(self, varList):
@@ -388,21 +539,28 @@ class ListPO():
         # def duplicateRemovalBySort(self, varList):
         #     return list(set(varList))
 
-
     # 6 获取重复的元素数量
     def getRepeatElemCount(self, varList):
         counter = Counter()
         counter.update(varList)
-        return (counter.most_common())
-
+        return counter.most_common()
 
     # 7 随机获取列表元素
     def getRandomElem(self, varList):
         try:
-            return (choice(varList))
+            return choice(varList)
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
-
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 8 对齐列表的键值对格式
     def alignKeyValue(self, varList, varSplit):
@@ -416,10 +574,19 @@ class ListPO():
                     l2.append(str(varList[i]).split(varSplit)[1])  # value
                 elif varCount > 1:
                     for j in range(0, len(str(varList[i]).split(varSplit)) - 1, 2):
-                        l1.append(str(varList[i]).split(varSplit)[j].replace(varSplit, ""))  # key
-                        l2.append(str(varList[i]).split(varSplit)[j + 1].replace(varSplit, ""))  # value
+                        l1.append(
+                            str(varList[i]).split(varSplit)[j].replace(varSplit, "")
+                        )  # key
+                        l2.append(
+                            str(varList[i]).split(varSplit)[j + 1].replace(varSplit, "")
+                        )  # value
                 else:
-                    l1.append(str(varList[i]).replace("(", "（").replace(")", "）").replace(varSplit, ""))  # key
+                    l1.append(
+                        str(varList[i])
+                        .replace("(", "（")
+                        .replace(")", "）")
+                        .replace(varSplit, "")
+                    )  # key
                     l2.append("")  # value
 
             # print(l1)
@@ -445,17 +612,26 @@ class ListPO():
             # print(l1)
             # print(l2)
             c = [i + j for i, j in zip(l1, l2)]
-            return (c)
+            return c
         except:
-            print("[ERROR], " +  sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
 
 if __name__ == "__main__":
 
     List_PO = ListPO()
 
-    '''[转换]'''
-
+    """[转换]"""
 
     # print("1.1 列表转字典（value=None）".center(100, "-"))
     # print(List_PO.list2dict(['name', 'blog']))  # {'name': None, 'blog': None}
@@ -497,7 +673,7 @@ if __name__ == "__main__":
     # # [1 2 3 4 5]
     # # [6 7 8 9]
 
-    '''[变换]'''
+    """[变换]"""
 
     # print("2.1 数字字符串与数字互相转换".center(100, "-"))
     # print(List_PO.convertNumericStr([123]))  # ['123']
@@ -536,7 +712,6 @@ if __name__ == "__main__":
     # # 4 Winter
     #
 
-
     #
     # print("2.5 打散列表".center(100, "-"))
     # print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 2))  # [['1', '2'], ['3', '4'], ['5', '6']]  // 一个列表拆分成2个一组。
@@ -548,9 +723,7 @@ if __name__ == "__main__":
     # print(List_PO.sliceList([1, 2, 3, '测试', 4, 5, 6], '测试', 1))  # [4,5,6]
     # print(List_PO.sliceList([1, 2, 3, '测试', 4, 5, "测试", 6], '测试', 1))  # [4, 5, '测试', 6]   只处理第一个参数
 
-
-
-    '''[比较]'''
+    """[比较]"""
 
     # print("3.1 获取两列表差异元素".center(100, "-"))
     # print(List_PO.twoListGetDiff(['张三', '王五', '老二'], ['张三', '老二', '王七']))  # (['王五'], ['王七'])
@@ -565,8 +738,7 @@ if __name__ == "__main__":
     # print("3.4 获取两列表相同元素的索引号".center(100, "-"))
     # print(List_PO.twoListGetSameIndex(['a', 'b', 'c', 'd'], ['a', 'k', 'c', 'z']))  # [1, 3]
 
-
-    '''[替换]'''
+    """[替换]"""
 
     # print("4.1 1对多替换原列表中元素".center(100, "-"))
     # print(List_PO.replaceElemByOne2more(["1", 2, "3", "2", 2], 2, ""))  # ['1', '', '3', '2', '']
@@ -584,8 +756,7 @@ if __name__ == "__main__":
     # print("4.4 替换元素首字母大写且其余小写".center(100, "-"))
     # print(List_PO.replaceElemCaptain(['adam', 'LISA', 'barT']))  # ['Adam', 'Lisa', 'Bart']
 
-
-    '''[删除]'''
+    """[删除]"""
 
     # print("5.1 删除元素左右空格".center(100, "-"))
     # print(List_PO.stripElem(['   glass', 'apple   ', '  greenleaf  ']))  # ['glass', 'apple', 'greenleaf']
@@ -593,7 +764,7 @@ if __name__ == "__main__":
     # print("5.2 清除原列表元素中的特殊字符（\n\t\r\xa0等）".center(100, "-"))
     # print(List_PO.listClearSpecialChar(['0\n编号', '1\n既往史', 444, '2\n既\r往    史\t\n逻\xa0辑', 'abc']))   #  ['0编号规则', '1既往史记录逻辑错误', '444', '2既往史逻辑错误', ':']
     # print(List_PO.listClearSpecialChar(['\n\t\t\tCHF\xa0\r\n\r\n  \t64.90', '\n\t\tCHF\xa0\r\n\t58.40','\n\t\tCHF\xa0\r\t48.70']))  # ['CHF64.90', 'CHF58.40', 'CHF48.70']
-    #    
+    #
     # print("5.3 删除列表中指定的（或模糊的）元素".center(100, "-"))
     # print(List_PO.listBatchDel(['0', "错误", '1', 123, "错误"], "错误"))  # ['0', '1', 123]  // 删除“错误”元素
     # print(List_PO.listBatchDel(['0', "错误", '1', 22, "错误内容"], "错误", "-like"))  # ['0', '1', 22]  //关键字vague表示模糊删除，删除包含“错误”的元素。
@@ -625,4 +796,3 @@ if __name__ == "__main__":
     # # # # 123       : baibai
     # # # # 600065    :
     # # # # 600064    : 234jpo4j2oi34
-

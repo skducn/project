@@ -5,7 +5,7 @@
 # Description: Html 对象层
 # *******************************************************************************************************************************
 
-'''
+"""
 1.1 获取网站状态码 getCode()
 1.2 获取网站请求头 getHeaders()
 1.3 获取网页内容 getText()
@@ -15,22 +15,23 @@
 2.1 生成请求头 getUserAgent()
 2.2 生成代理 getProxies()
 
-'''
+"""
 
 
 from PO.DataPO import *
+
 Data_PO = DataPO()
 
 from PO.SysPO import *
+
 Sys_PO = SysPO()
 
 
 class HtmlPO:
 
     # def __init__(self):
-        # self.userAgent = self.getUserAgent()
-        # self.proxies = self.getProxies()
-
+    # self.userAgent = self.getUserAgent()
+    # self.proxies = self.getProxies()
 
     def getCode(self, varUrl):
 
@@ -64,29 +65,36 @@ class HtmlPO:
 
         # 1.4 获取网页json内容
 
-        rsp = requests.get(url=varUrl, headers=self.getUserAgent(), proxies=self.getProxies())
+        rsp = requests.get(
+            url=varUrl, headers=self.getUserAgent(), proxies=self.getProxies()
+        )
         return rsp.json()
-
 
     def rspGet(self, varUrl):
 
         # 1.5 解析get
 
-        return requests.get(url=varUrl, headers=self.getUserAgent(), proxies=self.getProxies())
+        return requests.get(
+            url=varUrl, headers=self.getUserAgent(), proxies=self.getProxies()
+        )
 
     def rspGetByParam(self, varUrl, params):
 
         # 1.5 解析get
 
-        return requests.get(url=varUrl, params=params, headers=self.getUserAgent(), proxies=self.getProxies())
-
+        return requests.get(
+            url=varUrl,
+            params=params,
+            headers=self.getUserAgent(),
+            proxies=self.getProxies(),
+        )
 
     def getUserAgent(self):
 
         # 2.1 生成UserAgent
         # 如报错fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则执行 pip3.9 install -U fake-useragent 更新
 
-        self.userAgent = {'User-Agent': Data_PO.getUserAgent()}
+        self.userAgent = {"User-Agent": Data_PO.getUserAgent()}
         return self.userAgent
 
     def getProxies(self):
@@ -98,13 +106,9 @@ class HtmlPO:
         return self.proxies
 
 
-
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     Html_PO = HtmlPO()
-
 
     # print("1.1 获取网站状态码".center(100, "-"))
     # print(Html_PO.getCode("http://www.baidu.com"))  # 200
