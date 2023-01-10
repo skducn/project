@@ -14,26 +14,23 @@
 # print(b.encode('gbk', 'ignore').decode('gbk') )   # 型换季收纳法叠衣
 # *********************************************************************
 
-'''
+"""
 1.1 中文转字节码
 1.2 字节码转中文
 1.3 中文转拼音（不带声调）
 1.4 中文转拼音（带声调,支持多音字）
 1.5 中文转拼音(声调，分隔符，大小写)
-
-
-'''
+"""
 
 import sys, pypinyin
 from xpinyin import Pinyin
 
-class CharPO():
 
+class CharPO:
     def __init__(self):
         pass
 
         # 2 判断字符串是否为数字
-
 
     # 1.1 中文转字节码
     def chinese2byte(self, varChinese, varCoding="utf-8"):
@@ -45,7 +42,17 @@ class CharPO():
             byte1 = varChinese.encode(varCoding)
             return byte1
         except:
-            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
     # 1.2 字节码转中文
     def byte2chinese(self, varByte, varCoding="utf-8"):
@@ -54,10 +61,20 @@ class CharPO():
         # errors - - 设置不同错误的处理方案，默认为 strict 表示编码错误引起一个UnicodeError，其他还有：'ignore', 'replace', 'xmlcharrefreplace', 'backslashreplace'
         # 以及通过codecs.register_error()注册的任何值。
         try:
-            chinese1 = varByte.decode(varCoding, 'strict')
+            chinese1 = varByte.decode(varCoding, "strict")
             return chinese1
         except:
-            print("[ERROR], " + sys._getframe(1).f_code.co_name + ", line " + str(sys._getframe(1).f_lineno) + ", in " + sys._getframe(0).f_code.co_name + ", SourceFile '" + sys._getframe().f_code.co_filename + "'")
+            print(
+                "[ERROR], "
+                + sys._getframe(1).f_code.co_name
+                + ", line "
+                + str(sys._getframe(1).f_lineno)
+                + ", in "
+                + sys._getframe(0).f_code.co_name
+                + ", SourceFile '"
+                + sys._getframe().f_code.co_filename
+                + "'"
+            )
 
         # 7.1 中文转拼音（不带声调）
 
@@ -67,9 +84,9 @@ class CharPO():
         # print(Char_PO.chinese2pinyin("曾祥云", True))  # cengzengxiangyun
         # print(Char_PO.chinese2pinyin("金浩", True))  # jinhaogaoge
         # print(Char_PO.chinese2pinyin("金浩"))  # jinhao
-        pinyin = ''
+        pinyin = ""
         for i in pypinyin.pinyin(varChinese, style=pypinyin.NORMAL, heteronym=varMode):
-            pinyin += ''.join(i)
+            pinyin += "".join(i)
         return pinyin
 
     # 1.4 中文转拼音（带声调）
@@ -77,13 +94,13 @@ class CharPO():
         # 开启多音字 ：heteronym = True
         # print(Char_PO.chinese2pinyinTone("金浩"))  # jīn hào
         # print(Char_PO.chinese2pinyinTone("金浩", True))  # jīnjìn hàogǎogé
-        pinyinTone = ''
+        pinyinTone = ""
         for i in pypinyin.pinyin(varWord, heteronym=varMode):
-            pinyinTone = pinyinTone + ''.join(i) + " "
+            pinyinTone = pinyinTone + "".join(i) + " "
         return pinyinTone
 
     # 1.5 中文转拼音（声调，分隔符，大小写）
-    def chinese2pinyin3(self, varChinese, splitter="", convert='lower', tone_marks=""):
+    def chinese2pinyin3(self, varChinese, splitter="", convert="lower", tone_marks=""):
         # 默认输出小写
         # get_pinyin(self, chars=u'你好', splitter=u'-',tone_marks=None, convert='lower'):
         # print(Char_PO.chinese2pinyin1("你好", splitter="-"))  # ni-hao
@@ -91,10 +108,9 @@ class CharPO():
         # print(Char_PO.chinese2pinyin1("你好", tone_marks="marks", convert="upper"))  # NǏHǍO
         # print(Char_PO.chinese2pinyin1("你好", tone_marks="numbers", splitter="-"))  # ni3-hao3
         p = Pinyin()
-        return p.get_pinyin(varChinese, splitter=splitter, tone_marks=tone_marks, convert=convert)
-
-
-
+        return p.get_pinyin(
+            varChinese, splitter=splitter, tone_marks=tone_marks, convert=convert
+        )
 
 
 if __name__ == "__main__":
@@ -106,8 +122,8 @@ if __name__ == "__main__":
     print(Char_PO.chinese2byte("金浩", "GBK"))  # b'\xbd\xf0\xba\xc6'
 
     print("1.2 字节码转中文字符串".center(100, "-"))
-    print(Char_PO.byte2chinese(b'\xe9\x87\x91\xe6\xb5\xa9', "utf-8"))  # 金浩
-    print(Char_PO.byte2chinese(b'\xbd\xf0\xba\xc6', "gbk"))  # 金浩
+    print(Char_PO.byte2chinese(b"\xe9\x87\x91\xe6\xb5\xa9", "utf-8"))  # 金浩
+    print(Char_PO.byte2chinese(b"\xbd\xf0\xba\xc6", "gbk"))  # 金浩
 
     print("1.3 中文转拼音".center(100, "-"))
     print(Char_PO.chinese2pinyin("上海市"))  # cengzengxiangyun
@@ -122,7 +138,3 @@ if __name__ == "__main__":
     print(Char_PO.chinese2pinyin3("你好", tone_marks="marks"))  # nǐhǎo
     # print(Char_PO.chinese2pinyin3("你好", tone_marks="marks", convert="upper"))  # NǏHǍO
     print(Char_PO.chinese2pinyin3("你好", tone_marks="numbers", splitter="-"))  # ni3-hao3
-
-
-
-

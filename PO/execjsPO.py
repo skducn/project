@@ -24,12 +24,11 @@ print(execjs.get().eval("1 + 2"))
 
 
 ctx = execjs.compile(
-'''
+    """
 function add(x, y) {return x + y;}
-'''
+"""
 )
 print(ctx.call("add", 1, 2))
 
 
 print(eval("'red yellow blue'.split(' ')"))
-

@@ -12,7 +12,7 @@
 # 手机号码查询 https://www.shoujichahao.com/，https://www.haoshudi.com/
 # ***************************************************************
 
-'''
+"""
 1 生成N个姓名 genName
 2 生成N个身份证 genSsn
 3 生成N个手机号   genPhone_numbe
@@ -27,28 +27,26 @@
 
 12 生成N个测试数据  genTest
 13，生成10条测试数据并写入数据库test55
-'''
+"""
 
-import sys,os
+import sys, os
 from faker import Faker
 from faker.providers import internet
 from PO.pandasPO import *
 
 
 list1 = []
-list3 = ['今天', '你好', '谢谢', '意愿']
+list3 = ["今天", "你好", "谢谢", "意愿"]
 
 
-class FakePO():
-
+class FakePO:
     def __init__(self):
 
-        self.faker = Faker(locale='zh_CN')
-
+        self.faker = Faker(locale="zh_CN")
 
     def genName(self, country, n=1):
 
-        '''1 生成N个姓名 '''
+        """1 生成N个姓名"""
 
         list1 = []
         faker = Faker(locale=country)
@@ -63,7 +61,7 @@ class FakePO():
 
     def genSsn(self, country, n=1):
 
-        '''2 生成N个身份证 '''
+        """2 生成N个身份证"""
 
         list1 = []
         faker = Faker(locale=country)
@@ -78,7 +76,7 @@ class FakePO():
 
     def genPhone_number(self, country, n=1):
 
-        '''3 生成N个手机号 '''
+        """3 生成N个手机号"""
 
         list1 = []
         faker = Faker(locale=country)
@@ -93,7 +91,7 @@ class FakePO():
 
     def genEmail(self, n=1):
 
-        '''4 生成N个Email '''
+        """4 生成N个Email"""
 
         list1 = []
         if n == 1:
@@ -107,7 +105,7 @@ class FakePO():
 
     def genAddress(self, country, n=1):
 
-        '''5 生成N个地址 '''
+        """5 生成N个地址"""
 
         list1 = []
         faker = Faker(locale=country)
@@ -122,13 +120,13 @@ class FakePO():
 
     def genPostcode(self, country, n=1):
 
-        '''6 生成N个邮编 '''
+        """6 生成N个邮编"""
 
         list1 = []
         faker = Faker(locale=country)
         if n == 1:
             return faker.postcode()
-        elif n > 0 :
+        elif n > 0:
             for i in range(n):
                 list1.append(faker.postcode())
         else:
@@ -137,7 +135,7 @@ class FakePO():
 
     def genCompany(self, country, n=1):
 
-        '''7 生成N个公司 '''
+        """7 生成N个公司"""
 
         list1 = []
         faker = Faker(locale=country)
@@ -152,7 +150,7 @@ class FakePO():
 
     def genUrl(self, n=1):
 
-        '''8 生成N个url '''
+        """8 生成N个url"""
 
         list1 = []
         if n == 1:
@@ -166,12 +164,12 @@ class FakePO():
 
     def genIpv4(self, n=1):
 
-        '''9 生成N个ip '''
+        """9 生成N个ip"""
 
         list1 = []
         if n == 1:
             return self.faker.ipv4(network=False)
-        elif n > 0 :
+        elif n > 0:
             for i in range(n):
                 list1.append(self.faker.ipv4(network=False))
         else:
@@ -180,7 +178,7 @@ class FakePO():
 
     def genLatitudeLongitude(self, n=1):
 
-        '''10 生成N个经度纬度 '''
+        """10 生成N个经度纬度"""
 
         dict1 = {}
         for i in range(n):
@@ -191,24 +189,22 @@ class FakePO():
 
     def genText(self, country, n=1):
 
-        '''11 生成N个text '''
+        """11 生成N个text"""
 
         list1 = []
         faker = Faker(locale=country)
         if n == 1:
             return faker.text()
-        elif n > 0 :
+        elif n > 0:
             for i in range(n):
                 list1.append(faker.text())
         else:
             return None
         return list1
 
-
-
     def genTest(self, varList, n=1):
 
-        ''' 生成N个测试数据 '''
+        """生成N个测试数据"""
 
         list1 = []
         list2 = []
@@ -245,12 +241,9 @@ class FakePO():
         return list2
 
 
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     Fake_PO = FakePO()
-
 
     # print("1，生成N个姓名".center(100, "-"))
     # print(Fake_PO.genName("zh_CN", 5))  # ['曾勇', '程旭', '金云', '张桂芝', '潘凤兰']
@@ -317,29 +310,48 @@ if __name__ == '__main__':
     # print(Fake_PO.genText('ko_KR', 5))
     # print(Fake_PO.genText('it_IT', 5))
 
-
     # print("12，生成10条测试数据".center(100, "-"))
     # print(Fake_PO.genTest(['genName', 'genSsn', 'genPhone_number', 'genEmail', 'genAddress', 'genPostcode', 'genCompany', 'genUrl', 'genIpv4', 'genLatitudeLongitude', 'genText'], 10))
     #  [['刘柳', '222404195311193544', '13797257259', 'moyong@example.com', '台湾省红霞市清城孙路o座 397441', '313071', '超艺网络有限公司', 'https://go.cn/', '100.42.251.31', {'-129.385847': '78.3048705'}, '处理城市国内登录今天回复能够就是.一点最新人员个人控制等级.不断手机作品大小.\n继续非常服务使用图片经验我的.业务网上很多有些.的话选择不会上海女人孩子新闻可以.\n影响记者回复今年日期她的.技术国际这个.质量进行电脑推荐今年一起.\n美国是否深圳合作.一个下载游戏.投资起来两个经营之间威望作为.\n问题建设电影类型所以任何.因为继续支持不过销售.\n一个根据同时下载.'], ['吴勇', '321183196006114279', '15374128269', 'mcai@example.org', '内蒙古自治区丽华县兴山重庆路v座 591650', '982386', '鸿睿思博网络有限公司', 'https://minyan.cn/', '129.84.30.208', {'-123.738326': '8.7047075'}, '商品作为发生注意电话.这是质量的是生产非常方面.工程方法教育一切经济.\n威望知道一直可能.进入得到电话下载关系.回复其他问题设备音乐一切汽车.\n问题开始谢谢一种威望怎么男人.登录制作一种文化行业什么当然.上海那个的人.而且行业状态只是增加帮助.\n比较需要用户发展这是美国.美国记者今年更多人民.开始希望直接.实现个人实现作者类别法律提高今天.\n继续电脑不同.部门使用组织.'], ['朱秀云', '140781200309123214', '13880431069', 'bsu@example.net', '上海市志强县平山香港路L座 611508', '625731', '银嘉科技有限公司', 'https://gangding.cn/', '189.114.120.247', {'-129.629573': '-85.7863665'}, '学生感觉发生网站这里提高.\n需要发生非常.单位上海商品选择市场今年注册.教育项目资料因为本站.\n包括密码地区责任查看世界.研究要求不断投资重要.建设当然推荐然后男人.这些汽车国家可以.\n企业部分是一处理这是这样各种.结果只有没有目前工程.要求精华推荐数据方式.\n安全上海国际所以需要.大小有些加入当前下载自己今天包括.今年免费城市这样.'], ['安楠', '52032520040830705X', '13483945655', 'xiulanwang@example.com', '湖北省银川县清河天津街p座 622498', '738804', '开发区世创信息有限公司', 'https://weiqin.cn/', '8.157.64.131', {'176.963852': '-3.9908155'}, '操作经营用户游戏很多可能来源帮助.组织文章图片详细.\n生产一点记者方面程序活动.也是说明其他行业.虽然报告这样结果全部.\n继续操作方式音乐重要由于如果.\n专业人员简介市场.学习能力责任一下能够.具有广告报告可是科技如何比较文化.不要全部注册内容.\n因为等级他的中心政府有限作品拥有.法律产品成功.一般以下价格制作更新论坛软件.'], ['张楠', '150202199301163821', '13130298100', 'jingzhou@example.net', '澳门特别行政区张家港县普陀杜街H座 935373', '387859', '毕博诚信息有限公司', 'https://chenhou.cn/', '189.105.169.186', {'2.537883': '-28.7122655'}, '根据然后应该通过安全.国家结果经济主题论坛.关系最新今天点击全部名称其他.\n其中虽然方面系列能力.其中帮助个人阅读但是中心.留言合作情况密码游戏.标题阅读人民商品.\n活动解决一样.非常内容操作.\n专业这种首页简介.更新方法觉得其他.项目研究自己电话的是.\n自己为了准备文件重要.留言阅读所以自己不能质量结果.主要电话同时单位注册搜索继续.经济成为一点这样发表投资直接.']]
 
-
     # print("13，生成10条测试数据并写入数据库test55".center(100, "-"))
     # # 1）随机生成列表数据
     import datetime
-    date_start = pd.to_datetime(datetime.datetime.now())  # Timestamp('2021-05-19 08:06:08.683355')
 
-    list1 = Fake_PO.genTest(['genName', 'genSsn', 'genPhone_number', 'genEmail', 'genAddress', 'genPostcode', 'genCompany', 'genUrl', 'genIpv4', 'genText'], 100000)
+    date_start = pd.to_datetime(
+        datetime.datetime.now()
+    )  # Timestamp('2021-05-19 08:06:08.683355')
+
+    list1 = Fake_PO.genTest(
+        [
+            "genName",
+            "genSsn",
+            "genPhone_number",
+            "genEmail",
+            "genAddress",
+            "genPostcode",
+            "genCompany",
+            "genUrl",
+            "genIpv4",
+            "genText",
+        ],
+        100000,
+    )
     # 2）将列表数据保存到数据库表test55
     Pandas_PO = PandasPO("192.168.0.234", "root", "Zy123456", "mcis", 3306)
     Pandas_PO.list2db(list1, "test55", "")
     # 3）批量修改字段名和字段类型
-    Pandas_PO.execute("alter table test55 change `index` id int(100), change `0` `name` varchar(30) ,change `1` ssn char(30), change `2` phone_number char(30), change `3` genEmail varchar(30),"
-                      " change `4` genAddress varchar(50), change `5` genPostcode char(30), change `6` genCompany varchar(30), change `7` genUrl char(50), "
-                      "change `8` genIpv4 char(30),change `9` genText text(330)")
+    Pandas_PO.execute(
+        "alter table test55 change `index` id int(100), change `0` `name` varchar(30) ,change `1` ssn char(30), change `2` phone_number char(30), change `3` genEmail varchar(30),"
+        " change `4` genAddress varchar(50), change `5` genPostcode char(30), change `6` genCompany varchar(30), change `7` genUrl char(50), "
+        "change `8` genIpv4 char(30),change `9` genText text(330)"
+    )
     # 4）设置id主键
     Pandas_PO.execute("alter table test55 add primary key(id)")
 
-    date_end = pd.to_datetime(datetime.datetime.now())  # Timestamp('2021-05-19 08:06:08.683355')
+    date_end = pd.to_datetime(
+        datetime.datetime.now()
+    )  # Timestamp('2021-05-19 08:06:08.683355')
     print(date_end - date_start)  # 0 days 00:00:07.272859
 
     # 测试结果：生成1万条数据需要7秒，10万条数据需要83秒

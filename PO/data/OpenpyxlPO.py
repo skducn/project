@@ -20,14 +20,16 @@
 # 这使得操作大文件的时候，速度较慢，可以使用Optimized reader和Optimized writer。它们提供了流式的接口，速度更快。
 # *****************************************************************
 
-import os,time,json
+import os, time, json
 from openpyxl import Workbook
+
 # from openpyxl.compat import range
 from openpyxl.utils import get_column_letter
 from openpyxl.drawing.image import Image
-import openpyxl,os,datetime
+import openpyxl, os, datetime
 from PO.TimePO import *
 from PO.ExcelPO import *
+
 Time_PO = TimePO()
 
 
@@ -46,8 +48,7 @@ from openpyxl.chart import (
 #         _ = ws3.cell(column=col, row=row, value="{0}".format(get_column_letter(col)))
 
 
-class OpenpyxlPO():
-
+class OpenpyxlPO:
     def __init__(self, file):
         self.file = file
         if os.path.exists(self.file):
@@ -84,7 +85,7 @@ class OpenpyxlPO():
         except:
             return None
 
-     # 获取某行某列所有值
+    # 获取某行某列所有值
     def getValues(self, varMode, varNum, varSheet=0):
 
         try:
@@ -198,7 +199,9 @@ class OpenpyxlPO():
                 ws = self.wb[self.sheets[varSheet]]
             elif isinstance(varSheet, str):
                 if varSheet not in self.wb.sheetnames:  # 如果工作表名不存在,则新增工作表
-                    self.wb.create_sheet(index=0, title=varSheet)  # index=0表示工作表排在第一个,默认新建后排在最后.
+                    self.wb.create_sheet(
+                        index=0, title=varSheet
+                    )  # index=0表示工作表排在第一个,默认新建后排在最后.
                     ws = self.wb[varSheet]
             else:
                 exit()
@@ -232,7 +235,6 @@ class OpenpyxlPO():
         #     ws = wb.active
         # ws.title = varSheet
 
-
         return True
 
     # 设置行列值
@@ -242,7 +244,9 @@ class OpenpyxlPO():
         try:
             for k in varDictData:
                 if k not in self.wb.sheetnames:  # 比较字典中工作表名是否在原有表格中，如果没有则新建工作表名。
-                    ws2 = self.wb.create_sheet(index=0, title=k)   # index=0表示在最前端插入， ws3 = wb.create_sheet("Mysheet", -1) 表示插入倒数第二个位置
+                    ws2 = self.wb.create_sheet(
+                        index=0, title=k
+                    )  # index=0表示在最前端插入， ws3 = wb.create_sheet("Mysheet", -1) 表示插入倒数第二个位置
                     ws2 = self.wb.active
                     for row in range(len(varDictData[k])):
                         ws2.append(varDictData[k][row])
@@ -311,7 +315,7 @@ class OpenpyxlPO():
         wb = Workbook()
         ws = wb.active
         rows = [
-            ['Number具体数', '高地', '山丘'],
+            ["Number具体数", "高地", "山丘"],
             [2, 40, 30],
             [3, 40, 25],
             [4, 50, 30],
@@ -325,8 +329,8 @@ class OpenpyxlPO():
         chart = AreaChart()
         chart.title = "我的内容上门"
         chart.style = 13
-        chart.x_axis.title = '标题测试组'
-        chart.y_axis.title = '比率'
+        chart.x_axis.title = "标题测试组"
+        chart.y_axis.title = "比率"
         cats = Reference(ws, min_col=1, min_row=1, max_row=7)
         data = Reference(ws, min_col=2, min_row=1, max_col=3, max_row=7)
         chart.add_data(data, titles_from_data=True)
@@ -339,7 +343,7 @@ class OpenpyxlPO():
         ws = wb.active
 
         rows = [
-            ['Number', 'Batch 1', 'Batch 2'],
+            ["Number", "Batch 1", "Batch 2"],
             [2, 30, 40],
             [3, 25, 40],
             [4, 30, 50],
@@ -354,8 +358,8 @@ class OpenpyxlPO():
         chart = AreaChart3D()
         chart.title = "Area Chart"
         chart.style = 13
-        chart.x_axis.title = 'Test'
-        chart.y_axis.title = 'Percentage'
+        chart.x_axis.title = "Test"
+        chart.y_axis.title = "Percentage"
         chart.legend = None
 
         cats = Reference(ws, min_col=1, min_row=1, max_row=7)
@@ -371,29 +375,32 @@ class OpenpyxlPO():
     def outline(self):
         wb = openpyxl.Workbook()
         ws = wb.create_sheet()
-        ws.column_dimensions.group('A', 'D', hidden=True)
+        ws.column_dimensions.group("A", "D", hidden=True)
         ws.row_dimensions.group(1, 10, hidden=True)
         wb.save(self.file)
 
+
 def readExcel(varFileName):
 
-    '''
+    """
     编辑一个excel文件（xls,xlsx）
     :param varFileName: empty_book.xlsx
     :return:
-    '''
+    """
 
     from openpyxl import load_workbook
+
     wb = load_workbook(filename=varFileName)
-    ws = wb['test2']
+    ws = wb["test2"]
     # // 遍历第2-3行，第2-4列数据
-    for row in ws.iter_rows(min_row=2, max_row=3, min_col=2, max_col=4, values_only=True):
+    for row in ws.iter_rows(
+        min_row=2, max_row=3, min_col=2, max_col=4, values_only=True
+    ):
         print(row)
 
     # // 获取某2列数据
     for row in ws.iter_rows(min_col=2, max_col=4, values_only=True):
         print(row)
-
 
     # # 4、遍历工作表所有内容，返回列表 ， 注意 表格中空单元输出None
     # rows = ws2.rows
@@ -434,7 +441,6 @@ def readExcel(varFileName):
 
     # 9, 默认sheet的tab是白色的，通过RGB颜色来修改tab的颜色，如下是蓝色
     # ws2.sheet_properties.tabColor = '1072BA'
-
 
     # 10, 将excel数据存储为字典
     # dict1 = {}
@@ -479,30 +485,35 @@ def readExcel(varFileName):
 
     wb.save(varFileName)
 
+
 def mergeCell(varFileName):
-    '''
+    """
     Merge / Unmerge cells
     When you merge cells all cells but the top-left one are removed from the worksheet. See Styling Merged Cells for information on formatting merged cells.
     :param varFileName: empty_book.xlsx
     :return:
-    '''
+    """
 
     from openpyxl import Workbook
+
     wb = Workbook()
     ws = wb.active
-    ws.unmerge_cells('A2:D2')
+    ws.unmerge_cells("A2:D2")
     ws.merge_cells(start_row=2, start_column=1, end_row=4, end_column=4)
     ws.unmerge_cells(start_row=2, start_column=1, end_row=4, end_column=4)
-    wb.save(filename = varFileName)
+    wb.save(filename=varFileName)
+
 
 def fold(varFileName):
 
     import openpyxl
+
     wb = openpyxl.Workbook()
     ws = wb.create_sheet()
-    ws.column_dimensions.group('A','D', hidden=True)
-    ws.row_dimensions.group(1,10, hidden=True)
+    ws.column_dimensions.group("A", "D", hidden=True)
+    ws.row_dimensions.group(1, 10, hidden=True)
     wb.save(varFileName)
+
 
 def style(varFileName):
 
@@ -512,18 +523,27 @@ def style(varFileName):
     from openpyxl import load_workbook
 
     from openpyxl.styles import NamedStyle, Font, Border, Side
+
     highlight = NamedStyle(name="highlight")
     highlight.font = Font(bold=True, size=20)
-    bd = Side(style='thick', color="FFBB00")
+    bd = Side(style="thick", color="FFBB00")
     highlight.border = Border(left=bd, top=bd, right=bd, bottom=bd)
 
     wb = load_workbook(filename=varFileName)
     ws = wb.active
-    c = ws['A1']
-    c.font = Font(size=15,color=RED) # 文字颜色
-    d = ws['B1']
-    d.font = Font(size=15, color='FFBB00', name='Arial',italic=True, bold=False,
-                  vertAlign=None,underline='none',strike=False)
+    c = ws["A1"]
+    c.font = Font(size=15, color=RED)  # 文字颜色
+    d = ws["B1"]
+    d.font = Font(
+        size=15,
+        color="FFBB00",
+        name="Arial",
+        italic=True,
+        bold=False,
+        vertAlign=None,
+        underline="none",
+        strike=False,
+    )
 
     # ws['D8'].style = highlight
     # a1 = ws['A1']
@@ -535,6 +555,7 @@ def style(varFileName):
     # # If you want to change the color of a Font, you need to reassign it::
     # a1.font = Font(color=colors.RED, italic=True)  # the change only affects A1
     wb.save(varFileName)
+
 
 # *****************************************************************
 if __name__ == "__main__":
@@ -586,22 +607,21 @@ if __name__ == "__main__":
     # print(Openpyxl_PO.setImage('d11', 'logo.png', "yoyo"))  # 如果工作表不存在,则新增工作表
 
     tableValues = [
-        ['', '姓名', '电话', '成绩', '学科'],
-        ['', '李雷', '15201062598', 19, datetime.datetime.now()],
-        ['', 'Marry', '15201062191', 28, Time_PO.getDate()],
-        ['', '董承瑞', '13451062100', 38, '物理'],
-        ['', '毛泽东', '15266606298', 14, '化学'],
-        ['', '周恩来', '15201077791', 78, '美术']
+        ["", "姓名", "电话", "成绩", "学科"],
+        ["", "李雷", "15201062598", 19, datetime.datetime.now()],
+        ["", "Marry", "15201062191", 28, Time_PO.getDate()],
+        ["", "董承瑞", "13451062100", 38, "物理"],
+        ["", "毛泽东", "15266606298", 14, "化学"],
+        ["", "周恩来", "15201077791", 78, "美术"],
     ]
     # d = {"test": tableValues}
-    d = {"john":[['测试组', '15201077791', 278, '美术3']],"test2":tableValues}
+    d = {"john": [["测试组", "15201077791", 278, "美术3"]], "test2": tableValues}
     # print(Openpyxl_PO.setRowsColsValue(d))
 
     # Openpyxl_PO.areachart()
     Openpyxl_PO.areachart3()
 
     # readExcel('test2222.xlsx')
-
 
     # # mergeCell('empty_book.xlsx')
     # # fold('fold.xlsx')
