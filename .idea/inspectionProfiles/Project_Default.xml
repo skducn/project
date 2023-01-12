@@ -191,6 +191,7 @@
       <option name="ignoredPackages">
         <list>
           <option value="pandas" />
+          <option value="pydub" />
         </list>
       </option>
     </inspection_tool>
