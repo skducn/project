@@ -75,7 +75,7 @@ from PO.MysqlPO import *
 
 
 """
-1.1 新建  newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3") 
+1.1 新建 newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3") 
 1.2 打开 open()
 1.2.2 打开指定sheet openSheet(varSheet="分类")
 1.3 获取所有工作表 getSheets()
@@ -149,7 +149,8 @@ class OpenpyxlPO:
     def __init__(self, file):
 
         self.file = file
-        self.wb = openpyxl.load_workbook(self.file)
+        if self.file != "":
+            self.wb = openpyxl.load_workbook(self.file)
         # self.wb.sheetnames
         # self.wb.active  # 获取当前活跃的Worksheet对象
         # print(self.wb.active)  # <Worksheet "北京">
@@ -162,20 +163,36 @@ class OpenpyxlPO:
 
     # todo [工作表]
 
-    def newExcel(self, varFileName, *varSheetName):
+    # def newExcel(self, varFileName, *varSheetName):
+    #
+    #     # 1.1 新建excel(覆盖)
+    #     # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
+    #     # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
+    #     # 注意：如果文件已存在则会先删除后再新建。
+    #     wb = openpyxl.Workbook()
+    #     ws = wb.active
+    #     if len(varSheetName) == 0:
+    #         ws.title = "Sheet1"
+    #     else:
+    #         ws.title = varSheetName[0]
+    #     for i in range(1, len(varSheetName)):
+    #         wb.create_sheet(varSheetName[i])
+    #     wb.save(varFileName)
+
+    def newExcel(self, varFileName, l_sheetName):
 
         # 1.1 新建excel(覆盖)
         # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
-        # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
+        # Openpyxl_PO.newExcel("d:\\444.xlsx", ["mySheet1", "mySheet2","mySheet3"])  # 新建excel生成三个工作表，默认在第一个mySheet1表。
         # 注意：如果文件已存在则会先删除后再新建。
         wb = openpyxl.Workbook()
         ws = wb.active
-        if len(varSheetName) == 0:
+        if len(l_sheetName) == 1:
             ws.title = "Sheet1"
         else:
-            ws.title = varSheetName[0]
-        for i in range(1, len(varSheetName)):
-            wb.create_sheet(varSheetName[i])
+            ws.title = l_sheetName[0]
+        for i in range(1, len(l_sheetName)):
+            wb.create_sheet(l_sheetName[i])
         wb.save(varFileName)
 
     def open(self, otherFile=0):
@@ -1086,12 +1103,15 @@ class OpenpyxlPO:
 
 if __name__ == "__main__":
 
-    Sys_PO.killPid("EXCEL.EXE")
+    Sys_PO.closeApp("EXCEL.EXE")
     # Openpyxl_PO = OpenpyxlPO("ExcelPO/i_erp_reportField_case.xlsx")
-    Openpyxl_PO = OpenpyxlPO("student.xlsx")
+    # Openpyxl_PO = OpenpyxlPO("student.xlsx")
+    # Openpyxl_PO = OpenpyxlPO("d://t123.xlsx")
+    Openpyxl_PO = OpenpyxlPO("")
 
     # print("1.1 新建".center(100, "-"))
-    # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3")  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
+    # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", ["mySheet1", "mySheet2", "mySheet3"])  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
+    Openpyxl_PO.newExcel("d://t44.xlsx", ["mySheet661", "mySheet552", "mySheet32"])  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
     # print("1.2 打开".center(100, "-"))
     # Openpyxl_PO.open()
@@ -1105,8 +1125,9 @@ if __name__ == "__main__":
     # Openpyxl_PO.addSheet("saasuser1")
 
     # print("1.7 添加工作表(覆盖)".center(100, "-"))
-    # Openpyxl_PO.addSheetCover("Sheet1", 1)    # 当index足够大时，则在最后一个位置添加工作表
-    # Openpyxl_PO.open()
+    # Openpyxl_PO.addSheetCover("Sheet0", 0)    # 第一个位置添加工作表
+    # Openpyxl_PO.addSheetCover("Sheet100", 100)    # 第100个位置添加工作表  //当index足够大时，则在最后一个位置添加工作表
+    Openpyxl_PO.open()
 
     # print("1.8 删除工作表".center(100, "-"))
     # Openpyxl_PO.delSheet("Sheet1")
