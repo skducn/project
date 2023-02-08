@@ -163,23 +163,23 @@ class OpenpyxlPO:
 
     # todo [工作表]
 
-    # def newExcel(self, varFileName, *varSheetName):
-    #
-    #     # 1.1 新建excel(覆盖)
-    #     # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
-    #     # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
-    #     # 注意：如果文件已存在则会先删除后再新建。
-    #     wb = openpyxl.Workbook()
-    #     ws = wb.active
-    #     if len(varSheetName) == 0:
-    #         ws.title = "Sheet1"
-    #     else:
-    #         ws.title = varSheetName[0]
-    #     for i in range(1, len(varSheetName)):
-    #         wb.create_sheet(varSheetName[i])
-    #     wb.save(varFileName)
+    def newExcel(self, varFileName, *varSheetName):
 
-    def newExcel(self, varFileName, l_sheetName):
+        # 1.1 新建excel(覆盖)
+        # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
+        # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
+        # 注意：如果文件已存在则会先删除后再新建。
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        if len(varSheetName) == 0:
+            ws.title = "Sheet1"
+        else:
+            ws.title = varSheetName[0]
+        for i in range(1, len(varSheetName)):
+            wb.create_sheet(varSheetName[i])
+        wb.save(varFileName)
+
+    def newExcelList(self, varFileName, l_sheetName):
 
         # 1.1 新建excel(覆盖)
         # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表

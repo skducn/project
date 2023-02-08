@@ -379,7 +379,7 @@ if __name__ == "__main__":
     # print(Time_PO.getDateByMinus())  # 2022-11-29   //当前日期
     # print(Time_PO.getDateByMinusPeriod(2))  # 2022-12-01  //2天后
     # print(Time_PO.getDateByMinusPeriod(-3))  # 2022-11-26  //3天前
-    # print(Time_PO.getDateTimeByPeriod(0))  # 2020/03/19 15:19:28   //当前时间
+    print(Time_PO.getDateTimeByPeriod(0))  # 2020-03-19 15:19:28   //当前时间
     # print(Time_PO.getDateTimeByPeriod(0.5))  # 2020-03-19 15:49:28  //比当前时间晚30分钟
     # print(Time_PO.getDateTimeByPeriod(-1))  # 2020-03-19 14:19:28   //比当前时间早1小时
     # print(Time_PO.getNow())  # 2022-11-29 12:48:23.907028  //当前时间
@@ -441,7 +441,7 @@ if __name__ == "__main__":
 
     # print(Time_PO.getDateByMonthLastDay(-1))   # 2020-02-29  //获取上月的最后一天。（不支持跨年，如2020-01-01的上个月会报错）
     # print(Time_PO.getDateByMonthLastDay(1))  # 2020-02-29  //获取下月的最后一天。（不支持跨年，如2020-12-12 的下个月会报错）
-    print(Time_PO.getDateByMonthToday(-1))  # 2020-02-19   //返回上个月的今天
+    # print(Time_PO.getDateByMonthToday(-1))  # 2020-02-19   //返回上个月的今天
     # print(Time_PO.getDateByMonthToday(3))  # 2020-06-19   //返回3个月后的今天
     # print(Time_PO.getDateByTuple(1))  # ('2020', '04', '30')    //列表形式返回下个月及最后一天
 
