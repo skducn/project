@@ -4,7 +4,6 @@
 # Date       : 2023-1-1
 # Description: mock应用示例
 # pip3.90 install mock
-# pip3.9 install appium-python-client
 # 步骤：
 # 1，确定替换对象，如 visit_ustack函数中的send_request。(此接口开发还未完成)
 # 2，实例化mock一个对象，设置mock对象的行为，模拟send_request返回值成功200或失败404
