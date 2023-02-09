@@ -58,7 +58,7 @@ from datetime import date
 from datetime import timedelta
 from bs4 import BeautifulSoup
 import pandas as pd
-from MyQR import myqr
+# from MyQR import myqr
 
 # from pyzbar.pyzbar import decode
 from PIL import Image
