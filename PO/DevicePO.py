@@ -47,8 +47,10 @@ class DevicePO:
                 File_PO.newLayerFolder(varPath)
                 cap = cv2.VideoCapture(0)
                 ret, frame = cap.read()
+                cv2.waitKey(2)
                 cv2.imwrite(varFilePath, frame)
                 cap.release()
+                cv2.destroyAllWindows()
         except:
             print(
                 "[ERROR], "
@@ -61,6 +63,25 @@ class DevicePO:
                 + sys._getframe().f_code.co_filename
                 + "'"
             )
+
+    def callCamera2(self):
+
+        import cv2
+
+        cap = cv2.VideoCapture(0)
+        i = 0
+        while (1):
+            ret, frame = cap.read()
+            k = cv2.waitKey(1)
+            if k == 27:
+                break
+            elif k == ord('s'):
+                # 注意修改保持路径
+                cv2.imwrite('/Users/linghuchong/' + str(i) + '.jpg', frame)
+                i += 1
+            cv2.imshow("capture", frame)
+        cap.release()
+        cv2.destroyAllWindows()
 
     def installAPK(self, varPath):
 
@@ -219,9 +240,12 @@ if __name__ == "__main__":
 
     # print("1，调用当前笔记本摄像头拍照".center(100, "-"))
     # Device_PO.callCamera()   # 无参数，则默认保存在当前路径，文件名为 callCamera当前日期时间，如 callCamera20200312121012.jpp
-    Device_PO.callCamera("d:/11/6/123.jpg")  # 如果目录不存在则自动新建，如果文件名重复则覆盖。
+    # Device_PO.callCamera("d:/11/6/123.jpg")  # 如果目录不存在则自动新建，如果文件名重复则覆盖。
+    Device_PO.callCamera("/Users/linghuchong/capture123.jpg")  # 如果目录不存在则自动新建，如果文件名重复则覆盖。
+    # Device_PO.callCamera2()  # 如果目录不存在则自动新建，如果文件名重复则覆盖。
 
     # print("2.1，安装apk".center(100, "-"))
+    # Device_PO.installAPK(u"c:\\1")  # 自动安装目录里日期最新的包。
     # Device_PO.installAPK(u"c:\\1")  # 自动安装目录里日期最新的包。
 
     # print("2.2，卸载apk".center(100, "-"))
