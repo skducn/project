@@ -42,14 +42,15 @@ varGuofei = '郭斐'
 varLiubinlong = '刘斌龙'
 
 # 统计日期
-varStartDate = "2023-02-01"
+# varStartDate = "2023-02-01"
+varStartDate = Time_PO.getDateByMinusPeriod(-1)
 # varEndDate = "2023-02-08  23:59:59"
 varEndDate = Time_PO.getDateByMinus() + " 23:59:59"
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 excelName = "zentao_daily.xlsx"
-excelSheet = varStartDate + "_" + Time_PO.getDateByMinus()
+excelSheet = str(varStartDate) + "_" + Time_PO.getDateByMinus()
 
 
 # 如果文档不存在，自动创建
