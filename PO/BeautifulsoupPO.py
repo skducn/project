@@ -32,20 +32,15 @@
 import requests
 from bs4 import BeautifulSoup
 
-from PO.HtmlPO import *
-Html_PO = HtmlPO()
+from PO.HttpPO import *
+Http_PO = HttpPO()
 
 
 class BeautifulsoupPO:
+
     def __init__(self, url):
 
-        # headers = Html_PO.getHeaders('https://wall.alphacoders.com/')
-        # print(headers)
-        # headers = Html_PO.getHeaders(url)
-
-        html = Html_PO.getHtml(url)
-        # html.encoding = "utf-8"
-        # print(html.text)
+        html = Http_PO.getHtml(url)
         self.soup = BeautifulSoup(html, "html.parser")
         # self.soup = BeautifulSoup(html, 'lxml')
 
