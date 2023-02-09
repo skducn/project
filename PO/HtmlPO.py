@@ -22,8 +22,8 @@
 from PO.DataPO import *
 Data_PO = DataPO()
 
-from PO.SysPO import *
-Sys_PO = SysPO()
+# from PO.SysPO import *
+# Sys_PO = SysPO()
 
 from PO.BeautifulsoupPO import *
 
