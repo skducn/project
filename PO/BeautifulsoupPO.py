@@ -33,16 +33,20 @@ import requests
 from bs4 import BeautifulSoup
 
 from PO.HtmlPO import *
-
 Html_PO = HtmlPO()
 
 
 class BeautifulsoupPO:
     def __init__(self, url):
 
-        html = Html_PO.rspGet(url)
-        html.encoding = "utf-8"
-        self.soup = BeautifulSoup(html.text, "html.parser")
+        # headers = Html_PO.getHeaders('https://wall.alphacoders.com/')
+        # print(headers)
+        # headers = Html_PO.getHeaders(url)
+
+        html = Html_PO.getHtml(url)
+        # html.encoding = "utf-8"
+        # print(html.text)
+        self.soup = BeautifulSoup(html, "html.parser")
         # self.soup = BeautifulSoup(html, 'lxml')
 
     # print(soup.span.string)
@@ -80,12 +84,21 @@ if __name__ == "__main__":
     <p class="story">...</p>
     """
 
-    Beautifulsoup_PO = BeautifulsoupPO("http://tieba.baidu.com/p/4468445702")
 
-    # # print('1,获取标签属性的值, 获取div id=post_content_87286618651下img src的值'.center(100, "-"))
+
+    Beautifulsoup_PO = BeautifulsoupPO("https://wall.alphacoders.com/by_resolution.php?w=3840&h=2160&lang=Chinese&page=3")
+    print(Beautifulsoup_PO.soup.find_all('a'))
+    # for link in Beautifulsoup_PO.soup.find_all('a'):
+    #     print(link.get('href'))
+
+    # img_list = Beautifulsoup_PO.soup.find_all("a").attrs['href']
+    # print(img_list)
+
+    # # # print('1,获取标签属性的值, 获取div id=post_content_87286618651下img src的值'.center(100, "-"))
+    # Beautifulsoup_PO = BeautifulsoupPO("http://tieba.baidu.com/p/4468445702")
     # x = Beautifulsoup_PO.soup.find("div", {'id': 'post_content_87286618651'}).find_all('img')[0].attrs['src']
     # print(x)  # https://imgsa.baidu.com/forum/w%3D580/sign=b2310eb7be389b5038ffe05ab534e5f1/680c676d55fbb2fbc7f64cbb484a20a44423dc98.jpg
-    #
+
     #
     #
     # # print('2 获取标签的文本内容'.center(100, "-"))
