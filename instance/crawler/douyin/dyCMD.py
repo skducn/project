@@ -18,8 +18,8 @@ sys.path.append("../../..")
 # Data_PO = DataPO()
 from PO.FilePO import *
 File_PO = FilePO()
-from PO.HtmlPO import *
-Html_PO = HtmlPO()
+from PO.HttpPO import *
+Html_PO = HttpPO()
 from PO.StrPO import *
 Str_PO = StrPO()
 

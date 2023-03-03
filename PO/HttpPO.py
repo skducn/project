@@ -49,17 +49,16 @@
 1.2，获取代理IP  getProxies()
 
 2.1 获取内容 getHtml()
-2.2 获取json getJson()
-2,3，获取内容带参数 getHtmlByParam()
+2,2 获取内容带参数 getHtmlByParam()
 
 3.1 获取状态码 getCode()
-2.2 获取返回响应值 getHeaders()
+3.2 获取返回响应值 getHeaders()
 
 '''
 
-import os,random
+import os, random, requests
 from time import sleep
-import requests
+
 # from PO.BeautifulsoupPO import *
 from fake_useragent import UserAgent
 
@@ -94,7 +93,6 @@ class HttpPO:
             userAgent = str(UserAgent().random)
         # return {"User-Agent": userAgent}
         return str(userAgent)
-
 
     def getProxies(self):
 
@@ -144,7 +142,7 @@ class HttpPO:
 
     def getHtml(self, varUrl, headers={}):
 
-        '''1.3 获取内容'''
+        '''2.1 获取内容'''
 
         # 自定义头部
 
@@ -153,7 +151,6 @@ class HttpPO:
         # print(headers)
         # print(self.getUserAgent())
         headers['User-Agent'] = self.getUserAgent()
-
         r = requests.get(varUrl, headers=headers, proxies=self.getProxies())
         # r = requests.get(varUrl, headers=headers, proxies=self.getProxies(), timeout=30)
 
@@ -161,84 +158,18 @@ class HttpPO:
         r.raise_for_status()
 
         # 设置内容编码，将文件第一行 # -*- coding: utf-8 -*- 即 返回内容转换成utf-8编码
-        r.encoding = r.apparent_encoding
-
-        headers['User-Agent'] = ''
-
-        # 返回响应的内容，unicode 类型数据 ； r.content 返回响应的内容，以字节为单位
-        return r.text
-
-        # return r.content.decode("utf8", "ignore")
-    def getContent(self, varUrl):
-
-        '''1.3 获取内容'''
-
-        # 自定义头部
-
-        # headers['Referer'] = varUrl
-        # headers['cookie'] = ''
-        # print(headers)
-        # print(self.getUserAgent())
-
-
-        r = requests.get(varUrl)
-        # r = requests.get(varUrl, headers=headers, proxies=self.getProxies(), timeout=30)
-
-        # # 如果返回的状态码不是200，则报错返回一个 HTTPError 对象，如403
-        # r.raise_for_status()
-        #
-        # # 设置内容编码，将文件第一行 # -*- coding: utf-8 -*- 即 返回内容转换成utf-8编码
         # r.encoding = r.apparent_encoding
-        #
-        # headers['User-Agent'] = ''
 
-        # 返回响应的内容，unicode 类型数据 ； r.content 返回响应的内容，以字节为单位
+        headers['User-Agent'] = ''
+
+        # r.text 返回响应的内容(unicode 类型数据)
+        # r.content 返回响应的内容(字节为单位)  # r.content.decode("utf8", "ignore")
+        # r.json 返回响应的内容(字典格式)
         return r
-
-        # return r.content.decode("utf8", "ignore")
-    def getUrl(self, varUrl, headers={}):
-
-        '''1.3 获取内容'''
-
-        # 自定义头部
-
-        # headers['Referer'] = varUrl
-        # headers['cookie'] = ''
-        # print(headers)
-        # print(self.getUserAgent())
-        headers['User-Agent'] = self.getUserAgent()
-
-        r = requests.get(varUrl, headers=headers, proxies=self.getProxies())
-        # r = requests.get(varUrl, headers=headers, proxies=self.getProxies(), timeout=30)
-
-        # 如果返回的状态码不是200，则报错返回一个 HTTPError 对象，如403
-        r.raise_for_status()
-
-        # 设置内容编码，将文件第一行 # -*- coding: utf-8 -*- 即 返回内容转换成utf-8编码
-        r.encoding = r.apparent_encoding
-
-        headers['User-Agent'] = ''
-
-        # 返回响应的内容，unicode 类型数据 ； r.content 返回响应的内容，以字节为单位
-        # return r.text
-        return r.url
-        # return r.content.decode("utf8", "ignore")
-
-    
-    def getJson(self, varUrl, headers={}):
-
-        '''2.2 获取json内容'''
-
-        headers['User-Agent'] = self.getUserAgent()
-        r = requests.get(varUrl, headers=headers, proxies=self.getProxies())
-        headers['User-Agent'] = ''
-        return r.json()
-
 
     def getHtmlByParam(self, varUrl, headers={}, params=None):
 
-        '''2.3 获取内容带参数'''
-
+        '''2.2 获取内容带参数'''
 
         headers['User-Agent'] = self.getUserAgent()
 
@@ -253,11 +184,10 @@ class HttpPO:
 
         headers['User-Agent'] = ''
 
-        # 返回响应的内容，unicode 类型数据 ； r.content 返回响应的内容，以字节为单位
-        return r.text
-
-        # return r.content.decode("utf8", "ignore")
-
+        # r.text 返回响应的内容(unicode 类型数据)
+        # r.content 返回响应的内容(字节为单位)  # r.content.decode("utf8", "ignore")
+        # r.json 返回响应的内容(字典格式)
+        return r
 
 
     def getCode(self, varUrl):
@@ -266,7 +196,6 @@ class HttpPO:
 
         r = requests.get(varUrl)
         return r.status_code
-
 
     def getHeaders(self, varUrl):
 
@@ -305,16 +234,16 @@ if __name__ == "__main__":
     #
     # # print("2.1，获取内容，并通过bs4获取元素".center(100, "-"))
     # r = Http_PO.getHtml("https://www.baidu.com")
-    # # print(r)
+    # # print(r.txt)
     # Beautifulsoup_PO = BeautifulsoupPO("https://www.baidu.com")
     # x = Beautifulsoup_PO.soup.find("map", {'name': 'mp'}).find_all('area')[0].attrs['href']
     # print(x)  # //www.baidu.com/s?wd=%E7%99%BE%E5%BA%A6%E7%83%AD%E6%90%9C&sa=ire_dl_gh_logo_texing&rsv_dl=igh_logo_pcs
     #
-    # # # print("2.2，获取json内容".center(100, "-"))
-    # json = Http_PO.getJson("https://www.ximalaya.com/revision/album/getTracksList?albumId=13738175&pageNum=1")
-    # print(json['data']['albumId'])  # 13738175
+    # r = Http_PO.getHtml("https://www.ximalaya.com/revision/album/getTracksList?albumId=13738175&pageNum=1")
+    # print(r.json)
+    # print(r.json['data']['albumId'])  # 13738175
     #
-    # # print("2.3，获取内容带参数".center(100, "-"))
+    # # print("2.2，获取内容带参数".center(100, "-"))
     # # r = Http_PO.getHtmlByParam("https://www.baidu.com")
     #
     #
@@ -322,7 +251,7 @@ if __name__ == "__main__":
     # # print(Http_PO.getCode("https://www.baidu.com"))  # 200
 
     # print("3.2 获取网站的headers".center(100, "-"))
-    print(Http_PO.getHeaders("https://www.baidu.com/"))
+    # print(Http_PO.getHeaders("https://www.baidu.com/"))
 
 
 

@@ -15,7 +15,8 @@
 
 import requests, re, os, platform, bs4, json, sys
 from urllib import parse
-sys.path.append("../../../")
+# sys.path.append("../../../")
+sys.path.append("/Users/linghuchong/Downloads/51/Python/project/")
 
 
 from PO.DataPO import *
@@ -44,17 +45,6 @@ class DyPO:
 		:param url = "https://v.douyin.com/hbjqhuT"
 		'''
 
-		# 解析 https://v.douyin.com/hbjqhuT 成 https://www.douyin.com/video/7157633339661307168
-		if 'https://v.douyin.com/' in url:
-			rsp = Http_PO.getUrl(url)
-			# rsp = Http_PO.getJson(url)
-			# print(rsp)
-			# rsp.url
-			aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp)  # ['6976835684271279400']
-			# print(aweme_id)
-			# aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
-			url2 = 'https://www.douyin.com/video/' + aweme_id[0]
-
 		headers = {
 			"cookie":
 					  "s_v_web_id=verify_kwlyvfty_u4F0a4eC_HR0R_45qA_BGNr_tcfqSLkaFeIa; _"
@@ -64,60 +54,67 @@ class DyPO:
 			"user-agent": Http_PO.getUserAgent()
 		}
 
-		rsp = requests.get(url=url2, headers=headers)
-		# print(rsp.text)
+		# 解析 https://v.douyin.com/hbjqhuT 成 https://www.douyin.com/video/7157633339661307168
+		if 'https://v.douyin.com/' in url or 'https://www.douyin.com/' in url:
+			r = Http_PO.getHtml(url)
+			aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', r.url)  # ['6976835684271279400']
+			# print(aweme_id)
+			url2 = 'https://www.douyin.com/video/' + aweme_id[0]
 
-		info = bs4.BeautifulSoup(rsp.text, 'lxml')
+			r = requests.get(url=url2, headers=headers)
+			# print(r.text)
 
-		# 定位到<script id="RENDER_DATA" type="application/json">
-		js = str(info.select_one("script#RENDER_DATA"))
+			info = bs4.BeautifulSoup(r.text, 'lxml')
+			# print(info)
+			js = str(info.select_one("script#RENDER_DATA"))  # 定位到<script id="RENDER_DATA" type="application/json">
+			s_json = parse.unquote(js)  # 将 RENDER_DATA 解码成 json 文本
+			# 转换成json格式
+			s_json = s_json.replace('<script id="RENDER_DATA" type="application/json">', '').replace('</script>', '')
+			# print(s_json)
+			d_json = json.loads(s_json)
+			# print(d_json)
 
-		# 将 RENDER_DATA 解码成 json 文本
-		s_json = parse.unquote(js)
-		# print(s_json)
+			from jsonpath import jsonpath
+			# 用户名
+			nickname = jsonpath(d_json, '$[*].aweme.detail.authorInfo.nickname')
+			nickname = nickname[0]
+			# print(nickname)
 
-		# 转换成json格式
-		s_json = s_json.replace('<script id="RENDER_DATA" type="application/json">', '').replace('</script>', '')
-		d_json = json.loads(s_json)
-		# print(d_json)
+			# 标题
+			title = jsonpath(d_json, '$[*].aweme.detail.desc')
+			title = title[0]
+			title = Str_PO.delSpecialChar(str(title), "，", "。", "#", "@")  # 优化文件名中不需要的字符
+			# print(title)
 
-		from jsonpath import jsonpath
-		# 用户名
-		nickname = jsonpath(d_json, '$[*].aweme.detail.authorInfo.nickname')
-		nickname = nickname[0]
-		# print(nickname)
+			# 生成目录（# 用户名作为目录）
+			File_PO.newLayerFolder(toSave + "/" + nickname)
+			# folder = f'{toSave}/{nickname}'
+			folder = toSave + "/" + nickname
+			# print(folder)
 
-		# 标题
-		title = jsonpath(d_json, '$[*].aweme.detail.desc')
-		title = title[0]
-		title = Str_PO.delSpecialChar(str(title), "，", "。", "#", "@")  # 优化文件名中不需要的字符
-		# print(title)
+			# 下载链接
+			downUrl = jsonpath(d_json, '$[*].aweme.detail.video.playApi')
+			downUrl = downUrl[0]
+			downUrl = downUrl.replace("//", "https://")
+			# print(downUrl)
 
-		# 生成目录（# 用户名作为目录）
-		File_PO.newLayerFolder(toSave + "/" + nickname)
-		folder = f'{toSave}/{nickname}'
-		# print(folder)
+			# print("[下载中] => " + url + " => " + url2 + " => " + downUrl)
+			print("[下载中] => \n" + downUrl)
 
-		# 下载链接
-		downUrl = jsonpath(d_json, '$[*].aweme.detail.video.playApi')
-		downUrl = downUrl[0]
-		downUrl = downUrl.replace("//", "https://")
-		# print(downUrl)
+			r = Http_PO.getHtml(downUrl)
+			# open(f'{folder}/{title}.mp4', 'wb').write(r.content)
+			open(folder + '/' + title + '.mp4', 'wb').write(r.content)
+			print('[已完成] => ' + str(folder) + "/" + str(title) + ".mp4")
 
-		print("[下载中] => " + url + " => " + url2 + " => " + downUrl)
 
-		ir = Http_PO.getContent(downUrl)
-		open(f'{folder}/{title}.mp4', 'wb').write(ir.content)
-		print('[已完成] => ' + str(folder) + "/" + str(title) + ".mp4")
-
-		# # 输出结果['目录'，'标题','下载地址']
-		# l_result = []
-		# l_result.append(f)
-		# # l_result.append((str(title).encode("utf-8").decode("utf-8")))
-		# l_result.append(title)
-		# l_result.append(downUrl)
-		# # print(l_result)
-		# print('[已完成] => ' + str(l_result).encode('gbk', 'ignore').decode('gbk'))
+			# # 输出结果['目录'，'标题','下载地址']
+			# l_result = []
+			# l_result.append(f)
+			# # l_result.append((str(title).encode("utf-8").decode("utf-8")))
+			# l_result.append(title)
+			# l_result.append(downUrl)
+			# # print(l_result)
+			# print('[已完成] => ' + str(l_result).encode('gbk', 'ignore').decode('gbk'))
 
 
 
