@@ -5,6 +5,11 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
+# print("1234567890555555555")
+
+import sys
+query = sys.argv[1]
+print(query)
 
 # # import pymysql
 # # pymysql.install_as_MySQLdb()

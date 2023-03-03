@@ -40,7 +40,7 @@ class BeautifulsoupPO:
 
     def __init__(self, url):
 
-        html = Http_PO.getHtml(url)
+        html = Http_PO.getText(url)
         self.soup = BeautifulSoup(html, "html.parser")
         # self.soup = BeautifulSoup(html, 'lxml')
 

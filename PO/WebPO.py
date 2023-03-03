@@ -4,6 +4,8 @@
 # Date       : 2018-7-2
 # Description: webdriverPO 对象层
 
+# pip install opencv_python    // cv2
+
 # chromedriver驱动
 # 下载：https://npm.taobao.org/mirrors/chromedriver
 # 下载：http://chromedriver.storage.googleapis.com/index.html
