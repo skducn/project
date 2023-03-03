@@ -20,7 +20,7 @@ with fileinput.input(files=('url.txt',), openhook=fileinput.hook_encoded('utf-8'
         vUrl = "https://v.douyin.com/" + id
 
 
-douyin.downVideo(vUrl, "d:\\11")
+douyin.downVideo(vUrl, "d:/11/44")
 
 
 

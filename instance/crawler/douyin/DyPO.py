@@ -17,14 +17,15 @@ import requests, re, os, platform, bs4, json, sys
 from urllib import parse
 sys.path.append("../../../")
 
+
 from PO.DataPO import *
 Data_PO = DataPO()
 
 from PO.FilePO import *
 File_PO = FilePO()
 
-from PO.HtmlPO import *
-Html_PO = HtmlPO()
+from PO.HttpPO import *
+Http_PO = HttpPO()
 
 from PO.StrPO import *
 Str_PO = StrPO()
@@ -45,11 +46,14 @@ class DyPO:
 
 		# 解析 https://v.douyin.com/hbjqhuT 成 https://www.douyin.com/video/7157633339661307168
 		if 'https://v.douyin.com/' in url:
-			rsp = Html_PO.rspGet(url)
-			aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
+			rsp = Http_PO.getUrl(url)
+			# rsp = Http_PO.getJson(url)
+			# print(rsp)
+			# rsp.url
+			aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp)  # ['6976835684271279400']
+			# print(aweme_id)
+			# aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', rsp.url)  # ['6976835684271279400']
 			url2 = 'https://www.douyin.com/video/' + aweme_id[0]
-
-		print("[待下载] => " + url + " => " + url2)
 
 		headers = {
 			"cookie":
@@ -57,7 +61,7 @@ class DyPO:
 					  "tea_utm_cache_1300=undefined; __ac_nonce=061a6114700def9eb597f; __"
 					  "ac_signature=_02B4Z6wo00f01e59nzAAAIDAZTYE0lZHzxHuWZuAABo7n7oK78zhgb8Ol30kLigl-Pu9Q6sKyLpV-BQ3rbF1vLak-TtxN0ysQpQIX.VKlIbTkVBVA4rBt1JdylfNbrGz2NI4r4d7uQWMRa.r56; tt_scid=tbEntOkthFZL51883ve.2ORcwMNYlHUb6tegsnIzC9HSbV5u3J8ASl23x6S7wONy6e5e; "
 					 ,
-			"user-agent": Data_PO.getUserAgent()
+			"user-agent": Http_PO.getUserAgent()
 		}
 
 		rsp = requests.get(url=url2, headers=headers)
@@ -75,26 +79,36 @@ class DyPO:
 		# 转换成json格式
 		s_json = s_json.replace('<script id="RENDER_DATA" type="application/json">', '').replace('</script>', '')
 		d_json = json.loads(s_json)
+		# print(d_json)
 
+		from jsonpath import jsonpath
 		# 用户名
-		nickname = d_json['41']['aweme']['detail']['authorInfo']['nickname']
+		nickname = jsonpath(d_json, '$[*].aweme.detail.authorInfo.nickname')
+		nickname = nickname[0]
 		# print(nickname)
 
 		# 标题
-		title = d_json['41']['aweme']['detail']['desc']
+		title = jsonpath(d_json, '$[*].aweme.detail.desc')
+		title = title[0]
 		title = Str_PO.delSpecialChar(str(title), "，", "。", "#", "@")  # 优化文件名中不需要的字符
 		# print(title)
 
 		# 生成目录（# 用户名作为目录）
 		File_PO.newLayerFolder(toSave + "/" + nickname)
 		folder = f'{toSave}/{nickname}'
+		# print(folder)
 
 		# 下载链接
-		downUrl = d_json['41']['aweme']['detail']['video']['playApi']
+		downUrl = jsonpath(d_json, '$[*].aweme.detail.video.playApi')
+		downUrl = downUrl[0]
 		downUrl = downUrl.replace("//", "https://")
 		# print(downUrl)
-		ir = Html_PO.rspGet(downUrl)
+
+		print("[下载中] => " + url + " => " + url2 + " => " + downUrl)
+
+		ir = Http_PO.getContent(downUrl)
 		open(f'{folder}/{title}.mp4', 'wb').write(ir.content)
+		print('[已完成] => ' + str(folder) + "/" + str(title) + ".mp4")
 
 		# # 输出结果['目录'，'标题','下载地址']
 		# l_result = []
@@ -105,7 +119,7 @@ class DyPO:
 		# # print(l_result)
 		# print('[已完成] => ' + str(l_result).encode('gbk', 'ignore').decode('gbk'))
 
-		print('[已完成] => ' + str(folder) + "/" + str(title) + ".mp4")
+
 
 
 	def downVidoeList(self, url, toSave, *param):

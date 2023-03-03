@@ -59,8 +59,8 @@
 
 import os,random
 from time import sleep
-
-from PO.BeautifulsoupPO import *
+import requests
+# from PO.BeautifulsoupPO import *
 from fake_useragent import UserAgent
 
 class HttpPO:
@@ -101,6 +101,8 @@ class HttpPO:
         ''' 1.2，获取代理IP
         return: {'HTTP': 'HTTP://222.74.73.202:42055'}
         '''
+
+        from bs4 import BeautifulSoup
 
         baseURL = "https://www.kuaidaili.com/free"
         # baseURL = "https://www.kuaidaili.com/free/inha/1/"
@@ -165,8 +167,63 @@ class HttpPO:
 
         # 返回响应的内容，unicode 类型数据 ； r.content 返回响应的内容，以字节为单位
         return r.text
+
         # return r.content.decode("utf8", "ignore")
-    
+    def getContent(self, varUrl):
+
+        '''1.3 获取内容'''
+
+        # 自定义头部
+
+        # headers['Referer'] = varUrl
+        # headers['cookie'] = ''
+        # print(headers)
+        # print(self.getUserAgent())
+
+
+        r = requests.get(varUrl)
+        # r = requests.get(varUrl, headers=headers, proxies=self.getProxies(), timeout=30)
+
+        # # 如果返回的状态码不是200，则报错返回一个 HTTPError 对象，如403
+        # r.raise_for_status()
+        #
+        # # 设置内容编码，将文件第一行 # -*- coding: utf-8 -*- 即 返回内容转换成utf-8编码
+        # r.encoding = r.apparent_encoding
+        #
+        # headers['User-Agent'] = ''
+
+        # 返回响应的内容，unicode 类型数据 ； r.content 返回响应的内容，以字节为单位
+        return r
+
+        # return r.content.decode("utf8", "ignore")
+    def getUrl(self, varUrl, headers={}):
+
+        '''1.3 获取内容'''
+
+        # 自定义头部
+
+        # headers['Referer'] = varUrl
+        # headers['cookie'] = ''
+        # print(headers)
+        # print(self.getUserAgent())
+        headers['User-Agent'] = self.getUserAgent()
+
+        r = requests.get(varUrl, headers=headers, proxies=self.getProxies())
+        # r = requests.get(varUrl, headers=headers, proxies=self.getProxies(), timeout=30)
+
+        # 如果返回的状态码不是200，则报错返回一个 HTTPError 对象，如403
+        r.raise_for_status()
+
+        # 设置内容编码，将文件第一行 # -*- coding: utf-8 -*- 即 返回内容转换成utf-8编码
+        r.encoding = r.apparent_encoding
+
+        headers['User-Agent'] = ''
+
+        # 返回响应的内容，unicode 类型数据 ； r.content 返回响应的内容，以字节为单位
+        # return r.text
+        return r.url
+        # return r.content.decode("utf8", "ignore")
+
     
     def getJson(self, varUrl, headers={}):
 

@@ -31,6 +31,8 @@ json_text={
     "msgtype":"text"
 }
 
+from jsonpath import jsonpath
+print(jsonpath(json_text, '$..text'))
 
 # import requests, json, sys
 # m = requests.post(url, json.dumps(json_text), headers={"Content-Type": "application/json"}).content
