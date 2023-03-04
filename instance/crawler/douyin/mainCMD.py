@@ -20,9 +20,12 @@ query = sys.argv[1]
 # print("1，下载单个抖音视频".center(100, "-"))
 # query = "https://v.douyin.com/SrL7RnM/"  或  https://www.douyin.com/video/7157633339661307168
 if platform.system() == "Windows":
-    Dy_PO.downVideo(query, "d:/11/44")
+    folder = Dy_PO.downVideo(query, "d:/11/44")
+    os.system("start " + folder)
 elif platform.system() == "Darwin":
-    Dy_PO.downVideo(query, "/Users/linghuchong/Downloads/video/douyin")
+    folder = Dy_PO.downVideo(query, "/Users/linghuchong/Downloads/video/douyin")
+    os.system("open " + folder)
+
 
 
 # print("2，下载多个抖音(列表页)视频".center(100, "-"))

@@ -16,10 +16,12 @@ Dy_PO = DyPO()
 
 # print("1，下载单个抖音视频".center(100, "-"))
 if platform.system() == "Windows":
-    Dy_PO.downVideo("https://v.douyin.com/SrL7RnM/", "d:/11/44")
+    folder = Dy_PO.downVideo("https://v.douyin.com/SrL7RnM/", "d:/11/44")
+    os.system("start " + folder)
 elif platform.system() == "Darwin":
-    Dy_PO.downVideo("https://www.douyin.com/video/7157633339661307168", "/Users/linghuchong/Downloads/video/douyin")
-
+    folder = Dy_PO.downVideo("https://www.douyin.com/video/7157633339661307168", "/Users/linghuchong/Downloads/video/douyin")
+    # folder = Dy_PO.downVideo("络质疑  https://v.douyin.com/ShVDSVU/ 复制此链接，打开Dou音搜索，直接观看视频！", "/Users/linghuchong/Downloads/video/douyin")
+    os.system("open " + folder)
 
 
 # print("2，下载多个抖音(列表页)视频".center(100, "-"))

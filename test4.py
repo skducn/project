@@ -6,10 +6,12 @@
 # ********************************************************************************************************************
 
 # print("1234567890555555555")
-
-import sys
-query = sys.argv[1]
-print(query)
+import os
+folder = "/Users/linghuchong/Downloads/Video/douyin/陈翔六点半"
+os.system("open " + folder)
+# import sys
+# query = sys.argv[1]
+# print(query)
 
 # # import pymysql
 # # pymysql.install_as_MySQLdb()
