@@ -54,6 +54,15 @@ class DyPO:
 			"user-agent": Http_PO.getUserAgent()
 		}
 
+		if 'https://v.douyin.com/' in url:
+			url = url.split('https://v.douyin.com/')[1].split('复制此链接')[0]
+			url = 'https://v.douyin.com/' + url
+			# print(url)
+		if 'https://www.douyin.com/' in url:
+			url = url.split('https://www.douyin.com/')[1].split('复制此链接')[0]
+			url = 'https://www.douyin.com/' + url
+			# print(url)
+
 		# 解析 https://v.douyin.com/hbjqhuT 成 https://www.douyin.com/video/7157633339661307168
 		if 'https://v.douyin.com/' in url or 'https://www.douyin.com/' in url:
 			r = Http_PO.getHtml(url)
@@ -104,10 +113,12 @@ class DyPO:
 			r = Http_PO.getHtml(downUrl)
 			# open(f'{folder}/{title}.mp4', 'wb').write(r.content)
 			open(folder + '/' + title + '.mp4', 'wb').write(r.content)
-			print('[已完成] => ' + str(folder) + "/" + str(title) + ".mp4")
+			print('[已完成] => \n' + str(folder) + "/" + str(title) + ".mp4")
+
+			return folder
 
 
-			# # 输出结果['目录'，'标题','下载地址']
+	# # 输出结果['目录'，'标题','下载地址']
 			# l_result = []
 			# l_result.append(f)
 			# # l_result.append((str(title).encode("utf-8").decode("utf-8")))
