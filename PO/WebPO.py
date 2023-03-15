@@ -121,9 +121,9 @@ class WebPO(BasePO):
             option.add_argument(
                 "--disable-blink-features=AutomationControlled"
             )  # 禁止浏览器出现验证滑块
-            option.add_argument(
-                r"--user-data-dir=c:\selenium_user_data"
-            )  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
+            # option.add_argument(
+            #     r"--user-data-dir=c:\selenium_user_data"
+            # )  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
             # option.add_argument('--incognito')  # 无痕隐身模式
             # option.add_argument('disable-infobars')  # 不显示 Chrome正在受到自动软件的控制的提示（已废弃，替代者excludeSwitches）
             # option.add_argument("disable-cache")  # 禁用缓存

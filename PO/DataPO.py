@@ -890,3 +890,4 @@ if __name__ == "__main__":
     #
     # print("3.3，获取文档里单词数量".center(100, "-"))
     # print(Data_PO.getWordQty(r"D:\51\python\project\instance\zyjk\BI\web\log\bi_20200430.log", "INFO"))
+

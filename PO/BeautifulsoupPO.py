@@ -40,9 +40,9 @@ class BeautifulsoupPO:
 
     def __init__(self, url):
 
-        html = Http_PO.getText(url)
-        self.soup = BeautifulSoup(html, "html.parser")
-        # self.soup = BeautifulSoup(html, 'lxml')
+        html = Http_PO.getHtml(url)
+        # self.soup = BeautifulSoup(html.text, "html.parser")
+        self.soup = BeautifulSoup(html, 'lxml')
 
     # print(soup.span.string)
 
@@ -81,7 +81,8 @@ if __name__ == "__main__":
 
 
 
-    Beautifulsoup_PO = BeautifulsoupPO("https://wall.alphacoders.com/by_resolution.php?w=3840&h=2160&lang=Chinese&page=3")
+    Beautifulsoup_PO = BeautifulsoupPO(open("y.html", encoding='utf-8'))
+    # Beautifulsoup_PO = BeautifulsoupPO("https://wall.alphacoders.com/by_resolution.php?w=3840&h=2160&lang=Chinese&page=3")
     print(Beautifulsoup_PO.soup.find_all('a'))
     # for link in Beautifulsoup_PO.soup.find_all('a'):
     #     print(link.get('href'))
