@@ -188,6 +188,28 @@ class HttpPO:
         # r.content 返回响应的内容(字节为单位)  # r.content.decode("utf8", "ignore")
         # r.json 返回响应的内容(字典格式)
         return r
+    def postHtmlByParam(self, varUrl, headers={}, params=None):
+
+        '''2.2 获取内容带参数'''
+
+        headers['User-Agent'] = self.getUserAgent()
+        headers['Content-Type'] = 'application/json'
+        print(headers)
+        r = requests.post(url=varUrl, headers=headers, params=params, proxies=self.getProxies())
+        # r = requests.get(url=arUrl, headers=headers, params=params, proxies=self.getProxies(), timeout=30)
+
+        # 如果返回的状态码不是200，则报错返回一个 HTTPError 对象，如403
+        r.raise_for_status()
+
+        # 设置内容编码，将文件第一行 # -*- coding: utf-8 -*- 即 返回内容转换成utf-8编码
+        r.encoding = r.apparent_encoding
+
+        headers['User-Agent'] = ''
+
+        # r.text 返回响应的内容(unicode 类型数据)
+        # r.content 返回响应的内容(字节为单位)  # r.content.decode("utf8", "ignore")
+        # r.json 返回响应的内容(字典格式)
+        return r
 
 
     def getCode(self, varUrl):

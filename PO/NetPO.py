@@ -287,7 +287,7 @@ class NetPO:
     def downImage(self, varUrlImage, varFilePath="./"):
         # 下载图片，将网上图片保存到本地。
         # Net_PO.downloadPIC("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg","john.jpg")
-        try:
+
             if varFilePath == "./":
                 varPath, varFile = os.path.split(varUrlImage)
                 sess = requests.Session()
@@ -323,18 +323,7 @@ class NetPO:
                     image = sess.get(varUrlImage, headers=headers).content
                     with open(varPath + "/" + varFile, "wb") as f:
                         f.write(image)
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
 
     # 2.4，异步多线程下载多张图
     def downImageAsync(self, varPathList, varFilePath="./"):
@@ -373,7 +362,7 @@ if __name__ == "__main__":
 
     Net_PO = NetPO()
 
-    print("1.1 发邮件之文本正文".center(100, "-"))
+    # print("1.1 发邮件之文本正文".center(100, "-"))
     # Net_PO.sendEmail("测试组", [ 'h.jin@zy-healthtech.com'], ['skducn@163.com'],
     #                  "发邮件之文本正文", "plain", "你好", "\n\n附件是本次自动化接口测试结果，请查阅。",
     #                  "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
@@ -437,28 +426,28 @@ if __name__ == "__main__":
     # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
     #           "发送邮件html正文(html文件)", "htmlFile", varHead, "./data/report.html", varFoot,
     #           )
-
-    print("1.4 发邮件之excel正文".center(100, "-"))
-    varHead = "<h3>您好！</h3>"
-    varFoot = """<br>
-       <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
-       <h3>智赢测试组</h3>
-       <h3>Best Regards</h3>
-       """
-    Net_PO.sendEmail(
-        "测试组",
-        ["h.jin@zy-healthtech.com"],
-        None,
-        "发邮件之excel正文",
-        "excel",
-        varHead,
-        "./data/demo.xlsx",
-        varFoot,
-        r"./data/demo.xlsx",
-    )
+    #
+    # print("1.4 发邮件之excel正文".center(100, "-"))
+    # varHead = "<h3>您好！</h3>"
+    # varFoot = """<br>
+    #    <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
+    #    <h3>智赢测试组</h3>
+    #    <h3>Best Regards</h3>
+    #    """
+    # Net_PO.sendEmail(
+    #     "测试组",
+    #     ["h.jin@zy-healthtech.com"],
+    #     None,
+    #     "发邮件之excel正文",
+    #     "excel",
+    #     varHead,
+    #     "./data/demo.xlsx",
+    #     varFoot,
+    #     r"./data/demo.xlsx",
+    # )
 
     # print("2.1，下载程序".center(100, "-"))
-    # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe")  # 默认将文件保存在当前路径，文件存在则不覆盖。
+    # Net_PO.downApp("",'/Users/linghuchong/Downloads/eMule/pornhub/temp/' )  # 默认将文件保存在当前路径，文件存在则不覆盖。
     # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe", "d:/1/2/3")  # 下载文件到指定目录，目录自动生成。
     # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe", "/1/2/3")  # 同上，/1/2/3 默认定位当前程序盘符，如 d:/1/2/3
 

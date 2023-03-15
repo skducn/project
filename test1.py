@@ -10,29 +10,66 @@
 # ***************************************************************u**
 from decimal import Decimal
 
+import hashlib
+import execjs
+
+
+def getMd5(varText):
+    """2.4.1，生成MD5加密值"""
+    # 分析：加密输出是16进制的md5值，这里传入的字符串前加个b将其转为二进制，或者声明为utf-8, 否则回报错误TypeError: Unicode-objects must be encoded before hashing
+
+    m = hashlib.md5(
+        varText.encode(encoding="utf-8")
+    )  # 等同于 m = hashlib.md5(b'123456')
+    return m.hexdigest()
+
+print(getMd5("https://cn.pornhub.com/view_video.php?viewkey=640c1194860f9"))  # e10adc3949ba59abbe56e057f20f883e
+
+
+
+# md = "3888ab363c8d6425133f2f83b685e39a".hashvalue
+# print(md)
+#
+#
+# def get_js():
+#     # f = open("D:/WorkSpace/MyWorkSpace/jsdemo/js/des_rsa.js",'r',encoding='UTF-8')
+#     f = open("./helpers.js", 'r', encoding='UTF-8')
+#     line = f.readline()
+#     htmlstr = ''
+#     while line:
+#         htmlstr = htmlstr + line
+#         line = f.readline()
+#     return htmlstr
+# jsstr = get_js()
+# ctx = execjs.compile(jsstr)
+# print(ctx.call('640c1194860f9'))
+
+# from md5util import Md5Util
+# print(Md5Util("640c1194860f9"))
+
 # dingding机器人
 # url = "https://oapi.dingtalk.com/robot/send?access_token=0708efc5088d851887a18f31a2effc31a9f1d2ba2340ab5643a5b53b3e88cb7d"
-url = "https://oapi.dingtalk.com/robot/send?access_token=528fb490067de67a0bce13c344504aeacd45d268150d86a57b949d75553a9d12"
-sign = "SEC31686f219dcb7356c3a4281f8fe4e7cc42bc40cb9f9fa63f7bca29665c06aa9e"
-
-json_text={
-    "at": {
-        "atMobiles":[
-            "180xxxxxx"
-        ],
-        "atUserIds":[
-            "user123"
-        ],
-        "isAtAll": False
-    },
-    "text": {
-        "content":"测试机器人推送服务"
-    },
-    "msgtype":"text"
-}
-
-from jsonpath import jsonpath
-print(jsonpath(json_text, '$..text'))
+# url = "https://oapi.dingtalk.com/robot/send?access_token=528fb490067de67a0bce13c344504aeacd45d268150d86a57b949d75553a9d12"
+# sign = "SEC31686f219dcb7356c3a4281f8fe4e7cc42bc40cb9f9fa63f7bca29665c06aa9e"
+#
+# json_text={
+#     "at": {
+#         "atMobiles":[
+#             "180xxxxxx"
+#         ],
+#         "atUserIds":[
+#             "user123"
+#         ],
+#         "isAtAll": False
+#     },
+#     "text": {
+#         "content":"测试机器人推送服务"
+#     },
+#     "msgtype":"text"
+# }
+#
+# from jsonpath import jsonpath
+# print(jsonpath(json_text, '$..text'))
 
 # import requests, json, sys
 # m = requests.post(url, json.dumps(json_text), headers={"Content-Type": "application/json"}).content
