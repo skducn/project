@@ -10,8 +10,8 @@
 # Python解码JS的encodeURIComponent并转化JSON https://blog.csdn.net/jeff06143132/article/details/124919764
 # 使用方法：
 # cd /Users/linghuchong/miniconda3/envs/py310/bin
-# python /Users/linghuchong/Downloads/51/Python/project/instance/crawler/pornhub/cmd.py "helloelly" 'https://cn.pornhub.com/view_video.php?viewkey=ph63bddd2130'
-# ph helloelly https://cn.pornhub.com/view_video.php?viewkey=ph63bddd2130
+# python /Users/linghuchong/Downloads/51/Python/project/instance/crawler/pornhub/cmd.py 'https://cn.pornhub.com/view_video.php?viewkey=ph63bddd2130'
+# ph https://cn.pornhub.com/view_video.php?viewkey=ph63bddd2130
 #***************************************************************
 
 from PornhubPO import *
@@ -20,7 +20,4 @@ Pornhub_PO = PornhubPO()
 import sys
 query1 = sys.argv[1]
 query2 = sys.argv[2]
-# print(query)
-# query = "https://cn.pornhub.com/view_video.php?viewkey=ph63bddd2130"
-
-Pornhub_PO.runS(query1, query2)
+Pornhub_PO.downloadCmd(query1, query2)
