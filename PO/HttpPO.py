@@ -77,7 +77,7 @@ class HttpPO:
         return: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'}'''
 
         # 如报错 fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fake-useragent
-        # ua = UserAgent(use_cache_server=False)  # 禁用服务器缓存
+        ua = UserAgent(use_cache_server=False)  # 禁用服务器缓存
         # ua = UserAgent(cache=False)  # 不缓存数据
         # ua = UserAgent(verify_ssl=False)  # 忽略ssl验证
         # print(ua.chrome)
@@ -89,7 +89,7 @@ class HttpPO:
         try:
             userAgent = str(UserAgent().random)
         except:
-            os.system("pip3.9 install -U fake-useragent")
+            os.system("pip install -U fake-useragent")
             userAgent = str(UserAgent().random)
         # return {"User-Agent": userAgent}
         return str(userAgent)
@@ -248,7 +248,7 @@ if __name__ == "__main__":
     Http_PO = HttpPO()
 
     # # print("1.1 获取UserAgent".center(100, "-"))
-    # print(Http_PO.getUserAgent())  # Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; es-es) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27
+    print(Http_PO.getUserAgent())  # Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; es-es) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27
     #
     # # print("1.2 获取proxies代理".center(100, "-"))
     # print(Http_PO.getProxies())  # {'HTTP': 'HTTP://121.13.252.62:41564'}

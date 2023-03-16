@@ -185,10 +185,9 @@ class StrPO:
     def delSpecialChar(self, varStr, *sc):
 
         """3 删除特殊字符"""
-        # 对文件和文件夹命名是不能使用以下9个字符： /  \: *" < > | ？
+        # 文件名不包含以下任何字符：”（双引号）、 * （星号）、 < （小于）、 > （大于）、?（问号）、\（反斜杠）、 | （竖线）、 / (正斜杠)、: (冒号)。
 
-        for i in range(len(sc)):
-            varStr = str(varStr).replace(sc[i], "")
+        varStr = str(varStr).replace('"', "").replace('*', "").replace('<', "").replace('>', "").replace('?', "").replace('\\', "").replace('/', "").replace('|', "").replace(':', "")
         return varStr
 
     def roundInt(self, float):
@@ -441,7 +440,7 @@ if __name__ == "__main__":
     # print(Str_PO.isComplex("123Abc"))  # False
 
     # print("3，删除特殊字符".center(100, "-"))
-    # print(Str_PO.delSpecialChar('#创作灵感/ 只需三\招，就能:让你*成为一<个狠>人！#|人生?感悟 #智慧人生 #为人处世', "/", "\\", "?"))
+    print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
     # # #创作灵感 只需三招，就能:让你*成为一<个狠>人！#|人生感悟 #智慧人生 #为人处世
 
     # print("4，字符串列表大写转小写".center(100, "-"))
