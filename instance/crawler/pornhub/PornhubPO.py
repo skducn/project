@@ -75,6 +75,8 @@ class PornhubPO:
 		# varFolderUrl 用于脚本
 		# varPhFolderUrl  用于 alfrd
 
+		File_PO.delFile(os.getcwd() + "/" + varFolderUrl)
+
 		if os.path.isfile(varPhFolderUrl) == "False":
 			File_PO.newFile(os.getcwd(), varPhFolderUrl)
 		if os.path.isfile(varFolderUrl) == "False":
@@ -85,12 +87,14 @@ class PornhubPO:
 		title = (soup.title.string)
 		varFolder = title.split('的')[0]
 
+		varPage = soup.find("link", {'rel': 'canonical'}).attrs['href']
+		# print(varPage)
+
 		total = len(soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a'))
 
 		with open(varPhFolderUrl, "w") as f:
-			f.write(varFolder + "(" + str(int(total/2)) + ")\n")
-		with open(varFolderUrl, "w") as f:
-			f.write(" ")
+			f.write(varPage + "(" + str(int(total/2)) + ")\n")
+
 		for i in range(1, total, 2):
 			vUrl = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].attrs['href'])
 			# vName = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].text).strip()
@@ -100,12 +104,6 @@ class PornhubPO:
 				f.write(varFolder + "," + vUrl + "\n")
 		with open(varPhFolderUrl, "a") as f:
 			f.write("-" * len("ph " + varFolder + " " + vUrl) + "\n")
-
-
-
-
-
-
 
 
 
@@ -224,7 +222,9 @@ class PornhubPO:
 				# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
 				varSize = str(content_size) + " = " + str(M) + "MB"
 				data_count = 0  # 当前已传输的大小
-				print("Collecting '" + fileName + "' (" + str(int(M)) + " MB" + ")")
+				print("Collecting => '" + fileName + "' (" + str(int(M)) + " MB" + ")")
+				print(vUrl)
+				viewKey = vUrl.split("viewkey=")[1]
 				# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
 				with open(varPathFileName, "wb") as file:
 					for data in response.iter_content(chunk_size=chunk_size):
@@ -232,8 +232,7 @@ class PornhubPO:
 						done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
 						data_count = data_count + len(data)  # 实时进度条进度
 						now_jd = (data_count / content_size) * 100  # %% 表示%
-						print("\r Downloading [%s%s] %d%% %s/%s" % (done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
-
+						print("\r %s [%s%s] %d%% %s/%s" % (viewKey, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
 				with open(varPath + varFolder + "/000.txt", "a") as f:
 					f.write(str(fileName) + "/" + str(content_size) + "\n")
 				print("\n")
