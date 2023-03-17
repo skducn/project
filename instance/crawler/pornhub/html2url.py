@@ -2,14 +2,11 @@
 #***************************************************************
 # Author     : John
 # Created on : 2021-12-27
-# Description: pornhub
-# ph HelloElly https://cn.pornhub.com/view_video.php?viewkey=ph63c016e42d06c
+# Description: pornhub 获取html页面中的视频链接，并保存到 2videoUrl
 #***************************************************************
 
 from PornhubPO import *
 Pornhub_PO = PornhubPO()
+Pornhub_PO.html2url("1html", '2phFolderUrl', '2folderUrl')
 
-import sys
-query1 = sys.argv[1]
-query2 = sys.argv[2]
-Pornhub_PO.downloadOne(query1, query2)
+os.system("open 2phFolderUrl")

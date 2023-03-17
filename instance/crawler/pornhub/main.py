@@ -10,12 +10,8 @@
 from PornhubPO import *
 Pornhub_PO = PornhubPO()
 
-# 初始化更新文件列表
+# 1，初始化更新文件列表
 # Pornhub_PO.setFileList('000.txt')
-
-#用于文件的结尾拼接
-
-# 1，将mht转换成html
 
 # 2，获取html页面中的视频链接，并保存到 2videoUrl
 # Pornhub_PO.html2url("1html", '2phFolderUrl', '2folderUrl')
