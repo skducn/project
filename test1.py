@@ -10,22 +10,24 @@
 # ***************************************************************u**
 from decimal import Decimal
 
-import hashlib
-import execjs
+# import hashlib
+# import execjs
+#
+#
+# def getMd5(varText):
+#     """2.4.1，生成MD5加密值"""
+#     # 分析：加密输出是16进制的md5值，这里传入的字符串前加个b将其转为二进制，或者声明为utf-8, 否则回报错误TypeError: Unicode-objects must be encoded before hashing
+#
+#     m = hashlib.md5(
+#         varText.encode(encoding="utf-8")
+#     )  # 等同于 m = hashlib.md5(b'123456')
+#     return m.hexdigest()
+#
+# print(getMd5("https://cn.pornhub.com/view_video.php?viewkey=640c1194860f9"))  # e10adc3949ba59abbe56e057f20f883e
 
-
-def getMd5(varText):
-    """2.4.1，生成MD5加密值"""
-    # 分析：加密输出是16进制的md5值，这里传入的字符串前加个b将其转为二进制，或者声明为utf-8, 否则回报错误TypeError: Unicode-objects must be encoded before hashing
-
-    m = hashlib.md5(
-        varText.encode(encoding="utf-8")
-    )  # 等同于 m = hashlib.md5(b'123456')
-    return m.hexdigest()
-
-print(getMd5("https://cn.pornhub.com/view_video.php?viewkey=640c1194860f9"))  # e10adc3949ba59abbe56e057f20f883e
-
-
+print("*" * 100)
+print("* [ignore] => " )
+print("*" * 0 )
 
 # md = "3888ab363c8d6425133f2f83b685e39a".hashvalue
 # print(md)

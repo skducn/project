@@ -20,4 +20,4 @@ Pornhub_PO = PornhubPO()
 import sys
 query1 = sys.argv[1]
 query2 = sys.argv[2]
-Pornhub_PO.downloadOne(query1, query2)
+Pornhub_PO.downloadOneOver(query1, query2)
