@@ -33,23 +33,88 @@ requests.packages.urllib3.disable_warnings()
 
 class PornhubPO:
 
-	def checkLink(self, varHtml, varFolder):
+	def setFileList(self, varListFile):
 
-		# 1, # 检查网页mhtml视频链接
-		l_vedioUrl = []
-		sum = 0
+		# 初始化设置文件清单
+
+		varPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
+
+		l_varPathFolder = (File_PO.getListDir(varPath))
+		for varFolder in l_varPathFolder:
+			varPathFolder = varPath + varFolder + "/"
+			if os.path.isdir(varPathFolder):
+				# print(varPathFolder)
+				l_varFile = []
+				l_varSize = []
+
+				if os.path.isfile(varPathFolder + varListFile):
+					...
+					# 1，获取待下载文件名和字节数与list文件比对，没有的文件则下载，下载后写入list
+					# 2，文件名一样，字节数不一样，提醒，且不下载
+
+				else:
+					# 新建文件（获取目录中文件名和字节数）
+					File_PO.newFile(varPathFolder, varListFile)
+					# 获取制定目录里的文件名
+					l_pathFile = (File_PO.getListFile(varPathFolder + "*.*"))
+					for varPathFile in l_pathFile:
+						varSize = (File_PO.getFileSize(varPathFile))  # 获取文件的大小
+						varFile = (os.path.split(varPathFile)[1])  # 截取文件名
+						l_varFile.append(varFile)
+						l_varSize.append(varSize)
+					d = dict(zip(l_varFile, l_varSize))  # 组成字典
+					# 对字典key进行升序
+					d2 = ({k: v for k, v in sorted(d.items(), key=lambda item: item[0])})
+					with open(varPathFolder + varListFile, "w") as f:
+						for k, v in d2.items():
+							f.write(str(k) + "/" + str(d[k]) + "\n")
+
+	def html2url(self, varHtml, varPhFolderUrl, varFolderUrl):
+
+		# 将html解析成URL
+		# varFolderUrl 用于脚本
+		# varPhFolderUrl  用于 alfrd
+
+		if os.path.isfile(varPhFolderUrl) == "False":
+			File_PO.newFile(os.getcwd(), varPhFolderUrl)
+		if os.path.isfile(varFolderUrl) == "False":
+			File_PO.newFile(os.getcwd(), varFolderUrl)
+
+		# 1，获取目录名
 		soup = BeautifulSoup(open(varHtml, encoding='utf-8'), features='lxml')
-		for i in range(1, len(soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')), 2):
+		title = (soup.title.string)
+		varFolder = title.split('的')[0]
+
+		total = len(soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a'))
+
+		with open(varPhFolderUrl, "w") as f:
+			f.write(varFolder + "(" + str(int(total/2)) + ")\n")
+		with open(varFolderUrl, "w") as f:
+			f.write(" ")
+		for i in range(1, total, 2):
 			vUrl = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].attrs['href'])
-			vName = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].text)
-			vName = vName.strip()
-			print(varFolder + "," + vName + "," + vUrl)
-			# sum = sum + 1
-			# print(sum, varFolder + "," + vUrl + "," + vName)
+			# vName = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].text).strip()
+			with open(varPhFolderUrl, "a") as f:
+				f.write("ph " + varFolder + " " + vUrl + "\n")
+			with open(varFolderUrl, "a") as f:
+				f.write(varFolder + "," + vUrl + "\n")
+		with open(varPhFolderUrl, "a") as f:
+			f.write("-" * len("ph " + varFolder + " " + vUrl) + "\n")
 
 
 
-	def downloadAlbum(self, varHtml, varFolder=None):
+
+
+
+
+
+
+	def downloadOne(self, varFolder, vUrl):
+
+		# 单个视频下载（存在则忽略）
+		# alfred用法，如：ph folder https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9
+		# python cmd.py folder https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9
+		# folder 如果为/表示 下载到 '/Users/linghuchong/Downloads/eMule/pornhub/'
 
 		varPath = '/Users/linghuchong/Downloads/eMule/pornhub/'
 		print((varFolder + "'s 视频").center(100, "-"))
@@ -58,249 +123,8 @@ class PornhubPO:
 		if os.path.isdir(varPath + varFolder) == False:
 			File_PO.newFolder(varPath + varFolder)
 
-		# 1, 获取页面中视频地址
-		l_vedioUrl = []
-		soup = BeautifulSoup(open(varHtml, encoding='utf-8'), features='lxml')
-		for i in range(1, len(soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')), 2):
-		# for i in range(1, 10, 2):
-			vUrl = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].attrs['href'])
-			l_vedioUrl.append(vUrl)
-			# print(vUrl)
-
-			# 2,MD5加密
-			m = hashlib.md5(vUrl.encode(encoding="utf-8"))  # 等同于 m = hashlib.md5(b'123456')
-			job_id = m.hexdigest()
-			# print(job_id)
-
-			# 3，解析视频地址1
-			param = {"type":"extractor",
-				 "job_id": job_id,
-				 "params":
-					 {"priority": "10000",
-					  "playlist": "false",
-					  "page_url": vUrl,
-					  "clientip": "103.125.165.103"}
-				 }
-
-			headers = {
-			"authority": "api.xxxsave.net",
-			"method": "POST",
-			"path": "/api/job",
-			"scheme": "https",
-			'accept': '*/*',
-			'accept-encoding': 'gzip, deflate, br',
-			'accept-language': 'zh-CN,zh;q=0.9',
-			# 'content-length': '213',
-			'content-type': 'application/json',
-			'dnt': '1',
-			'origin': 'https://xxxsave.net',
-			'referer': 'https://xxxsave.net/',
-			'sec-ch-ua-mobile': '?0',
-			'sec-ch-ua-platform': "macOS",
-			'sec-fetch-dest': 'empty',
-			'sec-fetch-mode': 'cors',
-			'sec-fetch-site': 'same-site',
-			'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-			}
-			session = requests.session()
-			try:
-				r = session.post("https://api.xxxsave.net/api/job", json=param, verify=False, headers=headers)
-			except:
-				r = session.post("https://api.xxxsave.net/api/job", json=param, verify=False, headers=headers)
-			# print(r.text)
-
-			sleep(2)
-
-			# 4，解析视频地址2
-
-			session1 = requests.session()
-			for x in range(10):
-				r = session1.get("https://api.xxxsave.net/api/check?type=extractor&job_id=" + str(job_id), verify=False)
-				sleep(2)
-				print(r.text)
-				d_json = {}
-				d_json = json.loads(r.text)
-				if d_json['data']['state'] == "completed":
-					break
-
-			# 5，获取title
-			fileName = d_json['data']['title'] + ".mp4"
-			fileName = Str_PO.delSpecialChar(fileName)
-
-			# 6，获取各分辨率的视频地址
-			format_id = jsonpath.jsonpath(d_json, '$.data.formats[*].format_id')
-			# print(format_id)  # ['240p', 'hls-547-0', 'hls-547-1', '480p', 'hls-1049-0', 'hls-1049-1', '720p', 'hls-1964-0', 'hls-1964-1', '1080p', 'hls-3560']
-			url = jsonpath.jsonpath(d_json, '$.data.formats[*].url')
-			# print(url)
-			d = dict(zip(format_id, url))
-			# print(d)
-
-			# 7, 下载视频，显示文件大小，下载进度条'''
-			varPathFileName = varPath + varFolder + "/" + fileName
-
-
-			# 判断文件是否存在
-			if os.path.isfile(varPathFileName):
-				print("[ignore] => " + fileName)
-			else:
-				# https://blog.csdn.net/weixin_38819889/article/details/124853178
-				with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
-					chunk_size = 1024  # 单次请求最大值
-					content_size = int(response.headers['content-length'])  # 文件总大小
-					M = content_size / 1024 / 1024
-					# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
-					varSize = str(content_size) + " = " + str(M) + "MB"
-					data_count = 0  # 当前已传输的大小
-					print("Collecting '" + fileName + "' (" + str(int(M)) + " MB" + ")")
-					# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
-					with open(varPathFileName, "wb") as file:
-						for data in response.iter_content(chunk_size=chunk_size):
-							file.write(data)
-							done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
-							data_count = data_count + len(data)  # 实时进度条进度
-							now_jd = (data_count / content_size) * 100  # %% 表示%
-							print("\r Downloading [%s%s] %d%% %s/%s" % (done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
-				print("\n")
-
-	def downloadTxt(self, varTxt):
-
-		# 1，读取文件
-		with open(varTxt, 'r') as f:
-			l_content = f.readlines()
-
-		varPath = '/Users/linghuchong/Downloads/eMule/pornhub/'
-
-		for vFolderUrl in l_content:
-			varFolder = vFolderUrl.split(",")[0]
-			vUrl = vFolderUrl.split(",")[2].replace("\n", "")
-			vName = vFolderUrl.split(",")[1]
-
-			fileName = vName + ".mp4"
-
-			varPathFileName = varPath + varFolder + "/" + fileName
-
-			# 判断文件是否存在
-			if os.path.isfile(varPathFileName):
-				print("[ignore] => " + fileName)
-			else:
-				print((varFolder + "'s 视频").center(100, "-"))
-
-				# 新建目录
-				if os.path.isdir(varPath + varFolder) == False:
-					File_PO.newFolder(varPath + varFolder)
-
-				# 2,MD5加密
-				m = hashlib.md5(vUrl.encode(encoding="utf-8"))  # 等同于 m = hashlib.md5(b'123456')
-				job_id = m.hexdigest()
-				# print(job_id)
-
-				# 3，解析视频地址1
-				param = {"type":"extractor",
-					 "job_id": job_id,
-					 "params":
-						 {"priority": "10000",
-						  "playlist": "false",
-						  "page_url": vUrl,
-						  "clientip": "103.125.165.103"}
-					 }
-
-				headers = {
-				"authority": "api.xxxsave.net",
-				"method": "POST",
-				"path": "/api/job",
-				"scheme": "https",
-				'accept': '*/*',
-				'accept-encoding': 'gzip, deflate, br',
-				'accept-language': 'zh-CN,zh;q=0.9',
-				# 'content-length': '213',
-				'content-type': 'application/json',
-				'dnt': '1',
-				'origin': 'https://xxxsave.net',
-				'referer': 'https://xxxsave.net/',
-				'sec-ch-ua-mobile': '?0',
-				'sec-ch-ua-platform': "macOS",
-				'sec-fetch-dest': 'empty',
-				'sec-fetch-mode': 'cors',
-				'sec-fetch-site': 'same-site',
-				# 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-				"user-agent": 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'
-				}
-				session = requests.session()
-				try:
-					r = session.post("https://api.xxxsave.net/api/job", json=param, verify=False, headers=headers)
-				except:
-					r = session.post("https://api.xxxsave.net/api/job", json=param, verify=False, headers=headers)
-				# print(r.text)
-
-				sleep(2)
-
-				# 4，解析视频地址2
-				for x in range(10):
-					r = session.get("https://api.xxxsave.net/api/check?type=extractor&job_id=" + str(job_id), verify=False)
-					sleep(2)
-					print(r.text)
-					d_json = {}
-					d_json = json.loads(r.text)
-					if d_json['data']['state'] == "completed":
-						break
-
-				# 5，获取title
-				fileName = d_json['data']['title'] + ".mp4"
-				fileName = Str_PO.delSpecialChar(fileName)
-
-				# 6，获取各分辨率的视频地址
-				format_id = jsonpath.jsonpath(d_json, '$.data.formats[*].format_id')
-				# print(format_id)  # ['240p', 'hls-547-0', 'hls-547-1', '480p', 'hls-1049-0', 'hls-1049-1', '720p', 'hls-1964-0', 'hls-1964-1', '1080p', 'hls-3560']
-				url = jsonpath.jsonpath(d_json, '$.data.formats[*].url')
-				# print(url)
-				d = dict(zip(format_id, url))
-				# print(d)
-
-				# # 7, 下载视频，显示文件大小，下载进度条'''
-				# varPathFileName = varPath + varFolder + "/" + fileName
-				#
-				# # 判断文件是否存在
-				# if os.path.isfile(varPathFileName):
-				# 	print("[ignore] => " + fileName)
-				# else:
-				# https://blog.csdn.net/weixin_38819889/article/details/124853178
-				with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
-					chunk_size = 1024  # 单次请求最大值
-					content_size = int(response.headers['content-length'])  # 文件总大小
-					M = content_size / 1024 / 1024
-					# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
-					varSize = str(content_size) + " = " + str(M) + "MB"
-					data_count = 0  # 当前已传输的大小
-					print("Collecting '" + fileName + "' (" + str(int(M)) + " MB" + ")")
-					# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
-					with open(varPathFileName, "wb") as file:
-						for data in response.iter_content(chunk_size=chunk_size):
-							file.write(data)
-							done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
-							data_count = data_count + len(data)  # 实时进度条进度
-							now_jd = (data_count / content_size) * 100  # %% 表示%
-							print("\r Downloading [%s%s] %d%% %s/%s" % (done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
-				print("\n")
-
-	def downloadOne(self, *vUrl):
-
-		# 将视频下载到制定目录。如：
-		# 默认路径：/Users/linghuchong/Downloads/eMule/pornhub/
-		# Pornhub_PO.downloadOne('https://cn.pornhub.com/view_video.php?viewkey=640b791ecc787', "cory-chase")  # 将视频下载到 /Users/linghuchong/Downloads/eMule/pornhub/cory-chase目录
-		# Pornhub_PO.downloadOne('https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9892')  # 将视频下载到默认路径
-
-		varPath = '/Users/linghuchong/Downloads/eMule/pornhub/'
-
-		# 1,新建目录
-		if len(vUrl) > 1:
-			print((vUrl[1] + "'s 视频").center(100, "-"))
-			if os.path.isdir(varPath + vUrl[1]) == False:
-				File_PO.newFolder(varPath + vUrl[1])
-		else:
-			print((vUrl[0] + "'s 视频").center(100, "-"))
-
 		# 2,MD5加密
-		m = hashlib.md5(vUrl[0].encode(encoding="utf-8"))  # 等同于 m = hashlib.md5(b'123456')
+		m = hashlib.md5(vUrl.encode(encoding="utf-8"))  # 等同于 m = hashlib.md5(b'123456')
 		job_id = m.hexdigest()
 		# print(job_id)
 
@@ -310,7 +134,7 @@ class PornhubPO:
 			 "params":
 				 {"priority": "10000",
 				  "playlist": "false",
-				  "page_url": vUrl[0],
+				  "page_url": vUrl,
 				  "clientip": "103.125.165.103"}
 			 }
 
@@ -320,6 +144,8 @@ class PornhubPO:
 		"path": "/api/job",
 		"scheme": "https",
 		'accept': '*/*',
+		# "Accept-Encoding": "identity",
+		# "Range": "bytes=0-1",
 		'accept-encoding': 'gzip, deflate, br',
 		'accept-language': 'zh-CN,zh;q=0.9',
 		# 'content-length': '213',
@@ -354,8 +180,12 @@ class PornhubPO:
 				break
 
 		# 5，获取title
-		fileName = d_json['data']['title'] + ".mp4"
-		fileName = Str_PO.delSpecialChar(fileName)
+		try:
+			fileName = d_json['data']['title'] + ".mp4"
+			fileName = Str_PO.delSpecialChar(fileName)
+		except:
+			print("errorrrrrrrrrr, 解析失败！")
+			sys.exit(0)
 
 		# 6，获取各分辨率的视频地址
 		format_id = jsonpath.jsonpath(d_json, '$.data.formats[*].format_id')
@@ -366,20 +196,30 @@ class PornhubPO:
 		# print(d)
 
 		# 7, 下载视频，显示文件大小，下载进度条'''
-		if len(vUrl) > 1:
-			varPathFileName = varPath + vUrl[1] + "/" + fileName
-		else:
-			varPathFileName = varPath + "/" + fileName
-			# print(varPathFileName)
+		varPathFileName = varPath + varFolder + "/" + fileName
 
-		# 判断文件是否存在
-		if os.path.isfile(varPathFileName):
-			print("[ignore] => " + fileName)
-		else:
-			# https://blog.csdn.net/weixin_38819889/article/details/124853178
-			with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
-				chunk_size = 1024  # 单次请求最大值
-				content_size = int(response.headers['content-length'])  # 文件总大小
+		# https://blog.csdn.net/weixin_38819889/article/details/124853178
+		with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
+			chunk_size = 1024  # 单次请求最大值
+			content_size = int(response.headers['content-length'])  # 文件总大小
+			# content_size = int(response.request.headers['content-length'])
+			# print(content_size)
+
+			var = ""
+
+			# 判断文件是否存在
+			var000 = fileName + "/" + str(content_size)  # Dragon Ball - Bulma - Lite Version.mp4/24071579
+			with open(varPath + varFolder + "/000.txt", "r") as f:
+				list1 = f.readlines()
+				for l in list1:
+					if var000 in l:
+						print("*" * len("* [Collecting] => " + vUrl))
+						print("* [Collecting] => " + vUrl)
+						print("* [ignore] => " + var000)
+						print("*" * len("* [Collecting] => " + vUrl))
+						var = "ignore"
+						break
+			if var != 'ignore':
 				M = content_size / 1024 / 1024
 				# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
 				varSize = str(content_size) + " = " + str(M) + "MB"
@@ -393,13 +233,17 @@ class PornhubPO:
 						data_count = data_count + len(data)  # 实时进度条进度
 						now_jd = (data_count / content_size) * 100  # %% 表示%
 						print("\r Downloading [%s%s] %d%% %s/%s" % (done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
-			print("\n")
 
-	def downloadCmd(self, varFolder, vUrl):
+				with open(varPath + varFolder + "/000.txt", "a") as f:
+					f.write(str(fileName) + "/" + str(content_size) + "\n")
+				print("\n")
 
-		# 如：ph folder https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9    或
-		# python cmd.py folder https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9
-		# 将视频下载到 '/Users/linghuchong/Downloads/eMule/pornhub/'
+	def downloadOneOver(self, varFolder, vUrl):
+
+		# 单个视频下载（强制下载）
+		# alfred用法，如：phover folder https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9
+		# python cmdOver.py folder https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9
+		# folder 如果为/表示 下载到 '/Users/linghuchong/Downloads/eMule/pornhub/'
 
 		varPath = '/Users/linghuchong/Downloads/eMule/pornhub/'
 		print((varFolder + "'s 视频").center(100, "-"))
@@ -463,8 +307,12 @@ class PornhubPO:
 				break
 
 		# 5，获取title
-		fileName = d_json['data']['title'] + ".mp4"
-		fileName = Str_PO.delSpecialChar(fileName)
+		try:
+			fileName = d_json['data']['title'] + ".mp4"
+			fileName = Str_PO.delSpecialChar(fileName)
+		except:
+			print("errorrrrrrrrrr, 解析失败！")
+			sys.exit(0)
 
 		# 6，获取各分辨率的视频地址
 		format_id = jsonpath.jsonpath(d_json, '$.data.formats[*].format_id')
@@ -477,28 +325,41 @@ class PornhubPO:
 		# 7, 下载视频，显示文件大小，下载进度条'''
 		varPathFileName = varPath + varFolder + "/" + fileName
 
-		# 判断文件是否存在
-		if os.path.isfile(varPathFileName):
-			print("[ignore] => " + fileName)
-		else:
-			# https://blog.csdn.net/weixin_38819889/article/details/124853178
-			with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
-				chunk_size = 1024  # 单次请求最大值
-				content_size = int(response.headers['content-length'])  # 文件总大小
-				M = content_size / 1024 / 1024
-				# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
-				varSize = str(content_size) + " = " + str(M) + "MB"
-				data_count = 0  # 当前已传输的大小
-				print("Collecting '" + fileName + "' (" + str(int(M)) + " MB" + ")")
-				# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
-				with open(varPathFileName, "wb") as file:
-					for data in response.iter_content(chunk_size=chunk_size):
-						file.write(data)
-						done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
-						data_count = data_count + len(data)  # 实时进度条进度
-						now_jd = (data_count / content_size) * 100  # %% 表示%
-						print("\r Downloading [%s%s] %d%% %s/%s" % (done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
-			print("\n")
+		# https://blog.csdn.net/weixin_38819889/article/details/124853178
+		with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
+			chunk_size = 1024  # 单次请求最大值
+			content_size = int(response.headers['content-length'])  # 文件总大小
+			M = content_size / 1024 / 1024
+			# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
+			varSize = str(content_size) + " = " + str(M) + "MB"
+			data_count = 0  # 当前已传输的大小
+			print("Collecting '" + fileName + "' (" + str(int(M)) + " MB" + ")")
+			# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
+			with open(varPathFileName, "wb") as file:
+				for data in response.iter_content(chunk_size=chunk_size):
+					file.write(data)
+					done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
+					data_count = data_count + len(data)  # 实时进度条进度
+					now_jd = (data_count / content_size) * 100  # %% 表示%
+					print("\r Downloading [%s%s] %d%% %s/%s" % (done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
+		with open(varPath + varFolder + "/000.txt", "a") as f:
+			f.write("-" * len(str(fileName) + "/" + str(content_size)) + "\n")
+			f.write(str(fileName) + "/" + str(content_size) + "\n")
+		print("\n")
+
+	def downloadMore(self, var2folderUrl):
+
+		with open(var2folderUrl, 'r') as f:
+			l_content = f.readlines()
+
+		for vFolderUrl in l_content:
+			varFolder = vFolderUrl.split(",")[0]
+			vUrl = vFolderUrl.split(",")[1].replace("\n", "")
+			# print(varFolder, vUrl)
+			self.downloadOne(varFolder, vUrl)
+
+
+
 
 
 if __name__ == '__main__':

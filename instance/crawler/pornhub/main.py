@@ -4,32 +4,38 @@
 # Created on : 2023-3-14
 # Description: pornhub 获取页面视频地址
 # 默认路径：/Users/linghuchong/Downloads/eMule/pornhub
+# platform.system() == "Darwin"
 #***************************************************************
 
 from PornhubPO import *
 Pornhub_PO = PornhubPO()
 
-# 检查网页mhtml视频链接
-# Pornhub_PO.checkLink("html.txt","Rtwlingo666")
-# Pornhub_PO.checkLink("./page/Rtwlingo666_1.mht")
+# 初始化更新文件列表
+# Pornhub_PO.setFileList('000.txt')
 
-if platform.system() == "Darwin":
-    ...
-    # 专辑页面下载
-    # Pornhub_PO.downloadAlbum("html.txt", "Rtwlingo666")  # 参数1是是html文件，参数2是目录名
-    # Pornhub_PO.downloadAlbum("yinyleon","")  # 参数2为空时默认路径 /Users/linghuchong/Downloads/eMule/pornhub
-    #
-    # 文本批量下载
-    # Pornhub_PO.downloadTxt('pornhub.txt')  # 参数1是是html文件，参数2是目录名
-    # file格式 ： 目录，视频连接，如：
-    # crystal-lust1，https://cn.pornhub.com/view_video.php?viewkey=ph5fbf2ae68c09
-    # crystal-lust，https://cn.pornhub.com/view_video.php?viewkey=ph5fbf2ae68c09
-    # crystal-lust3，https://cn.pornhub.com/view_video.php?viewkey=ph5fbf2ae68c09
+#用于文件的结尾拼接
+
+# 1，将mht转换成html
+
+# 2，获取html页面中的视频链接，并保存到 2videoUrl
+# Pornhub_PO.html2url("1html", '2phFolderUrl', '2folderUrl')
+
+# 3，下载
+# # 3.1.1 单个下载（存在则忽略）
+# Pornhub_PO.downloadOne("HelloElly", "https://cn.pornhub.com/view_video.php?viewkey=ph6301df6674703")
+# Pornhub_PO.downloadOne("/", "https://cn.pornhub.com/view_video.php?viewkey=ph633a3fbc372ee")  # 下载到当前 /Users/linghuchong/Downloads/eMule/pornhub
+# # 3.1.2 单个下载（强制下载）
+# Pornhub_PO.downloadOneOver("/", "https://cn.pornhub.com/view_video.php?viewkey=ph633a3fbc372ee")  # 下载到当前 /Users/linghuchong/Downloads/eMule/pornhub
+
+# 3.2 批量下载
+Pornhub_PO.downloadMore('2folderUrl')
 
 
-    # 单个下载
-    Pornhub_PO.downloadOne('https://cn.pornhub.com/view_video.php?viewkey=ph62e90ea0555ec', "Rtwlingo666")  # 参数2是目录名
-    # Pornhub_PO.downloadOne('https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9892')  # 参数2为空时默认路径 /Users/linghuchong/Downloads/eMule/pornhub
+
+
+
+
+
 
 
 
