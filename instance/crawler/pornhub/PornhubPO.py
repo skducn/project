@@ -172,23 +172,22 @@ class PornhubPO:
 
 		sleep(2)
 
-		# 4，解析视频地址2
-		for x in range(10):
-			r = session.get("https://api.xxxsave.net/api/check?type=extractor&job_id=" + str(job_id), verify=False)
-			sleep(2)
-			# print(r.text)
-			d_json = {}
-			d_json = json.loads(r.text)
-			if d_json['data']['state'] == "completed":
-				break
+		try:
+			# 4，解析视频地址2
+			for x in range(10):
+				r = session.get("https://api.xxxsave.net/api/check?type=extractor&job_id=" + str(job_id), verify=False)
+				sleep(2)
+				# print(r.text)
+				d_json = {}
+				d_json = json.loads(r.text)
+				if d_json['data']['state'] == "completed":
+					break
 
 		# 5，获取title
-		try:
 			fileName = d_json['data']['title'] + ".mp4"
 			fileName = Str_PO.delSpecialChar(fileName)
 		except:
-			# print("errorrrrrrrrrr, 解析失败！")
-			print("[errorrrrrrrrrr解析失败] => " + vUrl)
+			print("[errorrrrrrrrrr解析视频地址2] => " + vUrl)
 			return -1
 			# sys.exit(0)
 
@@ -205,7 +204,6 @@ class PornhubPO:
 
 		# https://blog.csdn.net/weixin_38819889/article/details/124853178
 		try :
-
 			with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
 				chunk_size = 1024  # 单次请求最大值
 				content_size = int(response.headers['content-length'])  # 文件总大小
@@ -242,7 +240,7 @@ class PornhubPO:
 						f.write(str(fileName) + "/" + str(content_size) + "\n")
 					print("\n")
 		except:
-			print("[errorrrrrrrrrr获取资源失败] => " + vUrl)
+			print("[errorrrrrrrrrr下载视频] => " + vUrl)
 			return -1
 		return 0
 
