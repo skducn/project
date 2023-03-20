@@ -188,7 +188,7 @@ class PornhubPO:
 			fileName = Str_PO.delSpecialChar(fileName)
 		except:
 			# print("errorrrrrrrrrr, 解析失败！")
-			print("[errorrrrrrrrrr] => " + vUrl)
+			print("[errorrrrrrrrrr解析失败] => " + vUrl)
 			return -1
 			# sys.exit(0)
 
@@ -242,7 +242,7 @@ class PornhubPO:
 						f.write(str(fileName) + "/" + str(content_size) + "\n")
 					print("\n")
 		except:
-			print("[errorrrrrrrrrr] => " + vUrl)
+			print("[errorrrrrrrrrr获取资源失败] => " + vUrl)
 			return -1
 		return 0
 
