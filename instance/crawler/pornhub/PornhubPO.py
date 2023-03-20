@@ -33,12 +33,12 @@ requests.packages.urllib3.disable_warnings()
 
 class PornhubPO:
 
-	def setFileList(self, varListFile):
+	def setFileList(self):
 
 		# 初始化设置文件清单
 
 		varPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
-
+		varListFile =  "000.txt"
 		l_varPathFolder = (File_PO.getListDir(varPath))
 		for varFolder in l_varPathFolder:
 			varPathFolder = varPath + varFolder + "/"
@@ -69,40 +69,45 @@ class PornhubPO:
 						for k, v in d2.items():
 							f.write(str(k) + "/" + str(d[k]) + "\n")
 
-	def html2url(self, varHtml, varPhFolderUrl, varFolderUrl):
+	def html2url(self, varHtml, varPh, varUrl):
 
 		# 将html解析成URL
-		# varFolderUrl 用于脚本
-		# varPhFolderUrl  用于 alfrd
+		# varUrl 用于脚本
+		# varPh  用于 alfrd
 
-		File_PO.delFile(os.getcwd() + "/" + varFolderUrl)
+		File_PO.delFile(os.getcwd() + "/" + varUrl)
 
-		if os.path.isfile(varPhFolderUrl) == "False":
-			File_PO.newFile(os.getcwd(), varPhFolderUrl)
-		if os.path.isfile(varFolderUrl) == "False":
-			File_PO.newFile(os.getcwd(), varFolderUrl)
+		if os.path.isfile(varPh) == "False":
+			File_PO.newFile(os.getcwd(), varPh)
+		if os.path.isfile(varUrl) == "False":
+			File_PO.newFile(os.getcwd(), varUrl)
 
 		# 1，获取目录名
 		soup = BeautifulSoup(open(varHtml, encoding='utf-8'), features='lxml')
 		title = (soup.title.string)
 		varFolder = title.split('的')[0]
 
+		# 新建目录
+		varPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
+		if os.path.isdir(varPath + varFolder) == False:
+			File_PO.newFolder(varPath + varFolder)
+
 		varPage = soup.find("link", {'rel': 'canonical'}).attrs['href']
 		# print(varPage)
 
 		total = len(soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a'))
 
-		with open(varPhFolderUrl, "w") as f:
+		with open(varPh, "w") as f:
 			f.write(varPage + "(" + str(int(total/2)) + ")\n")
 
 		for i in range(1, total, 2):
 			vUrl = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].attrs['href'])
 			# vName = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].text).strip()
-			with open(varPhFolderUrl, "a") as f:
+			with open(varPh, "a") as f:
 				f.write("ph " + varFolder + " " + vUrl + "\n")
-			with open(varFolderUrl, "a") as f:
-				f.write(varFolder + "," + vUrl + "\n")
-		with open(varPhFolderUrl, "a") as f:
+			with open(varUrl, "a") as f:
+				f.write(varFolder + "," + vUrl + ",[]" + "\n")
+		with open(varPh, "a") as f:
 			f.write("-" * len("ph " + varFolder + " " + vUrl) + "\n")
 
 
@@ -115,7 +120,7 @@ class PornhubPO:
 		# folder 如果为/表示 下载到 '/Users/linghuchong/Downloads/eMule/pornhub/'
 
 		varPath = '/Users/linghuchong/Downloads/eMule/pornhub/'
-		print((varFolder + "'s 视频").center(100, "-"))
+		# print((varFolder + "'s 视频").center(100, "-"))
 
 		# 新建目录
 		if os.path.isdir(varPath + varFolder) == False:
@@ -182,8 +187,10 @@ class PornhubPO:
 			fileName = d_json['data']['title'] + ".mp4"
 			fileName = Str_PO.delSpecialChar(fileName)
 		except:
-			print("errorrrrrrrrrr, 解析失败！")
-			sys.exit(0)
+			# print("errorrrrrrrrrr, 解析失败！")
+			print("[errorrrrrrrrrr] => " + vUrl)
+			return -1
+			# sys.exit(0)
 
 		# 6，获取各分辨率的视频地址
 		format_id = jsonpath.jsonpath(d_json, '$.data.formats[*].format_id')
@@ -197,45 +204,47 @@ class PornhubPO:
 		varPathFileName = varPath + varFolder + "/" + fileName
 
 		# https://blog.csdn.net/weixin_38819889/article/details/124853178
-		with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
-			chunk_size = 1024  # 单次请求最大值
-			content_size = int(response.headers['content-length'])  # 文件总大小
-			# content_size = int(response.request.headers['content-length'])
-			# print(content_size)
+		try :
 
-			var = ""
+			with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
+				chunk_size = 1024  # 单次请求最大值
+				content_size = int(response.headers['content-length'])  # 文件总大小
+				# content_size = int(response.request.headers['content-length'])
+				# print(content_size)
 
-			# 判断文件是否存在
-			var000 = fileName + "/" + str(content_size)  # Dragon Ball - Bulma - Lite Version.mp4/24071579
-			with open(varPath + varFolder + "/000.txt", "r") as f:
-				list1 = f.readlines()
-				for l in list1:
-					if var000 in l:
-						print("*" * len("* [Collecting] => " + vUrl))
-						print("* [Collecting] => " + vUrl)
-						print("* [ignore] => " + var000)
-						print("*" * len("* [Collecting] => " + vUrl))
-						var = "ignore"
-						break
-			if var != 'ignore':
-				M = content_size / 1024 / 1024
-				# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
-				varSize = str(content_size) + " = " + str(M) + "MB"
-				data_count = 0  # 当前已传输的大小
-				print("Collecting => '" + fileName + "' (" + str(int(M)) + " MB" + ")")
-				print(vUrl)
-				viewKey = vUrl.split("viewkey=")[1]
-				# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
-				with open(varPathFileName, "wb") as file:
-					for data in response.iter_content(chunk_size=chunk_size):
-						file.write(data)
-						done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
-						data_count = data_count + len(data)  # 实时进度条进度
-						now_jd = (data_count / content_size) * 100  # %% 表示%
-						print("\r %s [%s%s] %d%% %s/%s" % (viewKey, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
-				with open(varPath + varFolder + "/000.txt", "a") as f:
-					f.write(str(fileName) + "/" + str(content_size) + "\n")
-				print("\n")
+				var = ""
+
+				# 判断文件是否存在
+				var000 = fileName + "/" + str(content_size)  # Dragon Ball - Bulma - Lite Version.mp4/24071579
+				with open(varPath + varFolder + "/000.txt", "r") as f:
+					list1 = f.readlines()
+					for l in list1:
+						if var000 in l:
+							print("*** [ignore] => " + var000 + " => " + vUrl + ", Pls see 000.txt")
+							var = "ignore"
+							break
+				if var != 'ignore':
+					M = content_size / 1024 / 1024
+					# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
+					varSize = str(content_size) + " = " + str(M) + "MB"
+					data_count = 0  # 当前已传输的大小
+					print(varFolder + " => " + vUrl + " (" + str(int(M)) + " MB" + ")")
+					viewKey = vUrl.split("viewkey=")[1]
+					# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
+					with open(varPathFileName, "wb") as file:
+						for data in response.iter_content(chunk_size=chunk_size):
+							file.write(data)
+							done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
+							data_count = data_count + len(data)  # 实时进度条进度
+							now_jd = (data_count / content_size) * 100  # %% 表示%
+							print("\r %s %s [%s%s] %d%% %s/%s" % (fileName, viewKey, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
+					with open(varPath + varFolder + "/000.txt", "a") as f:
+						f.write(str(fileName) + "/" + str(content_size) + "\n")
+					print("\n")
+		except:
+			print("[errorrrrrrrrrr] => " + vUrl)
+			return -1
+		return 0
 
 	def downloadOneOver(self, varFolder, vUrl):
 
@@ -346,22 +355,38 @@ class PornhubPO:
 			f.write(str(fileName) + "/" + str(content_size) + "\n")
 		print("\n")
 
-	def downloadMore(self, var2folderUrl):
+	def downloadMore(self, varUrlFile):
 
-		with open(var2folderUrl, 'r') as f:
+		with open(varUrlFile, 'r') as f:
 			l_content = f.readlines()
+		# f.close()
 
-		for vFolderUrl in l_content:
-			varFolder = vFolderUrl.split(",")[0]
-			vUrl = vFolderUrl.split(",")[1].replace("\n", "")
-			# print(varFolder, vUrl)
-			self.downloadOne(varFolder, vUrl)
+		for ele in l_content:
+			varFolder = ele.split(",")[0]
+			vUrl = ele.split(",")[1]
+			vStatus = ele.split(",")[2].replace("\n", "")
+			# print(vStatus)
+
+			if vStatus == "[]":
+				varResult = self.downloadOne(varFolder, vUrl)
+				if varResult == 0:
+					for l in range(len(l_content)):
+						if varFolder + "," + vUrl + ",[]" in l_content[l]:
+							l_content[l] = varFolder + "," + vUrl + ",[done]\n"
+							break
+							# print(l_content[l])
+					# print(l_content)
+					with open(varUrlFile, 'w') as f:
+						for i in l_content:
+							f.write(i)
+					f.close()
+			else:
+				print(ele)
 
 
 
 
 
 if __name__ == '__main__':
-
 	Pornhub_PO = PornhubPO()
 
