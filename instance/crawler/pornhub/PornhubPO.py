@@ -235,9 +235,9 @@ class PornhubPO:
 							done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
 							data_count = data_count + len(data)  # 实时进度条进度
 							now_jd = (data_count / content_size) * 100  # %% 表示%
-							print("\r %s %s [%s%s] %d%% %s/%s" % (fileName, viewKey, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
+							print("\r[%s] (%s) [%s%s] %d%% %s/%s" % (viewKey, fileName, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
 					with open(varPath + varFolder + "/000.txt", "a") as f:
-						f.write(str(fileName) + "/" + str(content_size) + "\n")
+						f.write(str(fileName) + "/" + str(content_size) + "/" + vUrl + "\n")
 					print("\n")
 		except:
 			print("[errorrrrrrrrrr下载视频] => " + vUrl)

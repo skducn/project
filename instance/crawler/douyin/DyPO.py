@@ -50,7 +50,9 @@ class DyPO:
 					  "tea_utm_cache_1300=undefined; __ac_nonce=061a6114700def9eb597f; __"
 					  "ac_signature=_02B4Z6wo00f01e59nzAAAIDAZTYE0lZHzxHuWZuAABo7n7oK78zhgb8Ol30kLigl-Pu9Q6sKyLpV-BQ3rbF1vLak-TtxN0ysQpQIX.VKlIbTkVBVA4rBt1JdylfNbrGz2NI4r4d7uQWMRa.r56; tt_scid=tbEntOkthFZL51883ve.2ORcwMNYlHUb6tegsnIzC9HSbV5u3J8ASl23x6S7wONy6e5e; "
 					 ,
-			"user-agent": Http_PO.getUserAgent()
+			# "user-agent": Http_PO.getUserAgent()
+			'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+
 		}
 
 		if 'https://v.douyin.com/' in url:
@@ -92,6 +94,8 @@ class DyPO:
 			title = jsonpath(d_json, '$[*].aweme.detail.desc')
 			title = title[0]
 			title = Str_PO.delSpecialChar(str(title), "，", "。", "#", "@")  # 优化文件名中不需要的字符
+			if len(title) > 254:
+				title = title[:250]
 			# print(title)
 
 			# 生成目录（# 用户名作为目录）

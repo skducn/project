@@ -60,7 +60,7 @@ import os, random, requests
 from time import sleep
 
 # from PO.BeautifulsoupPO import *
-from fake_useragent import UserAgent
+# from fake_useragent import UserAgent
 
 class HttpPO:
 
@@ -71,73 +71,73 @@ class HttpPO:
         # self.headers = {}
         # self.headers['User-Agent'] = getUserAgent
 
-    def getUserAgent(self):
+    # def getUserAgent(self):
+    #
+    #     ''' 1.1，获取User-Agent
+    #     return: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'}'''
+    #
+    #     # 如报错 fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fake-useragent
+    #     # ua = UserAgent(use_cache_server=False)  # 禁用服务器缓存
+    #     # ua = UserAgent(cache=False)  # 不缓存数据
+    #     # ua = UserAgent(verify_ssl=False)  # 忽略ssl验证
+    #     # print(ua.chrome)
+    #     # print(ua.browsers)
+    #     # print(ua.data_browsers['browsers']['chrome'][0])
+    #     # print(ua.data_browsers['browsers'])
+    #     # return (str(UserAgent(path='D:/51/python/project/PO/fake_useragent_0.1.11.json')))
+    #
+    #     try:
+    #         userAgent = str(UserAgent().random)
+    #     except:
+    #         os.system("pip install -U fake-useragent")
+    #         userAgent = str(UserAgent().random)
+    #     # return {"User-Agent": userAgent}
+    #     return str(userAgent)
 
-        ''' 1.1，获取User-Agent
-        return: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'}'''
-
-        # 如报错 fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fake-useragent
-        ua = UserAgent(use_cache_server=False)  # 禁用服务器缓存
-        # ua = UserAgent(cache=False)  # 不缓存数据
-        # ua = UserAgent(verify_ssl=False)  # 忽略ssl验证
-        # print(ua.chrome)
-        # print(ua.browsers)
-        # print(ua.data_browsers['browsers']['chrome'][0])
-        # print(ua.data_browsers['browsers'])
-        # return (str(UserAgent(path='D:/51/python/project/PO/fake_useragent_0.1.11.json')))
-
-        try:
-            userAgent = str(UserAgent().random)
-        except:
-            os.system("pip install -U fake-useragent")
-            userAgent = str(UserAgent().random)
-        # return {"User-Agent": userAgent}
-        return str(userAgent)
-
-    def getProxies(self):
-
-        ''' 1.2，获取代理IP
-        return: {'HTTP': 'HTTP://222.74.73.202:42055'}
-        '''
-
-        from bs4 import BeautifulSoup
-
-        baseURL = "https://www.kuaidaili.com/free"
-        # baseURL = "https://www.kuaidaili.com/free/inha/1/"
-
-        headers = {"User-Agent": str(UserAgent().random)}
-        html = requests.get(baseURL, headers=headers)
-        # html.encoding = 'gb2312'
-        # html.encoding = 'utf-8'
-        # html.encoding = 'gbk'
-        # bsop = BeautifulSoup(html.text.encode('gbk', 'ignore').decode('gbk'), 'html.parser')
-        bsop = BeautifulSoup(html.text, "html.parser")
-
-        # 获取 IP 列表
-        l_ips = bsop.findAll("td", {"data-title": "IP"})
-        l_ip = []
-        for l in l_ips:
-            l_ip.append(str(l).replace('<td data-title="IP">', "").replace("</td>", ""))
-
-        # 获取 PORT 列表
-        l_ports = bsop.findAll("td", {"data-title": "PORT"})
-        l_port = []
-        for l in l_ports:
-            l_port.append(str(l).replace('<td data-title="PORT">', "").replace("</td>", ""))
-
-        # 获取 类型 列表
-        l_types = bsop.findAll("td", {"data-title": "类型"})
-        l_type = []
-        for l in l_types:
-            l_type.append(str(l).replace('<td data-title="类型">', "").replace("</td>", ""))
-
-        l_ipPort = []
-        for i in range(len(l_ip)):
-            l_ipPort.append(l_type[i] + "://" + l_ip[i] + ":" + l_port[i])
-        sleep(1)
-        varIp = l_ipPort[random.randint(0, len(l_ipPort) - 1)]
-        proxies = {str(varIp).split("://")[0]: varIp}
-        return proxies
+    # def getProxies(self):
+    #
+    #     ''' 1.2，获取代理IP
+    #     return: {'HTTP': 'HTTP://222.74.73.202:42055'}
+    #     '''
+    #
+    #     from bs4 import BeautifulSoup
+    #
+    #     baseURL = "https://www.kuaidaili.com/free"
+    #     # baseURL = "https://www.kuaidaili.com/free/inha/1/"
+    #
+    #     headers = {"User-Agent": str(UserAgent().random)}
+    #     html = requests.get(baseURL, headers=headers)
+    #     # html.encoding = 'gb2312'
+    #     # html.encoding = 'utf-8'
+    #     # html.encoding = 'gbk'
+    #     # bsop = BeautifulSoup(html.text.encode('gbk', 'ignore').decode('gbk'), 'html.parser')
+    #     bsop = BeautifulSoup(html.text, "html.parser")
+    #
+    #     # 获取 IP 列表
+    #     l_ips = bsop.findAll("td", {"data-title": "IP"})
+    #     l_ip = []
+    #     for l in l_ips:
+    #         l_ip.append(str(l).replace('<td data-title="IP">', "").replace("</td>", ""))
+    #
+    #     # 获取 PORT 列表
+    #     l_ports = bsop.findAll("td", {"data-title": "PORT"})
+    #     l_port = []
+    #     for l in l_ports:
+    #         l_port.append(str(l).replace('<td data-title="PORT">', "").replace("</td>", ""))
+    #
+    #     # 获取 类型 列表
+    #     l_types = bsop.findAll("td", {"data-title": "类型"})
+    #     l_type = []
+    #     for l in l_types:
+    #         l_type.append(str(l).replace('<td data-title="类型">', "").replace("</td>", ""))
+    #
+    #     l_ipPort = []
+    #     for i in range(len(l_ip)):
+    #         l_ipPort.append(l_type[i] + "://" + l_ip[i] + ":" + l_port[i])
+    #     sleep(1)
+    #     varIp = l_ipPort[random.randint(0, len(l_ipPort) - 1)]
+    #     proxies = {str(varIp).split("://")[0]: varIp}
+    #     return proxies
 
 
     def getHtml(self, varUrl, headers={}):
@@ -150,8 +150,9 @@ class HttpPO:
         # headers['cookie'] = ''
         # print(headers)
         # print(self.getUserAgent())
-        headers['User-Agent'] = self.getUserAgent()
-        r = requests.get(varUrl, headers=headers, proxies=self.getProxies())
+        # headers['User-Agent'] = self.getUserAgent()
+        # r = requests.get(varUrl, headers=headers, proxies=self.getProxies())
+        r = requests.get(varUrl, headers=headers)
         # r = requests.get(varUrl, headers=headers, proxies=self.getProxies(), timeout=30)
 
         # 如果返回的状态码不是200，则报错返回一个 HTTPError 对象，如403
@@ -171,9 +172,10 @@ class HttpPO:
 
         '''2.2 获取内容带参数'''
 
-        headers['User-Agent'] = self.getUserAgent()
+        # headers['User-Agent'] = self.getUserAgent()
 
-        r = requests.get(url=varUrl, headers=headers, params=params, proxies=self.getProxies())
+        # r = requests.get(url=varUrl, headers=headers, params=params, proxies=self.getProxies())
+        r = requests.get(url=varUrl, headers=headers, params=params)
         # r = requests.get(url=arUrl, headers=headers, params=params, proxies=self.getProxies(), timeout=30)
 
         # 如果返回的状态码不是200，则报错返回一个 HTTPError 对象，如403
@@ -192,10 +194,11 @@ class HttpPO:
 
         '''2.2 获取内容带参数'''
 
-        headers['User-Agent'] = self.getUserAgent()
+        # headers['User-Agent'] = self.getUserAgent()
         headers['Content-Type'] = 'application/json'
         print(headers)
-        r = requests.post(url=varUrl, headers=headers, params=params, proxies=self.getProxies())
+        r = requests.post(url=varUrl, headers=headers, params=params)
+        # r = requests.post(url=varUrl, headers=headers, params=params, proxies=self.getProxies())
         # r = requests.get(url=arUrl, headers=headers, params=params, proxies=self.getProxies(), timeout=30)
 
         # 如果返回的状态码不是200，则报错返回一个 HTTPError 对象，如403
@@ -248,7 +251,7 @@ if __name__ == "__main__":
     Http_PO = HttpPO()
 
     # # print("1.1 获取UserAgent".center(100, "-"))
-    print(Http_PO.getUserAgent())  # Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; es-es) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27
+    # print(Http_PO.getUserAgent())  # Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; es-es) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27
     #
     # # print("1.2 获取proxies代理".center(100, "-"))
     # print(Http_PO.getProxies())  # {'HTTP': 'HTTP://121.13.252.62:41564'}
