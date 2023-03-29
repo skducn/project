@@ -10,11 +10,13 @@
 from PornhubPO import *
 Pornhub_PO = PornhubPO()
 
-# 1，获取html页面中的视频链接，并保存到 2videoUrl
-Pornhub_PO.html2url("html.txt", 'ph.txt', 'url.txt')
-# 2，初始化更新文件列表, 
-# Pornhub_PO.setFileList()
 
+
+# 2，获取html页面中的视频链接，并保存到 2videoUrl
+# Pornhub_PO.html2url("html.txt", 'ph.txt', 'url.txt')
+
+# 1，初始化更新文件列表, 
+# Pornhub_PO.setFileList()
 
 # 3，下载
 # # 3.1.1 单个下载（存在则忽略）

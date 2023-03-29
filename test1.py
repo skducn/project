@@ -8,7 +8,23 @@
 # 学习：https://www.cnblogs.com/wj5633/p/6931187.html
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
-from decimal import Decimal
+
+# 查看9222端口情况，lsof -i tcp:9222
+# 删除PID， kill -9 3333   //这里3333是9222的PID
+a = 'Ella聊美语/让我带你读你的第一本英文原著✅ \n（我的英文基础网课、自学指南电子书、一对一请看我首页） \n我初学英文的时候看的原著有\n1 Diary of a Wimpy Kid 词汇量范围 1000-3000\n它是一个青少年小说，而且有出同名电影，里面的用词和表达很日常也很俏皮，单词量范围也不会很大，highly recommend! \n2 Rich Dad Poor Dad (30'
+print(len(a))
+print(a[:5])
+# from DrissionPage.easy_set import set_paths
+# set_paths(browser_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+# # set_paths(browser_path='/Applications/Firefox.app/Contents/MacOS/firefox')
+#
+# from DrissionPage import ChromiumPage
+# page = ChromiumPage()
+# page2 = ChromiumPage()
+# page.get('https://www.baidu.com')
+# page2.get('https://www.jd.com')
+#
+# from decimal import Decimal
 
 # import hashlib
 # import execjs
@@ -25,9 +41,9 @@ from decimal import Decimal
 #
 # print(getMd5("https://cn.pornhub.com/view_video.php?viewkey=640c1194860f9"))  # e10adc3949ba59abbe56e057f20f883e
 
-print("*" * 100)
-print("* [ignore] => " )
-print("*" * 0 )
+# print("*" * 100)
+# print("* [ignore] => " )
+# print("*" * 0 )
 
 # md = "3888ab363c8d6425133f2f83b685e39a".hashvalue
 # print(md)
