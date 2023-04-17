@@ -110,6 +110,59 @@ class PornhubPO:
 		with open(varPh, "a") as f:
 			f.write("-" * len("ph " + varFolder + " " + vUrl) + "\n")
 
+	def brazzers2url(self, varHtml, varPh, varUrl):
+
+		# 将html解析成URL
+		# varUrl 用于脚本
+		# varPh  用于 alfrd
+
+		# 删除 url.txt
+		if os.path.isfile(os.getcwd() + "/" + varUrl):
+			File_PO.delFile(os.getcwd() + "/" + varUrl)
+
+		if os.path.isfile(varPh) == "False":
+			File_PO.newFile(os.getcwd(), varPh)
+		if os.path.isfile(varUrl) == "False":
+			File_PO.newFile(os.getcwd(), varUrl)
+
+		# 1，获取目录名
+		soup = BeautifulSoup(open(varHtml, encoding='utf-8'), features='lxml')
+		# title = (soup.title.string)
+		# print(title)
+		
+		varPage = soup.find("link", {'rel': 'canonical'}).attrs['href']
+		# print(varPage)
+		varPage2 = varPage.split('videos?page=')[1]
+		# print(varPage)
+		# sys.exit(0)
+		varFolder = 'Brazzers' + str(varPage2)
+		# sys.exit(0)
+
+		# 新建目录
+		varPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
+		if os.path.isdir(varPath + varFolder) == False:
+			File_PO.newFolder(varPath + varFolder)
+
+
+		# 首页
+		# total = len(soup.find("ul", {'id': 'moreData'}).find_all('a'))
+		# 第二页开始
+		total = len(soup.find("ul", {'id': 'showAllChanelVideos'}).find_all('a'))
+
+
+		with open(varPh, "w") as f:
+			f.write(varPage + "(" + str(int(total/2)) + ")\n")
+
+		for i in range(1, total, 2):
+			# vUrl = (soup.find("ul", {'id': 'moreData'}).find_all('a')[i].attrs['href'])
+			vUrl = (soup.find("ul", {'id': 'showAllChanelVideos'}).find_all('a')[i].attrs['href'])
+			# vName = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].text).strip()
+			with open(varPh, "a") as f:
+				f.write("ph " + varFolder + " " + vUrl + "\n")
+			with open(varUrl, "a") as f:
+				f.write(varFolder + "," + vUrl + ",[]" + "\n")
+		with open(varPh, "a") as f:
+			f.write("-" * len("ph " + varFolder + " " + vUrl) + "\n")
 
 
 	def downloadOne(self, varFolder, vUrl):
@@ -119,6 +172,7 @@ class PornhubPO:
 		# python cmd.py folder https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9
 		# folder 如果为/表示 下载到 '/Users/linghuchong/Downloads/eMule/pornhub/'
 
+		os.system("clear")
 		varPath = '/Users/linghuchong/Downloads/eMule/pornhub/'
 		# print((varFolder + "'s 视频").center(100, "-"))
 
@@ -187,7 +241,8 @@ class PornhubPO:
 			fileName = d_json['data']['title'] + ".mp4"
 			fileName = Str_PO.delSpecialChar(fileName)
 		except:
-			print("[errorrrrrrrrrr解析视频地址2] => " + vUrl)
+			viewKey = vUrl.split("viewkey=")[1]
+			print("***[errorrrrrrrrrr解析视频地址2] => [" + str(viewKey) + "]")
 			return -1
 			# sys.exit(0)
 
@@ -218,7 +273,8 @@ class PornhubPO:
 					list1 = f.readlines()
 					for l in list1:
 						if var000 in l:
-							print("*** [ignore] => " + var000 + " => " + vUrl + ", Pls see 000.txt")
+							viewKey = vUrl.split("viewkey=")[1]
+							print("*** [ignore] => [" + str(viewKey) + "] (" + fileName + ")")
 							var = "ignore"
 							break
 				if var != 'ignore':
@@ -226,7 +282,7 @@ class PornhubPO:
 					# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
 					varSize = str(content_size) + " = " + str(M) + "MB"
 					data_count = 0  # 当前已传输的大小
-					print(varFolder + " => " + vUrl + " (" + str(int(M)) + " MB" + ")")
+					# print(varFolder + " => " + vUrl + " (" + str(int(M)) + " MB" + ")")
 					viewKey = vUrl.split("viewkey=")[1]
 					# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
 					with open(varPathFileName, "wb") as file:
@@ -235,7 +291,9 @@ class PornhubPO:
 							done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
 							data_count = data_count + len(data)  # 实时进度条进度
 							now_jd = (data_count / content_size) * 100  # %% 表示%
-							print("\r[%s] (%s) [%s%s] %d%% %s/%s" % (viewKey, fileName, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
+							# print("\r[%s] (%s) [%s%s] %d%% %s/%s" % (viewKey, fileName, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
+							print("\r%d%%, %sMB, %s" % (now_jd, int(M),viewKey), end=" ")
+
 					with open(varPath + varFolder + "/000.txt", "a") as f:
 						f.write(str(fileName) + "/" + str(content_size) + "/" + vUrl + "\n")
 					print("\n")
