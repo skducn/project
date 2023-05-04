@@ -48,8 +48,8 @@ def get_stock_financial_analysis_indicator(stock_id):
 # stock_ggcg_em_df.to_csv('股东增持.csv', index=True)
 
 # 十大流通股东
-stock_gdfx_top_10_em_df = ak.stock_gdfx_top_10_em(symbol="sz002236", date="20230331")
-print(stock_gdfx_top_10_em_df)
+# stock_gdfx_top_10_em_df = ak.stock_gdfx_top_10_em(symbol="sz002236", date="20230331")
+# print(stock_gdfx_top_10_em_df)
 
 # 股东户数
 # stock_zh_a_gdhs_detail_em_df = ak.stock_zh_a_gdhs_detail_em(symbol="300795")
@@ -58,10 +58,10 @@ print(stock_gdfx_top_10_em_df)
 # 个股排行
 # choice of {"北向", "沪股通", "深股通"}
 # choice of {"今日排行", "3日排行", "5日排行", "10日排行", "月排行",
-# stock_em_hsgt_hold_stock_df = ak.stock_hsgt_hold_stock_em(market="北向", indicator="今日排行")
+stock_em_hsgt_hold_stock_df = ak.stock_hsgt_hold_stock_em(market="北向", indicator="今日排行")
 # stock_em_hsgt_hold_stock_df = ak.stock_hsgt_hold_stock_em(market="北向", indicator="5日排行")
-# print(stock_em_hsgt_hold_stock_df)
-# stock_em_hsgt_hold_stock_df.to_csv('5日个股排行.csv', index=True)
+print(stock_em_hsgt_hold_stock_df)
+stock_em_hsgt_hold_stock_df.to_csv('今日北向个股排行.csv', index=True)
 
 # 业绩报
 # stock_yjbb_em_df = ak.stock_yjbb_em(date="20230331")
