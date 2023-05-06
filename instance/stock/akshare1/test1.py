@@ -12,11 +12,12 @@ import pandas as pd
 import akshare as ak
 import os
 pd.set_option('display.width', None)
+
 stock_id = '300795'
 
 def get_stock_financial_analysis_indicator(stock_id):
     current_dir = os.getcwd()
-    file_name = '{}/{}.csv'.format(current_dir,stock_id)
+    file_name = '{}/{}.csv'.format(current_dir, stock_id)
 
     if not os.path.isfile(file_name):
         print('{}下载中...'.format(stock_id))
