@@ -354,6 +354,10 @@ class TimePO:
         # divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。
         m, s = divmod(varSec, 60)
         h, m = divmod(m, 60)
+
+        # h =  divmod(h, 60)
+        # print(h)
+
         return "%02d:%02d:%02d" % (h, m, s)
 
     def sec2hms2(self, varSec):
@@ -363,7 +367,7 @@ class TimePO:
         from time import strftime
         from time import gmtime
 
-        return strftime("%H:%M:%S", gmtime(170))  # 00:02:50
+        return strftime("%H:%M:%S", gmtime(120))  # 00:02:50
 
 
 if __name__ == "__main__":
@@ -375,11 +379,13 @@ if __name__ == "__main__":
     # print(Time_PO.getDateByDivide())  # 2020/03/19
     # print(Time_PO.getDateTime())  # 20200319151928
     # print(Time_PO.getDateTimeByDivide())  # 2020/03/19 15:19:28
+    print(time.strftime("%H:%M:%S"))  # 15:19:28
+
     #
     # print(Time_PO.getDateByMinus())  # 2022-11-29   //当前日期
     # print(Time_PO.getDateByMinusPeriod(2))  # 2022-12-01  //2天后
-    print(Time_PO.getDateByMinusPeriod(-3))  # 2022-11-26  //3天前
-    print(type(Time_PO.getDateByMinusPeriod(-3)))  # 2022-11-26  //3天前
+    # print(Time_PO.getDateByMinusPeriod(-3))  # 2022-11-26  //3天前
+    # print(type(Time_PO.getDateByMinusPeriod(-3)))  # 2022-11-26  //3天前
     # print(Time_PO.getDateTimeByPeriod(0))  # 2020-03-19 15:19:28   //当前时间
     # print(Time_PO.getDateTimeByPeriod(0.5))  # 2020-03-19 15:49:28  //比当前时间晚30分钟
     # print(Time_PO.getDateTimeByPeriod(-1))  # 2020-03-19 14:19:28   //比当前时间早1小时
@@ -387,6 +393,9 @@ if __name__ == "__main__":
     # print(Time_PO.getNowByPeriod(0.5))  # 2022-11-29 13:19:37.939408  //比当前时间晚30分钟
     # print(Time_PO.getNowByPeriod(-1))  # 2022-11-29 11:49:37.939408  //比当前时间早1小时
     #
+    # print(time.time())
+    # print(Time_PO.sec2hms2(1683352467))
+    # print(Time_PO.sec2hms1(time.time()))
     # print(Time_PO.getYear())  # 2020
     # print(Time_PO.getMonth())  # 03
     # print(Time_PO.getDay())  # 19

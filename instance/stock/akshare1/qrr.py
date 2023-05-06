@@ -11,58 +11,66 @@
 import pandas as pd
 import numpy as np
 import akshare as ak
-import os, sys, platform
-from time import strftime, localtime
-year = strftime("%Y", localtime())
-mon = strftime("%m", localtime())
-day = strftime("%d", localtime())
-getDate = year + mon + day
-
+import os, sys, platform, time
 pd.set_option('display.width', None)
 
+from time import strftime, localtime
+today = strftime("%Y", localtime()) + strftime("%m", localtime()) + strftime("%d", localtime())
+
+# '初始化数据'
+folder_name = '放量涨幅'
+file_name = today + '_' + folder_name + '.xlsx'
 # 量比qrr
-# qrr = sys.argv[1]
+qrr = sys.argv[1]
 # 涨跌幅chg
-# chg = sys.argv[2]
-qrr = 5
-chg = 3
+chg = sys.argv[2]
+# qrr = 5
+# chg = 8
 
 # 获取实时行情数据
-data = ak.stock_zh_a_spot_em()
-
-# 将实时行情数据保存到文件
-def get_stock_zh_a_spot_em(file_name):
-    if os.path.isfile(file_name):
-        data = pd.read_csv(file_name, encoding='gbk')
+def get_stock_zh_a_spot_em():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # current_dir = os.getcwd()
+    file_dir = '{}/{}'.format(current_dir, folder_name)
+    if not os.path.isdir(file_dir):
+        os.makedirs(file_dir)
+    file_dir_name = '{}/{}'.format(file_dir, file_name)
+    if os.path.isfile(file_dir_name):
+        data = pd.read_excel(file_dir_name, sheet_name='source')
     else:
         data = ak.stock_zh_a_spot_em()
-        data.to_csv(file_name, encoding='gbk', index=False)
-    return data
-data = get_stock_zh_a_spot_em(getDate + '_实时行情数据.csv')
+        data.to_excel(file_dir_name, 'source', index=False)
+        # data.to_excel(file_dir_name, 'source', encoding='gbk', index=False)
+        # 注意：如果excel文件名包含中文，需要参数 encoding='GBK'，否则追加时会报错 File is not a ZIP file！
+    return data, file_dir_name
 
+data, file_dir_name = get_stock_zh_a_spot_em()
 
-# 量比 > query1 的为是
+# 筛选条件
+# 量比 > ？
 data['是否放量'] = data['量比'].map(lambda x:'是' if x > int(qrr) else '否')
-# 涨跌幅 < query2 的为是
+# 涨跌幅 < ？
 data['是否上涨'] = data['涨跌幅'].map(lambda x:'是' if x < int(chg) and x > 0 else '否')
-# 市盈率-动态
+# 市盈率-动态 > 0
 data['市盈率-动态正数'] = data['市盈率-动态'].map(lambda x:'是' if x > 0 else '否')
-# 排除科创板
+# 去掉科创板
 data['是否科创'] = data['代码'].map(lambda x:'是' if int(x) > 680000 else '否')
 
 
-# 同时满足 量比 > query1 和 涨跌幅 < query2 股票存储到放量上涨股票清单.csv
+# 符合条件输出，换手率降序
 s_data = data.loc[(data['是否放量'] == '是') & (data['是否上涨'] == '是') & (data['市盈率-动态正数'] == '是') & (data['是否科创'] == '否'), :].copy()
 s_data = s_data[['代码', '名称', '最新价', '涨跌幅', '量比', '换手率', '市盈率-动态']]
 s_data.sort_values('换手率', inplace=True, ascending=False)
-
 # print(s_data.sorted('量比',))
 
-pathFile = os.getcwd() + '/' + getDate + '_量比大' + str(qrr) + '_涨跌幅小' + str(chg) + '.csv'
-s_data.to_csv(pathFile)
-#
+# 当前时分秒
+current_time = time.strftime("%H%M%S")
+with pd.ExcelWriter(file_dir_name, engine='openpyxl', mode='a') as writer:
+    s_data.to_excel(writer, sheet_name=current_time, index=False)
+
+# pathFile = os.getcwd() + '/' + getDate + '_量比大' + str(qrr) + '_涨跌幅小' + str(chg) + '.csv'
 if platform.system() == "Darwin":
-    os.system("open " + pathFile)
+    os.system("open " + file_dir_name)
 
 
 
