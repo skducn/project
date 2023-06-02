@@ -87,13 +87,20 @@ class PornhubPO:
 		title = (soup.title.string)
 		varFolder = title.split('的')[0]
 
+		
+
+		varPage = soup.find("link", {'rel': 'canonical'}).attrs['href']
+		print(varPage)
+		varF = varPage.split("https://cn.pornhub.com/model/")[1].split("/")[0]
+		varN = varPage.split("videos?page=")[1]
+		varFolder = varF + varN
+		# print(varF + varN)
+		# sys.exit(0)
+
 		# 新建目录
 		varPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
 		if os.path.isdir(varPath + varFolder) == False:
 			File_PO.newFolder(varPath + varFolder)
-
-		varPage = soup.find("link", {'rel': 'canonical'}).attrs['href']
-		# print(varPage)
 
 		total = len(soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a'))
 
