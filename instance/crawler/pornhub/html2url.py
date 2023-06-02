@@ -7,5 +7,9 @@
 
 from PornhubPO import *
 Pornhub_PO = PornhubPO()
+
 Pornhub_PO.html2url("html.txt", 'ph.txt', 'url.txt')
+
+Pornhub_PO.setFileList()
+
 os.system("open ph.txt")

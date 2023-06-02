@@ -31,16 +31,18 @@ file_dir_name = '{}/{}'.format(file_dir, file_name)
 # 4, 获取业绩报
 def main():
     data = ak.stock_yjbb_em(date="20230331")
-    # 过滤每股收益 < 0
-    data['是否每股收益'] = data['每股收益'].map(lambda x: '正' if x > 0 else '负')
-    # 过滤科创板、B股
-    data['是否科创'] = data['股票代码'].map(lambda x: '是' if int(x) > 620000 else '否')
-
-    # 符合条件输出，换手率降序
-    s_data = data.loc[(data['是否每股收益'] == '正') & (data['是否科创'] == '否'),:].copy()
-    s_data.sort_values(['最新公告日期', '每股净资产'], inplace=True, ascending=[False, False])
-    with pd.ExcelWriter(file_dir_name, engine='openpyxl', mode='w') as writer:
-        s_data.to_excel(writer, sheet_name='20230331业绩报', index=False)
+    print(data['股票简称'])
+    print(data['所处行业'])
+    # # 过滤每股收益 < 0
+    # data['是否每股收益'] = data['每股收益'].map(lambda x: '正' if x > 0 else '负')
+    # # 过滤科创板、B股
+    # data['是否科创'] = data['股票代码'].map(lambda x: '是' if int(x) > 620000 else '否')
+    #
+    # # 符合条件输出，换手率降序
+    # s_data = data.loc[(data['是否每股收益'] == '正') & (data['是否科创'] == '否'),:].copy()
+    # s_data.sort_values(['最新公告日期', '每股净资产'], inplace=True, ascending=[False, False])
+    # with pd.ExcelWriter(file_dir_name, engine='openpyxl', mode='w') as writer:
+    #     s_data.to_excel(writer, sheet_name='20230331业绩报', index=False)
 
 
 # 5,生成数据

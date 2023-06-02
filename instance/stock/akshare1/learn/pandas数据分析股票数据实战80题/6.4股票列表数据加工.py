@@ -10,12 +10,9 @@
 # *****************************************************************
 
 import pandas as pd
-
-print(pd.__version__)
 import numpy as np
 import akshare as ak
 import os,sys
-sys.exit(0)
 pd.set_option('display.width', None)
 import time, platform, sys
 
@@ -65,23 +62,7 @@ def my_func(x):
 data['行业调整流通股本占比'] = data.apply(lambda x:my_func(x), axis='columns')
 print(data)
 
-# loc函数，即location，标签定位
-# 将第一行数据竖向排列输出
-print(data.loc[0])
 
-# 将第一行数据中所属行业竖向排列输出
-print(data.loc[0, ['所属行业']])  # 所属行业    J 金融业
-print(type(data.loc[0]))  # <class 'pandas.core.series.Series'>
 
-# 将第一行数据转换成列表
-print(list(data.loc[0])) # ['主板', '000001', '平安银行', '1991-04-03', 19405918198.0, 19405534450.0, 'J 金融业', 0.9999802252077905, '主板J 金融业', 4519580162.0, 1.0]
-
-# iloc函数，即index-location,索引定位
-print(data.iloc[0:3,1:4])
-#      A股代码   A股简称      A股上市日期
-# 0  000001   平安银行  1991-04-03
-# 1  000002  万  科Ａ  1991-01-29
-# 2  000004   ST国华  1990-12-01
-
-# if platform.system() == "Darwin":
-#     os.system("open " + file_name)
+if platform.system() == "Darwin":
+    os.system("open " + file_name)

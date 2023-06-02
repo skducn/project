@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 # *****************************************************************
 # Author     : John
-# Date       : 2023-05-4
-# Description:  6.2 数据处理与分析之 股票资金流入流出分析
-# www.akshare.xyz
-# conda activate py310
-# pip install aksare
-# https://ke.qq.com/webcourse/index.html?r=1683165164078#cid=5835909&term_id=106048134&taid=13742039927164037&type=3072&source=PC_COURSE_DETAIL&vid=387702306340510660
+# Date       : 2023-05-9
+# Description:
+# https://www.akshare.xyz/data/stock/stock.html#id228
 # *****************************************************************
 
 import pandas as pd
@@ -19,7 +16,7 @@ today = strftime("%Y", localtime()) + strftime("%m", localtime()) + strftime("%d
 import time
 
 # 1，初始化数据
-folder_name = '3个股资金流'
+folder_name = '机构推荐池'
 file_name = today + '_' + folder_name + '.xlsx'
 
 # 2，生成目录结构
@@ -30,52 +27,50 @@ if not os.path.isdir(file_dir):
 file_dir_name = '{}/{}'.format(file_dir, file_name)
 
 
-# 3, 获取即时资金流入
-data = ak.stock_fund_flow_individual(symbol="即时")
-file_dir_name_jishi = '{}/{}'.format(file_dir, today + '_即时.xlsx')
+# 3, 机构推荐池
+# symbol="行业关注度"; choice of {'最新投资评级', '上调评级股票', '下调评级股票', '股票综合评级', '首次评级股票', '目标涨幅排名', '机构关注度', '行业关注度', '投资评级选股'}
 
-def formatData():
-    # print(list(data.loc[0:]))  # 标题
-    # print(list(data.loc[0]))   # 第一条数据
-    # sys.exit(0)
-    data['涨跌幅'] = data['涨跌幅'].astype(str)
-    data['涨跌幅'] = data['涨跌幅'].map(lambda x: x.replace('%', ''))
-    data['涨跌幅'] = data['涨跌幅'].astype(np.float64)
-
-    data['换手率'] = data['换手率'].astype(str)
-    data['换手率'] = data['换手率'].map(lambda x: x.replace('%', ''))
-    data['换手率'] = data['换手率'].astype(np.float64)
-
-    data['流入资金'] = data['流入资金'].map(lambda x: float(x.replace('亿', '')) * 10000 if '亿' in x else float(x.replace('万', '')))
-    data['流入资金'] = data['流入资金'].astype(np.float64)
-    data['流出资金'] = data['流出资金'].map(lambda x: float(x.replace('亿', '')) * 10000 if '亿' in x else float(x.replace('万', '')))
-    data['流出资金'] = data['流入资金'].astype(np.float64)
-    data['净额'] = data['净额'].map(lambda x: float(x.replace('亿', '')) * 10000 if '亿' in x else float(x.replace('万', '')))
-    data['净额'] = data['净额'].astype(np.float64)
-    return data
-data = formatData()
-data.sort_values('净额', inplace=True, ascending=False)
-
-# 4，按条件生成新列
-data['股票代码'] = data['股票代码'].astype(np.int64)
-data['股票代码1'] = data['股票代码'].map(lambda x: '是' if x < 680000 else '否')
-data['涨跌幅1'] = data['涨跌幅'].map(lambda x: '是' if x < 3 and x > 0 else '否')
-data['换手率1'] = data['换手率'].map(lambda x: '是' if x > 3 else '否')
-data['净额1'] = data['净额'].map(lambda x: '是' if x > 3000 else '否')
-# 5，符合条件输出
-data = data.loc[(data['涨跌幅1'] == '是') & (data['换手率1'] == '是') & (data['净额1'] == '是') & (data['股票代码1'] == '是'), ['股票代码', '股票简称', '最新价', '涨跌幅', '换手率', '净额']]
+data = ak.stock_institute_recommend_detail(symbol="301058")
+# data = ak.stock_institute_recommend(symbol="投资评级选股")
 print(data)
+with pd.ExcelWriter(file_dir_name, engine='openpyxl', mode='w') as writer:
+    data.to_excel(writer, sheet_name='301058', index=False)
 
-if os.path.isfile(file_dir_name_jishi):
-    with pd.ExcelWriter(file_dir_name_jishi, engine='openpyxl', mode='a') as writer:
-        data.to_excel(writer, sheet_name=time.strftime("%H%M"), index=False)
-else:
-    with pd.ExcelWriter(file_dir_name_jishi, engine='openpyxl', mode='w') as writer:
-        data.to_excel(writer, sheet_name=time.strftime("%H%M"), index=False)
+# def formatData():
+#     # print(list(data.loc[0:]))  # 标题
+#     # print(list(data.loc[0]))   # 第一条数据
+#     d_data = dict(zip(list(data.loc[0:]), list(data.loc[0])))
+#     for k, v in d_data.items():
+#         if '%' in str(v):
+#             data[k] = data[k].astype(str)
+#             data[k] = data[k].map(lambda x:x.replace('%', ''))
+#             data[k] = data[k].astype(np.float64)
+#         elif '亿' in str(v) or '万' in str(v):
+#             data[k] = data[k].map(lambda x:float(x.replace('亿', ''))*10000 if '亿' in x else float(x.replace('万', '')))
+#             data[k] = data[k].astype(np.float64)
+#     return data
+# data = formatData()
+# data.sort_values('净额', inplace=True, ascending=False)
+#
+# # 4，按条件生成新列
+# data['股票代码'] = data['股票代码'].astype(np.int64)
+# data['股票代码1'] = data['股票代码'].map(lambda x: '是' if x < 680000 else '否')
+# data['涨跌幅1'] = data['涨跌幅'].map(lambda x: '是' if x < 3 and x>0 else '否')
+# data['换手率1'] = data['换手率'].map(lambda x: '是' if x > 3 else '否')
+# data['净额1'] = data['净额'].map(lambda x: '是' if x > 3000 else '否')
+# # 5，符合条件输出
+# data = data.loc[(data['涨跌幅1'] == '是') & (data['换手率1'] == '是') & (data['净额1'] == '是') & (data['股票代码1'] == '是'), ['股票代码', '股票简称', '最新价', '涨跌幅', '换手率', '净额']]
+#
+# if os.path.isfile(file_dir_name_jishi):
+#     with pd.ExcelWriter(file_dir_name_jishi, engine='openpyxl', mode='a') as writer:
+#         data.to_excel(writer, sheet_name=time.strftime("%H%M"), index=False)
+# else:
+#     with pd.ExcelWriter(file_dir_name_jishi, engine='openpyxl', mode='w') as writer:
+#         data.to_excel(writer, sheet_name=time.strftime("%H%M"), index=False)
 
 # 4，打开文档
 if platform.system() == "Darwin":
-    os.system("open " + file_dir_name_jishi)
+    os.system("open " + file_dir_name)
 
 # data['x'] = data['x'].apply(lambda x: if x['流入资金'])
 
