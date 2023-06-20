@@ -92,7 +92,10 @@ class PornhubPO:
 		varPage = soup.find("link", {'rel': 'canonical'}).attrs['href']
 		print(varPage)
 		varF = varPage.split("https://cn.pornhub.com/model/")[1].split("/")[0]
-		varN = varPage.split("videos?page=")[1]
+		if 'page=' in varPage:
+			varN = varPage.split("videos?page=")[1]
+		else:
+			varN = '1'
 		varFolder = varF + varN
 		# print(varF + varN)
 		# sys.exit(0)
@@ -269,6 +272,7 @@ class PornhubPO:
 			with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
 				chunk_size = 1024  # 单次请求最大值
 				content_size = int(response.headers['content-length'])  # 文件总大小
+				M = int(content_size / 1024 / 1024)
 				# content_size = int(response.request.headers['content-length'])
 				# print(content_size)
 
@@ -281,7 +285,7 @@ class PornhubPO:
 					for l in list1:
 						if var000 in l:
 							viewKey = vUrl.split("viewkey=")[1]
-							print("*** [ignore] => [" + str(viewKey) + "] (" + fileName + ")")
+							print("*** [ignore] => " + str(viewKey) + "(" + str(M) + " MB), " + fileName)
 							var = "ignore"
 							break
 				if var != 'ignore':
@@ -299,7 +303,7 @@ class PornhubPO:
 							data_count = data_count + len(data)  # 实时进度条进度
 							now_jd = (data_count / content_size) * 100  # %% 表示%
 							# print("\r[%s] (%s) [%s%s] %d%% %s/%s" % (viewKey, fileName, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
-							print("\r%d%%, %sMB, %s" % (now_jd, int(M),viewKey), end=" ")
+							print("\r%d%%, %s(%s MB)" % (now_jd,viewKey,int(M)), end=" ")
 
 					with open(varPath + varFolder + "/000.txt", "a") as f:
 						f.write(str(fileName) + "/" + str(content_size) + "/" + vUrl + "\n")

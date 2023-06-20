@@ -47,7 +47,7 @@ Color_PO = ColorPO()
 
 
 class SqlServerPO:
-    def __init__(self, varHost, varUser, varPassword, varDB, varCharset=""):
+    def __init__(self, varHost, varUser, varPassword, varDB, varCharset="utf-8"):
         self.host = varHost
         self.user = varUser
         self.password = varPassword
@@ -122,19 +122,19 @@ class SqlServerPO:
         返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
         """
 
-        cur = self.__GetConnect()
+        # cur = self.__GetConnect()
         self.conn.commit()  # 用于新增后立即查询
-        cur.execute(sql, param)
+        self.cur.execute(sql, param)
 
         try:
-            result = cur.fetchall()
+            result = self.cur.fetchall()
         except:
             self.conn.commit()
-            cur.close()
+            self.cur.close()
             self.conn.close()
             return
         self.conn.commit()
-        cur.close()
+        self.cur.close()
         self.conn.close()
         return result
 
@@ -143,13 +143,13 @@ class SqlServerPO:
         """执行存储过程"""
         # execProcedure(存储过程名)
 
-        cur = self.__GetConnect()
+        # cur = self.__GetConnect()
         # sql =[]
         # sql.append("exec procontrol")
         # cur.callproc(varProcedureName)
-        cur.execute(varProcedureName)
+        self.cur.execute(varProcedureName)
         self.conn.commit()
-        cur.close()  # 关闭游标
+        self.cur.close()  # 关闭游标
         self.conn.close()  # 关闭连接
 
     def execSqlFile(self, varPathSqlFile):
@@ -157,10 +157,10 @@ class SqlServerPO:
         """执行sql文件语句"""
 
         # execQueryBySQL('D:\\51\\python\\project\\instance\\zyjk\\EHR\\controlRule\\mm.sql')
-        cur = self.__GetConnect()
+        # cur = self.__GetConnect()
         with open(varPathSqlFile) as f:
             sql = f.read()
-            cur.execute(sql)
+            self.cur.execute(sql)
             self.conn.commit()
             self.conn.close()
 
@@ -168,11 +168,11 @@ class SqlServerPO:
 
         """执行sql文件语句2"""
 
-        cur = self.__GetConnect()
+        # cur = self.__GetConnect()
         with open(varPathSqlFile) as f:
             sql = f.read()
-            cur.execute(sql)
-            cur.nextset()
+            self.cur.execute(sql)
+            self.cur.nextset()
             # cur.callproc(sql,(1,2))
             # self.conn.commit()
             self.conn.close()
@@ -191,7 +191,9 @@ class SqlServerPO:
             l_table_comment = self.execQuery(
                 "SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0"
             )
-            print(l_table_comment)
+            # print(l_table_comment)
+            # print(l_table_comment.decode('gbk')
+
         elif varTable == 0 and var_l_field != 0:
             # 6，所有表结构的可选字段(只输出找到字段的表) （ok）
             l_table_comment = self.execQuery(
@@ -214,110 +216,123 @@ class SqlServerPO:
                     "SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0 where d.name like '%s'"
                     % (varTable)
                 )
+        # print(b'\xd6\xf7\xbc\xfc\xd7\xd4\xd4\xf6'.decode('gbk'))
         for t in l_table_comment:
-            if t[1] != None:
-                d_tableComment[t[0]] = t[1].decode("utf8")
-            else:
-                d_tableComment[t[0]] = str(t[1])
 
+            if t['value'] != None:
+                d_tableComment[t['name']] = t['value'].decode("gbk")
+            else:
+                d_tableComment[t['name']] = str(t['value'])
+
+        # 字典表名 {Name：Comment}
+        # print(d_tableComment)  # {'BACKUP_HISTORY': 'None', 'BACKUPINTERFACE': '拉取ITF的临时表', 'BACKUPQUALITYCONTROL': '拉取ITF数据使用的临时表')'
+
+        # 遍历每个表，获取6个信息分别是： 表名，字段名，类型，大小，是否为空，注释
         for k, v in d_tableComment.items():
             varTable = k
             l_table_field_type_size_isNull_comment = self.execQuery(
-                "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'"
+                # "SELECT A.name, B.name, d.name, B.max_length, B.is_nullable, C.value FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'"
+                "SELECT A.name as tableName, B.name as Name, d.name as Type, B.max_length as Size, B.is_nullable as NotNull, C.value as Comment FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s' order by B.column_id asc"
                 % (varTable)
             )
-            # print(l_table_field_type_size_isNull_comment)  # [('condition_item', 'id', 'int', 4, False, b'\xe8\x87\xaa\xe5\xa2\x9e\xe4\xb8\xbb\xe9\x94\xae'), ]
-            # print(l_table_field_type_size_isNull_comment[0][5].decode('utf8'))
             try:
                 # 字段与类型对齐
-                a = b = c = d = e = f = 0
+                # print(l_table_field_type_size_isNull_comment)
+
+                tblTableName = tblName = tblType = tblSize = tblNotNull = tblComment = 0
+                # tblTableName = tblName = tblType = tblSize = tblNotNull = tblComment = 0
                 for i in l_table_field_type_size_isNull_comment:
-                    # if len(i[0]) > a: a = len(i[0])
-                    if len(i[1]) > b:
-                        b = len(i[1])
-                    if len(i[2]) > c:
-                        c = len(i[2])
-                    if len(str(i[3])) > d:
-                        d = len(str(i[3]))
-                    if len(str(i[4])) > e:
-                        e = len(str(i[4]))
-                    if len(str(i[5])) > f:
-                        f = len(str(i[5]))
+
+                    tblTableName = len(i['tableName'])
+                    if len(str(i['Name'])) > tblName:
+                        tblName = len(i['Name'])
+                    if len(str(i['Type'])) > tblType:
+                        tblType = len(i['Type'])
+                    if len(str(i['Size'])) > tblSize:
+                        tblSize = len(str(i['Size']))
+                    if len(str(i['NotNull'])) > tblNotNull:
+                        tblNotNull = len(str(i['NotNull']))
+                    if len(str(i['Comment'])) > tblComment:
+                        tblComment = len(str(i['Comment']))
+
+                # print(tblName)
 
                 if var_l_field != 0:
+                    # print(var_l_field)
+                    # print(l_table_field_type_size_isNull_comment)
                     # 可选字段
                     for l in range(len(var_l_field)):
                         for m in range(len(l_table_field_type_size_isNull_comment)):
                             if (
                                 var_l_field[l]
-                                == l_table_field_type_size_isNull_comment[m][1]
+                                == l_table_field_type_size_isNull_comment[m]['Name']
                             ):
                                 l_field.append(
-                                    str(l_table_field_type_size_isNull_comment[m][1])
+                                    str(l_table_field_type_size_isNull_comment[m]['Name'])
                                     + " "
                                     * (
-                                        b
+                                        tblName
                                         - len(
-                                            l_table_field_type_size_isNull_comment[m][1]
+                                            l_table_field_type_size_isNull_comment[m]['Name']
                                         )
                                         + 1
                                     )
                                 )
                                 l_type.append(
-                                    str(l_table_field_type_size_isNull_comment[m][2])
+                                    str(l_table_field_type_size_isNull_comment[m]['Type'])
                                     + " "
                                     * (
-                                        c
+                                        tblType
                                         - len(
-                                            l_table_field_type_size_isNull_comment[m][2]
+                                            l_table_field_type_size_isNull_comment[m]['Type']
                                         )
                                         + 1
                                     )
                                 )
                                 l_isKey.append(
-                                    str(l_table_field_type_size_isNull_comment[m][3])
+                                    str(l_table_field_type_size_isNull_comment[m]['Size'])
                                     + " "
                                     * (
-                                        d
+                                        tblSize
                                         - len(
                                             str(
                                                 l_table_field_type_size_isNull_comment[
                                                     m
-                                                ][3]
+                                                ]['Size']
                                             )
                                         )
                                         + 1
                                     )
                                 )
                                 l_isnull.append(
-                                    str(l_table_field_type_size_isNull_comment[m][4])
+                                    str(l_table_field_type_size_isNull_comment[m]['NotNull'])
                                     + " "
                                     * (
-                                        e
+                                        tblNotNull
                                         - len(
                                             str(
                                                 l_table_field_type_size_isNull_comment[
                                                     m
-                                                ][4]
+                                                ]['NotNull']
                                             )
                                         )
                                         + 7
                                     )
                                 )
-                                if l_table_field_type_size_isNull_comment[m][5] == None:
+                                if l_table_field_type_size_isNull_comment[m]['Comment'] == None:
                                     l_comment.append(
                                         str(
-                                            l_table_field_type_size_isNull_comment[m][5]
+                                            l_table_field_type_size_isNull_comment[m]['Comment']
                                         )
                                         + " "
                                         * (
-                                            f
+                                            tblComment
                                             - len(
                                                 str(
                                                     l_table_field_type_size_isNull_comment[
                                                         m
                                                     ][
-                                                        5
+                                                        'Comment'
                                                     ]
                                                 )
                                             )
@@ -328,18 +343,18 @@ class SqlServerPO:
                                     l_comment.append(
                                         str(
                                             l_table_field_type_size_isNull_comment[m][
-                                                5
-                                            ].decode("utf8")
+                                                'Comment'
+                                            ].decode("GBK")
                                         )
                                         + " "
                                         * (
-                                            f
+                                            tblComment
                                             - len(
                                                 str(
                                                     l_table_field_type_size_isNull_comment[
                                                         m
                                                     ][
-                                                        5
+                                                        'Comment'
                                                     ]
                                                 )
                                             )
@@ -349,40 +364,53 @@ class SqlServerPO:
                 else:
                     # 所有字段
                     for i in l_table_field_type_size_isNull_comment:
-                        l_field.append(str(i[1]) + " " * (b - len(i[1]) + 1))
-                        l_type.append(str(i[2]) + " " * (c - len(i[2]) + 1))
-                        l_isKey.append(str(i[3]) + " " * (d - len(str(i[3])) + 1))
-                        l_isnull.append(str(i[4]) + " " * (e - len(str(i[4])) + 7))
-                        if i[5] == None:
-                            l_comment.append(str(i[5]) + " " * (f - len(str(i[5])) + 1))
+                        l_field.append(str(i['Name']) + " " * (tblName - len(i['Name'])))
+                        l_type.append(str(i['Type']) + " " * (tblType - len(i['Type'])))
+                        l_isKey.append(str(i['Size']) + " " * (tblSize - len(str(i['Size']))+5))
+                        l_isnull.append(str(i['NotNull']) + " " * (tblNotNull - len(str(i['NotNull']))+3))
+                        if i['Comment'] == None:
+                            l_comment.append(str(i['Comment']) + " " * (tblComment - len(str(i['Comment']))))
                         else:
                             l_comment.append(
-                                str(i[5].decode("utf8"))
-                                + " " * (f - len(str(i[5])) + 1)
+                                str(i['Comment'].decode("GBK"))
+                                + " " * (tblComment - len(str(i['Comment'])))
                             )
 
                 # 只输出找到字段的表
                 if len(l_field) != 0:
-                    print("- - " * 50)
+                    print("- - " * 20)
                     Color_PO.consoleColor(
                         "31",
                         "36",
-                        "["
+                        "[Result] => TableName: "
                         + str(k)
-                        + "("
+                        + " ("
                         + str(d_tableComment[k])
-                        + ") - "
+                        + ") , "
                         + str(len(l_table_field_type_size_isNull_comment))
-                        + "个字段]",
+                        + "个字段",
                         "",
                     )
-                    print(
-                        "字段名" + " " * (b - 4),
-                        "数据类型" + " " * (c - 6),
-                        "大小" + " " * (d - 2),
-                        "允许空值" + " " * (e),
-                        "字段说明",
+
+                    # print(
+                    #     "Name" + " " * (tblName - len("Name")),
+                    #     "Type" + " " * (tblType - len("Type")),
+                    #     "Size" + " " * (tblSize - len("Size")+5),
+                    #     "isNull" + " " * (tblNotNull - len("isNull")+3),
+                    #     "Comment"
+                    # )
+
+                    Color_PO.consoleColor(
+                        "31",
+                        "36",
+                        "Name" + " " * (tblName - len("Name")+1) +
+                        "Type" + " " * (tblType - len("Type")+1) +
+                        "Size" + " " * (tblSize - len("Size")+6) +
+                        "isNull" + " " * (tblNotNull - len("isNull")+4) +
+                        "Comment",
+                        "",
                     )
+
                     for i in range(len(l_field)):
                         print(
                             l_field[i], l_type[i], l_isKey[i], l_isnull[i], l_comment[i]
@@ -414,7 +442,7 @@ class SqlServerPO:
             Color_PO.consoleColor(
                 "31",
                 "31",
-                "\n[已完成], 当前数据库 " + self.varDB + " 共有 " + str(result) + " 张表。 ",
+                "\n[Result] => " + self.db + "数据库合计" + str(result) + "张表。",
                 "",
             )
         elif len(args) == 1:
@@ -437,7 +465,8 @@ class SqlServerPO:
         # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')
         # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
         # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
-        self.cur = self.__GetConnect()
+        # self.cur = self.__GetConnect()
+        # self.cur = self.cur
 
         list0 = []
         list1 = []
@@ -448,45 +477,58 @@ class SqlServerPO:
         ):
             if "*" in varTable:
                 # 遍历所有表
-                self.cur.execute("SELECT NAME FROM SYSOBJECTS WHERE TYPE='U'")
-                tbl = self.cur.fetchall()
+                tbl = self.execQuery("SELECT NAME FROM SYSOBJECTS WHERE TYPE='U'")
+                # print(tbl)
+                # print(len(tbl))
+
                 for b in range(len(tbl)):
                     # 遍历所有的表 的 列名称、列类别、类注释
-                    varTable = tbl[b][0]
-                    self.cur.execute(
-                        "select syscolumns.name,systypes.name from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
+                    varTable = tbl[b]['NAME']
+                    # print(varTable)
+                    l_Name_Type = self.execQuery(
+                        "select syscolumns.name as Name,systypes.name as Type from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
                         % (varTable)
                     )
-                    tblFields = self.cur.fetchall()
-                    for i in tblFields:
-                        if len(i[0]) > x:
-                            x = len(i[0])
-                        if len(i[1]) > y:
-                            y = len(i[1])
-                    for j in tblFields:
-                        if varType in j[1]:
-                            list0.append(j[0])
-                            list1.append(j[1])
+                    # print(l_Name_Type)
+                    for i in l_Name_Type:
+                        if len(i['Name']) > x:
+                            x = len(i['Name'])
+                        if len(i['Type']) > y:
+                            y = len(i['Type'])
+                    for j in l_Name_Type:
+                        if varType in j['Type']:
+                            list0.append(j['Name'])
+                            list1.append(j['Type'])
                     # print(varTable + " - " + str(list0))   # 遍历输出所有表与字段名
                     for i in range(0, len(list0)):
-                        self.cur.execute(
+                        t4 = self.execQuery(
                             "select * from %s where convert(varchar, %s, 120) like '%s'"
                             % (varTable, list0[i], varValue)
                         )
-                        t4 = self.cur.fetchall()
                         if len(t4) != 0:
-                            print("*" * 100)
-                            print(
-                                "搜索: "
+                            print("- - " * 20)
+
+                            # print(
+                            #     "搜索: "
+                            #     + varValue
+                            #     + " , "
+                            #     + str(len(t4))
+                            #     + " 条记录 来自 "
+                            #     + self.db
+                            #     + "."
+                            #     + varTable
+                            #     + "("
+                            #     ")." + list0[i] + "\n"
+                            # )
+                            Color_PO.consoleColor(
+                                "31",
+                                "36",
+                                "[Search] => "
                                 + varValue
-                                + " , "
-                                + str(len(t4))
-                                + " 条记录 来自 "
-                                + self.varDB
-                                + "."
+                                + " , [Result] => "
                                 + varTable
-                                + "("
-                                ")." + list0[i] + "\n"
+                                + "." + list0[i] + " 疑似 " + str(len(t4)) + " 条。 " + "\n",
+                                "",
                             )
                             for j in range(len(t4)):
                                 print(t4[j])
@@ -497,41 +539,51 @@ class SqlServerPO:
                     list1 = []
             elif "*" not in varTable:
                 # 获取列名称、列类别、类注释
-                self.cur.execute(
-                    "select syscolumns.name,systypes.name from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
+                l_Name_Type = self.execQuery(
+                    "select syscolumns.name as Name,systypes.name as Type from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
                     % (varTable)
                 )
-                tblFields = self.cur.fetchall()
-                for i in tblFields:
-                    if len(i[0]) > x:
-                        x = len(i[0])
-                    if len(i[1]) > y:
-                        y = len(i[1])
-                for j in tblFields:
-                    if varType in j[1]:
-                        list0.append(j[0])
-                        list1.append(j[1])
+                # print(l_Name_Type)
+
+                for i in l_Name_Type:
+                    if len(i['Name']) > x:
+                        x = len(i['Name'])
+                    if len(i['Type']) > y:
+                        y = len(i['Type'])
+                for j in l_Name_Type:
+                    if varType in j['Type']:
+                        list0.append(j['Name'])
+                        list1.append(j['Type'])
                 for i in range(0, len(list0)):
-                    self.cur.execute(
+                    t4 = self.execQuery(
                         "select * from %s where convert(varchar, %s, 120) like '%s'"
                         % (varTable, list0[i], varValue)
                     )
-                    t4 = self.cur.fetchall()
                     if len(t4) != 0:
-                        print("*" * 100)
-                        print(
-                            "搜索: "
+                        print("- - " * 20)
+                        # print(
+                        #     "[Search] => "
+                        #     + varValue
+                        #     + ",[Result] => "
+                        #     + str(len(t4))
+                        #     + " 条记录, 来自 "
+                        #     + self.db
+                        #     + "."
+                        #     + varTable
+                        #     + "("
+                        #     ")." + list0[i] + "\n"
+                        # )
+                        Color_PO.consoleColor(
+                            "31",
+                            "36",
+                            "[Search] => "
                             + varValue
-                            + " , "
-                            + str(len(t4))
-                            + " 条记录 来自 "
-                            + self.varDB
-                            + "."
+                            + " , [Result] => "
                             + varTable
-                            + "("
-                            ")." + list0[i] + "\n"
+                            + "." + list0[i] + " 疑似 " + str(len(t4)) + " 条。 " + "\n",
+                            "",
                         )
-                        # print("search: " + varValue + " > " + self.varDB + "." + varTable + "(" ")." + list0[i] + " > [" + str(len(t4)) + " 条记录]" + "\n")
+
                         for j in range(len(t4)):
                             print(t4[j])
                             # print(t4[j].encode('latin-1').decode('gbk'))

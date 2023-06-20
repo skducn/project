@@ -65,11 +65,15 @@ class DyPO:
 
 		# 解析 https://v.douyin.com/hbjqhuT 成 https://www.douyin.com/video/7157633339661307168
 		if 'https://v.douyin.com/' in url or 'https://www.douyin.com/' in url:
-			r = Http_PO.getHtml(url)
-			aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', r.url)  # ['6976835684271279400']
-			# print(aweme_id)
-			url2 = 'https://www.douyin.com/video/' + aweme_id[0]
 
+			r = Http_PO.getHtml(url)
+			# print(r.url)
+			# sys.exit(0)
+			aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', r.url)  # ['6976835684271279400']
+			# # print(aweme_id)
+			url2 = 'https://www.douyin.com/video/' + aweme_id[0]
+			# url2 = 'https://w看直播！ https://v.douyin.com/UXdtL6c/ww.douyin.com/video/7240381627003962936'
+			# url2 = 'https://live.douyin.com/5d114145-be48-4588-b3e2-57d38a49267a'
 			r = requests.get(url=url2, headers=headers)
 			# print(r.text)
 
@@ -79,8 +83,11 @@ class DyPO:
 			s_json = parse.unquote(js)  # 将 RENDER_DATA 解码成 json 文本
 			# 转换成json格式
 			s_json = s_json.replace('<script id="RENDER_DATA" type="application/json">', '').replace('</script>', '')
+			# print("111111111")
 			# print(s_json)
 			d_json = json.loads(s_json)
+			# print("222222222")
+
 			# print(d_json)
 
 			from jsonpath import jsonpath
