@@ -468,8 +468,8 @@ class SqlServerPO:
         # self.cur = self.__GetConnect()
         # self.cur = self.cur
 
-        list0 = []
-        list1 = []
+        l_tbl_Name = []
+        l_tbl_Type = []
         x = y = 0
         if (
             varType
@@ -485,25 +485,25 @@ class SqlServerPO:
                     # 遍历所有的表 的 列名称、列类别、类注释
                     varTable = tbl[b]['NAME']
                     # print(varTable)
-                    l_Name_Type = self.execQuery(
+                    l_tbl_NameType = self.execQuery(
                         "select syscolumns.name as Name,systypes.name as Type from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
                         % (varTable)
                     )
-                    # print(l_Name_Type)
-                    for i in l_Name_Type:
+                    # print(l_tbl_NameType)
+                    for i in l_tbl_NameType:
                         if len(i['Name']) > x:
                             x = len(i['Name'])
                         if len(i['Type']) > y:
                             y = len(i['Type'])
-                    for j in l_Name_Type:
+                    for j in l_tbl_NameType:
                         if varType in j['Type']:
-                            list0.append(j['Name'])
-                            list1.append(j['Type'])
+                            l_tbl_Name.append(j['Name'])
+                            l_tbl_Type.append(j['Type'])
                     # print(varTable + " - " + str(list0))   # 遍历输出所有表与字段名
-                    for i in range(0, len(list0)):
+                    for i in range(0, len(l_tbl_Name)):
                         t4 = self.execQuery(
                             "select * from %s where convert(varchar, %s, 120) like '%s'"
-                            % (varTable, list0[i], varValue)
+                            % (varTable, l_tbl_Name[i], varValue)
                         )
                         if len(t4) != 0:
                             print("- - " * 20)
@@ -527,7 +527,7 @@ class SqlServerPO:
                                 + varValue
                                 + " , [Result] => "
                                 + varTable
-                                + "." + list0[i] + " 疑似 " + str(len(t4)) + " 条。 " + "\n",
+                                + "." + l_tbl_Name[i] + " 疑似 " + str(len(t4)) + " 条。 " + "\n",
                                 "",
                             )
                             for j in range(len(t4)):
@@ -537,29 +537,43 @@ class SqlServerPO:
 
                     list0 = []
                     list1 = []
+
             elif "*" not in varTable:
-                # 获取列名称、列类别、类注释
-                l_Name_Type = self.execQuery(
+                # 搜索指定表（单表）符合条件的记录.  ，获取列名称、列类别、类注释
+                
+                # 获取表的Name和Type
+                l_tbl_NameType = self.execQuery(
                     "select syscolumns.name as Name,systypes.name as Type from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
                     % (varTable)
                 )
-                # print(l_Name_Type)
+                # print(l_tbl_NameType)  # [{'Name': 'ID', 'Type': 'int'}, {'Name': 'ARCHIVENUM', 'Type': 'varchar'}]
 
-                for i in l_Name_Type:
-                    if len(i['Name']) > x:
-                        x = len(i['Name'])
-                    if len(i['Type']) > y:
-                        y = len(i['Type'])
-                for j in l_Name_Type:
+                # 输出Name
+                l_tbl_name = []
+                for i in range(len(l_tbl_NameType)):
+                    l_tbl_name.append(l_tbl_NameType[i]['Name'])
+
+                # for i in l_tbl_NameType:
+                #     if len(i['Name']) > x:
+                #         x = len(i['Name'])
+                #     if len(i['Type']) > y:
+                #         y = len(i['Type'])
+
+                # 筛选符合条件（包含指定Type）的Name
+                l_tbl_Name_filter = []
+                for j in l_tbl_NameType:
                     if varType in j['Type']:
-                        list0.append(j['Name'])
-                        list1.append(j['Type'])
-                for i in range(0, len(list0)):
-                    t4 = self.execQuery(
+                        l_tbl_Name_filter.append(j['Name'])
+                        # l_tbl_Type.append(j['Type'])
+                # print(l_tbl_Name)  # ['ARCHIVENUM', 'EHRNUM', 'NAME', 'PRESENTADDRESS']
+                
+                for i in range(len(l_tbl_Name_filter)):
+                    result = self.execQuery(
                         "select * from %s where convert(varchar, %s, 120) like '%s'"
-                        % (varTable, list0[i], varValue)
+                        % (varTable, l_tbl_Name_filter[i], varValue)
                     )
-                    if len(t4) != 0:
+
+                    if len(result) != 0:
                         print("- - " * 20)
                         # print(
                         #     "[Search] => "
@@ -576,20 +590,24 @@ class SqlServerPO:
                         Color_PO.consoleColor(
                             "31",
                             "36",
-                            "[Search] => "
-                            + varValue
-                            + " , [Result] => "
-                            + varTable
-                            + "." + list0[i] + " 疑似 " + str(len(t4)) + " 条。 " + "\n",
+                            varTable
+                            + "." + l_tbl_Name_filter[i] + " [search = " + varValue + "], [result = " + str(len(result)) + "条]" + "\n",
                             "",
                         )
 
-                        for j in range(len(t4)):
-                            print(t4[j])
+                        # 输出Name
+                        print(l_tbl_name)  # ['ID', 'ARCHIVENUM', 'EHRNUM', 'NAME', 'PRESENTADDRESS']
+
+                        for j in range(len(result)):
+                            # 输出字典
+                            # print(result[j])
+                            # 输出值
+                            my_list = [value for value in result[j].values()]
+                            print(my_list)
                             # print(t4[j].encode('latin-1').decode('gbk'))
 
-                list0 = []
-                list1 = []
+                l_tbl_Name = []
+                l_tbl_Type = []
         else:
             print(
                 "\n"
