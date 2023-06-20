@@ -84,8 +84,9 @@ Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "C
 # Sqlserver_PO.dbDesc('HRD%', ['PID', 'ID', 'NAME'])
 # Sqlserver_PO.dbDesc('%', ["ID", "PID"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
 
-# Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%英%')  # 搜索指定表符合条件的记录.
-Sqlserver_PO.dbRecord('*', 'varchar', '%刘斌龙%')  # 搜索所有表符合条件的记录.
+Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%刘斌龙%')  # 搜索指定表符合条件的记录.
+# Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%张*%')  # 搜索指定表符合条件的记录.
+# Sqlserver_PO.dbRecord('*', 'varchar', '%刘斌龙%')  # 搜索所有表符合条件的记录.
 # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')
 
 
