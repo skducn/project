@@ -74,16 +74,31 @@ from PO import SqlserverPO, MysqlPO
 # sqlserver_PO.dbRecord('*','timestamp', u'%2019-01%')  # 模糊搜索所有表中带2019-01的timestamp类型。
 
 
+# 社区健康平台
+Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "GBK")  # 测试环境
+# Sqlserver_PO.dbDesc()
+# Sqlserver_PO.dbDesc('HRCOVER')
+# Sqlserver_PO.dbDesc('原始治理规则')
+# Sqlserver_PO.dbDesc('HRCOVER',  ['ID', 'NAME'])
+# Sqlserver_PO.dbDesc('HRD%')
+# Sqlserver_PO.dbDesc('HRD%', ['PID', 'ID', 'NAME'])
+# Sqlserver_PO.dbDesc('%', ["ID", "PID"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
+
+# Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%英%')  # 搜索指定表符合条件的记录.
+Sqlserver_PO.dbRecord('*', 'varchar', '%刘斌龙%')  # 搜索所有表符合条件的记录.
+# Sqlserver_PO.dbRecord('*', 'money', '%34.5%')
+
+
 
 # EHR 电子健康档案(sqlserver)
-Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "EHRDC", "GBK")  # 测试环境
+# Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "EHRDC", "GBK")  # 测试环境
 # Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy@123456", "EHRITF", "utf8")  # 测试环境
-Sqlserver_PO.dbDesc()
+# Sqlserver_PO.dbDesc()
 # Sqlserver_PO.dbDesc('itf_tb_chronic_main')
 # Sqlserver_PO.dbDesc('ITF_TB_EXAMINATION_INFO',  ['registerTypeCode', 'name'])
-# Sqlserver_PO.dbDesc('tb_dc_dm_*')
-# Sqlserver_PO.dbDesc('tb_dc_dm_*', ['guid', 'drugTypeCodeSystem'])  # # 5，批量输出tb开头表中包含id或page字段的表结构信息
-# sqlserver_PO.dbDesc('*', ["idCardNo", "ehrNum"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
+# Sqlserver_PO.dbDesc('tb_dc_dm_%')
+# Sqlserver_PO.dbDesc('tb_dc_dm_%', ['guid', 'drugTypeCodeSystem'])  # # 5，批量输出tb开头表中包含id或page字段的表结构信息
+# Sqlserver_PO.dbDesc('%', ["idCardNo", "ehrNum"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
 
 
 # Sqlserver_PO.dbRecord('CommonDictionary', 'varchar', '%录音%')  # 搜索指定表符合条件的记录.

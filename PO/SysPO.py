@@ -4,6 +4,8 @@
 # Created on : 2021-12-10
 # Description: 系统对象（获取进程名，获取Pid，获取进程工作目录，当前目录，状态，关闭进程Pid）
 # 注意：如果 os.system 输出乱码，需将 File->Settings->Editor->File Encodings 中 Global Encoding 设置成 GBK
+# pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python
+
 # ***************************************************************
 
 """
