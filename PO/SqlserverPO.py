@@ -590,20 +590,61 @@ class SqlServerPO:
                         Color_PO.consoleColor(
                             "31",
                             "36",
-                            varTable
-                            + "." + l_tbl_Name_filter[i] + " [search = " + varValue + "], [result = " + str(len(result)) + "条]" + "\n",
+                            "[search = " + varValue + "] , [result = " + varTable
+                            + "." + l_tbl_Name_filter[i] + " => " + str(len(result)) + "条]" + "\n",
                             "",
                         )
 
                         # 输出Name
                         print(l_tbl_name)  # ['ID', 'ARCHIVENUM', 'EHRNUM', 'NAME', 'PRESENTADDRESS']
 
+                        # 获取所有Name的大小
+                        l_nameSize = []
+                        for i in l_tbl_name:
+                            l_nameSize.append(len(i))
+                        # print(l_nameSize)  # [2, 10, 6, 4, 14, 16, 5]
+
+
                         for j in range(len(result)):
-                            # 输出字典
-                            # print(result[j])
-                            # 输出值
-                            my_list = [value for value in result[j].values()]
-                            print(my_list)
+                            l_value = [value for value in result[j].values()]
+                            print(l_value)  # [1, '410522200004110812', 'K22402612', '刘斌龙', '河北省 ]
+
+                        #     # 获取所有值的大小
+                        #     l_valueSize = []
+                        #     for i in l_value:
+                        #         l_valueSize.append(len(str(i)))
+                        #     # print(l_valueSize)  # [1, 18, 9, 3, 23, 4, 11, 4, 4, 4, 4, 4, 4]
+                        #
+                        #     # 格式化Name
+                        #     for i in range(len(l_valueSize)):
+                        #         if l_valueSize[i] > l_nameSize[i]:
+                        #             x = l_valueSize[i] - l_nameSize[i]
+                        #             l_tbl_name[i] = l_tbl_name[i] + " " * x
+                        #         else:
+                        #             l_tbl_name[i] = l_tbl_name[i] + " "
+                        #             l_value[i] = str(l_value[i]) + " " * (l_nameSize[i] - l_valueSize[i]) + " "
+                        #
+                        # print(l_tbl_name)  # ['ID ', 'ARCHIVENUM        ', 'EHRNUM   ', 'NAME ', 'PRESENTADDRESS         ']
+                        # print(l_value)
+
+                        # # 将所有Name合并成字符串
+                        # str_name = str_value = ""
+                        # for i in l_tbl_name:
+                        #     str_name = str_name + i
+                        # print(str_name)  # ID ARCHIVENUM        EHRNUM   NAME PRESENTADDRESS
+                        #
+                        # for i in l_value:
+                        #     str_value = str_value + str(i)
+                        # print(str_value)
+
+                        # # 将所有value合并成字符串
+                        # for j in range(len(result)):
+                        #     l_value = [value for value in result[j].values()]
+
+                            # for i in my_list:
+                            #     list4.append(len(str(i)))
+                            # print(list4)
+
                             # print(t4[j].encode('latin-1').decode('gbk'))
 
                 l_tbl_Name = []
