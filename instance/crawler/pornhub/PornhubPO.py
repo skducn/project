@@ -17,7 +17,6 @@ from time import sleep
 from PO.FilePO import *
 File_PO = FilePO()
 
-
 from PO.StrPO import *
 Str_PO = StrPO()
 
@@ -30,31 +29,36 @@ requests.packages.urllib3.disable_warnings()
 # urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # requests.get('https://example.com', verify=False)
 
+s_projectPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
 
 class PornhubPO:
 
 	def setFileList(self):
 
-		# 初始化设置文件清单
+		# 初始化000.txt文件
 
-		varPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
-		varListFile =  "000.txt"
-		l_varPathFolder = (File_PO.getListDir(varPath))
-		for varFolder in l_varPathFolder:
-			varPathFolder = varPath + varFolder + "/"
+		# varPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
+		s_listFile=  "000.txt"
+		l_folderFile= (File_PO.getListDir(s_projectPath))
+		print(l_folderFile)
+		# sys.exit(0)
+
+		for s_folder in l_folderFile:
+			varPathFolder = s_projectPath + s_folder + "/"  # /Users/linghuchong/Downloads/eMule/pornhub/delphine1
+
 			if os.path.isdir(varPathFolder):
-				# print(varPathFolder)
 				l_varFile = []
 				l_varSize = []
 
-				if os.path.isfile(varPathFolder + varListFile):
+				# 更新000.txt文件
+				if os.path.isfile(varPathFolder + s_listFile):
 					...
 					# 1，获取待下载文件名和字节数与list文件比对，没有的文件则下载，下载后写入list
 					# 2，文件名一样，字节数不一样，提醒，且不下载
 
 				else:
 					# 新建文件（获取目录中文件名和字节数）
-					File_PO.newFile(varPathFolder, varListFile)
+					File_PO.newFile(varPathFolder, s_listFile)
 					# 获取制定目录里的文件名
 					l_pathFile = (File_PO.getListFile(varPathFolder + "*.*"))
 					for varPathFile in l_pathFile:
@@ -65,9 +69,10 @@ class PornhubPO:
 					d = dict(zip(l_varFile, l_varSize))  # 组成字典
 					# 对字典key进行升序
 					d2 = ({k: v for k, v in sorted(d.items(), key=lambda item: item[0])})
-					with open(varPathFolder + varListFile, "w") as f:
+					with open(varPathFolder + s_listFile, "w") as f:
 						for k, v in d2.items():
 							f.write(str(k) + "/" + str(d[k]) + "\n")
+
 
 	def html2url(self, varHtml, varPh, varUrl):
 
@@ -75,50 +80,72 @@ class PornhubPO:
 		# varUrl 用于脚本
 		# varPh  用于 alfrd
 
-		File_PO.delFile(os.getcwd() + "/" + varUrl)
+		# File_PO.delFile(os.getcwd() + "/" + varUrl)
 
+		# 1，解析html获取页面url
+		soup = BeautifulSoup(open(varHtml, encoding='utf-8'), features='lxml')
+		s_title = (soup.title.string)
+		# varFolder = title.split('的')[0]
+		# print(s_title) # Delphine Films 黄片&高清现场预告| Pornhub
+		# print(varFolder)
+		s_pageUrl = soup.find("link", {'rel': 'canonical'}).attrs['href']
+		# print(s_pageUrl)  # https://cn.pornhub.com/channels/delphine
+	
+
+		# 2，获取目录名
+		if "/model" in s_pageUrl:
+			s_folder = s_pageUrl.split("https://cn.pornhub.com/model/")[1].split("/")[0]
+			s_plate = 'model'
+		elif "channels" in s_pageUrl:
+			s_folder = s_pageUrl.split("https://cn.pornhub.com/channels/")[1].split("/")[0]
+			s_plate = 'channels'
+		# print(s_folder) # delphine
+		if 'page=' in s_pageUrl:
+			s_pageNum = s_pageUrl.split("videos?page=")[1]
+		else:
+			s_pageNum = '1'
+		s_folder = s_folder + s_pageNum
+		# print(s_folder) # delphine1	
+
+		if s_plate == 'model':
+			s_videoUrlTotalNum = len(soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a'))
+		elif s_plate == 'channels':
+			s_videoUrlTotalNum = len(soup.find("ul", {'id': 'moreData'}).find_all('a'))
+			
+		# 3，新建目录及000.txt文件
+		if os.path.isdir(s_projectPath + s_folder) == False:
+			File_PO.newFolder(s_projectPath + s_folder)
+			File_PO.newFile(s_projectPath + s_folder, "000.txt")
+			with open(s_projectPath + s_folder + "/000.txt", "w") as f:
+				f.write(s_pageUrl + "(" + str(int(s_videoUrlTotalNum/2)) + ")\n")
+
+		# 4，新建 varPh 及 varUrl 文件
 		if os.path.isfile(varPh) == "False":
 			File_PO.newFile(os.getcwd(), varPh)
 		if os.path.isfile(varUrl) == "False":
 			File_PO.newFile(os.getcwd(), varUrl)
 
-		# 1，获取目录名
-		soup = BeautifulSoup(open(varHtml, encoding='utf-8'), features='lxml')
-		title = (soup.title.string)
-		varFolder = title.split('的')[0]
-
-		
-
-		varPage = soup.find("link", {'rel': 'canonical'}).attrs['href']
-		print(varPage)
-		varF = varPage.split("https://cn.pornhub.com/model/")[1].split("/")[0]
-		if 'page=' in varPage:
-			varN = varPage.split("videos?page=")[1]
-		else:
-			varN = '1'
-		varFolder = varF + varN
-		# print(varF + varN)
-		# sys.exit(0)
-
-		# 新建目录
-		varPath = "/Users/linghuchong/Downloads/eMule/pornhub/"
-		if os.path.isdir(varPath + varFolder) == False:
-			File_PO.newFolder(varPath + varFolder)
-
-		total = len(soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a'))
+		# 5，初始化 varPh 及 varUrl 文件
 
 		with open(varPh, "w") as f:
-			f.write(varPage + "(" + str(int(total/2)) + ")\n")
-
-		for i in range(1, total, 2):
-			vUrl = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].attrs['href'])
-			# vName = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].text).strip()
+			f.write(s_pageUrl + "(" + str(int(s_videoUrlTotalNum/2)) + ")\n") # https://cn.pornhub.com/channels/delphine(36)
+		for i in range(1, s_videoUrlTotalNum, 2):
+			if s_plate == 'model':
+				s_videoUrl = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].attrs['href'])
+				# vName = (soup.find("ul", {'id': 'mostRecentVideosSection'}).find_all('a')[i].text).strip()
+			elif s_plate == 'channels':
+				s_videoUrl = (soup.find("ul", {'id': 'moreData'}).find_all('a')[i].attrs['href'])
 			with open(varPh, "a") as f:
-				f.write("ph " + varFolder + " " + vUrl + "\n")
+				f.write("ph " + s_folder + " " + s_videoUrl + "\n")
 			with open(varUrl, "a") as f:
-				f.write(varFolder + "," + vUrl + ",[]" + "\n")
+				f.write(s_folder + ", " + s_videoUrl + ",[]" + "\n")
 		with open(varPh, "a") as f:
-			f.write("-" * len("ph " + varFolder + " " + vUrl) + "\n")
+			f.write("-" * len("ph " + s_folder + " " + s_videoUrl) + "\n")
+
+
+
+
+
 
 	def brazzers2url(self, varHtml, varPh, varUrl):
 
@@ -266,50 +293,93 @@ class PornhubPO:
 
 		# 7, 下载视频，显示文件大小，下载进度条'''
 		varPathFileName = varPath + varFolder + "/" + fileName
+		# print(varPathFileName)
+		# print("!!!!!!!!!!!!")
+		
 
 		# https://blog.csdn.net/weixin_38819889/article/details/124853178
-		try :
-			with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
-				chunk_size = 1024  # 单次请求最大值
-				content_size = int(response.headers['content-length'])  # 文件总大小
-				M = int(content_size / 1024 / 1024)
-				# content_size = int(response.request.headers['content-length'])
-				# print(content_size)
+		# try :
+		with closing(requests.get(d['720p'], timeout=10, verify=False, stream=True)) as response:
+			chunk_size = 1024  # 单次请求最大值
+			content_size = int(response.headers['content-length'])  # 文件总大小
+			M = int(content_size / 1024 / 1024)
+			# content_size = int(response.request.headers['content-length'])
+			# print(content_size)
 
-				var = ""
+			var = ""
 
-				# 判断文件是否存在
-				var000 = fileName + "/" + str(content_size)  # Dragon Ball - Bulma - Lite Version.mp4/24071579
-				with open(varPath + varFolder + "/000.txt", "r") as f:
-					list1 = f.readlines()
-					for l in list1:
-						if var000 in l:
-							viewKey = vUrl.split("viewkey=")[1]
-							print("*** [ignore] => " + str(viewKey) + "(" + str(M) + " MB), " + fileName)
+			# 判断文件是否存在
+			# M = content_size / 1024 / 1024
+			viewKey = vUrl.split("viewkey=")[1]
+			var000 = "[" + str(viewKey) + "], " + str(fileName) 
+			# print(var000)
+			# var000 = fileName + "/" + str(content_size)  # Dragon Ball - Bulma - Lite Version.mp4/24071579
+			
+			# # 获取实际目录里所有文件名和大小
+			l_files = File_PO.getListFile(varPathFileName)
+
+			s_actualFile = varPathFileName.split(varPath + varFolder + "/")[1]
+			s_actualSize = File_PO.getFileSize(varPathFileName)
+
+			# print(s_actualFile) # Delphine Films  Blake Blossom Is The Sexiest Boss Ever.mp4
+			# print(s_actualSize) # 234687674
+			s_actualFileSize = s_actualFile + "(" + str(s_actualSize) + ")"
+
+			# list4 = []
+			# for i in l_files:
+			# 	size = File_PO.getFileSize(i)
+			# 	s_file = i.split(varPath + varFolder + "/")[1]
+			# 	list4.append(s_file + "(" + str(size) + ")")
+			# print(list4) # ['Delphine Films  Blake Blossom Is The Sexiest Boss Ever.mp4(234687674)']
+
+			# sys.exit(0)
+
+			# 遍历000.txt文件名的大小与实际目录里文件名大小是否一直
+			with open(varPath + varFolder + "/000.txt", "r") as f:
+				list1 = f.readlines()
+				for l in list1:
+					if s_actualFileSize in l:
+						# viewKey = vUrl.split("viewkey=")[1]
+
+						print("*** [ignore] => [" + str(viewKey) + "], " + str(fileName) + "(" + str(content_size) + ")\n")
+						var = "ignore"
+						break
+					if fileName in l:
+						print("*** [warning] => [" + str(viewKey) + "], " + str(fileName) + " => 实际：" + str(s_actualSize) + " / 预期：" + str(content_size) + "\n")
+	
+						xunwen = input("是否要重新下载 y/n?")
+						if xunwen == "n":
 							var = "ignore"
-							break
-				if var != 'ignore':
-					M = content_size / 1024 / 1024
-					# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
-					varSize = str(content_size) + " = " + str(M) + "MB"
-					data_count = 0  # 当前已传输的大小
-					# print(varFolder + " => " + vUrl + " (" + str(int(M)) + " MB" + ")")
-					viewKey = vUrl.split("viewkey=")[1]
-					# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
-					with open(varPathFileName, "wb") as file:
-						for data in response.iter_content(chunk_size=chunk_size):
-							file.write(data)
-							done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
-							data_count = data_count + len(data)  # 实时进度条进度
-							now_jd = (data_count / content_size) * 100  # %% 表示%
-							# print("\r[%s] (%s) [%s%s] %d%% %s/%s" % (viewKey, fileName, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
-							print("\r%d%%, %s(%s MB)" % (now_jd,viewKey,int(M)), end=" ")
+						else:
+							var = "download"
 
-					with open(varPath + varFolder + "/000.txt", "a") as f:
-						f.write(str(fileName) + "/" + str(content_size) + "/" + vUrl + "\n")
-					print("\n")
-		except:
-			print("[errorrrrrrrrrr下载视频] => " + vUrl)
+						break
+
+			# sys.exit(0)
+
+			if var != 'ignore':
+				M = content_size / 1024 / 1024
+				# print(str(content_size) + " = " + str(M) + "MB")                # 显示文件大小，如 1024 = 1MB
+				varSize = str(content_size) + " = " + str(M) + "MB"
+				data_count = 0  # 当前已传输的大小
+				# print(varFolder + " => " + vUrl + " (" + str(int(M)) + " MB" + ")")
+				viewKey = vUrl.split("viewkey=")[1]
+				# print("  Downloading " + download_url + " (" + str(int(M)) + " MB" + ")")
+				with open(varPathFileName, "wb") as file:
+					for data in response.iter_content(chunk_size=chunk_size):
+						file.write(data)
+						done_block = int((data_count / content_size) * 50)  # 已经下载的文件大小
+						data_count = data_count + len(data)  # 实时进度条进度
+						now_jd = (data_count / content_size) * 100  # %% 表示%
+						# print("\r[%s] (%s) [%s%s] %d%% %s/%s" % (viewKey, fileName, done_block * '█', ' ' * (50 - 1 - done_block), now_jd, data_count, content_size), end=" ")
+						print("\r%d%%, %s, %s(%s MB)" % (now_jd, viewKey, fileName, int(M)), end=" ")
+
+				with open(varPath + varFolder + "/000.txt", "a") as f:
+					# f.write(str(fileName) + "/" + str(content_size) + "/" + vUrl + "\n")
+					f.write("[" + str(viewKey) + "], " + str(fileName) + "(" + str(int(M)) + " MB)\n")
+				print("\n")
+		# except:
+		# 	print("[errorrrrrrrrrr下载视频] => " + vUrl)
 			return -1
 		return 0
 

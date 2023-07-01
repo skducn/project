@@ -520,7 +520,20 @@ if __name__ == "__main__":
     # print("3.3 获取文件清单".center(100, "-"))
     # print(File_PO.getChdirPath("D:\\51\\python\\project\\PO\\FilePO"))  # 切换当前路径 os.getcwd()
     # print(File_PO.getListFile("*.txt"))  # ['john.docx', 'yoyo.docx']   //获取当前路径下所有docx文件
-    # print(File_PO.getListFile())  # 获取当前路径下所有文件名清单
+    print(File_PO.getListFile("/Users/linghuchong/Downloads/eMule/pornhub/delphine1/*"))  # 获取当前路径下所有文件名清单
+    print(File_PO.getFileSize('/Users/linghuchong/Downloads/eMule/pornhub/delphine1/Delphine Films  Blake Blossom Is The Sexiest Boss Ever.mp4'))
+    x = File_PO.getFileSize('/Users/linghuchong/Downloads/eMule/pornhub/delphine1/Delphine Films  Blake Blossom Is The Sexiest Boss Ever.mp4')
+    print(type(x))
+
+    l_files = File_PO.getListFile("/Users/linghuchong/Downloads/eMule/pornhub/delphine1/Delphine - Coming Home (Exclusive Tailer).mp4")
+    print(l_files)
+    list1 = []
+    for i in l_files:
+        size = File_PO.getFileSize(i)
+        s_file = i.split("/Users/linghuchong/Downloads/eMule/pornhub/delphine1/")[1]
+        list1.append(s_file + "(" + str(size) + ")")
+    print(list1)
+
     #
     #
     # print("3.4 获取路径中的文件名".center(100, "-"))
@@ -540,12 +553,12 @@ if __name__ == "__main__":
     # print(varPath)  # E:/lpthw/zedshaw
     # print(varFile)  # ex19.py
     #
-    # print("3.7 分割文件名和扩展名".center(100, "-"))
-    varPath, varEXT = os.path.splitext(
-        "/home/ubuntu/python_coding/split_func/split_function.py"
-    )
-    print(varPath)  # /home/ubuntu/python_coding/split_func/split_function
-    print(varEXT)  # .py
+    # # print("3.7 分割文件名和扩展名".center(100, "-"))
+    # varPath, varEXT = os.path.splitext(
+    #     "/home/ubuntu/python_coding/split_func/split_function.py"
+    # )
+    # print(varPath)  # /home/ubuntu/python_coding/split_func/split_function
+    # print(varEXT)  # .py
     #
     # print("3.8 分割驱动器名和路径（用在windows下）".center(100, "-"))
     # print(os.path.splitdrive('D:\\51\\python\\project\\PO\\123.txt'))  # ('D:', '\\51\\python\\project\\PO\\123.txt')
