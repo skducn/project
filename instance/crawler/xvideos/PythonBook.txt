@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+    <base href="//error.c.cdn77.org/" target="_blank">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="(c) 2019 CDN77">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="nofollow" />
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" />
+
+    <title>Gone</title>
+</head>
+<body>
+    <header class="Header">
+        <div class="Header-wrap">
+            <span class="Header-errorNumber">Error 410</span>
+            <h1 class="Header-title">Gone</h1>
+            <div class="Header-description">Sorry, access to the target resource is no longer available.</div>
+        </div>
+    </header>
+</body>

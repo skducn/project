@@ -10,7 +10,7 @@
 1，发送邮件 sendEmail()
 
 2.1，下载程序 downApp()
-2.2，下载网页/图片 downFile()
+2.2，下载文件、网页、图片 downFile()
 2.3，下载图片  downImage()
 2.4，异步多线程下载图片 downImageAsync()
 
@@ -221,67 +221,60 @@ class NetPO:
     def downApp(self, vApp, toSave="./"):
         # 下载文件（显示下载进度，数据块大小，文件大小）
         # Net_PO.downloadFile("https://www.7-zip.org/a/7z1900-x64.exe", "")
-        try:
+        # try:
 
-            def reporthook(a, b, c):
-                print("\r下载进度: %5.1f%%" % (a * b * 100.0 / c), end="")
+        def reporthook(a, b, c):
+            print("\r下载进度: %5.1f%%" % (a * b * 100.0 / c), end="")
 
-            filename = os.path.basename(vApp)
-            File_PO.newLayerFolder(toSave)  # 新增文件夹
-            # 判断文件是否存在，如果不存在则下载
-            if not os.path.isfile(os.path.join(toSave, filename)):
-                print("应用程序：{}".format(vApp))
-                print("保存路径：{}".format(toSave))
-                urlretrieve(vApp, os.path.join(toSave, filename), reporthook=reporthook)
-                print("已完成")
+        filename = os.path.basename(vApp)
+        File_PO.newLayerFolder(toSave)  # 新增文件夹
+        # 判断文件是否存在，如果不存在则下载
+        if not os.path.isfile(os.path.join(toSave, filename)):
+            print("应用程序：{}".format(vApp))
+            print("保存路径：{}".format(toSave))
+            urlretrieve(vApp, os.path.join(toSave, filename), reporthook=reporthook)
+            print("已完成")
+        else:
+            print("[warning] 文件已存在！")
+
+        # 获取文件大小
+        # filesize = os.path.getsize(os.path.join(toSave, filename))
+        # 文件大小默认以Bytes计， 转换为Mb
+        # print('File size = %.2f Mb' % (filesize / 1024 / 1024))
+        # except:
+        #     print(
+        #         "[ERROR], "
+        #         + sys._getframe(1).f_code.co_name
+        #         + ", line "
+        #         + str(sys._getframe(1).f_lineno)
+        #         + ", in "
+        #         + sys._getframe(0).f_code.co_name
+        #         + ", SourceFile '"
+        #         + sys._getframe().f_code.co_filename
+        #         + "'"
+        #     )
+
+    # 2.2，下载文件、网页、图片
+    def downFile(self, varUrlFile, varPathFile=""):
+
+        # 2.2，下载文件、网页、图片
+        # Net_PO.downFile("http://www.jb51.net/Special/636.htm")  # 默认保存到当前路径下 636.htm
+        # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "1234.html")  # 默认保存到当前路径，另存为1234.html
+        # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "/Users/linghuchong/Downloads/1234.html")  # 保存到指定目录下名为1234.html文件
+        # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "/Users/linghuchong/Downloads/111/1234.html")  # 保存到指定目录下名为1234.html文件,目录不存在则自动创建
+        # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "d:/1/2/3/1234.html")
+
+        if varPathFile == "":
+            fileName = os.path.split(varUrlFile)
+            urllib.request.urlretrieve(varUrlFile, fileName[1])
+        else:
+            path, fileName = os.path.split(varPathFile)
+            if path == "":
+                urllib.request.urlretrieve(varUrlFile, fileName)
             else:
-                print("[warning] 文件已存在！")
+                File_PO.newLayerFolder(path)  # 如果目录不存在，强制新增文件夹
+                urllib.request.urlretrieve(varUrlFile, path + "/" + fileName)
 
-            # 获取文件大小
-            # filesize = os.path.getsize(os.path.join(toSave, filename))
-            # 文件大小默认以Bytes计， 转换为Mb
-            # print('File size = %.2f Mb' % (filesize / 1024 / 1024))
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
-
-    # 2.2，下载网页/图片
-    def downFile(self, varUrlHtml, varFilePath="./"):
-        # 下载页面，将页面保存到本地。
-        # Net_PO.downloadHtml(u"http://www.jb51.net/Special/636.htm", "1234.html")
-        # File_PO.newLayerFolder(savepath)  # 强制新增文件夹
-        try:
-            if varFilePath == "./":
-                varPath, varFile = os.path.split(varUrlHtml)
-                urllib.request.urlretrieve(varUrlHtml, varFile)
-            else:
-                varPath, varFile = os.path.split(varFilePath)
-                if varPath == "":
-                    urllib.request.urlretrieve(varUrlHtml, varFile)
-                else:
-                    File_PO.newLayerFolder(varPath)  # 强制新增文件夹
-                    urllib.request.urlretrieve(varUrlHtml, varPath + "/" + varFile)
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
 
     # 2.3，下载图片
     def downImage(self, varUrlImage, varFilePath="./"):
@@ -449,13 +442,14 @@ if __name__ == "__main__":
     # print("2.1，下载程序".center(100, "-"))
     # Net_PO.downApp("",'/Users/linghuchong/Downloads/eMule/pornhub/temp/' )  # 默认将文件保存在当前路径，文件存在则不覆盖。
     # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe", "d:/1/2/3")  # 下载文件到指定目录，目录自动生成。
-    # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe", "/1/2/3")  # 同上，/1/2/3 默认定位当前程序盘符，如 d:/1/2/3
+    # Net_PO.downApp("https://cdn77-vid.xvideos-cdn.com/RQ8awptsSFkElOGWOsXYsw==,1689224214/videos/hls/7b/d4/d4/7bd4d4b0c1d23afeed2f450edebfcc7f/hls-720p-518b45.ts", "/")  # 同上，/1/2/3 默认定位当前程序盘符，如 d:/1/2/3
 
-    # print("2.2，下载网页/图片".center(100, "-"))
-    # Net_PO.downFile(u"http://www.jb51.net/Special/636.htm")  # 默认将html网页保存在当前路径。
-    # Net_PO.downFile(u"https://images.cnblogs.com/cnblogs_com/longronglang/1061549/o_QQ%E6%88%AA%E5%9B%BE20190727112700.png")  # 默认将图片保存在当前路径。
-    # Net_PO.downFile(u"http://www.jb51.net/Special/636.htm", "1234.html")  # 默认保存到当前路径，另存为1234.html
-    # Net_PO.downFile(u"http://www.jb51.net/Special/636.htm", "d:/1/2/3/1234.html")  # 将文件保存在/1/2/3/1234.html下，如果目录不存在则自动新建。
+    print("2.2，下载文件、网页、图片".center(100, "-"))
+    Net_PO.downFile("http://www.jb51.net/Special/636.htm", "")  # 默认保存到当前路径下 636.htm
+    # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "1234.html")  # 默认保存到当前路径，另存为1234.html
+    # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "/Users/linghuchong/Downloads/1234.html")  # 保存到指定目录下名为1234.html文件
+    # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "/Users/linghuchong/Downloads/111/1234.html")  # 保存到指定目录下名为1234.html文件,目录不存在则自动创建
+    # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "d:/1/2/3/1234.html")
 
     # print("2.3，下载图片".center(100, "-"))
     # Net_PO.downImage("http://passport.shaphar.com/cas-webapp-server/kaptcha.jpg")  # 将 kaptcha.jpg 下载保存在当前路径。

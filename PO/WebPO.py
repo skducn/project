@@ -3,6 +3,8 @@
 # Author     : John
 # Date       : 2018-7-2
 # Description: webdriverPO 对象层
+# pip install selenium==4.4.3
+# 注：新版本4.10浏览器会自动关闭
 
 # pip install opencv_python    // cv2
 
@@ -68,7 +70,7 @@ from selenium import webdriver
 # from selenium.webdriver.support import expected_conditions as EC
 from PIL import ImageGrab
 import cv2, requests, bs4
-from pytesseract import *
+# from pytesseract import *
 from PIL import Image, ImageDraw, ImageGrab
 import pyautogui
 
@@ -113,7 +115,8 @@ class WebPO(BasePO):
 
         if self.driver == "chrome":
             option = webdriver.ChromeOptions()
-            option.add_argument("--start-maximized")  # 最大化
+
+            # option.add_argument("--start-maximized")  # 最大化
             # driver_width, driver_height = pyautogui.size()  # 通过pyautogui方法获得屏幕尺寸
             # print(driver_width, driver_height)
             # option.add_argument('--window-size=%sx%s' % (driver_width, driver_height))
@@ -124,18 +127,22 @@ class WebPO(BasePO):
             # option.add_argument(
             #     r"--user-data-dir=c:\selenium_user_data"
             # )  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
-            # option.add_argument('--incognito')  # 无痕隐身模式
+            option.add_argument('--incognito')  # 无痕隐身模式
             # option.add_argument('disable-infobars')  # 不显示 Chrome正在受到自动软件的控制的提示（已废弃，替代者excludeSwitches）
-            # option.add_argument("disable-cache")  # 禁用缓存
+            option.add_argument("disable-cache")  # 禁用缓存
             # option.add_argument('--ignore-certificate-errors')
-            # option.add_argument("--disable-extensions")  # 禁用扩展插件的设置参数项
-            # option.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])  # 屏蔽--ignore-certificate-errors提示信息的设置参数项
+            option.add_argument("--disable-extensions")  # 禁用扩展插件的设置参数项
+            option.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])  # 屏蔽--ignore-certificate-errors提示信息的设置参数项
             option.add_experimental_option(
                 "excludeSwitches", ["enable-automation"]
             )  # 不显示 chrome正受到自动测试软件的控制的提示
             # option.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁止打印日志
             # option.headless = True  # 无界面模式
             self.driver = webdriver.Chrome(options=option)
+            ver1 = self.driver.capabilities['browserVersion']
+            ver2 = self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0]
+            print(ver1)
+            print(ver2)
             # self.driver = webdriver.Chrome(executable_path="d:\\chromedriver", chrome_options=option) # 启动带有自定义设置的Chrome浏览器
             self.driver.get(varURL)
             return self.driver
@@ -401,9 +408,9 @@ if __name__ == "__main__":
     # Web_PO = WebPO("firefox")
 
     # # print("1.1 打开网站".center(100, "-"))
-    Web_PO.openURL(
-        "https://baijiahao.baidu.com/s?id=1753450036624046728&wfr=spider&for=pc"
-    )
+    Web_PO.openURL("https://baijiahao.baidu.com/s?id=1753450036624046728&wfr=spider&for=pc")
+    # Web_PO.openURL("https://www.xvideos.com/video76932809/_")
+    # Xvideos_PO.getInfo("https://www.xvideos.com/video76932809/_")
 
     # # print("1.2 打开标签页".center(100, "-"))
     # Web_PO.openLabel("http://www.jd.com")
@@ -418,7 +425,7 @@ if __name__ == "__main__":
     # Web_PO.getBrowserScreen("d:/222333browserScreen.png")
 
     # # print("2.0 指定分辨率浏览器".center(100, "-"))
-    Web_PO.setBrowser(1366, 768)
+    # Web_PO.setBrowser(1366, 768)
 
     # # print("2.1 全屏浏览器".center(100, "-"))
     # Web_PO.maxBrowser()

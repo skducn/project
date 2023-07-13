@@ -79,11 +79,40 @@ if __name__ == "__main__":
     <p class="story">...</p>
     """
 
+    # soup = BeautifulSoup(open('./data/video76932809__.mhtml', encoding="utf-8"), 'lxml')
+    soup = BeautifulSoup(open('./data/video76932809__.mhtml'),  'html.parser')
+    # print(soup.text)
+    # print(soup.original_encoding)
+    # print(soup.title).encode('gb18030')
+    #
+    # print(soup.originalEncoding)
+    # print(soup.prettify())
+    # print(soup.title).encode('gb18030')
+
+    # 文件名
+    setVideoTitle = soup.text.split("html5player.setVideoTitle('")[1].split("')")[0]
+    print(setVideoTitle)
+
+    setVideoHLS = soup.text.split("html5player.setVideoHLS(")[1].split(')')[0]
+    # print(setVideoHLS)
+    url = setVideoHLS.replace("'htt=\nps:", "https:").replace("\n", "").replace("hls.m3u8'", "")
+    print(url + "test.html")
+
+    setUploaderName = soup.text.split("html5player.setUploaderName('")[1].split("')")[0]
+    print(setUploaderName)
+
+    setVideoURL = soup.text.split("html5player.setVideoURL('")[1].split("')")[0]
+    print(setVideoURL)
 
 
-    Beautifulsoup_PO = BeautifulsoupPO(open("y.html", encoding='utf-8'))
+    # print(soup.find_all('script'))
+    # print(soup.head.script)
+
+
+    # Beautifulsoup_PO = BeautifulsoupPO(open("y.html", encoding='utf-8'))
+
     # Beautifulsoup_PO = BeautifulsoupPO("https://wall.alphacoders.com/by_resolution.php?w=3840&h=2160&lang=Chinese&page=3")
-    print(Beautifulsoup_PO.soup.find_all('a'))
+    # print(Beautifulsoup_PO.soup.find_all('a'))
     # for link in Beautifulsoup_PO.soup.find_all('a'):
     #     print(link.get('href'))
 
