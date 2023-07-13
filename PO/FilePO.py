@@ -218,21 +218,10 @@ class FilePO:
 
         # 新建多级目录
         # File_PO.newLayerFolder(os.getcwd() + "/folder5/h1/h2")  # 新建 /folder5/h1/h2 三层目录，目录存在则忽略
-        try:
-            if not os.path.exists(varLayerFolderPath):
-                os.makedirs(varLayerFolderPath)
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        if not os.path.exists(varLayerFolderPath):
+            os.makedirs(varLayerFolderPath)
+
 
     # 复制目录
     def copyFolder(self, srcFolderPath, tgtFolderPath, varMode="i"):
