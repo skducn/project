@@ -63,6 +63,7 @@
 
 from PO.BasePO import *
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 # from selenium.webdriver.common.action_chains import ActionChains
 # from selenium.webdriver.support.select import Select
@@ -114,37 +115,45 @@ class WebPO(BasePO):
             return self.driver
 
         if self.driver == "chrome":
-            option = webdriver.ChromeOptions()
+            options = Options()
+            # option = webdriver.ChromeOptions()
 
-            # option.add_argument("--start-maximized")  # 最大化
+            options.add_argument("--start-maximized")  # 最大化
             # driver_width, driver_height = pyautogui.size()  # 通过pyautogui方法获得屏幕尺寸
             # print(driver_width, driver_height)
             # option.add_argument('--window-size=%sx%s' % (driver_width, driver_height))
 
-            option.add_argument(
-                "--disable-blink-features=AutomationControlled"
-            )  # 禁止浏览器出现验证滑块
             # option.add_argument(
+            #     "--disable-blink-features=AutomationControlled"
+            # )  # 禁止浏览器出现验证滑块
+            # options.add_argument(
             #     r"--user-data-dir=c:\selenium_user_data"
             # )  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
-            option.add_argument('--incognito')  # 无痕隐身模式
-            # option.add_argument('disable-infobars')  # 不显示 Chrome正在受到自动软件的控制的提示（已废弃，替代者excludeSwitches）
-            option.add_argument("disable-cache")  # 禁用缓存
-            # option.add_argument('--ignore-certificate-errors')
-            option.add_argument("--disable-extensions")  # 禁用扩展插件的设置参数项
-            option.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])  # 屏蔽--ignore-certificate-errors提示信息的设置参数项
-            option.add_experimental_option(
+            # option.add_argument('--incognito')  # 无痕隐身模式
+            # # option.add_argument('disable-infobars')  # 不显示 Chrome正在受到自动软件的控制的提示（已废弃，替代者excludeSwitches）
+            options.add_argument("disable-cache")  # 禁用缓存
+            # # option.add_argument('--ignore-certificate-errors')
+            # option.add_argument("--disable-extensions")  # 禁用扩展插件的设置参数项
+            # option.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])  # 屏蔽--ignore-certificate-errors提示信息的设置参数项
+            options.add_experimental_option(
                 "excludeSwitches", ["enable-automation"]
             )  # 不显示 chrome正受到自动测试软件的控制的提示
             # option.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁止打印日志
             # option.headless = True  # 无界面模式
-            self.driver = webdriver.Chrome(options=option)
-            ver1 = self.driver.capabilities['browserVersion']
-            ver2 = self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0]
-            print(ver1)
-            print(ver2)
-            # self.driver = webdriver.Chrome(executable_path="d:\\chromedriver", chrome_options=option) # 启动带有自定义设置的Chrome浏览器
+            options.add_argument('--no-sandbox')  # 解决文件不存咋的报错
+            options.add_argument('-disable-dev-shm-usage')  # 解决DevToolsActivePort文件不存咋的报错
+            options.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
+            options.add_argument('--hide-scrollbars')  # 隐藏滚动条，因对一些特殊页面
+            options.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片，提升速度
+            # self.driver = webdriver.Chrome(options=option)
+            # ver1 = self.driver.capabilities['browserVersion']
+            # ver2 = self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0]
+            # print(ver1)
+            # print(ver2)
+
+            self.driver = webdriver.Chrome(executable_path="/Users/linghuchong/miniconda3/envs/py308/bin/chromedriver", chrome_options=options) # 启动带有自定义设置的Chrome浏览器
             self.driver.get(varURL)
+            # sleep(5)
             return self.driver
 
         if self.driver == "chromeHeadless":
