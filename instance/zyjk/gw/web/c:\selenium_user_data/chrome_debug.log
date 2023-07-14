@@ -1,0 +1,8 @@
+[4418:259:0714/112744.922706:WARNING:chrome_main_delegate.cc(593)] This is Chrome version 114.0.5735.198 (not a warning)
+[4418:259:0714/112745.099684:INFO:chrome_browser_cloud_management_controller.cc(167)] Starting CBCM Controller Initialization
+[4418:259:0714/112745.099731:INFO:chrome_browser_cloud_management_controller.cc(195)] No machine level policy manager exists.
+[4418:45827:0714/112745.154147:ERROR:trust_store_mac.cc(844)] Error parsing certificate:
+ERROR: Failed parsing extensions
+
+[4418:259:0714/112747.495903:INFO:CONSOLE(122)] "err Error: 验证码错误", source: http://192.168.0.203:30080/assets/index.6eed01f4.js (122)
+[4418:259:0714/112749.617706:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
