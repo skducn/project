@@ -97,7 +97,7 @@ pycparser==2.17
 PyDispatcher==2.0.5
 pyExcelerator==0.6.4.1
 pyftpdlib==1.5.2
-Pygments==2.6.1
+Pygments==2.7.4
 PyHamcrest==1.9.0
 PyInstaller==4.0.dev0+1eadfa55f2
 pyluach==1.1.0
