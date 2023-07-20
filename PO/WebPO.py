@@ -195,6 +195,7 @@ class WebPO(BasePO):
         sleep(t)
         self.driver.switch_to.window(all_handles[varSwitch])
 
+
     def getBrowserSize(self):
 
         """1.4 获取当前浏览器宽高"""

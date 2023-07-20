@@ -1,0 +1,30 @@
+(function () {
+    function init(){
+        var grid = this;
+        grid.on("preload", function(e){
+            var result = e.result;
+            if (result.code != undefined && result.code == "1" && result.data != undefined) {//加密的格式，不加密直接跳过
+                var dataStr = transDecode(result.data[0], g_pu, g_pi);
+                if(typeof dataStr === 'string'){
+                    dataStr = $.parseJSON(dataStr);
+                }
+                var gridData = dataStr;
+                if (gridData == null) {
+                    e.data = [];
+                    e.total = 0;
+                    grid.setTotalCount(0);
+                } else {
+                    e.data = gridData.data;
+                    e.total = gridData.total
+                    grid.setTotalCount(gridData.total);
+                }
+            }
+
+        });
+    }
+    var set = mini.DataGrid.prototype.set;
+    mini.DataGrid.prototype.set = function(){
+        init.call(this);
+        set.apply(this, arguments);
+    }
+})();
