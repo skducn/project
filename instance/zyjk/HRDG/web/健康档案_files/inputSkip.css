@@ -1,0 +1,57 @@
+.clickLabel{
+	padding-right: 6px;
+ 	float: left;
+	cursor: pointer;
+}
+label {
+	margin-right: 1px;
+}
+label.selected {
+	background-color: rgb(57, 168, 232);
+	color: white;
+}
+.clickLabel:HOVER,.clickBox:HOVER{
+	color: orange;
+}
+.clickLabel b{
+	font-size: 14px;
+}
+.clickBox{
+	padding-right: 10px;
+ 	float: left;
+    margin-bottom: 1px;
+	cursor: pointer;
+}
+.clickBox b{
+	font-size: 14px;
+}
+input.inputLabel{
+	text-align: center;
+	float: right;
+	border: none;  
+	border: 1px solid white;
+    border-bottom: 1px solid black;
+	font-weight: bold;
+}
+input.inputLabel:FOCUS{
+	border: 1px solid blue;
+}
+input.inputBox{
+	text-align: center;
+	border: none;
+	border: 1px solid white;
+    border-bottom: 1px solid black;
+	margin-left: 6px;
+}
+input.inputBox:FOCUS{
+	border: 1px solid blue;
+}
+.boxSpan{
+	float:right;
+}
+.boxSpan input{
+	width: 30px;
+  	border-bottom: 1px solid black;
+  	font-weight: bold;
+  	height: 21px;
+}

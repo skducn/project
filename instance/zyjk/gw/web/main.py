@@ -4,7 +4,7 @@
 # Created on : 2023-7-14
 # Description: 公卫 - 居民将康档案
 # *****************************************************************
-
+# #
 # from GwPO import *
 # Gw_PO = GwPO()
 import sys
@@ -244,22 +244,45 @@ Base_PO.inputXpath('//*[@id="app"]/div/div[3]/section/div/form/div[2]/div[2]/div
 # Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[13]/div[2]/div[4]/div/div[2]/div/div/div[2]/div/div/input', '不知道333')
 
 # 遗传病史
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[14]/div[1]/div[2]/div/div/label[1]', 1)  # 无
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[14]/div[1]/div[2]/div/div/label[2]', 1)  # 有
-Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[14]/div[2]/div[2]/div/div/div/input', '爱斯基摩血透') # 疾病名称
-# 残疾情况
-# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[1]/label', 1)  # 无残疾
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[2]/label', 1)  # 视力残疾
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[3]/label', 1)  # 听力残疾
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[4]/label', 1)  # 言语残疾
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[5]/label', 1)  # 肢体残疾
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[6]/label', 1)  # 智力残疾
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[7]/label', 1)  # 精神残疾
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[8]/label', 1)  # 其他残疾
-Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div[2]/div/div/input', '浑身都是疾病')
-
-
-
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[14]/div[1]/div[2]/div/div/label[1]', 1)  # 无
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[14]/div[1]/div[2]/div/div/label[2]', 1)  # 有
+# Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[14]/div[2]/div[2]/div/div/div/input', '爱斯基摩血透') # 疾病名称
+# # 残疾情况
+# # Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[1]/label', 1)  # 无残疾
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[2]/label', 1)  # 视力残疾
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[3]/label', 1)  # 听力残疾
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[4]/label', 1)  # 言语残疾
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[5]/label', 1)  # 肢体残疾
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[6]/label', 1)  # 智力残疾
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[7]/label', 1)  # 精神残疾
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[8]/label', 1)  # 其他残疾
+# Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div[2]/div/div/input', '浑身都是疾病')
+# 家庭情况
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[1]/div[2]/div/div/div/div/div/input', 1)  # 与户主关系
+Base_PO.clickXpath('/html/body/div[2]/div[26]/div/div/div[1]/ul/li[2]', 1)
+Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[2]/div[2]/div/div/div[1]/input', '金金')  # 户主姓名
+Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[3]/div[2]/div/div/div[1]/input', '310101198004110014')  # 户主身份证号
+Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[4]/div[2]/div/div/div/input','3')  # 家庭人口数
+Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[2]/div[1]/div[2]/div/div/div/input', '家庭结构不复杂')  # 家庭结构
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[2]/div[2]/div[2]/div/div/div[2]/label', 1)  # 居住情况
+# 生活环境
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[1]/div/div[2]/div/div/div[2]/label', 1)  # 厨房排风设施
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[2]/div/div[2]/div/div/div[2]/label', 1)  # 燃料类型
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[3]/div/div[2]/div/div/div[2]/label', 1)  # 饮水
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[4]/div/div[2]/div/div/div[2]/label', 1)  # 厕所
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[5]/div/div[2]/div/div/div[2]/label', 1)  # 禽畜栏
+# 是否高危人群
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[18]/div/div[2]/div/div/div/label[1]') # 是
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[18]/div/div[2]/div/div/div/label[2]') # 否
+# 家庭团队
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[1]/div[2]/div/div/div/div/div/input', 1)
+Base_PO.clickXpath('/html/body/div[2]/div[27]/div/div/div[1]')
+# 责任医生
+Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[2]/div[2]/div/div/div/div/div/input', 1)
+Base_PO.clickXpath('/html/body/div[2]/div[28]/div', 1)
+# 建档日期
+Base_PO.inputXpathClear('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[3]/div[2]/div/div/div/input','2023-12-12'
+                   )
 
 
 sys.exit(0)
