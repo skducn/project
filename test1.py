@@ -9,11 +9,37 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
+var = {'母亲': ['脑卒中', '冠心病',{'其他':'123'}], '父亲': ['高血压', '糖尿病'], '其他':['12121','2020-12-12']}
+
+# # print(len(var))
+# x=1
+# for k,v in var.items():
+#     x = x+1
+#     print(k,v,x)
+
+#
+# for i in range(len(var)):
+#
+#     if isinstance(v[i],dict) == True:
+
+
+for k,v in var.items():
+    if k == '其他':
+        print(v)
+
+
+    # if v.type
+    # if '其他' in v:
+    #     print(1121212)
+
+
+
+
 # 查看9222端口情况，lsof -i tcp:9222
 # 删除PID， kill -9 3333   //这里3333是9222的PID
-a = 'Ella聊美语/让我带你读你的第一本英文原著✅ \n（我的英文基础网课、自学指南电子书、一对一请看我首页） \n我初学英文的时候看的原著有\n1 Diary of a Wimpy Kid 词汇量范围 1000-3000\n它是一个青少年小说，而且有出同名电影，里面的用词和表达很日常也很俏皮，单词量范围也不会很大，highly recommend! \n2 Rich Dad Poor Dad (30'
-print(len(a))
-print(a[:5])
+# a = 'Ella聊美语/让我带你读你的第一本英文原著✅ \n（我的英文基础网课、自学指南电子书、一对一请看我首页） \n我初学英文的时候看的原著有\n1 Diary of a Wimpy Kid 词汇量范围 1000-3000\n它是一个青少年小说，而且有出同名电影，里面的用词和表达很日常也很俏皮，单词量范围也不会很大，highly recommend! \n2 Rich Dad Poor Dad (30'
+# print(len(a))
+# print(a[:5])
 # from DrissionPage.easy_set import set_paths
 # set_paths(browser_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
 # # set_paths(browser_path='/Applications/Firefox.app/Contents/MacOS/firefox')
