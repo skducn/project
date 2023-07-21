@@ -23,8 +23,6 @@ Base_PO = BasePO(driver)
 
 class JinganPO():
 
-    def __init__(self):
-
 
     def closeApp(self, varApp):
         """关闭应用程序"""
