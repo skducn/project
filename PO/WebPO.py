@@ -1,23 +1,38 @@
 # -*- coding: utf-8 -*-
-# *******************************************************************************************************************************
+# ***************************************************************
 # Author     : John
-# Date       : 2018-7-2
-# Description: webdriverPO 对象层
-# pip install selenium==4.4.3
-# 注：新版本4.10浏览器会自动关闭
+# Created on : 2018-7-2
+# Description: Web 对象层
+# ***************************************************************
+# selenium
+# 查看可安装的selenium版本， pip install selenium==
+# 注：部分新版本 selenium 4.10 会引起浏览器自动关闭现象，实测建议安装4.4.3, pip install selenium==4.4.3
 
 # pip install opencv_python    // cv2
+# ***************************************************************
+# chrome
+# 1，查看Chrome浏览器版本，chrome://version
+# print(driver.capabilities['browserVersion'])  # 浏览器版本，如：114.0.5735.198
+# print(driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # chrome驱动版本，如：114.0.5735.90
+# 以上两版本号前3位一样就可以，如 114.0.5735
 
-# chromedriver驱动
-# 下载：https://npm.taobao.org/mirrors/chromedriver
-# 下载：http://chromedriver.storage.googleapis.com/index.html
-# 存放路径：C:\Python38\Scripts\chromedrive.exe
-# 查看Chrome浏览器版本，chrome://version/
+# 2，下载及配置 chromedriver 驱动
+# 下载1：http://chromedriver.storage.googleapis.com/index.html
+# 下载2：https://npm.taobao.org/mirrors/chromedriver
+# 系统默认调用路径：C:\Python38\Scripts\chromedrive.exe
+# 自定义调用路径：
+# from selenium.webdriver.chrome.service import Service
+# driver = webdriver.Chrome(service=Service("/Users/linghuchong/Downloads/51/Python/project/instance/web/chromedriver"), options=options)
 
-# chrome的options参数
+# 3，chrome的options参数
 # https://blog.csdn.net/xc_zhou/article/details/82415870
 # https://blog.csdn.net/amberom/article/details/107980370
 
+# Q1：MAC 移动chromedriver时报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
+# A1: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable , 重启电脑。
+# ***************************************************************
+
+# firefox
 # geckodriver 0.14.0 for selenium3.0
 # 下载地址：https://github.com/mozilla/geckodriver/releases
 # ff 66.0.4 (64 位) , selenium =3.141.0，gecko = 0.24.0
@@ -26,57 +41,60 @@
 # Q1：WebDriverException:Message:'geckodriver'executable needs to be in Path
 # A1：geckodriver是原生态的第三方浏览器，对于selenium3.x版本使用geckodriver来驱动firefox，需下载geckodriver.exe,下载地址：https://github.com/mozilla/geckodriver/releases
 # 将 geckodriver 放在 C:\Python38\Scripts
+# ***************************************************************
 
-# Q2：MAC 移动chromedriver时报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
-# A2: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable , 重启电脑。
-# *******************************************************************************************************************************
 
 """
-
 1.1 打开网站 open()
 1.2 打开标签页 openLabel("http://www.jd.com")
-1.3 切换标签页 switchLabel(0)
-1.4 获取当前浏览器宽高 getBrowserSize()
-1.5 截取浏览器内屏幕 getBrowserScreen()
+1.3 切换标签页 switchLabel(1)
+1.4 关闭当前窗口 close()
 
-2.1 全屏浏览器 maxBrowser(0)
-2.2 缩放页面比率 zoom(20)
-2.3 动态加载页面滚动到底部（加载所有数据） dynamicLoadToEnd()
-2.4 页面滚动条到底部 scrollToEnd()
-2.5 app屏幕左移 scrollLeft('1000',9)
-2.6 app屏幕右移 scrollRight('1000', 5)
-2.7 app屏幕上移 scrollTop('1000', 5)
-2.8 app屏幕下移 scrollDown('1000', 5)
-2.9 元素拖动到可见的元素 scrollIntoView(varXpath)
-2.10 内嵌窗口中滚动条操作 scrollTopById(varId)
+2.1 获取当前浏览器宽高 getBrowserSize()
+2.2 设置浏览器分辨率 setBrowserSize()
+2.3 设置浏览器全屏 setBrowserMax()
+2.4 缩放页面比率 zoom(20)
+2.5 截取浏览器内屏幕 getBrowserScreen()
+2.6 页面滚动条到底部 scrollBottom()
 
 3.1 弹出框 popupAlert()
 3.2 确认弹出框 confirmAlert("accept", 2)
 
-4.1 关闭当前窗口 close()
-4.2 退出浏览器应用 quit()
+4.1 关闭浏览器应用 quit()
 
-获取验证码？？
+5.1 app屏幕左移 scrollLeftByApp('1000',9)
+5.2 app屏幕右移 scrollRightByApp('1000', 5)
+5.3 app屏幕上移 scrollUpByApp('1000', 5)
+5.4 app屏幕下移 scrollDownByApp('1000', 5)
+
+
+元素拖动到可见的元素 scrollIntoView(varXpath)
+内嵌窗口中滚动条操作 scrollTopById(varId)
+动态加载页面滚动到底部（加载所有数据） dynamicLoadToEnd()
+获取验证码 getCode()
 
 """
 
 
-from PO.BasePO import *
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from PO.DomPO import *
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+#
+# from selenium.webdriver.chrome.service import Service
+# # from selenium.webdriver.common.action_chains import ActionChains
+# # from selenium.webdriver.support.select import Select
+# # from selenium.webdriver.support.wait import WebDriverWait
+# # from selenium.webdriver.support import expected_conditions as EC
+# from PIL import ImageGrab
+# import cv2, requests, bs4
+# # from pytesseract import *
+# from PIL import Image, ImageDraw, ImageGrab
+# import pyautogui
 
-# from selenium.webdriver.common.action_chains import ActionChains
-# from selenium.webdriver.support.select import Select
-# from selenium.webdriver.support.wait import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-from PIL import ImageGrab
-import cv2, requests, bs4
-# from pytesseract import *
-from PIL import Image, ImageDraw, ImageGrab
-import pyautogui
+
+class WebPO(DomPO):
 
 
-class WebPO(BasePO):
     def _openURL(self, varURL):
 
         """1.1 打开"""
@@ -151,170 +169,242 @@ class WebPO(BasePO):
             # print(ver1)
             # print(ver2)
 
-            self.driver = webdriver.Chrome(executable_path="/Users/linghuchong/miniconda3/envs/py308/bin/chromedriver", chrome_options=options) # 启动带有自定义设置的Chrome浏览器
+            s = Service("/Users/linghuchong/Downloads/51/Python/project/instance/web/chromedriver")
+            # self.driver = webdriver.Chrome(executable_path="/Users/linghuchong/miniconda3/envs/py308/bin/chromedriver", chrome_options=options) # 启动带有自定义设置的Chrome浏览器
+            self.driver = webdriver.Chrome(service=s, options=options)  # 启动带有自定义设置的Chrome浏览器
+            print(self.driver.capabilities['browserVersion'])
+            print(self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])
             self.driver.get(varURL)
             # sleep(5)
             return self.driver
 
-        if self.driver == "chromeHeadless":
-            option = webdriver.ChromeOptions()
-            option.add_argument(
-                "--disable-blink-features=AutomationControlled"
-            )  # 禁止浏览器出现验证滑块
-            option.add_argument(
-                r"--user-data-dir=c:\selenium_user_data"
-            )  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
-            option.add_experimental_option(
-                "excludeSwitches", ["enable-automation"]
-            )  # 不显示 chrome正受到自动测试软件的控制的提示
-            option.add_experimental_option(
-                "excludeSwitches", ["enable-logging"]
-            )  # 禁止打印日志
-            option.headless = True  # 无界面模式
-            self.driver = webdriver.Chrome(options=option)
-            self.driver.get(varURL)
-            return self.driver
+
 
     def openURL(self, varURL):
+
         self._openURL(varURL)
+
+
+    def open(self, varUrl):
+
+        '''
+        1.1 打开网页
+        :param varURL:
+        :return:
+        '''
+        self.driver.get(varUrl)
 
     def openLabel(self, varURL):
 
-        """1.2 打开标签页"""
+        '''
+        1.2 打开标签页
+        :param varURL:
+        :return:
+        '''
 
-        self.openURL(varURL)
         self.driver.execute_script('window.open("' + varURL + '");')
 
     def switchLabel(self, varSwitch, t=1):
 
-        """1.3 切换标签页"""
-
-        # self.Web_PO.switchLabel(0) # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页 , 以此类推。
+        '''
+        1.3 切换标签页
+        :param varSwitch: 1
+        :param t:
+        :return:
+         # self.Web_PO.switchLabel(0) # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页 , 以此类推。
+        '''
 
         all_handles = self.driver.window_handles
         sleep(t)
         self.driver.switch_to.window(all_handles[varSwitch])
 
+    def close(self):
+
+        '''
+        1.4 关闭当前窗口
+        :return:
+        '''
+
+        self.driver.close()
+
 
     def getBrowserSize(self):
 
-        """1.4 获取当前浏览器宽高"""
+        '''
+        2.1 获取当前浏览器宽高
+        :return:
+        '''
 
         d_size = self.driver.get_window_size()  # {'width': 1936, 'height': 1056}
-        return (d_size["width"] - 16, d_size["height"] + 24)
+        return d_size
+        # return (d_size["width"] - 16, d_size["height"] + 24)
 
-    def getBrowserScreen(self, varImageFile):
+    def setBrowserSize(self, width, height):
 
-        """1.5 截取浏览器内屏幕"""
-
-        # 前置条件：先打开浏览器后才能截屏.
-        # self.Web_PO.getBrowserScreen("d:\\screenshot.png")
-        self.driver.get_screenshot_as_file(varImageFile)
-
-    def setBrowser(self, width, height):
-
-        """2.0 指定分辨率浏览器"""
-
+        '''
+        2.2 设置浏览器分辨率
+        :param width: 1366
+        :param height: 768
+        :return:
         # Web_PO.setBrowser(1366, 768) # 按分辨率1366*768打开浏览器
+        '''
+
         self.driver.set_window_size(width, height)
 
-    def maxBrowser(self, t=1):
+    def setBrowserMax(self):
 
-        """2.1 全屏浏览器"""
+        '''
+        2.3 设置浏览器全屏
+        :return:
+        '''
 
-        # self.switchLabel(varWhichWindows)  # 切换句柄
-        self.driver.maximize_window()  # 全屏
-        sleep(t)
+        self.driver.maximize_window()
 
     def zoom(self, percent):
 
-        """2.2 缩放页面比率"""
-
-        js = "document.body.style.zoom='" + str(percent) + "%'"
-        self.driver.execute_script(js)
-
-    def dynamicLoadToEnd(self, varClassValue):
-
-        """2.3 动态加载页面滚动到底部（加载所有数据）
-
-        varClassValue 参数是所需加载数据，如list中class值
-        Web_PO.driver.find_elements(By.CLASS_NAME, "Eie04v01")
-        return: 返回所需加载数据的数量
-        """
-
-        # dynamicLoadToEnd('Eie04v01')
-        num, len_now = 0, 0
-        _input = self.driver.find_element(By.TAG_NAME, "body")
-        while True:
-            _input.send_keys(Keys.PAGE_DOWN)
-            self.driver.implicitly_wait(2)
-            elem = self.driver.find_elements(By.CLASS_NAME, varClassValue)
-            len_cur = len(elem)
-            # print(len_now, len_cur)
-            if len_now != len_cur:
-                len_now = len_cur
-                num = 0
-            elif len_now == len_cur and num <= 2:
-                num = num + 1
-                sleep(0.5)
-            else:
-                sleep(2)
-                break
-        return len_cur
-
-    def scrollToEnd(self, t):
-
-        """2.4 页面滚动条到底部
+        '''
+        2.4 缩放页面内容比率
+        :param percent:  50
         :return:
-        """
+        30表示内容缩小到 50%
+        '''
+
+        self.driver.execute_script("document.body.style.zoom='" + str(percent) + "%'")
+
+    def getBrowserScreen(self, varImageFile="browser.png"):
+
+        '''
+        2.5 截取浏览器内屏幕
+        :param varImageFile:  "d:\\screenshot.png"
+        :return:
+        前置条件：先打开浏览器后才能截屏.
+        '''
+
+        try:
+            self.driver.get_screenshot_as_file(varImageFile)
+        except:
+            print("error, 请检查浏览器是否打开！")
+
+    def scrollBottom(self, t=2):
+
+        '''
+        2.6 页面滚动条到底部
+        :param t:
+        :return:
+        '''
 
         self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
         sleep(t)
 
-    def scrollLeft(self, location, t=1):
 
-        """2.5 app屏幕左移"""
 
-        # Web_PO.scrollLeft('1000', 2)  # 屏幕向左移动1000个像素
-        self.driver.execute_script(
-            "var q=document.documentElement.scrollLeft=" + location
-        )
+    def popupAlert(self, varText, t=1):
+
+        '''
+        3.1 弹出框
+        :param varText:
+        :param t:
+        :return:
+        '''
+
+        # 注意这里需要转义引号
+        self.driver.execute_script("alert('" + varText + "');")
         sleep(t)
 
-    def scrollRight(self, location, t=1):
+    def confirmAlert(self, varOperate, t=1):
 
-        """2.6 app屏幕右移"""
+        '''
+        3.2 确认弹出框
+        :param operate:
+        :param t:
+        :return:
+        '''
 
-        # Web_PO.scrollRight('1000', 2)  # 屏幕向右移动1000个像素
-        self.driver.execute_script(
-            "var q=document.documentElement.scrollRight=" + location
-        )
+        if varOperate == "accept":
+            self.driver.switch_to.alert.accept()
+            sleep(t)
+        if varOperate == "dismiss":
+            self.driver.switch_to.alert.dismiss()
+            sleep(t)
+        if varOperate == "text":
+            x = self.driver.switch_to.alert.text
+            self.driver.switch_to.alert.accept()
+            return x
+
+
+    def quit(self):
+
+        '''
+        4.1 关闭浏览器应用
+        :return:
+        '''
+
+        self.driver.quit()
+
+
+    def scrollLeftByApp(self, location, t=1):
+
+        '''
+        5.1 app屏幕左移
+        :param location: "1000"
+        :param t:
+        :return:
+         # Web_PO.scrollLeft('1000')  # 屏幕向左移动1000个像素
+        '''
+
+        self.driver.execute_script("var q=document.documentElement.scrollLeft=" + location)
         sleep(t)
 
-    def scrollTop(self, location, t=1):
+    def scrollRightByApp(self, location, t=1):
 
-        """2.7 app屏幕上移"""
+        '''
+        5.2 app屏幕右移
+        :param location: "1000"
+        :param t:
+        :return:
+        Web_PO.scrollRight('1000', 2)  # 屏幕向右移动1000个像素
+        '''
 
-        # self.Web_PO.scrollTop("10000",2) # 屏幕向上移动1000个像素
+        self.driver.execute_script("var q=document.documentElement.scrollRight=" + location)
+        sleep(t)
+
+    def scrollUpByApp(self, location, t=1):
+
+        '''
+        5.3 app屏幕上移
+        :param location: :1000
+        :param t:
+        :return:
+        Web_PO.scrollTop("1000",2) # 屏幕向上移动1000个像素
+        '''
+
         # self.driver.execute_script("var q=document.body.scrollTop=" + location)
-        self.driver.execute_script(
-            "var q=document.documentElement.scrollTop=" + location
-        )
+        self.driver.execute_script("var q=document.documentElement.scrollTop=" + location)
         sleep(t)
 
-    def scrollDown(self, location, t=1):
+    def scrollDownByApp(self, location, t=1):
 
-        """2.8 app屏幕下移"""
+        '''
+        5.4 app屏幕下移
+        :param location:
+        :param t:
+        :return:
+        Web_PO.scrollDown("1000",2) # 屏幕向下移动1000个像素
+        '''
 
-        # self.Web_PO.scrollDown("10000",2) # 屏幕向下移动1000个像素
-        self.driver.execute_script(
-            "var q=document.documentElement.scrollDown=" + location
-        )
+        self.driver.execute_script("var q=document.documentElement.scrollDown=" + location)
         sleep(t)
+
+
 
     def scrollIntoView(self, varXpath, t=1):
 
-        """2.9 元素拖动到可见的元素"""
+        '''
+        元素拖动到可见的元素
+        :param varXpath:
+        :param t:
+        :return:
+        '''
 
         element = self.driver.find_element_by_xpath(varXpath)
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
@@ -329,42 +419,6 @@ class WebPO(BasePO):
         js = "var q=document.getElementById('" + varId + "').scrollTop=100000"
         self.driver.execute_script(js)
         sleep(t)
-
-    def popupAlert(self, text, t=1):
-
-        """3.1 弹出框"""
-
-        # 注意这里需要转义引号
-        js = "alert('" + text + "');"
-        self.driver.execute_script(js)
-        sleep(t)
-
-    def confirmAlert(self, operate, t=1):
-
-        """3.2 确认弹出框"""
-
-        if operate == "accept":
-            self.driver.switch_to.alert.accept()
-            sleep(t)
-        if operate == "dismiss":
-            self.driver.switch_to.alert.dismiss()
-            sleep(t)
-        if operate == "text":
-            x = self.driver.switch_to.alert.text
-            self.driver.switch_to.alert.accept()
-            return x
-
-    def close(self):
-
-        """4.1 关闭当前窗口"""
-
-        self.driver.close()
-
-    def quit(self):
-
-        """4.2 退出浏览器应用"""
-
-        self.driver.quit()
 
     def getCode(self, capScrnPic, xStart, yStart, xEnd, yEnd):
 
@@ -410,6 +464,35 @@ class WebPO(BasePO):
         imgry = im.resize((1000, 500), Image.NEAREST)
         return image_to_string(imgry)
 
+    def dynamicLoadToEnd(self, varClassValue):
+
+        """2.3 动态加载页面滚动到底部（加载所有数据）????
+
+        varClassValue 参数是所需加载数据，如list中class值
+        Web_PO.driver.find_elements(By.CLASS_NAME, "Eie04v01")
+        return: 返回所需加载数据的数量
+        """
+
+        # dynamicLoadToEnd('Eie04v01')
+        num, len_now = 0, 0
+        _input = self.driver.find_element(By.TAG_NAME, "body")
+        while True:
+            _input.send_keys(Keys.PAGE_DOWN)
+            self.driver.implicitly_wait(2)
+            elem = self.driver.find_elements(By.CLASS_NAME, varClassValue)
+            len_cur = len(elem)
+            # print(len_now, len_cur)
+            if len_now != len_cur:
+                len_now = len_cur
+                num = 0
+            elif len_now == len_cur and num <= 2:
+                num = num + 1
+                sleep(0.5)
+            else:
+                sleep(2)
+                break
+        return len_cur
+
 
 if __name__ == "__main__":
 
@@ -418,7 +501,8 @@ if __name__ == "__main__":
     # Web_PO = WebPO("firefox")
 
     # # print("1.1 打开网站".center(100, "-"))
-    Web_PO.openURL("https://baijiahao.baidu.com/s?id=1753450036624046728&wfr=spider&for=pc")
+    # Web_PO.openURL("https://baijiahao.baidu.com/s?id=1753450036624046728&wfr=spider&for=pc")
+    Web_PO.openURL("http://www.baidu.com")
     # Web_PO.openURL("https://www.xvideos.com/video76932809/_")
     # Xvideos_PO.getInfo("https://www.xvideos.com/video76932809/_")
 
