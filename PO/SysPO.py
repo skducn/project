@@ -24,8 +24,8 @@
 2.6，获取PID进程的当前目录 getPIDcurrFolder(pid)
 2.7，获取应用程序进程的状态 getAppStatus(app)
 2.8，获取PID进程的状态 getPIDstatus(pid)
-2.9，关闭应用程序进程的PID  closePID(pid)
-2.10，关闭应用程序进程名 closeApp(app)
+2.9，关闭应用程序进程的PID  clsPID(pid)
+2.10，关闭应用程序进程名 clsApp(app)
 2.11，获取应用程序的信息  p = psutil.Process(int(Sys_PO.getPID("pycharm.exe")))
 
 
@@ -178,7 +178,7 @@ class SysPO:
             if pid == varPid:
                 return p.status()
 
-    def closePID(self, varPid):
+    def clsPID(self, varPid):
 
         """2.9，关闭应用程序进程的PID"""
 
@@ -187,7 +187,7 @@ class SysPO:
             p = psutil.Process(varPid)
             p.terminate()
 
-    def closeApp(self, varApp):
+    def clsApp(self, varApp):
 
         """2.10，关闭应用程序进程名"""
 
@@ -341,10 +341,10 @@ if __name__ == "__main__":
     # print(Sys_PO.getPIDstatus(20824))  # running
 
     # # print("2.9，关闭应用程序进程的PID".center(100, "-"))
-    # Sys_PO.closePID(21500)
+    # Sys_PO.clsPID(21500)
     #
     # print("2.10，关闭应用程序进程名".center(100, "-"))
-    # Sys_PO.closeApp('notepad.exe')
+    # Sys_PO.clsApp('notepad.exe')
 
     # # print("3.1 输出系统错误(简)".center(100, "-"))
     # Sys_PO.outMsg1("error", str(sys._getframe(0).f_lineno), sys._getframe(0).f_code.co_name , "错误提示")

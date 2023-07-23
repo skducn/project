@@ -9,7 +9,7 @@
 from DemoPO import *
 Demo_PO = DemoPO()
 
-Demo_PO.test("http://www.baidu.com")
+Demo_PO.open("http://www.baidu.com")
 
 # import PyQt5.QtWidgets
 #

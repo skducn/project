@@ -190,6 +190,7 @@ class HttpPO:
         # r.content 返回响应的内容(字节为单位)  # r.content.decode("utf8", "ignore")
         # r.json 返回响应的内容(字典格式)
         return r
+
     def postHtmlByParam(self, varUrl, headers={}, params=None):
 
         '''2.2 获取内容带参数'''

@@ -43,8 +43,8 @@ Web_PO = WebPO(driver)
 
 class DemoPO():
 
-    def test(self, url):
-        Web_PO.open(url)
+    def open(self, url):
+        Web_PO.opn(url)
         x = Web_PO.getTextsAndAttrs("//div[@id='s-top-left']/a","href")
         print(x)
 

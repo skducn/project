@@ -645,7 +645,7 @@ class DomPO(object):
 
         return self.find_element(*(By.XPATH, varXpath)).is_selected()
 
-    def clrSelected(self, varXpaths):
+    def clsSelected(self, varXpaths):
 
         '''
         取消所有已勾选的复选框

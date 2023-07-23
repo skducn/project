@@ -2,27 +2,29 @@
 #***************************************************************
 # Author     : John
 # Created on : 2023-7-22
-# Description:
+# Description: 静安健康档案数据治理页面自动化更新脚本
 #***************************************************************
 
-import os, sys
-sys.path.append("../../../../")
 
 from JinganPO import *
 Jingan_PO = JinganPO()
-Jingan_PO.closeApp("chrome.exe")
+Jingan_PO.clsApp("chrome.exe")
 
-# 业务
+# 1，获取业务数据
+# d_data = Jingan_PO.reqPost(varurl)
+# d_fData = fmtData(d_data) #格式化数据格式
+
+
+# 2，医生登录并且更新数据
 Jingan_PO.login('http://172.16.209.10:9071/health/select', "panxiaoye", "Pamam751200")
+Jingan_PO.edtBasicInfo("310107194812044641")  # 魏梅娣
 
-# 1，获取数据源，通过医生，获取他所有患者信息，每个患者用身份证识别
-# data = interface1('panxiaoye')
-# 遍历获取每个患者数据（身份证）
-idCard = {'310107194812044641': data}
+# try:
+#     for d in range(len(d_fData)):
+#         Jingan_PO.edtBasicInfo(d_fData)
+#         Web_PO.cls()
+# except:
+#     print(d_fData[idcard])
 
-# 2，更新数据
-Jingan_PO.basicInfo({'310107194812044641': data})
-Jingan_PO.basicInfo({'310107194812044641': data})
-
-# 3，回填状态
-# interface2(id, 状态)
+# 3，回填接口 更新状态
+# Jingan_PO.reqPost(varurl)
