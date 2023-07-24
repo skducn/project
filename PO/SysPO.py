@@ -299,7 +299,7 @@ if __name__ == "__main__":
     Sys_PO = SysPO()
 
     # print("1.1，获取当前系统".center(100, "-"))
-    # print(Sys_PO.getPlatform())  # nt  //表示windows
+    print(Sys_PO.getPlatform())  # nt  //表示windows    posix //表示mac
     #
     # print("1.2，获取本机mac地址".center(100, "-"))
     # print(Sys_PO.getMacAddress())  # 00:e1:8c:93:f6:76

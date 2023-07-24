@@ -5,10 +5,9 @@
 # Description: 静安健康档案数据治理页面自动化更新脚本
 #***************************************************************
 
-
 from JinganPO import *
 Jingan_PO = JinganPO()
-Jingan_PO.clsApp("chrome.exe")
+# Jingan_PO.clsApp("chrome.exe")
 
 # 1，获取业务数据
 # d_data = Jingan_PO.reqPost(varurl)

@@ -3,7 +3,6 @@
 # Author     : John
 # Created on : 2023-7-22
 # Description: demo
-# https://chromedriver.storage.googleapis.com/index.html
 # ***************************************************************
 
 from DemoPO import *

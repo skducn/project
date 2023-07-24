@@ -10,11 +10,12 @@
 # Sys_PO = SysPO()
 # Sys_PO.closeApp("Google Chrome")
 
-import pyautogui, requests
-
+import re, subprocess, requests, os
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+
 options = Options()
 options.add_argument("--start-maximized")
 # screen_width, screen_height = pyautogui.size()  # 通过pyautogui方法获得屏幕尺寸
@@ -35,9 +36,32 @@ options.add_argument('-disable-dev-shm-usage')  # 解决DevToolsActivePort文件
 options.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
 options.add_argument('--hide-scrollbars')  # 隐藏滚动条，因对一些特殊页面
 options.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片，提升速度
-driver = webdriver.Chrome(service=Service("d:\project\web\chromedriver.exe"), options=options)
-# print(driver.capabilities['browserVersion'])  # 浏览器版本
-# print(driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # chrome驱动版本
+
+chromeBrowserVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
+chromeBrowserVer = bytes.decode(chromeBrowserVer)
+# print(chromeBrowserVer)  # Google Chrome 114.0.5735.198
+chromeBrowserFirstVersion = (chromeBrowserVer.split('Google Chrome ')[1].split(".")[0])  # 114
+resp = requests.get(url="https://chromedriver.storage.googleapis.com/")
+content = resp.text
+if os.name == "nt":
+    chromeDriverVer = re.search(f"<Contents><Key>({chromeBrowserFirstVersion}\.\d+\.\d+\.\d+)/chromedriver_win32\.zip</Key>.*?", content, re.S)
+    chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
+    print(chrome_driver_path)
+    if os.path.isfile('??/Users/linghuchong/.wdm/drivers/chromedriver/win32/' + chromeDriverVer.group(1) + '/chromedriver'):
+        chrome_driver_path = '??/Users/linghuchong/.wdm/drivers/chromedriver/win32/' + chromeDriverVer.group(1) + '/chromedriver'
+    else:
+        print('download chromedriver ...')
+        chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
+elif os.name == 'posix':
+    chromeDriverVer = re.search(f"<Contents><Key>({chromeBrowserFirstVersion}\.\d+\.\d+\.\d+)/chromedriver_mac64\.zip</Key>.*?", content, re.S)
+    # print(chromeDriverVer.group(1))  # 114.0.5735.16
+    if os.path.isfile('/Users/linghuchong/.wdm/drivers/chromedriver/mac64/' + chromeDriverVer.group(1) + '/chromedriver'):
+        chrome_driver_path = '/Users/linghuchong/.wdm/drivers/chromedriver/mac64/' + chromeDriverVer.group(1) + '/chromedriver'
+    else:
+        print('download chromedriver ...')
+        chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
+
+driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
 from PO.WebPO import *
 Web_PO = WebPO(driver)
 
