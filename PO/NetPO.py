@@ -9,7 +9,7 @@
 """
 1，发送邮件 sendEmail()
 
-2.1，下载程序 downApp()
+2.1，下载程序 dnldFile()
 2.2，下载文件、网页、图片 downFile()
 2.3，下载图片  downImage()
 2.4，异步多线程下载图片 downImageAsync()
@@ -218,6 +218,20 @@ class NetPO:
         return alarm_html
 
     # 2.1，下载程序
+    def dnldFile(self, varUrlFile, toSave="./"):
+        # 下载文件（显示下载进度，数据块大小，文件大小）
+        # Net_PO.dnldFile("https://www.7-zip.org/a/7z1900-x64.exe", "d:/1")
+
+        def reporthook(a, b, c):
+            print("\r下载进度: %5.1f%%" % (a * b * 100.0 / c), end="")
+        filename = os.path.basename(varUrlFile)
+        File_PO.newLayerFolder(toSave)  # 新增文件夹
+        print("应用程序：{}".format(varUrlFile))
+        print("保存路径：{}".format(toSave))
+        urlretrieve(varUrlFile, os.path.join(toSave, filename), reporthook=reporthook)
+
+
+
     def downApp(self, vApp, toSave="./"):
         # 下载文件（显示下载进度，数据块大小，文件大小）
         # Net_PO.downloadFile("https://www.7-zip.org/a/7z1900-x64.exe", "")
