@@ -64,8 +64,8 @@ class ChcRulePO():
         # print(l_result)  # [{'RULE_CODE': 'PG_AGE002'}]
         # print(l_result[0]['RULE_CODE'])  # PG_AGE002
         if l_result[0]['RULE_CODE'] == varRuleCode:
-            print("ok")
+            # print("ok")
             return 1
         else:
-            print("error")
+            # print("error")
             return 0
