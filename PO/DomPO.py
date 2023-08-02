@@ -16,7 +16,7 @@
 # setTextEnter
 # appendTextEnter
 #
-# Click
+# clk
 # 通过Xpath点击 clk(varXpath)
 # 通过Xpaths点击所有 clks(varXpaths)
 # 通过Xpath按回车键 clkEnter(varXpath)

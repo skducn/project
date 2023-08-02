@@ -3,6 +3,7 @@
 # Author     : John
 # Created on : 2023-7-22
 # Description: demo
+# pyinstaller -F main.py -p /Users/linghuchong/Downloads/51/Python/project/instance/web
 # ***************************************************************
 
 from DemoPO import *

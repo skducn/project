@@ -63,7 +63,7 @@ elif os.name == 'posix':
         chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
 
 driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
-from PO.WebPO import *
+from WebPO import *
 Web_PO = WebPO(driver)
 
 class DemoPO():
