@@ -62,8 +62,11 @@ from openpyxl.utils import get_column_letter, column_index_from_string
 from datetime import date
 from time import sleep
 import psutil
+<<<<<<< HEAD
 import xlwings as xw
 
+=======
+>>>>>>> origin/master
 from PO.ColorPO import *
 
 Color_PO = ColorPO()
@@ -236,7 +239,11 @@ class OpenpyxlPO:
 
         """切换到指定的Sheet，如不存在，则默认定位第一个Sheet"""
 
+<<<<<<< HEAD
 
+=======
+        import xlwings as xw
+>>>>>>> origin/master
 
         xb = xw.Book(self.file)
         var1 = 0

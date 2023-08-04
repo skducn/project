@@ -867,7 +867,11 @@ if __name__ == "__main__":
     # Mysql_PO.sql2xlsx("select * from sys_area", "d:\\sys_area.xlsx", False)
 
     # print("4.2，将数据库表查询结果导出csv".center(100, "-"))
+<<<<<<< HEAD
     # Mysql_PO.sql2csv("select * from sys_area", "d:\\sys_user_detail.csv")
+=======
+    Mysql_PO.sql2csv("select * from sys_area", "d:\\sys_user_detail.csv")
+>>>>>>> origin/master
     # Mysql_PO.sql2csv("select * from sys_area", "d:\\sys_user_detail.cav", False)
 
     # print("4.3，将数据库表查询结果导出html".center(100, "-"))

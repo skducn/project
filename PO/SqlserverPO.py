@@ -74,6 +74,7 @@ class SqlServerPO:
         if not self.cur:
             raise (NameError, "error，创建游标失败！")
 
+<<<<<<< HEAD
 
 
     def execute(self, sql):
@@ -94,6 +95,14 @@ class SqlServerPO:
 
         # self.conn.commit()
 
+=======
+    def execQuery(self, sql):
+
+        """执行sql"""
+
+        # self.conn.commit()
+
+>>>>>>> origin/master
         try:
             self.cur.execute(sql)
             result = self.cur.fetchall()

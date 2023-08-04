@@ -16,11 +16,7 @@
 # setTextEnter
 # appendTextEnter
 #
-<<<<<<< HEAD
-# clk
-=======
 # Click
->>>>>>> origin/master
 # 通过Xpath点击 clk(varXpath)
 # 通过Xpaths点击所有 clks(varXpaths)
 # 通过Xpath按回车键 clkEnter(varXpath)
@@ -649,7 +645,7 @@ class DomPO(object):
 
         return self.find_element(*(By.XPATH, varXpath)).is_selected()
 
-    def clrSelected(self, varXpaths):
+    def clsSelected(self, varXpaths):
 
         '''
         取消所有已勾选的复选框
@@ -966,24 +962,6 @@ class DomPO(object):
             flag = False
         return flag
 
-<<<<<<< HEAD
-    def isElementAttr(self, varPath, varAttr):
-
-        '''
-        通过Xpath方式判断元素属性是否存在
-        :param varPath:
-        :return:
-        '''
-        element = self.find_element(*(By.XPATH, varPath))
-        if element.has_attribute(varAttr):
-            return True
-        else:
-            return False
-
-
-
-=======
->>>>>>> origin/master
     def isElementByAttr(self, varPath, varAttr, varValue):
 
         '''
