@@ -64,10 +64,14 @@ elif os.name == 'posix':
 
 driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
 <<<<<<< HEAD
+<<<<<<< HEAD
 from WebPO import *
 =======
 from PO.WebPO import *
 >>>>>>> origin/master
+=======
+from PO.WebPO import *
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 Web_PO = WebPO(driver)
 
 class DemoPO():

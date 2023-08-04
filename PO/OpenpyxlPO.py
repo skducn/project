@@ -63,10 +63,13 @@ from datetime import date
 from time import sleep
 import psutil
 <<<<<<< HEAD
+<<<<<<< HEAD
 import xlwings as xw
 
 =======
 >>>>>>> origin/master
+=======
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 from PO.ColorPO import *
 
 Color_PO = ColorPO()
@@ -240,10 +243,14 @@ class OpenpyxlPO:
         """切换到指定的Sheet，如不存在，则默认定位第一个Sheet"""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
         import xlwings as xw
 >>>>>>> origin/master
+=======
+        import xlwings as xw
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 
         xb = xw.Book(self.file)
         var1 = 0
