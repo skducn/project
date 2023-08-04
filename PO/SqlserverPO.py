@@ -76,9 +76,9 @@ class SqlServerPO:
 
 
 
-    def insertExec(self, sql):
+    def execute(self, sql):
 
-        """插入sql"""
+        """insert or update sql"""
         try:
             self.cur.execute(sql)
         except Exception as e:
@@ -86,6 +86,7 @@ class SqlServerPO:
             # print(str(e))  # table hh already exists
             # print(NameError(e))  # table hh already exists
             print(repr(e))  # OperationalError('table hh already exists')
+
 
     def execQuery(self, sql):
 
