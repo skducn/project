@@ -18,10 +18,14 @@
 #
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # clk
 =======
 # Click
 >>>>>>> origin/master
+=======
+# Click
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 =======
 # Click
 >>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
@@ -972,6 +976,7 @@ class DomPO(object):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     def isElementAttr(self, varPath, varAttr):
 
         '''
@@ -989,6 +994,8 @@ class DomPO(object):
 
 =======
 >>>>>>> origin/master
+=======
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 =======
 >>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
     def isElementByAttr(self, varPath, varAttr, varValue):

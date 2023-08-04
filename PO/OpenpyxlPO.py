@@ -64,10 +64,13 @@ from time import sleep
 import psutil
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import xlwings as xw
 
 =======
 >>>>>>> origin/master
+=======
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 =======
 >>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 from PO.ColorPO import *
@@ -244,10 +247,14 @@ class OpenpyxlPO:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
         import xlwings as xw
 >>>>>>> origin/master
+=======
+        import xlwings as xw
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 =======
         import xlwings as xw
 >>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
