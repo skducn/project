@@ -962,6 +962,21 @@ class DomPO(object):
             flag = False
         return flag
 
+    def isElementAttr(self, varPath, varAttr):
+
+        '''
+        通过Xpath方式判断元素属性是否存在
+        :param varPath:
+        :return:
+        '''
+        element = self.find_element(*(By.XPATH, varPath))
+        if element.has_attribute(varAttr):
+            return True
+        else:
+            return False
+
+
+
     def isElementByAttr(self, varPath, varAttr, varValue):
 
         '''

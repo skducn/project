@@ -74,6 +74,19 @@ class SqlServerPO:
         if not self.cur:
             raise (NameError, "error，创建游标失败！")
 
+
+
+    def insertExec(self, sql):
+
+        """插入sql"""
+        try:
+            self.cur.execute(sql)
+        except Exception as e:
+            # print(e.args)  # ('table hh already exists',)
+            # print(str(e))  # table hh already exists
+            # print(NameError(e))  # table hh already exists
+            print(repr(e))  # OperationalError('table hh already exists')
+
     def execQuery(self, sql):
 
         """执行sql"""

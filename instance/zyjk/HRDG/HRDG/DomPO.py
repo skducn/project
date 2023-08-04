@@ -645,7 +645,7 @@ class DomPO(object):
 
         return self.find_element(*(By.XPATH, varXpath)).is_selected()
 
-    def clsSelected(self, varXpaths):
+    def clrSelected(self, varXpaths):
 
         '''
         取消所有已勾选的复选框
@@ -961,6 +961,19 @@ class DomPO(object):
         except:
             flag = False
         return flag
+
+    def isElementAttr(self, varPath, varAttr):
+
+        '''
+        通过Xpath方式判断元素属性是否存在
+        :param varPath:
+        :return:
+        '''
+        element = self.find_element(*(By.XPATH, varPath))
+        if element.has_attribute(varAttr):
+            return True
+        else:
+            return False
 
     def isElementByAttr(self, varPath, varAttr, varValue):
 

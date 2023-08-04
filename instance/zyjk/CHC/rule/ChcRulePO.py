@@ -69,3 +69,10 @@ class ChcRulePO():
         else:
             # print("error")
             return 0
+
+
+    def insertEMPI(self, varParams):
+
+        # 新增患者主索引
+
+        Sqlserver_PO.insertExec(varParams)
