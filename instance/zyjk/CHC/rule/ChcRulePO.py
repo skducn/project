@@ -9,13 +9,15 @@ import re, subprocess, requests, os, psutil, json
 import sys
 
 from PO.SqlserverPO import *
-Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "utf8")  # 测试环境
+# Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "utf8")  # 测试环境
 from PO.StrPO import *
 Str_PO = StrPO()
 from PO.ColorPO import *
 Color_PO = ColorPO()
 from PO.TimePO import *
 Time_PO = TimePO()
+from PO.ListPO import *
+List_PO = ListPO()
 
 class ChcRulePO():
 
@@ -49,7 +51,6 @@ class ChcRulePO():
         # print(d_r['data']['access_token'])
         return d_r['data']['access_token']
 
-
     def runRule(self, var, token):
 
         '''
@@ -67,7 +68,6 @@ class ChcRulePO():
         print("http://192.168.0.243:8011/rules/tAssessRuleRecord/testExecuteRule/" + str(var))
         if d_r['code'] != 200:
             print(d_r)
-
 
     def newAssess(self, varIdcard, token):
 
@@ -89,7 +89,6 @@ class ChcRulePO():
         # if d_r['code'] != 200:
         #     print(d_r)
 
-
     def getResult(self, varID, varRuleCode):
 
         # 校验评估规则结果表
@@ -97,22 +96,113 @@ class ChcRulePO():
         print("select * from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'")
         return l_result
 
-        # print(l_result[0]['RULE_CODE'])  # PG_AGE002
-        # if l_result[0]['RULE_CODE'] == varRuleCode:
-        #     # print("ok")
-        #     return 1
-        # else:
-        #     # print("error")
-        #     return 0
-
-
     def insertEMPI(self, varParams):
 
         # 新增患者主索引
 
         Sqlserver_PO.insertExec(varParams)
 
-    def healthAssessment(self, Openpyxl_PO, TOKEN):
+
+    def run(self, varRuleLib, Openpyxl_PO, TOKEN):
+
+        '''
+        健康评估规则库
+        :param Openpyxl_PO:
+        :param TOKEN:
+        :return:
+        '''
+
+        # 获取"健康评估规则库"的规则编码和自动化规则
+        l_paramCode = (Openpyxl_PO.getColValueByCol([3, 4], [1], varRuleLib))  # 获取第5、7列值，忽略第一行数据
+        # print(l_paramCode[0])
+        # print(l_paramCode[1])
+        list1 = []
+        listall = []
+        for i in range(len(l_paramCode[1])):
+            list1.append(l_paramCode[1][i])
+            list1.append(l_paramCode[0][i])
+            listall.append(list1)
+            list1 = []
+        # print(listall)
+        d_paramCode = List_PO.list2dictByIndex(listall, 2)
+        print(d_paramCode)  # {2: ['GY_YH001001', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'"], 3: ['GY_YH002001', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='E11'"]}
+
+        # 遍历每条规则
+        for k, v in d_paramCode.items():
+            varRuleCode = v[0]  # GY_YH001001
+            l_v1 = Str_PO.str2list(v[1])
+            varTbl = l_v1[1]  # T_HIS_DIAGNOSIS
+            varField = l_v1[2]  # IDCARD
+            varParam = l_v1[3]  # IAGNOSIS_CODE='I10'
+            varParam = varParam.replace(".and.", ',')
+
+            if l_v1[0] == "r1":
+                l_result = self.r1(varRuleCode, varTbl, varField, varParam, TOKEN)
+            elif l_v1[0] == "r2":
+                l_result = self.r2(varRuleCode, varTbl, varField, varParam, TOKEN)
+
+            if l_result != []:
+                Openpyxl_PO.setCellValue(k, 1, "OK", varRuleLib)
+                Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
+                # print(No, " = > OK\n")
+            else:
+                Openpyxl_PO.setCellValue(k, 1, "ERROR", varRuleLib)
+                Color_PO.consoleColor("31", "31", str(k) + " => ERROR\n", "")
+            Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varRuleLib)
+
+
+
+
+    def r1(self, varRuleCode, varTbl, varField, varParam, TOKEN):
+
+        # 1,获取数据id
+        l_value = Sqlserver_PO.execQuery("select top 1 %s from %s" % (varField, varTbl))  # 获取表中第一条记录的id
+        varId = l_value[0][varField]
+        # print(v[2] + " = " + str(varId))  # ID = 1
+
+        # 2，修改数据
+        Sqlserver_PO.execute("update %s set %s where %s='%s'" % (varTbl, varParam, varField, varId))
+        Color_PO.consoleColor("31", "33", "update " + varTbl + " set " + varParam + " where " + varField + "=" + str(varId), "")
+        # print("update " + varTbl + " set " + varParam + " where " + v[2] + "=" + str(varId))
+
+        # 3，跑规则
+        self.runRule(varId, TOKEN)
+
+        # 4，检查"评估规则结果表"
+        l_result = self.getResult(varId, varRuleCode)
+        return l_result
+
+
+    def r2(self, varRuleCode, varTbl, varField, varParam, TOKEN):
+
+        # 1，修改数据
+        Sqlserver_PO.execute("update %s set %s where id=1" % (varTbl, varParam))
+        Color_PO.consoleColor("31", "33", "update " + varTbl + " set " + varParam + " where id=1", "")
+        # print("update " + varTbl + " set " + varParam + " where id=1")
+
+        l_var = Sqlserver_PO.execQuery("select %s from %s where id=1" % (varField, varTbl))
+        # print("select " + v[2] + " from " + varTbl + " where id=1")
+        varIDcard = l_var[0][varField]
+        print("身份证：" + str(varIDcard))
+
+        # 2,新增评估
+        self.newAssess(varIDcard, TOKEN)
+
+        # 3, 获取评估表id
+        l_var = Sqlserver_PO.execQuery("select id from T_ASSESS_INFO where ID_CARD='%s'" % (varIDcard))
+        # print(l_var)
+        varId = l_var[0]['id']
+        # print(varId)
+
+        # 4，跑规则
+        self.runRule(varId, TOKEN)
+
+        # 5，检查"评估规则结果表"
+        l_result = (self.getResult(varId, varRuleCode))
+        return l_result
+
+
+    def healthAssessment(self, Openpyxl_PO: object, TOKEN: object) -> object:
 
         '''
         健康评估规则库
@@ -168,8 +258,6 @@ class ChcRulePO():
 
             No = No + 1
         Openpyxl_PO.open()
-
-
     def healthInterposal(self, Openpyxl_PO, TOKEN):
 
         '''

@@ -370,20 +370,8 @@ if __name__ == "__main__":
     Str_PO = StrPO()
 
     # print("1.1，字符串转列表".center(100, "-"))
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     print(Str_PO.str2list("a,b"))  # ['a', 'b']
     print(Str_PO.str2list("['q','qwe']"))  # ['a', 'b']
-=======
-    # print(Str_PO.str2list("a,b"))  # ['a', 'b']
->>>>>>> origin/master
-=======
-    # print(Str_PO.str2list("a,b"))  # ['a', 'b']
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
-=======
-    # print(Str_PO.str2list("a,b"))  # ['a', 'b']
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
     # print(Str_PO.str2list("a1,2,3"))  # ['a1', '2', '3']
     # print(Str_PO.str2list("1,2,3"))  # ['1', '2', '3']
     # print(Str_PO.str2list("1,2,3", "digit"))  # [1, 2, 3]
@@ -453,19 +441,7 @@ if __name__ == "__main__":
     # print(Str_PO.isComplex("123Abc"))  # False
 
     # print("3，删除特殊字符".center(100, "-"))
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     # print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
-=======
-    print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
->>>>>>> origin/master
-=======
-    print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
-=======
-    print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
     # # #创作灵感 只需三招，就能:让你*成为一<个狠>人！#|人生感悟 #智慧人生 #为人处世
 
     # print("4，字符串列表大写转小写".center(100, "-"))
@@ -529,9 +505,6 @@ if __name__ == "__main__":
     # print(Str_PO.patchZero(list3, 0))  # ['11', '22', '3', '4', '5', '6.6']
     # print(Str_PO.patchZero(list3, 1))  # ['11.0', '22.0', '3.0', '4.0', '5.0', '6.6']
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     # tmpdict1 = {"abc": "100.00", "ddd": "7.08", "ccc": "5.80"}
     # for k, v in tmpdict1.items():
     #     tmpdict1[k] = str(Str_PO.subZero(v))
@@ -564,47 +537,3 @@ if __name__ == "__main__":
     #             print(tmpdict2)
     #
     # print(tmpdict2)  # {'门诊药房(新院)': '1565', '发热门诊药房': '11.1', '外科': '1545'}
-=======
-=======
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
-=======
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
-    tmpdict1 = {"abc": "100.00", "ddd": "7.08", "ccc": "5.80"}
-    for k, v in tmpdict1.items():
-        tmpdict1[k] = str(Str_PO.subZero(v))
-    print(tmpdict1)  # {'abc': '100', 'ddd': '7.08', 'ccc': '5.8'}
-
-    def isFloat(str):
-        s = str.split(".")
-        if len(s) > 2:
-            return False
-        else:
-            for si in s:
-                if not si.isdigit():
-                    return False
-            return True
-
-    tmpdict2 = {}
-    tuple1 = (
-        ("门诊药房(新院)", 1565.00),
-        ("发热门诊药房", 11.10),
-        ("外科", "1545.00"),
-        ("外科1", "1a"),
-    )
-    for k, v in tuple1:
-        # tmpdict2[k] = str(Str_PO.subZero(v))
-        if v.isdigit():
-            tmpdict2[k] = int(v)
-        else:
-            if isFloat(v):
-                tmpdict2[k] = float(v)
-                print(tmpdict2)
-
-    print(tmpdict2)  # {'门诊药房(新院)': '1565', '发热门诊药房': '11.1', '外科': '1545'}
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
-=======
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f

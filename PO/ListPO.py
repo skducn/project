@@ -201,20 +201,16 @@ class ListPO:
 
     # 1.7 列表转数组
     def list2array(self, varList, varNum):
-        try:
-            return numpy.array_split(varList, varNum)
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        return numpy.array_split(varList, varNum)
+
+    # 1.8 列表转字典序列
+    def list2dictByIndex(self, varList, varStart=0):
+        # 默认编号从0开始，或指定从N开始
+        # 如：['Spring', 'Summer', 'Fall', 'Winter'] = > {0: 'Spring', 1: 'Summer', 2: 'Fall',3: 'Winter'}
+
+        return dict(enumerate(varList, start=varStart))
+
 
     """[变换]"""
 
@@ -303,20 +299,9 @@ class ListPO:
     def setIndex(self, varList, varStart=0):
         # 默认编号从0开始，或指定从N开始
         # 如：['Spring', 'Summer', 'Fall', 'Winter'] = > [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'),(3, 'Winter')]
-        try:
-            return list(enumerate(varList, start=varStart))
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        return list(enumerate(varList, start=varStart))
+
 
     # 2.5 打散列表
     def resolveList(self, varList, varNum):

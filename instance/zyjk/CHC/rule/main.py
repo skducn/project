@@ -20,25 +20,20 @@ ChcRule_PO = ChcRulePO()
 # 新增患者主索引
 # ChcRule_PO.insertEMPI("INSERT INTO TB_EMPI_INDEX_ROOT(GUID, NAME, SEXCODE, SEXVALUE, DATEOFBIRTH, IDCARDNO, NATIONCODE, NATIONVALUE, PHONENUM) VALUES ('cs1005', N'测试干预1', '2', '女', '1992-12-01', '653101195005199966', NULL, NULL, '6567917733')")
 
-# ChcRule_PO.
 
-# # # # 1,获取登录用户的token
+# 1,获取登录用户的token
 # TOKEN = ChcRule_PO.getToken("ww", "Zy@123456")  # 汪刚
-TOKEN = ChcRule_PO.getToken("www", "Ww123456")
-# print(TOKEN)
-#
-# # command = "http://192.168.0.243:8011/server/qyyh/addAssess/653101195005199999"
-# command = "curl -X GET \"http://192.168.0.243:8011/server/qyyh/addAssess/653101195005199999\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\" -H \"Authorization:" + token + "\""
-# p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-# out, err = p.communicate()
-# str_r = bytes.decode(out)
-# d_r = json.loads(str_r)
-# print(d_r)
+# TOKEN = ChcRule_PO.getToken("www", "Ww123456")
 
-#
-# # # 2, 获取表格规则
+
+
+# 2, 跑规则
 ChcRule_PO.clsApp("Microsoft Excel")
 Openpyxl_PO = OpenpyxlPO("健康评估规则表.xlsx")
 
-ChcRule_PO.healthAssessment(Openpyxl_PO, TOKEN)  # 健康评估规则库
-# ChcRule_PO.healthInterposal(Openpyxl_PO, TOKEN)  # 健康干预规则库
+# ChcRule_PO.run('健康评估规则库', Openpyxl_PO, ChcRule_PO.getToken("www", "Ww123456"))
+# ChcRule_PO.run('健康干预规则库', Openpyxl_PO, ChcRule_PO.getToken("ww", "Zy@123456") )
+
+ChcRule_PO.run('健康干预规则库', Openpyxl_PO, "1212")
+
+
