@@ -372,11 +372,15 @@ if __name__ == "__main__":
     # print("1.1，字符串转列表".center(100, "-"))
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     print(Str_PO.str2list("a,b"))  # ['a', 'b']
     print(Str_PO.str2list("['q','qwe']"))  # ['a', 'b']
 =======
     # print(Str_PO.str2list("a,b"))  # ['a', 'b']
 >>>>>>> origin/master
+=======
+    # print(Str_PO.str2list("a,b"))  # ['a', 'b']
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 =======
     # print(Str_PO.str2list("a,b"))  # ['a', 'b']
 >>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
@@ -451,10 +455,14 @@ if __name__ == "__main__":
     # print("3，删除特殊字符".center(100, "-"))
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     # print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
 =======
     print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
 >>>>>>> origin/master
+=======
+    print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 =======
     print(Str_PO.delSpecialChar('～！@#¥%……&*（）测试1*2《3》4？5/6\\7|8:'))
 >>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
@@ -523,6 +531,7 @@ if __name__ == "__main__":
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     # tmpdict1 = {"abc": "100.00", "ddd": "7.08", "ccc": "5.80"}
     # for k, v in tmpdict1.items():
     #     tmpdict1[k] = str(Str_PO.subZero(v))
@@ -558,6 +567,8 @@ if __name__ == "__main__":
 =======
 =======
 >>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
+=======
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
     tmpdict1 = {"abc": "100.00", "ddd": "7.08", "ccc": "5.80"}
     for k, v in tmpdict1.items():
         tmpdict1[k] = str(Str_PO.subZero(v))
@@ -591,6 +602,9 @@ if __name__ == "__main__":
 
     print(tmpdict2)  # {'门诊药房(新院)': '1565', '发热门诊药房': '11.1', '外科': '1545'}
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 =======
 >>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
