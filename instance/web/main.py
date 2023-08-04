@@ -3,16 +3,7 @@
 # Author     : John
 # Created on : 2023-7-22
 # Description: demo
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 # pyinstaller -F main.py -p /Users/linghuchong/Downloads/51/Python/project/instance/web
-=======
->>>>>>> origin/master
-=======
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
-=======
->>>>>>> 135c3a46e4d45a68f5bbf120c543ea6685b3b90f
 # ***************************************************************
 
 from DemoPO import *
