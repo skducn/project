@@ -122,10 +122,10 @@ class JinganPO():
                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[5]/span/input',1)
                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
             if k == '智力残疾':
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[6]/span/input', 1)
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
             if k == '精神残疾':
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[7]/span/input', 1)
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
             if k == '其他残疾':
                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[3]', 1)
@@ -154,161 +154,145 @@ class JinganPO():
         Web_PO.clkById('one2', 1)  # 基本信息
 
         # todo 基本信息
+        #
+        # var = {'姓名': '魏梅娣', '民族': '苗族', '文化程度': '小学教育', '职业': '军人', '就业状态': '其他',
+        #        '婚姻状况': '离婚', '工作单位': '北京科美有限公司', '手机号': '13011234567', '固定电话': '58776543', '联系人姓名': '魏梅名', '联系人电话': '13356789098',
+        #        '血型': 'B型', 'Rh血型': '不详', '医疗费用支付方式': '全自费', '残疾情况': {"智力残疾": "7777", "肢体残疾": "3333", "其他残疾": "121212"}}
+        #
+        # # var = {'姓名': '魏梅娣', '民族': '苗族', '文化程度': '小学教育', '职业': '军人', '就业状态': '其他',
+        # #                '婚姻状况': '离婚', '工作单位': '北京科美有限公司', '手机号': '13011234567', '固定电话': '58776543', '联系人姓名': '魏梅名', '联系人电话': '13356789098',
+        # #                '血型': 'B型', 'Rh血型': '不详', '医疗费用支付方式': '全自费', '残疾情况': "无残疾"}
+        #
+        # for k, v in var.items():
+        #     if k == '姓名':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[1]/td[2]/span/span/input', v)
+        #     if k == '民族':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[3]/td[2]/span/span/input', v)
+        #     if k == '文化程度':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[3]/td[4]/span/span/input', v)
+        #     if k == '职业':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[4]/td[2]/span/span/input', v)
+        #     if k == '就业状态':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[5]/td[2]/span/span/input', v)
+        #     if k == '婚姻状况':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[7]/td[2]/span/span/input', v)
+        #     if k == '工作单位':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[7]/td[4]/span/span/input', v)
+        #     if k == '手机号':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[8]/td[2]/span/span/input', v)
+        #     if k == '固定电话':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[9]/td[2]/span/span/input', v)
+        #     if k == '联系人姓名':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[10]/td[2]/span/span/input', v)
+        #     if k == '联系人电话':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[10]/td[4]/span/span/input', v)
+        #     if k == '血型':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[11]/td[2]/span/span/input', v)
+        #     if k == 'Rh血型':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[11]/td[4]/span/span/input', v)
+        #     if k == '医疗费用支付方式':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[12]/td[2]/span/span/input', v)
+        #     if k == '残疾情况':
+        #         # 判断是否勾选无残疾
+        #         currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]/span/input')
+        #         if v == '无残疾':
+        #             # 要求无残疾
+        #             if currStatus == False:
+        #                 # cj2，当前有残疾，要求勾选无残疾
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
+        #         else:
+        #             # 要求有残疾，先勾选无残疾
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
+        #             if currStatus == False:
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
+        #             self.cjqk(v)  # 遍历勾选
 
-        var = {'姓名': '魏梅娣', '民族': '苗族', '文化程度': '小学教育', '职业': '军人', '就业状态': '其他',
-               '婚姻状况': '离婚', '工作单位': '北京科美有限公司', '手机号': '13011234567', '固定电话': '58776543', '联系人姓名': '魏梅名', '联系人电话': '13356789098',
-               '血型': 'B型', 'Rh血型': '不详', '医疗费用支付方式': '全自费'}
-
-        for k, v in var.items():
-            if k == '姓名':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[1]/td[2]/span/span/input', v)
-            if k == '民族':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[3]/td[2]/span/span/input', v)
-            if k == '文化程度':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[3]/td[4]/span/span/input', v)
-            if k == '职业':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[4]/td[2]/span/span/input', v)
-            if k == '就业状态':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[5]/td[2]/span/span/input', v)
-            if k == '婚姻状况':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[7]/td[2]/span/span/input', v)
-            if k == '工作单位':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[7]/td[4]/span/span/input', v)
-            if k == '手机号':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[8]/td[2]/span/span/input', v)
-            if k == '固定电话':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[9]/td[2]/span/span/input', v)
-            if k == '联系人姓名':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[10]/td[2]/span/span/input', v)
-            if k == '联系人电话':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[10]/td[4]/span/span/input', v)
-            if k == '血型':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[11]/td[2]/span/span/input', v)
-            if k == 'Rh血型':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[11]/td[4]/span/span/input', v)
-            if k == '医疗费用支付方式':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[12]/td[2]/span/span/input', v)
-
-
-        # todo 残疾情况
-
-        needStatus = True  # 要求勾选无
-        d_var = {"视力残疾": "2222", "语言残疾": "3333", "其他残疾": "121212"}
-
-        # 判断是否勾选无残疾
-        currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]/span/input')
-
-        # 已勾选无残疾
-        if currStatus == True:
-            # cj1，要求勾选无残疾，不操作
-            if needStatus == True:
-                ...
-            else:
-                # cj2，要求勾选视力残疾；先去掉无残疾勾选，再勾选视力残疾。
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
-                self.cjqk(d_var)  # 遍历勾选
-        else:
-            # 未勾选无残疾
-            # cj3，如当前已勾选视力残疾，要求无残疾，勾选无残疾。
-            if needStatus == True:
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
-            # cj4，如当前已勾选视力残疾，要求勾选精神残疾； 先勾选无或取消所有勾选，再勾选精神残疾。
-            if needStatus == False:
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[2]/span/input')  # 视力残疾
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[3]/span/input')  # 听力残疾
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[4]/span/input')  # 语言残疾
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[5]/span/input')  # 肢体残疾
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[1]/span/input')  # 智力残疾
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[2]/span/input')  # 精神残疾
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[3]/span/input')  # 其他残疾
-                self.cjqk(d_var)  # 遍历勾选
 
 
         # todo 户籍地址
-
+        #
         d_var = {'省（自治区、直辖市）': '北京市', '市（地区/州）': '市辖区', '县（区）': '丰台区', '街道（镇）': '南苑街道办事处', '居委（村）': '机场社区居委会', '详细地址': '洪都拉斯100号'}
-        # for k, v in d_var.items():
-        #     if k == '省（自治区、直辖市）':
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[2]/span/span/input', v)
-        #     if k == '市（地区/州）':
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[4]/span/span/input', v)
-        #     if k == '县（区）':
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[6]/span/span/input', v)
-        #     if k == '街道（镇）':
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[2]/span/span/input', v)
-        #     if k == '居委（村）':
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[4]/span/span/input', v)
-        #     if k == '详细地址':
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[3]/td[2]/span/span/input', v)
+        for k, v in d_var.items():
+            if k == '省（自治区、直辖市）':
+                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[2]/span/span/input', v)
+            if k == '市（地区/州）':
+                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[4]/span/span/input', v)
+            if k == '县（区）':
+                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[6]/span/span/input', v)
+            if k == '街道（镇）':
+                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[2]/span/span/input', v)
+            if k == '居委（村）':
+                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[4]/span/span/input', v)
+            if k == '详细地址':
+                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[3]/td[2]/span/span/input', v)
 
-        l_var = ['北京市', '市辖区', '丰台区', '南苑街道办事处', '机场社区居委会', '洪都拉斯100号']
-        # 省（自治区、直辖市）
-        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[2]/span/span/input', l_var[0])
-        # 市（地区/州）
-        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[4]/span/span/input', l_var[1])
-        # 县（区）
-        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[6]/span/span/input', l_var[2])
-        # 街道（镇）
-        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[2]/span/span/input', l_var[3])
-        # 居委（村）
-        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[4]/span/span/input', l_var[4])
-        # 详细地址
-        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[3]/td[2]/span/span/input', l_var[5])
+        # l_var = ['北京市', '市辖区', '丰台区', '南苑街道办事处', '机场社区居委会', '洪都拉斯100号']
+        # # 省（自治区、直辖市）
+        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[2]/span/span/input', l_var[0])
+        # # 市（地区/州）
+        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[4]/span/span/input', l_var[1])
+        # # 县（区）
+        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[6]/span/span/input', l_var[2])
+        # # 街道（镇）
+        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[2]/span/span/input', l_var[3])
+        # # 居委（村）
+        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[4]/span/span/input', l_var[4])
+        # # 详细地址
+        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[3]/td[2]/span/span/input', l_var[5])
 
 
         # todo 居住地址 - 同户籍地址
 
-        needStatus = True
-        l_var = ['北京市', '市辖区', '丰台区', '南苑街道办事处', '机场社区居委会', '洪都拉斯100号']
-        d_var = {'省（自治区、直辖市）': '北京市', '市（地区/州）': '市辖区', '县（区）': '丰台区', '街道（镇）': '南苑街道办事处', '居委（村）': '机场社区居委会', '详细地址': '洪都拉斯100号'}
-        currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input')
-
-        if currStatus == True:
-            # 当前已勾选同户籍地址
-            if needStatus == True:
-                # cj1, 要求也是勾选同户籍地址，不操作
-                ...
-            else:
-                # cj2，要求不勾选同户籍地址，操作反勾选同户籍地址，同时填入一下信息
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input', 1)  # 点击同户籍地址复选框
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', l_var[0])  # 省（自治区、直辖市）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[4]/span/span/input', l_var[1])  # 市（地区/州）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[6]/span/span/input', l_var[2])  # 县（区）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[2]/span/span/input', l_var[3])  # 街道（镇）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[4]/span/span/input', l_var[4])  # 居委（村）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', l_var[5])  # 详细地址
-                # self.thjdz(d_var)
-        else:
-            # 当前未勾选同户籍地址
-            if needStatus == True:
-                # cj3，要求勾选同户籍地址
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input', 1)  # 点击同户籍地址复选框
-            else:
-                # cj4，要求更新当前户籍地址。
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', l_var[0])  # 省（自治区、直辖市）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[4]/span/span/input', l_var[1])  # 市（地区/州）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[6]/span/span/input', l_var[2])  # 县（区）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[2]/span/span/input', l_var[3])  # 街道（镇）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[4]/span/span/input', l_var[4])  # 居委（村）
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', l_var[5])  # 详细地址
-                # self.thjdz(d_var)
+        # needStatus = True
+        # l_var = ['北京市', '市辖区', '丰台区', '南苑街道办事处', '机场社区居委会', '洪都拉斯100号']
+        # d_var = {'省（自治区、直辖市）': '北京市', '市（地区/州）': '市辖区', '县（区）': '丰台区', '街道（镇）': '南苑街道办事处', '居委（村）': '机场社区居委会', '详细地址': '洪都拉斯100号'}
+        # currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input')
+        #
+        # if currStatus == True:
+        #     # 当前已勾选同户籍地址
+        #     if needStatus == True:
+        #         # cj1, 要求也是勾选同户籍地址，不操作
+        #         ...
+        #     else:
+        #         # cj2，要求不勾选同户籍地址，操作反勾选同户籍地址，同时填入一下信息
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input', 1)  # 点击同户籍地址复选框
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', l_var[0])  # 省（自治区、直辖市）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[4]/span/span/input', l_var[1])  # 市（地区/州）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[6]/span/span/input', l_var[2])  # 县（区）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[2]/span/span/input', l_var[3])  # 街道（镇）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[4]/span/span/input', l_var[4])  # 居委（村）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', l_var[5])  # 详细地址
+        #         # self.thjdz(d_var)
+        # else:
+        #     # 当前未勾选同户籍地址
+        #     if needStatus == True:
+        #         # cj3，要求勾选同户籍地址
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input', 1)  # 点击同户籍地址复选框
+        #     else:
+        #         # cj4，要求更新当前户籍地址。
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', l_var[0])  # 省（自治区、直辖市）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[4]/span/span/input', l_var[1])  # 市（地区/州）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[6]/span/span/input', l_var[2])  # 县（区）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[2]/span/span/input', l_var[3])  # 街道（镇）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[4]/span/span/input', l_var[4])  # 居委（村）
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', l_var[5])  # 详细地址
+        #         # self.thjdz(d_var)
 
 
         # todo 其他信息
 
-        d_var = {'家庭厨房排风设施标识': '烟囱', '家庭燃料类别': '煤', '家庭饮用水类别': '井水', '家庭厕所类别': '马桶', '家庭禽畜栏类别': '室内'}
-        for k, v in d_var.items():
-            if k == '家庭厨房排风设施标识':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[1]/td[2]/span/span/input', v)
-            if k == '家庭燃料类别':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[1]/td[4]/span/span/input', v)
-            if k == '家庭饮用水类别':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[1]/td[6]/span/span/input', v)
-            if k == '家庭厕所类别':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[2]/td[2]/span/span/input', v)
-            if k == '家庭禽畜栏类别':
-                self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[2]/td[4]/span/span/input', v)
+        # d_var = {'家庭厨房排风设施标识': '烟囱', '家庭燃料类别': '煤', '家庭饮用水类别': '井水', '家庭厕所类别': '马桶', '家庭禽畜栏类别': '室内'}
+        # for k, v in d_var.items():
+        #     if k == '家庭厨房排风设施标识':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[1]/td[2]/span/span/input', v)
+        #     if k == '家庭燃料类别':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[1]/td[4]/span/span/input', v)
+        #     if k == '家庭饮用水类别':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[1]/td[6]/span/span/input', v)
+        #     if k == '家庭厕所类别':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[2]/td[2]/span/span/input', v)
+        #     if k == '家庭禽畜栏类别':
+        #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[2]/td[4]/span/span/input', v)
 
 
         # todo: 药物过敏史
@@ -383,99 +367,98 @@ class JinganPO():
 
 
         # 环境危险因素暴露类别
-        varStatus = False
-        var = ['毒物', '化学品', {'其他': "11111"}]
-
-        # 判断是否勾选了无
-        currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input')
-        if currStatus == True:
-            # cj1,默认勾选无，要求勾选无，不操作。
-            if varStatus == True:
-                ...
-            # cj2，默认勾选无，要求勾选其他，操作取消无勾选，勾选其他
-            elif varStatus == False:
-                # 取消无勾选
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)
-                for i in range(len(var)):
-                    if var[i] == '化学品':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
-                    if var[i] == '毒物':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
-                    if var[i] == '射线':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
-                    if var[i] == '不详':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
-                    if isinstance(var[i], dict) == True:
-                        for k1, v1 in var[i].items():
-                            if k1 == '其他':
-                                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
-                                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', v1)
-        else:
-            # cj3，默认不勾选无，要求勾选无，直接勾选无。
-            if varStatus == True:
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)
-            else:
-                # cj4，默认不勾选无，要求勾选化学，操作取消所有勾选，勾选化学。
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input')  # 化学品
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input')  # 毒物
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input')  # 射线
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input')  # 不详
-                Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input')  # 其他
-                for i in range(len(var)):
-                    if var[i] == '化学品':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
-                    if var[i] == '毒物':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
-                    if var[i] == '射线':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
-                    if var[i] == '不详':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
-                    if isinstance(var[i], dict) == True:
-                        for k1, v1 in var[i].items():
-                            if k1 == '其他':
-                                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
-                                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', v1)
+        # varStatus = False
+        # var = ['毒物', '化学品', {'其他': "11111"}]
+        #
+        # # 判断是否勾选了无
+        # currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input')
+        # if currStatus == True:
+        #     # cj1,默认勾选无，要求勾选无，不操作。
+        #     if varStatus == True:
+        #         ...
+        #     # cj2，默认勾选无，要求勾选其他，操作取消无勾选，勾选其他
+        #     elif varStatus == False:
+        #         # 取消无勾选
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)
+        #         for i in range(len(var)):
+        #             if var[i] == '化学品':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
+        #             if var[i] == '毒物':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
+        #             if var[i] == '射线':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
+        #             if var[i] == '不详':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
+        #             if isinstance(var[i], dict) == True:
+        #                 for k1, v1 in var[i].items():
+        #                     if k1 == '其他':
+        #                         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
+        #                         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', v1)
+        # else:
+        #     # cj3，默认不勾选无，要求勾选无，直接勾选无。
+        #     if varStatus == True:
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)
+        #     else:
+        #         # cj4，默认不勾选无，要求勾选化学，操作取消所有勾选，勾选化学。
+        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input')  # 化学品
+        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input')  # 毒物
+        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input')  # 射线
+        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input')  # 不详
+        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input')  # 其他
+        #         for i in range(len(var)):
+        #             if var[i] == '化学品':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
+        #             if var[i] == '毒物':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
+        #             if var[i] == '射线':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
+        #             if var[i] == '不详':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
+        #             if isinstance(var[i], dict) == True:
+        #                 for k1, v1 in var[i].items():
+        #                     if k1 == '其他':
+        #                         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
+        #                         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', v1)
 
 
 
         # todo 疾病信息
-        # 疾病史
-        # 风险1：不知道当前用户有多少疾病史，默认最多5个，全部关闭。???
-        varQty = 10
-        var = {'脑卒中': '2010-12-01', '其他法定传染病': ['baidu', '2020-12-10'], '高血压': '2010-12-02', '其他': ['12121', '2020-12-12']}
-        for i in range(varQty):
-            Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[3]/span[1]/span/input')
-            x = Web_PO.isElementAttr(
-                "/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[3]/span[1]/span/input",
-                "disabled")
-
-            if x == False:
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[2]/input', 1)  # -
-                Web_PO.clk(u"//a[@href='javascript:void(0)']", 2)  # 弹框确认
-            else:
-                break
-        x = 1
-        for k, v in var.items():
-            x = x + 1
-            Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[1]/td[2]/input[1]')  # +
-            if k == '其他' or k == '其他法定传染病':
-                Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input')
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input', k)
-                sleep(2)
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[2]/span/input', v[0])
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v[1])
-            else:
-                Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input')
-                Web_PO.setTextEnter('//html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input', k)
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)
+        # # 疾病史
+        # # 风险1：不知道当前用户有多少疾病史，默认最多5个，全部关闭。???
+        # varQty = 10
+        # var = {'脑卒中': '2010-12-01', '其他法定传染病': ['baidu', '2020-12-10'], '高血压': '2010-12-02', '其他': ['12121', '2020-12-12']}
+        # for i in range(varQty):
+        #     Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[3]/span[1]/span/input')
+        #     x = Web_PO.isElementAttr(
+        #         "/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[3]/span[1]/span/input",
+        #         "disabled")
+        #
+        #     if x == False:
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[2]/input', 1)  # -
+        #         Web_PO.clk(u"//a[@href='javascript:void(0)']", 2)  # 弹框确认
+        #     else:
+        #         break
+        # x = 1
+        # for k, v in var.items():
+        #     x = x + 1
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[1]/td[2]/input[1]')  # +
+        #     if k == '其他' or k == '其他法定传染病':
+        #         Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input')
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input', k)
+        #         sleep(2)
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[2]/span/input', v[0])
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v[1])
+        #     else:
+        #         Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input')
+        #         Web_PO.setTextEnter('//html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input', k)
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)
 
 
         # 手术史
         varStatus = '有'
         var = {'手术1': '2010-12-01', '手术2': '2010-12-02'}
         # cj1，要求无，点击无，弹出框确认
-        currStatus = Web_PO.isSelected(
-            '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input')
+        currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input')
         print(currStatus)
         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
         if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
@@ -492,101 +475,131 @@ class JinganPO():
                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 手术日期
 
 
-        # 外伤史
-        varStatus = '有'
-        var = {'外伤3': '2020-12-01', '外伤4': '2020-12-02'}
-        # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[2]/td[2]/input
-        #           /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input
-        # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
-        # Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        # # 外伤史
+        # varStatus = '有'
+        # var = {'外伤3': '2020-12-01', '外伤4': '2020-12-02'}
+        #
+        # # cj1，要求无，点击无，弹出框确认
+        # currStatus = Web_PO.isSelected(
+        #     '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input')
+        # print(currStatus)
+        # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
+        # if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
+        #     Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        # # cj2,默认无，要求有，点击有，输入内容
+        # # cj3，默认有，要求有，修改原有数据
+        # if varStatus == '有':
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
+        #     x = 1
+        #     for k, v in var.items():
+        #         x = x + 1
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/input', 1)  # +
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 发生日期
 
-        currStatus = Web_PO.getValueByAttr('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]','class')
-        if currStatus == "mini-radiobuttonlist-item":
-           currStatus = '无'
-        else:
-            currStatus = '有'
-        if currStatus == '无':
-            # cj1,默认勾选无，要求勾选无，不操作
-            if varStatus == '无':
-                ...
-            else:
-                # cj2,默认无，要求有，勾选有，
-                if varStatus == '有':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
-                    x = 1
-                    for k, v in var.items():
-                        x = x + 1
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/input', 1)  # +
-                        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
-                        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 发生日期
-        else:
-            # cj3,默认有，要求无，勾选无
-            if varStatus == '无':
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
-                Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-            else:
-                # cj4,默认有，要求有，点击无，
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input',1)  # 无
-                Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',1)  # 有
-                x = 1
-                for k, v in var.items():
-                    x = x + 1
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/input',1)  # +
-                    Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
-                    Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 发生日期
+
+
+        # # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[2]/td[2]/input
+        # #           /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input
+        # # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
+        # # Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        #
+        # currStatus = Web_PO.getValueByAttr('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]','class')
+        # if currStatus == "mini-radiobuttonlist-item":
+        #    currStatus = '无'
+        # else:
+        #     currStatus = '有'
+        # if currStatus == '无':
+        #     # cj1,默认勾选无，要求勾选无，不操作
+        #     if varStatus == '无':
+        #         ...
+        #     else:
+        #         # cj2,默认无，要求有，勾选有，
+        #         if varStatus == '有':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
+        #             x = 1
+        #             for k, v in var.items():
+        #                 x = x + 1
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/input', 1)  # +
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 发生日期
+        # else:
+        #     # cj3,默认有，要求无，勾选无
+        #     if varStatus == '无':
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
+        #         Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        #     else:
+        #         # cj4,默认有，要求有，点击无，
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input',1)  # 无
+        #         Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',1)  # 有
+        #         x = 1
+        #         for k, v in var.items():
+        #             x = x + 1
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/input',1)  # +
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 发生日期
 
 
         # 输血史
-        varStatus = '有'
-        var = {'输血4': '2020-12-12', '输血5': '2020-12-13'}
-        # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input
-        currStatus = Web_PO.getValueByAttr('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input','class')
-        print(currStatus)
-        if currStatus == 'mini-radiobuttonlist-item':
-            currStatus = '无'
-        else:
-            currStatus = '有'
-        print(currStatus)
-        if currStatus == '无':
-            if varStatus == '无':
-                ...
-            else:
-                if varStatus == '有':
-                              # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',1)  # 有
-                    x = 1
-                    for k, v in var.items():
-                        x = x + 1
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/input', 1)  # +
-                        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 数学原因
-                        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 输血日期
-        else:
-            if varStatus == '无':
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
-                Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-            else:
-                # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input',1)  # 无
-                # Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-                if varStatus == '有':
-                    Web_PO.clk(
-                        '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',
-                        1)  # 有
-                    x = 1
-                    for k, v in var.items():
-                        x = x + 1
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/input',
-                                   1)  # +
-                        Web_PO.setTextEnter(
-                            '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(
-                                x) + ']/td[3]/span/span/input', k)  # 数学原因
-                        Web_PO.setTextEnter(
-                            '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(
-                                x) + ']/td[4]/span/span/input', v)  # 输血日期
+        # varStatus = '有'
+        # var = {'输血4': '2020-12-12', '输血5': '2020-12-13'}
+        # # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input
+        # currStatus = Web_PO.getValueByAttr('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input','class')
+        # print(currStatus)
+        # if currStatus == 'mini-radiobuttonlist-item':
+        #     currStatus = '无'
+        # else:
+        #     currStatus = '有'
+        # print(currStatus)
+        # if currStatus == '无':
+        #     if varStatus == '无':
+        #         ...
+        #     else:
+        #         if varStatus == '有':
+        #                       # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',1)  # 有
+        #             x = 1
+        #             for k, v in var.items():
+        #                 x = x + 1
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/input', 1)  # +
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 数学原因
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 输血日期
+        # else:
+        #     if varStatus == '无':
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
+        #         Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        #     else:
+        #         # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input',1)  # 无
+        #         # Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        #         if varStatus == '有':
+        #             Web_PO.clk(
+        #                 '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',
+        #                 1)  # 有
+        #             x = 1
+        #             for k, v in var.items():
+        #                 x = x + 1
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/input',
+        #                            1)  # +
+        #                 Web_PO.setTextEnter(
+        #                     '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(
+        #                         x) + ']/td[3]/span/span/input', k)  # 数学原因
+        #                 Web_PO.setTextEnter(
+        #                     '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(
+        #                         x) + ']/td[4]/span/span/input', v)  # 输血日期
 
 
         # 家族史 {家庭关系：疾病种类}
-        var = {"母亲": ['高血压', '糖尿病', {'其他法定传染病':'123'}], "父亲": ['性阻塞性肺疾病', '脑卒中', {'其他': '4444123'}]}
+        var = {"母亲": ['高血压', '糖尿病', {'其他法定传染病':'123'}, '贫血'], "父亲": ['慢性阻塞性肺疾病', '脑卒中', {'其他': '4444123'}]}
+
+        for i in range(8):
+            if Web_PO.isElement('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[2]/input') == True:
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[2]/input', 1)  # -
+                if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
+                    Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+            else:
+                break
+
         for k, v in var.items():
             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr/td[2]/input', 1)  # +
             Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[3]/span/span/input')  # 家庭关系

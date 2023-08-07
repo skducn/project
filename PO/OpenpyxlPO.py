@@ -560,7 +560,7 @@ class OpenpyxlPO:
         row,
         col,
         name="微软雅黑",
-        size=16,
+        size=10,
         bold=False,
         italic=False,
         color=None,
@@ -1195,7 +1195,7 @@ if __name__ == "__main__":
     # print("2.11 设置单元格字体（字体、字号、粗斜体、下划线、颜色）".center(100, "-"))
     # Openpyxl_PO.setCellFont(1, 6)  # 设置第一行第六列字体（默认微软雅黑字号16粗体）
     # Openpyxl_PO.setCellFont(2, "f")  # 设置第一行第f列字体（默认微软雅黑字号16粗体）
-    # Openpyxl_PO.setCellFont(5, "f", size=14, bold=True, color="ff0000")
+    # Openpyxl_PO.setCellFont(5, "f", size=14, bold=True, color="red")
     # Openpyxl_PO.setCellFont(5, "f", size=14, bold=True)
 
     # print("2.11.2 设置单行多列字体".center(100, "-"))

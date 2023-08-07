@@ -970,7 +970,7 @@ class DomPO(object):
         :return:
         '''
         element = self.find_element(*(By.XPATH, varPath))
-        if element.has_attribute(varAttr):
+        if element.get_attribute(varAttr):
             return True
         else:
             return False
