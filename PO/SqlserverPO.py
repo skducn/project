@@ -80,7 +80,9 @@ class SqlServerPO:
 
         """insert or update sql"""
         try:
+            self.conn.commit()
             self.cur.execute(sql)
+            self.conn.commit()
         except Exception as e:
             # print(e.args)  # ('table hh already exists',)
             # print(str(e))  # table hh already exists
@@ -92,9 +94,8 @@ class SqlServerPO:
 
         """执行sql"""
 
-        # self.conn.commit()
-
         try:
+            self.conn.commit()
             self.cur.execute(sql)
             result = self.cur.fetchall()
             self.conn.commit()

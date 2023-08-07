@@ -32,8 +32,8 @@ ChcRule_PO.clsApp("Microsoft Excel")
 Openpyxl_PO = OpenpyxlPO("健康评估规则表.xlsx")
 
 # ChcRule_PO.run('健康评估规则库', Openpyxl_PO, ChcRule_PO.getToken("www", "Ww123456"))
-# ChcRule_PO.run('健康干预规则库', Openpyxl_PO, ChcRule_PO.getToken("ww", "Zy@123456") )
+ChcRule_PO.run('健康干预规则库', Openpyxl_PO, ChcRule_PO.getToken("ww", "Zy@123456") )
 
-ChcRule_PO.run('健康干预规则库', Openpyxl_PO, "1212")
+# ChcRule_PO.run('健康干预规则库', Openpyxl_PO, "1212")
 
 
