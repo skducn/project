@@ -22,17 +22,19 @@ ChcRule_PO = ChcRulePO()
 
 
 # 1,获取登录用户的token
-# TOKEN = ChcRule_PO.getToken("ww", "Zy@123456")  # 汪刚
+# TOKEN = ChcRule_PO.getToken("ww", "Zy@123456")
 # TOKEN = ChcRule_PO.getToken("www", "Ww123456")
 
 
-
-# 2, 跑规则
 ChcRule_PO.clsApp("Microsoft Excel")
-Openpyxl_PO = OpenpyxlPO("健康评估规则表.xlsx")
+Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 
-# ChcRule_PO.run('健康评估规则库', Openpyxl_PO, ChcRule_PO.getToken("www", "Ww123456"))
-ChcRule_PO.run('健康干预规则库', Openpyxl_PO, ChcRule_PO.getToken("ww", "Zy@123456"))
+# 1， 获取测试身份证
+# d_idCard = ChcRule_PO.getIdcard(Openpyxl_PO)
+# print(d_idCard)
+
+ChcRule_PO.run('健康评估', Openpyxl_PO, ChcRule_PO.getToken("www", "Ww123456"))  # 刘斌龙
+# ChcRule_PO.run('健康干预', Openpyxl_PO, ChcRule_PO.getToken("ww", "Zy@123456"))   # 汪刚
 
 
 
