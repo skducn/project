@@ -229,10 +229,13 @@ class ChcRulePO():
                     # 分解 "r4,  '01','JB002'
                     varParam1 = l_v1[1]  # 01
                     varParam2 = l_v1[2]  # job002
-
-
                     print(str(k) + " => run(" + l_v1[0] + ")")  # r2
                     l_result = self.r4(varRuleCode, varParam1, varParam2, TOKEN)
+                elif l_v1[0] == "r6":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    print(str(k) + " => run(" + l_v1[0] + ")")  # r2
+                    l_result = self.r6(varRuleCode, varParam1, TOKEN)
 
                 if l_result == 1:
                     Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
@@ -288,6 +291,8 @@ class ChcRulePO():
                 l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
                 sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
                 Color_PO.consoleColor("31", "33", sql, "")
+                Color_PO.consoleColor("31", "31", "记录数：" + str(l_result[0]['NO']) + "条", "")
+
                 log = log + sql + "\n"
                 if l_result[0]['NO'] == 1:
                     return 1
@@ -325,8 +330,9 @@ class ChcRulePO():
             l_var = Sqlserver_PO.execQuery("select id from T_ASSESS_INFO where ID_CARD='%s'" % (varIdcard))
             varID = l_var[0]['id']
             sql = "select id from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
-            Color_PO.consoleColor("31", "33", sql, "")
-            log = log + sql + "\n"
+            sql1 = " //varID = " + str(varID)
+            Color_PO.consoleColor("31", "33", sql, "varID = " + str(varID))
+            log = log + sql + sql1 + "\n"
 
             # 5，删除评估规则结果表中对应评估ID的记录
             Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE ='%s'" % (varID, varRuleCode))
@@ -342,8 +348,10 @@ class ChcRulePO():
                 # 7，检查"评估规则结果表"
                 l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
                 sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+                sql1 = "\n" + str(l_result[0]['NO']) + "条"
                 Color_PO.consoleColor("31", "33", sql, "")
-                log = log + sql + "\n"
+                Color_PO.consoleColor("31", "31", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                log = log + sql + sql1 + "\n"
                 if l_result[0]['NO'] == 1:
                     return 1
                 else:
@@ -356,48 +364,130 @@ class ChcRulePO():
 
     def r4(self, varRuleCode, varParam1, varParam2, TOKEN):
 
-        # GY_YH001001，DIAGNOSIS_CODE='I10', IDCARD=110101196407281506
+        # GY_YH001001，'01','JB002'
 
         log = ""
 
-        varIdcard = '310101198004110011'
+        varIdcard = '110101196407281506'
 
-        # 1，删除评估表中对应身份证的记录
-        l_var = Sqlserver_PO.execute("delete from T_ASSESS_PREVIOUS_HISTORY where IDCARD = '%s'" % (varIdcard))
-        sql = "delete from T_ASSESS_PREVIOUS_HISTORY where IDCARD=" + str(varIdcard)
+        # 1，删除"评估表"中对应身份证的记录
+        Sqlserver_PO.execute("delete from T_ASSESS_INFO where ID_CARD = '%s'" % (varIdcard))
+        sql = "delete from T_ASSESS_INFO where ID_CARD ='" + str(varIdcard) + "'"
         Color_PO.consoleColor("31", "33", sql, "")
         log = log + sql + "\n"
 
-        # 2，insert 更新规则要求
-        Sqlserver_PO.execute("INSERT INTO T_ASSESS_PREVIOUS_HISTORY (IDCARD, ASSESS_ID, ASSOCIATION_TYPE, MSG_NAME, OCCUR_DATE, CREATE_DATE, MSG_CODE) VALUES (" + str(varIdcard) + ", 1, " + str(varParam1) + ", '手术1', '2023-07-01', '2023-07-29 16:31:45.1600000', " + str(varParam2) + ")")
+        # 2，新增评估
+        i_newAssessResult, log1 = self.newAssess(varIdcard, TOKEN)
+        log = log + log1 + "\n"
+        sleep(2)
+        if i_newAssessResult == 200:
 
-        # sql = "update " + varTbl + " set " + varParam + " where IDCARD='" + str(varID_CARD) + "'"
-        # Color_PO.consoleColor("31", "33", sql, "")
-        # log = log + sql + "\n"
-
-        # 获取评估id
-        l_var = Sqlserver_PO.execQuery("select ASSESS_ID from T_ASSESS_PREVIOUS_HISTORY where IDCARD = '%s' " % (varIdcard))
-        print(l_var)
-        print(l_var[0]['ASSESS_ID'])
-        varID = l_var[0]['ASSESS_ID']
-        sql = "select ASSESS_ID from T_ASSESS_PREVIOUS_HISTORY where IDCARD = '" + str(varIdcard) + "'"
-        Color_PO.consoleColor("31", "33", sql, "")
-        log = log + sql + "\n"
-
-        # 6，跑规则
-        i_runRuleStatus, log2 = self.runRule(varID, TOKEN)
-        log = log + log2 + "\n"
-        if i_runRuleStatus == 200:
-
-            # 7，检查"评估规则结果表"
-            l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
-            sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+            # 3，获取"评估表"中评估id
+            l_var = Sqlserver_PO.execQuery("select ID from T_ASSESS_INFO where ID_CARD = '%s' " % (varIdcard))
+            # print(l_var[0]['ID'])
+            varID = l_var[0]['ID']
+            sql = "select ID from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
             Color_PO.consoleColor("31", "33", sql, "")
             log = log + sql + "\n"
-            if l_result[0]['NO'] == 1:
-                return 1
-            else:
-                return log
+
+            # 4，删除"评估既往史表"中对应身份证的记录
+            Sqlserver_PO.execute("delete from T_ASSESS_PREVIOUS_HISTORY where IDCARD = '%s'" % (varIdcard))
+            sql = "delete from T_ASSESS_PREVIOUS_HISTORY where IDCARD ='" + str(varIdcard) + "'"
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 5，新增一条评估既往史记录
+            sql = "INSERT INTO T_ASSESS_PREVIOUS_HISTORY (IDCARD, ASSESS_ID, ASSOCIATION_TYPE, MSG_NAME, OCCUR_DATE, CREATE_DATE, MSG_CODE) VALUES (" + str(varIdcard) + ", " + str(varID) + ", " + str(varParam1) + ", '手术1', '2023-07-01', '2023-07-29 16:31:45.1600000', " + str(varParam2) + ")"
+            Sqlserver_PO.execute(sql)
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 6，删除评估规则结果表中对应评估ID的记录
+            Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s'" % (varID, varRuleCode))
+            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 7，跑规则
+            i_runRuleStatus, log2 = self.runRule(varID, TOKEN)
+            log = log + log2 + "\n"
+            if i_runRuleStatus == 200:
+
+                # 8，检查"评估规则结果表"
+                l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
+                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+                Color_PO.consoleColor("31", "33", sql, "")
+                Color_PO.consoleColor("31", "31", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                log = log + sql + "\n"
+                if l_result[0]['NO'] == 1:
+                    return 1
+                else:
+                    return log
+
+        else:
+            return log
+
+    def r6(self, varRuleCode, varParam1, TOKEN):
+
+        # GY_YH001001，'高血压'
+
+        log = ""
+
+        varIdcard = '110101196407281506'
+
+        # 1，删除"评估表"中对应身份证的记录
+        Sqlserver_PO.execute("delete from T_ASSESS_INFO where ID_CARD = '%s'" % (varIdcard))
+        sql = "delete from T_ASSESS_INFO where ID_CARD ='" + str(varIdcard) + "'"
+        Color_PO.consoleColor("31", "33", sql, "")
+        log = log + sql + "\n"
+
+        # 2，新增评估
+        i_newAssessResult, log1 = self.newAssess(varIdcard, TOKEN)
+        log = log + log1 + "\n"
+        sleep(2)
+        if i_newAssessResult == 200:
+
+            # 3，获取"评估表"中评估id
+            l_var = Sqlserver_PO.execQuery("select ID from T_ASSESS_INFO where ID_CARD = '%s' " % (varIdcard))
+            # print(l_var[0]['ID'])
+            varID = l_var[0]['ID']
+            sql = "select ID from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 4，删除"评估既往史表"中对应身份证的记录
+            Sqlserver_PO.execute("delete from T_ASSESS_FAMILY_HISTORY where IDCARD = '%s'" % (varIdcard))
+            sql = "delete from T_ASSESS_FAMILY_HISTORY where IDCARD ='" + str(varIdcard) + "'"
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 5，新增一条
+            sql = "INSERT INTO T_ASSESS_FAMILY_HISTORY(IDCARD, ASSESS_ID, DISEASE_NAME, FAMILY_TIES, SERVER_DATE, CREATE_DATE) VALUES (" + str(varIdcard) + ", " + str(varID) + ", " + str(varParam1) + ", '父亲', '1900-01-01', '2023-07-29 14:00:38.9466667')"
+            Sqlserver_PO.execute(sql)
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 6，删除评估规则结果表中对应评估ID的记录
+            Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s'" % (varID, varRuleCode))
+            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 7，跑规则
+            i_runRuleStatus, log2 = self.runRule(varID, TOKEN)
+            log = log + log2 + "\n"
+            if i_runRuleStatus == 200:
+
+                # 8，检查"评估规则结果表"
+                l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
+                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+                Color_PO.consoleColor("31", "33", sql, "")
+                Color_PO.consoleColor("31", "31", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                log = log + sql + "\n"
+                if l_result[0]['NO'] == 1:
+                    return 1
+                else:
+                    return log
 
         else:
             return log
@@ -405,47 +495,6 @@ class ChcRulePO():
 
 
 
-    def rXXX(self, varRuleCode, varTbl, varField, varParam, TOKEN):
-
-        log = ""
-
-        # 1，修改数据1(规则)
-        Sqlserver_PO.execute("update %s set %s where IDCARD='653101195005139999'" % (varTbl, varParam))
-        Color_PO.consoleColor("31", "33", "update " + varTbl + " set " + varParam, " where IDCARD='653101195005139999'")
-        log = "update " + varTbl + " set " + varParam, " where IDCARD='653101195005139999'\n"
-
-        # 2，删除T_ASSESS_INFO中对应的身份证数据
-        Sqlserver_PO.execute("delete from T_ASSESS_INFO where ID_CARD='653101195005139999'")
-        Color_PO.consoleColor("31", "33", "delete from T_ASSESS_INFO where ID_CARD='653101195005139999'", "")
-        log = log + "delete from T_ASSESS_INFO where ID_CARD='653101195005139999'\n"
-
-        # 3,新增评估
-        log1 = self.newAssess('653101195005139999', TOKEN)
-        log = log + str(log1) + "\n"
-        sleep(2)
-
-        # 4, 修改数据2(规则) 获取评估表id
-        l_var = Sqlserver_PO.execQuery("update T_ASSESS_INFO set %s where ID_CARD='653101195005139999'")
-        Color_PO.consoleColor("31", "33", "update T_ASSESS_INFO set %s where ID_CARD='653101195005139999'", "")
-        varId = l_var[0]['id']
-        log = log + "update T_ASSESS_INFO set %s where ID_CARD='653101195005139999'\n"
-
-        # 5, 获取评估表id
-        l_var = Sqlserver_PO.execQuery("select id from %s where ID_CARD='653101195005139999'")
-        Color_PO.consoleColor("31", "33", "select id from %s where ID_CARD='653101195005139999'", "")
-        varId = l_var[0]['id']
-        log = log + "select id from %s where ID_CARD='653101195005139999'\n"
-
-        # 6，跑规则
-        log2 = self.runRule(varId, TOKEN)
-        log = log + str(log2) + "\n"
-
-        # 7，检查"评估规则结果表"
-        l_result, log3 = self.getResult(varId, varRuleCode)
-        if l_result != []:
-            return 0
-        else:
-            return log + log3
 
 
 

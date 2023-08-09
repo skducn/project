@@ -33,8 +33,8 @@ Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 # d_idCard = ChcRule_PO.getIdcard(Openpyxl_PO)
 # print(d_idCard)
 
-ChcRule_PO.run('健康评估', Openpyxl_PO, ChcRule_PO.getToken("www", "Ww123456"))  # 刘斌龙
-# ChcRule_PO.run('健康干预', Openpyxl_PO, ChcRule_PO.getToken("ww", "Zy@123456"))   # 汪刚
+# ChcRule_PO.run('健康评估', Openpyxl_PO, ChcRule_PO.getToken("www", "Ww123456"))  # 刘斌龙
+ChcRule_PO.run('健康干预', Openpyxl_PO, ChcRule_PO.getToken("ww", "Zy@123456"))   # 汪刚
 
 
 
