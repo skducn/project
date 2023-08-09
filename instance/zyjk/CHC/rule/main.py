@@ -22,19 +22,32 @@ ChcRule_PO = ChcRulePO()
 
 
 # 1,获取登录用户的token
-# TOKEN = ChcRule_PO.getToken("ww", "Zy@123456")
-# TOKEN = ChcRule_PO.getToken("www", "Ww123456")
-
+TOKEN = ChcRule_PO.getToken("ww", "Zy@123456")  # 汪刚
+# TOKEN = ChcRule_PO.getToken("www", "Ww123456")   # 刘斌龙
 
 ChcRule_PO.clsApp("Microsoft Excel")
 Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 
-# 1， 获取测试身份证
-# d_idCard = ChcRule_PO.getIdcard(Openpyxl_PO)
-# print(d_idCard)
 
-# ChcRule_PO.run('健康评估', Openpyxl_PO, ChcRule_PO.getToken("www", "Ww123456"))  # 刘斌龙
-ChcRule_PO.run('健康干预', Openpyxl_PO, ChcRule_PO.getToken("ww", "Zy@123456"))   # 汪刚
+
+# main
+# ChcRule_PO.run('健康评估', "", "r6", Openpyxl_PO, TOKEN)  # OK
+ChcRule_PO.run('健康评估', "OK", "r1", Openpyxl_PO, TOKEN)  # OK
+# ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)  # ok
+# ChcRule_PO.run('健康评估', "ALL", "r1", Openpyxl_PO, TOKEN)  # ok
+
+# ChcRule_PO.run('健康评估', "ALL", "", Openpyxl_PO, TOKEN)  # ok
+# ChcRule_PO.run('健康评估', "OK", "", Openpyxl_PO, TOKEN)  # ok
+# ChcRule_PO.run('健康评估', "ERROR", "", Openpyxl_PO, TOKEN)  # ok
+# ChcRule_PO.run('健康评估', "", "", Openpyxl_PO, TOKEN)  # ok
+
+
+
+
+
+# ChcRule_PO.run('健康干预', Openpyxl_PO, TOKEN)
+
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', Openpyxl_PO, TOKEN)   # 汪刚
 
 
 

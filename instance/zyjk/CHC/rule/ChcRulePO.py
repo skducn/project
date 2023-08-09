@@ -41,29 +41,6 @@ class ChcRulePO():
             p = psutil.Process(l_pid[i])
             p.terminate()
 
-    def getIdcard(self, Openpyxl_PO):
-
-        l_jibin = Openpyxl_PO.getColValueByCol([2, 3], [1], "评估疾病身份证")
-        d_jibin = dict(zip(l_jibin[0], l_jibin[1]))
-        return (d_jibin)
-
-        # {'高血压已患': '310101202308070001', '2型糖尿病已患': '310101202308070002',
-        # '脑卒中已患': '310101202308070003', '慢性肾病已患': '310101202308070004',
-        # '慢性阻塞性肺疾病已患': '310101202308070005', '肺癌已患': '310101202308070006',
-        # '结直肠癌已患': '310101202308070007', '乳腺癌已患': '310101202308070008',
-        # '肝癌已患': '310101202308070009', '胃癌已患': '310101202308070010',
-        # '宫颈癌已患': '310101202308070011', '高血压高危': '410101202308070001', '2型糖尿病高危': '410101202308070002', '脑卒中高危': '410101202308070003', '慢性肾脏病高危': '410101202308070004', '慢性阻塞性肺疾病高危': '410101202308070005', '肺癌高危': '410101202308070006', '结直肠癌高危': '410101202308070007', '乳腺癌高危': '410101202308070008', '肝癌高危': '410101202308070009', '胃癌高危高危': '410101202308070010', '宫颈癌高危': '410101202308070011'}
-
-    def getHealthInterposalRule(self, Openpyxl_PO):
-
-        '''
-        获取 健康干预 - 干预规则 的值，匹配 getIdcard
-        :return:
-        [["高血压已患='是'", "糖尿病已患='是'"]]
-        '''
-
-        return Openpyxl_PO.getColValueByCol([7], [1], "健康干预")
-
     def getToken(self, varUser, varPass):
 
         # 1,获取登录用户的token
@@ -75,10 +52,41 @@ class ChcRulePO():
         # print(d_r['data']['access_token'])
         return d_r['data']['access_token']
 
-    def runRule(self, var, token):
+    def getHealthInterposalRule(self, Openpyxl_PO):
 
         '''
-        跑规则
+        获取 健康干预 - 干预规则 的值，匹配 getIdcard
+        :return:
+        [["高血压已患='是'", "糖尿病已患='是'"]]
+        '''
+
+        return Openpyxl_PO.getColValueByCol([7], [1], "健康干预")
+
+    def insertEMPI(self, varParams):
+
+        # 新增患者主索引
+
+        Sqlserver_PO.insertExec(varParams)
+
+
+
+
+    def getDiseaseIdcard(self, Openpyxl_PO):
+
+        '''
+        疾病身份证 sheet
+        :param Openpyxl_PO:
+        :return:  返回字典 {'YH_JB001': '310101202308070001', 'YH_JB002': '310101202308070002'}
+        '''
+
+        l_code_Idcard = Openpyxl_PO.getColValueByCol([1, 3], [1], "疾病身份证")
+        d_code_Idcard = dict(zip(l_code_Idcard[0], l_code_Idcard[1]))
+        return (d_code_Idcard)  # {'YH_JB001': '310101202308070001', 'YH_JB002': '310101202308070002'}
+
+    def i_AssessRuleRecord(self, var, token):
+
+        '''
+        跑规则  i_AssessRuleRecord
         :param var:
         :param token:
         :return:
@@ -90,15 +98,15 @@ class ChcRulePO():
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
         if d_r['code'] != 200:
-            print("跑规则, http://192.168.0.243:8011/rules/tAssessRuleRecord/testExecuteRule/" + str(var) + ", " + str(d_r))
-            return (d_r['code'], "跑规则, http://192.168.0.243:8011/rules/tAssessRuleRecord/testExecuteRule/" + str(var) + ", " + str(d_r))
+            log = str(d_r) + " 跑规则, http://192.168.0.243:8011/rules/tAssessRuleRecord/testExecuteRule/" + str(var)
+            print(log)
+            return (d_r['code'], log)
         else:
-            print("跑规则, http://192.168.0.243:8011/rules/tAssessRuleRecord/testExecuteRule/" + str(var) + ", " + str(d_r['code']))
-            return (d_r['code'], "跑规则, http://192.168.0.243:8011/rules/tAssessRuleRecord/testExecuteRule/" + str(var) + ", " + str(d_r['code']))
+            log = "[" + str(d_r['code']) + "] 跑规则, http://192.168.0.243:8011/rules/tAssessRuleRecord/testExecuteRule/" + str(var)
+            print(log)
+            return (d_r['code'], log)
 
-
-
-    def newAssess(self, varIdcard, token):
+    def i_newAssess(self, varIdcard, token):
 
         '''
         新增评估
@@ -115,34 +123,425 @@ class ChcRulePO():
         # print(str_r)
         d_r = json.loads(str_r)
         if d_r['code'] != 200:
-            print("新增评估, http://192.168.0.243:8011/server/qyyh/addAssess/" + str(varIdcard) + ", " + str(d_r))
-            return (d_r['code'], "新增评估, http://192.168.0.243:8011/server/qyyh/addAssess/" + str(varIdcard)+ ", " + str(d_r))
+            log = str(d_r) + "新增评估, http://192.168.0.243:8011/server/qyyh/addAssess/" + str(varIdcard)
+            print(log)
+            return (d_r['code'], log)
         else:
-            print("新增评估, http://192.168.0.243:8011/server/qyyh/addAssess/" + str(varIdcard) + ", " + str(d_r['code']))
-            return (d_r['code'], "新增评估, http://192.168.0.243:8011/server/qyyh/addAssess/" + str(varIdcard) + ", " + str(d_r['code']))
+            log = "[" + str(d_r['code']) + "] 新增评估, http://192.168.0.243:8011/server/qyyh/addAssess/" + str(varIdcard)
+            print(log)
+            return (d_r['code'], log)
 
 
-    def getResult(self, varID, varRuleCode):
 
-        # 校验评估规则结果表
-        l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
-        # print(l_result)
-        # # print("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'")
-        Color_PO.consoleColor("31", "33", "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID ='" + str(varID) + "' and RULE_CODE= '" + str(varRuleCode) + "'", "")
-        log = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID ='" + str(varID) + "' and RULE_CODE= '" + str(varRuleCode) + "'"
-        if l_result[0]['NO'] == 1:
-            return (1, log)
+    def outResult(self, l_result, k, varSheetName, Openpyxl_PO):
+
+        if l_result == 1:
+            Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
+            Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
+            Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
+            Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheetName)
+            Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheetName)
         else:
-            return (None, log)
+            Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheetName)
+            Color_PO.consoleColor("31", "31", str(k) + " => ERROR\n", "")
+            Openpyxl_PO.setCellValue(k, 2, l_result, varSheetName)
+            Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
+            Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
 
-    def insertEMPI(self, varParams):
+    def runRule_result(self, varResult, varSheetName, d_paramCode, Openpyxl_PO, TOKEN):
 
-        # 新增患者主索引
+        # 3，遍历每条规则
+        for k, v in d_paramCode.items():
 
-        Sqlserver_PO.insertExec(varParams)
+            if varResult == v[0] and v[1] != None:
+
+                varRuleCode = v[2]  # GY_YH001001
+                try:
+                    l_v1 = Str_PO.str2list(v[1])
+                except:
+                    # l_v1 = []
+                    print("error, 测试规则 " + str(v[1]) + " 格式错误！")
+
+                if l_v1[0] == "r1":
+                    # 实例：r1,DIAGNOSIS_CODE='I10'
+                    varParam = l_v1[1]  # IAGNOSIS_CODE='I10'
+                    varParam = varParam.replace(".and.", ',')
+                    print(str(k) + " => (" + l_v1[0] + ")")  # r2
+                    varSort = v[3]  # 家族史
+                    l_result = self.r1(varSort, varRuleCode, varParam, TOKEN)  # 家族史, PG_JZS001, IAGNOSIS_CODE='I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r2":
+                    # 实例： r2, 'I10'
+                    varParam = l_v1[1]  # 'I10'
+                    print(str(k) + " => (" + l_v1[0] + ")")  # r2
+                    varIdcard = None
+                    if varSheetName == "健康干预":
+                        diseaseCode = v[3]  # YH_JB001
+                        # 获取疾病身份证表对应code：idcard
+                        d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                        for k1, v1 in d_code_Idcard.items():
+                            if k1 == diseaseCode:
+                                varIdcard = v1
+                                break
+                    elif varSheetName == "疾病评估规则（已患和高风险）":
+                        diseaseCode = v[3]  # YH_JB001
+                        # 获取疾病身份证表对应code：idcard
+                        d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                        for k1, v1 in d_code_Idcard.items():
+                            if k1 == diseaseCode:
+                                varIdcard = v1
+                                break
+                    l_result = self.r2(varIdcard, varRuleCode, varParam, TOKEN)  # {身份证自动匹配} , GY_YH001001, 'I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r7":
+                    # 实例："r7,"I10","N03"
+                    varParam1 = l_v1[1]  # 'I10'
+                    varParam2 = l_v1[2]  # "N03"
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r7(varRuleCode, varParam1, varParam2, TOKEN)  # GY_YH001001，"I10","N03"
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r3":
+                    # 实例："r3,'I10'
+                    varParam = l_v1[1]  # 'I10'
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r3(varRuleCode, varParam, TOKEN)  # GY_YH001001，'I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r4":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    varParam2 = l_v1[2]  # job002
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r4(varRuleCode, varParam1, varParam2, TOKEN)
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r6":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r6(varRuleCode, varParam1, TOKEN)
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
 
 
-    def run(self, varSheetName, Openpyxl_PO, TOKEN):
+
+    def runRule_resultNull(self, varSheetName, d_paramCode, Openpyxl_PO, TOKEN):
+
+        # 3，遍历每条规则
+        for k, v in d_paramCode.items():
+            # print(v)
+            if v[0] == None and v[1] != None:
+
+                varRuleCode = v[2]  # GY_YH001001
+                try:
+                    l_v1 = Str_PO.str2list(v[1])
+                except:
+                    # l_v1 = []
+                    print("error, 测试规则 " + str(v[1]) + " 格式错误！")
+
+                if l_v1[0] == "r1":
+                    # 实例：r1,DIAGNOSIS_CODE='I10'
+                    varParam = l_v1[1]  # IAGNOSIS_CODE='I10'
+                    varParam = varParam.replace(".and.", ',')
+                    print(str(k) + " => (" + l_v1[0] + ")")  # r2
+                    varSort = v[3]  # 家族史
+                    l_result = self.r1(varSort, varRuleCode, varParam, TOKEN)  # 家族史, PG_JZS001, IAGNOSIS_CODE='I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r2":
+                    # 实例： r2, 'I10'
+                    varParam = l_v1[1]  # 'I10'
+                    print(str(k) + " => (" + l_v1[0] + ")")  # r2
+                    varIdcard = None
+                    if varSheetName == "健康干预":
+                        diseaseCode = v[3]  # YH_JB001
+                        # 获取疾病身份证表对应code：idcard
+                        d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                        for k1, v1 in d_code_Idcard.items():
+                            if k1 == diseaseCode:
+                                varIdcard = v1
+                                break
+                    elif varSheetName == "疾病评估规则（已患和高风险）":
+                        diseaseCode = v[3]  # YH_JB001
+                        # 获取疾病身份证表对应code：idcard
+                        d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                        for k1, v1 in d_code_Idcard.items():
+                            if k1 == diseaseCode:
+                                varIdcard = v1
+                                break
+                    l_result = self.r2(varIdcard, varRuleCode, varParam, TOKEN)  # {身份证自动匹配} , GY_YH001001, 'I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r7":
+                    # 实例："r7,"I10","N03"
+                    varParam1 = l_v1[1]  # 'I10'
+                    varParam2 = l_v1[2]  # "N03"
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r7(varRuleCode, varParam1, varParam2, TOKEN)  # GY_YH001001，"I10","N03"
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r3":
+                    # 实例："r3,'I10'
+                    varParam = l_v1[1]  # 'I10'
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r3(varRuleCode, varParam, TOKEN)  # GY_YH001001，'I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r4":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    varParam2 = l_v1[2]  # job002
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r4(varRuleCode, varParam1, varParam2, TOKEN)
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r6":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r6(varRuleCode, varParam1, TOKEN)
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+
+
+    def runRule_param(self, varRuleParam, varSheetName, d_paramCode, Openpyxl_PO, TOKEN):
+
+        # 遍历每条规则
+        for k, v in d_paramCode.items():
+
+                varRuleCode = v[2]  # GY_YH001001
+                try:
+                    l_v1 = Str_PO.str2list(v[1])
+                except:
+                    # l_v1 = []
+                    print("error, 测试规则 " + str(v[1]) + " 格式错误！")
+
+                # ruleQty = len(varRuleParam.split(","))
+                # if ruleQty == 1:
+
+
+                if l_v1[0] == "r1" and varRuleParam == "r1":
+                    # 实例：r1,DIAGNOSIS_CODE='I10'
+                    varParam = l_v1[1]  # IAGNOSIS_CODE='I10'
+                    varParam = varParam.replace(".and.", ',')
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    varSort = v[3]  # 家族史
+                    l_result = self.r1(varSort, varRuleCode, varParam, TOKEN)  # 家族史, PG_JZS001, IAGNOSIS_CODE='I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r2" and varRuleParam == "r2":
+                    # 实例： r2, 'I10'
+                    varParam = l_v1[1]  # 'I10'
+                    print(str(k) + " => (" + l_v1[0] + ")")  # r2
+                    varIdcard = None
+                    if varSheetName == "健康干预":
+                        diseaseCode = v[3]  # YH_JB001
+                        # 获取疾病身份证表对应code：idcard
+                        d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                        for k1, v1 in d_code_Idcard.items():
+                            if k1 == diseaseCode:
+                                varIdcard = v1
+                                break
+                    elif varSheetName == "疾病评估规则（已患和高风险）":
+                        diseaseCode = v[3]  # YH_JB001
+                        # 获取疾病身份证表对应code：idcard
+                        d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                        for k1, v1 in d_code_Idcard.items():
+                            if k1 == diseaseCode:
+                                varIdcard = v1
+                                break
+                    l_result = self.r2(varIdcard, varRuleCode, varParam, TOKEN)  # {身份证自动匹配} , GY_YH001001, 'I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r7" and varRuleParam == "r7":
+                    # 实例："r7,"I10","N03"
+                    varParam1 = l_v1[1]  # 'I10'
+                    varParam2 = l_v1[2]  # "N03"
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r7(varRuleCode, varParam1, varParam2, TOKEN)  # GY_YH001001，"I10","N03"
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r3" and varRuleParam == "r3":
+                    # 实例："r3,'I10'
+                    varParam = l_v1[1]  # 'I10'
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r3(varRuleCode, varParam, TOKEN)  # GY_YH001001，'I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r4" and varRuleParam == "r4":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    varParam2 = l_v1[2]  # job002
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r4(varRuleCode, varParam1, varParam2, TOKEN)
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+                elif l_v1[0] == "r6" and varRuleParam == "r6":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r6(varRuleCode, varParam1, TOKEN)
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+
+
+
+
+    def runRule_Resultparam(self, varResult, varRuleParam, varSheetName, d_paramCode, Openpyxl_PO, TOKEN):
+
+        # 遍历每条规则
+        for k, v in d_paramCode.items():
+
+            if varResult == v[0] and v[1] != None:
+                varRuleCode = v[2]  # GY_YH001001
+                try:
+                    l_v1 = Str_PO.str2list(v[1])
+                except:
+                    # l_v1 = []
+                    print("error, 测试规则 " + str(v[1]) + " 格式错误！")
+
+                # ruleQty = len(varRuleParam.split(","))
+                # if ruleQty == 1:
+
+
+                if l_v1[0] == "r1" and varRuleParam == "r1":
+                    # 实例：r1,DIAGNOSIS_CODE='I10'
+                    varParam = l_v1[1]  # IAGNOSIS_CODE='I10'
+                    varParam = varParam.replace(".and.", ',')
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    varSort = v[3]  # 家族史
+                    l_result = self.r1(varSort, varRuleCode, varParam, TOKEN)  # 家族史, PG_JZS001, IAGNOSIS_CODE='I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+                elif l_v1[0] == "r2" and varRuleParam == "r2":
+                    # 实例： r2, 'I10'
+                    varParam = l_v1[1]  # 'I10'
+                    print(str(k) + " => (" + l_v1[0] + ")")  # r2
+                    varIdcard = None
+                    if varSheetName == "健康干预":
+                        diseaseCode = v[3]  # YH_JB001
+                        # 获取疾病身份证表对应code：idcard
+                        d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                        for k1, v1 in d_code_Idcard.items():
+                            if k1 == diseaseCode:
+                                varIdcard = v1
+                                break
+                    elif varSheetName == "疾病评估规则（已患和高风险）":
+                        diseaseCode = v[3]  # YH_JB001
+                        # 获取疾病身份证表对应code：idcard
+                        d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                        for k1, v1 in d_code_Idcard.items():
+                            if k1 == diseaseCode:
+                                varIdcard = v1
+                                break
+                    l_result = self.r2(varIdcard, varRuleCode, varParam, TOKEN)  # {身份证自动匹配} , GY_YH001001, 'I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+                elif l_v1[0] == "r7" and varRuleParam == "r7":
+                    # 实例："r7,"I10","N03"
+                    varParam1 = l_v1[1]  # 'I10'
+                    varParam2 = l_v1[2]  # "N03"
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r7(varRuleCode, varParam1, varParam2, TOKEN)  # GY_YH001001，"I10","N03"
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+                elif l_v1[0] == "r3" and varRuleParam == "r3":
+                    # 实例："r3,'I10'
+                    varParam = l_v1[1]  # 'I10'
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r3(varRuleCode, varParam, TOKEN)  # GY_YH001001，'I10'
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+                elif l_v1[0] == "r4" and varRuleParam == "r4":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    varParam2 = l_v1[2]  # job002
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r4(varRuleCode, varParam1, varParam2, TOKEN)
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+                elif l_v1[0] == "r6" and varRuleParam == "r6":
+                    # 分解 "r4,  '01','JB002'
+                    varParam1 = l_v1[1]  # 01
+                    print(str(k) + " => (" + l_v1[0] + ")")
+                    l_result = self.r6(varRuleCode, varParam1, TOKEN)
+                    self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+    def runRule(self, varSheetName, d_paramCode, Openpyxl_PO, TOKEN):
+
+        # 3，遍历每条规则
+        for k, v in d_paramCode.items():
+            varRuleCode = v[2]  # GY_YH001001
+            try:
+                l_v1 = Str_PO.str2list(v[1])
+            except:
+                # l_v1 = []
+                print("error, 测试规则 " + str(v[1]) + " 格式错误！")
+
+            if l_v1[0] == "r1":
+                # 实例：r1,DIAGNOSIS_CODE='I10'
+                varParam = l_v1[1]  # IAGNOSIS_CODE='I10'
+                varParam = varParam.replace(".and.", ',')
+                print(str(k) + " => (" + l_v1[0] + ")")  # r2
+                varSort = v[3]  # 家族史
+                l_result = self.r1(varSort, varRuleCode, varParam, TOKEN)  # 家族史, PG_JZS001, IAGNOSIS_CODE='I10'
+                self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+            elif l_v1[0] == "r2":
+                # 实例： r2, 'I10'
+                varParam = l_v1[1]  # 'I10'
+                print(str(k) + " => (" + l_v1[0] + ")")  # r2
+                varIdcard = None
+                if varSheetName == "健康干预":
+                    diseaseCode = v[3]  # YH_JB001
+                    # 获取疾病身份证表对应code：idcard
+                    d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                    for k1, v1 in d_code_Idcard.items():
+                        if k1 == diseaseCode:
+                            varIdcard = v1
+                            break
+                elif varSheetName == "疾病评估规则（已患和高风险）":
+                    diseaseCode = v[3]  # YH_JB001
+                    # 获取疾病身份证表对应code：idcard
+                    d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+                    for k1, v1 in d_code_Idcard.items():
+                        if k1 == diseaseCode:
+                            varIdcard = v1
+                            break
+                l_result = self.r2(varIdcard, varRuleCode, varParam, TOKEN)  # {身份证自动匹配} , GY_YH001001, 'I10'
+                self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+            elif l_v1[0] == "r7":
+                # 实例："r7,"I10","N03"
+                varParam1 = l_v1[1]  # 'I10'
+                varParam2 = l_v1[2]  # "N03"
+                print(str(k) + " => (" + l_v1[0] + ")")
+                l_result = self.r7(varRuleCode, varParam1, varParam2, TOKEN)  # GY_YH001001，"I10","N03"
+                self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+            elif l_v1[0] == "r3":
+                # 实例："r3,'I10'
+                varParam = l_v1[1]  # 'I10'
+                print(str(k) + " => (" + l_v1[0] + ")")
+                l_result = self.r3(varRuleCode, varParam, TOKEN)  # GY_YH001001，'I10'
+                self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+            elif l_v1[0] == "r4":
+                # 分解 "r4,  '01','JB002'
+                varParam1 = l_v1[1]  # 01
+                varParam2 = l_v1[2]  # job002
+                print(str(k) + " => (" + l_v1[0] + ")")
+                l_result = self.r4(varRuleCode, varParam1, varParam2, TOKEN)
+                self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+            elif l_v1[0] == "r6":
+                # 分解 "r4,  '01','JB002'
+                varParam1 = l_v1[1]  # 01
+                print(str(k) + " => (" + l_v1[0] + ")")
+                l_result = self.r6(varRuleCode, varParam1, TOKEN)
+                self.outResult(l_result, k, varSheetName, Openpyxl_PO)
+
+
+
+
+    def run(self, varSheetName, varResult, varRuleParam, Openpyxl_PO, TOKEN):
 
         '''
         :param Openpyxl_PO:
@@ -156,15 +555,23 @@ class ChcRulePO():
             l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5,7列值，忽略第一行数据
             # print(l_paramCode[0])  # OK
             # print(l_paramCode[1])  # r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'
-            # print(l_paramCode[2])  # GY_YH001001
-            # print(l_paramCode[3])  # 高血压已患='是'
+            # print(l_paramCode[2])  # GY_YH001001  //干预规则编码
+            # print(l_paramCode[3])  # YH_JB008  //疾病评估规则编码
         elif varSheetName == "健康评估":
             l_varColNums = [1, 3, 5, 6]
             l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
             # print(l_paramCode[0])  # OK
             # print(l_paramCode[1])  # r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'
-            # print(l_paramCode[2])  # GY_YH001001
+            # print(l_paramCode[2])  # PG_SHXG001   //评估规则编码
             # print(l_paramCode[3])  # 家族史
+        elif varSheetName == "疾病评估规则（已患和高风险）":
+            l_varColNums = [1, 3, 9, 5]
+            l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
+            # print(l_paramCode[0])  # OK
+            # print(l_paramCode[1])  # r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'
+            # print(l_paramCode[2])  # PG_JWS013  //健康评估规则库编码
+            # print(l_paramCode[3])  # YH_JB008  //疾病评估规则编码
+
 
         # 换成字典
         list1 = []
@@ -175,80 +582,38 @@ class ChcRulePO():
             listall.append(list1)
             list1 = []
         d_paramCode = List_PO.list2dictByIndex(listall, 2)
-        print(d_paramCode)  # {2: ['OK', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'", 'GY_YH001001', "高血压已患='是'"], 3: ['OK', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='E11'", 'GY_YH002001', "糖尿病已患='是'"]}
+        # print(d_paramCode)  # {2: ['OK', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'", 'GY_YH001001', "高血压已患='是'"], 3: ['OK', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='E11'", 'GY_YH002001', "糖尿病已患='是'"]}
 
 
-        # 3，遍历每条规则
-        for k, v in d_paramCode.items():
-
-            # if v[1] != None :
-                # 跑所有记录（所有规则）
-
-            if v[1] != None and v[0] != "OK":
-                # 只跑结果ERROR
-
-                varRuleCode = v[2]  # GY_YH001001
-                try:
-                    l_v1 = Str_PO.str2list(v[1])
-                except:
-                    # l_v1 = []
-                    print("error, 测试规则 " + str(v[1]) + " 格式错误！")
-
-
-                if l_v1[0] == "r1":
-                    # r1,DIAGNOSIS_CODE='I10'
-                    varParam = l_v1[1]  # IAGNOSIS_CODE='I10'
-                    varParam = varParam.replace(".and.", ',')
-                    print(str(k) + " => run(" + l_v1[0] + ")")  # r2
-                    varSort = v[3]  # 家族史
-                    l_result = self.r1(varSort, varRuleCode, varParam, TOKEN)
-                elif l_v1[0] == "r2":
-                    # 分解 "r2,T_HIS_DIAGNOSIS,DIAGNOSIS_CODE='I10',
-                    varTbl = l_v1[1]  # T_HIS_DIAGNOSIS
-                    varParam = l_v1[2]  # IAGNOSIS_CODE='I10'
-                    varParam = varParam.replace(".and.", ',')
-                    print(str(k) + " => run(" + l_v1[0] + ")")  # r2
-                    if varSheetName == "健康干预":
-                        varInterPosalRule = v[3]  # 高血压已患='是'
-                        varInterPosalRule = varInterPosalRule.split("=")[0]  # 高血压已患
-                        d_idcard = self.getIdcard(Openpyxl_PO)
-                        varIdcard = None
-                        for k1, v1 in d_idcard.items():
-                            if k1 == varInterPosalRule:
-                                varIdcard = v1
-                                break
-                    l_result = self.r2(varIdcard, varRuleCode, varTbl, varParam, TOKEN)  # 310101202308070001, GY_YH001001，T_HIS_DIAGNOSIS，DIAGNOSIS_CODE='I10'
-                elif l_v1[0] == "r3":
-                    # 分解 "r3,T_HIS_DIAGNOSIS,DIAGNOSIS_CODE='I10'
-                    varTbl = l_v1[1]  # T_HIS_DIAGNOSIS
-                    varParam = l_v1[2]  # IAGNOSIS_CODE='I10'
-                    varParam = varParam.replace(".and.", ',')
-                    print(str(k) + " => run(" + l_v1[0] + ")")  # r2
-                    l_result = self.r2('110101196407281506', varRuleCode, varTbl, varParam, TOKEN)  # 310101202308070001, GY_YH001001，T_HIS_DIAGNOSIS，DIAGNOSIS_CODE='I10'
-                elif l_v1[0] == "r4":
-                    # 分解 "r4,  '01','JB002'
-                    varParam1 = l_v1[1]  # 01
-                    varParam2 = l_v1[2]  # job002
-                    print(str(k) + " => run(" + l_v1[0] + ")")  # r2
-                    l_result = self.r4(varRuleCode, varParam1, varParam2, TOKEN)
-                elif l_v1[0] == "r6":
-                    # 分解 "r4,  '01','JB002'
-                    varParam1 = l_v1[1]  # 01
-                    print(str(k) + " => run(" + l_v1[0] + ")")  # r2
-                    l_result = self.r6(varRuleCode, varParam1, TOKEN)
-
-                if l_result == 1:
-                    Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
-                    Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
-                    Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
-                    Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheetName)
-                    Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheetName)
+        if varResult == "ALL" :
+            if varRuleParam == "":
+                # 遍历所有记录
+                # ChcRule_PO.run('健康评估', "ALL", "", Openpyxl_PO, TOKEN)
+                self.runRule(varSheetName, d_paramCode, Openpyxl_PO, TOKEN)
+            else:
+                # 遍历所有及指定测试规则的记录，如只执行r1
+                # ChcRule_PO.run('健康评估', "ALL", "r1", Openpyxl_PO, TOKEN)
+                self.runRule_param(varRuleParam, varSheetName, d_paramCode, Openpyxl_PO, TOKEN)
+        else:
+            if varResult == "" :
+                if varRuleParam == "":
+                    # ChcRule_PO.run('健康评估', "", "", Openpyxl_PO, TOKEN)
+                    self.runRule_resultNull(varSheetName, d_paramCode, Openpyxl_PO, TOKEN)
                 else:
-                    Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheetName)
-                    Color_PO.consoleColor("31", "31", str(k) + " => ERROR\n", "")
-                    Openpyxl_PO.setCellValue(k, 2, l_result, varSheetName)
-                    Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
-                    Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
+                    # 遍历指定结果及指定测试规则的记录，如所有的r1
+                    # ChcRule_PO.run('健康评估', "", "r1", Openpyxl_PO, TOKEN)
+                    self.runRule_param(varRuleParam, varSheetName, d_paramCode, Openpyxl_PO, TOKEN)
+            else:
+                if varRuleParam == "":
+                    # 遍历指定结果的记录，如OK
+                    # ChcRule_PO.run('健康评估', "ERROR", "", Openpyxl_PO, TOKEN)
+                    # ChcRule_PO.run('健康评估', "OK", "", Openpyxl_PO, TOKEN)
+                    self.runRule_result(varResult, varSheetName, d_paramCode, Openpyxl_PO, TOKEN)
+                else:
+                    # 遍历指定结果及指定测试规则的记录，如ok，r1
+                    # ChcRule_PO.run('健康评估', "OK", "r1", Openpyxl_PO, TOKEN)
+                    # ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
+                    self.runRule_Resultparam(varResult, varRuleParam, varSheetName, d_paramCode, Openpyxl_PO, TOKEN)
 
 
 
@@ -278,20 +643,20 @@ class ChcRulePO():
 
             # 3，删除评估规则结果表中对应评估ID的记录
             Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE ='%s'" % (varID, varRuleCode))
-            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE ='" + str(varRuleCode) + "'"
+            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
             Color_PO.consoleColor("31", "33", sql, "")
             log = log + sql + "\n"
 
             # 4，跑规则
-            i_ruleStatus, log2 = self.runRule(varID, TOKEN)
+            i_ruleStatus, log2 = self.i_AssessRuleRecord(varID, TOKEN)
             log = log + log2 + "\n"
             if i_ruleStatus == 200:
 
                 # 5，检查"评估规则结果表"
                 l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
-                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
                 Color_PO.consoleColor("31", "33", sql, "")
-                Color_PO.consoleColor("31", "31", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                Color_PO.consoleColor("31", "36", "记录数：" + str(l_result[0]['NO']) + "条", "")
 
                 log = log + sql + "\n"
                 if l_result[0]['NO'] == 1:
@@ -302,9 +667,9 @@ class ChcRulePO():
                 return log
         return "warning，不适用r1测试规则，未执行！"
 
-    def r2(self, varIdcard, varRuleCode, varTbl, varParam, TOKEN):
+    def r2(self, varIdcard, varRuleCode, varParam, TOKEN):
 
-        # 310101202308070001, GY_YH001001，T_HIS_DIAGNOSIS，DIAGNOSIS_CODE='I10'
+        # 310101202308070001, GY_YH001001，DIAGNOSIS_CODE='I10'
 
         log = ""
 
@@ -314,43 +679,187 @@ class ChcRulePO():
         Color_PO.consoleColor("31", "33", sql, "")
         log = log + sql + "\n"
 
-        # 2，更新规则要求
-        Sqlserver_PO.execute("update %s set %s where IDCARD='%s'" % (varTbl, varParam, varIdcard))
-        sql = "update " + varTbl + " set " + varParam + " where IDCARD='" + str(varIdcard) + "'"
+        # 2，删除"诊断疾病表"中对应身份证记录
+        Sqlserver_PO.execute("delete from T_HIS_DIAGNOSIS where IDCARD = '%s'" % (varIdcard))
+        sql = "delete from T_HIS_DIAGNOSIS where IDCARD = '" + str(varIdcard) + "'"
         Color_PO.consoleColor("31", "33", sql, "")
         log = log + sql + "\n"
 
-        # 3，跑新增评估
-        i_newAssessResult, log1 = self.newAssess(varIdcard, TOKEN)
+        # 3，诊断疾病表，新增规则记录
+        sql = "INSERT INTO T_HIS_DIAGNOSIS(IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_DATE, CREATE_DATE) VALUES (" + str(varIdcard) + " , " + str(varParam) + ",  '2023-07-29 16:02:19.000', '2023-07-31 09:39:24.3700000')"
+        Sqlserver_PO.execute(sql)
+        Color_PO.consoleColor("31", "33", sql, "")
+        log = log + sql + "\n"
+
+        # 4，新增评估
+        i_i_newAssessResult, log1 = self.i_newAssess(varIdcard, TOKEN)
         log = log + log1 + "\n"
         sleep(2)
-        if i_newAssessResult == 200:
+        if i_i_newAssessResult == 200:
+
+            # 5, 获取评估表id
+            l_var = Sqlserver_PO.execQuery("select id from T_ASSESS_INFO where ID_CARD='%s'" % (varIdcard))
+            varASSESS_ID = l_var[0]['id']
+            sql = "select id from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
+            sql1 = " \nASSESS_ID = " + str(varASSESS_ID)
+            Color_PO.consoleColor("31", "33", sql, "\nASSESS_ID = " + str(varASSESS_ID))
+            log = log + sql + sql1 + "\n"
+
+            # 6，删除评估规则结果表中对应评估ID的记录
+            Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE ='%s'" % (varASSESS_ID, varRuleCode))
+            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varASSESS_ID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 7，跑规则
+            i_i_AssessRuleRecordStatus, log2 = self.i_AssessRuleRecord(varASSESS_ID, TOKEN)
+            log = log + log2 + "\n"
+            if i_i_AssessRuleRecordStatus == 200:
+
+                # 8，检查"评估规则结果表"
+                l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varASSESS_ID, varRuleCode))
+                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varASSESS_ID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
+                sql1 = "\n" + str(l_result[0]['NO']) + "条"
+                Color_PO.consoleColor("31", "33", sql, "")
+                Color_PO.consoleColor("31", "36", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                log = log + sql + sql1 + "\n"
+                if l_result[0]['NO'] == 1:
+                    return 1
+                else:
+                    return log
+
+            else:
+                return log
+        else:
+            return log
+
+    def r3(self, varRuleCode, varParam, TOKEN):
+
+        # GY_YH001001，'I10'
+
+        varIdcard = "110101196407281506"
+
+        log = ""
+
+        # 1，删除评估表中对应身份证的记录
+        Sqlserver_PO.execute("delete from T_ASSESS_INFO where ID_CARD='%s'" % (varIdcard))
+        sql = "delete from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
+        Color_PO.consoleColor("31", "33", sql, "")
+        log = log + sql + "\n"
+
+
+        # 2，更新规则要求
+        Sqlserver_PO.execute("update T_HIS_DIAGNOSIS set DIAGNOSIS_CODE=%s where IDCARD='%s'" % (varParam, varIdcard))
+        sql = "update T_HIS_DIAGNOSIS set DIAGNOSIS_CODE = '" + str(varParam) + "' where IDCARD = '" + str(varIdcard) + "'"
+        Color_PO.consoleColor("31", "33", sql, "")
+        log = log + sql + "\n"
+
+        # 3，新增评估
+        i_i_newAssessResult, log1 = self.i_newAssess(varIdcard, TOKEN)
+        log = log + log1 + "\n"
+        sleep(2)
+        if i_i_newAssessResult == 200:
 
             # 4, 获取评估表id
             l_var = Sqlserver_PO.execQuery("select id from T_ASSESS_INFO where ID_CARD='%s'" % (varIdcard))
-            varID = l_var[0]['id']
+            varASSESS_ID = l_var[0]['id']
             sql = "select id from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
-            sql1 = " //varID = " + str(varID)
-            Color_PO.consoleColor("31", "33", sql, "varID = " + str(varID))
+            sql1 = " \nASSESS_ID = " + str(varASSESS_ID)
+            Color_PO.consoleColor("31", "33", sql, "\nASSESS_ID = " + str(varASSESS_ID))
             log = log + sql + sql1 + "\n"
 
             # 5，删除评估规则结果表中对应评估ID的记录
-            Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE ='%s'" % (varID, varRuleCode))
-            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE ='" + str(varRuleCode) + "'"
+            Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE ='%s'" % (varASSESS_ID, varRuleCode))
+            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varASSESS_ID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
             Color_PO.consoleColor("31", "33", sql, "")
             log = log + sql + "\n"
 
             # 6，跑规则
-            i_runRuleStatus, log2 = self.runRule(varID, TOKEN)
+            i_i_AssessRuleRecordStatus, log2 = self.i_AssessRuleRecord(varASSESS_ID, TOKEN)
             log = log + log2 + "\n"
-            if i_runRuleStatus == 200:
+            if i_i_AssessRuleRecordStatus == 200:
 
                 # 7，检查"评估规则结果表"
-                l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
-                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+                l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varASSESS_ID, varRuleCode))
+                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varASSESS_ID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
                 sql1 = "\n" + str(l_result[0]['NO']) + "条"
                 Color_PO.consoleColor("31", "33", sql, "")
-                Color_PO.consoleColor("31", "31", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                Color_PO.consoleColor("31", "36", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                log = log + sql + sql1 + "\n"
+                if l_result[0]['NO'] == 1:
+                    return 1
+                else:
+                    return log
+
+            else:
+                return log
+        else:
+            return log
+
+    def r7(self, varRuleCode, varParam1, varParam2, TOKEN):
+
+        # GY_YH001001，"I10","N03"
+
+        varIdcard = "310101202308070004"
+
+        log = ""
+
+        # 1，删除评估表中对应身份证的记录
+        Sqlserver_PO.execute("delete from T_ASSESS_INFO where ID_CARD='%s'" % (varIdcard))
+        sql = "delete from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
+        Color_PO.consoleColor("31", "33", sql, "")
+        log = log + sql + "\n"
+
+        # 2，删除"诊断疾病表"中对应身份证记录
+        Sqlserver_PO.execute("delete from T_HIS_DIAGNOSIS where IDCARD = '%s'" % (varIdcard))
+        sql = "delete from T_HIS_DIAGNOSIS where IDCARD = '" + str(varIdcard) + "'"
+        Color_PO.consoleColor("31", "33", sql, "")
+        log = log + sql + "\n"
+
+        # 3，诊断疾病表，新增规则记录
+        sql = "INSERT INTO T_HIS_DIAGNOSIS(IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_DATE, CREATE_DATE) VALUES (" + str(varIdcard) + " , " + str(varParam1) + ",  '2023-07-29 16:02:19.000', '2023-07-31 09:39:24.3700000')"
+        Sqlserver_PO.execute(sql)
+        Color_PO.consoleColor("31", "33", sql, "")
+        log = log + sql + "\n"
+
+        # 4，诊断疾病表，新增规则记录
+        sql = "INSERT INTO T_HIS_DIAGNOSIS(IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_DATE, CREATE_DATE) VALUES (" + str(varIdcard) + " , " + str(varParam2) + ",  '2023-07-29 16:02:19.000', '2023-07-31 09:39:24.3700000')"
+        Sqlserver_PO.execute(sql)
+        Color_PO.consoleColor("31", "33", sql, "")
+        log = log + sql + "\n"
+
+
+        # 5，新增评估
+        i_i_newAssessResult, log1 = self.i_newAssess(varIdcard, TOKEN)
+        log = log + log1 + "\n"
+        sleep(2)
+        if i_i_newAssessResult == 200:
+
+            # 6, 获取评估表id
+            l_var = Sqlserver_PO.execQuery("select id from T_ASSESS_INFO where ID_CARD='%s'" % (varIdcard))
+            varASSESS_ID = l_var[0]['id']
+            sql = "select id from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
+            sql1 = " \nASSESS_ID = " + str(varASSESS_ID)
+            Color_PO.consoleColor("31", "33", sql, "\nASSESS_ID = " + str(varASSESS_ID))
+            log = log + sql + sql1 + "\n"
+
+            # 7，删除评估规则结果表中对应评估ID的记录
+            Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE ='%s'" % (varASSESS_ID, varRuleCode))
+            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varASSESS_ID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
+            Color_PO.consoleColor("31", "33", sql, "")
+            log = log + sql + "\n"
+
+            # 8，跑规则
+            i_i_AssessRuleRecordStatus, log2 = self.i_AssessRuleRecord(varASSESS_ID, TOKEN)
+            log = log + log2 + "\n"
+            if i_i_AssessRuleRecordStatus == 200:
+
+                # 9，检查"评估规则结果表"
+                l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varASSESS_ID, varRuleCode))
+                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varASSESS_ID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
+                sql1 = "\n" + str(l_result[0]['NO']) + "条"
+                Color_PO.consoleColor("31", "33", sql, "")
+                Color_PO.consoleColor("31", "36", "记录数：" + str(l_result[0]['NO']) + "条", "")
                 log = log + sql + sql1 + "\n"
                 if l_result[0]['NO'] == 1:
                     return 1
@@ -377,10 +886,10 @@ class ChcRulePO():
         log = log + sql + "\n"
 
         # 2，新增评估
-        i_newAssessResult, log1 = self.newAssess(varIdcard, TOKEN)
+        i_i_newAssessResult, log1 = self.i_newAssess(varIdcard, TOKEN)
         log = log + log1 + "\n"
         sleep(2)
-        if i_newAssessResult == 200:
+        if i_i_newAssessResult == 200:
 
             # 3，获取"评估表"中评估id
             l_var = Sqlserver_PO.execQuery("select ID from T_ASSESS_INFO where ID_CARD = '%s' " % (varIdcard))
@@ -392,7 +901,7 @@ class ChcRulePO():
 
             # 4，删除"评估既往史表"中对应身份证的记录
             Sqlserver_PO.execute("delete from T_ASSESS_PREVIOUS_HISTORY where IDCARD = '%s'" % (varIdcard))
-            sql = "delete from T_ASSESS_PREVIOUS_HISTORY where IDCARD ='" + str(varIdcard) + "'"
+            sql = "delete from T_ASSESS_PREVIOUS_HISTORY where IDCARD = '" + str(varIdcard) + "'"
             Color_PO.consoleColor("31", "33", sql, "")
             log = log + sql + "\n"
 
@@ -404,20 +913,20 @@ class ChcRulePO():
 
             # 6，删除评估规则结果表中对应评估ID的记录
             Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s'" % (varID, varRuleCode))
-            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
             Color_PO.consoleColor("31", "33", sql, "")
             log = log + sql + "\n"
 
             # 7，跑规则
-            i_runRuleStatus, log2 = self.runRule(varID, TOKEN)
+            i_i_AssessRuleRecordStatus, log2 = self.i_AssessRuleRecord(varID, TOKEN)
             log = log + log2 + "\n"
-            if i_runRuleStatus == 200:
+            if i_i_AssessRuleRecordStatus == 200:
 
                 # 8，检查"评估规则结果表"
                 l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
-                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
                 Color_PO.consoleColor("31", "33", sql, "")
-                Color_PO.consoleColor("31", "31", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                Color_PO.consoleColor("31", "36", "记录数：" + str(l_result[0]['NO']) + "条", "")
                 log = log + sql + "\n"
                 if l_result[0]['NO'] == 1:
                     return 1
@@ -442,10 +951,10 @@ class ChcRulePO():
         log = log + sql + "\n"
 
         # 2，新增评估
-        i_newAssessResult, log1 = self.newAssess(varIdcard, TOKEN)
+        i_i_newAssessResult, log1 = self.i_newAssess(varIdcard, TOKEN)
         log = log + log1 + "\n"
         sleep(2)
-        if i_newAssessResult == 200:
+        if i_i_newAssessResult == 200:
 
             # 3，获取"评估表"中评估id
             l_var = Sqlserver_PO.execQuery("select ID from T_ASSESS_INFO where ID_CARD = '%s' " % (varIdcard))
@@ -457,7 +966,7 @@ class ChcRulePO():
 
             # 4，删除"评估既往史表"中对应身份证的记录
             Sqlserver_PO.execute("delete from T_ASSESS_FAMILY_HISTORY where IDCARD = '%s'" % (varIdcard))
-            sql = "delete from T_ASSESS_FAMILY_HISTORY where IDCARD ='" + str(varIdcard) + "'"
+            sql = "delete from T_ASSESS_FAMILY_HISTORY where IDCARD = '" + str(varIdcard) + "'"
             Color_PO.consoleColor("31", "33", sql, "")
             log = log + sql + "\n"
 
@@ -469,20 +978,20 @@ class ChcRulePO():
 
             # 6，删除评估规则结果表中对应评估ID的记录
             Sqlserver_PO.execute("delete from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s'" % (varID, varRuleCode))
-            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+            sql = "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
             Color_PO.consoleColor("31", "33", sql, "")
             log = log + sql + "\n"
 
             # 7，跑规则
-            i_runRuleStatus, log2 = self.runRule(varID, TOKEN)
+            i_i_AssessRuleRecordStatus, log2 = self.i_AssessRuleRecord(varID, TOKEN)
             log = log + log2 + "\n"
-            if i_runRuleStatus == 200:
+            if i_i_AssessRuleRecordStatus == 200:
 
                 # 8，检查"评估规则结果表"
                 l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
-                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID =" + str(varID) + " and RULE_CODE= '" + str(varRuleCode) + "'"
+                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE = '" + str(varRuleCode) + "'"
                 Color_PO.consoleColor("31", "33", sql, "")
-                Color_PO.consoleColor("31", "31", "记录数：" + str(l_result[0]['NO']) + "条", "")
+                Color_PO.consoleColor("31", "36", "记录数：" + str(l_result[0]['NO']) + "条", "")
                 log = log + sql + "\n"
                 if l_result[0]['NO'] == 1:
                     return 1
@@ -538,7 +1047,7 @@ class ChcRulePO():
     #                 Sqlserver_PO.execute("update %s set %s where %s='%s'" % (varTbl, varParam, k[2], varId))
     #
     #                 # 3，跑规则
-    #                 self.runRule(varId, TOKEN)
+    #                 self.i_AssessRuleRecord(varId, TOKEN)
     #
     #                 # 4，检查"评估规则结果表"
     #                 l_result = (self.getResult(varId, v))
@@ -593,7 +1102,7 @@ class ChcRulePO():
     #                 print("身份证：" + str(varIDcard))
     #
     #                 # 2,新增评估
-    #                 self.newAssess(varIDcard, TOKEN)
+    #                 self.i_newAssess(varIDcard, TOKEN)
     #
     #                 # 3, 获取评估表id
     #                 l_var = Sqlserver_PO.execQuery("select id from T_ASSESS_INFO where ID_CARD='%s'" % (varIDcard))
@@ -602,7 +1111,7 @@ class ChcRulePO():
     #                 # print(varId)
     #
     #                 # 4，跑规则
-    #                 self.runRule(varId, TOKEN)
+    #                 self.i_AssessRuleRecord(varId, TOKEN)
     #
     #                 # 5，检查"评估规则结果表"
     #                 l_result = (self.getResult(varId, v))
