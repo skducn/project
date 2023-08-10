@@ -422,6 +422,16 @@ class OpenpyxlPO:
             sh.column_dimensions[get_column_letter(i)].width = colQty  # 列宽
         self.save()
 
+    def setAllCellDimensionsHeight(self, rowQty, varSheet=0):
+
+        # 2.6 设置所有单元格的行高与列宽
+        sh = self.sh(varSheet)
+        rows = sh.max_row
+        columns = sh.max_column
+        for i in range(1, rows + 1):
+            sh.row_dimensions[i].height = rowQty  # 行高
+        self.save()
+
     def setAllWordWrap(self, varSheet=0):
 
         # 2.7 设置所有单元格自动换行
@@ -1105,15 +1115,18 @@ class OpenpyxlPO:
 
 if __name__ == "__main__":
 
-    Sys_PO.closeApp("EXCEL.EXE")
+    # Sys_PO.closeApp("EXCEL.EXE")
     # Openpyxl_PO = OpenpyxlPO("ExcelPO/i_erp_reportField_case.xlsx")
     # Openpyxl_PO = OpenpyxlPO("student.xlsx")
-    # Openpyxl_PO = OpenpyxlPO("d://t123.xlsx")
-    Openpyxl_PO = OpenpyxlPO("")
+    Openpyxl_PO = OpenpyxlPO("./data/area.xlsx")
+    Openpyxl_PO.setAllCellDimensionsHeight(30)
+    Openpyxl_PO.open()
+
+    # Openpyxl_PO = OpenpyxlPO("")
 
     # print("1.1 新建".center(100, "-"))
     # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", ["mySheet1", "mySheet2", "mySheet3"])  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
-    Openpyxl_PO.newExcel("d://t44.xlsx", ["mySheet661", "mySheet552", "mySheet32"])  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
+    # Openpyxl_PO.newExcel("d://t44.xlsx", ["mySheet661", "mySheet552", "mySheet32"])  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
     # print("1.2 打开".center(100, "-"))
     # Openpyxl_PO.open()
@@ -1308,3 +1321,4 @@ if __name__ == "__main__":
 
     # # print("7 将excel中标题（第一行字段）排序（从小打大）".center(100, "-"))
     # Openpyxl_PO.sortFields("Sheet1")
+

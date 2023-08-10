@@ -29,25 +29,25 @@ ChcRule_PO.clsApp("Microsoft Excel")
 Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 
 
-
-# main
+# todo 健康评估
 # ChcRule_PO.run('健康评估', "", "r6", Openpyxl_PO, TOKEN)  # OK
-ChcRule_PO.run('健康评估', "OK", "r1", Openpyxl_PO, TOKEN)  # OK
+# ChcRule_PO.run('健康评估', "OK", "r1", Openpyxl_PO, TOKEN)  # OK
 # ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)  # ok
 # ChcRule_PO.run('健康评估', "ALL", "r1", Openpyxl_PO, TOKEN)  # ok
-
 # ChcRule_PO.run('健康评估', "ALL", "", Openpyxl_PO, TOKEN)  # ok
 # ChcRule_PO.run('健康评估', "OK", "", Openpyxl_PO, TOKEN)  # ok
 # ChcRule_PO.run('健康评估', "ERROR", "", Openpyxl_PO, TOKEN)  # ok
 # ChcRule_PO.run('健康评估', "", "", Openpyxl_PO, TOKEN)  # ok
 
 
+# todo 健康干预
+# ChcRule_PO.run('健康干预', "ALL","",Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('健康干预', "", "", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('健康干预', "ERROR", "", Openpyxl_PO, TOKEN)
 
 
-
-# ChcRule_PO.run('健康干预', Openpyxl_PO, TOKEN)
-
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', Openpyxl_PO, TOKEN)   # 汪刚
+# todo 疾病评估规则（已患和高风险）
+ChcRule_PO.run('疾病评估规则（已患和高风险）', "", "GW_JB004", Openpyxl_PO, TOKEN)
 
 
 
