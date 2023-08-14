@@ -19,6 +19,10 @@ from PO.TimePO import *
 Time_PO = TimePO()
 from PO.ListPO import *
 List_PO = ListPO()
+from PO.DataPO import *
+Data_PO = DataPO()
+
+
 
 class ChcRulePO():
 
@@ -122,18 +126,24 @@ class ChcRulePO():
         str_r = bytes.decode(out)
         # print(str_r)
         d_r = json.loads(str_r)
-        if d_r['code'] != 200:
-            log = "新增评估, " + str(d_r)
-            print(log)
-            return ("新增评估", log)
+        if 'code' in d_r:
+            if d_r['code'] != 200:
+                log = "新增评估, " + str_r
+                print(log)
+                return ("新增评估", log)
+            else:
+                log = "新增评估, 200 "
+                print(log)
+                return ("新增评估", log)
         else:
-            log = "新增评估, 200 "
+            # {"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
+            log = "新增评估, " + str_r
             print(log)
             return ("新增评估", log)
 
     def outResult1(self, varQty, varLog, k, varSheetName, Openpyxl_PO):
 
-        if varQty == 1:
+        if varQty == "1":
             Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
             Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
             Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
@@ -146,9 +156,27 @@ class ChcRulePO():
             Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
 
-    def outResult(self, varQty, k, varSheetName, Openpyxl_PO):
+    # def outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO):
+    #
+    #     if varQty == 1:
+    #         Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
+    #         Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
+    #         Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
+    #         Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheetName)
+    #         Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheetName)
+    #     else:
+    #         Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheetName)
+    #         Color_PO.consoleColor("31", "31", str(k) + " => ERROR\n", "")
+    #         Openpyxl_PO.setCellValue(k, 2, varLog, varSheetName)
+    #         Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
+    #         Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
 
-        if varQty == 1:
+
+    def outResultGW(self, varQty, varLog, k, varSheetName, Openpyxl_PO):
+
+        ''' GW 前置条件'''
+
+        if varQty == "0":
             Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
             Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
             Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
@@ -157,7 +185,7 @@ class ChcRulePO():
         else:
             Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheetName)
             Color_PO.consoleColor("31", "31", str(k) + " => ERROR\n", "")
-            Openpyxl_PO.setCellValue(k, 2, varQty, varSheetName)
+            Openpyxl_PO.setCellValue(k, 2, varLog, varSheetName)
             Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
 
@@ -194,6 +222,8 @@ class ChcRulePO():
             varParam = varParam.replace(".and.", ',')
         except:
             print("error, 测试规则 " + str(v[1]) + " 格式错误！")
+
+        print(l_v1)
 
 
         if l_v1[0] == "r1" and var3_rule == "r1":
@@ -305,16 +335,99 @@ class ChcRulePO():
             varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
-        elif l_v1[0] == "GW_JB004" and var3_rule == "GW_JB004":
+        elif l_v1[0] == "r9" and var3_rule == "r9":
+            # 实例： r9,'高血压'
+            d = {}
+            # print(v)
+            d['result'] = v[0]
+            d['testRuleName'] = l_v1[0]
+            d['testRuleParam'] = varParam
+            d['ruleCode'] = v[2]
+            d['diseaseRuleCode'] = v[3]
+            print(str(k) + " => (" + d['testRuleName'] + ")")
+            # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001'}
+
+            # 在"疾病身份证" sheet中获取对应的身份证
+            varIdcard = None
+            d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+            for k1, v1 in d_code_Idcard.items():
+                if k1 == d['diseaseRuleCode']:
+                    varIdcard = v1
+                    break
+            d["varIdcard"] = varIdcard
+            # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001', 'varIdcard': '310101202308070001'}
+
+            if varIdcard != None:
+                varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)  # PG_JZS001, r1, Openpyxl_PO, TOKEN
+                self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            else:
+                print("error, 身份证为None")
+
+        elif l_v1[0] == "r10" and var3_rule == "r10":
+            # 实例： r9,'高血压'
+            d = {}
+            # print(v)
+            d['result'] = v[0]
+            d['testRuleName'] = l_v1[0]
+            d['testRuleParam'] = varParam
+            d['ruleCode'] = v[2]
+            d['diseaseRuleCode'] = v[3]
+            print(str(k) + " => (" + d['testRuleName'] + ")")
+            # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001'}
+
+            # 在"疾病身份证" sheet中获取对应的身份证
+            varIdcard = None
+            d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+            for k1, v1 in d_code_Idcard.items():
+                if k1 == d['diseaseRuleCode']:
+                    varIdcard = v1
+                    break
+            d["varIdcard"] = varIdcard
+            # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001', 'varIdcard': '310101202308070001'}
+
+            if varIdcard != None:
+                varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)  # PG_JZS001, r1, Openpyxl_PO, TOKEN
+                self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            else:
+                print("error, 身份证为None")
+
+
+        elif l_v1[0] == "GW" and var3_rule == "GW":
             # 实例：GW_JB004
 
+            # print(v)
+            d = {}
+            d['result'] = v[0]
+            d['diseaseRuleCode'] = v[3]
+            d['ruleCode'] = v[2]
+            # print(d)
+            print(str(k) + " => (" + v[3] + ")")
+            # 在"疾病身份证" sheet中获取对应的身份证
+            varIdcard = None
+            d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
+            for k1, v1 in d_code_Idcard.items():
+                if k1 == d['diseaseRuleCode']:
+                    varIdcard = v1
+                    break
+            d["varIdcard"] = varIdcard
+
+            varQty, varLog = self.gw(d, Openpyxl_PO, TOKEN)
+            # print(varQty)
+            self.outResultGW(varQty, varLog, k, varSheetName, Openpyxl_PO)
+
+        elif l_v1[0] == "r11" and var3_rule == "r11":
+            # 实例： r11,AGE=66,AGE=65
+            d = {}
             print(v)
-            sys.exit(0)
-
-            print(str(k) + " => (" + l_v1[0] + ")")
-            l_result = self.GW_JB004(varRuleCode, varSheetName, Openpyxl_PO, TOKEN)
-            self.outResult(l_result, k, varSheetName, Openpyxl_PO)
-
+            d['result'] = v[0]
+            d['testRuleName'] = l_v1[0]
+            d['testRuleParam1'] = l_v1[1]
+            d['testRuleParam2'] = l_v1[2]
+            d['ruleCode'] = v[3]
+            print(d)
+            print(str(k) + " => (" + d['testRuleName'] + ")")
+            varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
+            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
 
     def runRule_AsteriskNone(self, var1, varSheetName, d_paramCode, Openpyxl_PO, TOKEN):
@@ -356,7 +469,7 @@ class ChcRulePO():
             d['ruleCode'] = v[2]
             print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
-            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
         elif l_v1[0] == "r2":
             # 实例： r2, 'I10'
@@ -384,7 +497,7 @@ class ChcRulePO():
 
             if varIdcard != None:
                 varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)  # 家族史, PG_JZS001, r1, Openpyxl_PO, TOKEN
-                self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+                outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
             else:
                 print("error, 身份证为None")
 
@@ -400,7 +513,7 @@ class ChcRulePO():
             d['ruleCode'] = v[2]
             print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
-            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
         elif l_v1[0] == "r3":
             # 实例："r3,'I10'
@@ -411,7 +524,7 @@ class ChcRulePO():
             d['ruleCode'] = v[2]
             print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
-            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
 
 
@@ -424,7 +537,7 @@ class ChcRulePO():
             d['ruleCode'] = v[2]
             print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
-            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
         elif l_v1[0] == "r4":
             # 分解 "r4,  '01','JB002'
@@ -436,7 +549,7 @@ class ChcRulePO():
             d['ruleCode'] = v[2]
             print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
-            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
         elif l_v1[0] == "r5":
             # 实例： r5,'I10',HALOPHILIA_CODE=2
@@ -448,7 +561,7 @@ class ChcRulePO():
             d['ruleCode'] = v[2]
             print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
-            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
         elif l_v1[0] == "r8":
             # 实例： r8,'现在每天吸'
@@ -460,12 +573,13 @@ class ChcRulePO():
             d['ruleCode'] = v[2]
             print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.r1(d, Openpyxl_PO, TOKEN)
-            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
         elif l_v1[0] == "GW_JB004":
             # 实例：GW_JB004
+            d = {}
             print(str(k) + " => (" + l_v1[0] + ")")
-            l_result = self.GW_JB004(varRuleCode, TOKEN, varSheetName, Openpyxl_PO)
+            l_result = self.GW(d, TOKEN, varSheetName, Openpyxl_PO)
             self.outResult(l_result, k, varSheetName, Openpyxl_PO)
 
 
@@ -1045,21 +1159,21 @@ class ChcRulePO():
 
 
 
-    def GW_JB004(self, varRuleCode, varSheetName, Openpyxl_PO, TOKEN):
+    def GW123(self, d, Openpyxl_PO):
 
         log = ""
 
         # print(varRuleCode)  # GW_JB004
+        print(d)
 
         # 1,获取身份证
         d_CodeIdcard = self.getDiseaseIdcard(Openpyxl_PO)
-        # print(d_CodeIdcard)
         varIdcard = None
         for k, v in d_CodeIdcard.items():
-            if k == varRuleCode:
+            if k == d['diseaseRuleCode']:
                 varIdcard = v
                 break
-        # print(varIdcard)  # '410101202308070004'
+        print(varIdcard)  # '410101202308070004'
 
         # 2，遍历所有列得到列值
         l_all = Openpyxl_PO.getColValue("GW")
@@ -1067,11 +1181,10 @@ class ChcRulePO():
 
         i_newAssessStatus = 0
         for i in range(len(l_all)):
-            # if varRuleCode in l_all[i][0] :
-            if varRuleCode == l_all[i][0] :
+            if d['diseaseRuleCode'] == l_all[i][0] :
                 for j in range(1, len(l_all[i])):
                     command = l_all[i][j]
-                    # print(l_all[i][j])
+                    print(command)
 
                     l_var = Openpyxl_PO.getOneRowValue(0, "GW")
                     for k in range(len(l_var)):
@@ -1082,8 +1195,8 @@ class ChcRulePO():
 
                     command = str(command).replace("{身份证}", varIdcard)
 
-                    varID = Openpyxl_PO.getCellValue(1, 22, "GW")
-                    varQTY = Openpyxl_PO.getCellValue(2, 22, "GW")
+                    varID = Openpyxl_PO.getCellValue(1, 66, "GW")
+                    varQTY = Openpyxl_PO.getCellValue(2, 67, "GW")
 
                     if "varID=" in varID:
                         varID = varID.split("varID=")[1].split(")")[0]
@@ -1104,10 +1217,10 @@ class ChcRulePO():
                                 if "ID" in a[0]:
                                     varID = a[0]['ID']
                                     # print(varID)
-                                    Openpyxl_PO.setCellValue(1, 22, "varID=" + str(varID), "GW")
+                                    Openpyxl_PO.setCellValue(1, 66, "varID=" + str(varID), "GW")
                                 if "QTY" in a[0]:
                                     varQTY = a[0]['QTY']
-                                    Openpyxl_PO.setCellValue(2, 22, "varQTY=" + str(varQTY), "GW")
+                                    Openpyxl_PO.setCellValue(2, 67, "varQTY=" + str(varQTY), "GW")
 
 
 
@@ -1116,59 +1229,59 @@ class ChcRulePO():
                 break
 
 
-        sys.exit(0)
-
-        varIdcard = '120101199104058611'
-
-        # 1，新增一条
-        sql = "INSERT INTO TB_DC_HTN_VISIT (GUID,CARDID, NAME, AGE, EHRNUM, ORGCODE, VISITDATE, VISITWAYCODE , VISITWAYVALUE , OTHERVISIT , VISITDOCNO , VISITDOCNAME , VISITORGCODE , VISITORGNAME , VISTSTATUSCODE , VISITSTATUSVALUE , NEXTVISIDATE , MANAGEGROUP , LOSTVISITCODE , LOSTVISITNAME , OTHERLOSTVISITNAME , LOSTVISITDATE , MOVEPROVINCECODE , MOVEPROVINCEVALUE , MOVECITYCODE , MOVECITYVALUE , MOVEDISTRICTCODE , MOVEDISTRICTVALUE , MOVESTREETCODE , MOVESTREETVALUE , MOVENEIGHBORHOODCODE , MOVENEIGHBORHOODVALUE , MOVEVILLAGEVALUE , MOVEHOUSENUMBER , MOVEORGCODE , MOVEORGNAME , DANGEROUSLEVELCODE , DANGEROUSLEVELNAME , DEATHREASON , SBP , DBP , ISMANUALINPUT , HEIGHT , WEIGHT , TARGETWEIGHT , BMI , WAISTLINE , TARGETBMI , FASTINGBLOODSUGARVALUE , FASTINGBLOODSUGARCODE , FASTINGBLOODSUGARNAME , FASTINGBLOODSUGARSIGN , CHOLESTEROL , HIGHCHOLESTEROL , LOWCHOLESTEROL , TRIGLYCERIDES , UACR , BCTV , BUATV , HOMOCYSTEINEDETECTION , BLOODPOTASSIUM , BLOODSODIUM , BLOODLIPIDS , URICACID , CREATININE , HEMOGLOBIN , HEMAMEBA , PLATELET , URINEPROTEIN , URINESUGAR , GLYCOSYLATEDHEMOGLOBIN , SERUMCPROTEIN , URINEPROTEINQUANTITY , ECG , ECHOCARDIOGRAM , CAROTIDULTRASOUND , CHESTXRAY , PULSEWAVE , REGULARACTIVITYSIGN , REGULARACTIVITIESTYPES , HASPAPERCARD , DRUGCOMPLIANCECODE , DRUGCOMPLIANCENAME , BPWAYCODE , BPWAYNAME , HEARTRATE , SMOKINGVOLUME , DRINKINGVOLUME , POSITIVESIGNS , SMOKINGSTATUSCODE , SMOKINGSTATUSNAME , TARGETSMOKE , QUITSMOKING , DRINKINGFREQUENCYCODE , DRINKINGFREQUENCYNAME , TARGETDRINK , TARGETSALTUPTAKESTATUS , REASONABLEDIETEVALUATION , PSYCHOLOGYEVALUATION , COMPLIANCEEVALUATION , SALTUPTAKESTATUS , SALTUPTAKESTATUSNAME , PSYCHOLOGYSTATUS , PSYCHOLOGYSTATUSNAME , COMPLIANCESTATUS , COMPLIANCESTATUSNAME , SPORTFREQUENCE , SPORTTIME , EXERCISEDESCRIPTION , EXERCISEFREQUENCYCODE , EXERCISEFREQUENCYNAME , TARGETSPORTFREQUENCYCODE , TARGETSPORTFREQUENCYNAME , TARGETSPORTTIMES , TARGETSTAPLEFOOD , SYMPTOMCODE , SYMPTOMVALUE , SYMPTOMOTHER , ISUSEDRUG , NOUSEDRUGREASONCODE , NOUSEDRUGREASONVALUE , NOUSEDRUGSIDEEFFECTS , OTHERNOUSEDRUGREASON , NOUSEDRUGLAW , NOUSEDRUGLAWREASON , LAWSIDEEFFECTSFLAG , LAWSIDEEFFECTS , OTHERLAWREASON , TREATMENTMEASURES , CLINICALINFO , AUXILIARYCHECK , INTERVENENUM , BEFOREINTERVENEDATE , ISINTERVENE , SYNDROME , INTERVENEMEASURES , MEASURESCONTENT , OTHERINTERVENEMEASURES , OTHERMEASURESCONTENT , PROPOSAL , ACCEPTABILITY , ISACCEPTHEALTHEDU , HEALTHEDUTYPE , VISITTYPE , REFERRALREASON , REFERRALORGDEPT , SYNSTATUS , EMPIGUID , ISGOVERNANCE ) VALUES (newid(),'001', NULL, NULL, NULL, '0000001', '2023-08-01 10:51:23.000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '140', '90', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, " + str(varParam1) + ", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5001', '0')"
-        Sqlserver_PO.execute(sql)
-        Color_PO.consoleColor("31", "33", sql, "")
-        log = log + sql + "\n"
-
-        # 2，删除"评估表"中对应身份证的记录
-        Sqlserver_PO.execute("delete from T_ASSESS_INFO where ID_CARD = '%s'" % (varIdcard))
-        sql = "delete from T_ASSESS_INFO where ID_CARD ='" + str(varIdcard) + "'"
-        Color_PO.consoleColor("31", "33", sql, "")
-        log = log + sql + "\n"
-
-        # 3，新增评估
-        i_i_newAssessResult, log1 = self.i_newAssess(varIdcard, TOKEN)
-        log = log + log1 + "\n"
-        sleep(2)
-        if i_i_newAssessResult == 200:
-
-            # 4，获取"评估表"中评估id
-            l_var = Sqlserver_PO.execQuery("select ID from T_ASSESS_INFO where ID_CARD = '%s' " % (varIdcard))
-            # print(l_var[0]['ID'])
-            varID = l_var[0]['ID']
-            sql = "select ID from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
-            Color_PO.consoleColor("31", "33", sql, "")
-            log = log + sql + "\n"
-
-            # 5，跑规则
-            i_i_AssessRuleRecordStatus, log2 = self.i_AssessRuleRecord(varID, TOKEN)
-            log = log + log2 + "\n"
-            if i_i_AssessRuleRecordStatus == 200:
-
-                # 6，
-                Sqlserver_PO.execute("update T_ASSESS_INFO set %s where ID_CARD = '%s'" % (varParam2, varIdcard))
-                sql = "update T_ASSESS_INFO set " + str(varParam2) + " where ID_CARD ='" + str(varIdcard) + "'"
-                Color_PO.consoleColor("31", "33", sql, "")
-                log = log + sql + "\n"
-
-                # 7，检查"评估规则结果表"
-                l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
-                sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE = '" + str(varRuleCode) + "' => " + str(l_result[0]['NO']) + "条"
-                Color_PO.consoleColor("31", "33", sql, "")
-                log = log + sql + "\n"
-                if l_result[0]['NO'] == 1:
-                    return 1
-                else:
-                    return log
-
-        else:
-            return log
+        # sys.exit(0)
+        #
+        # varIdcard = '120101199104058611'
+        #
+        # # 1，新增一条
+        # sql = "INSERT INTO TB_DC_HTN_VISIT (GUID,CARDID, NAME, AGE, EHRNUM, ORGCODE, VISITDATE, VISITWAYCODE , VISITWAYVALUE , OTHERVISIT , VISITDOCNO , VISITDOCNAME , VISITORGCODE , VISITORGNAME , VISTSTATUSCODE , VISITSTATUSVALUE , NEXTVISIDATE , MANAGEGROUP , LOSTVISITCODE , LOSTVISITNAME , OTHERLOSTVISITNAME , LOSTVISITDATE , MOVEPROVINCECODE , MOVEPROVINCEVALUE , MOVECITYCODE , MOVECITYVALUE , MOVEDISTRICTCODE , MOVEDISTRICTVALUE , MOVESTREETCODE , MOVESTREETVALUE , MOVENEIGHBORHOODCODE , MOVENEIGHBORHOODVALUE , MOVEVILLAGEVALUE , MOVEHOUSENUMBER , MOVEORGCODE , MOVEORGNAME , DANGEROUSLEVELCODE , DANGEROUSLEVELNAME , DEATHREASON , SBP , DBP , ISMANUALINPUT , HEIGHT , WEIGHT , TARGETWEIGHT , BMI , WAISTLINE , TARGETBMI , FASTINGBLOODSUGARVALUE , FASTINGBLOODSUGARCODE , FASTINGBLOODSUGARNAME , FASTINGBLOODSUGARSIGN , CHOLESTEROL , HIGHCHOLESTEROL , LOWCHOLESTEROL , TRIGLYCERIDES , UACR , BCTV , BUATV , HOMOCYSTEINEDETECTION , BLOODPOTASSIUM , BLOODSODIUM , BLOODLIPIDS , URICACID , CREATININE , HEMOGLOBIN , HEMAMEBA , PLATELET , URINEPROTEIN , URINESUGAR , GLYCOSYLATEDHEMOGLOBIN , SERUMCPROTEIN , URINEPROTEINQUANTITY , ECG , ECHOCARDIOGRAM , CAROTIDULTRASOUND , CHESTXRAY , PULSEWAVE , REGULARACTIVITYSIGN , REGULARACTIVITIESTYPES , HASPAPERCARD , DRUGCOMPLIANCECODE , DRUGCOMPLIANCENAME , BPWAYCODE , BPWAYNAME , HEARTRATE , SMOKINGVOLUME , DRINKINGVOLUME , POSITIVESIGNS , SMOKINGSTATUSCODE , SMOKINGSTATUSNAME , TARGETSMOKE , QUITSMOKING , DRINKINGFREQUENCYCODE , DRINKINGFREQUENCYNAME , TARGETDRINK , TARGETSALTUPTAKESTATUS , REASONABLEDIETEVALUATION , PSYCHOLOGYEVALUATION , COMPLIANCEEVALUATION , SALTUPTAKESTATUS , SALTUPTAKESTATUSNAME , PSYCHOLOGYSTATUS , PSYCHOLOGYSTATUSNAME , COMPLIANCESTATUS , COMPLIANCESTATUSNAME , SPORTFREQUENCE , SPORTTIME , EXERCISEDESCRIPTION , EXERCISEFREQUENCYCODE , EXERCISEFREQUENCYNAME , TARGETSPORTFREQUENCYCODE , TARGETSPORTFREQUENCYNAME , TARGETSPORTTIMES , TARGETSTAPLEFOOD , SYMPTOMCODE , SYMPTOMVALUE , SYMPTOMOTHER , ISUSEDRUG , NOUSEDRUGREASONCODE , NOUSEDRUGREASONVALUE , NOUSEDRUGSIDEEFFECTS , OTHERNOUSEDRUGREASON , NOUSEDRUGLAW , NOUSEDRUGLAWREASON , LAWSIDEEFFECTSFLAG , LAWSIDEEFFECTS , OTHERLAWREASON , TREATMENTMEASURES , CLINICALINFO , AUXILIARYCHECK , INTERVENENUM , BEFOREINTERVENEDATE , ISINTERVENE , SYNDROME , INTERVENEMEASURES , MEASURESCONTENT , OTHERINTERVENEMEASURES , OTHERMEASURESCONTENT , PROPOSAL , ACCEPTABILITY , ISACCEPTHEALTHEDU , HEALTHEDUTYPE , VISITTYPE , REFERRALREASON , REFERRALORGDEPT , SYNSTATUS , EMPIGUID , ISGOVERNANCE ) VALUES (newid(),'001', NULL, NULL, NULL, '0000001', '2023-08-01 10:51:23.000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '140', '90', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, " + str(varParam1) + ", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5001', '0')"
+        # Sqlserver_PO.execute(sql)
+        # Color_PO.consoleColor("31", "33", sql, "")
+        # log = log + sql + "\n"
+        #
+        # # 2，删除"评估表"中对应身份证的记录
+        # Sqlserver_PO.execute("delete from T_ASSESS_INFO where ID_CARD = '%s'" % (varIdcard))
+        # sql = "delete from T_ASSESS_INFO where ID_CARD ='" + str(varIdcard) + "'"
+        # Color_PO.consoleColor("31", "33", sql, "")
+        # log = log + sql + "\n"
+        #
+        # # 3，新增评估
+        # i_i_newAssessResult, log1 = self.i_newAssess(varIdcard, TOKEN)
+        # log = log + log1 + "\n"
+        # sleep(2)
+        # if i_i_newAssessResult == 200:
+        #
+        #     # 4，获取"评估表"中评估id
+        #     l_var = Sqlserver_PO.execQuery("select ID from T_ASSESS_INFO where ID_CARD = '%s' " % (varIdcard))
+        #     # print(l_var[0]['ID'])
+        #     varID = l_var[0]['ID']
+        #     sql = "select ID from T_ASSESS_INFO where ID_CARD = '" + str(varIdcard) + "'"
+        #     Color_PO.consoleColor("31", "33", sql, "")
+        #     log = log + sql + "\n"
+        #
+        #     # 5，跑规则
+        #     i_i_AssessRuleRecordStatus, log2 = self.i_AssessRuleRecord(varID, TOKEN)
+        #     log = log + log2 + "\n"
+        #     if i_i_AssessRuleRecordStatus == 200:
+        #
+        #         # 6，
+        #         Sqlserver_PO.execute("update T_ASSESS_INFO set %s where ID_CARD = '%s'" % (varParam2, varIdcard))
+        #         sql = "update T_ASSESS_INFO set " + str(varParam2) + " where ID_CARD ='" + str(varIdcard) + "'"
+        #         Color_PO.consoleColor("31", "33", sql, "")
+        #         log = log + sql + "\n"
+        #
+        #         # 7，检查"评估规则结果表"
+        #         l_result = Sqlserver_PO.execQuery("select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = %s and RULE_CODE = '%s' " % (varID, varRuleCode))
+        #         sql = "select count(*) NO from T_ASSESS_RULE_RECORD where ASSESS_ID = " + str(varID) + " and RULE_CODE = '" + str(varRuleCode) + "' => " + str(l_result[0]['NO']) + "条"
+        #         Color_PO.consoleColor("31", "33", sql, "")
+        #         log = log + sql + "\n"
+        #         if l_result[0]['NO'] == 1:
+        #             return 1
+        #         else:
+        #             return log
+        #
+        # else:
+        #     return log
 
 
     def r1(self, d, Openpyxl_PO, TOKEN):
@@ -1177,6 +1290,7 @@ class ChcRulePO():
         # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001', 'varIdcard': '310101202308070001'}
 
         log = ""
+        varQTY = ""
 
         # 1，遍历所有列得到列值
         l_all = Openpyxl_PO.getColValue("testRule")
@@ -1198,10 +1312,14 @@ class ChcRulePO():
                         if 'testRuleParam' in d:
                             command = str(command).replace("{测试规则参数}", d['testRuleParam'])
                         command = str(command).replace("{规则编码}", d['ruleCode'])
+                        command = str(command).replace("{随机数}", Data_PO.getPhone())
+
                         varID = Openpyxl_PO.getCellValue(21, 1, "testRule")
                         varIdcard = Openpyxl_PO.getCellValue(22, 1, "testRule")
                         varQTY = Openpyxl_PO.getCellValue(23, 1, "testRule")
                         varRunRule = Openpyxl_PO.getCellValue(24, 1, "testRule")
+                        varNewAssess = Openpyxl_PO.getCellValue(25, 1, "testRule")
+                        varGUID = Openpyxl_PO.getCellValue(26, 1, "testRule")
 
                         if varID != None:
                             if "varID=" in varID:
@@ -1222,7 +1340,15 @@ class ChcRulePO():
                             # print(type(varRunRule))
                             # varRunRule = varRunRule.split("varRunRule=")[1].split(")")[0]
                             log = log + "\n" + varRunRule
-
+                        if varNewAssess != None:
+                            # print(type(varNewAssess))
+                            # varNewAssess = varNewAssess.split("varNewAssess=")[1].split(")")[0]
+                            log = log + "\n" + varNewAssess
+                        if varGUID != None:
+                            if "varGUID" in varGUID:
+                                varGUID = varGUID.split("varGUID=")[1].split(")")[0]
+                                # print(varGUID)
+                                command = str(command).replace("{varGUID}", varGUID)
                         Color_PO.consoleColor("31", "33", command, "")
 
                         # 步骤日志
@@ -1245,6 +1371,10 @@ class ChcRulePO():
                                         varQTY = a[0]['QTY']
                                         # print(varQTY)
                                         Openpyxl_PO.setCellValue(23, 1, "varQTY=" + str(varQTY), "testRule")
+                                    if "GUID" in a[0]:
+                                        varGUID = a[0]['GUID']
+                                        # print(varGUID)
+                                        Openpyxl_PO.setCellValue(26, 1, "varGUID=" + str(varGUID), "testRule")
                             if isinstance(a, tuple):
                                 if "跑规则" in a[0]:
                                     varRunRule = a[1]
@@ -1260,7 +1390,137 @@ class ChcRulePO():
         Openpyxl_PO.setCellValue(22, 1, "", "testRule")
         Openpyxl_PO.setCellValue(23, 1, "", "testRule")
         Openpyxl_PO.setCellValue(24, 1, "", "testRule")
+        Openpyxl_PO.setCellValue(25, 1, "", "testRule")
+        Openpyxl_PO.setCellValue(26, 1, "", "testRule")
 
+
+        return varQTY, log
+
+
+    def gw(self, d, Openpyxl_PO, TOKEN):
+
+        # {'result': None, 'diseaseRuleCode': 'GW_JB004',
+        # 'ruleCode': "('GW_JB004','PG_AGE003','PG_JWS001','PG_JWS007','PG_JWS012','PG_JZS004','PG_JZS005','PG_JYZB006','PG_JYZB007','PG_JYZB008','PG_JYZB009')"}
+
+        # print(d)
+
+        # {'GW_JB004':1234}   // 1234是GW_JB004的varID
+
+        log = ""
+        varQTY = ""
+
+        # 1，遍历所有列得到列值
+        l_all = Openpyxl_PO.getColValue("GW")
+        # print(l_all)
+
+
+        i_newAssessStatus = 0
+        for i in range(len(l_all)):
+            if d['diseaseRuleCode'] == l_all[i][0]:
+                for j in range(1, len(l_all[i])):
+                    command = l_all[i][j]
+                    if command != None:
+                        # print(command)
+
+                        if command == "exit":
+                            Openpyxl_PO.setCellValue(21, 1, "", "testRule")
+                            Openpyxl_PO.setCellValue(22, 1, "", "testRule")
+                            Openpyxl_PO.setCellValue(23, 1, "", "testRule")
+                            Openpyxl_PO.setCellValue(24, 1, "", "testRule")
+                            Openpyxl_PO.setCellValue(25, 1, "", "testRule")
+                            Openpyxl_PO.setCellValue(26, 1, "", "testRule")
+                            return varQTY, log
+                        if 'varIdcard' in d:
+                            command = str(command).replace("{身份证}", d['varIdcard'])
+                        # if 'testRuleParam1' in d:
+                        #     command = str(command).replace("{测试规则参数1}", d['testRuleParam1'])
+                        #     command = str(command).replace("{测试规则参数2}", d['testRuleParam2'])
+                        # if 'testRuleParam' in d:
+                        #     command = str(command).replace("{测试规则参数}", d['testRuleParam'])
+                        if 'ruleCode' in d:
+                            command = str(command).replace("{规则编码}", d['ruleCode'])
+
+                        # command = str(command).replace("{随机数}", Data_PO.getPhone())
+
+                        varID = Openpyxl_PO.getCellValue(21, 1, "testRule")
+                        varIdcard = Openpyxl_PO.getCellValue(22, 1, "testRule")
+                        varQTY = Openpyxl_PO.getCellValue(23, 1, "testRule")
+                        varRunRule = Openpyxl_PO.getCellValue(24, 1, "testRule")
+                        varNewAssess = Openpyxl_PO.getCellValue(25, 1, "testRule")
+                        varGUID = Openpyxl_PO.getCellValue(26, 1, "testRule")
+
+                        if varID != None:
+                            if "varID=" in varID:
+                                varID = varID.split("varID=")[1].split(")")[0]
+                                # print(varID)
+                                command = str(command).replace("{varID}", varID)
+                        if varIdcard != None:
+                            if "varIdcard" in varIdcard:
+                                varIdcard = varIdcard.split("varIdcard=")[1].split(")")[0]
+                                # print(varIdcard)
+                                command = str(command).replace("{varIdcard}", varIdcard)
+                        if varQTY != None:
+                            if "varQTY" in varQTY:
+                                varQTY = varQTY.split("varQTY=")[1].split(")")[0]
+                                # print(varQTY)
+                                command = str(command).replace("{varQTY}", varQTY)
+                        if varRunRule != None:
+                            # print(type(varRunRule))
+                            # varRunRule = varRunRule.split("varRunRule=")[1].split(")")[0]
+                            log = log + "\n" + varRunRule
+                        if varNewAssess != None:
+                            # print(type(varNewAssess))
+                            # varNewAssess = varNewAssess.split("varNewAssess=")[1].split(")")[0]
+                            log = log + "\n" + varNewAssess
+                        if varGUID != None:
+                            if "varGUID" in varGUID:
+                                varGUID = varGUID.split("varGUID=")[1].split(")")[0]
+                                # print(varGUID)
+                                command = str(command).replace("{varGUID}", varGUID)
+                        Color_PO.consoleColor("31", "33", command, "")
+
+                        # 步骤日志
+                        log = log + "\n" + command
+                        a = eval(command)
+                        # print(a)
+                        if a != None:
+                            if isinstance(a, list):
+                                if isinstance(a[0], dict):
+                                    # print(a[0])
+                                    if "ID" in a[0]:
+                                        varID = a[0]['ID']
+                                        # print(varID)
+                                        Openpyxl_PO.setCellValue(21, 1, "varID=" + str(varID), "testRule")
+                                        Openpyxl_PO.setCellValue(33, 1, str(varID), "testRule")
+                                    if "ID_CARD" in a[0]:
+                                        varIdcard = a[0]['ID_CARD']
+                                        # print(varIdcard)
+                                        Openpyxl_PO.setCellValue(22, 1, "varIdcard=" + str(varIdcard), "testRule")
+                                    if "QTY" in a[0]:
+                                        varQTY = a[0]['QTY']
+                                        # print(varQTY)
+                                        Openpyxl_PO.setCellValue(23, 1, "varQTY=" + str(varQTY), "testRule")
+                                    if "GUID" in a[0]:
+                                        varGUID = a[0]['GUID']
+                                        # print(varGUID)
+                                        Openpyxl_PO.setCellValue(26, 1, "varGUID=" + str(varGUID), "testRule")
+                            if isinstance(a, tuple):
+                                if "跑规则" in a[0]:
+                                    varRunRule = a[1]
+                                    Openpyxl_PO.setCellValue(24, 1, "varRunRule=" + str(varRunRule), "testRule")
+                                if "新增评估" in a[0]:
+                                    varNewAssess = a[1]
+                                    Openpyxl_PO.setCellValue(25, 1, "varNewAssess=" + str(varNewAssess), "testRule")
+
+
+                    else:
+                        break
+        Openpyxl_PO.setCellValue(21, 1, None, "testRule")
+        Openpyxl_PO.setCellValue(22, 1, "", "testRule")
+        Openpyxl_PO.setCellValue(23, 1, "", "testRule")
+        Openpyxl_PO.setCellValue(24, 1, "", "testRule")
+        Openpyxl_PO.setCellValue(25, 1, "", "testRule")
+        Openpyxl_PO.setCellValue(26, 1, "", "testRule")
 
         return varQTY, log
 

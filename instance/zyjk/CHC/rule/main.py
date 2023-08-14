@@ -6,6 +6,7 @@
 # http://192.168.0.243:8012/swagger-ui/index.html#/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/loginUsingPOST
 # http://192.168.0.223:8848/nacos/#/serviceDetail?name=chc-auth&groupName=DEFAULT_GROUP
 # http://192.168.0.243:8011/doc.html#/chc-auth/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/loginUsingPOST
+# http://192.168.0.243:8010/login#/login  登录页面
 # 1，获取规则内容 《健康评估规则表》
 # 2，执行规则
 # 3，更新结果
@@ -24,14 +25,14 @@ ChcRule_PO = ChcRulePO()
 # 1,获取登录用户的token
 TOKEN = ChcRule_PO.getToken("jh", "12345678")  # 汪刚
 # TOKEN = ChcRule_PO.getToken("ww", "Zy@123456")  # 汪刚
-# TOKEN = ChcRule_PO.getToken("www", "Ww123456")   # 刘斌龙
+TOKEN = ChcRule_PO.getToken("www", "Ww123456")   # 刘斌龙
 
 ChcRule_PO.clsApp("Microsoft Excel")
 Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 
 
 # todo 健康评估
-# ChcRule_PO.run('健康评估', None, "r6", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('健康评估', None, "r1", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "OK", "r6", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "ALL", "r1", Openpyxl_PO, TOKEN)
@@ -43,7 +44,7 @@ Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 
 
 # todo 健康干预
-ChcRule_PO.run('健康干预', None, "r1", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('健康干预', None, "r1", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康干预', "ERROR", None, Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康干预', "ALL", None, Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康干预', OK, None, Openpyxl_PO, TOKEN)
@@ -51,8 +52,13 @@ ChcRule_PO.run('健康干预', None, "r1", Openpyxl_PO, TOKEN)
 
 
 # todo 疾病评估规则（已患和高风险）
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "GW_JB004", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r2", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "GW", Openpyxl_PO, TOKEN)
+ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r11", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r10", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r9", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', 'ERROR', "r10", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r10", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', 'ERROR', "r9", Openpyxl_PO, TOKEN)
 
 
 

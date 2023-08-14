@@ -64,7 +64,7 @@ import pandas as pd
 from PIL import Image
 from time import sleep
 
-from fake_useragent import UserAgent
+# from fake_useragent import UserAgent
 
 # 如报错 fake_useragent.errors.FakeUserAgentError: Maximum amount of retries reached，则更新 pip3.9 install -U fake-useragent
 # location = 'D:/51/python/project/PO/fake_useragent_0.1.11.json'
