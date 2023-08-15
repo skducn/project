@@ -172,11 +172,11 @@ class ChcRulePO():
     #         Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
 
 
-    def outResultGW(self, varQty, varLog, k, varSheetName, Openpyxl_PO):
+    def outResultGW(self, result, log, k, varSheetName, Openpyxl_PO):
 
         ''' GW 前置条件'''
 
-        if varQty == "0":
+        if result == 1:
             Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
             Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
             Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
@@ -185,7 +185,7 @@ class ChcRulePO():
         else:
             Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheetName)
             Color_PO.consoleColor("31", "31", str(k) + " => ERROR\n", "")
-            Openpyxl_PO.setCellValue(k, 2, varLog, varSheetName)
+            Openpyxl_PO.setCellValue(k, 2, log, varSheetName)
             Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
 
@@ -223,8 +223,7 @@ class ChcRulePO():
         except:
             print("error, 测试规则 " + str(v[1]) + " 格式错误！")
 
-        print(l_v1)
-
+        # print(l_v1)
 
         if l_v1[0] == "r1" and var3_rule == "r1":
             # 实例：r1,DIAGNOSIS_CODE='I10'
@@ -395,12 +394,20 @@ class ChcRulePO():
         elif l_v1[0] == "GW" and var3_rule == "GW":
             # 实例：GW_JB004
 
-            # print(v)
+            print(v)
             d = {}
             d['result'] = v[0]
-            d['diseaseRuleCode'] = v[3]
-            d['ruleCode'] = v[2]
+            d['diseaseRuleCode'] = v[3]  # GW_JB004
+            d['ruleCode'] = v[2] # ('GW_JB004','PG_AGE003','PG_JWS001','PG_JWS007','PG_JWS012','PG_JZS004','PG_JZS005','PG_JYZB006','PG_JYZB007','PG_JYZB008','PG_JYZB009')
             # print(d)
+
+            # print(l_v1)
+            l_v1.pop(0)
+            d_v1 = List_PO.list2dictByKeyValue(l_v1)
+            print("d_v1", d_v1)
+
+            # sys.exit(0)
+
             print(str(k) + " => (" + v[3] + ")")
             # 在"疾病身份证" sheet中获取对应的身份证
             varIdcard = None
@@ -411,9 +418,21 @@ class ChcRulePO():
                     break
             d["varIdcard"] = varIdcard
 
-            varQty, varLog = self.gw(d, Openpyxl_PO, TOKEN)
-            # print(varQty)
-            self.outResultGW(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            d_all, log = self.gw(d, Openpyxl_PO, TOKEN)
+            print("d_v11", d_v1)
+            print("d_all", d_all)
+            print("d_v11", str(d_v1))
+            print("d_all", str(d_all))
+
+
+
+            if d_all == d_v1:
+                self.outResultGW(1, log, k, varSheetName, Openpyxl_PO)
+            else:
+                self.outResultGW(0, log, k, varSheetName, Openpyxl_PO)
+
+
+
 
         elif l_v1[0] == "r11" and var3_rule == "r11":
             # 实例： r11,AGE=66,AGE=65
@@ -1399,6 +1418,8 @@ class ChcRulePO():
 
     def gw(self, d, Openpyxl_PO, TOKEN):
 
+        # self.outResultGW(varQty, varLog, k, varSheetName, Openpyxl_PO)
+
         # {'result': None, 'diseaseRuleCode': 'GW_JB004',
         # 'ruleCode': "('GW_JB004','PG_AGE003','PG_JWS001','PG_JWS007','PG_JWS012','PG_JZS004','PG_JZS005','PG_JYZB006','PG_JYZB007','PG_JYZB008','PG_JYZB009')"}
 
@@ -1406,6 +1427,7 @@ class ChcRulePO():
 
         # {'GW_JB004':1234}   // 1234是GW_JB004的varID
 
+        d_all = {}
         log = ""
         varQTY = ""
 
@@ -1420,6 +1442,8 @@ class ChcRulePO():
                 for j in range(1, len(l_all[i])):
                     command = l_all[i][j]
                     if command != None:
+
+                        print(d_all)
                         # print(command)
 
                         if command == "exit":
@@ -1429,7 +1453,9 @@ class ChcRulePO():
                             Openpyxl_PO.setCellValue(24, 1, "", "testRule")
                             Openpyxl_PO.setCellValue(25, 1, "", "testRule")
                             Openpyxl_PO.setCellValue(26, 1, "", "testRule")
-                            return varQTY, log
+                            Openpyxl_PO.setCellValue(27, 1, "", "testRule")
+                            return d_all, log
+
                         if 'varIdcard' in d:
                             command = str(command).replace("{身份证}", d['varIdcard'])
                         # if 'testRuleParam1' in d:
@@ -1437,17 +1463,22 @@ class ChcRulePO():
                         #     command = str(command).replace("{测试规则参数2}", d['testRuleParam2'])
                         # if 'testRuleParam' in d:
                         #     command = str(command).replace("{测试规则参数}", d['testRuleParam'])
+
                         if 'ruleCode' in d:
                             command = str(command).replace("{规则编码}", d['ruleCode'])
+
+                        command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
 
                         # command = str(command).replace("{随机数}", Data_PO.getPhone())
 
                         varID = Openpyxl_PO.getCellValue(21, 1, "testRule")
                         varIdcard = Openpyxl_PO.getCellValue(22, 1, "testRule")
-                        varQTY = Openpyxl_PO.getCellValue(23, 1, "testRule")
+                        # varQTY = Openpyxl_PO.getCellValue(23, 1, "testRule")
                         varRunRule = Openpyxl_PO.getCellValue(24, 1, "testRule")
                         varNewAssess = Openpyxl_PO.getCellValue(25, 1, "testRule")
                         varGUID = Openpyxl_PO.getCellValue(26, 1, "testRule")
+                        # varQTY0 = Openpyxl_PO.getCellValue(27, 1, "testRule")
+
 
                         if varID != None:
                             if "varID=" in varID:
@@ -1459,11 +1490,11 @@ class ChcRulePO():
                                 varIdcard = varIdcard.split("varIdcard=")[1].split(")")[0]
                                 # print(varIdcard)
                                 command = str(command).replace("{varIdcard}", varIdcard)
-                        if varQTY != None:
-                            if "varQTY" in varQTY:
-                                varQTY = varQTY.split("varQTY=")[1].split(")")[0]
-                                # print(varQTY)
-                                command = str(command).replace("{varQTY}", varQTY)
+                        # if varQTY != None:
+                        #     if "varQTY" in varQTY:
+                        #         varQTY = varQTY.split("varQTY=")[1].split(")")[0]
+                        #         # print(varQTY)
+                        #         command = str(command).replace("{varQTY}", varQTY)
                         if varRunRule != None:
                             # print(type(varRunRule))
                             # varRunRule = varRunRule.split("varRunRule=")[1].split(")")[0]
@@ -1477,6 +1508,11 @@ class ChcRulePO():
                                 varGUID = varGUID.split("varGUID=")[1].split(")")[0]
                                 # print(varGUID)
                                 command = str(command).replace("{varGUID}", varGUID)
+                        # if varQTY0 != None:
+                        #     if "varQTY0" in varQTY0:
+                        #         varQTY0 = varQTY0.split("varQTY0=")[1].split(")")[0]
+                        #         print(varQTY0)
+                        #         command = str(command).replace("{varQTY0}", varQTY0)
                         Color_PO.consoleColor("31", "33", command, "")
 
                         # 步骤日志
@@ -1504,6 +1540,87 @@ class ChcRulePO():
                                         varGUID = a[0]['GUID']
                                         # print(varGUID)
                                         Openpyxl_PO.setCellValue(26, 1, "varGUID=" + str(varGUID), "testRule")
+                                    if "QTY0" in a[0]:
+                                        # varQTY0 = a[0]['QTY0']
+                                        d_all['QTY0'] = str(a[0]['QTY0'])
+                                        # print(varQTY0)
+                                        # Openpyxl_PO.setCellValue(27, 1, "varQTY0=" + str(varQTY0), "testRule")
+
+                                    # JB001
+                                    if d['diseaseRuleCode'] == 'GW_JB001':
+                                        if "PG_Age001" in a[0]: d_all['PG_Age001'] = str(a[0]['PG_Age001'])
+                                        if "PG_SHXG001" in a[0]:d_all['PG_SHXG001'] = str(a[0]['PG_SHXG001'])
+                                        if "PG_SHXG002" in a[0]:d_all['PG_SHXG002'] = str(a[0]['PG_SHXG002'])
+                                        if "PG_STZB001" in a[0]:d_all['PG_STZB001'] = str(a[0]['PG_STZB001'])
+                                        if "PG_STZB002" in a[0]:d_all['PG_STZB002'] = str(a[0]['PG_STZB002'])
+                                        if "PG_SHXG004" in a[0]:d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
+                                        if "PG_JYZB001" in a[0]:d_all['PG_JYZB001'] = str(a[0]['PG_JYZB001'])
+                                        if "PG_JYZB002" in a[0]:d_all['PG_JYZB002'] = str(a[0]['PG_JYZB002'])
+                                        if "PG_JZS001" in a[0]: d_all['PG_JZS001'] = str(a[0]['PG_JZS001'])
+                                        if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
+
+                                    elif d['diseaseRuleCode'] == 'GW_JB002':
+                                        if "PG_Age002" in a[0]: d_all['PG_Age002'] = str(a[0]['PG_Age002'])
+                                        if "PG_JYZB003" in a[0]: d_all['PG_JYZB003'] = str(a[0]['PG_JYZB003'])
+                                        if "PG_JWS002" in a[0]: d_all['PG_JWS002'] = str(a[0]['PG_JWS002'])
+                                        if "PG_JWS003" in a[0]: d_all['PG_JWS003'] = str(a[0]['PG_JWS003'])
+                                        if "PG_JWS004" in a[0]: d_all['PG_JWS004'] = str(a[0]['PG_JWS004'])
+                                        if "PG_JWS005" in a[0]: d_all['PG_JWS005'] = str(a[0]['PG_JWS005'])
+                                        if "PG_JWS006" in a[0]: d_all['PG_JWS006'] = str(a[0]['PG_JWS006'])
+                                        if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
+                                        if "PG_JZS002" in a[0]: d_all['PG_JZS002'] = str(a[0]['PG_JZS002'])
+                                        if "PG_YWZL001" in a[0]: d_all['PG_YWZL001'] = str(a[0]['PG_YWZL001'])
+                                        if "PG_SHXG004" in a[0]: d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
+                                        if "PG_JYZB004" in a[0]: d_all['PG_JYZB004'] = str(a[0]['PG_JYZB004'])
+                                        if "PG_JYZB005" in a[0]: d_all['PG_JYZB005'] = str(a[0]['PG_JYZB005'])
+                                        if "PG_YWZL002" in a[0]: d_all['PG_YWZL002'] = str(a[0]['PG_YWZL002'])
+                                        if "PG_STZB001" in a[0]: d_all['PG_STZB001'] = str(a[0]['PG_STZB001'])
+                                        if "PG_STZB003" in a[0]: d_all['PG_STZB003'] = str(a[0]['PG_STZB003'])
+
+                                    elif d['diseaseRuleCode'] == 'GW_JB004':
+                                        if "PG_Age003" in a[0]: d_all['PG_Age003'] = str(a[0]['PG_Age003'])
+                                        if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
+                                        if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
+                                        if "PG_JZS004" in a[0]: d_all['PG_JZS004'] = str(a[0]['PG_JZS004'])
+                                        if "PG_JZS005" in a[0]: d_all['PG_JZS005'] = str(a[0]['PG_JZS005'])
+                                        if "PG_JYZB006" in a[0]: d_all['PG_JYZB006'] = str(a[0]['PG_JYZB006'])
+                                        if "PG_JYZB007" in a[0]: d_all['PG_JYZB007'] = str(a[0]['PG_JYZB007'])
+                                        if "PG_JYZB008" in a[0]: d_all['PG_JYZB008'] = str(a[0]['PG_JYZB008'])
+                                        if "PG_JYZB009" in a[0]: d_all['PG_JYZB009'] = str(a[0]['PG_JYZB009'])
+                                        if "PG_JWS012" in a[0]: d_all['PG_JWS012'] = str(a[0]['PG_JWS012'])
+
+                                    elif d['diseaseRuleCode'] == 'GW_JB006':
+                                        if "PG_Age005" in a[0]: d_all['PG_Age005'] = str(a[0]['PG_Age005'])
+                                        if "PG_JWS016" in a[0]: d_all['PG_JWS016'] = str(a[0]['PG_JWS016'])
+                                        if "PG_JWS017" in a[0]: d_all['PG_JWS017'] = str(a[0]['PG_JWS017'])
+                                        if "PG_JWS018" in a[0]: d_all['PG_JWS018'] = str(a[0]['PG_JWS018'])
+                                        if "PG_JZS007" in a[0]: d_all['PG_JZS007'] = str(a[0]['PG_JZS007'])
+                                        if "PG_SHXG009" in a[0]: d_all['PG_SHXG009'] = str(a[0]['PG_SHXG009'])
+                                        if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
+
+                                    if d['diseaseRuleCode'] == 'GW_JB007':
+                                        if "PG_Age006" in a[0]: d_all['PG_Age006'] = str(a[0]['PG_Age006'])
+                                        if "PG_JWS021" in a[0]: d_all['PG_JWS021'] = str(a[0]['PG_JWS021'])
+
+
+                                    if d['diseaseRuleCode'] == 'GW_JB009':
+                                        if "PG_Age007" in a[0]: d_all['PG_Age007'] = str(a[0]['PG_Age007'])
+                                        if "PG_JWS026" in a[0]: d_all['PG_JWS026'] = str(a[0]['PG_JWS026'])
+                                        if "PG_JWS027" in a[0]: d_all['PG_JWS027'] = str(a[0]['PG_JWS027'])
+                                        if "PG_JWS028" in a[0]: d_all['PG_JWS028'] = str(a[0]['PG_JWS028'])
+                                        if "PG_JWS031" in a[0]: d_all['PG_JWS031'] = str(a[0]['PG_JWS031'])
+                                        if "PG_JWS032" in a[0]: d_all['PG_JWS032'] = str(a[0]['PG_JWS032'])
+                                     
+
+                                    if d['diseaseRuleCode'] == 'GW_JB010':
+                                        if "PG_Age008" in a[0]: d_all['PG_Age008'] = str(a[0]['PG_Age008'])
+                                        if "PG_JWS033" in a[0]: d_all['PG_JWS033'] = str(a[0]['PG_JWS033'])
+                                        if "PG_JWS034" in a[0]: d_all['PG_JWS034'] = str(a[0]['PG_JWS034'])
+                                        if "PG_JWS035" in a[0]: d_all['PG_JWS035'] = str(a[0]['PG_JWS035'])
+                                        if "PG_JYZB010" in a[0]: d_all['PG_JYZB010'] = str(a[0]['PG_JYZB010'])
+                                        if "PG_JWS037" in a[0]: d_all['PG_JWS037'] = str(a[0]['PG_JWS037'])
+
+
                             if isinstance(a, tuple):
                                 if "跑规则" in a[0]:
                                     varRunRule = a[1]
@@ -1513,14 +1630,23 @@ class ChcRulePO():
                                     Openpyxl_PO.setCellValue(25, 1, "varNewAssess=" + str(varNewAssess), "testRule")
 
 
+
+
                     else:
                         break
-        Openpyxl_PO.setCellValue(21, 1, None, "testRule")
+        Openpyxl_PO.setCellValue(21, 1, "", "testRule")
         Openpyxl_PO.setCellValue(22, 1, "", "testRule")
         Openpyxl_PO.setCellValue(23, 1, "", "testRule")
         Openpyxl_PO.setCellValue(24, 1, "", "testRule")
         Openpyxl_PO.setCellValue(25, 1, "", "testRule")
         Openpyxl_PO.setCellValue(26, 1, "", "testRule")
+        Openpyxl_PO.setCellValue(27, 1, "", "testRule")
 
-        return varQTY, log
+        # self.outResultGW(varQty, log, k, varSheetName, Openpyxl_PO)
+
+        log = log + "\n" + str(d_all)
+
+        return d_all, log
+
+        # {'QTY0':"0", "PG_AGE003":"1", "PG_JWS001":"1"}
 
