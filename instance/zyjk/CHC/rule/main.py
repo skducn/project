@@ -34,7 +34,7 @@ Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 # todo 健康评估
 # ChcRule_PO.run('健康评估', None, "r1", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "OK", "r6", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
+ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "ALL", "r1", Openpyxl_PO, TOKEN)
 
 # ChcRule_PO.run('健康评估', None, None, Openpyxl_PO, TOKEN)
