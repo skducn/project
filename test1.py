@@ -9,14 +9,23 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-from PO.ListPO import *
-List_PO = ListPO()
+# from PO.ListPO import *
+# List_PO = ListPO()
 
-list1 = ['GW', 'QTY0:0', 'PG_AGE003:11212', 'PG_JWS001:1']
+d_data = [
+            {'idCard': '310101198004332001'},
+            {'idCard': '310101198004332002'}
+        ]
 
-list1.pop(0)
-list1 = List_PO.list2dictByKeyValue(list1)
-print(list1)
+for i in range(len(d_data)):
+    print(d_data[i])
+    print(d_data[i]['idCard'])
+
+# list1 = ['GW', 'QTY0:0', 'PG_AGE003:11212', 'PG_JWS001:1']
+#
+# list1.pop(0)
+# list1 = List_PO.list2dictByKeyValue(list1)
+# print(list1)
 # print(x['PG_AGE003'])
 
 # import sys,os,datatime
