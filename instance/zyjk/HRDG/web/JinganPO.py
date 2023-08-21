@@ -37,7 +37,9 @@ options.add_argument('--hide-scrollbars')  # 隐藏滚动条，因对一些特�
 # chromeBrowserVer = str(chromeBrowserVer).split("=")[1].split("\\")[0]
 # print(chromeBrowserVer) # 115.0.5790.110
 
-driver = webdriver.Chrome(service=Service("D:\HRDG\web\chromedriver.exe"), options=options)
+# driver = webdriver.Chrome(service=Service("D:\HRDG\web\chromedriver.exe"), options=options)
+driver = webdriver.Chrome(service=Service("/Users/linghuchong/.wdm/drivers/chromedriver/mac64/114.0.5735.16/chromedriver"), options=options)
+
 
 from WebPO import *
 Web_PO = WebPO(driver)
@@ -149,9 +151,11 @@ class JinganPO():
 
     def edtBasicInfo(self, idCard):
         # 2，通过身份证打开用户页
-        Web_PO.opnLabel('http://172.16.209.10:9071/cdc/a/doctor/archive/detail?personcard=' + str(idCard))
-        Web_PO.swhLabel(1)
-        Web_PO.clkById('one2', 1)  # 基本信息
+        # Web_PO.opnLabel('http://172.16.209.10:9071/cdc/a/doctor/archive/detail?personcard=' + str(idCard))
+
+        # Web_PO.opnLabel('http://200.200.200.14:9071/cdc/a/doctor/archive/detail?personcard=' + str(idCard))
+        # Web_PO.swhLabel(1)
+        # Web_PO.clkById('one2', 1)  # 基本信息
 
         # todo 基本信息
         #
@@ -162,7 +166,7 @@ class JinganPO():
         # # var = {'姓名': '魏梅娣', '民族': '苗族', '文化程度': '小学教育', '职业': '军人', '就业状态': '其他',
         # #                '婚姻状况': '离婚', '工作单位': '北京科美有限公司', '手机号': '13011234567', '固定电话': '58776543', '联系人姓名': '魏梅名', '联系人电话': '13356789098',
         # #                '血型': 'B型', 'Rh血型': '不详', '医疗费用支付方式': '全自费', '残疾情况': "无残疾"}
-        #
+
         # for k, v in var.items():
         #     if k == '姓名':
         #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[1]/td[2]/span/span/input', v)
@@ -192,60 +196,92 @@ class JinganPO():
         #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[11]/td[4]/span/span/input', v)
         #     if k == '医疗费用支付方式':
         #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[12]/td[2]/span/span/input', v)
-        #     if k == '残疾情况':
-        #         # 判断是否勾选无残疾
-        #         currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]/span/input')
-        #         if v == '无残疾':
-        #             # 要求无残疾
-        #             if currStatus == False:
-        #                 # cj2，当前有残疾，要求勾选无残疾
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
-        #         else:
-        #             # 要求有残疾，先勾选无残疾
-        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
-        #             if currStatus == False:
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
-        #             self.cjqk(v)  # 遍历勾选
 
-
-
-        # todo 户籍地址
+        # dd = {'handicapState': {'no': False, "other": "5555", "spirit": True, "member": "0"} }
         #
-        d_var = {'省（自治区、直辖市）': '北京市', '市（地区/州）': '市辖区', '县（区）': '丰台区', '街道（镇）': '南苑街道办事处', '居委（村）': '机场社区居委会', '详细地址': '洪都拉斯100号'}
-        for k, v in d_var.items():
-            if k == '省（自治区、直辖市）':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[2]/span/span/input', v)
-            if k == '市（地区/州）':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[4]/span/span/input', v)
-            if k == '县（区）':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[6]/span/span/input', v)
-            if k == '街道（镇）':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[2]/span/span/input', v)
-            if k == '居委（村）':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[4]/span/span/input', v)
-            if k == '详细地址':
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[3]/td[2]/span/span/input', v)
+        # # 判断
+        # currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]/span/input')
+        # print(currStatus)
+        #
+        # # cj1, 当前已勾选无，要求勾选无，什么都不做。
+        # if dd['handicapState']['no'] == True and currStatus == True:
+        #     ...
+        # elif currStatus == True and dd['handicapState']['no'] == False:
+        #     # cj2，当前已勾选无，要求勾选视力障碍
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
+        #
+        #     for k, v in dd['handicapState'].items():
+        #         if k == 'vision' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
+        #         if k == 'audition' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
+        #         if k == 'language' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
+        #         if k == 'member' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[5]/span/input',1)
+        #         if k == 'wit' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
+        #         if k == 'spirit' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
+        #         if k == 'other' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[3]', 1)
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[4]/span/span/input', v)  # 残疾说明
+        #         if k != 'no':
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', dd['handicapState']['member'])  # 残疾证号码
+        # elif currStatus == False and dd['handicapState']['no'] == True:
+        #     # cj3, 当前有残疾情况，要求勾选无
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
+        # else:
+        #     # cj4,当前有残疾情况，要更改残疾情况，勾选2次无，在勾选残疾情况
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[1]', 1)  # 无
+        #
+        #     for k, v in dd['handicapState'].items():
+        #         if k == 'vision' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
+        #         if k == 'audition' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
+        #         if k == 'language' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
+        #         if k == 'member' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[5]/span/input',1)
+        #         if k == 'wit' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
+        #         if k == 'spirit' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
+        #         if k == 'other' and v == True:
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[3]', 1)
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[4]/span/span/input', v)  # 残疾说明
+        #         if k != 'no':
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', dd['handicapState']['member'])  # 残疾证号码
 
-        # l_var = ['北京市', '市辖区', '丰台区', '南苑街道办事处', '机场社区居委会', '洪都拉斯100号']
-        # # 省（自治区、直辖市）
-        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[2]/span/span/input', l_var[0])
-        # # 市（地区/州）
-        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[4]/span/span/input', l_var[1])
-        # # 县（区）
-        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[6]/span/span/input', l_var[2])
-        # # 街道（镇）
-        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[2]/span/span/input', l_var[3])
-        # # 居委（村）
-        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[4]/span/span/input', l_var[4])
-        # # 详细地址
-        # Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[3]/td[2]/span/span/input', l_var[5])
 
-
-        # todo 居住地址 - 同户籍地址
-
-        # needStatus = True
-        # l_var = ['北京市', '市辖区', '丰台区', '南苑街道办事处', '机场社区居委会', '洪都拉斯100号']
-        # d_var = {'省（自治区、直辖市）': '北京市', '市（地区/州）': '市辖区', '县（区）': '丰台区', '街道（镇）': '南苑街道办事处', '居委（村）': '机场社区居委会', '详细地址': '洪都拉斯100号'}
+        # # todo 户籍地址
+        # #
+        # d_var = {'省（自治区、直辖市）': '上海市', '市（地区/州）': '市辖区', '县（区）': '虹口区', '街道（镇）': '广中路街道', '居委（村）': '新虹居委会', '详细地址': '洪都拉斯100号'}
+        # for k, v in d_var.items():
+        #     if k == '省（自治区、直辖市）':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[2]/span/span/input', v)
+        #     if k == '市（地区/州）':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[4]/span/span/input', v)
+        #     if k == '县（区）':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[1]/td[6]/span/span/input', v)
+        #     if k == '街道（镇）':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[2]/span/span/input', v)
+        #     if k == '居委（村）':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[2]/td[4]/span/span/input', v)
+        #     if k == '详细地址':
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[1]/tr[3]/td[2]/span/span/input', v)
+        #
+        #
+        #
+        # # todo 居住地址 - 同户籍地址
+        #
+        # needStatus = False
+        # # l_var = ['北京市', '市辖区', '丰台区', '南苑街道办事处', '机场社区居委会', '洪都拉斯100号']
+        # # d_var = {'省（自治区、直辖市）': '北京市', '市（地区/州）': '市辖区', '县（区）': '丰台区', '街道（镇）': '南苑街道办事处', '居委（村）': '机场社区居委会', '详细地址': '洪都拉斯100号'}
+        # d_var = {'省（自治区、直辖市）': '上海市', '市（地区/州）': '市辖区', '县（区）': '徐汇区', '街道（镇）': '斜土路街道', '居委（村）': '康巨居委会', '详细地址': '洪都拉斯300号'}
+        #
         # currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input')
         #
         # if currStatus == True:
@@ -256,13 +292,22 @@ class JinganPO():
         #     else:
         #         # cj2，要求不勾选同户籍地址，操作反勾选同户籍地址，同时填入一下信息
         #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input', 1)  # 点击同户籍地址复选框
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', l_var[0])  # 省（自治区、直辖市）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[4]/span/span/input', l_var[1])  # 市（地区/州）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[6]/span/span/input', l_var[2])  # 县（区）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[2]/span/span/input', l_var[3])  # 街道（镇）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[4]/span/span/input', l_var[4])  # 居委（村）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', l_var[5])  # 详细地址
-        #         # self.thjdz(d_var)
+        #
+        #         for k, v in d_var.items():
+        #             if k == '省（自治区、直辖市）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', v)
+        #             if k == '市（地区/州）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[4]/span/span/input', v)
+        #             if k == '县（区）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[6]/span/span/input', v)
+        #             if k == '街道（镇）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[2]/span/span/input', v)
+        #             if k == '居委（村）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[4]/span/span/input', v)
+        #             if k == '详细地址':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', v)
+        #
+        #
         # else:
         #     # 当前未勾选同户籍地址
         #     if needStatus == True:
@@ -270,13 +315,21 @@ class JinganPO():
         #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input', 1)  # 点击同户籍地址复选框
         #     else:
         #         # cj4，要求更新当前户籍地址。
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', l_var[0])  # 省（自治区、直辖市）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[4]/span/span/input', l_var[1])  # 市（地区/州）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[6]/span/span/input', l_var[2])  # 县（区）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[2]/span/span/input', l_var[3])  # 街道（镇）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[4]/span/span/input', l_var[4])  # 居委（村）
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', l_var[5])  # 详细地址
-        #         # self.thjdz(d_var)
+        #
+        #         for k, v in d_var.items():
+        #             if k == '省（自治区、直辖市）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', v)
+        #             if k == '市（地区/州）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[4]/span/span/input', v)
+        #             if k == '县（区）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[6]/span/span/input', v)
+        #             if k == '街道（镇）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[2]/span/span/input', v)
+        #             if k == '居委（村）':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[2]/td[4]/span/span/input', v)
+        #             if k == '详细地址':
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', v)
+
 
 
         # todo 其他信息
@@ -295,358 +348,308 @@ class JinganPO():
         #         self.setText('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[2]/td[4]/span/span/input', v)
 
 
-        # todo: 药物过敏史
+        # # todo: 药物过敏史
+        #
+        # varStatus = '有'
+        # var = ['头孢类抗生素', '酒精', {"其他药物过敏原": '3333'}]
+        # # 判断默认勾选的是无还是有
+        # currStatus = Web_PO.getValueByAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', 'class')
+        # if currStatus == "mini-radiobuttonlist-item":
+        #     currStatus = '无'
+        # else:
+        #     currStatus = '有'
+        # if currStatus == '无':
+        #     # cj1,默认无，要求无，不操作
+        #     if varStatus == '无':
+        #         ...
+        #     else:
+        #         # cj2，默认无，要求有，勾选有，勾选酒精
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)
+        #         for i in range(len(var)):
+        #             if var[i] == '青霉素抗生素':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[1]/input', 1)
+        #             if var[i] == '磺胺类抗生素':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[2]/input', 1)
+        #             if var[i] == '头孢类抗生素':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[3]/input', 1)
+        #             if var[i] == '含碘药品':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[1]/input', 1)
+        #             if var[i] == '酒精':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[2]/input', 1)
+        #             if var[i] =='镇静麻醉剂':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[3]/input', 1)
+        #             if isinstance(var[i], dict) == True:
+        #                 for k1, v1 in var[i].items():
+        #                     if k1 == '其他药物过敏原':
+        #                         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[4]/input', 1)
+        #                         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[5]/span/input', v1)
+        # else:
+        #     # cj3,默认有，要求无，勾选无
+        #     Web_PO.clk(
+        #         '/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[2]/input',
+        #         1)
+        #     if varStatus == '无':
+        #         ...
+        #     else:
+        #         # cj4，默认有，取消所有复选框，勾选酒精
+        #         Web_PO.clk(
+        #             '/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[1]/input',
+        #             1)
+        #         for i in range(1, 3):
+        #             Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[' + str(i) + ']/input')
+        #         for i in range(1, 4):
+        #             Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[' + str(i) + ']/input')
+        #         for i in range(len(var)):
+        #             if var[i] == '青霉素抗生素':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[1]/input', 1)
+        #             if var[i] == '磺胺类抗生素':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[2]/input', 1)
+        #             if var[i] == '头孢类抗生素':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[3]/input', 1)
+        #             if var[i] == '含碘药品':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[1]/input', 1)
+        #             if var[i] == '酒精':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[2]/input', 1)
+        #             if var[i] =='镇静麻醉剂':
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[3]/input', 1)
+        #             if isinstance(var[i], dict) == True:
+        #                 for k1, v1 in var[i].items():
+        #                     if k1 == '其他药物过敏原':
+        #                         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[4]/input', 1)
+        #                         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[5]/span/input', v1)
 
-        varStatus = '有'
-        var = ['头孢类抗生素', '酒精', {"其他药物过敏原": '3333'}]
-        # 判断默认勾选的是无还是有
-        currStatus = Web_PO.getValueByAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', 'class')
-        if currStatus == "mini-radiobuttonlist-item":
-            currStatus = '无'
-        else:
-            currStatus = '有'
-        if currStatus == '无':
-            # cj1,默认无，要求无，不操作
-            if varStatus == '无':
-                ...
-            else:
-                # cj2，默认无，要求有，勾选有，勾选酒精
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)
-                for i in range(len(var)):
-                    if var[i] == '青霉素抗生素':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[1]/input', 1)
-                    if var[i] == '磺胺类抗生素':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[2]/input', 1)
-                    if var[i] == '头孢类抗生素':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[3]/input', 1)
-                    if var[i] == '含碘药品':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[1]/input', 1)
-                    if var[i] == '酒精':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[2]/input', 1)
-                    if var[i] =='镇静麻醉剂':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[3]/input', 1)
-                    if isinstance(var[i], dict) == True:
-                        for k1, v1 in var[i].items():
-                            if k1 == '其他药物过敏原':
-                                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[4]/input', 1)
-                                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[5]/span/input', v1)
-        else:
-            # cj3,默认有，要求无，勾选无
-            Web_PO.clk(
-                '/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[2]/input',
-                1)
-            if varStatus == '无':
-                ...
-            else:
-                # cj4，默认有，取消所有复选框，勾选酒精
-                Web_PO.clk(
-                    '/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[1]/input',
-                    1)
-                for i in range(1, 3):
-                    Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[' + str(i) + ']/input')
-                for i in range(1, 4):
-                    Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[' + str(i) + ']/input')
-                for i in range(len(var)):
-                    if var[i] == '青霉素抗生素':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[1]/input', 1)
-                    if var[i] == '磺胺类抗生素':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[2]/input', 1)
-                    if var[i] == '头孢类抗生素':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[3]/input', 1)
-                    if var[i] == '含碘药品':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[1]/input', 1)
-                    if var[i] == '酒精':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[2]/input', 1)
-                    if var[i] =='镇静麻醉剂':
-                        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[3]/input', 1)
-                    if isinstance(var[i], dict) == True:
-                        for k1, v1 in var[i].items():
-                            if k1 == '其他药物过敏原':
-                                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[4]/input', 1)
-                                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[5]/span/input', v1)
 
 
-        # 环境危险因素暴露类别
-        # varStatus = False
-        # var = ['毒物', '化学品', {'其他': "11111"}]
+        # # 环境危险因素暴露类别
+        # # 'environmentDanger': {'no' : true, 'chemistry' : false, 'poison':false, 'ray': true, 'notInDetail': true , 'other':'111'}
+        # dd = {'environmentDanger': {'no' : False, 'chemistry' : True, 'poison':True, 'ray': True, 'notInDetail': False , 'other':'111'}  }
         #
         # # 判断是否勾选了无
         # currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input')
-        # if currStatus == True:
-        #     # cj1,默认勾选无，要求勾选无，不操作。
-        #     if varStatus == True:
-        #         ...
-        #     # cj2，默认勾选无，要求勾选其他，操作取消无勾选，勾选其他
-        #     elif varStatus == False:
+        # # print(currStatus)
+        #
+        # # cj1, 当前已勾选无，要求勾选无，什么都不做。
+        # if currStatus == True and dd['environmentDanger']['no'] == True:
+        #     ...
+        # elif currStatus == True and dd['environmentDanger']['no'] == False:
+        #     # cj2，当前已勾选无，要求勾选视力障碍
         #         # 取消无勾选
-        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)
-        #         for i in range(len(var)):
-        #             if var[i] == '化学品':
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)  # 无
+        #
+        #         for k1, v1 in dd['environmentDanger'].items():
+        #             if k1 == 'chemistry' and v1 == True :
         #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
-        #             if var[i] == '毒物':
+        #             if k1 == 'poison' and v1 == True :
         #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
-        #             if var[i] == '射线':
+        #             if k1 == 'ray' and v1 == True :
         #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
-        #             if var[i] == '不详':
+        #             if k1 == 'notInDetail' and v1 == True :
         #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
-        #             if isinstance(var[i], dict) == True:
-        #                 for k1, v1 in var[i].items():
-        #                     if k1 == '其他':
-        #                         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
-        #                         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', v1)
+        #             if k1 == 'other' :
+        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
+        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', v1)
+        # elif currStatus == False and dd['environmentDanger']['no'] == True:
+        #     # cj3, 当前有残疾情况，要求勾选无
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)  # 无
         # else:
-        #     # cj3，默认不勾选无，要求勾选无，直接勾选无。
-        #     if varStatus == True:
-        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)
-        #     else:
-        #         # cj4，默认不勾选无，要求勾选化学，操作取消所有勾选，勾选化学。
-        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input')  # 化学品
-        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input')  # 毒物
-        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input')  # 射线
-        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input')  # 不详
-        #         Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input')  # 其他
-        #         for i in range(len(var)):
-        #             if var[i] == '化学品':
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
-        #             if var[i] == '毒物':
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
-        #             if var[i] == '射线':
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
-        #             if var[i] == '不详':
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
-        #             if isinstance(var[i], dict) == True:
-        #                 for k1, v1 in var[i].items():
-        #                     if k1 == '其他':
-        #                         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
-        #                         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', v1)
+        #     # cj4,当前有残疾情况，要更改残疾情况，勾选2次无，在勾选残疾情况
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)  # 无
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[1]/span/input', 1)  # 无
+        #
+        #     for k1, v1 in dd['environmentDanger'].items():
+        #         if k1 == 'chemistry' and v1 == True :
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
+        #         if k1 == 'poison' and v1 == True :
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
+        #         if k1 == 'ray' and v1 == True :
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
+        #         if k1 == 'notInDetail' and v1 == True :
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
+        #         if k1 == 'other' :
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', v1)
 
 
 
-        # todo 疾病信息
-        # # 疾病史
+        # # todo 疾病信息
+        # # # 疾病史
         # # 风险1：不知道当前用户有多少疾病史，默认最多5个，全部关闭。???
         # varQty = 10
-        # var = {'脑卒中': '2010-12-01', '其他法定传染病': ['baidu', '2020-12-10'], '高血压': '2010-12-02', '其他': ['12121', '2020-12-12']}
+        # dd = {'disease':[{'type':'脑卒中', 'date':'2010-12-01'},
+        #                  {'type':'其他法定传染病', 'name':'1212', 'date':'2010-12-03'},
+        #                   {'type':'其他', 'name':'6666', 'date':'2010-12-06'}]}
+        #
         # for i in range(varQty):
         #     Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[3]/span[1]/span/input')
         #     x = Web_PO.isElementAttr(
         #         "/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[3]/span[1]/span/input",
         #         "disabled")
-        #
         #     if x == False:
         #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[2]/input', 1)  # -
         #         Web_PO.clk(u"//a[@href='javascript:void(0)']", 2)  # 弹框确认
         #     else:
         #         break
         # x = 1
-        # for k, v in var.items():
+        #
+        # for d in range(len(dd['disease'])):
         #     x = x + 1
+        #     # print(dd['disease'][d])
         #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[1]/td[2]/input[1]')  # +
-        #     if k == '其他' or k == '其他法定传染病':
+        #     if dd['disease'][d]['type'] == '其他' or dd['disease'][d]['type'] == '其他法定传染病':
         #         Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input')
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input', k)
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input', dd['disease'][d]['type'])
         #         sleep(2)
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[2]/span/input', v[0])
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v[1])
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[2]/span/input', dd['disease'][d]['name'])
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', dd['disease'][d]['date'])
         #     else:
         #         Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input')
-        #         Web_PO.setTextEnter('//html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input', k)
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)
+        #         Web_PO.setTextEnter('//html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[3]/span[1]/span/input', dd['disease'][d]['type'])
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', dd['disease'][d]['date'])
 
 
-        # 手术史
-        varStatus = '有'
-        var = {'手术1': '2010-12-01', '手术2': '2010-12-02'}
-        # cj1，要求无，点击无，弹出框确认
-        currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input')
-        print(currStatus)
-        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
-        if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
-            Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-        # cj2,默认无，要求有，点击有，输入内容
-        # cj3，默认有，要求有，修改原有数据
-        if varStatus == '有':
-            Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
-            x = 1
-            for k, v in var.items():
-                x = x + 1
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/input', 1)  # +
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
-                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 手术日期
+
+
+
+        # # # 手术史
+        # dd = {'operation': {'value': False,
+        #                     'relation': [{'name': '手术5', 'date': '2010-12-01'}, {'name': '手术2', 'date': '2010-12-03'}]
+        #                     }
+        #       }
+        # # cj1，要求无，点击无，弹出框确认
+        # currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input')
+        # # print(currStatus)
+        # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
+        # if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
+        #     Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        # # cj2,默认无，要求有，点击有，输入内容
+        # # cj3，默认有，要求有，修改原有数据
+        # if dd['operation']['value'] == True:
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
+        #     x = 1
+        #     for d in range(len(dd['operation']['relation'])):
+        #         # print(dd['operation']['relation'][d])
+        #         x = x + 1
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr/td[2]/input', 1)  # +
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', dd['operation']['relation'][d]['name'])  # 名称
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[2]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', dd['operation']['relation'][d]['date'])  # 手术日期
+
 
 
         # # 外伤史
-        # varStatus = '有'
-        # var = {'外伤3': '2020-12-01', '外伤4': '2020-12-02'}
-        #
+        # dd = {'trauma': {'value': True,
+        #                         'relation': [{'name': '外伤3', 'date': '2010-12-01'},
+        #                                      {'name': '外伤4', 'date': '2010-12-03'}]
+        #                         }
+        #           }
         # # cj1，要求无，点击无，弹出框确认
-        # currStatus = Web_PO.isSelected(
-        #     '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input')
-        # print(currStatus)
+        # currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input')
         # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
         # if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
         #     Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
         # # cj2,默认无，要求有，点击有，输入内容
         # # cj3，默认有，要求有，修改原有数据
-        # if varStatus == '有':
+        # if dd['trauma']['value'] == True:
         #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
         #     x = 1
-        #     for k, v in var.items():
+        #     for d in range(len(dd['trauma']['relation'])):
         #         x = x + 1
         #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/input', 1)  # +
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
-        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 发生日期
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', dd['trauma']['relation'][d]['name'])  # 名称
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', dd['trauma']['relation'][d]['date'])  # 发生日期
+
+
+        # sys.exit(0)
+
+        # # 输血史
+        # dd = {'transfusion': {'value': True,
+        #                  'relation': [{'name': '输血7', 'date': '2010-12-01'},
+        #                               {'name': '输血8', 'date': '2010-12-03'}]
+        #                  }
+        #       }
+        # # cj1，要求无，点击无，弹出框确认
+        # currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input')
+        # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1) # 无
+        # if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
+        #     Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
+        # # cj2,默认无，要求有，点击有，输入内容
+        # # cj3，默认有，要求有，修改原有数据
+        # if dd['transfusion']['value'] == True:
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)# 有
+        #     x = 1
+        #     for d in range(len(dd['transfusion']['relation'])):
+        #         x = x + 1
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/input', 1)  # +
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', dd['transfusion']['relation'][d]['name'])  # 名称
+        #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', dd['transfusion']['relation'][d]['date'])  # 发生日期
+
+        # sys.exit(0)
 
 
 
-        # # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[2]/td[2]/input
-        # #           /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input
-        # # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
-        # # Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-        #
-        # currStatus = Web_PO.getValueByAttr('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]','class')
-        # if currStatus == "mini-radiobuttonlist-item":
-        #    currStatus = '无'
-        # else:
-        #     currStatus = '有'
-        # if currStatus == '无':
-        #     # cj1,默认勾选无，要求勾选无，不操作
-        #     if varStatus == '无':
-        #         ...
+
+
+        # 家族史
+        # # epidemic = 其他法定传染病
+        # # other = 其他
+        # dd = {'clan': [
+        #     {'relation': "母亲", 'dis': ['高血压', '糖尿病', '其他法定传染病', '其他'], 'epidemic': "1212", 'other':"456"},
+        #     {'relation': "父亲", 'dis': ['高血压', '糖尿病', '其他法定传染病', '贫血'], 'epidemic': "1212"}]
+        # }
+        # for i in range(8):
+        #     if Web_PO.isElement('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[2]/input') == True:
+        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[2]/input', 1)  # -
+        #         if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
+        #             Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
         #     else:
-        #         # cj2,默认无，要求有，勾选有，
-        #         if varStatus == '有':
-        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
-        #             x = 1
-        #             for k, v in var.items():
-        #                 x = x + 1
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/input', 1)  # +
-        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
-        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 发生日期
-        # else:
-        #     # cj3,默认有，要求无，勾选无
-        #     if varStatus == '无':
-        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
-        #         Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-        #     else:
-        #         # cj4,默认有，要求有，点击无，
-        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input',1)  # 无
-        #         Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',1)  # 有
-        #         x = 1
-        #         for k, v in var.items():
-        #             x = x + 1
-        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr/td[2]/input',1)  # +
-        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 名称
-        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[3]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 发生日期
-
-
-        # 输血史
-        # varStatus = '有'
-        # var = {'输血4': '2020-12-12', '输血5': '2020-12-13'}
-        # # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input
-        # currStatus = Web_PO.getValueByAttr('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[1]/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input','class')
-        # print(currStatus)
-        # if currStatus == 'mini-radiobuttonlist-item':
-        #     currStatus = '无'
-        # else:
-        #     currStatus = '有'
-        # print(currStatus)
-        # if currStatus == '无':
-        #     if varStatus == '无':
-        #         ...
-        #     else:
-        #         if varStatus == '有':
-        #                       # /html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input
-        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',1)  # 有
-        #             x = 1
-        #             for k, v in var.items():
-        #                 x = x + 1
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/input', 1)  # +
-        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(x) + ']/td[3]/span/span/input', k)  # 数学原因
-        #                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(x) + ']/td[4]/span/span/input', v)  # 输血日期
-        # else:
-        #     if varStatus == '无':
-        #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
-        #         Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-        #     else:
-        #         # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[2]/input',1)  # 无
-        #         # Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-        #         if varStatus == '有':
-        #             Web_PO.clk(
-        #                 '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/div/table/tbody/tr/td/div[1]/div[1]/input',
-        #                 1)  # 有
-        #             x = 1
-        #             for k, v in var.items():
-        #                 x = x + 1
-        #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr/td[2]/input',
-        #                            1)  # +
-        #                 Web_PO.setTextEnter(
-        #                     '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(
-        #                         x) + ']/td[3]/span/span/input', k)  # 数学原因
-        #                 Web_PO.setTextEnter(
-        #                     '/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[4]/tbody/tr[' + str(
-        #                         x) + ']/td[4]/span/span/input', v)  # 输血日期
-
-
-        # 家族史 {家庭关系：疾病种类}
-        var = {"母亲": ['高血压', '糖尿病', {'其他法定传染病':'123'}, '贫血'], "父亲": ['慢性阻塞性肺疾病', '脑卒中', {'其他': '4444123'}]}
-
-        for i in range(8):
-            if Web_PO.isElement('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[2]/input') == True:
-                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[2]/input', 1)  # -
-                if Web_PO.isElement(u"//a[@href='javascript:void(0)']") == True:
-                    Web_PO.clk(u"//a[@href='javascript:void(0)']", 1)  # 确定删除记录
-            else:
-                break
-
-        for k, v in var.items():
-            Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr/td[2]/input', 1)  # +
-            Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[3]/span/span/input')  # 家庭关系
-            Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[3]/span/span/input', k)  # mother
-            for i in range(len(v)):
-                if v[i] == '高血压':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[2]/input',1) # 高血压
-                if v[i] == '糖尿病':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[3]/input',1) # 糖尿病
-                if v[i] == '冠心病':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[4]/input',1) # 冠心病
-                if v[i] == '慢性阻塞性肺疾病':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[5]/input',1) # 慢性阻塞性肺疾病
-                if v[i] == '恶性肿瘤':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[6]/input',1) # 恶性肿瘤
-                if v[i] == '脑卒中':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[7]/input',1) # 脑卒中
-                if v[i] == '重性精神疾病':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[8]/input',1) # 重性精神疾病
-                if v[i] == '结核病':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[9]/input',1) # 结核病
-                if v[i] == '肝炎':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[10]/input',1) # 肝炎
-                if v[i] == '先天畸形':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[11]/input',1) # 先天畸形
-                if v[i] == '职业病':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[12]/input',1) # 职业病
-                if v[i] == '肾脏疾病':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[13]/input',1) # 肾脏疾病
-                if v[i] == '贫血':
-                    Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[14]/input',1) # 贫血
-                if isinstance(v[i], dict) == True:
-                    for k1, v1 in v[i].items():
-                        if k1 == '其他法定传染病':
-                            Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[15]/input',1)  # 其他法定传染病
-                            Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[16]/span/input', v1)
-                        if k1 == '其他':
-                            Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[17]/input',1)  # 其他
-                            Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[18]/span/input', v1)
+        #         break
+        # for d in range(len(dd['clan'])):
+        #     # print(dd['clan'][d])
+        #     Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr/td[2]/input', 1)  # +
+        #     Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[3]/span/span/input')  # 家庭关系
+        #     Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[3]/span/span/input', dd['clan'][d]['relation'])  # mother
+        #     for i in range(len(dd['clan'][d]['dis'])):
+        #         # print(dd['clan'][d]['dis'][i])
+        #         if dd['clan'][d]['dis'][i] == '高血压':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[2]/input',1) # 高血压
+        #         if dd['clan'][d]['dis'][i] == '糖尿病':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[3]/input',1) # 糖尿病
+        #         if dd['clan'][d]['dis'][i] == '冠心病':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[4]/input',1) # 冠心病
+        #         if dd['clan'][d]['dis'][i] == '慢性阻塞性肺疾病':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[5]/input',1) # 慢性阻塞性肺疾病
+        #         if dd['clan'][d]['dis'][i] == '恶性肿瘤':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[6]/input',1) # 恶性肿瘤
+        #         if dd['clan'][d]['dis'][i] == '脑卒中':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[7]/input',1) # 脑卒中
+        #         if dd['clan'][d]['dis'][i] == '重性精神疾病':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[8]/input',1) # 重性精神疾病
+        #         if dd['clan'][d]['dis'][i] == '结核病':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[9]/input',1) # 结核病
+        #         if dd['clan'][d]['dis'][i] == '肝炎':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[10]/input',1) # 肝炎
+        #         if dd['clan'][d]['dis'][i] == '先天畸形':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[11]/input',1) # 先天畸形
+        #         if dd['clan'][d]['dis'][i] == '职业病':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[12]/input',1) # 职业病
+        #         if dd['clan'][d]['dis'][i] == '肾脏疾病':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[13]/input',1) # 肾脏疾病
+        #         if dd['clan'][d]['dis'][i] == '贫血':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[14]/input',1) # 贫血
+        #         if dd['clan'][d]['dis'][i] == '其他法定传染病':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[15]/input',1)  # 其他法定传染病
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[16]/span/input', dd['clan'][d]['epidemic'])
+        #         if dd['clan'][d]['dis'][i] == '其他':
+        #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[17]/input',1)  # 其他法定传染病
+        #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[5]/tbody/tr[2]/td[4]/span[18]/span/input', dd['clan'][d]['other'])
 
 
         # 遗传性疾病史
-        var = '121212'
-        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[6]/tbody/tr/td[2]/span/span/textarea', var)
+        dd = {'transmissibility':'test'}
+        Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[6]/tbody/tr/td[2]/span/span/textarea', dd['transmissibility'])
 
         # 保存
         # Web_PO.setTextById('button1', 1)
+        Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[4]/input', 1)
 
         # 关闭
         # Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[4]/a/input', 1)

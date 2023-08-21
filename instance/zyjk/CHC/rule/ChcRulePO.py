@@ -390,7 +390,6 @@ class ChcRulePO():
             else:
                 print("error, 身份证为None")
 
-
         elif l_v1[0] == "GW" and var3_rule == "GW":
             # 实例：GW_JB004
 
@@ -405,9 +404,6 @@ class ChcRulePO():
             l_v1.pop(0)
             d_v1 = List_PO.list2dictByKeyValue(l_v1)
             print("d_v1", d_v1)
-
-            # sys.exit(0)
-
             print(str(k) + " => (" + v[3] + ")")
             # 在"疾病身份证" sheet中获取对应的身份证
             varIdcard = None
@@ -417,13 +413,10 @@ class ChcRulePO():
                     varIdcard = v1
                     break
             d["varIdcard"] = varIdcard
-
             d_all, log = self.gw(d, Openpyxl_PO, TOKEN)
+
             print("d_v11", d_v1)
             print("d_all", d_all)
-            print("d_v11", str(d_v1))
-            print("d_all", str(d_all))
-
             if d_all == d_v1:
                 self.outResultGW(1, log, k, varSheetName, Openpyxl_PO)
             else:
