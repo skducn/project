@@ -108,7 +108,8 @@ class HrdgPO():
 
     def handicapStatePO(self, d_var):
 
-        #     # 基本信息 - 残疾情况
+        # 基本信息 - 残疾情况
+
         for k, v in d_var.items():
             if k == 'vision' and v == True:
                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
@@ -128,7 +129,11 @@ class HrdgPO():
             if k != 'no':
                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', d_var['member'])  # 残疾证号码
 
+
     def envDangerPO(self, d_var):
+
+        # 环境危险因素暴露类别
+
         for k1, v1 in d_var.items():
             if k1 == 'chemistry' and v1 == True :
                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
@@ -142,31 +147,10 @@ class HrdgPO():
                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
                 Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[4]/td[2]/table/tbody/tr[2]/td[3]/span/span/input', d_var['other'])
 
-    #
-    #     for k, v in var.items():
-    #         if k == '视力残疾':
-    #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[2]/span/input', 1)
-    #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
-    #         if k == '听力残疾':
-    #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[3]/span/input', 1)
-    #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
-    #         if k == '语言残疾':
-    #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[4]/span/input', 1)
-    #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
-    #         if k == '肢体残疾':
-    #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[1]/td[5]/span/input',1)
-    #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
-    #         if k == '智力残疾':
-    #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[1]/span/input', 1)
-    #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
-    #         if k == '精神残疾':
-    #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[2]/span/input', 1)
-    #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[4]/span/span/input', v)  # 残疾证号码
-    #         if k == '其他残疾':
-    #             Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[3]', 1)
-    #             Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[1]/table/tbody/tr[13]/td[2]/table/tbody/tr[2]/td[4]/span/span/input', v)  # 残疾说明
 
     def liveAddressPO(self, d_var):
+
+        # 居住地址
 
         # 省（自治区、直辖市）
         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[1]/td[2]/span/span/input', d_var['province'])
@@ -181,6 +165,40 @@ class HrdgPO():
         # 详细地址
         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[2]/tr[3]/td[2]/span/span/input', d_var['address'])
 
+
+    def drugAllergyHistoryPO(self,d_var):
+
+        # 药物过敏史
+
+        for j in range(len(d_var)):
+            # 青霉素抗生素
+            if d_var[j] == 'penicillin':
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[1]/input', 1)
+            # 磺胺类抗生素
+            if d_var[j] == 'sulfonamide':
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[2]/input', 1)
+            # 头孢类抗生素
+            if d_var[j] == 'cephalo':
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[3]/input', 1)
+            # 含碘药品
+            if d_var[j] == 'iodine':
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[1]/input', 1)
+            # 酒精
+            if d_var[j] == 'alcohol':
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[2]/input', 1)
+            # 镇静麻醉剂
+            if d_var[j] == 'narcotic':
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[3]/input', 1)
+            # 其他药物过敏原
+            if d_var[j] == 'other':
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[4]/input', 1)
+                Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[5]/span/input', d_var['other'])
+
+
+
+    # todo 分割线 ------------------------------------------------------------------------------------------------------------------------------
+    # todo 分割线 ------------------------------------------------------------------------------------------------------------------------------
+    # todo 分割线 ------------------------------------------------------------------------------------------------------------------------------
 
 
     def edtBasicInfo(self, varUrl, d_data):
@@ -274,7 +292,6 @@ class HrdgPO():
 
             # 判断是否勾选无
             currStatus = Web_PO.isSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/thead[3]/tr/th/span/input')
-
             if currStatus == True and d_data[i]['sameCensus']  == True:
                 # cj1, 当前已勾选，要求勾选，什么都不做。
                 ...
@@ -318,75 +335,53 @@ class HrdgPO():
 
 
             # # todo: 药物过敏史
-            #
-            # varStatus = '有'
-            # var = ['头孢类抗生素', '酒精', {"其他药物过敏原": '3333'}]
-            # # 判断默认勾选的是无还是有
-            # currStatus = Web_PO.getValueByAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', 'class')
-            # if currStatus == "mini-radiobuttonlist-item":
-            #     currStatus = '无'
-            # else:
-            #     currStatus = '有'
-            # if currStatus == '无':
-            #     # cj1,默认无，要求无，不操作
-            #     if varStatus == '无':
-            #         ...
-            #     else:
-            #         # cj2，默认无，要求有，勾选有，勾选酒精
-            #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)
-            #         for i in range(len(var)):
-            #             if var[i] == '青霉素抗生素':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[1]/input', 1)
-            #             if var[i] == '磺胺类抗生素':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[2]/input', 1)
-            #             if var[i] == '头孢类抗生素':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[3]/input', 1)
-            #             if var[i] == '含碘药品':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[1]/input', 1)
-            #             if var[i] == '酒精':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[2]/input', 1)
-            #             if var[i] =='镇静麻醉剂':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[3]/input', 1)
-            #             if isinstance(var[i], dict) == True:
-            #                 for k1, v1 in var[i].items():
-            #                     if k1 == '其他药物过敏原':
-            #                         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[4]/input', 1)
-            #                         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[5]/span/input', v1)
-            # else:
-            #     # cj3,默认有，要求无，勾选无
-            #     Web_PO.clk(
-            #         '/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[2]/input',
-            #         1)
-            #     if varStatus == '无':
-            #         ...
-            #     else:
-            #         # cj4，默认有，取消所有复选框，勾选酒精
-            #         Web_PO.clk(
-            #             '/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[1]/input',
-            #             1)
-            #         for i in range(1, 3):
-            #             Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[' + str(i) + ']/input')
-            #         for i in range(1, 4):
-            #             Web_PO.clrSelected('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[' + str(i) + ']/input')
-            #         for i in range(len(var)):
-            #             if var[i] == '青霉素抗生素':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[1]/input', 1)
-            #             if var[i] == '磺胺类抗生素':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[2]/input', 1)
-            #             if var[i] == '头孢类抗生素':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[3]/input', 1)
-            #             if var[i] == '含碘药品':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[1]/input', 1)
-            #             if var[i] == '酒精':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[2]/input', 1)
-            #             if var[i] =='镇静麻醉剂':
-            #                 Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[3]/input', 1)
-            #             if isinstance(var[i], dict) == True:
-            #                 for k1, v1 in var[i].items():
-            #                     if k1 == '其他药物过敏原':
-            #                         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[4]/input', 1)
-            #                         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[5]/span/input', v1)
 
+            # 判断默认勾选的是无还是有
+            currStatus = Web_PO.getValueByAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', 'class')
+            if currStatus == "mini-radiobuttonlist-item":
+                currStatus = False  # '无'
+            else:
+                currStatus = True   # '有'
+            if currStatus == False and d_data[i]['otherInformation']['drugAllergyHistory']['value'] == False:
+                # cj1,默认无，要求无，不操作
+                ...
+            elif currStatus == False and d_data[i]['otherInformation']['drugAllergyHistory']['value'] == True:
+                # cj2，默认无，要求有，点击有，勾选酒精
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
+                self.drugAllergyHistoryPO(d_data[i]['otherInformation']['drugAllergyHistory'])
+
+                # for j in range(len(d_data[i]['otherInformation']['drugAllergyHistory'])):
+                #     # 青霉素抗生素
+                #     if d_data[i]['otherInformation']['drugAllergyHistory'][j] == 'penicillin':
+                #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[1]/input', 1)
+                #     # 磺胺类抗生素
+                #     if d_data[i]['otherInformation']['drugAllergyHistory'][j] == 'sulfonamide':
+                #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[2]/input', 1)
+                #     # 头孢类抗生素
+                #     if d_data[i]['otherInformation']['drugAllergyHistory'][j] == 'cephalo':
+                #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[1]/span[3]/input', 1)
+                #     # 含碘药品
+                #     if d_data[i]['otherInformation']['drugAllergyHistory'][j] == 'iodine':
+                #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[1]/input', 1)
+                #     # 酒精
+                #     if d_data[i]['otherInformation']['drugAllergyHistory'][j] == 'alcohol':
+                #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[2]/input', 1)
+                #     # 镇静麻醉剂
+                #     if d_data[i]['otherInformation']['drugAllergyHistory'][j] == 'narcotic':
+                #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[3]/input', 1)
+                #     # 其他药物过敏原
+                #     if d_data[i]['otherInformation']['drugAllergyHistory'][j] == 'other':
+                #         Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[4]/input', 1)
+                #         Web_PO.setTextEnter('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[2]/div[2]/span[5]/span/input', d_data[i]['otherInformation']['drugAllergyHistory']['other'])
+
+            elif currStatus == True and d_data[i]['otherInformation']['drugAllergyHistory']['value'] == False:
+                # cj3,默认有，要求无，勾选无
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
+            elif currStatus == True and d_data[i]['otherInformation']['drugAllergyHistory']['value'] == True:
+                # cj4，默认有，取消所有复选框，勾选酒精
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[2]/input', 1)  # 无
+                Web_PO.clk('/html/body/div[1]/div/div[2]/div[2]/div/div/div[2]/table/tbody[3]/tr[3]/td[2]/table/tbody/tr/td[1]/div/table/tbody/tr/td/div[1]/div[1]/input', 1)  # 有
+                self.drugAllergyHistoryPO(d_data[i]['otherInformation']['drugAllergyHistory'])
 
 
             # todo: 环境危险因素暴露类别
@@ -414,6 +409,7 @@ class HrdgPO():
             # # todo 疾病信息
 
             # 疾病史
+            
             # 删除现有的疾病名称
             for i in range(10):
                 Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[3]/span[1]/span/input')
