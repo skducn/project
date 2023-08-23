@@ -409,7 +409,7 @@ class HrdgPO():
             # # todo 疾病信息
 
             # 疾病史
-            
+
             # 删除现有的疾病名称
             for i in range(10):
                 Web_PO.jsReadonly('/html/body/div[1]/div/div[2]/div[2]/div/div/div[3]/table[1]/tbody/tr[2]/td[3]/span[1]/span/input')
