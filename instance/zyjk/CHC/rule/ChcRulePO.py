@@ -232,13 +232,15 @@ class ChcRulePO():
             d['testRuleName'] = l_v1[0]
             d['testRuleParam'] = varParam
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam'])
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
         elif l_v1[0] == "r2" and var3_rule == "r2":
             # 实例： r2, 'I10','1'
 
+            # 1，初始化参数
             d = {}
             d['result'] = v[0]
             d['testRuleName'] = l_v1[0]
@@ -246,13 +248,11 @@ class ChcRulePO():
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]  # 干预规则编码
             d['diseaseRuleCode'] = v[3]  # 疾病评估规则编码
-            d['hitQty'] = v[4]  # 命中次数
-            print(d)
-            # sys.exit(0)
-            print(str(k) + " => (" + d['testRuleName'] + ")")
-            # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001'}
+            # print(d) # {'result': None, 'testRuleName': 'r2', 'testRuleParam1': "'E11'", 'testRuleParam2': "'1'", 'ruleCode': 'GY_YH002001', 'diseaseRuleCode': 'YH_JB002', 'hitQty': None}
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2'])
 
-            # 在"疾病身份证" sheet中获取对应的身份证
+            # 2，获取身份证（在"疾病身份证" sheet中获取对应的身份证）
             varIdcard = None
             d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
             for k1, v1 in d_code_Idcard.items():
@@ -260,8 +260,6 @@ class ChcRulePO():
                     varIdcard = v1
                     break
             d["varIdcard"] = varIdcard
-            # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001', 'varIdcard': '310101202308070001'}
-
             if varIdcard != None:
                 varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)  # 家族史, PG_JZS001, r1, Openpyxl_PO, TOKEN
                 self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
@@ -276,8 +274,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
-            # print(d)
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2'])
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -289,7 +287,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2'])
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -301,7 +300,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2'])
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -313,7 +313,8 @@ class ChcRulePO():
             d['testRuleName'] = l_v1[0]
             d['testRuleParam'] = varParam
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam'])
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -325,7 +326,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2'])
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -337,7 +339,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2'])
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -350,7 +353,8 @@ class ChcRulePO():
             d['testRuleParam'] = varParam
             d['ruleCode'] = v[2]
             d['diseaseRuleCode'] = v[3]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam'])
             # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001'}
 
             # 在"疾病身份证" sheet中获取对应的身份证
@@ -378,8 +382,8 @@ class ChcRulePO():
             d['testRuleParam'] = varParam
             d['ruleCode'] = v[2]
             d['diseaseRuleCode'] = v[3]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
-            # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001'}
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam']).center(100, "_"), "")
+            # print(str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam'])
 
             # 在"疾病身份证" sheet中获取对应的身份证
             varIdcard = None
@@ -389,7 +393,6 @@ class ChcRulePO():
                     varIdcard = v1
                     break
             d["varIdcard"] = varIdcard
-            # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001', 'varIdcard': '310101202308070001'}
 
             if varIdcard != None:
                 varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)  # PG_JZS001, r1, Openpyxl_PO, TOKEN
@@ -408,6 +411,7 @@ class ChcRulePO():
             d['ruleCode'] = v[2]
             # print(d)  # {'result': None, 'diseaseRuleCode': 'GW_JB005', 'ruleCode': "('GW_JB005','PG_SHXG005','PG_JWS013','PG_JZS006','PG_SHXG007','PG_JWS015','PG_STZB005')"}
             Color_PO.consoleColor("31", "36", ("(" + v[3] + ") - (" + str(k) + ")").center(100, "_"), "")
+            # print("(" + v[3] + ") - (" + str(k) + ")")
 
             # 2，格式化测试规则
             # print(l_v1) # ['GW', 'QTY0:0', 'PG_SHXG005:1', 'PG_SHXG007:1', 'PG_STZB005:1', 'PG_JZS006:1', 'PG_JWS015:1', 'PG_JWS013:1']
@@ -472,7 +476,8 @@ class ChcRulePO():
             d['testRuleName'] = l_v1[0]
             d['testRuleParam'] = varParam
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam']).center(100, "_"), "")
+            # print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -487,7 +492,8 @@ class ChcRulePO():
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
             d['diseaseRuleCode'] = v[3]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(k) + " => (" + d['testRuleName'] + ")")
             # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001'}
 
             # 在"疾病身份证" sheet中获取对应的身份证
@@ -516,7 +522,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -528,7 +535,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -539,7 +547,8 @@ class ChcRulePO():
             d['testRuleName'] = l_v1[0]
             d['testRuleParam'] = varParam
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam']).center(100, "_"), "")
+            # print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -551,7 +560,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -563,7 +573,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -575,7 +586,8 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2]
             d['ruleCode'] = v[2]
-            print(str(k) + " => (" + d['testRuleName'] + ")")
+            Color_PO.consoleColor("31", "36", (str(varSheetName) + " - " + str(k) + " - " + d['testRuleName'] + d['testRuleParam1'] + d['testRuleParam2']).center(100, "_"), "")
+            # print(str(k) + " => (" + d['testRuleName'] + ")")
             varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
             self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
 
@@ -590,13 +602,12 @@ class ChcRulePO():
 
         # 1，获取 测试结果、测试规则、干预规则编码等数据
         if varSheetName == "健康干预":
-            l_varColNums = [1, 3, 5, 7, 8 ]
+            l_varColNums = [1, 3, 5, 7]
             l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5,7列值，忽略第一行数据
             # print(l_paramCode[0])  # OK
             # print(l_paramCode[1])  # r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'
             # print(l_paramCode[2])  # GY_YH001001  //干预规则编码
             # print(l_paramCode[3])  # YH_JB008  //疾病评估规则编码
-            # print(l_paramCode[4])  # 2  //命中次数 默认为空等于命中1
         elif varSheetName == "健康评估":
             l_varColNums = [1, 3, 5, 6]
             l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
@@ -659,23 +670,19 @@ class ChcRulePO():
 
     def rule(self, d, Openpyxl_PO, TOKEN):
 
-        # {'result': None, 'testRuleName': 'r1', 'testRuleParam': 'AGE=55', 'ruleCode': 'PG_Age001'}
-        # {'result': None, 'testRuleName': 'r2', 'testRuleParam': "'I10'", 'ruleCode': 'GY_YH001001', 'diseaseRuleCode': 'YH_JB001', 'varIdcard': '310101202308070001'}
+        # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam1': "'E11'", 'testRuleParam2': "'1'", 'ruleCode': 'GY_YH002001', 'diseaseRuleCode': 'YH_JB002', 'varIdcard': '310101202308070002'}
 
         log = ""
         varQTY = 0
-        varQ2 = 0
+
         # 1，遍历所有列得到列值
         l_all = Openpyxl_PO.getColValue("testRule")
-        # print(l_all)
-
         i_newAssessStatus = 0
         for i in range(len(l_all)):
             if d['testRuleName'] == l_all[i][0]:
                 for j in range(1, len(l_all[i])):
                     command = l_all[i][j]
                     if command != None:
-                        # print(command)
 
                         if 'varIdcard' in d:
                             command = str(command).replace("{身份证}", d['varIdcard'])
@@ -686,7 +693,6 @@ class ChcRulePO():
                             command = str(command).replace("{测试规则参数}", d['testRuleParam'])
                         if 'ruleCode' in d:
                             command = str(command).replace("{规则编码}", d['ruleCode'])
-
                         if "{随机数}" in command:
                             command = str(command).replace("{随机数}", Data_PO.getPhone())
 
@@ -726,21 +732,20 @@ class ChcRulePO():
                                 varGUID = varGUID.split("varGUID=")[1].split(")")[0]
                                 # print(varGUID)
                                 command = str(command).replace("{varGUID}", varGUID)
-                        Color_PO.consoleColor("31", "33", command, "")
+                        var = str(j+1) + ", " + command
+                        Color_PO.consoleColor("31", "33", var, "")
 
                         # 步骤日志
                         log = log + "\n" + command
-                        if '{疾病评估规则编码}' in command and d['hitQty'] == 2:
+                        # if '{疾病评估规则编码}' in command and d['hitQty'] == 2:
+                        #     command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
+                        #     b = eval(command)
+                        #     if "Q2" in b[0]:
+                        #         varQ2 = b[0]['Q2']
+                        #         Openpyxl_PO.setCellValue(27, 1, "varQ2=" + str(varQ2), "testRule")
+                        # else:
 
-                            command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
-                            b = eval(command)
-                            if "Q2" in b[0]:
-                                varQ2 = b[0]['Q2']
-                                Openpyxl_PO.setCellValue(27, 1, "varQ2=" + str(varQ2), "testRule")
-                        else:
-                            a = eval(command)
-                        # print(a)
-
+                        a = eval(command)
 
                         if a != None:
                             if isinstance(a, list):
@@ -780,8 +785,8 @@ class ChcRulePO():
         Openpyxl_PO.setCellValue(26, 1, "", "testRule")
         Openpyxl_PO.setCellValue(27, 1, "", "testRule")
 
-        print(varQTY)
-        print(varQ2)
+        # print(varQTY)
+        # print(varQ2)
         # sys.exit(0)
 
         return varQTY, log
