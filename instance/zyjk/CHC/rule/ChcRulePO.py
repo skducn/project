@@ -143,13 +143,13 @@ class ChcRulePO():
 
         if varQty == "1" or varQty == 1 :
             Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
-            Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
+            Color_PO.consoleColor("31", "36", "[" + str(k) + " => OK]\n", "")
             Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
             Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheetName)
         else:
             Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheetName)
-            Color_PO.consoleColor("31", "31", str(k) + " => ERROR\n", "")
+            Color_PO.consoleColor("31", "31", "[" + str(k) + " => ERROR]\n", "")
             Openpyxl_PO.setCellValue(k, 2, varLog, varSheetName)
             Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
@@ -158,13 +158,13 @@ class ChcRulePO():
 
         if varQty == "2" or varQty == 2 :
             Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
-            Color_PO.consoleColor("31", "36", str(k) + " => OK\n", "")
+            Color_PO.consoleColor("31", "36", "[" + str(k) + " => OK]\n", "")
             Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
             Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheetName)
         else:
             Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheetName)
-            Color_PO.consoleColor("31", "31", str(k) + " => ERROR\n", "")
+            Color_PO.consoleColor("31", "31", "[" + str(k) + " => ERROR]\n", "")
             Openpyxl_PO.setCellValue(k, 2, varLog, varSheetName)
             Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
@@ -175,13 +175,13 @@ class ChcRulePO():
 
         if result == 1:
             Openpyxl_PO.setCellValue(k, 1, "OK", varSheetName)
-            Color_PO.consoleColor("31", "36", str(v5) + " => OK\n", "")
+            Color_PO.consoleColor("31", "36", "[" + str(v5) + " => OK]\n", "")
             Openpyxl_PO.setCellValue(k, 2, Time_PO.getDateTimeByDivide(), varSheetName)  # 更新测试时间
             Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheetName)
         else:
             Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheetName)
-            Color_PO.consoleColor("31", "31", str(v5) + " => ERROR\n", "")
+            Color_PO.consoleColor("31", "31", "[" + str(v5) + " => ERROR]\n", "")
             Openpyxl_PO.setCellValue(k, 2, log, varSheetName)
             Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=varSheetName)
             Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=varSheetName)
@@ -190,7 +190,7 @@ class ChcRulePO():
 
         # ChcRule_PO.run('健康评估', None, "r6", Openpyxl_PO, TOKEN)
         # ChcRule_PO.run('健康评估', "OK", "r6", Openpyxl_PO, TOKEN)
-        # ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
+        # ChcRule_PO.run('健康评估', "ERROR", "r6", Openpyxl_PO, TOKEN)
         # ChcRule_PO.run('健康评估', "ALL", "r6", Openpyxl_PO, TOKEN)
 
         for k, v in d_paramCode.items():
@@ -240,23 +240,21 @@ class ChcRulePO():
             print("error, 身份证为None")
 
     def param1(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", (str(varSheetName) + ", line " + str(k) + ", " + str(l_v1)).center(100, "_"), "")
-        # print((str(varSheetName) + " - " + str(k) + " - " + str(v[1])).center(100, "_"))
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
         try:
             d = {}
             d['result'] = v[0]  # OK
             d['testRuleName'] = l_v1[0]  # r1
             d['testRuleParam'] = l_v1[1].replace(".and.", ',')  # AGE='58'.and.DRINKING_FREQUENCY_CODE='3'
             d['interventionRule'] = v[2]  # GY_GW001001  //干预规则编码
+            varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
+            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
         except:
-            Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
-            # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
-        varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
-        self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            Color_PO.consoleColor("31", "31", "FormatError: '" + str(v[1]) + "'格式错误!", "")
+            self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
+
     def param2(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", (str(varSheetName) + ", line " + str(k) + ", " + str(l_v1)).center(100, "_"), "")
-        # print((str(varSheetName) + " - " + str(k) + " - " + str(v[1])).center(100, "_"))
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -264,15 +262,14 @@ class ChcRulePO():
             d['testRuleParam1'] = l_v1[1]
             d['testRuleParam2'] = l_v1[2].replace(".and.", ',')
             d['interventionRule'] = v[2]
+            varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
+            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
         except:
-            Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
-            # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
-        varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
-        self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            Color_PO.consoleColor("31", "31", "FormatError: '" + str(v[1]) + "'格式错误!", "")
+            self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
+
     def param4(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", (str(varSheetName) + ", line " + str(k) + ", " + str(l_v1)).center(100, "_"), "")
-        # print((str(varSheetName) + " - " + str(k) + " - " + str(v[1])).center(100, "_"))
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -282,15 +279,14 @@ class ChcRulePO():
             d['testRuleParam3'] = l_v1[3]
             d['testRuleParam4'] = l_v1[4]
             d['interventionRule'] = v[2]
+            varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
+            self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
         except:
-            Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
-            # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
-        varQty, varLog = self.rule(d, Openpyxl_PO, TOKEN)
-        self.outResult1(varQty, varLog, k, varSheetName, Openpyxl_PO)
+            Color_PO.consoleColor("31", "31", "FormatError: '" + str(v[1]) + "'格式错误!", "")
+            self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
+
     def param1_idcard(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", (str(varSheetName) + ", line " + str(k) + ", " + str(l_v1)).center(100, "_"), "")
-        # print((str(varSheetName) + " - " + str(k) + " - " + str(v[1])).center(100, "_"))
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -298,14 +294,13 @@ class ChcRulePO():
             d['testRuleParam'] = l_v1[1]
             d['interventionRule'] = v[2]
             d['diseaseRuleCode'] = v[3]
+            self._getIdcard(d, k, varSheetName, Openpyxl_PO, TOKEN)
         except:
-            Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
-            # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
-        self._getIdcard(d, k, varSheetName, Openpyxl_PO, TOKEN)
+            Color_PO.consoleColor("31", "31", "FormatError: '" + str(v[1]) + "'格式错误!", "")
+            self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
+
     def param2_idcard(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", (str(varSheetName) + ", line " + str(k) + ", " + str(l_v1)).center(100, "_"), "")
-        # print((str(varSheetName) + " - " + str(k) + " - " + str(v[1])).center(100, "_"))
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -314,14 +309,13 @@ class ChcRulePO():
             d['testRuleParam2'] = l_v1[2]
             d['interventionRule'] = v[2]
             d['diseaseRuleCode'] = v[3]
+            self._getIdcard(d, k, varSheetName, Openpyxl_PO, TOKEN)
         except:
-            Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
-            # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
-        self._getIdcard(d, k, varSheetName, Openpyxl_PO, TOKEN)
+            Color_PO.consoleColor("31", "31", "FormatError: '" + str(v[1]) + "'格式错误!", "")
+            self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
+
     def param1_idcard_hitQty2(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", (str(varSheetName) + ", line " + str(k) + ", " + str(l_v1)).center(100, "_"), "")
-        # print((str(varSheetName) + " - " + str(k) + " - " + str(v[1])).center(100, "_"))
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -330,14 +324,13 @@ class ChcRulePO():
             d['interventionRule'] = v[2]
             d['diseaseRuleCode'] = v[3]
             d['hitQty'] = v[4]
+            self._getIdcard2(d, k, varSheetName, Openpyxl_PO, TOKEN)
         except:
-            Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
-            # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
-        self._getIdcard2(d, k, varSheetName, Openpyxl_PO, TOKEN)
+            Color_PO.consoleColor("31", "31", "FormatError: '" + str(v[1]) + "'格式错误!", "")
+            self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
+
     def param3_idcard_hitQty2(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", (str(varSheetName) + ", line " + str(k) + ", " + str(l_v1)).center(100, "_"), "")
-        # print((str(varSheetName) + " - " + str(k) + " - " + str(v[1])).center(100, "_"))
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -348,11 +341,11 @@ class ChcRulePO():
             d['interventionRule'] = v[2]
             d['diseaseRuleCode'] = v[3]
             d['hitQty'] = v[4]
+            self._getIdcard2(d, k, varSheetName, Openpyxl_PO, TOKEN)
         except:
-            Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
-            # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
-        self._getIdcard2(d, k, varSheetName, Openpyxl_PO, TOKEN)
+            Color_PO.consoleColor("31", "31", "FormatError: '" + str(v[1]) + "'格式错误!", "")
+            self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
+
 
     def main_rule(self, k, v, var3_rule, varSheetName, Openpyxl_PO, TOKEN):
 
@@ -365,7 +358,7 @@ class ChcRulePO():
         except:
             Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
             # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
+            # sys.exit(0)
 
         if (l_v1[0] == "r1" and var3_rule == "r1") or (l_v1[0] == "r6" and var3_rule == "r6") or (l_v1[0] == "r12" and var3_rule == "r12"):
             # 带参数1
@@ -438,6 +431,8 @@ class ChcRulePO():
                     self.main(k, v, varSheetName, Openpyxl_PO, TOKEN)
                 elif var1 == "ERROR" and v[0] == "ERROR":
                     self.main(k, v, varSheetName, Openpyxl_PO, TOKEN)
+                elif var1 == "ALL":
+                    self.main(k, v, varSheetName, Openpyxl_PO, TOKEN)
 
     def main(self, k, v, varSheetName, Openpyxl_PO, TOKEN):
 
@@ -448,7 +443,7 @@ class ChcRulePO():
         except:
             Color_PO.consoleColor("31", "31", "FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!", "")
             # print("FormatError: Sheet '" + varSheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' is not standardized!")
-            sys.exit(0)
+
 
         if (l_v1[0] == "r1") or (l_v1[0] == "r6") or (l_v1[0] == "r12") :
             # 带参数1
@@ -545,7 +540,7 @@ class ChcRulePO():
                 # ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
                 self.runRule_AsteriskRule(var1, var3_rule, varSheetName, d_paramCode, Openpyxl_PO, TOKEN)
         Openpyxl_PO.setAllCellDimensionsHeight(30, varSheetName)
-        Openpyxl_PO.open()
+
 
 
     def rule(self, d, Openpyxl_PO, TOKEN):
@@ -642,7 +637,7 @@ class ChcRulePO():
                                 if "{" in command and "}" in command :
                                     varName = command.split("{")[1].split("}")[0]
                                     Color_PO.consoleColor("31", "31", "FormatError: {" + varName + "} 没有正确赋值!", "")
-                                    sys.exit(0)
+                                    # sys.exit(0)
                                 else:
                                     a = eval(command)
                                     sleep(1)

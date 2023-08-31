@@ -38,15 +38,19 @@ Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 # ChcRule_PO.run('健康评估', None, None, Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "OK", None, Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "ERROR", None, Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('健康评估', "ALL", "r3", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('健康评估', "ALL", None, Openpyxl_PO, TOKEN)
 
 # todo 健康干预
 # ChcRule_PO.run('健康干预', None, "GW", Openpyxl_PO, TOKEN) # 执行测试结果为空的r8用例
-ChcRule_PO.run('健康干预', None, "r2", Openpyxl_PO, TOKEN) # 执行测试结果为空的r8用例
+# ChcRule_PO.run('健康干预', None, "r2", Openpyxl_PO, TOKEN) # 执行测试结果为空的r8用例
 # ChcRule_PO.run('健康干预', "ERROR", "r8", Openpyxl_PO, TOKEN)  # 执行测试结果为ERROR的r11用例
 # ChcRule_PO.run('健康干预', "OK", "r11", Openpyxl_PO, TOKEN) # 执行测试结果为OK的r11用例
 # ChcRule_PO.run('健康干预', None, None, Openpyxl_PO, TOKEN)  # 执行测试结果为空的所有用例
 # ChcRule_PO.run('健康干预', "ERROR", None, Openpyxl_PO, TOKEN)  # 执行测试结果为ERROR的所有用例
 # ChcRule_PO.run('健康干预', "OK", None, Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
+# ChcRule_PO.run('健康干预', "ALL", "r2", Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
+# ChcRule_PO.run('健康干预', "ALL", None, Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
 
 
 # todo 疾病评估规则（已患和高风险）
@@ -56,12 +60,17 @@ ChcRule_PO.run('健康干预', None, "r2", Openpyxl_PO, TOKEN) # 执行测试结
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r9", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', 'ERROR', "r9", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', 'OK', "r9", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', 'ALL', "r9", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('疾病评估规则（已患和高风险）', 'ALL', None, Openpyxl_PO, TOKEN)
+
 
 # todo 健康干预_中医体质辨识
 # ChcRule_PO.run('健康干预_中医体质辨识', "OK", "r12", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康干预_中医体质辨识', "ERROR", "r12", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康干预_中医体质辨识', None, "r12", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('健康干预_中医体质辨识', "ALL", "r12", Openpyxl_PO, TOKEN)
+ChcRule_PO.run('健康干预_中医体质辨识', "ALL", None, Openpyxl_PO, TOKEN)
 
 
-
+Openpyxl_PO.open()
 
