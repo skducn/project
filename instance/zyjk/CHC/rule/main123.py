@@ -14,8 +14,8 @@
 import sys
 
 from PO.OpenpyxlPO import *
-from ChcRulePO import *
-ChcRule_PO = ChcRulePO()
+from ChcRulePO123 import *
+ChcRule_PO = ChcRulePO123()
 
 
 # 新增患者主索引

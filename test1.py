@@ -9,17 +9,32 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
+import exifread,os
+
+with open('DSC_0127.JPG', 'rb') as file_data:
+    tags = exifread.process_file(file_data)
+    tag_date = 'EXIF DateTimeOriginal'
+    print(tags)
+    if tag_date in tags:
+        print(tag_date)
+        file_rename =str(tags[tag_date]).replace(':','').replace(' ', '_')
+        print(file_rename)
+        # file_rename =str(tags[tag_date]).replace(':','').replace(' ', '_') + os.path.splitext(filename)[1]
+        # new_path = os.path.join(root_dir, file_rename)
+        # os.rename(file_path, new_path）
+
+
 # from PO.ListPO import *
 # List_PO = ListPO()
 
-d_data = [
-            {'idCard': '310101198004332001'},
-            {'idCard': '310101198004332002'}
-        ]
-
-for i in range(len(d_data)):
-    print(d_data[i])
-    print(d_data[i]['idCard'])
+# d_data = [
+#             {'idCard': '310101198004332001'},
+#             {'idCard': '310101198004332002'}
+#         ]
+#
+# for i in range(len(d_data)):
+#     print(d_data[i])
+#     print(d_data[i]['idCard'])
 
 # list1 = ['GW', 'QTY0:0', 'PG_AGE003:11212', 'PG_JWS001:1']
 #

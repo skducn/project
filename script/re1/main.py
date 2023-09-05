@@ -6,6 +6,7 @@
 # 官方网：https://docs.python.org/zh-cn/3/library/re.html
 # 参考：https://blog.csdn.net/qq_51182221/article/details/118650262
 # https://blog.csdn.net/stcaaa/article/details/83864210
+# Python之正则表达式细讲 https://xiaoshiyi.blog.csdn.net/article/details/129170115?spm=1001.2014.3001.5502
 # re.findall():搜索所有满足条件的字符串
 # re.match():从第一个字符开始匹配模式
 # re.search():搜索第一个满足条件的字符串，查找到第一个停止
@@ -15,6 +16,16 @@
 #***************************************************************
 
 import re
+import sys
+# todo split 替换方法
+r = re.split(r' - |,', '张三 - 李四,      王武 - 赵六')  # ['张三', '李四', '      王武', '赵六']
+print(r)
+
+
+
+
+sys.exit()
+
 
 # 函数式用法：一次性操作
 # 分析：要求获取连续的6个数字，[0-4]表示第一个字符在0-4数字之间，\d{5}表示连续5个数字
@@ -153,3 +164,52 @@ print(x)  # proAgramfiles
 
 x = re.sub('-(\d+)-', '-\g<1>0\g<0>', 'a-11-b-22-c')
 print(x)  # a-110-11-b-220-22-c
+
+# todo 跟上面的sub()函数一样，只是它返回的是一个元组 (新字符串, 匹配到的次数)
+x = re.subn('-(\d+)-', '-\g<1>0\g<0>', 'a-11-b-22-c')
+print(x)  # ('a-110-11-b-220-22-c', 2)
+
+
+# 正则对象由re.compile()返回。它有如下的属性和方法。
+# match(string[, pos[, endpos]])
+pattern = re.compile('o')
+print(pattern.match('dog')) # 开始位置不是o，所以不匹配  None
+print(pattern.match('dog', 1)) # 第二个字符是o，所以匹配  <re.Match object; span=(1, 2), match='o'>
+
+
+# （\g<1>表示查找到的第1个括号内的文本，\g<2>表示第2个括号）
+m = re.match('a=(\d+)b=(\d+)', 'a=100b=444')
+print(m.expand('above a is \g<1>'))  # above a is 100
+print(m.expand('above b is \g<2>'))  # above b is 444
+print(m.expand(r'above a is \1'))  # above a is 100
+
+m = re.match(r"(\w+) (\w+)", 'Isaac Newton, physicist')
+print(m.group(0))  # Isaac Newton  //整个匹配
+print(m.group(1))  # Isaac  //第一个子串
+print(m.group(2)) # Newton  //第二个子串
+print(m.group(1, 2))  # ('Isaac', 'Newton')
+
+
+# 用(?P…)这种语法命名过的子串的话，相应的groupN也可以是名字字符串
+m = re.match(r"(?P<first_name>\w+) (?P<last_name>\w+)", 'Malcolm Reynolds')
+print(m.group('first_name'))  # Malcolm
+print(m.groupdict()) # {'first_name': 'Malcolm', 'last_name': 'Reynolds'}
+
+
+m = re.match(r"(\d+).(\d+)", '24.1632')
+# m = re.search(r"(\d+).(\d+)", '24.1632')
+print(m.groups())  # ('24', '1632')
+print(m.groups(0))  # ('24', '1632')
+m = re.match(r"(\d+).?(\d+)?", '24')
+print(m.groups())  # ('24', None)
+print(m.groups('0'))  # ('24', '0')
+
+print(re.findall(r"(\d+).(\d+)", '24.1632'))  # [('24', '1632')]
+
+# m = re.match(r"(…)+", 'a1b2c3') # 匹配到3次
+# print(m.group(1)) # 返回的是最后一次
+
+# todo 把email地址里的“remove_this”去掉的例子 , 只去掉一次。
+email = 'tony@tiremove_thisger.net'
+m = re.search('remove_this', email)
+print(email[:m.start()] + email[m.end():])  # tony@tiger.net
