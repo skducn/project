@@ -14,8 +14,8 @@
 import sys
 
 from PO.OpenpyxlPO import *
-from ChcRulePO123 import *
-ChcRule_PO = ChcRulePO123()
+from ChcRulePO import *
+ChcRule_PO = ChcRulePO()
 
 
 # 新增患者主索引
@@ -34,7 +34,7 @@ Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 # todo 健康评估
 # ChcRule_PO.run('健康评估', None, "r1", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "OK", "r6", Openpyxl_PO, TOKEN)
-ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
+# ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', None, None, Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "OK", None, Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('健康评估', "ERROR", None, Openpyxl_PO, TOKEN)
@@ -43,8 +43,8 @@ ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
 
 # todo 健康干预
 # ChcRule_PO.run('健康干预', None, "GW", Openpyxl_PO, TOKEN) # 执行测试结果为空的r8用例
-# ChcRule_PO.run('健康干预', None, "r2", Openpyxl_PO, TOKEN) # 执行测试结果为空的r8用例
-# ChcRule_PO.run('健康干预', "ERROR", "r8", Openpyxl_PO, TOKEN)  # 执行测试结果为ERROR的r11用例
+# ChcRule_PO.run('健康干预', None, "r2", Openpyxl_PO, TOKEN)  # 执行测试结果为空的r8用例
+# ChcRule_PO.run('健康干预', "ERROR", "r11", Openpyxl_PO, TOKEN)  # 执行测试结果为ERROR的r11用例
 # ChcRule_PO.run('健康干预', "OK", "r11", Openpyxl_PO, TOKEN) # 执行测试结果为OK的r11用例
 # ChcRule_PO.run('健康干预', None, None, Openpyxl_PO, TOKEN)  # 执行测试结果为空的所有用例
 # ChcRule_PO.run('健康干预', "ERROR", None, Openpyxl_PO, TOKEN)  # 执行测试结果为ERROR的所有用例
@@ -54,7 +54,7 @@ ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
 
 
 # todo 疾病评估规则（已患和高风险）
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "GW", Openpyxl_PO, TOKEN)
+ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "GW", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', "ERROR", "GW", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', "OK", "GW", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r9", Openpyxl_PO, TOKEN)

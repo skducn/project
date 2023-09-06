@@ -261,7 +261,7 @@ class ChcRulePO():
             print("error, 身份证为None")
 
     def param1(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]"), "")
         try:
             d = {}
             d['result'] = v[0]  # OK
@@ -275,7 +275,7 @@ class ChcRulePO():
             self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
 
     def param2(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -290,7 +290,7 @@ class ChcRulePO():
             self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
 
     def param4(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -307,7 +307,7 @@ class ChcRulePO():
             self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
 
     def param1_idcard(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -321,7 +321,7 @@ class ChcRulePO():
             self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
 
     def param2_idcard(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -336,7 +336,7 @@ class ChcRulePO():
             self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
 
     def param1_idcard_hitQty2(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -351,7 +351,7 @@ class ChcRulePO():
             self.outResult1(0, "测试规则的格式错误!", k, varSheetName, Openpyxl_PO)
 
     def param3_idcard_hitQty2(self, v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN):
-        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "]"), "")
+        Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]"), "")
         try:
             d = {}
             d['result'] = v[0]
@@ -408,15 +408,12 @@ class ChcRulePO():
             d['result'] = v[0]
             d['diseaseRuleCode'] = v[3]
             d['interventionRule'] = v[2]
-            Color_PO.consoleColor("31", "36", (str(varSheetName) + ", line " + str(k) + ", " + str(v[3])).center(100, "_"), "")
-            # print(str(varSheetName) + ", line " + str(k) + ", " + str(v[3])).center(100, "_")
-
+            Color_PO.consoleColor("31", "36", ("[" + str(varSheetName) + " => " + str(k) + "(" + str(v[3]) + ")]"), "")
             # 格式化测试规则
             # print(l_v1) # ['GW', 'QTY0:0', 'PG_SHXG005:1', 'PG_SHXG007:1', 'PG_STZB005:1', 'PG_JZS006:1', 'PG_JWS015:1', 'PG_JWS013:1']
             l_v1.pop(0)
             d_v1 = List_PO.list2dictByKeyValue(l_v1)
-
-            # 3，获取身份证（在"疾病身份证" sheet中获取对应的身份证）
+            # 获取身份证（在"疾病身份证" sheet中获取对应的身份证）
             varIdcard = None
             d_code_Idcard = self.getDiseaseIdcard(Openpyxl_PO)
             for k1, v1 in d_code_Idcard.items():
@@ -425,7 +422,7 @@ class ChcRulePO():
                     break
             d["varIdcard"] = varIdcard
 
-            # 4，执行语句及输出
+            # 执行语句及输出
             d_all, log = self.gw(d, Openpyxl_PO, TOKEN)
             print("预期：", d_v1)
             print("实测：", d_all)
@@ -632,37 +629,50 @@ class ChcRulePO():
                             log = log + "\n" + varNewAssess
 
                         # 步骤日志
-                        log = log + "\n" + str(j + 1) + ", " + command
+                        # log = log + "\n" + str(j + 1) + ", " + command
 
                         if "hitQty" in d:
                             if d['hitQty'] == 2:
+
                                 if '{疾病评估规则编码}' in command:
                                     command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
-                                    a = eval(command)
+                                    a = self.sql(command, TOKEN)
+                                    sleep(1)
 
                                     if "Q2" in a[0]:
                                         varQ2 = a[0]['Q2']
                                         Openpyxl_PO.setCellValue(27, 1, "varQ2=" + str(varQ2), "testRule")
+                                    Color_PO.consoleColor("31", "33", str(j + 1) + ", " + command, "")
+                                    log = log + "\n" + str(j + 1) + ", " + command  # 步骤日志
+                                    print(a[0])
+                                    log = log + "\n" + str(a[0])  # 步骤日志
                                 else:
-                                    a = eval(command)
-
-                                Color_PO.consoleColor("31", "33", str(j + 1) + ", " + command, "")
+                                    a = self.sql(command, TOKEN)
+                                    sleep(1)
+                                    Color_PO.consoleColor("31", "33", str(j + 1) + ", " + command, "")
+                                    log = log + "\n" + str(j + 1) + ", " + command  # 步骤日志
                             else:
                                 if '{疾病评估规则编码}' not in command:
+
                                     Color_PO.consoleColor("31", "33", str(j + 1) + ", " + command, "")
+                                    log = log + "\n" + str(j + 1) + ", " + command  # 步骤日志
                                 varQ2 = 0
-                                a = eval(command)
+                                a = self.sql(command, TOKEN)
+                                sleep(1)
                         else:
                             varQ2 = 0
+                            # print(command)
                             if '{疾病评估规则编码}' not in command:
                                 Color_PO.consoleColor("31", "33", str(j + 1) + ", " + command, "")
+                                log = log + "\n" + str(j + 1) + ", " + command  # 步骤日志
                                 if "{" in command and "}" in command :
                                     varName = command.split("{")[1].split("}")[0]
                                     Color_PO.consoleColor("31", "31", "FormatError: {" + varName + "} 没有正确赋值!", "")
                                 else:
-                                    a = eval(command)
-
+                                    a = self.sql(command, TOKEN)
                                     sleep(1)
+                            else:
+                                break
 
 
                         if a != None:
@@ -677,6 +687,8 @@ class ChcRulePO():
                                         varIdcard = a[0]['ID_CARD']
                                         Openpyxl_PO.setCellValue(22, 1, "varIdcard=" + str(varIdcard), "testRule")
                                     if "QTY" in a[0]:
+                                        print(a[0])
+                                        log = log + "\n" + str(a[0])  # 步骤日志
                                         varQTY = a[0]['QTY']
                                         Openpyxl_PO.setCellValue(23, 1, "varQTY=" + str(varQTY), "testRule")
                                     if "GUID" in a[0]:
@@ -705,6 +717,7 @@ class ChcRulePO():
         varQTY = int(varQTY) + int(varQ2)
         return varQTY, log
 
+
     def gw(self, d, Openpyxl_PO, TOKEN):
 
         # print(d)  # {'result': None, 'diseaseRuleCode': 'GW_JB009', 'ruleCode': "('GW_JB009','PG_JWS026','PG_JWS027','PG_JWS028','PG_JWS031','PG_JWS032')", 'varIdcard': '410101202308070009'}
@@ -714,42 +727,33 @@ class ChcRulePO():
         varQTY = ""
         i_newAssessStatus = 0
 
-        # 1，遍历语句
+        # 1，遍历所有列获取值
         l_all = Openpyxl_PO.getColValue("GW")
-
         for i in range(len(l_all)):
             if d['diseaseRuleCode'] == l_all[i][0]:
                 for j in range(1, len(l_all[i])):
                     command = l_all[i][j]
                     if command != None:
 
-                        if d_all != {}:
-                            print(d_all)
-
-                        if command == "exit":
-                            Openpyxl_PO.setCellValue(21, 1, "", "testRule")
-                            Openpyxl_PO.setCellValue(22, 1, "", "testRule")
-                            Openpyxl_PO.setCellValue(23, 1, "", "testRule")
-                            Openpyxl_PO.setCellValue(24, 1, "", "testRule")
-                            Openpyxl_PO.setCellValue(25, 1, "", "testRule")
-                            Openpyxl_PO.setCellValue(26, 1, "", "testRule")
-                            Openpyxl_PO.setCellValue(27, 1, "", "testRule")
-                            return d_all, log
+                        # 调试
+                        # if command == "exit":
+                        #     Openpyxl_PO.setCellValue(21, 1, "", "testRule")
+                        #     Openpyxl_PO.setCellValue(22, 1, "", "testRule")
+                        #     Openpyxl_PO.setCellValue(23, 1, "", "testRule")
+                        #     Openpyxl_PO.setCellValue(24, 1, "", "testRule")
+                        #     Openpyxl_PO.setCellValue(25, 1, "", "testRule")
+                        #     Openpyxl_PO.setCellValue(26, 1, "", "testRule")
+                        #     Openpyxl_PO.setCellValue(27, 1, "", "testRule")
+                        #     return d_all, log
 
                         if 'varIdcard' in d:
                             command = str(command).replace("{身份证}", d['varIdcard'])
-                        # if 'testRuleParam1' in d:
-                        #     command = str(command).replace("{测试规则参数1}", d['testRuleParam1'])
-                        #     command = str(command).replace("{测试规则参数2}", d['testRuleParam2'])
-                        # if 'testRuleParam' in d:
-                        #     command = str(command).replace("{测试规则参数}", d['testRuleParam'])
-
                         if 'interventionRule' in d:
                             command = str(command).replace("{规则编码}", d['interventionRule'])
-
-                        command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
-
-                        # command = str(command).replace("{随机数}", Data_PO.getPhone())
+                        if "{随机数}" in command:
+                            command = str(command).replace("{随机数}", Data_PO.getPhone())
+                        if 'diseaseRuleCode' in d:
+                            command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
 
                         varID = Openpyxl_PO.getCellValue(21, 1, "testRule")
                         varIdcard = Openpyxl_PO.getCellValue(22, 1, "testRule")
@@ -759,73 +763,74 @@ class ChcRulePO():
                         varGUID = Openpyxl_PO.getCellValue(26, 1, "testRule")
                         # varQTY0 = Openpyxl_PO.getCellValue(27, 1, "testRule")
 
-
                         if varID != None:
                             if "varID=" in varID:
                                 varID = varID.split("varID=")[1].split(")")[0]
-                                # print(varID)
                                 command = str(command).replace("{varID}", varID)
                         if varIdcard != None:
                             if "varIdcard" in varIdcard:
                                 varIdcard = varIdcard.split("varIdcard=")[1].split(")")[0]
-                                # print(varIdcard)
                                 command = str(command).replace("{varIdcard}", varIdcard)
                         # if varQTY != None:
                         #     if "varQTY" in varQTY:
                         #         varQTY = varQTY.split("varQTY=")[1].split(")")[0]
-                        #         # print(varQTY)
                         #         command = str(command).replace("{varQTY}", varQTY)
-                        if varRunRule != None:
+                        if varRunRule != None and varRunRule != "":
                             # print(type(varRunRule))
                             # varRunRule = varRunRule.split("varRunRule=")[1].split(")")[0]
                             log = log + "\n" + varRunRule
-                        if varNewAssess != None:
+                        if varNewAssess != None and varNewAssess != "":
                             # print(type(varNewAssess))
                             # varNewAssess = varNewAssess.split("varNewAssess=")[1].split(")")[0]
                             log = log + "\n" + varNewAssess
                         if varGUID != None:
                             if "varGUID" in varGUID:
                                 varGUID = varGUID.split("varGUID=")[1].split(")")[0]
-                                # print(varGUID)
                                 command = str(command).replace("{varGUID}", varGUID)
                         # if varQTY0 != None:
                         #     if "varQTY0" in varQTY0:
                         #         varQTY0 = varQTY0.split("varQTY0=")[1].split(")")[0]
                         #         print(varQTY0)
                         #         command = str(command).replace("{varQTY0}", varQTY0)
-                        var = str(j+1) + ", " + command
-                        Color_PO.consoleColor("31", "33", var, "")
 
-                        # 步骤日志
-                        log = log + "\n" + command
-                        a = eval(command)
-                        # print(a)
+                        Color_PO.consoleColor("31", "33", str(j+1) + ", " + command, "")
+                        log = log + "\n" + str(j+1) + ", " + command  # 步骤日志
+                        # a = eval(command)
+                        a = self.sql(command, TOKEN)
+                        sleep(1)
+
                         if a != None:
                             if isinstance(a, list):
                                 if isinstance(a[0], dict):
                                     # print(a[0])
+
                                     if "ID" in a[0]:
                                         varID = a[0]['ID']
-                                        # print(varID)
                                         Openpyxl_PO.setCellValue(21, 1, "varID=" + str(varID), "testRule")
-                                        Openpyxl_PO.setCellValue(33, 1, str(varID), "testRule")
+                                        # Openpyxl_PO.setCellValue(33, 1, str(varID), "testRule")
                                     if "ID_CARD" in a[0]:
                                         varIdcard = a[0]['ID_CARD']
-                                        # print(varIdcard)
                                         Openpyxl_PO.setCellValue(22, 1, "varIdcard=" + str(varIdcard), "testRule")
                                     if "QTY" in a[0]:
                                         varQTY = a[0]['QTY']
-                                        # print(varQTY)
                                         Openpyxl_PO.setCellValue(23, 1, "varQTY=" + str(varQTY), "testRule")
                                     if "GUID" in a[0]:
                                         varGUID = a[0]['GUID']
-                                        # print(varGUID)
                                         Openpyxl_PO.setCellValue(26, 1, "varGUID=" + str(varGUID), "testRule")
                                     if "QTY0" in a[0]:
                                         # varQTY0 = a[0]['QTY0']
                                         d_all['QTY0'] = str(a[0]['QTY0'])
                                         # print(varQTY0)
                                         # Openpyxl_PO.setCellValue(27, 1, "varQTY0=" + str(varQTY0), "testRule")
+                                    if "name" in a[0]:
+                                        Openpyxl_PO.setCellValue(24, 1, "", "testRule")
+                                        Openpyxl_PO.setCellValue(25, 1, "", "testRule")
+                                        if "跑规则" == a[0]['name']:
+                                            if a[0]['value'] != 200:
+                                                Openpyxl_PO.setCellValue(24, 1, str(a[0]['value']), "testRule")
+                                        if "新增评估" == a[0]['name']:
+                                            if a[0]['value'] != 200:
+                                                Openpyxl_PO.setCellValue(25, 1, str(a[0]['value']), "testRule")
 
                                     # JB001
                                     if d['diseaseRuleCode'] == 'GW_JB001':
@@ -927,13 +932,13 @@ class ChcRulePO():
                                         if "PG_JWS041" in a[0]: d_all['PG_JWS041'] = str(a[0]['PG_JWS041'])
                                         if "PG_JWS043" in a[0]: d_all['PG_JWS043'] = str(a[0]['PG_JWS043'])
 
-                            if isinstance(a, tuple):
-                                if "跑规则" in a[0]:
-                                    varRunRule = a[1]
-                                    Openpyxl_PO.setCellValue(24, 1, "varRunRule=" + str(varRunRule), "testRule")
-                                if "新增评估" in a[0]:
-                                    varNewAssess = a[1]
-                                    Openpyxl_PO.setCellValue(25, 1, "varNewAssess=" + str(varNewAssess), "testRule")
+                            # if isinstance(a, tuple):
+                            #     if "跑规则" in a[0]:
+                            #         varRunRule = a[1]
+                            #         Openpyxl_PO.setCellValue(24, 1, "varRunRule=" + str(varRunRule), "testRule")
+                            #     if "新增评估" in a[0]:
+                            #         varNewAssess = a[1]
+                            #         Openpyxl_PO.setCellValue(25, 1, "varNewAssess=" + str(varNewAssess), "testRule")
                     else:
                         break
         Openpyxl_PO.setCellValue(21, 1, "", "testRule")
