@@ -76,6 +76,41 @@ from PO import SqlserverPO, MysqlPO
 
 # 社区健康平台
 Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "GBK")  # 测试环境
+
+# todo 创建表
+# Sqlserver_PO.crtTable('''CREATE TABLE jh
+#        (ID INT PRIMARY KEY     NOT NULL,
+#         NAME           TEXT    NOT NULL,
+#         AGE            INT     NOT NULL,
+#         ADDRESS        CHAR(50),
+#         SALARY         REAL);''')
+
+
+# todo 获取表中必填项的字段名和类型
+# d_NotNullNameType = Sqlserver_PO.getNotNullNameType('jh')
+# print(d_NotNullNameType)  # # {'ID': 'int', 'NAME': 'text', 'AGE': 'int'}
+
+# todo 生成记录（默认必填项有值)
+Sqlserver_PO.instRecordByNotNull("jh")
+
+# todo 获取表主键key
+# primaryKey = Sqlserver_PO.getPrimaryKey('jh')
+# print(primaryKey)  # ID
+
+# todo 获取表主键的最大值
+# d_primaryKeyMaxValue = (Sqlserver_PO.getPrimaryKeyMaxValue('jh'))
+# print(d_primaryKeyMaxValue)  #  # {'ID': 77}
+
+# todo 获取表主键最大值
+# d_primaryValue = Sqlserver_PO.getPrimaryKeyMaxValue('jh')
+# print(d_primaryValue)  # {'ID': 1}
+
+# todo 更改数据
+Sqlserver_PO.updtRecord('jh', "AGE=443,salary=1,address='zhongguo'")
+# Sqlserver_PO.updateRecord('jh', 'AGE=443,salary=235', primaryValue=2)
+
+
+
 # Sqlserver_PO.dbDesc()
 # Sqlserver_PO.dbDesc('HRCOVER')
 # Sqlserver_PO.dbDesc('原始治理规则')
@@ -85,7 +120,7 @@ Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "C
 # Sqlserver_PO.dbDesc('%', ["ID", "PID"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
 
 # Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%刘斌龙%')  # 搜索指定表符合条件的记录.
-Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%张*%')  # 搜索指定表符合条件的记录.
+# Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%张*%')  # 搜索指定表符合条件的记录.
 # Sqlserver_PO.dbRecord('*', 'varchar', '%刘斌龙%')  # 搜索所有表符合条件的记录.
 # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')
 

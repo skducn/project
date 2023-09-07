@@ -53,13 +53,13 @@ Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
 # ChcRule_PO.run('健康干预', "OK", None, Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
 # ChcRule_PO.run('健康干预', "ALL", "r2", Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
 # ChcRule_PO.run('健康干预', "ALL", None, Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
-ChcRule_PO.run('健康干预', None, None, Openpyxl_PO, TOKEN)  # 执行测试结果为空的所有用例
+# ChcRule_PO.run('健康干预', None, None, Openpyxl_PO, TOKEN)  # 执行测试结果为空的所有用例
 
 
 # todo 疾病评估规则（已患和高风险）
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', "ERROR", "GW", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "GW", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', "ERROR", "r10", Openpyxl_PO, TOKEN)
+ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r10", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', "OK", "r2", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', "OK", "r10", Openpyxl_PO, TOKEN)
 # ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r9", Openpyxl_PO, TOKEN)

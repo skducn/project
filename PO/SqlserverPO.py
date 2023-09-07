@@ -31,6 +31,10 @@
 5 获取单个表的所有字段  getTableField(self, varTable)
 6 获取所有表名  getAllTable(self)
 
+创建表 crtTable()
+插入必填项 instRecordByNotNull()
+更改值 updtRecord()
+
 """
 import sys
 from collections.abc import Iterable, Iterator
@@ -75,7 +79,6 @@ class SqlServerPO:
             raise (NameError, "error，创建游标失败！")
 
 
-
     def execute(self, sql):
 
         """insert or update sql"""
@@ -105,6 +108,119 @@ class SqlServerPO:
             # print(str(e))  # table hh already exists
             # print(NameError(e))  # table hh already exists
             print(repr(e))  # OperationalError('table hh already exists')
+
+    def crtTable(self, sql):
+
+        # '''CREATE TABLE jh
+        #        (ID INT PRIMARY KEY     NOT NULL,
+        #         NAME           TEXT    NOT NULL,
+        #         AGE            INT     NOT NULL,
+        #         ADDRESS        CHAR(50),
+        #         SALARY         REAL);'''
+
+        c_cur = self.conn.cursor()
+        try:
+            c_cur.execute(sql)
+            print("表，创建成功")
+        except Exception as e:
+            print(f"表创建失败，失败信息为:{e}")
+
+
+
+    def instRecordByNotNull(self, varTbl):
+
+        # insert插入必填项的值（非必填项忽略）
+
+        # 获取主键字段及最大值
+        d_primaryKeyMaxValue = (self.getPrimaryKeyMaxValue(varTbl))
+        # print(d_primaryKeyMaxValue)  # {'ID': 77}
+
+        # 获取表中必填项的字段名和类型
+        d_NotNullNameType = self.getNotNullNameType(varTbl)
+        # print(d_NotNullNameType)   # {'ID': 'int', 'NAME': 'text', 'AGE': 'int'}
+
+        # 获取主键名（获取两个字典中相同的key）
+        common_keys = list(d_primaryKeyMaxValue.keys() & d_NotNullNameType.keys())
+        # print(common_keys)  # ['ID']
+
+        # 将主键最大值加1
+        if d_primaryKeyMaxValue[common_keys[0]] == None:
+            max_primaryKey = 1
+        else:
+            max_primaryKey = int(d_primaryKeyMaxValue[common_keys[0]]) + 1
+
+        # # 获取待修改值的key
+        # revise_keys = list(d_param.keys() & d_NotNullNameType.keys())
+        # # print(revise_keys) # ['NAME', 'AGE']
+        # # print(d_param[revise_keys[0]])  # hello
+
+        # # 遍历必填项key与待修改key，并替换对应key的value
+        for k, v in d_NotNullNameType.items():
+            if k == common_keys[0]:
+                d_NotNullNameType[k] = max_primaryKey
+            elif v == 'int' or v == 'numeric' or v == 'decimal':
+                d_NotNullNameType[k] = 1
+            elif v == 'text' or v == 'nchar' or v == 'nvarchar':
+                d_NotNullNameType[k] = 'auto'
+            elif v == 'datetime' or v == 'datetime2' or v == 'time':
+                d_NotNullNameType[k] = '2020-12-12 09:12:23.456'
+            elif v == 'float':
+                d_NotNullNameType[k] = 1.00
+
+        # print(d_NotNullNameType)  # {'ID': 82, 'NAME': 'hello', 'AGE': 44}
+
+        # 将insert语句的字段名及值进行转换
+        s = ""
+        u = ""
+        for k, v in d_NotNullNameType.items():
+            s = s + k + ","
+            u = u + "'" + str(v) + "',"
+        s = s[:-1]
+        u = u[:-1]
+        x = "INSERT INTO " + str(varTbl) + " (" + s + ") VALUES (" + u + ")"
+        # print(x)  # INSERT INTO jh (ID,NAME,AGE) VALUES ('83','hello','44')
+        self.execute(x)
+        self.conn.commit()
+
+
+    def updtRecord(self, varTbl, varRevise, primaryValue=1):
+        # {'AGE':12}
+
+        primaryKey = self.getPrimaryKey(varTbl)
+
+        x = "UPDATE " + varTbl + " set " + varRevise + " where " + primaryKey + " = " + str(primaryValue)
+        # print(x)
+        self.execute(x)
+        self.conn.commit()
+
+    def getPrimaryKey(self, varTbl):
+
+        # 获取表主键
+
+        field = self.execQuery("select c.name \
+          from sysindexes i \
+          join sysindexkeys k on i.id = k.id and i.indid = k.indid \
+          join sysobjects o on i.id = o.id \
+          join syscolumns c on i.id=c.id and k.colid = c.colid \
+          join systypes t on c.xusertype=t.xusertype \
+          where o.xtype = 'U' and o.name='" + varTbl + "' \
+          and exists(select 1 from sysobjects where xtype = 'PK' and parent_obj=i.id and name = i.name) \
+          order by o.name,k.colid")
+
+        return field[0]['name']  # ID
+
+    def getPrimaryKeyMaxValue(self, varTbl):
+
+        # 获取表主键的最大值
+
+        d = {}
+        f = self.getPrimaryKey(varTbl)
+        maxValue = self.execQuery("select max(" + str(f) + ") as name from " + varTbl)
+        d[f] = maxValue[0]['name']
+        return (d)  # {'ID': 1}
+
+
+
 
     def close(self):
         self.cur.close()
@@ -191,6 +307,24 @@ class SqlServerPO:
             # cur.callproc(sql,(1,2))
             # self.conn.commit()
             self.conn.close()
+
+    def getNotNullNameType(self, varTable):
+
+        # 获取表中必填项的字段名和类型 {'ID': 'int', 'NAME': 'text', 'AGE': 'int'}
+        dd = {}
+        result = self.execQuery(
+            "SELECT A.name as tableName, B.name as Name, d.name as Type, B.max_length as Size, B.is_nullable as NotNull, C.value as Comment FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s' order by B.column_id asc"
+            % (varTable)
+        )
+        try:
+            for i in result:
+                if i['NotNull'] == False :
+                    dd[str(i['Name'])] = str(i['Type'])
+        except Exception as e:
+            raise e
+        return dd
+
+
 
     def _dbDesc_search(self, varTable=0, var_l_field=0):
 

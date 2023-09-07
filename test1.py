@@ -9,19 +9,28 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-import exifread,os
+# list1 = ['name', 'age','sex']
+# print(str(list1))
 
-with open('DSC_0127.JPG', 'rb') as file_data:
-    tags = exifread.process_file(file_data)
-    tag_date = 'EXIF DateTimeOriginal'
-    print(tags)
-    if tag_date in tags:
-        print(tag_date)
-        file_rename =str(tags[tag_date]).replace(':','').replace(' ', '_')
-        print(file_rename)
-        # file_rename =str(tags[tag_date]).replace(':','').replace(' ', '_') + os.path.splitext(filename)[1]
-        # new_path = os.path.join(root_dir, file_rename)
-        # os.rename(file_path, new_path）
+dict1 = {'a': 1, 'b': 2, 'c': 3}
+values = dict1.keys()
+print(list(values))  # ['a', 'b', 'c']
+str2 = ','.join(list(values))
+print(str2) # a,b,c
+
+# import exifread,os
+#
+# with open('DSC_0127.JPG', 'rb') as file_data:
+#     tags = exifread.process_file(file_data)
+#     tag_date = 'EXIF DateTimeOriginal'
+#     print(tags)
+#     if tag_date in tags:
+#         print(tag_date)
+#         file_rename =str(tags[tag_date]).replace(':','').replace(' ', '_')
+#         print(file_rename)
+#         # file_rename =str(tags[tag_date]).replace(':','').replace(' ', '_') + os.path.splitext(filename)[1]
+#         # new_path = os.path.join(root_dir, file_rename)
+#         # os.rename(file_path, new_path）
 
 
 # from PO.ListPO import *
