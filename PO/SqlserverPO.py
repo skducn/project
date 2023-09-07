@@ -206,6 +206,8 @@ class SqlServerPO:
           where o.xtype = 'U' and o.name='" + varTbl + "' \
           and exists(select 1 from sysobjects where xtype = 'PK' and parent_obj=i.id and name = i.name) \
           order by o.name,k.colid")
+        # print(field)
+        # print(field[1]['name'])
 
         return field[0]['name']  # ID
 

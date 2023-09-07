@@ -87,15 +87,15 @@ Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "C
 
 
 # todo 获取表中必填项的字段名和类型
-# d_NotNullNameType = Sqlserver_PO.getNotNullNameType('jh')
-# print(d_NotNullNameType)  # # {'ID': 'int', 'NAME': 'text', 'AGE': 'int'}
+d_NotNullNameType = Sqlserver_PO.getNotNullNameType('jh')
+print(d_NotNullNameType)  # # {'ID': 'int', 'NAME': 'text', 'AGE': 'int'}
 
 # todo 生成记录（默认必填项有值)
-Sqlserver_PO.instRecordByNotNull("jh")
+# Sqlserver_PO.instRecordByNotNull("jh")
 
 # todo 获取表主键key
-# primaryKey = Sqlserver_PO.getPrimaryKey('jh')
-# print(primaryKey)  # ID
+primaryKey = Sqlserver_PO.getPrimaryKey('jh')
+print(primaryKey)  # ID
 
 # todo 获取表主键的最大值
 # d_primaryKeyMaxValue = (Sqlserver_PO.getPrimaryKeyMaxValue('jh'))
@@ -106,7 +106,7 @@ Sqlserver_PO.instRecordByNotNull("jh")
 # print(d_primaryValue)  # {'ID': 1}
 
 # todo 更改数据
-Sqlserver_PO.updtRecord('jh', "AGE=443,salary=1,address='zhongguo'")
+# Sqlserver_PO.updtRecord('jh', "AGE=443,salary=1,address='zhongguo'")
 # Sqlserver_PO.updateRecord('jh', 'AGE=443,salary=235', primaryValue=2)
 
 
