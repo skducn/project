@@ -125,7 +125,7 @@ from PO.MysqlPO import *
 3.3.2 获取单列数据 getOneColValue(2)
 3.4 获取每行数据 getRowValue()
 3.5 获取每列数据 getColValue()
-3.6 获取指定列的行数据 getRowValueByCol([1, 2, 4], -1))   # 获取最后一个工作表的第1，2，4列的行数据
+3.6 获取指定列的行数据 getRowValueByCol([1, 2, 4], -1)  # 获取最后一个工作表的第1，2，4列的行数据
 3.7 获取某些列的列数据(可忽略多行) getColValueByCol([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
 3.8 获取单元格的坐标 getCoordinate(2, 5))   # E2
 3.9 获取所有数据的坐标 getDimensions())  # A1:E17

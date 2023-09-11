@@ -35,7 +35,7 @@
 2.1.1，获取身份证出生年月 getBirthday(varIdcard)
 2.1.2，获取身份证年龄 getAge(varIdcard)
 2.1.3，获取身份证性别 getSex(varIdcard)
-2.1.4,  获取身份证校验码 getCheckCode(varIdcard)
+2.1.4, 获取身份证校验码 getCheckCode(varIdcard)
 2.1.5，判断身份证有效性 isIdCard(varIdcard)
 2.3.1，生成IP  getIp()
 2.3.2，生成IP2  getIP2()
@@ -821,8 +821,8 @@ if __name__ == "__main__":
     # print(Data_PO.getProxies())
     # print(Data_PO.getProxies())
 
-    print("1.7.1，随机获取用户代理1".center(100, "-"))
-    print(Data_PO.getUserAgent())
+    # print("1.7.1，随机获取用户代理1".center(100, "-"))
+    # print(Data_PO.getUserAgent())
 
     # print("1.7.2，随机获取用户代理2(访问fake地址)".center(100, "-"))
     # print(Data_PO.getUserAgent2("https://fake-useragent.herokuapp.com/browsers/0.1.11"))
@@ -850,7 +850,7 @@ if __name__ == "__main__":
     #
     # print("2.1.5，判断身份证有效性".center(100, "-"))
     # print(Data_PO.isIdCard(Data_PO.getIdCard()))
-    # print(Data_PO.isIdCard("310101200902089077"))
+    print(Data_PO.isIdCard("310101200902089077"))
     #
     # print("2.3.1，生成IP".center(100, "-"))
     # print(Data_PO.getIp(""))  # 116.210.48.8

@@ -19,6 +19,13 @@
 # 原因是由于数据库中的字段的类型问题导致,varchar乱码 而 ncarchar正常
 # 解决方案：在select语句中直接通过convert(nvarchar(20), remark) 转换即可
 
+# sqlserver 报错：Cannot insert explicit value for identity column in table 't' when identity_insert is set to OFF
+# 分析：当 identity insert 设置为 off 时，无法为表中的标识列插入显式值，就是 自增设置了off后，不能手动在唯一索引上添加值。
+# 解决：
+# set identity_insert[tableName] on
+# inset ...
+# set identity_insert[tableName] off
+
 # ***************************************************************
 
 
@@ -160,10 +167,12 @@ class SqlServerPO:
                 d_NotNullNameType[k] = max_primaryKey
             elif v == 'int' or v == 'numeric' or v == 'decimal':
                 d_NotNullNameType[k] = 1
-            elif v == 'text' or v == 'nchar' or v == 'nvarchar':
+            elif v == 'text' or v == 'nchar' or v == 'nvarchar' or v == 'varchar':
                 d_NotNullNameType[k] = 'auto'
             elif v == 'datetime' or v == 'datetime2' or v == 'time':
                 d_NotNullNameType[k] = '2020-12-12 09:12:23.456'
+            elif v == 'date':
+                d_NotNullNameType[k] = '2020-12-12'
             elif v == 'float':
                 d_NotNullNameType[k] = 1.00
 
@@ -177,21 +186,37 @@ class SqlServerPO:
             u = u + "'" + str(v) + "',"
         s = s[:-1]
         u = u[:-1]
+
+        # 判断表里是否有自增字段, 有则返回1，无则返回0
+        # qty = self.execQuery("Select OBJECTPROPERTY(OBJECT_ID('" + varTbl + "'),'TableHasIdentity') as qty")
+        # print(qty[0]['qty'])  # 1
+        # sys.exit(0)
+
+        qty = self.execQuery("select count(*) as qty from sys.identity_columns where [object_id]= OBJECT_ID('" + varTbl + "')")
+        # print(qty[0]['qty'])
+        # 如果有，则设置 set identity_insert 'table' on
+        if qty[0]['qty'] != 0:
+            self.execute('set identity_insert ' + str(varTbl) + ' on')
+
         x = "INSERT INTO " + str(varTbl) + " (" + s + ") VALUES (" + u + ")"
-        # print(x)  # INSERT INTO jh (ID,NAME,AGE) VALUES ('83','hello','44')
+        print("[ok], 表 <" + varTbl + "> 生成一条记录, " + x)
+        # print(x)  # [ok], 表 <jh> 生成一条记录，INSERT INTO jh (ID,NAME,AGE) VALUES ('83','hello','44')
         self.execute(x)
+        # 如果有，则设置 set identity_insert 'table' off
+        if qty[0]['qty'] != 0:
+            self.execute('set identity_insert ' + str(varTbl) + ' off')
         self.conn.commit()
 
 
-    def updtRecord(self, varTbl, varRevise, primaryValue=1):
-        # {'AGE':12}
 
-        primaryKey = self.getPrimaryKey(varTbl)
+    def updtRecord(self, varTbl, varRevise, varTop=1):
 
-        x = "UPDATE " + varTbl + " set " + varRevise + " where " + primaryKey + " = " + str(primaryValue)
-        # print(x)
-        self.execute(x)
-        self.conn.commit()
+        try:
+            x = "UPDATE top(" + str(varTop) + ")" + varTbl + " set " + varRevise
+            self.execute(x)
+            self.conn.commit()
+        except:
+            print(x)
 
     def getPrimaryKey(self, varTbl):
 
@@ -310,6 +335,8 @@ class SqlServerPO:
             # self.conn.commit()
             self.conn.close()
 
+
+
     def getNotNullNameType(self, varTable):
 
         # 获取表中必填项的字段名和类型 {'ID': 'int', 'NAME': 'text', 'AGE': 'int'}
@@ -343,6 +370,7 @@ class SqlServerPO:
                 "SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0"
             )
             # print(l_table_comment)
+
             # print(l_table_comment.decode('gbk')
 
         elif varTable == 0 and var_l_field != 0:
@@ -577,6 +605,8 @@ class SqlServerPO:
                 raise e
         return len(d_tableComment)
 
+
+    # 1, 查看数据库表结构（字段名、数据类型、大小、允许空值、字段说明）
     def dbDesc(self, *args):
 
         """1, 查看数据库表结构（字段名、数据类型、大小、允许空值、字段说明）"""
@@ -830,12 +860,15 @@ class SqlServerPO:
         # Sqlserver_PO.getFieldType("tb_dc_htn_visit", "visitDate")
 
         r = self.execQuery(
-            "SELECT B.name as FieldName, d.name as FieldType FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'"
+            "SELECT B.name as name, d.name as type FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'"
             % (varTable)
         )
+
+        print(r)  # [{'name': 'ID', 'type': 'int'}, {'name': 'NAME', 'type': 'text'},]
+
         for i in range(len(r)):
-            if r[i][0] == varField:
-                return r[i][1]
+            if r[i]['name'] == varField:
+                return r[i]['type']
         return None
 
     # 5 获取单个表的所有字段
@@ -858,20 +891,23 @@ class SqlServerPO:
             print(e, ",很抱歉，出现异常您搜索的<" + varTable + ">不存在！")
 
     # 6 获取所有表名
-    def getAllTable(self):
+    def getTables(self):
 
         """获取所有表名"""
         try:
             r = self.execQuery(
-                "SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0"
+                "SELECT DISTINCT d.name FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0"
             )
+            # print(r)
             list1 = []
             for i in range(len(r)):
-                list1.append(r[i][0])
+                list1.append(r[i]['name'])
             return list1
         except Exception as e:
             print(e, ",很抱歉，出现异常！")
             self.conn.close()
+
+
 
 
 if __name__ == "__main__":
