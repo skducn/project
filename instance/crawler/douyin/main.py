@@ -19,8 +19,8 @@ if platform.system() == "Windows":
     folder = Dy_PO.downVideo("https://v.douyin.com/SrL7RnM/", "d:/11/44")
     os.system("start " + folder)
 elif platform.system() == "Darwin":
-    folder = Dy_PO.downVideo("https://v.douyin.com/SoDRLa1/ ", "/Users/linghuchong/Downloads/video/douyin")
-    # folder = Dy_PO.downVideo("络质疑  https://v.douyin.com/ShVDSVU/ 复制此链接，打开Dou音搜索，直接观看视频！", "/Users/linghuchong/Downloads/video/douyin")
+    # folder = Dy_PO.downVideo("https://v.douyin.com/ieyCUyyd/", "/Users/linghuchong/Downloads/video/douyin")
+    folder = Dy_PO.downVideo("https://www.douyin.com/video/7278475988445580596", "/Users/linghuchong/Downloads/video/douyin")
     os.system("open " + folder)
 
 

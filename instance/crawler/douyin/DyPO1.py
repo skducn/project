@@ -35,7 +35,6 @@ Web_PO = WebPO("chrome")
 
 class DyPO:
 
-
 	def downVideo(self, url, toSave):
 
 		'''
@@ -44,12 +43,15 @@ class DyPO:
 		:param url = "https://v.douyin.com/hbjqhuT"
 		'''
 
-
-
 		headers = {
-
+			"cookie":
+				"s_v_web_id=verify_kwlyvfty_u4F0a4eC_HR0R_45qA_BGNr_tcfqSLkaFeIa; _"
+				"tea_utm_cache_1300=undefined; __ac_nonce=061a6114700def9eb597f; __"
+				"ac_signature=_02B4Z6wo00f01e59nzAAAIDAZTYE0lZHzxHuWZuAABo7n7oK78zhgb8Ol30kLigl-Pu9Q6sKyLpV-BQ3rbF1vLak-TtxN0ysQpQIX.VKlIbTkVBVA4rBt1JdylfNbrGz2NI4r4d7uQWMRa.r56; tt_scid=tbEntOkthFZL51883ve.2ORcwMNYlHUb6tegsnIzC9HSbV5u3J8ASl23x6S7wONy6e5e; "
+			,
+			# "user-agent": Http_PO.getUserAgent()
 			'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-			, 'content-type': 'text/html'
+
 		}
 
 		if 'https://v.douyin.com/' in url:
@@ -69,67 +71,14 @@ class DyPO:
 			aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', r.url)  # ['6976835684271279400']
 			# # print(aweme_id)
 			url2 = 'https://www.douyin.com/video/' + aweme_id[0]
-
-			cookies = {
-					"s_v_web_id":"verify_lkjg6awo_grfeTvCk_en3Z_47uP_9yVA_s9QBoi2jm8a0",
-					"__ac_signature":"_02B4Z6wo00f01cMcEIQAAIDCV8pLisf6.xHDPBQAABXGsTLr4DVt7vcW3yFw-TMiPB17ze53sv7KU7t5lvt1WiB3LQNkdq09NX6z18eevQRXyKf9pBNPBinFiN.d8fukY0Jzq77jODesgCdb6d",
-					"tt_scid":"Y1zjC72QisNkt6-xVbVfYBDfiZwCjr53jPoapz0u7uZTvI5YyeC2Us2EqDKKP5ZQ60f1"			}
-
-
-			url2 = 'https://www.douyin.com/video/7278586466165411084'
 			print(url2)
 
-			session = requests.Session()
-			requests.utils.add_dict_to_cookiejar(session.cookies, cookies)
-			cookies = session.cookies.get_dict()
+			# url2 = 'https://www.douyin.com/aweme/v1/web/aweme/detail/?device_platform=webapp&aid=6383&channel=channel_pc_web&aweme_id=7278475988445580596&pc_client_type=1&version_code=190500&version_name=19.5.0&cookie_enabled=true&screen_width=1920&screen_height=1080&browser_language=zh-CN&browser_platform=MacIntel&browser_name=Chrome&browser_version=115.0.0.0&browser_online=true&engine_name=Blink&engine_version=115.0.0.0&os_name=Mac+OS&os_version=10.15.7&cpu_core_num=8&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=50&webid=7224823478217967108&msToken=jEwTaPiZTXTuQjQqhzZBGBVBAiOC-GeoPnGAVdTYnH8LLNttKWbI2YaW8DAT6F1tWva59V8dQa-8OudnuyfB0Q4KfG4xhzC7wYHHd896_qHuwBPKT-OCiYg=&X-Bogus=DFSzswVOoobANry/tPRwAN7Tlqtx'
+			# url2 = 'https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=' + aweme_id[0]
+			r = requests.get(url=url2, headers=headers)
+			print(r.text)
 			# sys.exit(0)
 
-			res = session.get(url=url2, headers=headers, cookies=cookies)
-			headers3 = res.headers
-			# headers3['user-agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-			# headers3['referer'] = 'https://www.douyin.com/video/7278586466165411084'
-			# headers3['Connection'] = 'close'
-			# print(headers3)
-			# print(res.cookies)
-			# print(res.text)
-			for header in headers:
-				print(header, headers[header])
-			cookies1 = res.cookies.get_dict()
-			print(cookies1)
-			print(cookies)
-			cookies['__ac_nonce'] = cookies1['__ac_nonce']
-			print(cookies)
-			# cookie = session.cookies.get_dict()
-			# print(cookies)
-			# # print(res.text)
-			# r = requests.get(url=url2, headers=headers2)
-			# print(r.text)
-
-			# url2 = 'https://www.douyin.com/aweme/v1/web/aweme/detail/?device_platform=webapp&aid=6383&channel=channel_pc_web&aweme_id=7278475988445580596&pc_client_type=1&version_code=190500&version_name=19.5.0&cookie_enabled=true&screen_width=1920&screen_height=1080&browser_language=zh-CN&browser_platform=MacIntel&browser_name=Chrome&browser_version=115.0.0.0&browser_online=true&engine_name=Blink&engine_version=115.0.0.0&os_name=Mac+OS&os_version=10.15.7&cpu_core_num=8&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=50&webid=7224823478217967108&msToken=jEwTaPiZTXTuQjQqhzZBGBVBAiOC-GeoPnGAVdTYnH8LLNttKWbI2YaW8DAT6F1tWva59V8dQa-8OudnuyfB0Q4KfG4xhzC7wYHHd896_qHuwBPKT-OCiYg=&X-Bogus=DFSzswVOoobANry/tPRwAN7Tlqtx'
-			# url3 = 'https://www.douyin.com/aweme/v1/web/aweme/detail/?device_platform=webapp&aid=6383&channel=channel_pc_web&aweme_id=7278586466165411084&pc_client_type=1&version_code=190500&version_name=19.5.0&cookie_enabled=true&screen_width=1920&screen_height=1080&browser_language=zh-CN&browser_platform=MacIntel&browser_name=Chrome&browser_version=115.0.0.0&browser_online=true&engine_name=Blink&engine_version=115.0.0.0&os_name=Mac+OS&os_version=10.15.7&cpu_core_num=8&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=50&webid=7224823478217967108&msToken=uAg9cjgukVs9CfQZ_VQhUgvS6iqF69Ps1-HX3rfDdsNI0P-Pqee8HLoi_iYAHLR4NXGJrkadMjLi78ckAcLJCxW-CfxR7ASNGtgWJOJUPr4lQEN7svRsC6k=&X-Bogus=DFSzswVYLnUANHqMtPUEJN7Tlqtc'
-			url3 = 'https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=7278586466165411084'
-			# url3 = 'https://www.iesdouyin.com/aweme/v1/web/aweme/detail/?aweme_id=7278586466165411084'
-			# r = session.get(url=url3, headers=headers3, cookies=cookies)
-
-			headers1 = {
-				"cookie":
-					'__ac_signatur=_02B4Z6wo00f01cMcEIQAAIDCV8pLisf6.xHDPBQAABXGsTLr4DVt7vcW3yFw-TMiPB17ze53sv7KU7t5lvt1WiB3LQNkdq09NX6z18eevQRXyKf9pBNPBinFiN.d8fukY0Jzq77jODesgCdb6d;s_v_web_id=verify_lkjg6awo_grfeTvCk_en3Z_47uP_9yVA_s9QBoi2jm8a0;tt_scid=Y1zjC72QisNkt6-xVbVfYBDfiZwCjr53jPoapz0u7uZTvI5YyeC2Us2EqDKKP5ZQ60f1',
-				'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-			,'referer':'https://www.douyin.com/video/7278586466165411084'
-				,'content-type':'application/json'
-			}
-
-			headers4 = {
-
-				'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-				, 'referer': 'https://www.douyin.com/video/7278586466165411084'
-				, 'content-type': 'application/json'
-			}
-
-			r = session.get(url=url3, headers=headers4,cookies=cookies)
-			print(r.content)
-
-			sys.exit(0)
 			info = bs4.BeautifulSoup(r.text, 'lxml')
 			js = str(info.select_one("script#RENDER_DATA"))  # 定位到<script id="RENDER_DATA" type="application/json">
 			s_json = parse.unquote(js)  # 将 RENDER_DATA 解码成 json 文本

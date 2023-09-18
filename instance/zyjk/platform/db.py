@@ -11,7 +11,7 @@ from PO import SqlserverPO, MysqlPO
 
 
 # 社区健康平台
-Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "GBK")  # 测试环境
+Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "peopleHospital", "GBK")  # 测试环境
 
 # todo 创建表
 # Sqlserver_PO.crtTable('''CREATE TABLE jh2
@@ -84,7 +84,8 @@ Sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "C
 
 # todo 对生成记录（默认必填项有值)
 # Sqlserver_PO.instRecordByNotNull("TB_LIS_REPORT_MICROBIO")
-# Sqlserver_PO.instRecordByNotNull("jh2")
+# Sqlserver_PO.instRecordByNotNull("TB_HIS_MZ_Reg")
+Sqlserver_PO.instRecordByNotNull("EMR_ADMISSION_ASSESSMENT")
 
 
 # todo 设置非空字段

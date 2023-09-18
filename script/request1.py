@@ -2,8 +2,14 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Author     : John
 # Date       : 2018/7/20 11:00
-# Description: request1.py
+# Description: requests模块
 # python3_requests 模块详解 https://www.cnblogs.com/ranxf/p/7808537.html
+# 支持HTTP连接保持和连接池，自动实现持久连接keep-alive
+# 支持cookie保持会话，
+# 支持文件上传，
+# 支持自动响应内容的编码，
+# 支持国际化的URL和POST数据自动编码。
+# 使用Requests可以轻而易举的完成浏览器可有的任何操作。
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # def get(url: str | bytes,
 #         params: Any = ...,
@@ -30,9 +36,9 @@ import requests, json
 # 302 redirect: 302 代表暂时性转移(Temporarily Moved )
 
 '''禁用重定向 allow_redirects = False'''
-# 如：response = requests.get(url=url, allow_redirects=False)
-# 如url地址是重定向，设置 allow_redirects = False 则返回状态码302
 # allow_redirects 默认是True，即启动重定向，则请求url后重定向到其他地址，返回状态码200
+# 如url地址是重定向，设置 allow_redirects = False 则返回状态码302
+# 如：response = requests.get(url=url, allow_redirects=False)
 
 '''获取重定向的跳转url'''
 # 请求地址后，响应结果header中有一个属性 Location ，他代表重定向；

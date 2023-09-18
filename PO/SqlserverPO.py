@@ -147,37 +147,53 @@ class SqlServerPO:
         # print(d_NotNullNameType)   # {'ID': 'int', 'NAME': 'text', 'AGE': 'int'}
 
         # 获取主键名（获取两个字典中相同的key）
-        common_keys = list(d_primaryKeyMaxValue.keys() & d_NotNullNameType.keys())
-        # print(common_keys)  # ['ID']
+        if d_primaryKeyMaxValue != None:
+            common_keys = list(d_primaryKeyMaxValue.keys() & d_NotNullNameType.keys())
+            # print(common_keys)  # ['ID']
 
-        # 将主键最大值加1
-        if d_primaryKeyMaxValue[common_keys[0]] == None:
-            max_primaryKey = 1
+            # 将主键最大值加1
+            if d_primaryKeyMaxValue[common_keys[0]] == None:
+                max_primaryKey = 1
+            else:
+                max_primaryKey = int(d_primaryKeyMaxValue[common_keys[0]]) + 1
+
+            # # 获取待修改值的key
+            # revise_keys = list(d_param.keys() & d_NotNullNameType.keys())
+            # # print(revise_keys) # ['NAME', 'AGE']
+            # # print(d_param[revise_keys[0]])  # hello
+
+            # # 遍历必填项key与待修改key，并替换对应key的value
+            for k, v in d_NotNullNameType.items():
+                if k == common_keys[0]:
+                    d_NotNullNameType[k] = max_primaryKey
+                elif v == 'int' or v == 'numeric' or v == 'decimal':
+                    d_NotNullNameType[k] = 1
+                elif v == 'text' or v == 'nchar' or v == 'nvarchar' or v == 'varchar':
+                    d_NotNullNameType[k] = 'a'
+                elif v == 'datetime' or v == 'datetime2' or v == 'time':
+                    d_NotNullNameType[k] = '2020-12-12 09:12:23.456'
+                elif v == 'date':
+                    d_NotNullNameType[k] = '2020-12-12'
+                elif v == 'float':
+                    d_NotNullNameType[k] = 1.00
+
+            # print(d_NotNullNameType)  # {'ID': 82, 'NAME': 'hello', 'AGE': 44}
         else:
-            max_primaryKey = int(d_primaryKeyMaxValue[common_keys[0]]) + 1
+            # 没有主键
+            # # 遍历必填项key与待修改key，并替换对应key的value
+            for k, v in d_NotNullNameType.items():
+                if v == 'int' or v == 'numeric' or v == 'decimal':
+                    d_NotNullNameType[k] = 1
+                elif v == 'text' or v == 'nchar' or v == 'nvarchar' or v == 'varchar':
+                    d_NotNullNameType[k] = 'a'
+                elif v == 'datetime' or v == 'datetime2' or v == 'time':
+                    d_NotNullNameType[k] = '2020-12-12 09:12:23.456'
+                elif v == 'date':
+                    d_NotNullNameType[k] = '2020-12-12'
+                elif v == 'float':
+                    d_NotNullNameType[k] = 1.00
 
-        # # 获取待修改值的key
-        # revise_keys = list(d_param.keys() & d_NotNullNameType.keys())
-        # # print(revise_keys) # ['NAME', 'AGE']
-        # # print(d_param[revise_keys[0]])  # hello
-
-        # # 遍历必填项key与待修改key，并替换对应key的value
-        for k, v in d_NotNullNameType.items():
-            if k == common_keys[0]:
-                d_NotNullNameType[k] = max_primaryKey
-            elif v == 'int' or v == 'numeric' or v == 'decimal':
-                d_NotNullNameType[k] = 1
-            elif v == 'text' or v == 'nchar' or v == 'nvarchar' or v == 'varchar':
-                d_NotNullNameType[k] = 'auto'
-            elif v == 'datetime' or v == 'datetime2' or v == 'time':
-                d_NotNullNameType[k] = '2020-12-12 09:12:23.456'
-            elif v == 'date':
-                d_NotNullNameType[k] = '2020-12-12'
-            elif v == 'float':
-                d_NotNullNameType[k] = 1.00
-
-        # print(d_NotNullNameType)  # {'ID': 82, 'NAME': 'hello', 'AGE': 44}
-
+            # print(d_NotNullNameType)  # {'ID': 82, 'NAME': 'hello', 'AGE': 44}
         # 将insert语句的字段名及值进行转换
         s = ""
         u = ""
@@ -231,10 +247,13 @@ class SqlServerPO:
           where o.xtype = 'U' and o.name='" + varTbl + "' \
           and exists(select 1 from sysobjects where xtype = 'PK' and parent_obj=i.id and name = i.name) \
           order by o.name,k.colid")
-        # print(field)
-        # print(field[1]['name'])
 
-        return field[0]['name']  # ID
+        if field == [] :
+            return None
+        else:
+            # print(field)
+            # print(field[1]['name'])
+            return field[0]['name']  # ID
 
     def getPrimaryKeyMaxValue(self, varTbl):
 
@@ -242,9 +261,10 @@ class SqlServerPO:
 
         d = {}
         f = self.getPrimaryKey(varTbl)
-        maxValue = self.execQuery("select max(" + str(f) + ") as name from " + varTbl)
-        d[f] = maxValue[0]['name']
-        return (d)  # {'ID': 1}
+        if f != None:
+            maxValue = self.execQuery("select max(" + str(f) + ") as name from " + varTbl)
+            d[f] = maxValue[0]['name']
+            return (d)  # {'ID': 1}
 
 
 

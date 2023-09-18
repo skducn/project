@@ -9,8 +9,7 @@ import re, subprocess, requests, os, psutil, json
 import sys
 
 from PO.SqlserverPO import *
-Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "utf8")  # 测试环境
-
+Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "peopleHospital", "utf8")  # 测试环境
 from PO.StrPO import *
 Str_PO = StrPO()
 from PO.ColorPO import *
@@ -45,9 +44,64 @@ class PlatformRulePO():
             p = psutil.Process(l_pid[i])
             p.terminate()
 
+    def getToken(self, varUser, varPass):
+
+        # 1,获取登录用户的token
+
+        command = "curl -X POST \"http://192.168.0.201:28801/auth/login\" -H \"accept: */*\" -H \"Content-Type: application/json\" -d \"{ \\\"password\\\": \\\"" + str(
+            varPass) + "\\\", \\\"userNo\\\": \\\"" + str(varUser) + "\\\"}\""
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        str_r = bytes.decode(out)
+        d_r = json.loads(str_r)
+        # print(d_r)
+        return (d_r['data']['token'])
+
+
+    def getDatabaseRuleConfigList(self, ratioCategory, tableName, fieldName, TOKEN):
+
+        # ("非空", "TB_HIS_MZ_Reg", "GHBM", TOKEN)
+
+        d_ratioCategory = {"准确性": 1, "完整性" : 2, "一致性":3, "及时性":4}
+
+        command = "curl -X GET \"http://192.168.0.201:28801/regional-dqc/ruleConfig/getDatabaseRuleConfigList?keyWord=" + str(tableName) + "&ratioCategory=" + str(d_ratioCategory[ratioCategory]) + "\" -H  \"token:" + str(TOKEN) + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\""
+        # print(command)
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        str_r = bytes.decode(out)
+        d_r = json.loads(str_r)
+        # print(d_r)
+        # print(d_r['data'][1]['id'])
+        for i in range(len(d_r['data'])):
+            if d_r['data'][i]['fieldName'] == fieldName:
+                print(d_r['data'][i]['id'])
+                return d_r['data'][i]['id']
+
+
+    def webTest(self, category, startTime, ruleIds, TOKEN):
+
+        # PlatformRule_PO.webTest("非空", "2023-9-17", "B", id, TOKEN)  # category, startTime,orgGroup,ruleIds
+
+        d_category = {"非空": 1, "身份证" : 2, "日期":3, "数字范围":4, "阈值":5, "关联表":6}
+
+        command = "curl -X GET \"http://192.168.0.201:28801/regional-dqc/dataQualityController/webTest?category=" + str(d_category[category]) + "&orgGroup=B&ruleIds=" + str(ruleIds) + "&startTime=" + str(startTime) + "&endTime=" + str(startTime) + "\" -H  \"token:" + str(TOKEN) + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\""
+        # print(command)
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        str_r = bytes.decode(out)
+        d_r = json.loads(str_r)
+        print(d_r)
+        if d_r['data'] != []:
+            print(d_r['data'][0]['errorDesc'])
+
+
+
+
+
+
     def genRecord(self, varSheet, Openpyxl_PO):
 
-        # 生成记录(对空表生成记录)
+        # 对空表生成记录
 
         # 1, 获取所有表名
         l_tables = Openpyxl_PO.getOneColValue(3, varSheet)
@@ -82,7 +136,7 @@ class PlatformRulePO():
     def feikong(self, varSheet, Openpyxl_PO):
 
         # 校验非空
-
+        self.genRecord(varSheet, Openpyxl_PO)
         list = Openpyxl_PO.getRowValueByCol([4, 6], varSheet)
         list.pop(0)
         # print(list)  # [['TB_HIS_MZ_Reg ', 'GHRQ'], ['TB_HIS_MZ_Reg', 'GTHSJ']...]
@@ -104,7 +158,7 @@ class PlatformRulePO():
     def riqi(self, varSheet, Openpyxl_PO):
 
         # 校验日期
-
+        self.genRecord(varSheet, Openpyxl_PO)
         list = Openpyxl_PO.getRowValueByCol([4, 6, 8], varSheet)
         list.pop(0)
         print(list)  # [['TB_HIS_MZ_Reg ', 'GHRQ', 'date'], ['TB_HIS_MZ_Reg', 'GTHSJ', 'datetime'],]
@@ -122,21 +176,14 @@ class PlatformRulePO():
     def shuzifanwei(self, varSheet, Openpyxl_PO):
 
         # 数字范围
-
+        self.genRecord(varSheet, Openpyxl_PO)
         list = Openpyxl_PO.getRowValueByCol([4, 6, 10, 11], varSheet)
         list.pop(0)
         print(list)  # [['TB_YL_MZ_Medical_Record_Exam', 'AGE', 0, 200], ['TB_YL_MZ_Medical_Record_Exam', 'AGE_MONTH', 0, 11], ]
-        # PlatformRule_PO.shuzifanwei(2, ['jh2', 'AGE', 0, 200], Openpyxl_PO)
         for i in range(len(list)):
-
             # 获取表中所有字段的大小
-            l_size = Sqlserver_PO.execQuery(
-                "SELECT B.name as Name, B.max_length as Size FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s' order by B.column_id asc"
-                % (list[i][0])
-            )
-
+            l_size = Sqlserver_PO.execQuery("SELECT B.name as Name, B.max_length as Size FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s' order by B.column_id asc" % (list[i][0]))
             # print(l_size)  # [{'Name': 'ID', 'Size': 4}, {'Name': 'NAME', 'Size': 16}, {'Name': 'AGE', 'Size': 4}]
-
             # 遍历所有字段
             varSign = 0
             for j in range(len(l_size)):
@@ -146,14 +193,13 @@ class PlatformRulePO():
                     if list[i][3] == l_size[j]['Size']:
                         varSign = 1
                         break
-
             self.result(i + 2, varSign, varSheet, Openpyxl_PO)
 
 
     def zhiyu(self, varSheet, Openpyxl_PO):
 
         # 校验值域
-
+        self.genRecord(varSheet, Openpyxl_PO)
         list = Openpyxl_PO.getRowValueByCol([4, 6, 11], varSheet)
         list.pop(0)
         # print(list)  # [['TB_HIS_MZ_Reg', 'GTHBZ', '1,2'], ['TB_HIS_MZ_Reg', 'GHLB', '100,101,102,103,104,200,600,601,999'],]
@@ -178,7 +224,7 @@ class PlatformRulePO():
     def shenfenzheng(self, varSheet, Openpyxl_PO):
 
         # 校验身份证
-
+        self.genRecord(varSheet, Openpyxl_PO)
         list = Openpyxl_PO.getRowValueByCol([4, 6], varSheet)
         list.pop(0)
         print(list)  # [['TB_YL_Patient_Information', 'ZJHM'], ['TB_LIS_Report_Exam', 'ZJHM'],】
