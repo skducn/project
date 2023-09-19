@@ -34,7 +34,7 @@ from PO import SqlserverPO, MysqlPO
 
 # 系统用户中心(sqlserver)
 # sqlserver_PO = SqlserverPO.SqlServerPO("192.168.0.195", "DBuser", "qwer#@!", "usertest")  # 测试环境
-# sqlserver_PO.dbDesc()   # 查看所有表结构
+sqlserver_PO.dbDesc()   # 查看所有表结构
 # sqlserver_PO.dbDesc('sys_user')   # 查看myclass表结构
 # sqlserver_PO.dbDesc('b*')  # 查看所有b开头的表结构（通配符*） ???
 # sqlserver_PO.dbDesc('book', 'id,page')   # 查看book表id,page字段的结构

@@ -48,7 +48,7 @@ from collections.abc import Iterable, Iterator
 
 # from collections.abc import pymssql
 import pymssql
-
+from time import sleep
 # print(pymssql.__version__)
 # from adodbapi import connect
 from sqlalchemy import create_engine
@@ -222,15 +222,37 @@ class SqlServerPO:
         if qty[0]['qty'] != 0:
             self.execute('set identity_insert ' + str(varTbl) + ' off')
         self.conn.commit()
+    def instRecord(self, varTbl):
 
+        # insert插入没有必填项的值
 
+        l_field_type = self.execQuery(
+            "SELECT B.name as Name, d.name as Type FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s' order by B.column_id asc"
+            % (varTbl)
+        )
+        print(varTbl)
+        print(l_field_type[0]['Name'])
+        print(l_field_type[0]['Type'])
 
-    def updtRecord(self, varTbl, varRevise, varTop=1):
+        if l_field_type[0]['Type'] in 'nvarchar':
 
-        try:
-            x = "UPDATE top(" + str(varTop) + ")" + varTbl + " set " + varRevise
+            x = "INSERT INTO " + str(varTbl) + " (" + str(l_field_type[0]['Name']) + ") VALUES (1)"
+            print("[ok], 表 <" + varTbl + "> 生成一条记录, " + x)
+            # print(x)  # [ok], 表 <jh> 生成一条记录，INSERT INTO jh (ID,NAME,AGE) VALUES ('83','hello','44')
             self.execute(x)
             self.conn.commit()
+
+
+
+
+    def updtRecord(self, varTbl, varRevise, Top=1):
+
+        try:
+            x = "UPDATE top(" + str(Top) + ") " + varTbl + " set " + varRevise
+            print(x)
+            self.execute(x)
+            self.conn.commit()
+            sleep(1)
         except:
             print(x)
 
