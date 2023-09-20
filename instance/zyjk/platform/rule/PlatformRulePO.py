@@ -144,7 +144,7 @@ class PlatformRulePO():
         # 校验非空
 
         # # 1，对空表自动插入一条记录
-        # self.genRecord(varSheet, Openpyxl_PO)
+        self.genRecord(varSheet, Openpyxl_PO)
 
         # 2，获取测试表与字段
         list = Openpyxl_PO.getRowValueByCol([4, 6], varSheet)

@@ -25,7 +25,7 @@ print(TOKEN)
 # PlatformRule_PO.riqi('日期', Openpyxl_PO, TOKEN)
 
 # # todo 3,数字范围
-PlatformRule_PO.shuzifanwei('数字范围', Openpyxl_PO, TOKEN)
+# PlatformRule_PO.shuzifanwei('数字范围', Openpyxl_PO, TOKEN)
 #
 # # todo 4，值域
 # PlatformRule_PO.zhiyu('值域', Openpyxl_PO, TOKEN)
