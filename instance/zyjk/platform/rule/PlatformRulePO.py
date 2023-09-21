@@ -43,7 +43,6 @@ class PlatformRulePO():
         for i in range(len(l_pid)):
             p = psutil.Process(l_pid[i])
             p.terminate()
-
     def getToken(self, varUser, varPass):
 
         # 1,获取登录用户的token
@@ -58,9 +57,10 @@ class PlatformRulePO():
         return (d_r['data']['token'])
 
 
+    # 查询机构规则配置列表
     def getDatabaseRuleConfigList(self, ratioCategory, tableName, fieldName, TOKEN):
 
-        # ("非空", "TB_HIS_MZ_Reg", "GHBM", TOKEN)
+        # ("准确性", "TB_HIS_MZ_Reg", "GHBM", TOKEN)
 
         d_ratioCategory = {"准确性": 1, "完整性": 2, "一致性": 3, "及时性": 4}
 
@@ -71,20 +71,23 @@ class PlatformRulePO():
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
         # print(d_r)
-        for i in range(len(d_r['data'])):
-            if d_r['data'][i]['fieldName'] == fieldName:
-                # print(d_r['data'][i])
-                return d_r['data'][i]['id']
+        return d_r
+        # for i in range(len(d_r['data'])):
+        #     if d_r['data'][i]['fieldName'] == fieldName:
+        #         # print(d_r['data'][i])
+        #         return d_r['data'][i]['id']
 
+    # 校验测试(前端使用，拼接时分秒)
+    def webTest(self, category, endTime, orgGroup, ruleIds, startTime, TOKEN):
 
-    def webTest(self, category, startTime, ruleIds, TOKEN):
+        # PlatformRule_PO.webTest("非空", "2023-9-18", "B", id, "2023-09-18", TOKEN)
 
-        # PlatformRule_PO.webTest("非空", "2023-9-17", "B", id, TOKEN)  # category, startTime,orgGroup,ruleIds
-
-        d_category = {"非空": 1, "身份证" : 2, "日期":3, "数字范围":4, "阈值":5, "关联表":6}
-
-        command = "curl -X GET \"http://192.168.0.201:28801/regional-dqc/dataQualityController/webTest?category=" + str(d_category[category]) + "&orgGroup=B&ruleIds=" + str(ruleIds) + "&startTime=" + str(startTime) + "&endTime=" + str(startTime) + "\" -H  \"token:" + str(TOKEN) + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\""
-        print(command)
+        d_category = {"非空": 1, "身份证": 2, "日期": 3, "数字范围": 4, "值阈": 5, "关联表": 6}
+        command = "curl -X GET \"http://192.168.0.201:28801/regional-dqc/dataQualityController/webTest?category=" + \
+                  str(d_category[category]) + "&endTime=" + str(endTime) + "&orgGroup=" + str(orgGroup) + \
+                  "&ruleIds=" + str(ruleIds) + "&startTime=" + str(startTime) + \
+                  "\" -H  \"token:" + str(TOKEN) + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\""
+        # print(command)
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
@@ -93,37 +96,26 @@ class PlatformRulePO():
         # if d_r['data'] != []:
         #     print(d_r['data'][0]['errorDesc'])
 
+    # 测试-汇总测试
+    def testStatistics(self, startTime, endTime, TOKEN):
+        command = "curl -X GET \"http://192.168.0.201:28801/regional-dqc/dataQualityController/test-statistics\" " \
+                  "-H  \"token:" + str(TOKEN) + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\" " \
+                     "-d \"endTime=2023-9-21 00:00:00\" -d \"startTime=2023-9-21 23:45:45\""
+
+        print(command)
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        str_r = bytes.decode(out)
+        d_r = json.loads(str_r)
+        print(d_r)
+        return (d_r)
 
 
 
-    def genRecord(self, varSheet, Openpyxl_PO):
-
-        # 对空表生成记录
-
-        # 1, 获取所有表名
-        l_tables = Openpyxl_PO.getOneColValue(3, varSheet)
-        l_tables.pop(0)
-        l_tables = [x for i, x in enumerate(l_tables) if x not in l_tables[:i]]  # 去重
-        print(l_tables)  # ['TB_HIS_MZ_Reg', 'TB_HIS_MZ_Charge', ]
-
-        # 2, 遍历所有表，对空表生成记录
-        for i in range(len(l_tables)):
-            # 直接从系统表中查询表的总记录数（特别适合大数据）
-            # print(l_tables[i])
-            a = Sqlserver_PO.execQuery("SELECT rows FROM sysindexes WHERE id = OBJECT_ID('" + l_tables[i] + "') AND indid < 2")
-            # print(l_tables[i], a[0]['rows'])
-            # print(a)
-            if a[0]['rows'] == 0:
-                d_NotNullNameType = Sqlserver_PO.getNotNullNameType(l_tables[i])
-                # print(d_NotNullNameType)
-                if d_NotNullNameType != {} :
-                    Sqlserver_PO.instRecordByNotNull(l_tables[i])
-                else:
-                    Sqlserver_PO.instRecord(l_tables[i])
 
     def result(self, k, varSign, d_info, varSheet, Openpyxl_PO):
 
-        # self.result(i + 2, 1, varSheet, Openpyxl_PO)
+        # self.result(i + 2, 1, d_info, varSheet, Openpyxl_PO)
 
         if varSign == 1 or varSign == True:
             Openpyxl_PO.setCellValue(k, 1, "OK", varSheet)
@@ -137,8 +129,7 @@ class PlatformRulePO():
             Openpyxl_PO.setCellValue(k, 2, d_info, varSheet)
             Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheet)
             Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheet)
-
-
+    # 非空
     def feikong(self, varSheet, Openpyxl_PO, TOKEN):
 
         # 校验非空
@@ -189,9 +180,7 @@ class PlatformRulePO():
             #
             # else:
             #     self.result(i + 2, 1, varSheet, Openpyxl_PO)
-
-
-
+    # 日期
     def riqi(self, varSheet, Openpyxl_PO, TOKEN):
 
         # 校验日期
@@ -238,8 +227,7 @@ class PlatformRulePO():
             #     self.result(i + 2, 1, varSheet, Openpyxl_PO)
             # else:
             #     self.result(i + 2, 0, varSheet, Openpyxl_PO)
-
-
+    # 数字范围
     def shuzifanwei(self, varSheet, Openpyxl_PO, TOKEN):
 
         # 数字范围
@@ -294,35 +282,73 @@ class PlatformRulePO():
             #     # print(d_result['data'])
             #     # 5，结果
             #     self.result(i + 2, 1, d_result['data'][0]['errorDesc'], varSheet, Openpyxl_PO)
-
-
-
-
-    def zhiyu(self, varSheet, Openpyxl_PO):
+    # 值阈
+    def zhiyu(self, varSheet, startTime, endTime, Openpyxl_PO, TOKEN):
 
         # 校验值域
-        self.genRecord(varSheet, Openpyxl_PO)
+        # 【腾讯文档】区域平台值域校验
+        # https://docs.qq.com/doc/DS1NkRkNMVnRIaFdL
+
+        # 1，获取表格测试值
         list = Openpyxl_PO.getRowValueByCol([4, 6, 11], varSheet)
         list.pop(0)
         # print(list)  # [['TB_HIS_MZ_Reg', 'GTHBZ', '1,2'], ['TB_HIS_MZ_Reg', 'GHLB', '100,101,102,103,104,200,600,601,999'],]
-        for i in range(len(list)):
-            # print(i+2,list[i])
+
+        # 遍历
+        for i in range(1):
+        # for i in range(len(list)):
             if list[i][2] != None:
-                l_zhiyu = Str_PO.str2list(list[i][2])
-                # print(varList[0], varList[1], l_zhiyu)  # TB_HIS_MZ_Reg GTHBZ ['1', '2']
+                l_zhiyu = Str_PO.str2list(list[i][2], "digit")  # 将值阈转为列表
+                # print(l_zhiyu)  # TB_HIS_MZ_Reg GTHBZ [1, 2]
 
-                varSign = 0
-                for j in range(len(l_zhiyu)):
-                    a = Sqlserver_PO.execQuery('select top(1) ' + list[i][1] + ' from ' + list[i][0])
-                    # print(a[0][varList[1]])
-                    # 判断值域与字段值是否一致
-                    if l_zhiyu[j] == a[0][list[i][1]]:
-                        varSign = 1
+                # 自动生成一个不在值域范围内的值。
+                # 思路：升排序，遍历
+                l_zhiyu.sort()
+                for m in range(len(l_zhiyu)):
+                    if l_zhiyu[m] != m :
+                        value = m
                         break
+                # print(value)
 
-                self.result(i + 2, varSign, varSheet, Openpyxl_PO)
+                # 2, 初始化第一条测试数据
+                sql = "update top(1) " + str(list[i][0]) + " set CREATETIMEDQC='" + str(startTime) + " 11:11:11', " + list[i][1] + "=" + str(value)
+                print(sql)
+                Sqlserver_PO.execute(list[i][0], sql)
+                sleep(2)
 
+        # 2, 执行"查询机构规则配置列表"接口，获取id
+            # # ("准确性", "TB_HIS_MZ_Reg", "GHBM", TOKEN)
+            d_r = self.getDatabaseRuleConfigList("准确性", list[i][0], list[i][1], TOKEN)
+            for j in range(len(d_r['data'])):
+                if d_r['data'][j]['fieldName'] == list[i][1] and d_r['data'][j]['errorDesc'] == '数据项上传内容与值域要求不一致':
+                    id = d_r['data'][j]['id']
+                    break
+            # print(id)
 
+            # 3, 校验测试(前端使用，拼接时分秒) category, endTime, orgGroup, ruleIds, startTime, TOKEN)
+            d_r = self.webTest(varSheet, endTime, "B", id, startTime, TOKEN)
+            # print(len(d_r['data']))
+            list3 = []
+            # 多条不符合值域的记录
+            for l in range(len(d_r['data'])):
+                list3.append(d_r['data'][i]['fieldValue'])
+            # print(list3)
+
+            list1 = []
+            if d_r['data'] == []:
+                varInfo = "[输入合法值域值]"
+                # print(varInfo)
+                self.result(i + 2, 0, varInfo, varSheet, Openpyxl_PO)
+            else:
+                for k,v in d_r['data'][0].items():
+                    if v == None:
+                        list1.append(k)
+
+                varInfo = "不属于值阈内的字典代码" + str(list3) + ", 返回：" + str(d_r['data'])
+                # print(varInfo)
+                self.result(i + 2, 1, varInfo, varSheet, Openpyxl_PO)
+
+    # 身份证
     def shenfenzheng(self, varSheet, Openpyxl_PO):
 
         # 校验身份证
@@ -338,6 +364,30 @@ class PlatformRulePO():
             self.result(i + 2, Data_PO.isIdCard(idcard), varSheet, Openpyxl_PO)
 
 
+    def genRecord123(self, varSheet, Openpyxl_PO):
+
+        # 对空表生成记录
+
+        # 1, 获取所有表名
+        l_tables = Openpyxl_PO.getOneColValue(3, varSheet)
+        l_tables.pop(0)
+        l_tables = [x for i, x in enumerate(l_tables) if x not in l_tables[:i]]  # 去重
+        print(l_tables)  # ['TB_HIS_MZ_Reg', 'TB_HIS_MZ_Charge', ]
+
+        # 2, 遍历所有表，对空表生成记录
+        for i in range(len(l_tables)):
+            # 直接从系统表中查询表的总记录数（特别适合大数据）
+            # print(l_tables[i])
+            a = Sqlserver_PO.execQuery("SELECT rows FROM sysindexes WHERE id = OBJECT_ID('" + l_tables[i] + "') AND indid < 2")
+            # print(l_tables[i], a[0]['rows'])
+            # print(a)
+            if a[0]['rows'] == 0:
+                d_NotNullNameType = Sqlserver_PO.getNotNullNameType(l_tables[i])
+                # print(d_NotNullNameType)
+                if d_NotNullNameType != {} :
+                    Sqlserver_PO.instRecordByNotNull(l_tables[i])
+                else:
+                    Sqlserver_PO.instRecord(l_tables[i])
 
 
 

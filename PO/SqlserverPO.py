@@ -76,6 +76,8 @@ from time import sleep
 from sqlalchemy import create_engine
 from PO.ColorPO import *
 Color_PO = ColorPO()
+from PO.TimePO import *
+Time_PO = TimePO()
 
 class SqlServerPO:
 
@@ -294,7 +296,7 @@ class SqlServerPO:
         :return:
         '''
 
-        qty = Sqlserver_PO.execQuery(
+        qty = self.execQuery(
             "SELECT rows FROM sysindexes WHERE id = OBJECT_ID('" + varTable + "') AND indid < 2")
         return qty[0]['rows']
 
@@ -472,11 +474,11 @@ class SqlServerPO:
             elif v == 'char' or v == 'varchar' or v == 'nchar' or v == 'nvarchar' or v == 'text':
                 d_init[k] = 'a'
             elif v == 'datetime' or v == 'smalldatetime' or v == 'datetime2':
-                d_init[k] = '2020-12-12 09:12:23'
+                d_init[k] = Time_PO.getDateTimeByPeriod(0)
             elif v == 'time':
                 d_init[k] = '08:12:23'
             elif v == 'date':
-                d_init[k] = '2019-11-27'
+                d_init[k] = Time_PO.getDateByMinus()
         # print(d1)  # {'id': 1, 'name': 'a', 'age': 1}
         return d_init
 
@@ -540,11 +542,13 @@ class SqlServerPO:
                 return False
 
     # 3.2.4 自动生成数据
-    def genRecord(self, varTable):
+    def genRecord(self, varTable, d_field={}):
 
         '''
         自动生成数据
         :param varTbl:
+        :param d_field: 可以设置字段的值，如："ID = 123" ， 但不能设置主键
+        Sqlserver_PO.genRecord("TB_HIS_MZ_Reg", {"GTHBZ": None, "GHRQ":"777"})  # 自动生成数据
         :return:
         '''
 
@@ -558,19 +562,21 @@ class SqlServerPO:
 
                 # 获取主键
                 l_primaryKey = self.getPrimaryKey(varTable)
-                # print(l_primaryKey[0]['COLUMN_NAME'])  # ID
-                primaryKey = l_primaryKey[0]['COLUMN_NAME']
+                # 没有主键
+                if l_primaryKey != None:
+                    primaryKey = l_primaryKey[0]['COLUMN_NAME']
 
-                # 获取主键最大值
-                d_primaryKey = self.getPrimaryKeyMaxValue(varTable)
-                # print(d_primaryKey)  # {'id': 39}
-                # print(d_primaryKey[primaryKey])  # 39
-                # 修改主键最大值+1
-                d_init[primaryKey] = d_primaryKey[primaryKey] + 1
-                # print(d1)  # {'id': 40, 'name': 'a', 'age': 1}
+                    # 获取主键最大值
+                    d_primaryKey = self.getPrimaryKeyMaxValue(varTable)
+                    # print(d_primaryKey)  # {'id': 39}
+                    # print(d_primaryKey[primaryKey])  # 39
+                    # 修改主键最大值+1
+                    d_init[primaryKey] = d_primaryKey[primaryKey] + 1
+                    # print(d1)  # {'id': 40, 'name': 'a', 'age': 1}
+
 
                 # 执行insert
-                self._execInsert(varTable, d_init)
+                self._execInsert(varTable, d_init, d_field)
 
     # 3.2.5 自动生成必填项数据
     def genRecordByNotNull(self, varTable):
@@ -606,7 +612,7 @@ class SqlServerPO:
                 self._execInsert(varTable, d_init)
 
     # 3.2.6 执行insert
-    def _execInsert(self, varTable, d_init):
+    def _execInsert(self, varTable, d_init, d_field):
 
         '''
         执行insert
@@ -614,6 +620,13 @@ class SqlServerPO:
         :param d_init:
         :return:
         '''
+
+        if d_field != {}:
+            for k, v in d_field.items():
+                for k1, v1 in d_init.items():
+                    if k == k1 :
+                        d_init[k] = v
+            # print(d_init)  # {'GHRQ': 'a', 'GHBM': 'a', 'GTHBZ': 'a', ...}
 
         # 将d_init转换成insert语句的字段名及值
         s = ""
@@ -634,7 +647,12 @@ class SqlServerPO:
             print("[ok], " + str(sql))
             self.execute('set identity_insert ' + str(varTable) + ' off')
         else:
-            sql = "INSERT INTO " + str(varTable) + " (" + s + ") VALUES (" + u + ")"
+            if 'None' in u :
+                u = u.replace(",'None',", ",null,")
+                sql = "INSERT INTO " + str(varTable) + " (" + s + ") VALUES (" + u + ")"
+            else:
+
+                sql = "INSERT INTO " + str(varTable) + " (" + s + ") VALUES (" + u + ")"
             self.execute(varTable, sql)
             self.conn.commit()
             print("[ok], " + str(sql))
@@ -1196,7 +1214,7 @@ if __name__ == "__main__":
 
 
     # print("2.1 获取所有表".center(100, "-"))
-    print(Sqlserver_PO.getTables())  # ['condition_item', 'patient_demographics', 'patient_diagnosis']
+    # print(Sqlserver_PO.getTables())  # ['condition_item', 'patient_demographics', 'patient_diagnosis']
 
     # print("2.2 获取字段".center(100, "-"))
     # print(Sqlserver_PO.getFields('aaa'))  # ['ID', 'ADDRESS', 'SALARY', 'NAME', 'AGE', 'time']
@@ -1284,7 +1302,7 @@ if __name__ == "__main__":
     # Sqlserver_PO.dbDesc(0, ['id', 'kaId', 'org_name'])  # 6，所有表结构的可选字段(只输出找到字段的表)
 
     # print("2 查找记录".center(100, "-"))
-    Sqlserver_PO.dbRecord('aaa', 'int', '%2%')  # 搜索指定表符合条件的记录.
+    # Sqlserver_PO.dbRecord('aaa', 'int', '%2%')  # 搜索指定表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'varchar', '%高血压%')  # 搜索所有表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')l
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
