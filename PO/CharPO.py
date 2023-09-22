@@ -60,21 +60,10 @@ class CharPO:
         # encoding - - 要使用的编码，如"UTF-8"。
         # errors - - 设置不同错误的处理方案，默认为 strict 表示编码错误引起一个UnicodeError，其他还有：'ignore', 'replace', 'xmlcharrefreplace', 'backslashreplace'
         # 以及通过codecs.register_error()注册的任何值。
-        try:
-            chinese1 = varByte.decode(varCoding, "strict")
-            return chinese1
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        chinese1 = varByte.decode(varCoding, "strict")
+        return chinese1
+
 
         # 7.1 中文转拼音（不带声调）
 

@@ -38,8 +38,13 @@
 1.5.2 执行sql文件2 execSqlFile2(self, varPathSqlFile)
 1.6 close
 
-2.1 获取所有表  getTables(self)
-2.2 获取字段  getFields(self, varTable)
+2.1.1 获取所有表  getTables(self)
+2.1.2 获取所有表和表注释 getTableAndComment(self)
+2.1.3 获取表的结构信息 getTableInfor(self, varTable[all])
+
+2.2.1 获取字段  getFields(self, varTable)
+2.2.2 获取字段和字段注释 getFieldInfor(self, varTable)
+
 2.3 获取记录数 getRecordQty(self, varTable)
 2.4.1 获取所有字段和类型 getFieldAndType(self, varTable)
 2.4.2 获取N个字段和类型 getOneFieldAndType(self, varTable, varField)
@@ -245,7 +250,7 @@ class SqlServerPO:
 
 
 
-    # 2.1 获取所有表
+    # 2.1.1 获取所有表
     def getTables(self):
 
         '''
@@ -264,7 +269,110 @@ class SqlServerPO:
             print(e, ",[error], SqlserverPO.getTables()异常!")
             self.conn.close()
 
-    # 2.2 获取字段
+    # 2.1.2 获取所有表和表注释
+    def getTableAndComment(self):
+
+        '''
+        获取所有表和表注释
+        :return:
+        '''
+
+        try:
+            r = self.execQuery("SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0")
+            # print(r)  # [{'name': 'aaa', 'value': None}, {'name': 'bbb', 'value': None}...]
+            l_table = []
+            l_comment = []
+            d = {}
+            for i in range(len(r)):
+                l_table.append(r[i]['name'])
+                if r[i]['value'] == None:
+                    l_comment.append(r[i]['value'])
+                else:
+                    l_comment.append(r[i]['value'].decode(encoding="utf-8", errors="strict"))
+            d = dict(zip(l_table, l_comment))
+            # print(d)
+            return d
+        except Exception as e:
+            print(e, ",[error], SqlserverPO.getTableAndComment()异常!")
+            self.conn.close()
+
+    # 2.1.3 获取表的结构信息
+    def getTableInfor(self, varTable="allTables"):
+
+        '''
+        获取表的结构信息 (查询表的列名称、说明、备注、类型等)
+        :param varTable: 如果有表名就获取一个表的信息，否则所有表的信息
+        :return:
+        其他用法：将如下查询内容，在navicate中执行，并导出excel文档。
+        '''
+
+        if varTable == "allTables":
+
+            r = self.execQuery('''
+            SELECT 表名 = case when a.colorder = 1 then d.name else '' end,
+              表说明 = case when a.colorder = 1 then isnull(f.value, '') else '' end,
+              字段序号 = a.colorder,
+              字段名 = a.name,
+              标识 = case when COLUMNPROPERTY(a.id, a.name, 'IsIdentity')= 1 then '√' else '' end,
+              主键 = case when exists(SELECT 1 FROM sysobjects where xtype = 'PK' and parent_obj = a.id and name in (SELECT name FROM sysindexes WHERE indid in(SELECT indid FROM sysindexkeys WHERE id = a.id AND colid = a.colid))) then '√' else '' end,
+              类型 = b.name,
+              占用字节数 = a.length,
+              长度 = COLUMNPROPERTY(a.id, a.name, 'PRECISION'),
+              小数位数 = isnull(COLUMNPROPERTY(a.id, a.name, 'Scale'),0),
+              允许空 = case when a.isnullable = 1 then '√' else '' end,
+              默认值 = isnull(e.text, ''),
+              字段说明 = isnull(g.[value], '')
+            FROM
+              syscolumns a
+              left join systypes b on a.xusertype = b.xusertype
+              inner join sysobjects d on a.id = d.id
+              and d.xtype = 'U'
+              and d.name<>'dtproperties'
+              left join syscomments e on a.cdefault = e.id
+              left join sys.extended_properties g on a.id = G.major_id
+              and a.colid = g.minor_id
+              left join sys.extended_properties f on d.id = f.major_id
+              and f.minor_id = 0
+            order by
+              a.id,
+              a.colorder
+            ''')
+        else:
+            r = self.execQuery('''
+            SELECT 表名 = case when a.colorder = 1 then d.name else '' end,
+              表说明 = case when a.colorder = 1 then isnull(f.value, '') else '' end,
+              字段序号 = a.colorder,
+              字段名 = a.name,
+              标识 = case when COLUMNPROPERTY(a.id, a.name, 'IsIdentity')= 1 then '√' else '' end,
+              主键 = case when exists(SELECT 1 FROM sysobjects where xtype = 'PK' and parent_obj = a.id and name in (SELECT name FROM sysindexes WHERE indid in(SELECT indid FROM sysindexkeys WHERE id = a.id AND colid = a.colid))) then '√' else '' end,
+              类型 = b.name,
+              占用字节数 = a.length,
+              长度 = COLUMNPROPERTY(a.id, a.name, 'PRECISION'),
+              小数位数 = isnull(COLUMNPROPERTY(a.id, a.name, 'Scale'),0),
+              允许空 = case when a.isnullable = 1 then '√' else '' end,
+              默认值 = isnull(e.text, ''),
+              字段说明 = isnull(g.[value], '')
+            FROM
+              syscolumns a
+              left join systypes b on a.xusertype = b.xusertype
+              inner join sysobjects d on a.id = d.id
+              and d.xtype = 'U'
+              and d.name<>'dtproperties'
+              left join syscomments e on a.cdefault = e.id
+              left join sys.extended_properties g on a.id = G.major_id
+              and a.colid = g.minor_id
+              left join sys.extended_properties f on d.id = f.major_id
+              and f.minor_id = 0
+            where
+                d.name = \'''' + varTable + '''\'
+            order by
+              a.id,
+              a.colorder
+            ''')
+
+        return r
+
+    # 2.2.1 获取字段
     def getFields(self, varTable):
 
         '''
@@ -286,6 +394,37 @@ class SqlServerPO:
         except Exception as e:
             print(e, ",[error], SqlserverPO.getFields()异常!")
             self.conn.close()
+
+    # 2.2.2 获取字段和字段注释
+    def getFieldAndComment(self, varTable):
+
+        '''
+        获取字段和字段注释
+        :param varTable:
+        :return:
+        '''
+
+        try:
+            r = self.execQuery(
+                "SELECT B.name as name, C.value as comment FROM sys.tables A INNER JOIN sys.columns B ON B.object_id = A.object_id LEFT JOIN sys.extended_properties C ON C.major_id = B.object_id AND C.minor_id = B.column_id inner join systypes d on B.user_type_id=d.xusertype WHERE A.name ='%s'"
+                % (varTable)
+            )
+            # print(r)  # [{'name': 'GHRQ', 'comment': b'\xe6\x8c\x8...]
+            l_field = []
+            l_comment = []
+            d = {}
+            for i in range(len(r)):
+                l_field.append(r[i]['name'])
+                if r[i]['comment'] == None:
+                    l_comment.append(r[i]['comment'])
+                else:
+                    l_comment.append(r[i]['comment'].decode(encoding="utf-8", errors="strict"))
+            d = dict(zip(l_field, l_comment))
+            return d
+        except Exception as e:
+            print(e, ",[error], SqlserverPO.getFields()异常!")
+            self.conn.close()
+
 
     # 2.3 获取记录数
     def getRecordQty(self, varTable):
@@ -1213,11 +1352,25 @@ if __name__ == "__main__":
 
 
 
-    # print("2.1 获取所有表".center(100, "-"))
+    # print("2.1.1 获取所有表".center(100, "-"))
     # print(Sqlserver_PO.getTables())  # ['condition_item', 'patient_demographics', 'patient_diagnosis']
 
-    # print("2.2 获取字段".center(100, "-"))
+    # print("2.1.2 获取所有表和表注释".center(100, "-"))
+    # print(Sqlserver_PO.getTableAndComment())  # {'aaa': None, 'bbb': None, 'EMR_ADMISSION_ASSESSMENT': '入院评估记录',...}
+
+    # print("2.1.3 获取所有表结构信息".center(100, "-"))
+    # print(Sqlserver_PO.getTableInfor('aaa'))
+    # print(Sqlserver_PO.getTableInfor())
+
+
+
+    # print("2.2.1 获取字段".center(100, "-"))
     # print(Sqlserver_PO.getFields('aaa'))  # ['ID', 'ADDRESS', 'SALARY', 'NAME', 'AGE', 'time']
+
+    # print("2.2.2 获取字段和字段注释".center(100, "-"))
+    print(Sqlserver_PO.getFieldAndComment('TB_HIS_MZ_Reg'))
+
+    # getFieldAndComment
 
     # print("2.3 获取记录数 ".center(100, "-"))
     # print(Sqlserver_PO.getQty('aaa'))  # 0
