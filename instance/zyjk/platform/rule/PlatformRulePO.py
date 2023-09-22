@@ -113,22 +113,40 @@ class PlatformRulePO():
 
 
 
-    def result(self, k, varSign, d_info, varSheet, Openpyxl_PO):
+    def result(self, k, varSign, varInfo, varSheet, Openpyxl_PO):
 
-        # self.result(i + 2, 1, d_info, varSheet, Openpyxl_PO)
+        # self.result(i + 2, 1, varInfo, varSheet, Openpyxl_PO)
 
         if varSign == 1 or varSign == True:
             Openpyxl_PO.setCellValue(k, 1, "OK", varSheet)
-            Color_PO.consoleColor("31", "36", varSheet + " => " + str(k) + " => " + str(d_info) + " => OK\n", "")
-            Openpyxl_PO.setCellValue(k, 2, d_info, varSheet)
+            Color_PO.consoleColor("31", "36", varSheet + " => " + str(k) + " => OK\n", "")
+            Openpyxl_PO.setCellValue(k, 2, varInfo, varSheet)
             Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheet)
             Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheet)
         else:
             Openpyxl_PO.setCellValue(k, 1, "ERROR", varSheet)
-            Color_PO.consoleColor("31", "31", varSheet + " => " + str(k) + " => ERROR\n", "")
-            Openpyxl_PO.setCellValue(k, 2, d_info, varSheet)
+            Color_PO.consoleColor("31", "31", varSheet + " => " + str(k) + " => ERROR => " + str(varInfo), "")
+            Openpyxl_PO.setCellValue(k, 2, varInfo, varSheet)
             Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheet)
             Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheet)
+
+    def result2(self, k, varSign, varInfo, varSheet, Openpyxl_PO):
+
+        if varSign == 1 or varSign == True:
+            Openpyxl_PO.setCellValue(k, 3, "OK", varSheet)
+            Color_PO.consoleColor("31", "36", varSheet + " => " + str(k) + " => OK", "")
+            Openpyxl_PO.setCellValue(k, 4, varInfo, varSheet)
+            Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheet)
+            Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheet)
+        else:
+            Openpyxl_PO.setCellValue(k, 3, "ERROR", varSheet)
+            Color_PO.consoleColor("31", "31", varSheet + " => " + str(k) + " => ERROR => " + str(varInfo), "")
+            Openpyxl_PO.setCellValue(k, 4, varInfo, varSheet)
+            Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=varSheet)
+            Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=varSheet)
+
+
+
     # 非空
     def feikong(self, varSheet, Openpyxl_PO, TOKEN):
 
@@ -282,6 +300,8 @@ class PlatformRulePO():
             #     # print(d_result['data'])
             #     # 5，结果
             #     self.result(i + 2, 1, d_result['data'][0]['errorDesc'], varSheet, Openpyxl_PO)
+
+
     # 值阈
     def zhiyu(self, varSheet, startTime, endTime, Openpyxl_PO, TOKEN):
 
@@ -290,63 +310,121 @@ class PlatformRulePO():
         # https://docs.qq.com/doc/DS1NkRkNMVnRIaFdL
 
         # 1，获取表格测试值
-        list = Openpyxl_PO.getRowValueByCol([4, 6, 11], varSheet)
+        list = Openpyxl_PO.getRowValueByCol([6, 8, 13, 14, 1,3], varSheet)
         list.pop(0)
-        # print(list)  # [['TB_HIS_MZ_Reg', 'GTHBZ', '1,2'], ['TB_HIS_MZ_Reg', 'GHLB', '100,101,102,103,104,200,600,601,999'],]
+        # print(list)  # [['TB_HIS_MZ_Reg', 'GTHBZ', '1,2', '0,3'], ['TB_HIS_MZ_Reg', 'GHLB', '100,101,102,103,104,200,600,601,999', None], ...]
 
-        # 遍历
-        for i in range(1):
+
+        # 遍历所有行
+        for i in range(38, 45):
         # for i in range(len(list)):
-            if list[i][2] != None:
-                l_zhiyu = Str_PO.str2list(list[i][2], "digit")  # 将值阈转为列表
-                # print(l_zhiyu)  # TB_HIS_MZ_Reg GTHBZ [1, 2]
+            if list[i][4] == "ERROR" or list[i][5] == "ERROR":
+                if list[i][2] != None:
 
-                # 自动生成一个不在值域范围内的值。
-                # 思路：升排序，遍历
-                l_zhiyu.sort()
-                for m in range(len(l_zhiyu)):
-                    if l_zhiyu[m] != m :
-                        value = m
-                        break
-                # print(value)
+                    # todo 正确字典代码
+                    print("\n" + varSheet + " => " + str(i+2) + " => 字典代码[" + str(list[i][2]) + "]")
 
-                # 2, 初始化第一条测试数据
-                sql = "update top(1) " + str(list[i][0]) + " set CREATETIMEDQC='" + str(startTime) + " 11:11:11', " + list[i][1] + "=" + str(value)
-                print(sql)
-                Sqlserver_PO.execute(list[i][0], sql)
-                sleep(2)
+                    l_testZhiyu = list[i][2].split(",")  # ['01', '02', '03', '04', '05', '06', '07', '99']
+                    varSign = 0
+                    l_errorZhiyu = []
+                    # 遍历所有的值域
+                    for zy in range(len(l_testZhiyu)):
+                        # 1, 初始化第一条测试数据
+                        sql = "update top(1) " + str(list[i][0]) + " set CREATETIMEDQC='" + str(startTime) + " 11:11:11', " + list[i][1] + "='" + str(l_testZhiyu[zy] + "'")
+                        Color_PO.consoleColor("31", "36", sql, "")
+                        status = Sqlserver_PO.execute(list[i][0], sql)
+                        sleep(1)
+                        if status != "ok":
+                            self.result(i + 2, 0, status, varSheet, Openpyxl_PO)
+                            break
 
-        # 2, 执行"查询机构规则配置列表"接口，获取id
-            # # ("准确性", "TB_HIS_MZ_Reg", "GHBM", TOKEN)
-            d_r = self.getDatabaseRuleConfigList("准确性", list[i][0], list[i][1], TOKEN)
-            for j in range(len(d_r['data'])):
-                if d_r['data'][j]['fieldName'] == list[i][1] and d_r['data'][j]['errorDesc'] == '数据项上传内容与值域要求不一致':
-                    id = d_r['data'][j]['id']
-                    break
-            # print(id)
+                        # 2, 执行"查询机构规则配置列表"接口，获取id
+                        # print(list[i][0], list[i][1])
+                        d_r = self.getDatabaseRuleConfigList("准确性", list[i][0], list[i][1], TOKEN)  # ("准确性", "TB_HIS_MZ_Reg", "GHBM", TOKEN)
+                        # print(d_r)
+                        for j in range(len(d_r['data'])):
+                            if d_r['data'][j]['fieldName'] == list[i][1] and d_r['data'][j]['errorDesc'] == '数据项上传内容与值域要求不一致':
+                                id = d_r['data'][j]['id']
+                                break
+                        # print(id)
 
-            # 3, 校验测试(前端使用，拼接时分秒) category, endTime, orgGroup, ruleIds, startTime, TOKEN)
-            d_r = self.webTest(varSheet, endTime, "B", id, startTime, TOKEN)
-            # print(len(d_r['data']))
-            list3 = []
-            # 多条不符合值域的记录
-            for l in range(len(d_r['data'])):
-                list3.append(d_r['data'][i]['fieldValue'])
-            # print(list3)
+                        # 3, 校验测试(前端使用，拼接时分秒) category, endTime, orgGroup, ruleIds, startTime, TOKEN)
+                        d_r = self.webTest(varSheet, endTime, "B", id, startTime, TOKEN)
+                        # print(len(d_r['data']))
 
-            list1 = []
-            if d_r['data'] == []:
-                varInfo = "[输入合法值域值]"
-                # print(varInfo)
-                self.result(i + 2, 0, varInfo, varSheet, Openpyxl_PO)
-            else:
-                for k,v in d_r['data'][0].items():
-                    if v == None:
-                        list1.append(k)
+                        # 多条不符合值域的记录
+                        for l in range(len(d_r['data'])):
+                            l_errorZhiyu.append(d_r['data'][l]['fieldValue'])
+                        # print(list3)
 
-                varInfo = "不属于值阈内的字典代码" + str(list3) + ", 返回：" + str(d_r['data'])
-                # print(varInfo)
-                self.result(i + 2, 1, varInfo, varSheet, Openpyxl_PO)
+                        list1 = []
+                        # print(d_r['data'])
+                        if d_r['data'] == []:
+                            varSign = varSign + 0
+                        else:
+                            varSign = 1
+                            print(d_r['data'])
+                            for k, v in d_r['data'][0].items():
+                                if v == None:
+                                    list1.append(k)
+                            # print(list1)
+                    if varSign == 0:
+                        self.result(i + 2, 1, "", varSheet, Openpyxl_PO)
+                    else:
+                        self.result(i + 2, 0, str(l_errorZhiyu), varSheet, Openpyxl_PO)
+
+                    # todo 错误字典代码
+                    print(varSheet + " => " + str(i + 2) + " => 错误字典代码[" + str(list[i][3]) + "]")
+
+                    if list[i][3] != None:
+                        l_testZhiyu = list[i][3].split(",")  # ['01', '02', '03', '04', '05', '06', '07', '99']
+                        varSign = 0
+                        l_errorZhiyu = []
+                        # 遍历所有的值域
+                        for zy in range(len(l_testZhiyu)):
+                            # 1, 初始化第一条测试数据
+                            sql = "update top(1) " + str(list[i][0]) + " set CREATETIMEDQC='" + str(startTime) + " 11:11:11', " + list[i][1] + "='" + str(l_testZhiyu[zy] + "'")
+                            Color_PO.consoleColor("31", "36", sql, "")
+                            Sqlserver_PO.execute(list[i][0], sql)
+                            sleep(1)
+
+                            # 2, 执行"查询机构规则配置列表"接口，获取id
+                            d_r = self.getDatabaseRuleConfigList("准确性", list[i][0], list[i][1], TOKEN)
+                            for j in range(len(d_r['data'])):
+                                if d_r['data'][j]['fieldName'] == list[i][1] and d_r['data'][j][
+                                    'errorDesc'] == '数据项上传内容与值域要求不一致':
+                                    id = d_r['data'][j]['id']
+                                    break
+                            # print(id)
+
+                            # 3, 校验测试(前端使用，拼接时分秒) category, endTime, orgGroup, ruleIds, startTime, TOKEN)
+                            d_r = self.webTest(varSheet, endTime, "B", id, startTime, TOKEN)
+                            # print(d_r['data'])
+
+                            # 多条不符合值域的记录
+                            for l in range(len(d_r['data'])):
+                                l_errorZhiyu.append(d_r['data'][l]['fieldValue'])
+                            # print(list3)
+
+                            list1 = []
+                            # print(d_r['data'])
+                            if d_r['data'] == []:
+                                varSign = 0
+                            else:
+                                varSign = 1
+                                # print(d_r['data'])
+                                for k, v in d_r['data'][0].items():
+                                    if v == None:
+                                        list1.append(k)
+                                # print(list1)
+
+                        if varSign == 0:
+                            self.result2(i + 2, 0, str(List_PO.twoListGetLeftNotContainRight(l_testZhiyu, l_errorZhiyu)), varSheet, Openpyxl_PO)
+                        else:
+                            self.result2(i + 2, 1, "", varSheet, Openpyxl_PO)
+                    else:
+                        self.result2(i + 2, 0, "None", varSheet, Openpyxl_PO)
+
 
     # 身份证
     def shenfenzheng(self, varSheet, Openpyxl_PO):

@@ -57,9 +57,10 @@
 3.2.1 生成类型值 _genTypeValue(self, varTable)
 3.2.2 生成必填项类型值 _genNotNullTypeValue(self, varTable)
 3.2.3 自动生成第一条数据 genFirstRecord(self, varTable)
+3.2.3(2)所有表自动生成第一条数据 genFirstRecordByAll()
 3.2.4 自动生成数据 genRecord(self, varTable)
 3.2.5 自动生成必填项数据 genRecordByNotNull(self, varTable)
-3.2.6 执行insert _execInsert(self, varTable, d_init)
+3.2.6 执行insert _execInsert(self, varTable, d_init,{})
 
 4.1 判断表是否存在 isTable(self, varTable)
 4.1 判断字段是否存在 isField(self, varTable, varField)
@@ -138,11 +139,13 @@ class SqlServerPO:
             if self.isTable(varTable) == True:
                 self.cur.execute(sql)
                 self.conn.commit()
+                return "ok"
         except Exception as e:
             # print(e.args)  # ('table hh already exists',)
             # print(str(e))  # table hh already exists
             # print(NameError(e))  # table hh already exists
-            print(repr(e))  # OperationalError('table hh already exists')
+            # print(repr(e))  # OperationalError('table hh already exists')
+            return str(e)
 
     # 1.2 查询sql
     def execQuery(self, sql):
@@ -260,7 +263,7 @@ class SqlServerPO:
 
         try:
             r = self.execQuery("SELECT DISTINCT d.name FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0")
-            print(r)  # [{'name': 'EMR_ADMISSION_ASSESSMENT'}, {'name': 'EMR_ADMISSION_DEAD_RECORD_TF'},...]
+            # print(r)  # [{'name': 'EMR_ADMISSION_ASSESSMENT'}, {'name': 'EMR_ADMISSION_DEAD_RECORD_TF'},...]
             l_tables = []
             for i in range(len(r)):
                 l_tables.append(r[i]['name'])
@@ -655,7 +658,8 @@ class SqlServerPO:
         # print(d1)  # {'id': 1, 'name': 'a', 'age': 1}
         return d_init
 
-    # 3.2.3 自动生成第一条数据
+
+    # 3.2.3 单表自动生成第一条数据
     def genFirstRecord(self, varTable):
 
         '''
@@ -670,15 +674,32 @@ class SqlServerPO:
             qty = self.getRecordQty(varTable)
             if qty == 0:
 
+                print(varTable)
+
                 # 获取生成类型值
                 d_init = self._genTypeValue(varTable)
-
+                # print(d_init)
                 # 执行insert
-                self._execInsert(varTable, d_init)
+                self._execInsert(varTable, d_init,{})
+
+
 
                 return True
             else:
                 return False
+
+    # 3.2.3(2)所有表自动生成第一条数据
+    def genFirstRecordByAll(self):
+
+        '''
+        所有表自动生成第一条数据
+        :return:
+        '''
+        r = self.getTables()
+        # print(r)
+        for i in range(len(r)):
+            self.genFirstRecord(r[i])
+
 
     # 3.2.4 自动生成数据
     def genRecord(self, varTable, d_field={}):
@@ -748,7 +769,7 @@ class SqlServerPO:
                 # print(d_init)  # {'id': 40, 'name': 'a', 'age': 1}
 
                 # 执行insert
-                self._execInsert(varTable, d_init)
+                self._execInsert(varTable, d_init,{})
 
     # 3.2.6 执行insert
     def _execInsert(self, varTable, d_init, d_field):
@@ -1368,7 +1389,7 @@ if __name__ == "__main__":
     # print(Sqlserver_PO.getFields('aaa'))  # ['ID', 'ADDRESS', 'SALARY', 'NAME', 'AGE', 'time']
 
     # print("2.2.2 获取字段和字段注释".center(100, "-"))
-    print(Sqlserver_PO.getFieldAndComment('TB_HIS_MZ_Reg'))
+    # print(Sqlserver_PO.getFieldAndComment('TB_HIS_MZ_Reg'))
 
     # getFieldAndComment
 
@@ -1421,6 +1442,8 @@ if __name__ == "__main__":
 
     # print("3.2.3 自动生成第一条数据".center(100, "-"))
     # Sqlserver_PO.genFirstRecord('bbb')
+    # print("3.2.3(2) 所有表自动生成第一条数据".center(100, "-"))
+    # Sqlserver_PO.genFirstRecordByAll()
 
     # print("3.2.4 自动生成数据".center(100, "-"))
     # Sqlserver_PO.genRecord('aaa')
