@@ -316,7 +316,7 @@ class PlatformRulePO():
 
 
         # 遍历所有行
-        for i in range(38, 45):
+        for i in range(15, 45):
         # for i in range(len(list)):
             if list[i][4] == "ERROR" or list[i][5] == "ERROR":
                 if list[i][2] != None:

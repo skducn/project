@@ -80,7 +80,7 @@ class ChcRulePO():
         :return:  返回字典 {'YH_JB001': '310101202308070001', 'YH_JB002': '310101202308070002'}
         '''
 
-        l_code_Idcard = Openpyxl_PO.getColValueByCol([1, 3], [1], "疾病身份证")
+        l_code_Idcard = Openpyxl_PO.getColByPartialColByUnwantedRow([1, 3], [1], "疾病身份证")
         d_code_Idcard = dict(zip(l_code_Idcard[0], l_code_Idcard[1]))
         return (d_code_Idcard)  # {'YH_JB001': '310101202308070001', 'YH_JB002': '310101202308070002'}
 
@@ -119,8 +119,13 @@ class ChcRulePO():
         :return:
         '''
 
-        command = "curl -X GET \"http://192.168.0.243:8011/server/qyyh/addAssess/" + str(
-            varIdcard) + "\" -H \"accept: */*\" -H \"Content-Type: application/json\" -H \"Authorization:" + str(token) + "\""
+        # command = "curl -X GET \"http://192.168.0.243:8011/server/qyyh/addAssess/" + str(
+        #     varIdcard) + "\" -H \"accept: */*\" -H \"Content-Type: application/json\" -H \"Authorization:" + str(token) + "\""
+        command = "curl -X POST \"http://192.168.0.243:8014/tAssessInfo/startAssess\" -H \"token:" + \
+                  token + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\" -H \"Authorization:\" " \
+                               "-H \"Content-Type:application/json\" -d \"{\\\"categoryCode\\\":\\\"\\\",\\\"idCard\\\":\\\"" + str(
+            varIdcard) + "\\\",\\\"orgCode\\\":\\\"\\\"}\""
+
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
@@ -481,7 +486,7 @@ class ChcRulePO():
         # 1，获取 测试结果、测试规则、干预规则编码等数据
         if varSheetName == "健康干预":
             l_varColNums = [1, 3, 5, 7, 8]
-            l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5,7列值，忽略第一行数据
+            l_paramCode = (Openpyxl_PO.getColByPartialColByUnwantedRow(l_varColNums, [1], varSheetName))  # 获取第1,3,5,7列值，忽略第一行数据
             # print(l_paramCode[0])  # OK
             # print(l_paramCode[1])  # r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'
             # print(l_paramCode[2])  # GY_YH001001  //干预规则编码
@@ -489,21 +494,21 @@ class ChcRulePO():
             # print(l_paramCode[4])  # 2  //命中次数
         elif varSheetName == "健康评估":
             l_varColNums = [1, 3, 5, 6]
-            l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
+            l_paramCode = (Openpyxl_PO.getColByPartialColByUnwantedRow(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
             # print(l_paramCode[0])  # OK
             # print(l_paramCode[1])  # r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'
             # print(l_paramCode[2])  # PG_SHXG001   //评估规则编码
             # print(l_paramCode[3])  # 家族史
         elif varSheetName == "疾病评估规则（已患和高风险）":
             l_varColNums = [1, 3, 9, 5]
-            l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
+            l_paramCode = (Openpyxl_PO.getColByPartialColByUnwantedRow(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
             # print(l_paramCode[0])  # OK
             # print(l_paramCode[1])  # r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'
             # print(l_paramCode[2])  # PG_JWS018  //健康评估规则库编码
             # print(l_paramCode[3])  # YH_JB001  //疾病评估规则编码
         elif varSheetName == "健康干预_中医体质辨识":
             l_varColNums = [1, 3, 5, 7]
-            l_paramCode = (Openpyxl_PO.getColValueByCol(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
+            l_paramCode = (Openpyxl_PO.getColByPartialColByUnwantedRow(l_varColNums, [1], varSheetName))  # 获取第1,3,5列值，忽略第一行数据
             # print(l_paramCode[0])  # OK
             # print(l_paramCode[1])  # r12,ABNORMAL_STATUS
             # print(l_paramCode[2])  # GY_TZBS01  //干预规则编码
@@ -518,8 +523,8 @@ class ChcRulePO():
             listall.append(list1)
             list1 = []
         d_paramCode = List_PO.list2dictByIndex(listall, 2)
-        # print(d_paramCode)  # {2: ['OK', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'", 'GY_YH001001', "高血压已患='是'"], 3: ['OK', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='E11'", 'GY_YH002001', "糖尿病已患='是'"]}
-
+        print(d_paramCode)  # {2: ['OK', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='I10'", 'GY_YH001001', "高血压已患='是'"], 3: ['OK', "r2,T_HIS_DIAGNOSIS,IDCARD,DIAGNOSIS_CODE='E11'", 'GY_YH002001', "糖尿病已患='是'"]}
+        sys.exit(0)
 
         if var1 == None:
             if var3_rule == None:
@@ -579,13 +584,13 @@ class ChcRulePO():
                         if "{随机数}" in command:
                             command = str(command).replace("{随机数}", Data_PO.getPhone())
 
-                        varID = Openpyxl_PO.getCellValue(21, 1, "testRule")
-                        varIdcard = Openpyxl_PO.getCellValue(22, 1, "testRule")
-                        varQTY = Openpyxl_PO.getCellValue(23, 1, "testRule")
-                        varRunRule = Openpyxl_PO.getCellValue(24, 1, "testRule")
-                        varNewAssess = Openpyxl_PO.getCellValue(25, 1, "testRule")
-                        varGUID = Openpyxl_PO.getCellValue(26, 1, "testRule")
-                        varQ2 = Openpyxl_PO.getCellValue(27, 1, "testRule")
+                        varID = Openpyxl_PO.getCell(21, 1, "testRule")
+                        varIdcard = Openpyxl_PO.getCell(22, 1, "testRule")
+                        varQTY = Openpyxl_PO.getCell(23, 1, "testRule")
+                        varRunRule = Openpyxl_PO.getCell(24, 1, "testRule")
+                        varNewAssess = Openpyxl_PO.getCell(25, 1, "testRule")
+                        varGUID = Openpyxl_PO.getCell(26, 1, "testRule")
+                        varQ2 = Openpyxl_PO.getCell(27, 1, "testRule")
 
                         if varID != None:
                             if "varID=" in varID:
@@ -700,7 +705,7 @@ class ChcRulePO():
         i_newAssessStatus = 0
 
         # 1，遍历所有列获取值
-        l_all = Openpyxl_PO.getColValue("GW")
+        l_all = Openpyxl_PO.getAllCol("GW")
         for i in range(len(l_all)):
             if d['diseaseRuleCode'] == l_all[i][0]:
                 for j in range(1, len(l_all[i])):
@@ -727,12 +732,12 @@ class ChcRulePO():
                         if 'diseaseRuleCode' in d:
                             command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
 
-                        varID = Openpyxl_PO.getCellValue(21, 1, "testRule")
-                        varIdcard = Openpyxl_PO.getCellValue(22, 1, "testRule")
+                        varID = Openpyxl_PO.getCell(21, 1, "testRule")
+                        varIdcard = Openpyxl_PO.getCell(22, 1, "testRule")
                         # varQTY = Openpyxl_PO.getCellValue(23, 1, "testRule")
-                        varRunRule = Openpyxl_PO.getCellValue(24, 1, "testRule")
-                        varNewAssess = Openpyxl_PO.getCellValue(25, 1, "testRule")
-                        varGUID = Openpyxl_PO.getCellValue(26, 1, "testRule")
+                        varRunRule = Openpyxl_PO.getCell(24, 1, "testRule")
+                        varNewAssess = Openpyxl_PO.getCell(25, 1, "testRule")
+                        varGUID = Openpyxl_PO.getCell(26, 1, "testRule")
                         # varQTY0 = Openpyxl_PO.getCellValue(27, 1, "testRule")
 
                         if varID != None:

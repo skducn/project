@@ -42,7 +42,9 @@
 from openpyxl.utils import get_column_letter, column_index_from_string
 
 # get_column_letter(2)  # 'B'
-# column_index_from_string('B')  # 2
+# a = column_index_from_string('B')  # 2
+
+
 # *********************************************************************
 
 from openpyxl import load_workbook
@@ -119,16 +121,20 @@ from PO.MysqlPO import *
 2.17 设置整列(可间隔)背景色  setColColor(2, 1, "ff0000")  # 从第2列开始每隔1列设置颜色为红色
 2.18 设置工作表背景颜色 setSheetColor("FF0000")
 
-3.1 获取总行数和总列数 getRowCol()
-3.2 获取单元格的值 getCellValue()
-3.3 获取单行数据 getOneRowValue(2)
-3.3.2 获取单列数据 getOneColValue(2)
-3.4 获取每行数据 getRowValue()
-3.5 获取每列数据 getColValue()
-3.6 获取指定列的行数据 getRowValueByCol([1, 2, 4], -1)  # 获取最后一个工作表的第1，2，4列的行数据
-3.7 获取某些列的列数据(可忽略多行) getColValueByCol([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
-3.8 获取单元格的坐标 getCoordinate(2, 5))   # E2
-3.9 获取所有数据的坐标 getDimensions())  # A1:E17
+3.1 获取总行列数 getTotalRowCol()  # [5,10]
+3.2 获取单元格的值 getCell(3,2)
+3.3 获取一行数据 getOneRow(2) # 获取第三行值
+3.4 获取一列数据 getOneCol(2)  # 获取第三列值
+3.5 获取每行数据 getAllRow()
+3.6 获取每列数据 getAllCol()
+3.7 获取部分列的行数据 getRowByPartialCol([1, 2, 4])  # 获取第1，2，4列的行数据
+	获取部分列的行数据 getRowByPartialCol(["A", "C"])
+	获取部分列的行数据 getRowByPartialCol([2, "C"])
+	获取部分列的行数据 getRowByPartialCol([1, 3, 2, "a", "C", "B"])
+3.8 将标题转列序列 title2colSeq(["高地","名字"])
+3.9 获取部分列的列值(可忽略多行) getColByPartialColByUnwantedRow([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
+3.10 获取单元格的坐标 getCellCoordinate(2, 5))   # E2
+3.11 获取所有数据的坐标 getDimensions())  # A1:E17
 
 
 4.1 清空行 clsRow(2)  # 清空第2行
@@ -137,7 +143,7 @@ from PO.MysqlPO import *
 4.3 删除连续行 delSeriesRow(2, 3)  # 删除从第二行开始连续三行数据 （即删除2，3，4行）
 4.4 删除连续列 delSeriesCol(2, 3)  # 删除从第二列开始连续三列数据 （即删除2，3，4列）
 
-5.1 两表比较，获取差异内容（两表标题与行数必须一致）getDiffValueByCmp(Openpyxl_PO.getRowValue("Sheet2"), Openpyxl_PO2.getRowValue("Sheet2"))
+5.1 两表比较，获取差异内容（两表标题与行数必须一致）getDiffValueByCmp(Openpyxl_PO.getAllRow("Sheet2"), Openpyxl_PO2.getAllRow("Sheet2"))
 5.2 两工作表比较，对差异内容标注颜色 setColorByDiff("Sheet1", "Sheet2")
  
 6 移动范围数据 moveValue(rows, cols, 'C1:D2')
@@ -807,117 +813,151 @@ class OpenpyxlPO:
         sh.sheet_properties.tabColor = varColor
         self.save()
 
+
     # todo [获取]
 
-    def getRowCol(self, varSheet=0):
+    def getTotalRowCol(self, varSheet=0):
 
-        # 3.1 获取总行数和总列数
-        # Openpyxl_PO.getRowCol()  # [4,3] //返回第1个工作表的总行数和总列数
+        # 3.1 获取总行列数
+        # Openpyxl_PO.getTotalRowCol()  # [4,3] //返回第1个工作表的总行数和总列数
+
         sh = self.sh(varSheet)
-        rows = sh.max_row
-        cols = sh.max_column
-        return [rows, cols]
+        return [sh.max_row, sh.max_column]
 
-    def getCellValue(self, varRow, varCol, varSheet=0):
+    def getCell(self, varRow, varCol, varSheet=0):
 
         # 3.2 获取单元格的值
+
         sh = self.sh(varSheet)
-        cell_value = sh.cell(row=varRow, column=varCol).value
-        return cell_value
+        return sh.cell(row=varRow, column=varCol).value
 
-    def getOneRowValue(self, varRow, varSheet=0):
 
-        # 3.3 获取单行数据
-        # getOneRowValue(2)
-        list1 = []
+    def getOneRow(self, varRowSeq, varSheet=0):
+
+        # 3.3 获取一行数据
+        # getOneRow(2)
+
+        l_seq = []
         sh = self.sh(varSheet)
-        row = [val for val in sh.rows][varRow]  # 获取第一行
-        for cel in row:
-            list1.append(cel.value)
-        return list1
+        t_row = [r for r in sh.rows][varRowSeq]  # 获取此行的单元格值
+        # print((t_row))  # (<Cell 'Sheet'.A3>, <Cell 'Sheet'.B3>, <Cell 'Sheet'.C3>)
+        for cell in t_row:
+            l_seq.append(cell.value)
+        return l_seq  #  [10, 5, 10]
 
-    def getOneColValue(self, varCol, varSheet=0):
+    def getOneCol(self, varColSeq, varSheet=0):
 
-        # 3.3.2 获取单列数据
-        # getOneColValue(2)
-        list1 = []
+        # 3.4 获取一列的值
+        # getOneCol(2) # 获取C列的值
+
+        l_seq = []
         sh = self.sh(varSheet)
-        col = [val for val in sh.columns][varCol]  # 获取第一行
-        for cel in col:
-            list1.append(cel.value)
-        return list1
+        t_col = [c for c in sh.columns][varColSeq]  # 获取此列的单元格值
+        # print(t_col)  # (<Cell 'Sheet'.C1>, <Cell 'Sheet'.C2>, ...)
+        for cell in t_col:
+            l_seq.append(cell.value)
+        return l_seq  # ['山丘', 30, 25, 30, 10, 5, 10]
 
-    def getRowValue(self, varSheet=0):
+    def getAllRow(self, varSheet=0):
 
-        # 3.4 获取每行数据
-        # print(Openpyxl_PO.getRowValue())
-        l_rowData = []  # 每行数据
-        l_allData = []  # 所有行数据
+        # 3.5 获取每行数据
+
+        l_row = []  # 每行值
+        l_l_row = []  # 所有行值
         sh = self.sh(varSheet)
-        for cases in list(sh.rows):
-            for i in range(len(cases)):
-                l_rowData.append(cases[i].value)
-            l_allData.append(l_rowData)
-            l_rowData = []
-        return l_allData
+        # print(sh.rows)  # (<Cell 'Sheet'.A1>, <Cell 'Sheet'.B1>, <Cell 'Sheet'.C1>), (<Cell 'Sheet'.A2>, <Cell 'Sheet'.B2>, <Cell 'Sheet'.C2>), ...)
+        for row in list(sh.rows):
+            for i in range(len(row)):
+                l_row.append(row[i].value)
+            l_l_row.append(l_row)
+            l_row = []
+        return l_l_row
 
-    def getColValue(self, varSheet=0):
+    def getAllCol(self, varSheet=0):
 
-        # 3.5 获取每列数据
-        # print(Openpyxl_PO.getColValue())
-        l_colData = []  # 每列数据
-        l_allData = []  # 所有行数据
+        # 3.6 获取每列数据
+        # print(Openpyxl_PO.getAllCol())
+
+        l_col = []  # 每列值
+        l_l_col = []  # 所有数据
         sh = self.sh(varSheet)
-        for cases in list(sh.columns):
-            for i in range(len(cases)):
-                l_colData.append(cases[i].value)
-            l_allData.append(l_colData)
-            l_colData = []
-        return l_allData
+        # print(sh.columns)  # <generator object Worksheet._cells_by_col at 0x7ff4849f6970>
+        for col in list(sh.columns):
+            for i in range(len(col)):
+                l_col.append(col[i].value)
+            l_l_col.append(l_col)
+            l_col = []
+        return l_l_col
 
-    def getRowValueByCol(self, l_varCol, varSheet=0):
+    def getRowByPartialCol(self, l_col, varSheet=0):
 
-        # 3.6 获取指定列的行数据
-        # print(Openpyxl_PO.getRowValueByCol([1, 2, 4]))  # 获取第1，2，4列的行数据
-        l_rowData = []  # 每行的数据
-        l_allData = []  # 所有的数据
+        # 3.7 获取部分列的行数据
+        #   获取部分列的行数据 getRowByPartialCol([1, 2, 4])  # 获取第1，2，4列的行数据
+        # 	获取部分列的行数据 getRowByPartialCol(["A", "C"])
+        # 	获取部分列的行数据 getRowByPartialCol([2, "C"])
+        # 	获取部分列的行数据 getRowByPartialCol([1, 3, 2, "a", "C", "B"])
+
+        l_row = []  # 每行的数据
+        l_l_row = []  # 所有的数据
+
+        for i in range(len(l_col)):
+            if isinstance(l_col[i], int):
+                pass
+            else:
+                l_col[i] = column_index_from_string(l_col[i])
+
+        # 去重(先入为主，保留排前面的值，后面重复的值忽略，如 [1, 3, 5, 2, 1, 7, 27, 3] => [1, 3, 5, 2, 7, 27])
+        l_col = sorted(set(l_col), key=l_col.index)
+
         sh = self.sh(varSheet)
         for row in range(1, sh.max_row + 1):
-            for column in l_varCol:
-                l_rowData.append(sh.cell(row, column).value)
-            l_allData.append(l_rowData)
-            l_rowData = []
-        return l_allData
+            for col in l_col:
+                l_row.append(sh.cell(row, col).value)
+            l_l_row.append(l_row)
+            l_row = []
+        return l_l_row
 
-    def getColValueByCol(self, l_varCol, l_varIgnoreRowNum, varSheet=0):
 
-        # 3.7 获取某些列的列数据(可忽略多行)
-        # print(Openpyxl_PO.getColValueByCol([1, 3], [1, 2]))  # 获取第二列和第四列的列值，并忽略第1，2行的行值。
-        # print(Openpyxl_PO.getColValueByCol([2], [], "python"))  # 获取第2列所有值。
-        l_colData = []  # 每列的数据
-        l_allData = []  # 所有的数据
-        try:
-            sh = self.sh(varSheet)
-        except:
-            print("[Error], " + varSheet + "不存在！")
-            sys.exit(0)
+    def title2colSeq(self, l_partialTitle, varSheet=0):
+
+        # 3.8 将标题转列序列
+        # l_partialTitle = ['高地', '名字']
+
+        # 获取表格第一行标题的值
+        l_title = self.getOneRow(0, varSheet)  # ['Number具体数', '高地', '山丘', '状态', '名字']
+        for i in range(len(l_partialTitle)):
+            for j in range(len(l_title)):
+                if l_partialTitle[i] == l_title[j]:
+                    l_partialTitle[i] = j + 1
+        return l_partialTitle  # [2, 5]
+
+
+    def getColByPartialColByUnwantedRow(self, l_varCol, l_varIgnoreRowNum, varSheet=0):
+
+        # 3.9 获取部分列的列值(可忽略多行)
+        # print(Openpyxl_PO.getColByPartialColByUnwantedRow([1, 3], [1, 2]))  # 获取第二列和第四列的列值，并忽略第1，2行的行值。
+        # print(Openpyxl_PO.getColByPartialColByUnwantedRow([2], [], "python"))  # 获取第2列所有值。
+
+        l_col = []  # 每列值
+        l_l_col = []  # 所有列的值
+        sh = self.sh(varSheet)
         for col in l_varCol:
             for row in range(1, sh.max_row + 1):
                 if row not in l_varIgnoreRowNum:
-                    l_colData.append(sh.cell(row, col).value)
-            l_allData.append(l_colData)
-            l_colData = []
-        return l_allData
+                    l_col.append(sh.cell(row, col).value)
+            l_l_col.append(l_col)
+            l_col = []
+        return l_l_col
 
-    def getCoordinate(self, varRow, varCol, varSheet=0):
+    def getCellCoordinate(self, varRow, varCol, varSheet=0):
 
-        # 3.8 获取单元格的坐标
+        # 3.10 获取单元格的坐标
         sh = self.sh(varSheet)
         return sh.cell(row=varRow, column=varCol).coordinate
 
     def getDimensions(self, varSheet=0):
 
-        # 3.9 获取所有数据的坐标
+        # 3.11 获取所有数据的坐标
         sh = self.sh(varSheet)
         return sh.dimensions
 
@@ -978,7 +1018,7 @@ class OpenpyxlPO:
         :param l_file1row:
         :param l_file2row:
         :return:
-            print(Openpyxl_PO.getDiffValueByLeft(Openpyxl_PO.getRowValue(), Openpyxl_PO2.getRowValue()))
+            print(Openpyxl_PO.getDiffValueByLeft(Openpyxl_PO.getAllRow(), Openpyxl_PO2.getAllRow()))
             [[5, 'member_id', 1311441], [7, 'loan_amnt', 5600]]   表示 第五行，member_id列的值1311441
             [[5, 'member_id', 5555], [7, 'loan_amnt', 1200]]
         """
@@ -1016,8 +1056,8 @@ class OpenpyxlPO:
         # 前提条件，两sheet表的行列数一致
         # Openpyxl_PO.setColorByDiff("Sheet1", "Sheet2")
 
-        l_sheetOneRow = self.getRowValue(varSheet1)
-        l_sheetTwoRow = self.getRowValue(varSheet2)
+        l_sheetOneRow = self.getAllRow(varSheet1)
+        l_sheetTwoRow = self.getAllRow(varSheet2)
 
         if l_sheetOneRow == None or l_sheetTwoRow == None:
             print("[Error], " + varSheet1 + " 或 " + varSheet2 + " 不存在！")
@@ -1042,8 +1082,8 @@ class OpenpyxlPO:
         # 前提条件，两sheet表的行列数一致
         # Openpyxl_PO.setSheetByDiff("Sheet1", "Sheet2")
 
-        l_sheetOneRow = self.getRowValue(varSheet1)
-        l_sheetTwoRow = self.getRowValue(varSheet2)
+        l_sheetOneRow = self.getAllRow(varSheet1)
+        l_sheetTwoRow = self.getAllRow(varSheet2)
 
         if l_sheetOneRow == None or l_sheetTwoRow == None:
             print("[Error], " + varSheet1 + " 或 " + varSheet2 + " 不存在！")
@@ -1091,7 +1131,7 @@ class OpenpyxlPO:
         # 7 将excel中标题（第一行字段）排序（从小打大）
 
         l_sortAsc = []
-        l_title = self.getOneRowValue(0)
+        l_title = self.getOneRow(0)
         for k in range(len(l_title)):
             x = "z"
             for i in range(len(l_title)):
@@ -1103,7 +1143,7 @@ class OpenpyxlPO:
 
         self.addSheet("sortAsc")
         self.setRowValue({1: l_sortAsc}, "sortAsc")
-        col = self.getColValue(varSheet1)
+        col = self.getAllCol(varSheet1)
         # print(col)
         for i in range(len(col)):
             for j in range(len(l_sortAsc)):
@@ -1119,7 +1159,7 @@ if __name__ == "__main__":
     # Openpyxl_PO = OpenpyxlPO("ExcelPO/i_erp_reportField_case.xlsx")
     # Openpyxl_PO = OpenpyxlPO("student.xlsx")
     Openpyxl_PO = OpenpyxlPO("./data/area.xlsx")
-    Openpyxl_PO.setAllCellDimensionsHeight(30)
+    # Openpyxl_PO.setAllCellDimensionsHeight(30)
     Openpyxl_PO.open()
 
     # Openpyxl_PO = OpenpyxlPO("")
@@ -1142,7 +1182,7 @@ if __name__ == "__main__":
     # print("1.7 添加工作表(覆盖)".center(100, "-"))
     # Openpyxl_PO.addSheetCover("Sheet0", 0)    # 第一个位置添加工作表
     # Openpyxl_PO.addSheetCover("Sheet100", 100)    # 第100个位置添加工作表  //当index足够大时，则在最后一个位置添加工作表
-    Openpyxl_PO.open()
+    # Openpyxl_PO.open()
 
     # print("1.8 删除工作表".center(100, "-"))
     # Openpyxl_PO.delSheet("Sheet1")
@@ -1253,39 +1293,50 @@ if __name__ == "__main__":
     # print("2.18 设置工作表背景颜色".center(100, "-"))
     # Openpyxl_PO.setSheetColor("FF0000")
 
-    # print("3.1 获取总行数和总列数".center(100, "-"))
-    # print(Openpyxl_PO.getRowCol())  # [4,3] //返回第1个工作表的总行数和总列数
-    # print(Openpyxl_PO.getRowCol(1))  # [4,3] //返回第2个工作表的总行数和总列数
-    # print(Openpyxl_PO.getRowCol("python"))  # [4,3] //返回python工作表的总行数和总列数
+
+
+    # print("3.1 获取总行列数".center(100, "-"))
+    # print(Openpyxl_PO.getTotalRowCol())  # [4,3] //返回第1个工作表的总行数和总列数
+    # print(Openpyxl_PO.getTotalRowCol(1))  # [4,3] //返回第2个工作表的总行数和总列数
+    # print(Openpyxl_PO.getTotalRowCol("python"))  # [4,3] //返回python工作表的总行数和总列数
 
     # print("3.2 获取单元格值".center(100, "-"))
-    # print(Openpyxl_PO.getCellValue(3, 2))  # 获取第3行第2列的值
+    # print(Openpyxl_PO.getCell(3, 2))  # 获取第3行第2列的值
 
-    # print("3.3 获取单行数据".center(100, "-"))
-    # print(Openpyxl_PO.getOneRowValue(2))
-    # print(Openpyxl_PO.getOneColValue(2))
-    # Openpyxl_PO.open()
+    # print("3.3 获取一行数据".center(100, "-"))
+    # print(Openpyxl_PO.getOneRow(2))
 
-    # print("3.4 获取每行数据".center(100, "-"))
-    # print(Openpyxl_PO.getRowValue())
-    # print(Openpyxl_PO.getRowValue("browser%interface"))
-    #
-    # print("3.5 获取每列数据".center(100, "-"))
-    # print(Openpyxl_PO.getColValue())
-    # # print(Openpyxl_PO.getColValue("python"))
-    #
-    # print("3.6 获取指定列的行数据".center(100, "-"))
-    # print(Openpyxl_PO.getRowValueByCol([1, 2, 4], -1))   # 获取最后一个工作表的第1，2，4列的行数据
-    #
-    # print("3.7 获取某些列的列数据(可忽略多行)".center(100, "-"))
-    # print(Openpyxl_PO.getColValueByCol([1, 3], [1, 2]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
-    # print(Openpyxl_PO.getColValueByCol([2], [], "上海"))  # 获取第2列所有值。
+    # print("3.4 获取一列数据".center(100, "-"))
+    # print(Openpyxl_PO.getOneCol(2))
 
-    # print("3.8 获取单元格的坐标".center(100, "-"))
-    # print(Openpyxl_PO.getCoordinate(2, 5))   # E2
+    # print("3.5 获取每行数据".center(100, "-"))
+    # print(Openpyxl_PO.getAllRow())
 
-    # print("3.9 获取工作表数据的坐标".center(100, "-"))
+    # print("3.6 获取每列数据".center(100, "-"))
+    # print(Openpyxl_PO.getAllCol())
+
+    # print("3.7 获取部分列的行数据".center(100, "-"))
+    # print(Openpyxl_PO.getRowByPartialCol([1, 3], -1))   # 获取最后一个工作表的第1，2，4列的行数据
+    # print(Openpyxl_PO.getRowByPartialCol(["A", "Z"]))   # 获取第1，26列的行数据
+    # print(Openpyxl_PO.getRowByPartialCol([1, "Z"]))   # [['Number具体数', None], [2, None], [3, None], [4, None], [5, None], [6, None], [7, None]]  //获第1，26列的行数据 26列没有值返回None
+    # print(Openpyxl_PO.getRowByPartialCol([1, 3, 2, "a", "C", "B"]))   # [['Number具体数', '山丘', '高地'], [2, 30, 40], [3, 25, 44], [4, 30, 50], [5, 10, 30], [6, 5, 25], [7, 10, 150]] //获第1，3，2列的行数据，"a", "C", "B"忽略
+
+    # print("3.8 将标题转列序列".center(100, "-"))
+    l_colSeq = (Openpyxl_PO.title2colSeq(["高地", "名字"]))
+    print(l_colSeq)  # [2, 5]
+    print(Openpyxl_PO.getRowByPartialCol(l_colSeq)) # [['高地', '名字'], [40, 'jinhao'], [44, 'yoyo'], [50, 'titi'], [30, 'mama'], [25, 'baba'], [150, 'yeye']]
+
+    # print("3.9 获取部分列的列值(可忽略多行)".center(100, "-"))
+    # print(Openpyxl_PO.getColByPartialColByUnwantedRow([1, 3], [1, 4]))   # 获取第二列和第四列的列值，并忽略第1，2行的行值。
+    # print(Openpyxl_PO.getColByPartialColByUnwantedRow([2], [], "上海"))  # 获取第2列所有值。
+
+    # print("3.10 获取单元格的坐标".center(100, "-"))
+    # print(Openpyxl_PO.getCellCoordinate(2, 5))   # E2
+
+    # print("3.11 获取工作表数据的坐标".center(100, "-"))
     # print(Openpyxl_PO.getDimensions())  # A1:E17
+
+
 
     # print("4.1 清空行".center(100, "-"))
     # Openpyxl_PO.clsRow(2)  # 清空第2行
@@ -1306,7 +1357,7 @@ if __name__ == "__main__":
     # print("5.1 两表比较获取差异内容（两表标题与行数必须一致） ".center(100, "-"))
     # Openpyxl_PO = OpenpyxlPO("./data/loanStats.xlsx")
     # Openpyxl_PO2 = OpenpyxlPO("./data/loanStats2.xlsx")
-    # print(Openpyxl_PO.getDiffValueByCmp(Openpyxl_PO.getRowValue("Sheet2"), Openpyxl_PO2.getRowValue("Sheet2")))
+    # print(Openpyxl_PO.getDiffValueByCmp(Openpyxl_PO.getAllRow("Sheet2"), Openpyxl_PO2.getAllRow("Sheet2")))
 
     # # print("5.2 对一张表的两个sheet进行数据比对，差异数据标注颜色 ".center(100, "-"))
     # Openpyxl_PO = OpenpyxlPO("./data/loanStats.xlsx")
@@ -1321,4 +1372,5 @@ if __name__ == "__main__":
 
     # # print("7 将excel中标题（第一行字段）排序（从小打大）".center(100, "-"))
     # Openpyxl_PO.sortFields("Sheet1")
+
 

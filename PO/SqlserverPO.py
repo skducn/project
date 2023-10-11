@@ -126,7 +126,7 @@ class SqlServerPO:
 
 
     # 1.1 执行sql
-    def execute(self, varTable, sql):
+    def execute(self, sql):
 
         '''
         执行sql （insert，update）
@@ -136,10 +136,10 @@ class SqlServerPO:
 
         try:
             # 判断表是否存在
-            if self.isTable(varTable) == True:
-                self.cur.execute(sql)
-                self.conn.commit()
-                return "ok"
+            # if self.isTable(varTable) == True:
+            self.cur.execute(sql)
+            self.conn.commit()
+            return "ok"
         except Exception as e:
             # print(e.args)  # ('table hh already exists',)
             # print(str(e))  # table hh already exists
@@ -157,6 +157,7 @@ class SqlServerPO:
         '''
 
         try:
+            self.conn.commit()
             self.cur.execute(sql)
             self.conn.commit()
             result = self.cur.fetchall()

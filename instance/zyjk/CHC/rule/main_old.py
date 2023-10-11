@@ -14,7 +14,7 @@
 import sys
 
 from PO.OpenpyxlPO import *
-from ChcRulePO import *
+from ChcRulePO_old import *
 ChcRule_PO = ChcRulePO()
 
 
@@ -28,7 +28,7 @@ TOKEN = ChcRule_PO.getToken("jh", "12345678")  #
 # TOKEN = ChcRule_PO.getToken("www", "Ww123456")   # 刘斌龙
 
 ChcRule_PO.clsApp("Microsoft Excel")
-Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
+Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化3.xlsx")
 
 
 # todo 健康评估

@@ -3,79 +3,82 @@
 # Author     : John
 # Created on : 2023-8-1
 # Description: 社区健康管理中心 - 规则自动化脚本
-# http://192.168.0.243:8012/swagger-ui/index.html#/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/loginUsingPOST
-# http://192.168.0.223:8848/nacos/#/serviceDetail?name=chc-auth&groupName=DEFAULT_GROUP
-# http://192.168.0.243:8011/doc.html#/chc-auth/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/loginUsingPOST
+# 健康档案接口文档 http://192.168.0.243:8014/doc.html
+# Swagger http://192.168.0.243:8012/swagger-ui/index.html#/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/loginUsingPOST
+# nacos  http://192.168.0.223:8848/nacos/#/serviceDetail?name=chc-auth&groupName=DEFAULT_GROUP
 # http://192.168.0.243:8010/login#/login  登录页面
 # 1，获取规则内容 《健康评估规则表》
 # 2，执行规则
 # 3，更新结果
+# 【腾讯文档】健康评估规则表自动化
+# https://docs.qq.com/sheet/DYkZUY0ZNaHRPdkRk?tab=sf3rdj
+# open /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/CHC/rule/健康评估规则表自动化1.xlsx
 #***************************************************************
-import sys
 
-from PO.OpenpyxlPO import *
+
 from ChcRulePO import *
-ChcRule_PO = ChcRulePO()
-
-
+# ChcRule_PO = ChcRulePO()
 # 新增患者主索引
 # ChcRule_PO.insertEMPI("INSERT INTO TB_EMPI_INDEX_ROOT(GUID, NAME, SEXCODE, SEXVALUE, DATEOFBIRTH, IDCARDNO, NATIONCODE, NATIONVALUE, PHONENUM) VALUES ('cs1005', N'测试干预1', '2', '女', '1992-12-01', '653101195005199966', NULL, NULL, '6567917733')")
 
 
-# 1,获取登录用户的token
-TOKEN = ChcRule_PO.getToken("jh", "12345678")  #
-# TOKEN = ChcRule_PO.getToken("ww", "Zy@123456")  # 汪刚
-# TOKEN = ChcRule_PO.getToken("www", "Ww123456")   # 刘斌龙
 
-ChcRule_PO.clsApp("Microsoft Excel")
-Openpyxl_PO = OpenpyxlPO("健康评估规则表自动化1.xlsx")
-
-
-# todo 健康评估
-# ChcRule_PO.run('健康评估', None, "r1", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康评估', "OK", "r6", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康评估', "ERROR", "r1", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康评估', "OK", None, Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康评估', "ERROR", None, Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康评估', "ALL", "r3", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康评估', "ALL", None, Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康评估', None, None, Openpyxl_PO, TOKEN)
+# todo 健康评估(testRule)
+# healthValuation = ChcRulePO({"sheetName": "健康评估", "colTitle": ["测试结果", "测试规则", "评估规则编码"]})
+# # # healthValuation.run(None, None)
+# healthValuation.run("ERROR", None)
+# healthValuation.run("OK", None)
+# healthValuation.run("ALL", None)
+# healthValuation.run(None, "r1")
+# healthValuation.run("ERROR", "r1")
+# healthValuation.run("OK", "r1")
+# healthValuation.run("ALL", "r1")
 
 
-# todo 健康干预
-# ChcRule_PO.run('健康干预', None, "GW", Openpyxl_PO, TOKEN) # 执行测试结果为空的r8用例
-# ChcRule_PO.run('健康干预', None, "r1", Openpyxl_PO, TOKEN)  # 执行测试结果为空的r8用例
-# ChcRule_PO.run('健康干预', None, "r2", Openpyxl_PO, TOKEN)  # 执行测试结果为空的r8用例
-# ChcRule_PO.run('健康干预', "ERROR", "r5", Openpyxl_PO, TOKEN)  # 执行测试结果为空的r8用例
-# ChcRule_PO.run('健康干预', "ERROR", "r11", Openpyxl_PO, TOKEN)  # 执行测试结果为ERROR的r11用例
-# ChcRule_PO.run('健康干预', "OK", "r11", Openpyxl_PO, TOKEN) # 执行测试结果为OK的r11用例
-# ChcRule_PO.run('健康干预', "ERROR", None, Openpyxl_PO, TOKEN)  # 执行测试结果为ERROR的所有用例
-# ChcRule_PO.run('健康干预', "OK", None, Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
-# ChcRule_PO.run('健康干预', "ALL", "r2", Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
-# ChcRule_PO.run('健康干预', "ALL", None, Openpyxl_PO, TOKEN)  # 执行测试结果为OK的所有用例
-# ChcRule_PO.run('健康干预', None, None, Openpyxl_PO, TOKEN)  # 执行测试结果为空的所有用例
+# # todo 健康干预(testRule)
+# healthInterposal = ChcRulePO({"sheetName": "健康干预", "colTitle": ["测试结果", "测试规则", "干预规则编码", "疾病评估规则编码", "命中次数"]})
+# healthInterposal.run(None, None)
+# healthInterposal.run("ERROR", None)
+# healthInterposal.run("OK", None)
+# healthInterposal.run("ALL", None)
+# healthInterposal.run(None, "r1")
+# healthInterposal.run("ERROR", "r1")
+# healthInterposal.run("OK", "r1")
+# healthInterposal.run("ALL", "r1")
 
 
-# todo 疾病评估规则（已患和高风险）
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', "ERROR", "GW", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "GW", Openpyxl_PO, TOKEN)
-ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r10", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', "OK", "r2", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', "OK", "r10", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', None, "r9", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', 'ERROR', "r9", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', 'OK', "r9", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', 'ALL', "r9", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('疾病评估规则（已患和高风险）', 'ALL', None, Openpyxl_PO, TOKEN)
+# todo 健康干预中医体质辨识(testRule)
+# zytzbs = ChcRulePO({"sheetName": "健康干预中医体质辨识", "colTitle": ["测试结果", "测试规则", "干预规则编码", "干预规则"]})
+# zytzbs.run(None, None)
+# zytzbs.run("ERROR", None)
+# zytzbs.run("OK", None)
+# zytzbs.run("ALL", None)
+# zytzbs.run(None, "r12")
+# zytzbs.run("ERROR", "r12")
+# zytzbs.run("OK", "r12")
+# zytzbs.run("ALL", "r12")
 
 
-# todo 健康干预_中医体质辨识
-# ChcRule_PO.run('健康干预_中医体质辨识', "OK", "r12", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康干预_中医体质辨识', "ERROR", "r12", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康干预_中医体质辨识', None, "r12", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康干预_中医体质辨识', "ALL", "r12", Openpyxl_PO, TOKEN)
-# ChcRule_PO.run('健康干预_中医体质辨识', "ALL", None, Openpyxl_PO, TOKEN)
+# # todo 儿童健康干预(testRule)
+# ChildHealthInterposal = ChcRulePO({"sheetName": "儿童健康干预", "colTitle": ["测试结果", "测试规则", "干预规则编码"]})
+# ChildHealthInterposal.run(None, None)
+# ChildHealthInterposal.run("ERROR", None)
+# ChildHealthInterposal.run("OK", None)
+# ChildHealthInterposal.run("ALL", None)
+# ChildHealthInterposal.run(None, "r1")
+# ChildHealthInterposal.run("ERROR", "r1")
+# ChildHealthInterposal.run("OK", "r1")
+# ChildHealthInterposal.run("ALL", "r1")
 
 
-Openpyxl_PO.open()
+# todo 已患和高风险疾病评估(GW)
+gwDisease = ChcRulePO({"sheetName": "已患和高风险疾病评估", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "健康评估规则库编码"]})
+# gwDisease.run(None, "GW")
+gwDisease.run("ERROR", "GW")
+# # gwDisease.run("OK", None)
+# gwDisease.run("ALL", "GW")
+# gwDisease.run(None, "r9")
+# gwDisease.run("ERROR", "r1")
+# gwDisease.run("OK", "r1")
+# gwDisease.run("ALL", "r1")
 

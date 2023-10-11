@@ -468,48 +468,26 @@ class ListPO:
 
     # 5.1 清除原列表元素特殊字符\n\t\r\xa0等
     def listClearSpecialChar(self, varList):
-        try:
-            return ["".join([i.strip() for i in str(a).strip()]) for a in varList]
-            # return ([''.join([i.strip() for i in str(a).strip().replace(varSource, varDest)]) for a in varList])
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        return ["".join([i.strip() for i in str(a).strip()]) for a in varList]
+        # return ([''.join([i.strip() for i in str(a).strip().replace(varSource, varDest)]) for a in varList])
+
 
     # 5.3 删除列表中指定的（或模糊的）元素
     def listBatchDel(self, varList, varPartElement, varMode="-accurate"):
         tmpList = []
-        try:
-            for i in range(len(varList)):
-                if varMode == "-accurate":
-                    if varPartElement != varList[i]:
-                        tmpList.append(varList[i])
-                else:
-                    if type(varPartElement) != type(varList[i]):
-                        tmpList.append(varList[i])
-                    elif varPartElement not in varList[i]:
-                        tmpList.append(varList[i])
-            return tmpList
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        for i in range(len(varList)):
+            if varMode == "-accurate":
+                if varPartElement != varList[i]:
+                    tmpList.append(varList[i])
+            else:
+                if type(varPartElement) != type(varList[i]):
+                    tmpList.append(varList[i])
+                elif varPartElement not in varList[i]:
+                    tmpList.append(varList[i])
+        return tmpList
+
 
     # 5.4 删除列表中重复的元素
     def delRepeatElem(self, varList):
