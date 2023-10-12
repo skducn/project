@@ -13,6 +13,15 @@
 # 【腾讯文档】健康评估规则表自动化
 # https://docs.qq.com/sheet/DYkZUY0ZNaHRPdkRk?tab=sf3rdj
 # open /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/CHC/rule/健康评估规则表自动化1.xlsx
+
+# r.run(None, None)
+# r.run("ERROR", None)
+# r.run("OK", None)
+# r.run("ALL", None)
+# r.run(None, "r1")
+# r.run("ERROR", "r1")
+# r.run("OK", "r1")
+# r.run("ALL", "r1")
 #***************************************************************
 
 
@@ -23,62 +32,22 @@ from ChcRulePO import *
 
 
 
-# todo 健康评估(testRule)
-# healthValuation = ChcRulePO({"sheetName": "健康评估", "colTitle": ["测试结果", "测试规则", "评估规则编码"]})
-# # # healthValuation.run(None, None)
-# healthValuation.run("ERROR", None)
-# healthValuation.run("OK", None)
-# healthValuation.run("ALL", None)
-# healthValuation.run(None, "r1")
-# healthValuation.run("ERROR", "r1")
-# healthValuation.run("OK", "r1")
-# healthValuation.run("ALL", "r1")
+# r = ChcRulePO({"sheetName": "健康评估", "colTitle": ["测试结果", "测试规则", "评估规则编码"]})
+# r.run("ERROR", None)
 
+r = ChcRulePO({"sheetName": "健康干预", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "干预规则编码", "命中次数"]})
+r.run("ERROR", "GW")
+# r.run(None, None)
 
-# # todo 健康干预(testRule)
-# healthInterposal = ChcRulePO({"sheetName": "健康干预", "colTitle": ["测试结果", "测试规则", "干预规则编码", "疾病评估规则编码", "命中次数"]})
-# healthInterposal.run(None, None)
-# healthInterposal.run("ERROR", None)
-# healthInterposal.run("OK", None)
-# healthInterposal.run("ALL", None)
-# healthInterposal.run(None, "r1")
-# healthInterposal.run("ERROR", "r1")
-# healthInterposal.run("OK", "r1")
-# healthInterposal.run("ALL", "r1")
+# r = ChcRulePO({"sheetName": "健康干预中医体质辨识", "colTitle": ["测试结果", "测试规则", "干预规则编码", "干预规则"]})
+# r.run("ERROR", None)
 
+# r = ChcRulePO({"sheetName": "儿童健康干预", "colTitle": ["测试结果", "测试规则", "干预规则编码"]})
+# r.run(None, None)
 
-# todo 健康干预中医体质辨识(testRule)
-# zytzbs = ChcRulePO({"sheetName": "健康干预中医体质辨识", "colTitle": ["测试结果", "测试规则", "干预规则编码", "干预规则"]})
-# zytzbs.run(None, None)
-# zytzbs.run("ERROR", None)
-# zytzbs.run("OK", None)
-# zytzbs.run("ALL", None)
-# zytzbs.run(None, "r12")
-# zytzbs.run("ERROR", "r12")
-# zytzbs.run("OK", "r12")
-# zytzbs.run("ALL", "r12")
+# r = ChcRulePO({"sheetName": "已患和高风险疾病评估", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "健康评估规则库编码"]})
+# r.run(None, "GW")
+# r.run(None, None)
+# # r.run("OK", None)
 
-
-# # todo 儿童健康干预(testRule)
-# ChildHealthInterposal = ChcRulePO({"sheetName": "儿童健康干预", "colTitle": ["测试结果", "测试规则", "干预规则编码"]})
-# ChildHealthInterposal.run(None, None)
-# ChildHealthInterposal.run("ERROR", None)
-# ChildHealthInterposal.run("OK", None)
-# ChildHealthInterposal.run("ALL", None)
-# ChildHealthInterposal.run(None, "r1")
-# ChildHealthInterposal.run("ERROR", "r1")
-# ChildHealthInterposal.run("OK", "r1")
-# ChildHealthInterposal.run("ALL", "r1")
-
-
-# todo 已患和高风险疾病评估(GW)
-gwDisease = ChcRulePO({"sheetName": "已患和高风险疾病评估", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "健康评估规则库编码"]})
-# gwDisease.run(None, "GW")
-gwDisease.run("ERROR", "GW")
-# # gwDisease.run("OK", None)
-# gwDisease.run("ALL", "GW")
-# gwDisease.run(None, "r9")
-# gwDisease.run("ERROR", "r1")
-# gwDisease.run("OK", "r1")
-# gwDisease.run("ALL", "r1")
-
+r.open()

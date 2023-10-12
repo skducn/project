@@ -137,6 +137,7 @@ class SqlServerPO:
         try:
             # 判断表是否存在
             # if self.isTable(varTable) == True:
+            self.conn.commit()
             self.cur.execute(sql)
             self.conn.commit()
             return "ok"
