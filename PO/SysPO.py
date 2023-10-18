@@ -24,7 +24,7 @@
 2.6，获取PID进程的当前目录 getPIDcurrFolder(pid)
 2.7，获取应用程序进程的状态 getAppStatus(app)
 2.8，获取PID进程的状态 getPIDstatus(pid)
-2.9，关闭应用程序进程的PID  clsPID(pid)
+2.9，关闭应用程序进程的PID clsPID(pid)
 2.10，关闭应用程序进程名 clsApp(app)
 2.11，获取应用程序的信息  p = psutil.Process(int(Sys_PO.getPID("pycharm.exe")))
 
@@ -47,6 +47,7 @@ Color_PO = ColorPO()
 
 
 class SysPO:
+
     def getPlatform(self):
 
         """
@@ -187,7 +188,7 @@ class SysPO:
             p = psutil.Process(varPid)
             p.terminate()
 
-    def clsApp(self, varApp):
+    def clsApp222(self, varApp):
 
         """2.10，关闭应用程序进程名"""
 
@@ -195,6 +196,27 @@ class SysPO:
         for i in range(len(l_pid)):
             p = psutil.Process(l_pid[i])
             p.terminate()
+
+    def clsApp(self, varApp):
+
+        '''
+        关闭应用程序
+        :param varApp:
+        :return:
+         # clsApp("chrome.exe")
+        '''
+
+
+        l_pid = []
+        pids = psutil.pids()
+        for pid in pids:
+            p = psutil.Process(pid)
+            if p.name() == varApp:
+                l_pid.append(pid)
+        for i in range(len(l_pid)):
+            p = psutil.Process(l_pid[i])
+            p.terminate()
+
 
     def getAppInfo(self):
 
@@ -299,7 +321,7 @@ if __name__ == "__main__":
     Sys_PO = SysPO()
 
     # print("1.1，获取当前系统".center(100, "-"))
-    print(Sys_PO.getPlatform())  # nt  //表示windows    posix //表示mac
+    # print(Sys_PO.getPlatform())  # nt  //表示windows    posix //表示mac
     #
     # print("1.2，获取本机mac地址".center(100, "-"))
     # print(Sys_PO.getMacAddress())  # 00:e1:8c:93:f6:76
@@ -343,8 +365,10 @@ if __name__ == "__main__":
     # # print("2.9，关闭应用程序进程的PID".center(100, "-"))
     # Sys_PO.clsPID(21500)
     #
-    # print("2.10，关闭应用程序进程名".center(100, "-"))
-    # Sys_PO.clsApp('notepad.exe')
+    print("2.10，关闭应用程序进程名".center(100, "-"))
+    # Sys_PO.clsApp('notepad.exe')  # for win
+    Sys_PO.clsApp("Sublime Text")  # for mac
+    Sys_PO.clsApp("Microsoft Excel")
 
     # # print("3.1 输出系统错误(简)".center(100, "-"))
     # Sys_PO.outMsg1("error", str(sys._getframe(0).f_lineno), sys._getframe(0).f_code.co_name , "错误提示")

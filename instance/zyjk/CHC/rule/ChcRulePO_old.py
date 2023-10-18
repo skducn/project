@@ -69,6 +69,7 @@ class ChcRulePO():
     def insertEMPI(self, varParams):
 
         # 新增患者主索引
+        # insertEMPI("INSERT INTO TB_EMPI_INDEX_ROOT(GUID, NAME, SEXCODE, SEXVALUE, DATEOFBIRTH, IDCARDNO, NATIONCODE, NATIONVALUE, PHONENUM) VALUES ('cs1005', N'测试干预1', '2', '女', '1992-12-01', '653101195005199966', NULL, NULL, '6567917733')")
 
         Sqlserver_PO.insertExec(varParams)
 

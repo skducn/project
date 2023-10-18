@@ -12,6 +12,10 @@ class ConfigparserPO:
         self.cf = configparser.ConfigParser()
         self.cf.read("Configparser.ini", encoding="utf-8-sig")
 
+    def SWITCH(self, name):
+        value = self.cf.get("SWITCH", name)
+        return value
+
     def HTTP(self, name):
         value = self.cf.get("HTTP", name)
         return value
