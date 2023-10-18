@@ -9,14 +9,86 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
+import trace
+from time import sleep
+def func1():
+    print("func1")
+    sleep(5)
+
+def func2():
+    print("func2")
+    func1()
+
+import trace
+
+def print_string(string):
+    tracer = trace.Trace(trace=0, count=1)
+    tracer.runfunc(func1(),string)
+    results = tracer.results()
+    results.write_results(show_missing=True, coverdir=".")
+
+print_string(12)
+
+# import time,sys
+#
+# for i in range(10):
+#     sys.stdout.write("\rProcessing at {}%".format((i+1)*10))
+#     sys.stdout.flush()
+#     time.sleep(1)
+
+# import time
+#
+# # 实例：[100%]: ||||||||||||||||||||||||||||||||||||||||||||||||||||
+# for i in range(0, 101, 2):
+#     time.sleep(0.1)  #线程推迟指定时间运行，0.1秒代表休眠100毫秒
+#     num = i // 2
+#     if i == 100:
+#         process = "\r[%3s%%]: |%-50s|\n" % (i, '|' * num)
+#     else:
+#         process = "\r[%s%%]: |%-50s|" % (i, '*' * num)
+#     print(process, end='', flush=True)
+#
+
+
+
+# from time import sleep
+# from tqdm import trange
+# def init_progress_bar(total):
+#     return trange(total)
+# def get_total_iterations():
+#     return 1
+# def run_function():
+#     progress_bar = init_progress_bar(get_total_iterations())
+#     for i in range(get_total_iterations()):
+#         # 执行函数的代码
+#         print(111, end="")
+#         sleep(5)
+#
+#         progress_bar.update(1)  # 更新进度条
+#     progress_bar.close()  # 完成进度条
+#
+# run_function()
+
+
+# import sys, time
+# print("正在下载...")
+# for i in range(11):#通过for循环输出进度条效果
+#     if i != 10:
+#         sys.stdout.write("==")
+#     else:
+#         sys.stdout.write("== " + str(i*10)+"%/100%")
+#         sys.stdout.flush()
+#     time.sleep(0.5)#sleep用来控制输出时间
+# print(" " + "下载完成")
+
 # list1 = ['name', 'age','sex']
 # print(str(list1))
 
-dict1 = {'a': 1, 'b': 2, 'c': 3}
-values = dict1.keys()
-print(list(values))  # ['a', 'b', 'c']
-str2 = ','.join(list(values))
-print(str2) # a,b,c
+# dict1 = {'a': 1, 'b': 2, 'c': 3}
+# values = dict1.keys()
+# print(list(values))  # ['a', 'b', 'c']
+# str2 = ','.join(list(values))
+# print(str2) # a,b,c
 
 # import exifread,os
 #

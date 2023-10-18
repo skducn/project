@@ -12,9 +12,13 @@
 #***************************************************************
 from ChcRulePO import *
 
-
+import time
+t = time.time()
 r = ChcRulePO({"sheetName": "健康评估", "colTitle": ["测试结果", "测试规则", "评估规则编码"]})
 r.run(3, None)  # r1
+
+print(f'耗时:{time.time() - t:.4f}s')
+
 # r.run(4, None)  # r6
 # r.run(20, None)  # r4
 # r.run(25, None)  # r3
@@ -44,4 +48,4 @@ r.run(3, None)  # r1
 # r.run(None, "GW")
 # r.run("ERROR", None)
 
-r.open('儿童健康干预')
+# r.open('儿童健康干预')
