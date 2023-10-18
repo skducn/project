@@ -46,11 +46,8 @@ class ChcRulePO():
         # print(self.d_seq_row)  # {2: ['OK', "r1,AGE=55 .and. CATEGORY_CODE='2'", 'PG_Age001'], 3: [None, "r1,AGE=56 .and. CATEGORY_CODE='2'", 'PG_Age001'],...}
 
 
-    def open(self):
-        self.Openpyxl_PO.open()
-
-    def openSheet(self,varSheet=1):
-        self.Openpyxl_PO.openSheet(varSheet=varSheet)
+    def open(self, varSheet=0):
+        self.Openpyxl_PO.open(varSheet=varSheet)
 
     def getToken(self, varUser, varPass):
 

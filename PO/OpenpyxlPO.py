@@ -157,7 +157,7 @@ from PO.MysqlPO import *
 
 
 class OpenpyxlPO:
-    
+
     def __init__(self, file):
 
         self.file = file
@@ -268,6 +268,11 @@ class OpenpyxlPO:
 
         # self.wb[varSheet]
         self.wb.active = self.sh(varSheet)
+        for sheet in self.wb:
+            if sheet.title == varSheet:
+                sheet.sheet_view.tabSelected = True
+            else:
+                sheet.sheet_view.tabSelected = False
         self.save()
 
         # return self.wb[varSheet]
@@ -1341,7 +1346,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.newExcel("d://t44.xlsx", ["mySheet661", "mySheet552", "mySheet32"])  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
     # print("1.2 打开".center(100, "-"))
-    Openpyxl_PO.open(1) # 打开第二个工作表
+    Openpyxl_PO.open(1)  # 打开第二个工作表
     # Openpyxl_PO.open() # 打开第一个工作表
     # Openpyxl_PO.open('test')  # 打开test工作表
 

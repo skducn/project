@@ -44,5 +44,4 @@ r.run(3, None)  # r1
 # r.run(None, "GW")
 # r.run("ERROR", None)
 
-r.openSheet(varSheet='儿童健康干预')
-# r.open()
+r.open('儿童健康干预')
