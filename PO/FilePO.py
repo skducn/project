@@ -269,22 +269,27 @@ class FilePO:
                 + "'"
             )
 
-    # 新建文件
-    def newFile(self, varPath, name, text=None):
-        # 新建文件，在指定路径目录下新建文件及内容
-        # File_PO.newFile(os.getcwd() + '/folder3', '13.txt', 'hello,john\ntest测试一下')  #  在 D:\51\python\project\PO\FilePO\folder3 目录下新建文件 13.txt, 并写入 hello,john\ntest测试一下
-        # File_PO.newFile(os.getcwd() + "/folder5",'16.txt')  # 在 folder5目录下新建16.txt空文件，如果 folder5目录不存在，则自动新建目录
-        try:
-            if not os.path.exists(varPath):
-                os.makedirs(varPath)
-            # else:
-            #     # shutil.rmtree(varPath)
-            #     os.makedirs(varPath)
-            file = open(varPath + "/" + name, "w")
-            file.write(text)  # 写入内容信息
-            file.close()
-        except:
-            None
+
+    def newFile(self, varPath, varFile, text=""):
+
+        '''
+        新建文件 (自动创建目录、文件、内容)
+        :param varPath:
+        :param name:
+        :param text:
+        :return:
+
+        # File_PO.newFile(os.getcwd(), '13.txt')  #  在当前目录下新建13.txt文件
+        # File_PO.newFile(os.getcwd(), '13.txt', '你好')  #  在当前目录下新建13.txt文件，并写入"你好"
+        # File_PO.newFile(os.getcwd() + "/folder5",'16.txt')  # 在当前目录下的folder5目录下新建16.txt空文件
+        '''
+
+        if not os.path.exists(varPath):
+            os.makedirs(varPath)
+        file = open(varPath + "/" + varFile, "w")
+        file.write(text)
+        file.close()
+
 
     # 复制文件
     def copyFile(self, srcFilePath, tgtFilePath, varMode="i"):
@@ -393,30 +398,29 @@ class FilePO:
                 + "'"
             )
 
-    # 删除文件
-    def delFile(self, varFilePath):
-        # 删除文件
-        # File_PO.delFile(os.getcwd() + "/filepo/filepo2/13.txt")
+
+    def delFile(self, varPath, varFile):
+
+        '''
+        删除文件
+        :param varFilePath:
+        :return:
+        File_PO.delFile(os.getcwd() + "/filepo/filepo2", "13.txt")  # 删除1个文件
+        File_PO.delFile(os.getcwd() + "/filepo/filepo2", "*.txt")  # 批量删除文件
+        File_PO.delFile(os.getcwd() , "*.*")  # 删除当前路径下所有文件
+        '''
+
         list1 = []
-        try:
-            if "*." in varFilePath:
-                list1 = File_PO.getListFile(varFilePath)
-                for i in range(len(list1)):
-                    os.remove(list1[i])
-            else:
-                os.remove(varFilePath)
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        varFilePath = varPath + "/" + varFile
+
+        if "*." in varFilePath:
+            list1 = File_PO.getListFile(varFilePath)
+            for i in range(len(list1)):
+                os.remove(list1[i])
+        else:
+            os.remove(varFilePath)
+
 
     # 级联删除一个目录下的所有文件，包括子目录下的文件（保留所有子目录，最终保留这个目录架构）
     def delCascadeFiles(self, varPath):
@@ -651,13 +655,13 @@ if __name__ == "__main__":
     # # File_PO.delLayerFolder(os.getcwd() + "/recursion/h1/h2")  # h2下有文件，/recursion/h1/h2 三个目录都没有被删除。
     # # File_PO.renameFile(os.getcwd() + "/filepo/recursion/h1/h2/16.txt", os.getcwd() + "/filepo/recursion/11.txt")
     # # File_PO.delLayerFolder(os.getcwd() + "/filepo/recursion/h1/h2")  # recursion下有文件，递归删除h1和h2目录。
-    # # File_PO.delFile(os.getcwd() + "/filepo/recursion/11.txt")
     # # File_PO.delLayerFolder(os.getcwd() + "/filepo/recursion/h3/h4")  #  recursion/h1/h2 这3个都是空目录，递归删除了3个目录。
     #
     # print("4.10 删除文件（支持通配符）".center(100, "-"))
-    # # File_PO.delFile(os.getcwd() + "/filepo/filepo2/13.txt")  # 删除1个文件
-    # # File_PO.delFile(os.getcwd() + "/filepo/filepo2/*.txt")  # 批量删除文件
-    # # File_PO.delFile(os.getcwd() + "/filepo/filepo2/*.*")  # 删除所有文件
+    # File_PO.delFile(os.getcwd() + "/filepo/filepo2", "13.txt")  # 删除1个文件
+    # File_PO.delFile(os.getcwd() + "/filepo/filepo2", "*.txt")  # 批量删除文件
+    # File_PO.delFile(os.getcwd(), "*.*")  # 删除当前路径下所有文件
+
     #
     # print("4.11 强制删除目录".center(100, "-"))
     # # File_PO.deltreeFolder(os.getcwd() + "/filepo")

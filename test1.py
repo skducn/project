@@ -9,25 +9,93 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-import trace
-from time import sleep
-def func1():
-    print("func1")
-    sleep(5)
+list1 = [1,2,3,4,5]
+for i in range(len(list1)):
+    list1[i] = list1[i]+4
+print(list1)
+# import threading
+#
+# def test (x,y):
+#
+#  for i in range(x,y):
+#
+#    print(i)
+#
+# thread1 = threading.Thread(name='t1',target= test,args=(1,10))
+#
+# thread2 = threading.Thread(name='t2',target= test,args=(11,20))
+#
+# thread1.start()   #启动线程1
+#
+# thread2.start()   #启动线程2
 
-def func2():
-    print("func2")
-    func1()
+# import pika
+#
+#
+# def producer():
+#     credentials = pika.PlainCredentials('mingchentong', 'mingchentong')
+#     connection = pika.BlockingConnection(pika.ConnectionParameters('103.25.65.103', '5672', '/', credentials))
+#     channel = connection.channel()
+#     # channel.exchange_declare(exchange="boot_topic_exchange", durable=True)
+#     channel.queue_declare(queue='boot_queue', durable=True)
+#     try:
+#         channel.basic_publish(exchange='', routing_key='boot_queue', body='Hello, World!123213213123123')
+#
+#         # channel.wait_for_confirms()
+#
+#         print(" [x] Sent 'Hello, World!'")
+#     except Exception as e:
+#         print(f"Failed to send message: {e}")
+#
+#     connection.close()
+#
+# def consumer():
+#
+#     credentials = pika.PlainCredentials('mingchentong', 'mingchentong')
+#     connection = pika.BlockingConnection(pika.ConnectionParameters('103.25.65.103', '5672', '/', credentials))
+#     channel = connection.channel()
+#
+#     channel.queue_declare(queue='boot_queue', durable=True)
+#     channel.basic_qos(prefetch_count=1)
+#     channel.basic_consume(queue='boot_queue', on_message_callback=callback)
+#
+#     print("Waiting for messages. To exit press CTRL+C")
+#
+#     channel.start_consuming()
+#
+# def callback(ch, method, properties, body):
+#     try:
+#         print(f"Received message: {body}")
+#         ch.basic_ack(delivery_tag=method.delivery_tag)
+#
+#     except Exception as e:
+#         print(f"Error processing message: {e}")
+#         ch.basic_nack(delivery_tag=method.delivery_tag, requeue=True)
+#
+# if __name__ == "__main__":
+#     producer()
+#     consumer()
 
-import trace
 
-def print_string(string):
-    tracer = trace.Trace(trace=0, count=1)
-    tracer.runfunc(func1(),string)
-    results = tracer.results()
-    results.write_results(show_missing=True, coverdir=".")
-
-print_string(12)
+# import trace
+# from time import sleep
+# def func1():
+#     print("func1")
+#     sleep(5)
+#
+# def func2():
+#     print("func2")
+#     func1()
+#
+# import trace
+#
+# def print_string(string):
+#     tracer = trace.Trace(trace=0, count=1)
+#     tracer.runfunc(func1(),string)
+#     results = tracer.results()
+#     results.write_results(show_missing=True, coverdir=".")
+#
+# print_string(12)
 
 # import time,sys
 #

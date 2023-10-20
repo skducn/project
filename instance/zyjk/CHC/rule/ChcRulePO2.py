@@ -24,28 +24,56 @@ Data_PO = DataPO()
 from PO.OpenpyxlPO import *
 
 
-class ChcRulePO():
+class ChcRulePO2():
 
-    def __init__(self, d_sheetName_colTitle):
+    def __init__(self, dbTableName):
 
         self.TOKEN = self.getToken(Configparser_PO.USER("user"), Configparser_PO.USER("password"))
+        self.dbTableName = dbTableName
 
-        self.clsApp("Microsoft Excel")
-        self.Openpyxl_PO = OpenpyxlPO(Configparser_PO.EXCEL("fileName"))
-        self.sheetName = d_sheetName_colTitle['sheetName']
+        self.r1 = ["select top(1) ID,ID_CARD from T_ASSESS_INFO order by ID desc",
+                   "UPDATE T_ASSESS_INFO set {测试规则参数} where ID_CARD = '{varIdcard}'",
+                   "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'",
+                   "self.i_rerunExecuteRule({varID})",
+                   "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE= '{规则编码}'"]
 
-        # 读取指定列
-        l_colSeq = self.Openpyxl_PO.getTitleColSeq(d_sheetName_colTitle['colTitle'], self.sheetName)
-        # print(l_colSeq)  # [2, 4, 1]
+        self.r2 = ["delete from T_ASSESS_INFO where ID_CARD = '{身份证}'",
+                    "DELETE FROM T_HIS_DIAGNOSIS where IDCARD = '{身份证}'",
+                    "INSERT INTO T_HIS_DIAGNOSIS (IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_TYPE,DIAGNOSIS_DATE, CREATE_DATE) VALUES ('{身份证}', {测试规则参数1},{测试规则参数2}, '2023-07-29 16:02:19.000', '2023-07-31 09:39:24.3700000')",
+                    "self.i_startAssess({身份证})",
+                    "select ID from T_ASSESS_INFO where ID_CARD = '{身份证}'",
+                    "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'",
+                    "self.i_rerunExecuteRule({varID})",
+                    "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'",
+                    "select count(*) Q2 from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{疾病评估规则编码}'"]
 
-        # 获取指定列的行数据
-        self.d_seq_row = self.Openpyxl_PO.getRowByColSeq(l_colSeq, self.sheetName)
-        del self.d_seq_row[1]
-        # print(self.d_seq_row)  # {2: ['OK', "r1,AGE=55 .and. CATEGORY_CODE='2'", 'PG_Age001'], 3: [None, "r1,AGE=56 .and. CATEGORY_CODE='2'", 'PG_Age001'],...}
+        self.r3 = ["delete from T_ASSESS_INFO where ID_CARD = '110101196407281506'",
+                    "delete from T_HIS_DIAGNOSIS where IDCARD = '110101196407281506'",
+                    "INSERT INTO T_HIS_DIAGNOSIS (IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_NAME, DIAGNOSIS_DATE, CREATE_DATE,DIAGNOSIS_TYPE) VALUES ('110101196407281506', {测试规则参数1}, '', '2023-07-29 16:02:19.000', '2023-07-31 09:39:24.3700000',{测试规则参数2})",
+                    "self.i_startAssess(110101196407281506)",
+                    "select ID from T_ASSESS_INFO where ID_CARD = '110101196407281506'",
+                    "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'",
+                    "self.i_rerunExecuteRule({varID})",
+                    "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'"]
 
+        self.r4 = ["delete from T_ASSESS_INFO where ID_CARD = '110101196407281506'",
+                    "self.i_startAssess(110101196407281506)",
+                    "select ID from T_ASSESS_INFO where ID_CARD = '110101196407281506'",
+                    "delete from T_ASSESS_PREVIOUS_HISTORY where IDCARD = '110101196407281506'",
+                    "INSERT INTO T_ASSESS_PREVIOUS_HISTORY(IDCARD, ASSESS_ID, ASSOCIATION_TYPE, MSG_NAME, OCCUR_DATE, CREATE_DATE, MSG_CODE) VALUES ('110101196407281506', {varID}, {测试规则参数1}, '手术1', '2023-07-01', '2023-07-29 16:31:45.1600000', {测试规则参数2})",
+                    "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'",
+                    "self.i_rerunExecuteRule({varID})",
+                    "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'"]
 
-    def open(self, varSheet=0):
-        self.Openpyxl_PO.open(varSheet=varSheet)
+        self.r6 = ["delete from T_ASSESS_INFO where ID_CARD = '110101196407281506'",
+                    "self.i_startAssess(110101196407281506)",
+                    "select ID from T_ASSESS_INFO where ID_CARD = '110101196407281506'",
+                    "delete from T_ASSESS_FAMILY_HISTORY where IDCARD = '110101196407281506'",
+                    "INSERT INTO T_ASSESS_FAMILY_HISTORY(IDCARD, ASSESS_ID, DISEASE_NAME, FAMILY_TIES, SERVER_DATE, CREATE_DATE) VALUES ('110101196407281506', {varID}, {测试规则参数}, '父亲', '1900-01-01', '2023-07-29 14:00:38.9466667')",
+                    "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'",
+                    "self.i_rerunExecuteRule({varID})",
+                    "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'"]
+
 
     def getToken(self, varUser, varPass):
 
@@ -59,36 +87,17 @@ class ChcRulePO():
             print(d_r['data']['access_token'])
         return d_r['data']['access_token']
 
-    def clsApp(self, varApp):
-
-        '''
-        关闭应用程序
-        :param varApp:
-        :return:
-         # clsApp("chrome.exe")
-        '''
-
-        l_pid = []
-        pids = psutil.pids()
-        for pid in pids:
-            p = psutil.Process(pid)
-            if p.name() == varApp:
-                l_pid.append(pid)
-        for i in range(len(l_pid)):
-            p = psutil.Process(l_pid[i])
-            p.terminate()
-
-    def getDiseaseIdcard(self):
+    def getIdcard(self):
 
         '''
         获取疾病身份证中对应疾病的身份证号码
         :param
-        :return: {'YH_JB001': '310101202308070001', 'YH_JB002': '310101202308070002'}
+        :return: 
         '''
 
-        l_code_Idcard = self.Openpyxl_PO.getColByPartialColByUnwantedRow([1, 3], [1], "疾病身份证")
-        d_code_Idcard = dict(zip(l_code_Idcard[0], l_code_Idcard[1]))
-        return (d_code_Idcard)  # {'YH_JB001': '310101202308070001', 'YH_JB002': '310101202308070002'}
+        l_d_diseaseRuleCode_idcard = Sqlserver_PO.execQuery("select diseaseRuleCode, idcard from jh_idcard")
+        # print(l_d_diseaseRuleCode_idcard)  # [{'diseaseRuleCode': 'YH_JB001', 'idcard': 310101202308070001}, {'diseaseRuleCode': 'YH_JB002', 'idcard': 310101202308070002}, ...]
+        return (l_d_diseaseRuleCode_idcard)
 
     def i_rerunExecuteRule(self, var):
 
@@ -105,7 +114,7 @@ class ChcRulePO():
         out, err = p.communicate()
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
-        sleep(3)
+        sleep(2)
         # print(d_r)
         # print(command)
         # sleep(2)
@@ -114,9 +123,9 @@ class ChcRulePO():
             if d_r['code'] != 200:
                 Color_PO.consoleColor("31", "31", command, "")
                 Color_PO.consoleColor("31", "31", var, "")
-                return ([{'name': '跑规则', 'value': var}])
+                return ([{'name': '重新评估', 'value': var}])
             else:
-                return ([{'name': '跑规则', 'value': 200}])
+                return ([{'重新评估': 200}])
         else:
             Color_PO.consoleColor("31", "31", command, "")  # # {"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
             Color_PO.consoleColor("31", "31", var, "")
@@ -185,70 +194,74 @@ class ChcRulePO():
 
 
 
-    def outResult1(self, varQty, varLog, k, l_v1):
+    def outResult1(self, varQty, varLog):
 
-        if varQty == "1" or varQty == 1:
-            Color_PO.consoleColor("31", "36", ("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ") => OK]"), "")
-            self.Openpyxl_PO.setCell(k, 1, "OK", self.sheetName)
-            self.Openpyxl_PO.setCell(k, 2, Time_PO.getDateTimeByDivide(), self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=self.sheetName)
+        if varQty == 1:
+            Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]"), "")
+            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
             print("step log".center(100, "-"))
             print(self.log)
-            Color_PO.consoleColor("31", "31", ("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ") => ERROR]"), "")
-            self.Openpyxl_PO.setCell(k, 1, "ERROR", self.sheetName)
-            self.Openpyxl_PO.setCell(k, 2, varLog, self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=self.sheetName)
+            Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
+            Sqlserver_PO.execute("update %s set result='error' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, varLog, self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
-    def outResult2(self, varQty, varLog, k, l_v1):
+    def outResult2(self, varQty, varLog):
 
-        if varQty == "2" or varQty == 2:
-            Color_PO.consoleColor("31", "36", ("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ") => OK]"), "")
-            # Color_PO.consoleColor("31", "36", "[" + str(k) + " => OK]\n", "")
-            self.Openpyxl_PO.setCell(k, 1, "OK", self.sheetName)
-            self.Openpyxl_PO.setCell(k, 2, Time_PO.getDateTimeByDivide(), self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=self.sheetName)
+        if varQty == 2:
+            Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(
+                self.l_d_rows['rule']) + ") => OK]"), "")
+            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute(
+                "update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
-            Color_PO.consoleColor("31", "31", ("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ") => ERROR]"), "")
+            print("step log".center(100, "-"))
             print(self.log)
-            self.Openpyxl_PO.setCell(k, 1, "ERROR", self.sheetName)
-            self.Openpyxl_PO.setCell(k, 2, varLog, self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=self.sheetName)
+            Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(
+                self.l_d_rows['rule']) + ") => ERROR]"), "")
+            Sqlserver_PO.execute("update %s set result='error' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, varLog, self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
-    def outResultGW(self, result, log, k, v5):
+    def outResultGW(self, varQty, varLog, v5):
 
-        if result == 1:
-            Color_PO.consoleColor("31", "36", "[" + str(v5) + " => OK]\n", "")
-            self.Openpyxl_PO.setCell(k, 1, "OK", self.sheetName)
-            self.Openpyxl_PO.setCell(k, 2, Time_PO.getDateTimeByDivide(), self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "A", color="000000", varSheet=self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "B", color="000000", varSheet=self.sheetName)
+        if varQty == 1:
+            Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(v5) + ") => OK]"), "")
+            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
-            Color_PO.consoleColor("31", "31", "[" + str(v5) + " => ERROR]\n", "")
-            self.Openpyxl_PO.setCell(k, 1, "ERROR", self.sheetName)
-            self.Openpyxl_PO.setCell(k, 2, log, self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "A", color="ff0000", varSheet=self.sheetName)
-            self.Openpyxl_PO.setCellFont(k, "B", color="ff0000", varSheet=self.sheetName)
+            print("step log".center(100, "-"))
+            print(self.log)
+            Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(v5) + ") => ERROR]"), "")
+            Sqlserver_PO.execute("update %s set result='error' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, varLog, self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
 
-    def _getIdcard(self, d, k, l_v1):
+    def _getIdcard(self, d):
 
         # 获取身份证
 
-        varIdcard = None
-        d_code_idcard = self.getDiseaseIdcard()
-        for k1, v1 in d_code_idcard.items():
-            if k1 == d['diseaseRuleCode']:
-                varIdcard = v1
-                break
+        print(d)
+        varIdcard = ""
+        l_d_diseaseRuleCode_idcard = self.getIdcard()
+        print(l_d_diseaseRuleCode_idcard)
+        for i in range(len(l_d_diseaseRuleCode_idcard)):
+            for k, v in l_d_diseaseRuleCode_idcard[i].items():
+                # print(l_d_diseaseRuleCode_idcard[i][k])
+                if l_d_diseaseRuleCode_idcard[i][k] == d['diseaseRuleCode']:
+                    varIdcard = l_d_diseaseRuleCode_idcard[i]['idcard']
+                    break
         d["varIdcard"] = varIdcard
+        print(varIdcard)
         if varIdcard != None:
             varQty, varLog = self.rule(d)
-            self.outResult1(varQty, varLog, k, l_v1)
+            self.outResult1(varQty, varLog)
         else:
             # print("[ERROR => _getIdcard() => 身份证不能为None!]")
             Color_PO.consoleColor("31", "31", "[ERROR => _getIdcard() => 身份证不能为None!]", "")
@@ -257,28 +270,28 @@ class ChcRulePO():
 
         # 健康干预命中次数之获取身份证
 
+        print(d,22222)
+
         varIdcard = None
-        d_code_idcard = self.getDiseaseIdcard()
-        for k1, v1 in d_code_idcard.items():
-            if k1 == d['diseaseRuleCode']:
-                varIdcard = v1
-                break
+        l_d_diseaseRuleCode_idcard = self.getIdcard()
+        for i in range(len(l_d_diseaseRuleCode_idcard)):
+            for k1, v1 in l_d_diseaseRuleCode_idcard[i].items():
+                if k1 == d['diseaseRuleCode']:
+                    varIdcard = v1
+                    break
         d["varIdcard"] = varIdcard
         if varIdcard != None:
             varQty, varLog = self.rule(d)
             if d['hitQty'] == 2:
-                self.outResult2(varQty, varLog, k, l_v1)
+                self.outResult2(varQty, varLog)
             elif d['hitQty'] == None:
-                self.outResult1(varQty, varLog, k, l_v1)
+                self.outResult1(varQty, varLog)
         else:
             Color_PO.consoleColor("31", "31", "[ERROR => _getIdcard2() => 身份证不能为None!]", "")
             # print("[ERROR => _getIdcard2() => 身份证不能为None!]")
 
 
-
-
-
-    def run(self, varA, varC_rule):
+    def run(self, varId):
 
         '''
         筛选执行条件
@@ -287,239 +300,123 @@ class ChcRulePO():
         :return: none
         '''
 
-        if isinstance(varA, int):
-            self.runAll(varA)  # None, None
-        elif varA == None:
-            if varC_rule == None:
-                self.runAll(varA)  # None, None
-            else:
-                self.runRule(varA, varC_rule)  # None, "r1"
-        else:
-            if varC_rule == None:
-                self.runAll(varA)  # "ERROR", None
-            else:
-                self.runRule(varA, varC_rule)  # "OK", "r1"
-        self.Openpyxl_PO.setAllCellDimensionsHeight(30, self.sheetName)
+        self.varId = varId
 
-    def runAll(self, varA):
-        for k, v in self.d_seq_row.items():
-            # print(k, v)  # ['OK', "r1,AGE=55 .and. CATEGORY_CODE='2'", 'PG_Age001']
-            if v[1] != None:
-                if varA == None and v[0] == None:
-                    self.main(k, v)
-                elif varA == "OK" and v[0] == "OK":
-                    self.main(k, v)
-                elif varA == "ERROR" and v[0] == "ERROR":
-                    self.main(k, v)
-                elif varA == "ALL":
-                    self.main(k, v)
-                elif isinstance(varA, int):
-                    if k == varA:
-                        self.main(k, v)
-            else:
-                if Configparser_PO.SWITCH("testRuleIsNull") == "on":
-                    Color_PO.consoleColor("31", "33", "[WARNING => runAll() => " + str(k) + " => 测试规则为空已跳过!]", "")
+        l_d_rows = Sqlserver_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
+        print(l_d_rows[0]) # {'result': 'okay', 'memo': '2023/10/20 21:20:21', 'rule': 'self.r1', 'ruleParam': "AGE=55 .and. CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001', 'tester': '刘斌龙', 'id': 1, 'var': ''}
+        self.l_d_rows = l_d_rows[0]
 
+        # 格式化参数
+        rule = l_d_rows[0]['rule']
+        ruleParam = l_d_rows[0]['ruleParam']
+        ruleCode = l_d_rows[0]['ruleCode']
+        diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
-
-    def runRule(self, varA, varC_rule):
-        for k, v in self.d_seq_row.items():
-            if v[1] != None:
-                if varA == None and v[0] == None:
-                    self.main_rule(k, v, varC_rule)
-                elif varA == "OK" and v[0] == "OK":
-                    self.main_rule(k, v, varC_rule)
-                elif varA == "ERROR" and v[0] == "ERROR":
-                    self.main_rule(k, v, varC_rule)
-                elif varA == "ALL":
-                    self.main_rule(k, v, varC_rule)
-
-    def main(self, k, v):
-
-        '''
-        筛选测试规则参数
-        :param k: 第几行
-        :param v: 行数据（测试结果，测试规则，干预编码...）
-        :return:
-        '''
-
-        # 格式化测试规则
-        try:
-            l_v1 = Str_PO.str2list(v[1])
-            # print(l_v1)  # ['r11', "AGE='58'.and.DRINKING_FREQUENCY_CODE='3'"]
-            varParam = l_v1[1] .replace(".and.", ',')
-        except:
-            Color_PO.consoleColor("31", "31", "[ERROR => main() => '" + self.sheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' 错误!]", "")
-
-
-        if (l_v1[0] == "r1") or (l_v1[0] == "r6") or (l_v1[0] == "r12") :
+        # 传递参数
+        if (rule == "r1") or (rule == "r6") or (rule == "r12"):
             # 带参数1
-            self.param1(v, l_v1, k)
-            # self.param1(v, l_v1, k, varSheetName, Openpyxl_PO, TOKEN)
-        elif (l_v1[0] == "r3") or (l_v1[0] == "r4") or (l_v1[0] == "r8"):
+            self.param1(rule, ruleParam, ruleCode)
+        elif (rule == "r3") or (rule == "r4") or (rule == "r8"):
             # 带参数2
-            self.param2(v, l_v1, k)
-        elif l_v1[0] == "r7":
+            self.param2(rule, ruleParam, ruleCode)
+        elif rule == "r7":
             # 带参数4
-            self.param4(v, l_v1, k)
-        elif (l_v1[0] == "r9") or (l_v1[0] == "r10"):
+            self.param4(rule, ruleParam, ruleCode)
+        elif (rule == "r9") or (rule == "r10"):
             # 带参数1（自动匹配身份证）
-            self.param1_idcard(v, l_v1, k)
-        elif l_v1[0] == "r2":
+            self.param1_idcard(rule, ruleParam, ruleCode)
+        elif rule == "r2":
             # 带参数2（自动匹配身份证）
-            self.param2_idcard(v, l_v1, k)
-        elif l_v1[0] == "r11":
+            self.param2_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
+        elif rule == "r11":
             # 带参数1，健康干预两次命中（干预+疾病评估）
-            self.param1_idcard_hitQty2(v, l_v1, k)
-        elif l_v1[0] == "r5":
+            self.param1_idcard_hitQty2(rule, ruleParam, ruleCode)
+        elif rule == "r5":
             # 带参数3，健康干预两次命中（干预+疾病评估）
-            self.param3_idcard_hitQty2(v, l_v1, k)
+            self.param3_idcard_hitQty2(rule, ruleParam, ruleCode)
 
-    def main_rule(self, k, v, var3_rule):
 
-        '''
-        筛选测试规则参数（规则）
-        :param k: 第几行
-        :param v: 行数据（测试结果，测试规则，干预编码...）
-        :return:
-        '''
 
-        try:
-            l_v1 = Str_PO.str2list(v[1])
-            # print(l_v1)  # ['r11', "AGE='58'.and.DRINKING_FREQUENCY_CODE='3'"]
-            varParam = l_v1[1] .replace(".and.", ',')
-        except:
-            Color_PO.consoleColor("31", "31", "[ERROR => main_rule() => '" + self.sheetName + "', line " + str(k) + ", 测试规则 '" + str(v[1]) + "' 错误!]", "")
-
-        if (l_v1[0] == "r1" and var3_rule == "r1") or (l_v1[0] == "r6" and var3_rule == "r6") or (l_v1[0] == "r12" and var3_rule == "r12"):
-            # 带参数1
-            self.param1(v, l_v1, k)
-        elif (l_v1[0] == "r3" and var3_rule == "r3") or (l_v1[0] == "r4" and var3_rule == "r4") or (l_v1[0] == "r8" and var3_rule == "r8"):
-            # 带参数2
-            self.param2(v, l_v1, k)
-        elif l_v1[0] == "r7" and var3_rule == "r7":
-            # 带参数4
-            self.param4(v, l_v1, k)
-        elif (l_v1[0] == "r9" and var3_rule == "r9") or (l_v1[0] == "r10" and var3_rule == "r10") :
-            # 带参数1（自动匹配身份证）
-            self.param1_idcard(v, l_v1, k)
-        elif l_v1[0] == "r2" and var3_rule == "r2":
-            # 带参数2（自动匹配身份证）
-            self.param2_idcard(v, l_v1, k)
-        elif l_v1[0] == "r11" and var3_rule == "r11":
-            # 带参数1，健康干预两次命中（干预+疾病评估）
-            self.param1_idcard_hitQty2(v, l_v1, k)
-        elif l_v1[0] == "r5" and var3_rule == "r5":
-            # 带参数3，健康干预两次命中（干预+疾病评估）
-            self.param3_idcard_hitQty2(v, l_v1, k)
-        elif l_v1[0] == "GW" and var3_rule == "GW":
-
-            d = {}
-            d['result'] = v[0]
-            d['diseaseRuleCode'] = v[2]
-            d['interventionRule'] = v[3]
-            Color_PO.consoleColor("31", "36", ("[" + str(self.sheetName) + " => " + str(k) + "(" + str(v[2]) + ")]"), "")
-            # 格式化测试规则
-            # print(l_v1) # ['GW', 'QTY0:0', 'PG_SHXG005:1', 'PG_SHXG007:1', 'PG_STZB005:1', 'PG_JZS006:1', 'PG_JWS015:1', 'PG_JWS013:1']
-            l_v1.pop(0)
-            d_v1 = List_PO.list2dictByKeyValue(l_v1)
-            # 获取身份证（在"疾病身份证" sheet中获取对应的身份证）
-            varIdcard = None
-            d_code_idcard = self.getDiseaseIdcard()
-            for k1, v1 in d_code_idcard.items():
-                if k1 == d['diseaseRuleCode']:
-                    varIdcard = v1
-                    break
-            d["varIdcard"] = varIdcard
-
-            # 执行语句及输出
-            print(d)
-            d_all, log = self.gw(d)
-            print("预期：", d_v1)
-            print("实测：", d_all)
-            if d_all == d_v1:
-                self.outResultGW(1, log, k, v[2])
-            else:
-                self.outResultGW(0, log, k, v[2])
-
-    def param1(self, v, l_v1, k):
-
+    def param1(self, rule, ruleParam, ruleCode):
         if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]")
+            print("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]")
         d = {}
-        d['result'] = v[0]  # OK
-        d['testRuleName'] = l_v1[0]  # r1
-        d['testRuleParam'] = l_v1[1].replace(".and.", ',')  # AGE='58'.and.DRINKING_FREQUENCY_CODE='3'
-        d['interventionRule'] = v[2]  # GY_GW001001  //干预规则编码
+        d['rule'] = "self." + rule  # self.r1
+        d['ruleParam'] = ruleParam.replace(".and.", ',')   # AGE=55 .and. CATEGORY_CODE='2'"
+        d['ruleCode'] = ruleCode  # GY_GW001001
         varQty, varLog = self.rule(d)
-        self.outResult1(varQty, varLog, k, l_v1)
+        self.outResult1(varQty, varLog)
 
 
-    def param2(self, v, l_v1, k):
-
+    def param2(self, rule, ruleParam, ruleCode):
         if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]")
-        # print(v)
+            print("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]")
+
+        l_ruleParam = Str_PO.str2list(ruleParam)
         d = {}
-        d['result'] = v[0]
-        d['testRuleName'] = l_v1[0]
-        d['testRuleParam1'] = l_v1[1]
-        d['testRuleParam2'] = l_v1[2].replace(".and.", ',')
-        d['interventionRule'] = v[2]
+        d['rule'] = "self." + rule
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
         varQty, varLog = self.rule(d)
-        self.outResult1(varQty, varLog, k, l_v1)
+        self.outResult1(varQty, varLog)
 
 
-    def param4(self, v, l_v1, k):
+    def param4(self, rule, ruleParam, ruleCode):
 
         if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]")
+            print("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]")
+        l_ruleParam = Str_PO.str2list(ruleParam)
         d = {}
-        d['result'] = v[0]
-        d['testRuleName'] = l_v1[0]
-        d['testRuleParam1'] = l_v1[1]
-        d['testRuleParam2'] = l_v1[2]
-        d['testRuleParam3'] = l_v1[3]
-        d['testRuleParam4'] = l_v1[4]
-        d['interventionRule'] = v[2]
+        d['rule'] = "self." + rule
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
+        d['ruleParam4'] = l_ruleParam[3].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
         varQty, varLog = self.rule(d)
-        self.outResult1(varQty, varLog, k, l_v1)
+        self.outResult1(varQty, varLog)
 
 
-    def param1_idcard(self, v, l_v1, k):
-
-        if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]")
-        d = {}
-        d['result'] = v[0]
-        d['testRuleName'] = l_v1[0]
-        d['testRuleParam'] = l_v1[1]
-        d['diseaseRuleCode'] = v[2]
-        d['interventionRule'] = v[3]
-        self._getIdcard(d, k, l_v1)
-
-
-    def param2_idcard(self, v, l_v1, k):
+    def param1_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
 
         if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]")
+            print("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]")
         d = {}
-        d['result'] = v[0]
-        d['testRuleName'] = l_v1[0]
-        d['testRuleParam1'] = l_v1[1]
-        d['testRuleParam2'] = l_v1[2]
-        d['diseaseRuleCode'] = v[2]
-        d['interventionRule'] = v[3]
-        self._getIdcard(d, k, l_v1)
+        d['rule'] = "self." + rule
+        d['ruleParam'] = ruleParam.replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        # varQty, varLog = self.rule(d)
+        # self.outResult1(varQty, varLog)
+        self._getIdcard(d)
+
+
+    def param2_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
+
+        if Configparser_PO.SWITCH("printSql") == "on":
+            print("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]")
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d = {}
+        d['rule'] = "self." + rule
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        # varQty, varLog = self.rule(d)
+        # # self.outResult1(varQty, varLog)
+        self._getIdcard(d)
+
+
 
 
     def param1_idcard_hitQty2(self, v, l_v1, k):
 
         if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]")
+            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(d_row['rule']) + ")]")
         d = {}
         d['result'] = v[0]
-        d['testRuleName'] = l_v1[0]
+        d['testRuleName'] = d_row['rule']
         d['testRuleParam'] = l_v1[1] .replace(".and.", ',')
         d['diseaseRuleCode'] = v[2]
         d['interventionRule'] = v[3]
@@ -530,10 +427,10 @@ class ChcRulePO():
     def param3_idcard_hitQty2(self, v, l_v1, k):
 
         if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(l_v1[0]) + ")]")
+            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(d_row['rule']) + ")]")
         d = {}
         d['result'] = v[0]
-        d['testRuleName'] = l_v1[0]
+        d['testRuleName'] = d_row['rule']
         d['testRuleParam1'] = l_v1[1]
         d['testRuleParam2'] = l_v1[2]
         d['testRuleParam3'] = l_v1[3] .replace(".and.", ',')
@@ -552,195 +449,200 @@ class ChcRulePO():
         :param d:
         :return:
         '''
-        # print(d)  # {'result': None, 'testRuleName': 'r2', 'testRuleParam1': "'E11'", 'testRuleParam2': "'1'", 'ruleCode': 'GY_YH002001', 'diseaseRuleCode': 'YH_JB002', 'varIdcard': '310101202308070002'}
+
+        # print(d)  # {'rule': 'self.r1', 'ruleParam': "AGE=55 , CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001'}
+        l_sql = eval(d['rule'])  # ['select top(1) ID,ID_CARD from T_ASSESS_INFO order by ID desc',...]
+        print("[原始] => ", l_sql)
 
         self.log = ""
         varQTY = 0
         varQ2 = 0
 
-        # 生成一个临时文件，用于保存参数
-        varFile = Data_PO.getUUID("md5")
-        varFile = varFile + '.ini'
-        File_PO.newFile(os.getcwd(), varFile)
-        Conf_PO = ConfigparserPO(varFile)
-        sectionName = Conf_PO.cf.sections()  # 获取所有section名
-        # print(sectionName)
-        if 'VAR' not in sectionName:
-            Conf_PO.cf.add_section('VAR')
-            Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
+        # # 生成一个临时文件，用于保存参数
+        # varFile = Data_PO.getUUID("md5")
+        # varFile = varFile + '.ini'
+        # File_PO.newFile(os.getcwd(), varFile)
+        # Conf_PO = ConfigparserPO(varFile)
+        # sectionName = Conf_PO.cf.sections()  # 获取所有section名
+        # # print(sectionName)
+        # if 'VAR' not in sectionName:
+        #     Conf_PO.cf.add_section('VAR')
+        #     Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
+
+        # # 1，遍历所有列得到列值
+        # l_all = self.Openpyxl_PO.getCol("sql")
+        # i_startAssessStatus = 0
+        # for i in range(len(l_all)):
+        #     if d['testRuleName'] == l_all[i][0]:
+        #         for j in range(1, len(l_all[i])):
+        #             command = l_all[i][j]
+        #             if command != None:
 
 
-        # 1，遍历所有列得到列值
-        l_all = self.Openpyxl_PO.getCol("sql")
-        i_startAssessStatus = 0
-        for i in range(len(l_all)):
-            if d['testRuleName'] == l_all[i][0]:
-                for j in range(1, len(l_all[i])):
-                    command = l_all[i][j]
-                    if command != None:
-                        # 格式转义
-                        if 'varIdcard' in d:
-                            command = str(command).replace("{身份证}", d['varIdcard'])
-                        if 'testRuleParam1' in d:
-                            command = str(command).replace("{测试规则参数1}", d['testRuleParam1'])
-                        if 'testRuleParam2' in d:
-                            command = str(command).replace("{测试规则参数2}", d['testRuleParam2'])
-                        if 'testRuleParam3' in d:
-                            command = str(command).replace("{测试规则参数3}", d['testRuleParam3'])
-                        if 'testRuleParam4' in d:
-                            command = str(command).replace("{测试规则参数4}", d['testRuleParam4'])
-                        if 'testRuleParam' in d:
-                            command = str(command).replace("{测试规则参数}", d['testRuleParam'])
-                        if 'interventionRule' in d:
-                            command = str(command).replace("{规则编码}", d['interventionRule'])
-                        if "{随机数}" in command:
-                            command = str(command).replace("{随机数}", Data_PO.getPhone())
-                        if '{疾病评估规则编码}' in command:
-                            command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
+
+        # var = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+        # print("首次] => ", var)
+
+        for i in range(len(l_sql)):
+
+            # 格式转义
+            if 'varIdcard' in d:
+                l_sql[i] = str(l_sql[i]).replace("{身份证}", str(d['varIdcard']))
+            if 'ruleParam1' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数1}", d['ruleParam1'])
+            if 'ruleParam2' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数2}", d['ruleParam2'])
+            if 'ruleParam3' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数3}", d['ruleParam3'])
+            if 'ruleParam4' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数4}", d['ruleParam4'])
+            if 'ruleParam' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数}", d['ruleParam'])
+            if 'ruleCode' in d:
+                l_sql[i] = str(l_sql[i]).replace("{规则编码}", d['ruleCode'])
+            if "{随机数}" in l_sql[i]:
+                l_sql[i] = str(l_sql[i]).replace("{随机数}", Data_PO.getPhone())
+            if '{疾病评估规则编码}' in l_sql[i]:
+                l_sql[i] = str(l_sql[i]).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
+        print("[第1次格式化sql] => ", l_sql)
+
+        for i in range(len(l_sql)):
+
+            var = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+            print("[] => ", var)
+
+            if var[0]['var'] != None:
+                if 'id=' in var[0]['var'] :
+                    varID = var[0]['var'].split("id=")[1].split(",")[0]
+                    l_sql[i] = str(l_sql[i]).replace("{varID}", varID)
+
+            if var[0]['var'] != None:
+                if 'idcard=' in var[0]['var'] :
+                    varIdcard = var[0]['var'].split("idcard=")[1].split(",")[0]
+                    l_sql[i] = str(l_sql[i]).replace("{varIdcard}", varIdcard)
+
+            if var[0]['var'] != None:
+                if 'guid=' in var[0]['var'] :
+                    varGUID = var[0]['var'].split("guid=")[1].split(",")[0]
+                    l_sql[i] = str(l_sql[i]).replace("{varGUID}", varGUID)
+
+            # if  var[0]['var'] != None:
+            #     if 'q2=' in var[0]['var'] :
+            #         varQ2 = var[0]['var'].split("q2=")[1].split(",")[0]
+            #
+            # if var[0]['var'] != None:
+            #     if 'qty=' in var[0]['var'] :
+            #         varQTY = var[0]['var'].split("qty=")[1].split(",")[0]
+
+            print("[第" + str(i+2) + "次格式化sql] => ", l_sql[i])
+        # sys.exit(0)
+
+        # for i in range(len(l_sql)):
+        # sys.exit(0)
+
+            # if varRunRule != None and varRunRule != "":
+            #     # print(type(varRunRule))
+            #     # varRunRule = varRunRule.split("varRunRule=")[1].split(")")[0]
+            #     self.log = self.log + "\n" + varRunRule
+            #
+            # if varNewAssess != None and varNewAssess != "":
+            #     # print(type(varNewAssess))
+            #     # varNewAssess = varNewAssess.split("varNewAssess=")[1].split(")")[0]
+            #     self.log = self.log + "\n" + varNewAssess
 
 
-                        if  'id' in Conf_PO.cf.options('VAR'):
-                            varID = Conf_PO.cf.get('VAR', 'id')
-                            command = str(command).replace("{varID}", varID)
-                        # varID = self.Openpyxl_PO.getCell(21, 1, "sql")
+            # 健康干预中命中次数hitQty
+            if "hitQty" in d:
+                if d['hitQty'] == 2:
+                    a = self.sql(l_sql[i])
+                    if "Q2" in a[0]:
+                        self.log = self.log + "\n" + str(a[0])  # 步骤日志
+                        varQ2 = a[0]['Q2']
+                        # var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                        # var2 = var2[0]['var'] + ",qty=" + str(a[0]['QTY'])
+                        # Sqlserver_PO.execute(
+                        #     "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                        # sleep(1)
+                        # Conf_PO.cf.set('VAR', 'q2', str(varQ2))  # 新增 key和value
+                        # Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
+                        # self.Openpyxl_PO.setCell(27, 1, "varQ2=" + str(varQ2), "sql")
+                else:
+                    a = self.sql(l_sql[i])
+                    varQ2 = 0
+            else:
+                # if "{" in command and "}" in command:
+                #     varName = command.split("{")[1].split("}")[0]
+                #     Color_PO.consoleColor("31", "31", "[ERROR => rule() => sql中 {" + varName + "} 没有转义!]", "")
+                # else:
+                # print(command)
+                Color_PO.consoleColor("31", "31", l_sql[i], "")
+                a = self.sql(l_sql[i])
+                varQ2 = 0
 
-                        if 'idcard' in Conf_PO.cf.options('VAR'):
-                            varIdcard = Conf_PO.cf.get('VAR', 'idcard')
-                            command = str(command).replace("{varIdcard}", varIdcard)
-                        # varIdcard = self.Openpyxl_PO.getCell(22, 1, "sql")
+            # # 输出sql语句
+            # if Configparser_PO.SWITCH("printSql") == "on":
+            #     print(str(j + 1) + ", " + command)  # 2, delete from T_ASSESS_INFO where ID_CARD = '310101202308070003'
 
-                        if 'qty' in Conf_PO.cf.options('VAR'):
-                            varQTY = Conf_PO.cf.get('VAR', 'qty')
-                        # varQTY = self.Openpyxl_PO.getCell(23, 1, "sql")
+            # 步骤日志
+            self.log = self.log + "\n" + ", " + l_sql[i]
 
-                        if 'runrule' in Conf_PO.cf.options('VAR'):
-                            varRunRule = Conf_PO.cf.get('VAR', 'runrule')
-                            if varRunRule != None and varRunRule != "":
-                                # print(type(varRunRule))
-                                # varRunRule = varRunRule.split("varRunRule=")[1].split(")")[0]
-                                self.log = self.log + "\n" + varRunRule
-                        # varRunRule = self.Openpyxl_PO.getCell(24, 1, "sql")
-
-                        if 'newassess' in Conf_PO.cf.options('VAR'):
-                            varNewAssess = Conf_PO.cf.get('VAR', 'newassess')
-                            if varNewAssess != None and varNewAssess != "":
-                                # print(type(varNewAssess))
-                                # varNewAssess = varNewAssess.split("varNewAssess=")[1].split(")")[0]
-                                self.log = self.log + "\n" + varNewAssess
-                        # varNewAssess = self.Openpyxl_PO.getCell(25, 1, "sql")
-
-                        if 'guid' in Conf_PO.cf.options('VAR'):
-                            varGUID = Conf_PO.cf.get('VAR', 'guid')
-                            command = str(command).replace("{varGUID}", varGUID)
-                        # varGUID = self.Openpyxl_PO.getCell(26, 1, "sql")
-
-                        if 'q2' in Conf_PO.cf.options('VAR'):
-                            varQ2 = Conf_PO.cf.get('VAR', 'q2')
-                        # varQ2 = self.Openpyxl_PO.getCell(27, 1, "sql")
-
-                        # if varID != None:
-                        #     if "varID=" in varID:
-                        #         varID = varID.split("varID=")[1].split(")")[0]
-                        #         command = str(command).replace("{varID}", varID)
-                        # if varIdcard != None:
-                        #     if "varIdcard" in varIdcard:
-                        #         varIdcard = varIdcard.split("varIdcard=")[1].split(")")[0]
-                        #         command = str(command).replace("{varIdcard}", varIdcard)
-                        # if varQTY != None:
-                        #     if "varQTY" in varQTY:
-                        #         varQTY = varQTY.split("varQTY=")[1].split(")")[0]
-                        # if varGUID != None:
-                        #     if "varGUID" in varGUID:
-                        #         varGUID = varGUID.split("varGUID=")[1].split(")")[0]
-                        #         command = str(command).replace("{varGUID}", varGUID)
-                        # if varRunRule != None and varRunRule != "":
-                        #     # print(type(varRunRule))
-                        #     # varRunRule = varRunRule.split("varRunRule=")[1].split(")")[0]
-                        #     self.log = self.log + "\n" + varRunRule
-                        # if varNewAssess != None and varNewAssess != "":
-                        #     # print(type(varNewAssess))
-                        #     # varNewAssess = varNewAssess.split("varNewAssess=")[1].split(")")[0]
-                        #     self.log = self.log + "\n" + varNewAssess
-
-                        # 健康干预中命中次数hitQty
-                        if "hitQty" in d:
-                            if d['hitQty'] == 2:
-                                a = self.sql(command)
-                                if "Q2" in a[0]:
-                                    varQ2 = a[0]['Q2']
-                                    Conf_PO.cf.set('VAR', 'q2', str(varQ2))  # 新增 key和value
-                                    Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
-                                    # self.Openpyxl_PO.setCell(27, 1, "varQ2=" + str(varQ2), "sql")
+            if a != None:
+                if isinstance(a, list) and a != []:
+                    if isinstance(a[0], dict):
+                        print(a[0])
+                        if "ID" in a[0]:
+                            var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            if var2[0]['var'] == None:
+                                var2 = "id=" + str(a[0]['ID'])
                             else:
-                                a = self.sql(command)
-                                varQ2 = 0
-                        else:
-                            # if "{" in command and "}" in command:
-                            #     varName = command.split("{")[1].split("}")[0]
-                            #     Color_PO.consoleColor("31", "31", "[ERROR => rule() => sql中 {" + varName + "} 没有转义!]", "")
-                            # else:
-                            a = self.sql(command)
-                            varQ2 = 0
+                                var2 = var2[0]['var'] + ",id=" + str(a[0]['ID'])
+                            print(var2)
+                            Sqlserver_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                            sleep(2)
 
-                        # 输出sql语句
-                        if Configparser_PO.SWITCH("printSql") == "on":
-                            print(str(j + 1) + ", " + command)  # 2, delete from T_ASSESS_INFO where ID_CARD = '310101202308070003'
+                        if "ID_CARD" in a[0]:
+                            varIdcard = a[0]['ID_CARD']
+                            var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            if var2[0]['var'] == None:
+                                var2 = "idcard=" + str(varIdcard)
+                            else:
+                                var2 = var2[0]['var'] + ",idcard=" + str(varIdcard)
+                            Sqlserver_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                            sleep(2)
 
-                        # 步骤日志
-                        self.log = self.log + "\n" + str(j + 1) + ", " + command
+                        if "QTY" in a[0]:
+                            self.log = self.log + "\n" + str(a[0])  # 步骤日志
+                            varQTY = a[0]['QTY']
+                            # var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            # var2 = var2[0]['var'] + ",qty=" + str(a[0]['QTY'])
+                            # Sqlserver_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                            # sleep(1)
 
-                        if a != None:
-                            if isinstance(a, list) and a != []:
-                                if isinstance(a[0], dict):
-                                    # print(a[0])
-                                    if "ID" in a[0]:
-                                        varID = a[0]['ID']
-                                        Conf_PO.cf.set('VAR', 'id', str(varID))  # 新增 key和value
-                                        Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
-                                        # self.Openpyxl_PO.setCell(21, 1, "varID=" + str(varID), "sql")
-                                    if "ID_CARD" in a[0]:
-                                        varIdcard = a[0]['ID_CARD']
-                                        Conf_PO.cf.set('VAR', 'idcard', str(varIdcard))  # 新增 key和value
-                                        Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
-                                        # self.Openpyxl_PO.setCell(22, 1, "varIdcard=" + str(varIdcard), "sql")
-                                    if "QTY" in a[0]:
-                                        # print(a[0])
-                                        self.log = self.log + "\n" + str(a[0])  # 步骤日志
-                                        varQTY = a[0]['QTY']
-                                        Conf_PO.cf.set('VAR', 'qty', str(varQTY))  # 新增 key和value
-                                        Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
-                                        # self.Openpyxl_PO.setCell(23, 1, "varQTY=" + str(varQTY), "sql")
-                                    if "GUID" in a[0]:
-                                        varGUID = a[0]['GUID']
-                                        Conf_PO.cf.set('VAR', 'guid', str(varGUID))  # 新增 key和value
-                                        Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
-                                        # self.Openpyxl_PO.setCell(26, 1, "varGUID=" + str(varGUID), "sql")
-                                    if "name" in a[0]:
-                                        # self.Openpyxl_PO.setCell(24, 1, "", "sql")
-                                        # self.Openpyxl_PO.setCell(25, 1, "", "sql")
-                                        if "跑规则" == a[0]['name']:
-                                            if a[0]['value'] != 200 :
-                                                Conf_PO.cf.set('VAR', '跑规则', str(a[0]['value']))  # 新增 key和value
-                                                Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
-                                                # self.Openpyxl_PO.setCell(24, 1, str(a[0]['value']), "sql")
-                                        if "新增评估" == a[0]['name']:
-                                            if a[0]['value'] != 200 :
-                                                Conf_PO.cf.set('VAR', '新增评估', str(a[0]['value']))  # 新增 key和value
-                                                Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
-                                                # self.Openpyxl_PO.setCell(25, 1, str(a[0]['value']), "sql")
+                        if "GUID" in a[0]:
+                            var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            var2 = var2[0]['var'] + ",guid=" + str(a[0]['GUID'])
+                            Sqlserver_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                            sleep(1)
 
-                    else:
-                        break
-        # self.Openpyxl_PO.setCell(21, 1, "", "sql")
-        # self.Openpyxl_PO.setCell(22, 1, "", "sql")
-        # self.Openpyxl_PO.setCell(23, 1, "", "sql")
-        # self.Openpyxl_PO.setCell(24, 1, "", "sql")
-        # self.Openpyxl_PO.setCell(25, 1, "", "sql")
-        # self.Openpyxl_PO.setCell(26, 1, "", "sql")
-        # self.Openpyxl_PO.setCell(27, 1, "", "sql")
+            # if "name" in a[0]:
+            #             # self.Openpyxl_PO.setCell(24, 1, "", "sql")
+            #             # self.Openpyxl_PO.setCell(25, 1, "", "sql")
+            #             if "跑规则" == a[0]['name']:
+            #                 if a[0]['value'] != 200 :
+            #                     # Conf_PO.cf.set('VAR', '跑规则', str(a[0]['value']))  # 新增 key和value
+            #                     # Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
+            #                     # self.Openpyxl_PO.setCell(24, 1, str(a[0]['value']), "sql")
+            #             if "新增评估" == a[0]['name']:
+            #                 if a[0]['value'] != 200 :
+            #                     # Conf_PO.cf.set('VAR', '新增评估', str(a[0]['value']))  # 新增 key和value
+            #                     # Conf_PO.cf.write(open(varFile, 'w'))  # 写保存
+            #                     # self.Openpyxl_PO.setCell(25, 1, str(a[0]['value']), "sql")
 
-        # 删除临时文件
-        File_PO.delFile(os.getcwd(), varFile)
+
+
+
+        # # 删除临时文件
+        # File_PO.delFile(os.getcwd(), varFile)
 
         varQTY = int(varQTY) + int(varQ2)
         return varQTY, self.log

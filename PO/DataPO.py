@@ -850,7 +850,7 @@ if __name__ == "__main__":
     #
     # print("2.1.5，判断身份证有效性".center(100, "-"))
     # print(Data_PO.isIdCard(Data_PO.getIdCard()))
-    print(Data_PO.isIdCard("310101200902089077"))
+    # print(Data_PO.isIdCard("310101200902089077"))
     #
     # print("2.3.1，生成IP".center(100, "-"))
     # print(Data_PO.getIp(""))  # 116.210.48.8
@@ -871,7 +871,7 @@ if __name__ == "__main__":
     #
     # print("2.5，生成uuid ".center(100, "-"))
     # print(Data_PO.getUUID("uuid1"))
-    # print(Data_PO.getUUID("md5"))
+    print(Data_PO.getUUID("md5"))
     # print(Data_PO.getUUID("random"))
     # print(Data_PO.getUUID("sh1"))
 

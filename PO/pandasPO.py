@@ -62,7 +62,7 @@ class PandasPO:
         except Exception as e:
             print(e)
 
-    def xlsx2db(
+    def xlsx2dbXXX(
         self,
         varExcelFile,
         varTable,
@@ -197,26 +197,26 @@ if __name__ == "__main__":
     # Pandas_PO = PandasPO("192.168.0.234", "root", "Zy123456", "mcis", 3306)
 
     Pandas_PO = PandasPO()
-
-    # print("1 执行sql".center(100, "-"))
-    # 查询
-    print(
-        Pandas_PO.execute("select * FROM t_third_user where id=%s" % "89")
-    )  # [(89, '37068500001', 'wenyonghong', '370627197007140240', '温永红')]
-    # print(Pandas_PO.execute("SELECT * FROM t_third_user where id=%s" % "89")[0][1])  # 37068500001
-    # 更新
-    Pandas_PO.execute("UPDATE test2 SET B = '5.6' WHERE A = %s" % "4")
-    # 批量修改字段名和字段类型
-    Pandas_PO.execute(
-        "alter table test55 change `index` id int(100), change `0` `name` varchar(30) ,change `1` ssn char(30), change `2` phone_number char(30), change `3` genEmail varchar(30),"
-        " change `4` genAddress varchar(50), change `5` genPostcode char(30), change `6` genCompany varchar(30), change `7` genUrl char(50), "
-        "change `8` genIpv4 char(30),change `9` genText text(330)"
-    )
-    # 设置id主键
-    Pandas_PO.execute("alter table test55 add primary key(id)")
+    #
+    # # print("1 执行sql".center(100, "-"))
+    # # 查询
+    # print(
+    #     Pandas_PO.execute("select * FROM t_third_user where id=%s" % "89")
+    # )  # [(89, '37068500001', 'wenyonghong', '370627197007140240', '温永红')]
+    # # print(Pandas_PO.execute("SELECT * FROM t_third_user where id=%s" % "89")[0][1])  # 37068500001
+    # # 更新
+    # Pandas_PO.execute("UPDATE test2 SET B = '5.6' WHERE A = %s" % "4")
+    # # 批量修改字段名和字段类型
+    # Pandas_PO.execute(
+    #     "alter table test55 change `index` id int(100), change `0` `name` varchar(30) ,change `1` ssn char(30), change `2` phone_number char(30), change `3` genEmail varchar(30),"
+    #     " change `4` genAddress varchar(50), change `5` genPostcode char(30), change `6` genCompany varchar(30), change `7` genUrl char(50), "
+    #     "change `8` genIpv4 char(30),change `9` genText text(330)"
+    # )
+    # # 设置id主键
+    # Pandas_PO.execute("alter table test55 add primary key(id)")
 
     # print("2.1 xlsx转数据库".center(100, "-"))
-    # Pandas_PO.xlsx2db("./data/xlsx2db.xlsx", 'test2')
+    Pandas_PO.xlsx2db("./data/xlsx2db.xlsx", 'test2')
 
     # print("2.2 字典转数据库".center(100, "-"))
     # Pandas_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test33", "")

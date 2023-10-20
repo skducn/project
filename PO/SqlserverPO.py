@@ -41,10 +41,8 @@
 2.1.1 获取所有表  getTables(self)
 2.1.2 获取所有表和表注释 getTableAndComment(self)
 2.1.3 获取表的结构信息 getTableInfor(self, varTable[all])
-
 2.2.1 获取字段  getFields(self, varTable)
 2.2.2 获取字段和字段注释 getFieldInfor(self, varTable)
-
 2.3 获取记录数 getRecordQty(self, varTable)
 2.4.1 获取所有字段和类型 getFieldAndType(self, varTable)
 2.4.2 获取N个字段和类型 getOneFieldAndType(self, varTable, varField)
@@ -65,6 +63,8 @@
 4.1 判断表是否存在 isTable(self, varTable)
 4.1 判断字段是否存在 isField(self, varTable, varField)
 4.2 判断是否有自增主键 isIdentity(self, varTable)
+
+5 excel导入数据库
 
 应用
 1 查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写  dbDesc()
@@ -121,8 +121,27 @@ class SqlServerPO:
 
     def getEngine_pymssql(self):
         # pymssql 引擎
-        return create_engine("mssql+pymssql://" + self.user + ":" + self.password + "@" + self.host + ":" + str(
-            self.port) + "/" + self.db)
+        # return create_engine("mssql+pymssql://" + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+        return create_engine("mssql+pymssql://" + self.user + ":" + self.password + "@" + self.host + "/" + self.db)
+
+
+    def xlsx2db(self, varPathFile, varSheetName, varDbTableName):
+
+        '''
+        5，xlsx导入数据库
+        :param varExcelFile:
+        :param varTable:
+        :return:
+        xlsx2db('./data/2.xlsx',"sheet3", "jh123")
+        excel表格第一行数据对应db表中字段，建议用英文
+        '''
+
+        try:
+            df = pd.read_excel(varPathFile, sheet_name=varSheetName)
+            engine = self.getEngine_pymssql()
+            df.to_sql(varDbTableName, con=engine, if_exists="replace", index=False)
+        except Exception as e:
+            print(e)
 
 
     # 1.1 执行sql
@@ -587,7 +606,8 @@ class SqlServerPO:
                 c_cur.execute(sql)
                 print("[ok], 表<" + varTable + "> 创建成功")
             except Exception as e:
-                print(f"表创建失败，失败信息为:{e}")
+                print("表创建失败")
+                # print(f"表创建失败，失败信息为:{e}")
         else:
             print("[warning], 创建<" + str(varTable) + ">表失败，表已存在！")
 
@@ -1361,7 +1381,11 @@ class SqlServerPO:
 if __name__ == "__main__":
 
     # 区域平台 - 人民医院 ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "peopleHospital", "utf8")  # 测试环境
+    Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "utf8")  # 测试环境
+
+
+    print("5 excel导入数据库".center(100, "-"))
+    Sqlserver_PO.xlsx2db('./data/2.xlsx', "Sheet3", "jh123")
 
 
     # print("1.1 查询sql".center(100, "-"))
