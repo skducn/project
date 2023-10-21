@@ -10,16 +10,16 @@ Configparser_PO = ConfigparserPO('config.ini')
 
 from PO.SqlserverPO import *
 Sqlserver_PO = SqlServerPO(Configparser_PO.DB("host"), Configparser_PO.DB("user"), Configparser_PO.DB("password"), Configparser_PO.DB("database"), "utf8")  # 测试环境
-# Sqlserver_PO.execute("drop table jh_jkpg")
-# Sqlserver_PO.xlsx2db('规则db.xlsx', "健康评估", "jh_jkpg")
-# Sqlserver_PO.execute("ALTER TABLE %s ADD id INT NOT NULL IDENTITY(1,1) primary key (id) " % ('jh_jkpg'))  # 新增id自增主键
-# # Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(55)" % ('jh_jkpg')) # 临时变量
+Sqlserver_PO.execute("drop table 健康评估")
+Sqlserver_PO.xlsx2db('规则db.xlsx', "健康评估", "健康评估")
+Sqlserver_PO.execute("ALTER TABLE %s ADD id INT NOT NULL IDENTITY(1,1) primary key (id) " % ('健康评估'))  # 新增id自增主键
+Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(111)" % ('健康评估')) # 临时变量
 
 
-Sqlserver_PO.execute("drop table jh_jkgy")
-Sqlserver_PO.xlsx2db('规则db.xlsx', "健康干预", "jh_jkgy")
-Sqlserver_PO.execute("ALTER TABLE %s ADD id INT NOT NULL IDENTITY(1,1) primary key (id) " % ('jh_jkgy'))  # 新增id自增主键
-Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(55)" % ('jh_jkgy')) # # 临时变量
+# Sqlserver_PO.execute("drop table jh_jkgy")
+# Sqlserver_PO.xlsx2db('规则db.xlsx', "健康干预", "jh_jkgy")
+# Sqlserver_PO.execute("ALTER TABLE %s ADD id INT NOT NULL IDENTITY(1,1) primary key (id) " % ('jh_jkgy'))  # 新增id自增主键
+# Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(55)" % ('jh_jkgy')) # # 临时变量
 
 
 # Sqlserver_PO.xlsx2db('规则db.xlsx', "健康干预中医体质辨识", "1_jh_zytzsb")

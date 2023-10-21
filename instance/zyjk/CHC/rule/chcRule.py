@@ -13,6 +13,8 @@
 # conda activate py308
 # cd /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/CHC/rule
 #  python chcRule.py -s 3
+# ./chcRule.sh 4-10    //执行第4到第10行记录
+# ./chcRule.sh 4    //执行第4行记录
 #***************************************************************
 
 import sys
@@ -25,10 +27,20 @@ import argparse,ast
 parser = argparse.ArgumentParser(usage="程序用途描述", description='帮助文档的描述', epilog="额外说明")
 parser.add_argument('--seq', '-s', help='seq 属性，必要参数')
 args = parser.parse_args()
-r = ChcRulePO2("jh_jkpg")
-# r.run(1)  #
-# r = ChcRulePO({"sheetName": "健康评估", "colTitle": ["测试结果", "测试规则", "评估规则编码"]})
-r.run(args.seq)
+r = ChcRulePO2("健康评估")
+
+if "-" in (args.seq):
+    start = int((args.seq).split("-")[0])
+    end = int((args.seq).split("-")[1])
+    if start < end :
+        for i in range(start, end+1):
+            r.run(i)
+    else:
+        for i in range(end, start+1):
+            r.run(i)
+else:
+    r.run(args.seq)
+
 # if args.testRule == "None":
 #     r.run(int(args.seq), type(ast.literal_eval('None')))
 # else:
