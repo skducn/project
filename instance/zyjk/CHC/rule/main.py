@@ -17,8 +17,8 @@ import threading
 import time
 # t = time.time()
 # r = ChcRulePO("健康评估")
-r = ChcRulePO({"sheetName": "健康评估", "colTitle": ["测试结果", "测试规则", "评估规则编码"]})
-r.run(4, None)  # r1
+# r = ChcRulePO({"sheetName": "健康评估", "colTitle": ["测试结果", "测试规则", "评估规则编码"]})
+# r.run(4, None)  # r1
 # print(f'耗时:{time.time() - t:.4f}s')
 # r.run(4, None)  # r6
 # r.run(20, None)  # r4
@@ -26,7 +26,7 @@ r.run(4, None)  # r1
 # r.run("ERROR", None)
 
 # r = ChcRulePO({"sheetName": "健康干预", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "干预规则编码", "命中次数"]})
-# r.run(3, None)  # r2
+# r.run(2, None)  # r2
 # r.run(20, None)  # r11, 命中2
 # r.run(35, None)  # r5, 命中2
 # r.run(44, None)  # r2, 命中2

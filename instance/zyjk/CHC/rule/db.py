@@ -13,8 +13,8 @@ from ChcRulePO2 import *
 # # r.run(24)  # r4
 
 r = ChcRulePO2("jh_jkgy")
-r.run(1)  # r2
-# r.run(19)  # r11
-# r.run(34)  # r5
+r.run(1)  # r2 ???
+# r.run(19)  # r11 ???
+# r.run(34)  # r5 ???
 # r.run(49)  # r8
 # r.run(86)  # r7

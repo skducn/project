@@ -28,7 +28,6 @@
 
 # ***************************************************************
 
-
 """
 1.1 执行sql execute(self, varTable, sql)
 1.2 查询sql execQuery(self, sql)
@@ -1173,10 +1172,11 @@ class SqlServerPO:
             # 4，单表结构的可选字段 、 5，带通配符表结构的可选字段、6，所有表结构的可选字段
             self._dbDesc_search(args[0], args[1])
 
-    # 2 查找记录
+
+
     def dbRecord(self, varTable, varType, varValue):
 
-        """查找记录
+        """ 查找记录
         # 参数1：varTable = 表名（*表示所有的表）
         # 参数2：varType = 数据类型(char,int,double,timestamp)
         # 参数3：varValue = 值 (支持%模糊查询，如 %yy%)
@@ -1186,189 +1186,80 @@ class SqlServerPO:
         # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')
         # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
         # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
-        # self.cur = self.__GetConnect()
-        # self.cur = self.cur
 
-        l_tbl_Name = []
-        l_tbl_Type = []
-        x = y = 0
-        if (
-                varType
-                in "double,timestamp,float,money,int,nchar,nvarchar,datetime,varchar"
-        ):
+
+        # 支持的类型
+        if (varType in "double,timestamp,float,money,int,nchar,nvarchar,datetime,varchar"):
             if "*" in varTable:
                 # 遍历所有表
-                tbl = self.execQuery("SELECT NAME FROM SYSOBJECTS WHERE TYPE='U'")
-                # print(tbl)
-                # print(len(tbl))
+                l_d_tbl = self.execQuery("SELECT NAME FROM SYSOBJECTS WHERE TYPE='U'")
+                # print(l_d_tbl)  # [{'NAME': 'TB_RIS_REPORT2'}, {'NAME': 'jh_jkpg'}, {'NAME': 'jh_jkgy'},,...]
 
-                for b in range(len(tbl)):
-                    # 遍历所有的表 的 列名称、列类别、类注释
-                    varTable = tbl[b]['NAME']
-                    # print(varTable)
-                    l_tbl_NameType = self.execQuery(
-                        "select syscolumns.name as Name,systypes.name as Type from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
-                        % (varTable)
+                for b in range(len(l_d_tbl)):
+                    # 遍历所有表的 列名称、列类别、类注释
+                    tbl = l_d_tbl[b]['NAME']
+                    l_d_field_type = self.execQuery(
+                        "select syscolumns.name as field,systypes.name as type from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
+                        % (tbl)
                     )
-                    # print(l_tbl_NameType)
-                    for i in l_tbl_NameType:
-                        if len(i['Name']) > x:
-                            x = len(i['Name'])
-                        if len(i['Type']) > y:
-                            y = len(i['Type'])
-                    for j in l_tbl_NameType:
-                        if varType in j['Type']:
-                            l_tbl_Name.append(j['Name'])
-                            l_tbl_Type.append(j['Type'])
-                    # print(varTable + " - " + str(list0))   # 遍历输出所有表与字段名
-                    for i in range(0, len(l_tbl_Name)):
-                        t4 = self.execQuery(
-                            "select * from %s where convert(varchar, %s, 120) like '%s'"
-                            % (varTable, l_tbl_Name[i], varValue)
-                        )
-                        if len(t4) != 0:
-                            print("- - " * 20)
+                    # print(l_d_field_type)  # [{'field': 'GUID', 'type': 'varchar'}, {'field': 'VISITSTRNO', 'type': 'varchar'},...]
 
-                            # print(
-                            #     "搜索: "
-                            #     + varValue
-                            #     + " , "
-                            #     + str(len(t4))
-                            #     + " 条记录 来自 "
-                            #     + self.db
-                            #     + "."
-                            #     + varTable
-                            #     + "("
-                            #     ")." + list0[i] + "\n"
-                            # )
-                            Color_PO.consoleColor(
-                                "31",
-                                "36",
-                                "[Search] => "
-                                + varValue
-                                + " , [Result] => "
-                                + varTable
-                                + "." + l_tbl_Name[i] + " 疑似 " + str(len(t4)) + " 条。 " + "\n",
-                                "",
-                            )
-                            for j in range(len(t4)):
-                                print(t4[j])
-                                # print(str(t4[j]).decode("utf8"))
-                                # print(t4[j].encode('latin-1').decode('utf8'))
+                    l_field = []
+                    l_type = []
+                    for j in l_d_field_type:
+                        if varType in j['type']:
+                            l_field.append(j['field'])
+                            l_type.append(j['type'])
 
-                    list0 = []
-                    list1 = []
+                    # print(l_field)  # ['GUID', 'VISITSTRNO', 'ORGCODE', 'ORGNAME',...]
+                    # print(l_type)  # ['varchar', 'varchar', 'varchar', 'varchar' ...]
+
+                    # 遍历所有字段
+                    for i in range(len(l_field)):
+                        l_result = self.execQuery("select * from %s where [%s] like '%s'" % (tbl, l_field[i], varValue))
+
+                        if len(l_result) != 0:
+                            print("--" * 50)
+                            Color_PO.consoleColor("31", "36", "[result] => " + str(varValue) + " => " + tbl + " => " + l_field[i] + " => " + str(len(l_result)) + "条 ", "")
+
+                            for j in range(len(l_result)):
+                                print(l_result[j])
+                                # print(str(l_result[j]).decode("utf8"))
+                                # print(l_result[j].encode('latin-1').decode('utf8'))
+
 
             elif "*" not in varTable:
                 # 搜索指定表（单表）符合条件的记录.  ，获取列名称、列类别、类注释
 
                 # 获取表的Name和Type
-                l_tbl_NameType = self.execQuery(
-                    "select syscolumns.name as Name,systypes.name as Type from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
+                l_d_field_type = self.execQuery(
+                    "select syscolumns.name as field,systypes.name as type from syscolumns,systypes where syscolumns.xusertype=systypes.xusertype and syscolumns.id=object_id('%s')"
                     % (varTable)
                 )
-                # print(l_tbl_NameType)  # [{'Name': 'ID', 'Type': 'int'}, {'Name': 'ARCHIVENUM', 'Type': 'varchar'}]
+                # print(l_d_field_type)  # [{'field': 'ID', 'type': 'int'}, {'field': 'ARCHIVENUM', 'type': 'varchar'}...]
 
-                # 输出Name
-                l_tbl_name = []
-                for i in range(len(l_tbl_NameType)):
-                    l_tbl_name.append(l_tbl_NameType[i]['Name'])
+                # 筛选符合条件（包含指定type）的field
+                l_field = []
+                for j in l_d_field_type:
+                    if varType in j['type']:
+                        l_field.append(j['field'])
+                print(l_field)  # ['CZRYBM', 'CZRYXM', 'JMXM', 'SJHM', 'SFZH', 'JJDZ',...]
 
-                # for i in l_tbl_NameType:
-                #     if len(i['Name']) > x:
-                #         x = len(i['Name'])
-                #     if len(i['Type']) > y:
-                #         y = len(i['Type'])
+                # 遍历所有字段
+                for i in range(len(l_field)):
+                    l_result = self.execQuery("select * from %s where [%s] like '%s'" % (varTable, l_field[i], varValue))
 
-                # 筛选符合条件（包含指定Type）的Name
-                l_tbl_Name_filter = []
-                for j in l_tbl_NameType:
-                    if varType in j['Type']:
-                        l_tbl_Name_filter.append(j['Name'])
-                        # l_tbl_Type.append(j['Type'])
-                # print(l_tbl_Name)  # ['ARCHIVENUM', 'EHRNUM', 'NAME', 'PRESENTADDRESS']
+                    if len(l_result) != 0:
+                        print("--" * 50)
+                        Color_PO.consoleColor("31", "36",
+                                              "[result] => " + str(varValue) + " => " + varTable + " => " + l_field[
+                                                  i] + " => " + str(len(l_result)) + "条 ", "")
 
-                for i in range(len(l_tbl_Name_filter)):
-                    result = self.execQuery(
-                        "select * from %s where convert(varchar, %s, 120) like '%s'"
-                        % (varTable, l_tbl_Name_filter[i], varValue)
-                    )
+                        for j in range(len(l_result)):
+                            l_value = [value for value in l_result[j].values()]
+                            # print(l_value)  # ['1015', '李*琳', '常*梅', '17717925118', '132222196702240429',...]
+                            print(l_result[j])  # {'CZRYBM': '1015', 'CZRYXM': '李*琳', 'JMXM': '常*梅', 'SJHM': '17717925118', 'SFZH': '132222196702240429'...}
 
-                    if len(result) != 0:
-                        print("- - " * 20)
-                        # print(
-                        #     "[Search] => "
-                        #     + varValue
-                        #     + ",[Result] => "
-                        #     + str(len(t4))
-                        #     + " 条记录, 来自 "
-                        #     + self.db
-                        #     + "."
-                        #     + varTable
-                        #     + "("
-                        #     ")." + list0[i] + "\n"
-                        # )
-                        Color_PO.consoleColor(
-                            "31",
-                            "36",
-                            "[search = " + varValue + "] , [result = " + varTable
-                            + "." + l_tbl_Name_filter[i] + " => " + str(len(result)) + "条]" + "\n",
-                            "",
-                        )
-
-                        # 输出Name
-                        print(l_tbl_name)  # ['ID', 'ARCHIVENUM', 'EHRNUM', 'NAME', 'PRESENTADDRESS']
-
-                        # 获取所有Name的大小
-                        l_nameSize = []
-                        for i in l_tbl_name:
-                            l_nameSize.append(len(i))
-                        # print(l_nameSize)  # [2, 10, 6, 4, 14, 16, 5]
-
-                        for j in range(len(result)):
-                            l_value = [value for value in result[j].values()]
-                            print(l_value)  # [1, '410522200004110812', 'K22402612', '刘斌龙', '河北省 ]
-
-                        #     # 获取所有值的大小
-                        #     l_valueSize = []
-                        #     for i in l_value:
-                        #         l_valueSize.append(len(str(i)))
-                        #     # print(l_valueSize)  # [1, 18, 9, 3, 23, 4, 11, 4, 4, 4, 4, 4, 4]
-                        #
-                        #     # 格式化Name
-                        #     for i in range(len(l_valueSize)):
-                        #         if l_valueSize[i] > l_nameSize[i]:
-                        #             x = l_valueSize[i] - l_nameSize[i]
-                        #             l_tbl_name[i] = l_tbl_name[i] + " " * x
-                        #         else:
-                        #             l_tbl_name[i] = l_tbl_name[i] + " "
-                        #             l_value[i] = str(l_value[i]) + " " * (l_nameSize[i] - l_valueSize[i]) + " "
-                        #
-                        # print(l_tbl_name)  # ['ID ', 'ARCHIVENUM        ', 'EHRNUM   ', 'NAME ', 'PRESENTADDRESS         ']
-                        # print(l_value)
-
-                        # # 将所有Name合并成字符串
-                        # str_name = str_value = ""
-                        # for i in l_tbl_name:
-                        #     str_name = str_name + i
-                        # print(str_name)  # ID ARCHIVENUM        EHRNUM   NAME PRESENTADDRESS
-                        #
-                        # for i in l_value:
-                        #     str_value = str_value + str(i)
-                        # print(str_value)
-
-                        # # 将所有value合并成字符串
-                        # for j in range(len(result)):
-                        #     l_value = [value for value in result[j].values()]
-
-                        # for i in my_list:
-                        #     list4.append(len(str(i)))
-                        # print(list4)
-
-                        # print(t4[j].encode('latin-1').decode('gbk'))
-
-                l_tbl_Name = []
-                l_tbl_Type = []
         else:
             print(
                 "\n"
@@ -1384,8 +1275,8 @@ if __name__ == "__main__":
     Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "utf8")  # 测试环境
 
 
-    print("5 excel导入数据库".center(100, "-"))
-    Sqlserver_PO.xlsx2db('./data/2.xlsx', "Sheet3", "jh123")
+    # print("5 excel导入数据库".center(100, "-"))
+    # Sqlserver_PO.xlsx2db('./data/2.xlsx', "Sheet3", "jh123")
 
 
     # print("1.1 查询sql".center(100, "-"))
@@ -1505,7 +1396,9 @@ if __name__ == "__main__":
 
     # print("2 查找记录".center(100, "-"))
     # Sqlserver_PO.dbRecord('aaa', 'int', '%2%')  # 搜索指定表符合条件的记录.
-    # Sqlserver_PO.dbRecord('*', 'varchar', '%高血压%')  # 搜索所有表符合条件的记录.
+    # Sqlserver_PO.dbRecord('*', 'varchar', '310101202308070001')  # 搜索所有表符合条件的记录.
+    Sqlserver_PO.dbRecord('QYYH', 'varchar', '132222196702240429')  # 搜索所有表符合条件的记录.
+    # Sqlserver_PO.dbRecord('TB_RIS_REPORT2', 'varchar', '000E434B-48BF-4B58-945B-6FDCD46CDECE')  # 搜索所有表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')l
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
     # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。

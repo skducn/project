@@ -37,8 +37,14 @@ from PO.SqlserverPO import *
 # todo sqlserver
 # **********************************************************************************************************************************
 # 区域平台 - 人名医院(sqlserver)
-Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "peopleHospital", "utf8")  # 测试环境
-Sqlserver_PO.dbDesc('aaa')
+# Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "peopleHospital", "utf8")  # 测试环境
+# Sqlserver_PO.dbDesc('aaa')
+
+Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "GBK")
+Sqlserver_PO.dbRecord('*', 'varchar', '310101202308070001')  # 搜索所有表符合条件的记录.
+
+# print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
+# Sqlserver_PO.dbDesc()  # 1，所有表结构
 
 # **********************************************************************************************************************************
 # 社区健康平台

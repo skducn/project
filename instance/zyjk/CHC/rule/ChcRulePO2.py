@@ -65,6 +65,16 @@ class ChcRulePO2():
                     "self.i_rerunExecuteRule({varID})",
                     "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'"]
 
+        self.r5 = ["delete from T_ASSESS_INFO where ID_CARD = '{身份证}'",
+                    "DELETE FROM T_HIS_DIAGNOSIS where IDCARD = '{身份证}'",
+                    "INSERT INTO T_HIS_DIAGNOSIS (IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_TYPE,DIAGNOSIS_DATE, CREATE_DATE) VALUES ('{身份证}', {测试规则参数1},{测试规则参数2}, '2023-07-29 16:02:19.000', '2023-07-31 09:39:24.3700000')",
+                    "self.i_startAssess({身份证})",
+                    "update T_ASSESS_INFO set {测试规则参数3} where ID_CARD = '{身份证}'",
+                    "select ID from T_ASSESS_INFO where ID_CARD = '{身份证}'",
+                    "self.i_rerunExecuteRule({varID})",
+                    "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'",
+                    "select count(*) Q2 from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{疾病评估规则编码}'"]
+
         self.r6 = ["delete from T_ASSESS_INFO where ID_CARD = '110101196407281506'",
                     "self.i_startAssess(110101196407281506)",
                     "select ID from T_ASSESS_INFO where ID_CARD = '110101196407281506'",
@@ -74,6 +84,34 @@ class ChcRulePO2():
                     "self.i_rerunExecuteRule({varID})",
                     "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'"]
 
+        self.r7 = ["delete from T_ASSESS_INFO where ID_CARD = '310101202308070004'",
+                    "DELETE FROM T_HIS_DIAGNOSIS where IDCARD = '310101202308070004'",
+                    "INSERT INTO T_HIS_DIAGNOSIS (IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_TYPE,DIAGNOSIS_DATE, CREATE_DATE) VALUES ('310101202308070004', {测试规则参数1},{测试规则参数2}, '2023-07-29 16:02:19.000', '2023-07-31 09:39:24.3700000')",
+                    "INSERT INTO T_HIS_DIAGNOSIS (IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_TYPE,DIAGNOSIS_DATE, CREATE_DATE) VALUES ('310101202308070004', {测试规则参数3},{测试规则参数4}, '2023-07-29 16:02:19.000', '2023-07-31 09:39:24.3700000')",
+                    "self.i_startAssess(310101202308070004)",
+                    "select ID from T_ASSESS_INFO where ID_CARD = '310101202308070004'",
+                    "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE= '{规则编码}'",
+                    "self.i_rerunExecuteRule({varID})",
+                    "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'"]
+
+        self.r8=["DELETE from TB_DC_HTN_VISIT where EMPIGUID = '5001'",
+                    "INSERT INTO TB_DC_HTN_VISIT (GUID, CARDID, NAME, AGE , EHRNUM , ORGCODE , VISITDATE , VISITWAYCODE , VISITWAYVALUE , OTHERVISIT , VISITDOCNO , VISITDOCNAME , VISITORGCODE , VISITORGNAME , VISTSTATUSCODE , VISITSTATUSVALUE , NEXTVISIDATE , MANAGEGROUP , LOSTVISITCODE , LOSTVISITNAME , OTHERLOSTVISITNAME , LOSTVISITDATE , MOVEPROVINCECODE , MOVEPROVINCEVALUE , MOVECITYCODE , MOVECITYVALUE , MOVEDISTRICTCODE , MOVEDISTRICTVALUE , MOVESTREETCODE , MOVESTREETVALUE , MOVENEIGHBORHOODCODE , MOVENEIGHBORHOODVALUE , MOVEVILLAGEVALUE , MOVEHOUSENUMBER , MOVEORGCODE , MOVEORGNAME , DANGEROUSLEVELCODE , DANGEROUSLEVELNAME , DEATHREASON , SBP , DBP , ISMANUALINPUT , HEIGHT , WEIGHT , TARGETWEIGHT , BMI , WAISTLINE , TARGETBMI , FASTINGBLOODSUGARVALUE , FASTINGBLOODSUGARCODE , FASTINGBLOODSUGARNAME , FASTINGBLOODSUGARSIGN , CHOLESTEROL , HIGHCHOLESTEROL , LOWCHOLESTEROL , TRIGLYCERIDES , UACR , BCTV , BUATV , HOMOCYSTEINEDETECTION , BLOODPOTASSIUM , BLOODSODIUM , BLOODLIPIDS , URICACID , CREATININE , HEMOGLOBIN , HEMAMEBA , PLATELET , URINEPROTEIN , URINESUGAR , GLYCOSYLATEDHEMOGLOBIN , SERUMCPROTEIN , URINEPROTEINQUANTITY , ECG , ECHOCARDIOGRAM , CAROTIDULTRASOUND , CHESTXRAY , PULSEWAVE , REGULARACTIVITYSIGN , REGULARACTIVITIESTYPES , HASPAPERCARD , DRUGCOMPLIANCECODE , DRUGCOMPLIANCENAME , BPWAYCODE , BPWAYNAME , HEARTRATE , SMOKINGVOLUME , DRINKINGVOLUME , POSITIVESIGNS , SMOKINGSTATUSCODE , SMOKINGSTATUSNAME , TARGETSMOKE , QUITSMOKING , DRINKINGFREQUENCYCODE , DRINKINGFREQUENCYNAME , TARGETDRINK , TARGETSALTUPTAKESTATUS , REASONABLEDIETEVALUATION , PSYCHOLOGYEVALUATION , COMPLIANCEEVALUATION , SALTUPTAKESTATUS , SALTUPTAKESTATUSNAME , PSYCHOLOGYSTATUS , PSYCHOLOGYSTATUSNAME , COMPLIANCESTATUS , COMPLIANCESTATUSNAME , SPORTFREQUENCE , SPORTTIME , EXERCISEDESCRIPTION , EXERCISEFREQUENCYCODE , EXERCISEFREQUENCYNAME , TARGETSPORTFREQUENCYCODE , TARGETSPORTFREQUENCYNAME , TARGETSPORTTIMES , TARGETSTAPLEFOOD , SYMPTOMCODE , SYMPTOMVALUE , SYMPTOMOTHER , ISUSEDRUG , NOUSEDRUGREASONCODE , NOUSEDRUGREASONVALUE , NOUSEDRUGSIDEEFFECTS , OTHERNOUSEDRUGREASON , NOUSEDRUGLAW , NOUSEDRUGLAWREASON , LAWSIDEEFFECTSFLAG , LAWSIDEEFFECTS , OTHERLAWREASON , TREATMENTMEASURES , CLINICALINFO , AUXILIARYCHECK , INTERVENENUM , BEFOREINTERVENEDATE , ISINTERVENE , SYNDROME , INTERVENEMEASURES , MEASURESCONTENT , OTHERINTERVENEMEASURES , OTHERMEASURESCONTENT , PROPOSAL , ACCEPTABILITY , ISACCEPTHEALTHEDU , HEALTHEDUTYPE , VISITTYPE , REFERRALREASON , REFERRALORGDEPT , SYNSTATUS , EMPIGUID , ISGOVERNANCE ) VALUES (newid(), '001', NULL, NULL, NULL, '0000001', '2023-08-01 10:51:23.000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '140', '90', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,{测试规则参数1}, '从不吸', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5001', '0')",
+                    "delete from T_ASSESS_INFO where ID_CARD = '120101199104058611'",
+                    "self.i_startAssess(120101199104058611)",
+                    "update T_ASSESS_INFO set {测试规则参数2}  where ID_CARD = '120101199104058611'",
+                    "select ID from T_ASSESS_INFO where ID_CARD = '120101199104058611'",
+                    "self.i_rerunExecuteRule({varID})",
+                    "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'"]
+
+        self.r11= ["DELETE FROM T_ASSESS_INFO where ID_CARD = '{身份证}'",
+                    "DELETE FROM T_HIS_DIAGNOSIS where IDCARD = '{身份证}'",
+                    "self.i_startAssess({身份证})",
+                    "update T_ASSESS_INFO set {测试规则参数} where ID_CARD = '{身份证}'",
+                    "select ID from T_ASSESS_INFO where ID_CARD = '{身份证}'",
+                    "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID}",
+                    "self.i_rerunExecuteRule({varID})",
+                    "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE= '{规则编码}'",
+                    "select count(*) Q2 from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE= '{疾病评估规则编码}'"]
 
     def getToken(self, varUser, varPass):
 
@@ -144,25 +182,23 @@ class ChcRulePO2():
                   self.TOKEN + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\" -H \"Authorization:\" " \
                                "-H \"Content-Type:application/json\" -d \"{\\\"categoryCode\\\":\\\"\\\",\\\"idCard\\\":\\\"" + str(varIdcard) + "\\\",\\\"orgCode\\\":\\\"\\\"}\""
 
-        # print(command)
+        print(command)
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
         sleep(1)
-        # print(d_r)
 
-        var = "[ERROR => i_startAssess() => " + str(str_r) + "]"
         if 'code' in d_r:
             if d_r['code'] != 200:
-                Color_PO.consoleColor("31", "31", var, "")
-                # print(var)
-                return ([{'name':'新增评估', 'value' : var}])
+                Color_PO.consoleColor("31", "31", "[ERROR => i_startAssess() => " + str(str_r) + "]", "")
+                return ([{'name':'新增评估', 'value' : "[ERROR => i_startAssess() => " + str(str_r) + "]"}])
             else:
+                Color_PO.consoleColor("31", "36", str_r, "")
                 return ([{'name':'新增评估', 'value': 200}])
         else:
-            # {"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
-            return ([{'name':'新增评估', 'value': var}])
+            # 如：{"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
+            return ([{'name':'新增评估', 'value': "[ERROR => i_startAssess() => " + str(str_r) + "]"}])
 
     def sql(self, varSql):
 
@@ -266,20 +302,22 @@ class ChcRulePO2():
             # print("[ERROR => _getIdcard() => 身份证不能为None!]")
             Color_PO.consoleColor("31", "31", "[ERROR => _getIdcard() => 身份证不能为None!]", "")
 
-    def _getIdcard2(self, d, k, l_v1):
+    def _getIdcard2(self, d):
 
         # 健康干预命中次数之获取身份证
 
-        print(d,22222)
-
-        varIdcard = None
+        print(d)
+        varIdcard = ""
         l_d_diseaseRuleCode_idcard = self.getIdcard()
+        print(l_d_diseaseRuleCode_idcard)
         for i in range(len(l_d_diseaseRuleCode_idcard)):
-            for k1, v1 in l_d_diseaseRuleCode_idcard[i].items():
-                if k1 == d['diseaseRuleCode']:
-                    varIdcard = v1
+            for k, v in l_d_diseaseRuleCode_idcard[i].items():
+                # print(l_d_diseaseRuleCode_idcard[i][k])
+                if l_d_diseaseRuleCode_idcard[i][k] == d['diseaseRuleCode']:
+                    varIdcard = l_d_diseaseRuleCode_idcard[i]['idcard']
                     break
         d["varIdcard"] = varIdcard
+        print(varIdcard)
         if varIdcard != None:
             varQty, varLog = self.rule(d)
             if d['hitQty'] == 2:
@@ -312,6 +350,7 @@ class ChcRulePO2():
         ruleCode = l_d_rows[0]['ruleCode']
         diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
+
         # 传递参数
         if (rule == "r1") or (rule == "r6") or (rule == "r12"):
             # 带参数1
@@ -330,10 +369,10 @@ class ChcRulePO2():
             self.param2_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
         elif rule == "r11":
             # 带参数1，健康干预两次命中（干预+疾病评估）
-            self.param1_idcard_hitQty2(rule, ruleParam, ruleCode)
+            self.param1_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
         elif rule == "r5":
             # 带参数3，健康干预两次命中（干预+疾病评估）
-            self.param3_idcard_hitQty2(rule, ruleParam, ruleCode)
+            self.param3_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
 
 
 
@@ -409,37 +448,34 @@ class ChcRulePO2():
 
 
 
-
-    def param1_idcard_hitQty2(self, v, l_v1, k):
-
-        if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(d_row['rule']) + ")]")
-        d = {}
-        d['result'] = v[0]
-        d['testRuleName'] = d_row['rule']
-        d['testRuleParam'] = l_v1[1] .replace(".and.", ',')
-        d['diseaseRuleCode'] = v[2]
-        d['interventionRule'] = v[3]
-        d['hitQty'] = v[4]
-        self._getIdcard2(d, k, l_v1)
-
-
-    def param3_idcard_hitQty2(self, v, l_v1, k):
+    def param1_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
 
         if Configparser_PO.SWITCH("printSql") == "on":
-            print("[" + str(self.sheetName) + " => " + str(k) + "(" + str(d_row['rule']) + ")]")
+            print("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]")
         d = {}
-        d['result'] = v[0]
-        d['testRuleName'] = d_row['rule']
-        d['testRuleParam1'] = l_v1[1]
-        d['testRuleParam2'] = l_v1[2]
-        d['testRuleParam3'] = l_v1[3] .replace(".and.", ',')
-        d['diseaseRuleCode'] = v[2]  # 疾病评估规则编码 GW_JB002
-        d['interventionRule'] = v[3]  # 干预规则编码 GY_GW002003
-        d['hitQty'] = v[4]
-        self._getIdcard2(d, k, l_v1)
+        d['rule'] = "self." + rule
+        d['ruleParam'] = ruleParam.replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        d['hitQty'] = hitQty
+        self._getIdcard2(d)
 
 
+
+    def param3_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
+
+        if Configparser_PO.SWITCH("printSql") == "on":
+            print("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]")
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d = {}
+        d['rule'] = "self." + rule
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        d['hitQty'] = hitQty
+        self._getIdcard2(d)
 
 
     def rule(self, d):
@@ -553,8 +589,10 @@ class ChcRulePO2():
 
             # 健康干预中命中次数hitQty
             if "hitQty" in d:
+                Color_PO.consoleColor("31", "31", l_sql[i], "")
                 if d['hitQty'] == 2:
                     a = self.sql(l_sql[i])
+                    print(a,5555555)
                     if "Q2" in a[0]:
                         self.log = self.log + "\n" + str(a[0])  # 步骤日志
                         varQ2 = a[0]['Q2']
