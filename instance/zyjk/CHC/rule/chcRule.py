@@ -25,21 +25,35 @@ import threading
 import argparse,ast
 
 parser = argparse.ArgumentParser(usage="程序用途描述", description='帮助文档的描述', epilog="额外说明")
-parser.add_argument('--seq', '-s', help='seq 属性，必要参数')
+parser.add_argument('--sheet', '-s', help='sheet 属性，非必要参数', required=True)
+parser.add_argument('--number', '-n', help='number 属性，非必要参数', required=True)
+parser.add_argument('--print', '-p', help='printSql 属性，非必要参数')
 args = parser.parse_args()
-r = ChcRulePO2("健康评估")
 
-if "-" in (args.seq):
-    start = int((args.seq).split("-")[0])
-    end = int((args.seq).split("-")[1])
-    if start < end :
+# todo 参数-p on｜off   ， 默认值off
+if args.print == "on":
+    Configparser_PO.write('SWITCH', 'printsql', 'on')
+else:
+    Configparser_PO.write('SWITCH', 'printsql', 'off')
+
+# r = ChcRulePO2("健康评估")
+d = {'jkpg': '健康评估', 'jkgy': '健康干预',  'zytzbs': '中医体质辨识', 'etjkgy': '儿童健康干预', 'jbpg': '疾病评估'}
+r = ChcRulePO2(d[args.sheet])
+
+# todo 参数-s 1 ｜ 1-N
+if "-" in (args.number):
+    start = int((args.number).split("-")[0])
+    end = int((args.number).split("-")[1])
+    if start < end:
         for i in range(start, end+1):
             r.run(i)
     else:
         for i in range(end, start+1):
             r.run(i)
 else:
-    r.run(args.seq)
+    r.run(args.number)
+
+
 
 # if args.testRule == "None":
 #     r.run(int(args.seq), type(ast.literal_eval('None')))
