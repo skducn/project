@@ -834,7 +834,7 @@ class ChcRulePO():
                         if a != None:
                             if isinstance(a, list):
                                 if isinstance(a[0], dict):
-                                    # print(a[0])
+                                    print(a[0])
 
                                     if "ID" in a[0]:
                                         varID = a[0]['ID']

@@ -42,11 +42,11 @@ import time
 # r.run(2, None)  # r1
 # r.run("ERROR", None)
 
-# r = ChcRulePO({"sheetName": "已患和高风险疾病评估", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "健康评估规则库编码"]})
+r = ChcRulePO({"sheetName": "已患和高风险疾病评估", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "健康评估规则库编码"]})
 # r.run(2, None)  # r9
 # r.run(3, None)  # r10
 # r.run("ERROR", "GW")
-# r.run(None, "GW")
+r.run(None, "GW")
 # r.run("ERROR", None)
 
 # r.open('儿童健康干预')

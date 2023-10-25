@@ -28,7 +28,7 @@ def updateTable(sheetName, tableName):
 
 
 # updateTable('疾病身份证', '疾病身份证')
-# updateTable('测试规则', '测试规则')
+updateTable('测试规则', '测试规则')
 
 
 

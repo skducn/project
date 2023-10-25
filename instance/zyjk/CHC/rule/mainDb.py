@@ -24,7 +24,7 @@ from ChcRulePO2 import *
 # r.run(86)  # r7
 
 r = ChcRulePO2("疾病评估")
-r.run(1)  # r2
+r.run(138)  # r2
 # r.i_startAssess("110101196407281501")
 
 # r.i_startAssess("310101199004110011")

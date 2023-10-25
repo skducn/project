@@ -277,10 +277,12 @@ class ChcRulePO2():
             Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
-    def outResultGW(self, varQty, varLog, v5):
+    def outResultGW(self, varQty):
+
+        print(444,  varQty)  # {'QTY0': 0, 'PG_JWS041': '1', 'PG_JWS043': '1'}
 
         if varQty == 1:
-            Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(v5) + ") => OK]"), "")
+            Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]"), "")
             Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
             Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
@@ -288,7 +290,7 @@ class ChcRulePO2():
             print("step log".center(100, "-"))
             print(self.log)
             self.log = (self.log).replace("'", "''")
-            Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(v5) + ") => ERROR]"), "")
+            Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
             Sqlserver_PO.execute("update %s set result='error' where id=%s" % (self.dbTableName, self.varId))
             Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
@@ -336,7 +338,6 @@ class ChcRulePO2():
         self.testIdcard(varIdcard)
 
         if varIdcard != None:
-            
             self.outResult1(self.rule(d))
         else:
             # print("[ERROR => _getIdcard() => 身份证不能为None!]")
@@ -369,6 +370,38 @@ class ChcRulePO2():
         else:
             Color_PO.consoleColor("31", "31", "[ERROR => _getIdcard2() => 身份证不能为None!]", "")
 
+    def _getIdcardGW(self, d):
+
+        # print(d)
+        varIdcard = ""
+        l_d_diseaseRuleCode_idcard = self.getIdcard()
+        # print(l_d_diseaseRuleCode_idcard)
+        for i in range(len(l_d_diseaseRuleCode_idcard)):
+            for k, v in l_d_diseaseRuleCode_idcard[i].items():
+                # print(l_d_diseaseRuleCode_idcard[i][k])
+                if l_d_diseaseRuleCode_idcard[i][k] == d['diseaseRuleCode']:
+                    varIdcard = l_d_diseaseRuleCode_idcard[i]['idcard']
+                    break
+
+        d["varIdcard"] = varIdcard
+        self.testIdcard(varIdcard)
+
+        # 执行语句及输出
+        # print(d)  # {'rule': ["delete from T_ASSESS_INFO where ID_CARD = '{身份证}'", 'self.i_startAssess({身份证})', "select ID from T_ASSESS_INFO where ID_CARD = '{身份证}'", "delete from T_HIS_DIAGNOSIS where IDCARD = '{身份证}'", 'self.i_rerunExecuteRule({varID})', 'select count(*) QTY0 from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE in {规则编码}', "INSERT INTO T_HIS_DIAGNOSIS (IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_NAME, DIAGNOSIS_DATE, CREATE_DATE,DIAGNOSIS_TYPE) VALUES ('{身份证}', 'B34.40', '', '1900-01-01 00:00:00.000', '2023-08-02 16:03:24.7200000',1)", 'self.i_rerunExecuteRule({varID})', "select count(*) PG_JWS041 from T_ASSESS_RULE_RECORD where ASSESS_ID ={varID} and RULE_CODE='{疾病评估规则编码}'", "delete from T_HIS_DIAGNOSIS where IDCARD = '{身份证}'", "INSERT INTO T_HIS_DIAGNOSIS (IDCARD, DIAGNOSIS_CODE, DIAGNOSIS_NAME, DIAGNOSIS_DATE, CREATE_DATE,DIAGNOSIS_TYPE) VALUES ('{身份证}', 'N88', '', '1900-01-01 00:00:00.000', '2023-08-02 16:03:24.7200000',1)", 'self.i_rerunExecuteRule({varID})', "select count(*) PG_JWS043 from T_ASSESS_RULE_RECORD where ASSESS_ID ={varID} and RULE_CODE='{疾病评估规则编码}'", "delete from T_HIS_DIAGNOSIS where IDCARD = '{身份证}'"],
+        # 'ruleCode': "('GW_JB011','PG_JWS041','PG_JWS043')",
+        # 'diseaseRuleCode': 'GW_JB011',
+        # 'varIdcard': 410101202308070011}
+
+        # d_all, log = self.gw(d)
+        # print("预期：", d_v1)
+        # print("实测：", d_all)
+        if varIdcard != None:
+            self.outResultGW(self.gw(d))
+        else:
+            # print("[ERROR => _getIdcard() => 身份证不能为None!]")
+            Color_PO.consoleColor("31", "31", "[ERROR => _getIdcard() => 身份证不能为None!]", "")
+        # else:
+        #     self.outResultGW(0, log, k, v[2])
 
     def run(self, varId):
 
@@ -415,6 +448,22 @@ class ChcRulePO2():
         elif rule == "r5":
             # 带参数3，健康干预两次命中（干预+疾病评估）
             self.param3_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
+        elif rule == "r_GW_JB011":
+
+            l_sql = self.x(rule)
+            d = {}
+            d['rule'] = l_sql
+            d['ruleCode'] = ruleCode
+            d['diseaseRuleCode'] = diseaseRuleCode
+
+            # 格式化测试规则
+            # # print(ruleParam)  # QTY0:0,PG_JWS041:1,PG_JWS043:1
+            # l_ruleParam = Str_PO.str2list(ruleParam)
+            # d_v1 = List_PO.list2dictByKeyValue(l_ruleParam)
+            # print(d_v1)  # {'QTY0': '0', 'PG_JWS041': '1', 'PG_JWS043': '1'}
+
+            self._getIdcardGW(d)
+
 
 
     def x(self, rule):
@@ -642,223 +691,216 @@ class ChcRulePO2():
         :param d:
         :return:
         '''
-        # print(d)  # {'result': None, 'diseaseRuleCode': 'GW_JB009', 'ruleCode': "('GW_JB009','PG_JWS026','PG_JWS027','PG_JWS028','PG_JWS031','PG_JWS032')", 'varIdcard': '410101202308070009'}
 
+        # print(d)
+        l_sql = d['rule']
         d_all = {}
         self.log = ""
         varQTY = ""
-        i_startAssessStatus = 0
 
-        # 1，遍历所有列获取值
-        l_all = self.Openpyxl_PO.getCol("gwSql")
-        for i in range(len(l_all)):
-            if d['diseaseRuleCode'] == l_all[i][0]:
-                for j in range(1, len(l_all[i])):
-                    command = l_all[i][j]
-                    if command != None:
+        for i in range(len(l_sql)):
+
+            # 格式转义
+            if 'varIdcard' in d:
+                l_sql[i] = str(l_sql[i]).replace("{身份证}", str(d['varIdcard']))
+            if 'ruleParam1' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数1}", d['ruleParam1'])
+            if 'ruleParam2' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数2}", d['ruleParam2'])
+            if 'ruleParam3' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数3}", d['ruleParam3'])
+            if 'ruleParam4' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数4}", d['ruleParam4'])
+            if 'ruleParam' in d:
+                l_sql[i] = str(l_sql[i]).replace("{测试规则参数}", d['ruleParam'])
+            if 'ruleCode' in d:
+                l_sql[i] = str(l_sql[i]).replace("{规则编码}", d['ruleCode'])
+            if "{随机数}" in l_sql[i]:
+                l_sql[i] = str(l_sql[i]).replace("{随机数}", Data_PO.getPhone())
+            if '{疾病评估规则编码}' in l_sql[i]:
+                l_sql[i] = str(l_sql[i]).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
+
+        for i in range(len(l_sql)):
+            var = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+            # print("[] => ", var)
+            # print(var[0]['var'])
+
+            if var[0]['var'] != None:
+                # print(var[0]['var'])
+                if 'id=' in var[0]['var']:
+                    varID = var[0]['var'].split("id=")[1].split(",")[0]
+                    # print(varID)
+                    l_sql[i] = str(l_sql[i]).replace("{varID}", varID)
+
+            if var[0]['var'] != None:
+                if 'idcard=' in var[0]['var']:
+                    varIdcard = var[0]['var'].split("idcard=")[1].split(",")[0]
+                    l_sql[i] = str(l_sql[i]).replace("{varIdcard}", varIdcard)
+
+            if var[0]['var'] != None:
+                if 'guid=' in var[0]['var']:
+                    varGUID = var[0]['var'].split("guid=")[1].split(",")[0]
+                    l_sql[i] = str(l_sql[i]).replace("{varGUID}", varGUID)
 
 
-                        if 'varIdcard' in d:
-                            command = str(command).replace("{身份证}", d['varIdcard'])
-                        if 'interventionRule' in d:
-                            command = str(command).replace("{规则编码}", d['interventionRule'])
-                        if "{随机数}" in command:
-                            command = str(command).replace("{随机数}", Data_PO.getPhone())
-                        if 'diseaseRuleCode' in d:
-                            command = str(command).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
+            # # 输出sql语句
+            if Configparser_PO.SWITCH("printSql") == "on":
+                print(str(i + 1) + ", " + l_sql[
+                    i])  # 2, delete from T_ASSESS_INFO where ID_CARD = '310101202308070003'
+            # 步骤日志
+            if self.log == "":
+                self.log = str(i + 1) + ", " + l_sql[i]
+            else:
+                self.log = self.log + "\n" + str(i + 1) + ", " + l_sql[i]
 
-                        varID = self.Openpyxl_PO.getCell(21, 1, "sql")
-                        varIdcard = self.Openpyxl_PO.getCell(22, 1, "sql")
-                        # varQTY = self.Openpyxl_PO.getCell(23, 1, "sql")
-                        varRunRule = self.Openpyxl_PO.getCell(24, 1, "sql")
-                        varNewAssess = self.Openpyxl_PO.getCell(25, 1, "sql")
-                        varGUID = self.Openpyxl_PO.getCell(26, 1, "sql")
-                        # varQTY0 = Openpyxl_PO.getCellValue(27, 1, "sql")
+            a = self.sql(l_sql[i])
+            varQ2 = 0
 
-                        if varID != None:
-                            if "varID=" in varID:
-                                varID = varID.split("varID=")[1].split(")")[0]
-                                command = str(command).replace("{varID}", varID)
-                        if varIdcard != None:
-                            if "varIdcard" in varIdcard:
-                                varIdcard = varIdcard.split("varIdcard=")[1].split(")")[0]
-                                command = str(command).replace("{varIdcard}", varIdcard)
-                        # if varQTY != None:
-                        #     if "varQTY" in varQTY:
-                        #         varQTY = varQTY.split("varQTY=")[1].split(")")[0]
-                        #         command = str(command).replace("{varQTY}", varQTY)
-                        if varRunRule != None and varRunRule != "":
-                            # print(type(varRunRule))
-                            # varRunRule = varRunRule.split("varRunRule=")[1].split(")")[0]
-                            self.log = self.log + "\n" + varRunRule
-                        if varNewAssess != None and varNewAssess != "":
-                            # print(type(varNewAssess))
-                            # varNewAssess = varNewAssess.split("varNewAssess=")[1].split(")")[0]
-                            self.log = self.log + "\n" + varNewAssess
-                        if varGUID != None:
-                            if "varGUID" in varGUID:
-                                varGUID = varGUID.split("varGUID=")[1].split(")")[0]
-                                command = str(command).replace("{varGUID}", varGUID)
-                        # if varQTY0 != None:
-                        #     if "varQTY0" in varQTY0:
-                        #         varQTY0 = varQTY0.split("varQTY0=")[1].split(")")[0]
-                        #         print(varQTY0)
-                        #         command = str(command).replace("{varQTY0}", varQTY0)
 
-                        Color_PO.consoleColor("31", "33", str(j+1) + ", " + command, "")
-                        self.log = self.log + "\n" + str(j+1) + ", " + command  # 步骤日志
-                        # a = eval(command)
-                        a = self.sql(command)
-                        sleep(1)
 
-                        if a != None:
-                            if isinstance(a, list):
-                                if isinstance(a[0], dict):
-                                    # print(a[0])
+            if a != None:
+                if isinstance(a, list) and a != []:
+                    if isinstance(a[0], dict):
+                        print(a[0])  # {'ID': 5977}
+                        if "ID" in a[0]:
+                            l_d_var = Sqlserver_PO.execQuery(
+                                "select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            # print(l_d_var)  # [{'var': 'id=5977'}]
 
-                                    if "ID" in a[0]:
-                                        varID = a[0]['ID']
-                                        self.Openpyxl_PO.setCell(21, 1, "varID=" + str(varID), "sql")
-                                    if "ID_CARD" in a[0]:
-                                        varIdcard = a[0]['ID_CARD']
-                                        self.Openpyxl_PO.setCell(22, 1, "varIdcard=" + str(varIdcard), "sql")
-                                    if "QTY" in a[0]:
-                                        varQTY = a[0]['QTY']
-                                        self.Openpyxl_PO.setCell(23, 1, "varQTY=" + str(varQTY), "sql")
-                                    if "GUID" in a[0]:
-                                        varGUID = a[0]['GUID']
-                                        self.Openpyxl_PO.setCell(26, 1, "varGUID=" + str(varGUID), "sql")
-                                    if "QTY0" in a[0]:
-                                        varQTY0 = a[0]['QTY0']
-                                        d_all['QTY0'] = str(a[0]['QTY0'])
-                                        # print(varQTY0)
-                                        # Openpyxl_PO.setCell(27, 1, "varQTY0=" + str(varQTY0), "sql")
-                                    if "name" in a[0]:
-                                        self.Openpyxl_PO.setCell(24, 1, "", "sql")
-                                        self.Openpyxl_PO.setCell(25, 1, "", "sql")
-                                        if "跑规则" == a[0]['name']:
-                                            if a[0]['value'] != 200:
-                                                self.Openpyxl_PO.setCell(24, 1, str(a[0]['value']), "sql")
-                                        if "新增评估" == a[0]['name']:
-                                            if a[0]['value'] != 200:
-                                                self.Openpyxl_PO.setCell(25, 1, str(a[0]['value']), "sql")
+                            if l_d_var[0]['var'] == None or l_d_var[0]['var'] == "":
+                                var2 = "id=" + str(a[0]['ID'])
+                            else:
+                                # 替换最新的变量值，如 原varID=123, 再次生成varID=444时，替换原来的123
+                                if "," in l_d_var[0]['var']:
+                                    var2 = l_d_var[0]['var'].replace(
+                                        l_d_var[0]['var'].split("id=")[1].split(",")[0], str(a[0]['ID']))
+                                else:
+                                    var2 = l_d_var[0]['var'].replace(l_d_var[0]['var'].split("id=")[1],
+                                                                     str(a[0]['ID']))
+                            Sqlserver_PO.execute(
+                                "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
-                                    # JB001
-                                    if d['diseaseRuleCode'] == 'GW_JB001':
-                                        if "GW_JB001" in a[0]: d_all['GW_JB001'] = str(a[0]['GW_JB001'])
-                                        if "PG_Age001" in a[0]: d_all['PG_Age001'] = str(a[0]['PG_Age001'])
-                                        if "PG_SHXG001" in a[0]:d_all['PG_SHXG001'] = str(a[0]['PG_SHXG001'])
-                                        if "PG_SHXG002" in a[0]:d_all['PG_SHXG002'] = str(a[0]['PG_SHXG002'])
-                                        if "PG_STZB001" in a[0]:d_all['PG_STZB001'] = str(a[0]['PG_STZB001'])
-                                        if "PG_STZB002" in a[0]:d_all['PG_STZB002'] = str(a[0]['PG_STZB002'])
-                                        if "PG_SHXG004" in a[0]:d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
-                                        if "PG_JYZB001" in a[0]:d_all['PG_JYZB001'] = str(a[0]['PG_JYZB001'])
-                                        if "PG_JYZB002" in a[0]:d_all['PG_JYZB002'] = str(a[0]['PG_JYZB002'])
-                                        if "PG_JZS001" in a[0]: d_all['PG_JZS001'] = str(a[0]['PG_JZS001'])
-                                        if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
-                                    elif d['diseaseRuleCode'] == 'GW_JB002':
-                                        if "GW_JB002" in a[0]: d_all['GW_JB002'] = str(a[0]['GW_JB002'])
-                                        if "PG_Age002" in a[0]: d_all['PG_Age002'] = str(a[0]['PG_Age002'])
-                                        if "PG_JYZB003" in a[0]: d_all['PG_JYZB003'] = str(a[0]['PG_JYZB003'])
-                                        if "PG_JWS002" in a[0]: d_all['PG_JWS002'] = str(a[0]['PG_JWS002'])
-                                        if "PG_JWS003" in a[0]: d_all['PG_JWS003'] = str(a[0]['PG_JWS003'])
-                                        if "PG_JWS004" in a[0]: d_all['PG_JWS004'] = str(a[0]['PG_JWS004'])
-                                        if "PG_JWS005" in a[0]: d_all['PG_JWS005'] = str(a[0]['PG_JWS005'])
-                                        if "PG_JWS006" in a[0]: d_all['PG_JWS006'] = str(a[0]['PG_JWS006'])
-                                        if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
-                                        if "PG_JZS002" in a[0]: d_all['PG_JZS002'] = str(a[0]['PG_JZS002'])
-                                        if "PG_YWZL001" in a[0]: d_all['PG_YWZL001'] = str(a[0]['PG_YWZL001'])
-                                        if "PG_SHXG004" in a[0]: d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
-                                        if "PG_JYZB004" in a[0]: d_all['PG_JYZB004'] = str(a[0]['PG_JYZB004'])
-                                        if "PG_JYZB005" in a[0]: d_all['PG_JYZB005'] = str(a[0]['PG_JYZB005'])
-                                        if "PG_YWZL002" in a[0]: d_all['PG_YWZL002'] = str(a[0]['PG_YWZL002'])
-                                        if "PG_STZB001" in a[0]: d_all['PG_STZB001'] = str(a[0]['PG_STZB001'])
-                                        if "PG_STZB003" in a[0]: d_all['PG_STZB003'] = str(a[0]['PG_STZB003'])
-                                    elif d['diseaseRuleCode'] == 'GW_JB003':
-                                        if "GW_JB003" in a[0]: d_all['GW_JB003'] = str(a[0]['GW_JB003'])
-                                        if "PG_JWS008" in a[0]: d_all['PG_JWS008'] = str(a[0]['PG_JWS008'])
-                                        if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
-                                        if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
-                                        if "PG_JZS003" in a[0]: d_all['PG_JZS003'] = str(a[0]['PG_JZS003'])
-                                        if "PG_SHXG004" in a[0]: d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
-                                        if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
-                                        if "PG_JYZB001" in a[0]: d_all['PG_JYZB001'] = str(a[0]['PG_JYZB001'])
-                                        if "PG_STZB004" in a[0]: d_all['PG_STZB004'] = str(a[0]['PG_STZB004'])
-                                        if "PG_JWS009" in a[0]: d_all['PG_JWS009'] = str(a[0]['PG_JWS009'])
-                                        if "PG_JWS010" in a[0]: d_all['PG_JWS010'] = str(a[0]['PG_JWS010'])
-                                        if "PG_JWS011" in a[0]: d_all['PG_JWS011'] = str(a[0]['PG_JWS011'])
-                                    elif d['diseaseRuleCode'] == 'GW_JB004':
-                                        if "GW_JB004" in a[0]: d_all['GW_JB004'] = str(a[0]['GW_JB004'])
-                                        if "PG_Age003" in a[0]: d_all['PG_Age003'] = str(a[0]['PG_Age003'])
-                                        if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
-                                        if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
-                                        if "PG_JZS004" in a[0]: d_all['PG_JZS004'] = str(a[0]['PG_JZS004'])
-                                        if "PG_JZS005" in a[0]: d_all['PG_JZS005'] = str(a[0]['PG_JZS005'])
-                                        if "PG_JYZB006" in a[0]: d_all['PG_JYZB006'] = str(a[0]['PG_JYZB006'])
-                                        if "PG_JYZB007" in a[0]: d_all['PG_JYZB007'] = str(a[0]['PG_JYZB007'])
-                                        if "PG_JYZB008" in a[0]: d_all['PG_JYZB008'] = str(a[0]['PG_JYZB008'])
-                                        if "PG_JYZB009" in a[0]: d_all['PG_JYZB009'] = str(a[0]['PG_JYZB009'])
-                                        if "PG_JWS012" in a[0]: d_all['PG_JWS012'] = str(a[0]['PG_JWS012'])
-                                    elif d['diseaseRuleCode'] == 'GW_JB005':
-                                        if "GW_JB005" in a[0]: d_all['GW_JB005'] = str(a[0]['GW_JB005'])
-                                        # if "PG_Age004" in a[0]: d_all['PG_Age004'] = str(a[0]['PG_Age004'])
-                                        if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
-                                        if "PG_JWS013" in a[0]: d_all['PG_JWS013'] = str(a[0]['PG_JWS013'])
-                                        if "PG_JZS006" in a[0]: d_all['PG_JZS006'] = str(a[0]['PG_JZS006'])
-                                        if "PG_SHXG007" in a[0]: d_all['PG_SHXG007'] = str(a[0]['PG_SHXG007'])
-                                        if "PG_JWS015" in a[0]: d_all['PG_JWS015'] = str(a[0]['PG_JWS015'])
-                                        if "PG_STZB005" in a[0]: d_all['PG_STZB005'] = str(a[0]['PG_STZB005'])
-                                    elif d['diseaseRuleCode'] == 'GW_JB006':
-                                        if "GW_JB006" in a[0]: d_all['GW_JB006'] = str(a[0]['GW_JB006'])
-                                        if "PG_Age005" in a[0]: d_all['PG_Age005'] = str(a[0]['PG_Age005'])
-                                        if "PG_JWS016" in a[0]: d_all['PG_JWS016'] = str(a[0]['PG_JWS016'])
-                                        if "PG_JWS017" in a[0]: d_all['PG_JWS017'] = str(a[0]['PG_JWS017'])
-                                        if "PG_JWS018" in a[0]: d_all['PG_JWS018'] = str(a[0]['PG_JWS018'])
-                                        if "PG_JZS007" in a[0]: d_all['PG_JZS007'] = str(a[0]['PG_JZS007'])
-                                        if "PG_SHXG009" in a[0]: d_all['PG_SHXG009'] = str(a[0]['PG_SHXG009'])
-                                        if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
-                                    elif d['diseaseRuleCode'] == 'GW_JB007':
-                                        if "GW_JB007" in a[0]: d_all['GW_JB007'] = str(a[0]['GW_JB007'])
-                                        if "PG_Age006" in a[0]: d_all['PG_Age006'] = str(a[0]['PG_Age006'])
-                                        if "PG_JWS021" in a[0]: d_all['PG_JWS021'] = str(a[0]['PG_JWS021'])
+                        if "ID_CARD" in a[0]:
+                            varIdcard = a[0]['ID_CARD']
+                            var2 = Sqlserver_PO.execQuery(
+                                "select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            if var2[0]['var'] == None:
+                                var2 = "idcard=" + str(varIdcard)
+                            else:
+                                var2 = var2[0]['var'] + ",idcard=" + str(varIdcard)
+                            Sqlserver_PO.execute(
+                                "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
-                                    elif d['diseaseRuleCode'] == 'GW_JB009':
-                                        if "GW_JB009" in a[0]: d_all['GW_JB009'] = str(a[0]['GW_JB009'])
-                                        if "PG_Age007" in a[0]: d_all['PG_Age007'] = str(a[0]['PG_Age007'])
-                                        if "PG_JWS026" in a[0]: d_all['PG_JWS026'] = str(a[0]['PG_JWS026'])
-                                        if "PG_JWS027" in a[0]: d_all['PG_JWS027'] = str(a[0]['PG_JWS027'])
-                                        if "PG_JWS028" in a[0]: d_all['PG_JWS028'] = str(a[0]['PG_JWS028'])
-                                        if "PG_JWS031" in a[0]: d_all['PG_JWS031'] = str(a[0]['PG_JWS031'])
-                                        if "PG_JWS032" in a[0]: d_all['PG_JWS032'] = str(a[0]['PG_JWS032'])
-                                    elif d['diseaseRuleCode'] == 'GW_JB010':
-                                        if "GW_JB010" in a[0]: d_all['GW_JB010'] = str(a[0]['GW_JB010'])
-                                        if "PG_Age008" in a[0]: d_all['PG_Age008'] = str(a[0]['PG_Age008'])
-                                        if "PG_JWS033" in a[0]: d_all['PG_JWS033'] = str(a[0]['PG_JWS033'])
-                                        if "PG_JWS034" in a[0]: d_all['PG_JWS034'] = str(a[0]['PG_JWS034'])
-                                        if "PG_JWS035" in a[0]: d_all['PG_JWS035'] = str(a[0]['PG_JWS035'])
-                                        if "PG_JYZB010" in a[0]: d_all['PG_JYZB010'] = str(a[0]['PG_JYZB010'])
-                                        if "PG_JWS037" in a[0]: d_all['PG_JWS037'] = str(a[0]['PG_JWS037'])
-                                    elif d['diseaseRuleCode'] == 'GW_JB011':
-                                        if "GW_JB011" in a[0]: d_all['GW_JB011'] = str(a[0]['GW_JB011'])
-                                        if "PG_JWS041" in a[0]: d_all['PG_JWS041'] = str(a[0]['PG_JWS041'])
-                                        if "PG_JWS043" in a[0]: d_all['PG_JWS043'] = str(a[0]['PG_JWS043'])
+                        if "GUID" in a[0]:
+                            var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            var2 = var2[0]['var'] + ",guid=" + str(a[0]['GUID'])
+                            Sqlserver_PO.execute(
+                                "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
-                            # if isinstance(a, tuple):
-                            #     if "跑规则" in a[0]:
-                            #         varRunRule = a[1]
-                            #         Openpyxl_PO.setCell(24, 1, "varRunRule=" + str(varRunRule), "sql")
-                            #     if "新增评估" in a[0]:
-                            #         varNewAssess = a[1]
-                            #         Openpyxl_PO.setCell(25, 1, "varNewAssess=" + str(varNewAssess), "sql")
-                    else:
-                        break
-        self.Openpyxl_PO.setCell(21, 1, "", "sql")
-        self.Openpyxl_PO.setCell(22, 1, "", "sql")
-        self.Openpyxl_PO.setCell(23, 1, "", "sql")
-        self.Openpyxl_PO.setCell(24, 1, "", "sql")
-        self.Openpyxl_PO.setCell(25, 1, "", "sql")
-        self.Openpyxl_PO.setCell(26, 1, "", "sql")
-        self.Openpyxl_PO.setCell(27, 1, "", "sql")
+                        if "QTY0" in a[0]:
+                            self.log = self.log + "\n" + str(a[0])  # 步骤日志
+                            varQTY0 = a[0]['QTY0']
+                            d_all['QTY0'] = a[0]['QTY0']
 
-        self.log = self.log + "\n" + str(d_all)
-        return d_all, self.log
+                        # JB001
+                        if d['diseaseRuleCode'] == 'GW_JB001':
+                            if "GW_JB001" in a[0]: d_all['GW_JB001'] = str(a[0]['GW_JB001'])
+                            if "PG_Age001" in a[0]: d_all['PG_Age001'] = str(a[0]['PG_Age001'])
+                            if "PG_SHXG001" in a[0]:d_all['PG_SHXG001'] = str(a[0]['PG_SHXG001'])
+                            if "PG_SHXG002" in a[0]:d_all['PG_SHXG002'] = str(a[0]['PG_SHXG002'])
+                            if "PG_STZB001" in a[0]:d_all['PG_STZB001'] = str(a[0]['PG_STZB001'])
+                            if "PG_STZB002" in a[0]:d_all['PG_STZB002'] = str(a[0]['PG_STZB002'])
+                            if "PG_SHXG004" in a[0]:d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
+                            if "PG_JYZB001" in a[0]:d_all['PG_JYZB001'] = str(a[0]['PG_JYZB001'])
+                            if "PG_JYZB002" in a[0]:d_all['PG_JYZB002'] = str(a[0]['PG_JYZB002'])
+                            if "PG_JZS001" in a[0]: d_all['PG_JZS001'] = str(a[0]['PG_JZS001'])
+                            if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
+                        elif d['diseaseRuleCode'] == 'GW_JB002':
+                            if "GW_JB002" in a[0]: d_all['GW_JB002'] = str(a[0]['GW_JB002'])
+                            if "PG_Age002" in a[0]: d_all['PG_Age002'] = str(a[0]['PG_Age002'])
+                            if "PG_JYZB003" in a[0]: d_all['PG_JYZB003'] = str(a[0]['PG_JYZB003'])
+                            if "PG_JWS002" in a[0]: d_all['PG_JWS002'] = str(a[0]['PG_JWS002'])
+                            if "PG_JWS003" in a[0]: d_all['PG_JWS003'] = str(a[0]['PG_JWS003'])
+                            if "PG_JWS004" in a[0]: d_all['PG_JWS004'] = str(a[0]['PG_JWS004'])
+                            if "PG_JWS005" in a[0]: d_all['PG_JWS005'] = str(a[0]['PG_JWS005'])
+                            if "PG_JWS006" in a[0]: d_all['PG_JWS006'] = str(a[0]['PG_JWS006'])
+                            if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
+                            if "PG_JZS002" in a[0]: d_all['PG_JZS002'] = str(a[0]['PG_JZS002'])
+                            if "PG_YWZL001" in a[0]: d_all['PG_YWZL001'] = str(a[0]['PG_YWZL001'])
+                            if "PG_SHXG004" in a[0]: d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
+                            if "PG_JYZB004" in a[0]: d_all['PG_JYZB004'] = str(a[0]['PG_JYZB004'])
+                            if "PG_JYZB005" in a[0]: d_all['PG_JYZB005'] = str(a[0]['PG_JYZB005'])
+                            if "PG_YWZL002" in a[0]: d_all['PG_YWZL002'] = str(a[0]['PG_YWZL002'])
+                            if "PG_STZB001" in a[0]: d_all['PG_STZB001'] = str(a[0]['PG_STZB001'])
+                            if "PG_STZB003" in a[0]: d_all['PG_STZB003'] = str(a[0]['PG_STZB003'])
+                        elif d['diseaseRuleCode'] == 'GW_JB003':
+                            if "GW_JB003" in a[0]: d_all['GW_JB003'] = str(a[0]['GW_JB003'])
+                            if "PG_JWS008" in a[0]: d_all['PG_JWS008'] = str(a[0]['PG_JWS008'])
+                            if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
+                            if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
+                            if "PG_JZS003" in a[0]: d_all['PG_JZS003'] = str(a[0]['PG_JZS003'])
+                            if "PG_SHXG004" in a[0]: d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
+                            if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
+                            if "PG_JYZB001" in a[0]: d_all['PG_JYZB001'] = str(a[0]['PG_JYZB001'])
+                            if "PG_STZB004" in a[0]: d_all['PG_STZB004'] = str(a[0]['PG_STZB004'])
+                            if "PG_JWS009" in a[0]: d_all['PG_JWS009'] = str(a[0]['PG_JWS009'])
+                            if "PG_JWS010" in a[0]: d_all['PG_JWS010'] = str(a[0]['PG_JWS010'])
+                            if "PG_JWS011" in a[0]: d_all['PG_JWS011'] = str(a[0]['PG_JWS011'])
+                        elif d['diseaseRuleCode'] == 'GW_JB004':
+                            if "GW_JB004" in a[0]: d_all['GW_JB004'] = str(a[0]['GW_JB004'])
+                            if "PG_Age003" in a[0]: d_all['PG_Age003'] = str(a[0]['PG_Age003'])
+                            if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
+                            if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
+                            if "PG_JZS004" in a[0]: d_all['PG_JZS004'] = str(a[0]['PG_JZS004'])
+                            if "PG_JZS005" in a[0]: d_all['PG_JZS005'] = str(a[0]['PG_JZS005'])
+                            if "PG_JYZB006" in a[0]: d_all['PG_JYZB006'] = str(a[0]['PG_JYZB006'])
+                            if "PG_JYZB007" in a[0]: d_all['PG_JYZB007'] = str(a[0]['PG_JYZB007'])
+                            if "PG_JYZB008" in a[0]: d_all['PG_JYZB008'] = str(a[0]['PG_JYZB008'])
+                            if "PG_JYZB009" in a[0]: d_all['PG_JYZB009'] = str(a[0]['PG_JYZB009'])
+                            if "PG_JWS012" in a[0]: d_all['PG_JWS012'] = str(a[0]['PG_JWS012'])
+                        elif d['diseaseRuleCode'] == 'GW_JB005':
+                            if "GW_JB005" in a[0]: d_all['GW_JB005'] = str(a[0]['GW_JB005'])
+                            # if "PG_Age004" in a[0]: d_all['PG_Age004'] = str(a[0]['PG_Age004'])
+                            if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
+                            if "PG_JWS013" in a[0]: d_all['PG_JWS013'] = str(a[0]['PG_JWS013'])
+                            if "PG_JZS006" in a[0]: d_all['PG_JZS006'] = str(a[0]['PG_JZS006'])
+                            if "PG_SHXG007" in a[0]: d_all['PG_SHXG007'] = str(a[0]['PG_SHXG007'])
+                            if "PG_JWS015" in a[0]: d_all['PG_JWS015'] = str(a[0]['PG_JWS015'])
+                            if "PG_STZB005" in a[0]: d_all['PG_STZB005'] = str(a[0]['PG_STZB005'])
+                        elif d['diseaseRuleCode'] == 'GW_JB006':
+                            if "GW_JB006" in a[0]: d_all['GW_JB006'] = str(a[0]['GW_JB006'])
+                            if "PG_Age005" in a[0]: d_all['PG_Age005'] = str(a[0]['PG_Age005'])
+                            if "PG_JWS016" in a[0]: d_all['PG_JWS016'] = str(a[0]['PG_JWS016'])
+                            if "PG_JWS017" in a[0]: d_all['PG_JWS017'] = str(a[0]['PG_JWS017'])
+                            if "PG_JWS018" in a[0]: d_all['PG_JWS018'] = str(a[0]['PG_JWS018'])
+                            if "PG_JZS007" in a[0]: d_all['PG_JZS007'] = str(a[0]['PG_JZS007'])
+                            if "PG_SHXG009" in a[0]: d_all['PG_SHXG009'] = str(a[0]['PG_SHXG009'])
+                            if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
+                        elif d['diseaseRuleCode'] == 'GW_JB007':
+                            if "GW_JB007" in a[0]: d_all['GW_JB007'] = str(a[0]['GW_JB007'])
+                            if "PG_Age006" in a[0]: d_all['PG_Age006'] = str(a[0]['PG_Age006'])
+                            if "PG_JWS021" in a[0]: d_all['PG_JWS021'] = str(a[0]['PG_JWS021'])
+                        elif d['diseaseRuleCode'] == 'GW_JB009':
+                            if "GW_JB009" in a[0]: d_all['GW_JB009'] = str(a[0]['GW_JB009'])
+                            if "PG_Age007" in a[0]: d_all['PG_Age007'] = str(a[0]['PG_Age007'])
+                            if "PG_JWS026" in a[0]: d_all['PG_JWS026'] = str(a[0]['PG_JWS026'])
+                            if "PG_JWS027" in a[0]: d_all['PG_JWS027'] = str(a[0]['PG_JWS027'])
+                            if "PG_JWS028" in a[0]: d_all['PG_JWS028'] = str(a[0]['PG_JWS028'])
+                            if "PG_JWS031" in a[0]: d_all['PG_JWS031'] = str(a[0]['PG_JWS031'])
+                            if "PG_JWS032" in a[0]: d_all['PG_JWS032'] = str(a[0]['PG_JWS032'])
+                        elif d['diseaseRuleCode'] == 'GW_JB010':
+                            if "GW_JB010" in a[0]: d_all['GW_JB010'] = str(a[0]['GW_JB010'])
+                            if "PG_Age008" in a[0]: d_all['PG_Age008'] = str(a[0]['PG_Age008'])
+                            if "PG_JWS033" in a[0]: d_all['PG_JWS033'] = str(a[0]['PG_JWS033'])
+                            if "PG_JWS034" in a[0]: d_all['PG_JWS034'] = str(a[0]['PG_JWS034'])
+                            if "PG_JWS035" in a[0]: d_all['PG_JWS035'] = str(a[0]['PG_JWS035'])
+                            if "PG_JYZB010" in a[0]: d_all['PG_JYZB010'] = str(a[0]['PG_JYZB010'])
+                            if "PG_JWS037" in a[0]: d_all['PG_JWS037'] = str(a[0]['PG_JWS037'])
+                        elif d['diseaseRuleCode'] == 'GW_JB011':
+                            if "GW_JB011" in a[0]: d_all['GW_JB011'] = str(a[0]['GW_JB011'])
+                            if "PG_JWS041" in a[0]: d_all['PG_JWS041'] = str(a[0]['PG_JWS041'])
+                            if "PG_JWS043" in a[0]: d_all['PG_JWS043'] = str(a[0]['PG_JWS043'])
+
+
+
+        return d_all
