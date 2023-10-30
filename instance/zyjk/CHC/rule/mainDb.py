@@ -7,25 +7,22 @@
 from ChcRulePO2 import *
 
 # r = ChcRulePO2("健康评估")
-# r.run(51)
-# r.run(15)
-# r.run(2)
-
-# r.run(1)  # r1
-# r.run(3)  # r6
-# r.run(27)  # r3
-# r.run(24)  # r4
-
 # r = ChcRulePO2("健康干预")
-# r.run(1)  # r2
-# r.run(39)  # r11
-# r.run(34)  # r5
-# r.run(49)  # r8
-# r.run(86)  # r7
-
+# r = ChcRulePO2("中医体质辨识")
+# r = ChcRulePO2("儿童健康干预")
 r = ChcRulePO2("疾病评估")
-r.run(138)  # r2
-# r.i_startAssess("110101196407281501")
+# r.run(27)
 
+# r.runResult("")  # 执行result为空的规则
+r.runResult("error")  # 执行result为error的规则
+# r.runResult("ok")  # 执行result为ok的规则
+# r.runResult("all")  # 执行所有的规则
+
+
+
+
+
+
+# r.i_startAssess("110101196407281501")
 # r.i_startAssess("310101199004110011")
 

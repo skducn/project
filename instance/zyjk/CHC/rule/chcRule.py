@@ -12,9 +12,10 @@
 
 # conda activate py308
 # cd /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/CHC/rule
-#  python chcRule.py -s 3
-# ./chcRule.sh 4-10    //执行第4到第10行记录
-# ./chcRule.sh 4    //执行第4行记录
+# python chcRule.py -t $1 -i $2 -l $(3:-off)
+# chcRule.sh jkpg 1 on
+# chcRule.sh jkpg 1-4 on
+# chcRule.sh jkpg error
 #***************************************************************
 
 import sys
@@ -22,80 +23,45 @@ sys.path.append('../../../../')
 
 from ChcRulePO2 import *
 import threading
-import argparse,ast
+import argparse, ast
 
 parser = argparse.ArgumentParser(usage="程序用途描述", description='帮助文档的描述', epilog="额外说明")
-parser.add_argument('--sheet', '-s', help='sheet 属性，非必要参数', required=True)
-parser.add_argument('--number', '-n', help='number 属性，非必要参数', required=True)
-parser.add_argument('--print', '-p', help='printSql 属性，非必要参数')
+parser.add_argument('--table', '-t', help='数据库表表名，必要参数', required=True)
+parser.add_argument('--id', '-i', help='id，必要参数', required=True)
+parser.add_argument('--log', '-l', help='日志，非必要参数')
 args = parser.parse_args()
 
-# todo 参数-p on｜off   ， 默认值off
-if args.print == "on":
+# todo -s jkpg
+# r = ChcRulePO2("健康评估")
+d = {'jkpg': '健康评估', 'jkgy': '健康干预',  'zytzbs': '中医体质辨识', 'etjkgy': '儿童健康干预', 'jbpg': '疾病评估'}
+r = ChcRulePO2(d[args.table])
+
+
+# todo 参数-p on｜off(默认值)
+if args.log == "on":
     Configparser_PO.write('SWITCH', 'printsql', 'on')
 else:
     Configparser_PO.write('SWITCH', 'printsql', 'off')
 
-# r = ChcRulePO2("健康评估")
-d = {'jkpg': '健康评估', 'jkgy': '健康干预',  'zytzbs': '中医体质辨识', 'etjkgy': '儿童健康干预', 'jbpg': '疾病评估'}
-r = ChcRulePO2(d[args.sheet])
 
-# todo 参数-s 1 ｜ 1-N
-if "-" in (args.number):
-    start = int((args.number).split("-")[0])
-    end = int((args.number).split("-")[1])
-    if start < end:
-        for i in range(start, end+1):
-            r.run(i)
-    else:
-        for i in range(end, start+1):
-            r.run(i)
+# todo 参数-n 1 ｜ 1-N
+if args.id == "error":
+    r.runResult("error")
+elif args.id == "ok":
+    r.runResult("ok")
+elif args.id == "all":
+    r.runResult("all")
 else:
-    r.run(args.number)
+    if "-" in (args.id):
+        start = int((args.id).split("-")[0])
+        end = int((args.id).split("-")[1])
+        if start < end:
+            for i in range(start, end+1):
+                r.run(i)
+        else:
+            for i in range(end, start+1):
+                r.run(i)
+    else:
+        r.run(args.id)
 
 
-
-# if args.testRule == "None":
-#     r.run(int(args.seq), type(ast.literal_eval('None')))
-# else:
-#     r.run(int(args.seq), args.testRule)
-
-# if __name__ == '__main__':
-#     try:
-#         # r = ChcRulePO({"sheetName":  "健康评估", "colTitle": ["测试结果", "测试规则", "评估规则编码"]})
-#         r.run(args.result, args.testRule)
-#         # test_for_sys(args.year, args.name, args.body)  # 此处调参即可
-#     except Exception as e:
-#         print("error")
-
-# r.run(3, None)  # r1
-# r.run(4, None)  # r6
-# r.run(20, None)  # r4
-# r.run(25, None)  # r3
-# r.run("ERROR", None)
-
-# r = ChcRulePO({"sheetName": "健康干预", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "干预规则编码", "命中次数"]})
-# r.run(3, None)  # r2
-# r.run(20, None)  # r11, 命中2
-# r.run(35, None)  # r5, 命中2
-# r.run(44, None)  # r2, 命中2
-# r.run(50, None)  # r8
-# r.run(87, None)  # r7
-# r.run("ERROR", "GW")
-# r.run("ERROR", None)
-
-# r = ChcRulePO({"sheetName": "健康干预中医体质辨识", "colTitle": ["测试结果", "测试规则", "干预规则编码", "干预规则"]})
-# r.run(2, None)  # r12
-
-# r = ChcRulePO({"sheetName": "儿童健康干预", "colTitle": ["测试结果", "测试规则", "干预规则编码"]})
-# r.run(2, None)  # r1
-# r.run("ERROR", None)
-
-# r = ChcRulePO({"sheetName": "已患和高风险疾病评估", "colTitle": ["测试结果", "测试规则", "疾病评估规则编码", "健康评估规则库编码"]})
-# r.run(2, None)  # r9
-# r.run(3, None)  # r10
-# r.run("ERROR", "GW")
-# r.run(None, "GW")
-# r.run("ERROR", None)
-
-# r.open('儿童健康干预')
