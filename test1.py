@@ -9,10 +9,26 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-list1 = [1,2,3,4,5]
-for i in range(len(list1)):
-    list1[i] = list1[i]+4
-print(list1)
+
+import dmPython
+try :
+    # 输入相关配置信息
+    conn = dmPython.connect(user='SYSDBA', password='SYSDBA001', server='localhost', port=5236)
+    # 连接数据库
+    curses = conn.cursor()
+    #连接成功提示
+    print("连接成功")
+except:
+    #失败提示
+    print("失败")
+
+
+
+
+# list1 = [1,2,3,4,5]
+# for i in range(len(list1)):
+#     list1[i] = list1[i]+4
+# print(list1)
 # import threading
 #
 # def test (x,y):
