@@ -375,8 +375,8 @@ class ChcRulePO2():
             diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
         # 传递参数
-        if (rule == "r1") or (rule == "r6") or (rule == "r12"):
-            # 带参数1
+        if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
+            # 带参数1 1
             self.param1(rule, ruleParam, ruleCode)
         elif (rule == "r3") or (rule == "r4") or (rule == "r8"):
             # 带参数2
@@ -385,19 +385,19 @@ class ChcRulePO2():
             # 带参数4
             self.param4(rule, ruleParam, ruleCode)
         elif (rule == "r9") or (rule == "r10"):
-            # 带参数1（自动匹配身份证）
+            # 带参数1（自动匹配身份证）1_idcard
             self.param1_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
         elif rule == "r2":
             # 带参数2（自动匹配身份证）
             self.param2_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
         elif rule == "r11":
-            # 带参数1，健康干预两次命中（干预+疾病评估）
+            # 带参数1，健康干预两次命中（干预+疾病评估）1_hit2
             self.param1_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
         elif rule == "r5":
             # 带参数3，健康干预两次命中（干预+疾病评估）
             self.param3_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
         elif rule == "r_GW_JB001":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
+            self._getParamByGW(rule, ruleCode, diseaseRuleCode)  # r_GW
         elif rule == "r_GW_JB002":
             self._getParamByGW(rule, ruleCode, diseaseRuleCode)
         elif rule == "r_GW_JB003":
@@ -468,6 +468,7 @@ class ChcRulePO2():
 
 
     def param1_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
+
         l_sql = self.x(rule)
         d = {}
         d['rule'] = l_sql
