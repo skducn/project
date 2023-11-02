@@ -11,7 +11,8 @@ r = ChcRulePO2("健康干预")
 # r = ChcRulePO2("中医体质辨识")
 # r = ChcRulePO2("儿童健康干预")
 # r = ChcRulePO2("疾病评估")
-r.run(92)
+# r.run(19)
+r.run(34)
 
 # r.runResult("")  # 执行result为空的规则
 # r.runResult("error")  # 执行result为error的规则

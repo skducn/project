@@ -24,7 +24,7 @@ Dict_PO = DictPO()
 from PO.DataPO import *
 Data_PO = DataPO()
 from PO.OpenpyxlPO import *
-
+import random
 
 class ChcRulePO2():
 
@@ -45,7 +45,7 @@ class ChcRulePO2():
             print(d_r['data']['access_token'])
         return d_r['data']['access_token']
 
-    def getIdcard(self):
+    def getDiseaseIdcard(self):
 
         '''
         获取疾病身份证中对应疾病的身份证号码
@@ -103,7 +103,7 @@ class ChcRulePO2():
         :return:
         '''
 
-        self.testIdcard(varIdcard)
+        self.verifyIdcard(varIdcard)
         command = "curl -X POST \"" + Configparser_PO.HTTP("url") + ":8014/tAssessInfo/startAssess\" -H \"token:" + \
                   self.TOKEN + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\" -H \"Authorization:\" " \
                                "-H \"Content-Type:application/json\" -d \"{\\\"categoryCode\\\":\\\"\\\",\\\"idCard\\\":\\\"" + str(varIdcard) + "\\\",\\\"orgCode\\\":\\\"\\\"}\""
@@ -234,61 +234,56 @@ class ChcRulePO2():
             Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
-    def testIdcard(self, varIdcard):
+    def verifyIdcard(self, varIdcard):
 
-        # 检查判断患者主索引表（TB_EMPI_INDEX_ROOT）中身份证是否存在
-        l_d_qty = Sqlserver_PO.execQuery(
-            "select count(*) as qty from TB_EMPI_INDEX_ROOT where IDCARDNO='%s'" % (varIdcard))
+        # 检查患者主索引表身份证是否存在!
+        l_d_qty = Sqlserver_PO.execQuery("select count(*) as qty from TB_EMPI_INDEX_ROOT where IDCARDNO='%s'" % (varIdcard))
         # print(l_d_qty)  # [{'qty': 1}]
-        # print(l_d_qty[0]['qty'])
         if l_d_qty[0]['qty'] == 0:
             guid = Data_PO.getFigures(6)
             name = Data_PO.getChineseName()
             Sqlserver_PO.execute("INSERT INTO [TB_EMPI_INDEX_ROOT] ([GUID], [NAME], [SEXCODE], [SEXVALUE], [DATEOFBIRTH], [IDCARDNO]) VALUES ('" + str(guid) + "', N'" + str(name) + "', '2', '女', '1940-05-11', '" + str(varIdcard) + "')")
 
-        # 检查判断基本信息表 (HRPERSONBASICINFO）中身份证是否存在
+        # 检查基本信息表身份证是否存在!
         l_d_qty = Sqlserver_PO.execQuery("select count(*) as qty from HRPERSONBASICINFO where IDCARD='%s'" % (varIdcard))
         if l_d_qty[0]['qty'] == 0:
             Sqlserver_PO.execute("INSERT INTO [dbo].[HRPERSONBASICINFO] ([ARCHIVENUM], [NAME], [SEX], [DATEOFBIRTH], [IDCARD], [WORKUNIT], [PHONE], [CONTACTSNAME], [CONTACTSPHONE], [RESIDENCETYPE], [NATIONCODE], [BLOODTYPE], [RHBLOODTYPE], [DEGREE], [OCCUPATION], [MARITALSTATUS], [HEREDITYHISTORYFLAG], [HEREDITYHISTORYCODE], [ENVIRONMENTKITCHENAERATION], [ENVIRONMENTFUELTYPE], [ENVIRONMENTWATER], [ENVIRONMENTTOILET], [ENVIRONMENTCORRAL], [DATASOURCES], [CREATEID], [CREATENAME], [CREATETIME], [UPDATEID], [UPDATENAME], [UPDATETIME], [STATUS], [ISDELETED], [VERSION], [WORKSTATUS], [TELEPHONE], [OCCUPATIONALDISEASESFLAG], [OCCUPATIONALDISEASESWORKTYPE], [OCCUPATIONALDISEASESWORKINGYEARS], [DUSTNAME], [DUSTFLAG], [RADIOACTIVEMATERIALNAME], [RADIOACTIVEMATERIALFLAG], [CHEMICALMATERIALNAME], [CHEMICALMATERIALFLAG], [OTHERNAME], [OTHERFLAG], [PHYSICSMATERIALNAME], [PHYSICSMATERIALFLAG], [DOWNLOADSTATUS], [NONUMBERPROVIDED], [YLZFMC], [PERSONID], [MEDICAL_PAYMENTCODE], [KALEIDOSCOPE], [ISGOVERNANCE]) VALUES ('" + str(varIdcard) + "', '高血压已患', '2', '1959-03-28 00:00:00.000', '" + str(varIdcard) + "', NULL, '13585543856', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-14 16:49:32.357', NULL, NULL, '2020-02-19 00:00:00.000', NULL, NULL, NULL, NULL, '13585543856', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'0')")
 
-        # 检查判断签约信息表（QYYH）中身份证是否存在
-        l_d_qty = Sqlserver_PO.execQuery(
-            "select count(*) as qty from QYYH where SFZH='%s'" % (varIdcard))
+        # 检查签约信息表身份证是否存在!
+        l_d_qty = Sqlserver_PO.execQuery("select count(*) as qty from QYYH where SFZH='%s'" % (varIdcard))
         if l_d_qty[0]['qty'] == 0:
             guid = Data_PO.getFigures(6)
             Sqlserver_PO.execute("INSERT INTO [dbo].[QYYH] ([CZRYBM], [CZRYXM], [JMXM], [SJHM], [SFZH], [JJDZ], [SFJD], [SIGNORGID], [ARCHIVEUNITCODE], [ARCHIVEUNITNAME], [DISTRICTORGCODE], [DISTRICTORGNAME], [TERTIARYORGCODE], [TERTIARYORGNAME], [PRESENTADDRDIVISIONCODE], [PRESENTADDRPROVCODE], [PRESENTADDRPROVVALUE], [PRESENTADDRCITYCODE], [PRESENTADDRCITYVALUE], [PRESENTADDRDISTCODE], [PRESENTADDDISTVALUE], [PRESENTADDRTOWNSHIPCODE], [PRESENTADDRTOWNSHIPVALUE], [PRESENTADDRNEIGHBORHOODCODE], [PRESENTADDRNEIGHBORHOODVALUE], [SIGNSTATUS], [SIGNDATE],[CATEGORY_CODE], [CATEGORY_NAME], [SEX_CODE], [SEX_NAME], [LAST_SERVICE_DATE], [ASSISTANT_DOC_ID], [ASSISTANT_DOC_NAME], [HEALTH_MANAGER_ID], [HEALTH_MANAGER_NAME], [ASSISTANT_DOC_PHONE], [HEALTH_MANAGER_PHONE]) VALUES ('" + str(guid) + "', N'姚皎情', N'高血压已患', NULL, '" + str(varIdcard) + "', N'平安街道16号', NULL, NULL, '0000001', '静安精神病院', '310118000000', '青浦区', '12345', '上海人民医院', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2020-06-01', 166, '4', N'老年人',N'男', NULL, NULL, NULL, NULL, NULL, NULL, NULL)")
 
-    # def _getIdcard(self, d):
-    #
-    #     # 获取身份证
-    #
-    #     # print(d)
-    #     varIdcard = ""
-    #     l_d_diseaseRuleCode_idcard = self.getIdcard()
-    #     # print(l_d_diseaseRuleCode_idcard)
-    #     for i in range(len(l_d_diseaseRuleCode_idcard)):
-    #         for k, v in l_d_diseaseRuleCode_idcard[i].items():
-    #             # print(l_d_diseaseRuleCode_idcard[i][k])
-    #             if l_d_diseaseRuleCode_idcard[i][k] == d['diseaseRuleCode']:
-    #                 varIdcard = l_d_diseaseRuleCode_idcard[i]['idcard']
-    #                 break
-    #
-    #     d["varIdcard"] = varIdcard
-    #     self.testIdcard(varIdcard)
-    #
-    #     if varIdcard != None:
-    #         self.outResult1(self.rule(d))
-    #     else:
-    #         # print("[ERROR => _getIdxcard() => 身份证不能为None!]")
-    #         Color_PO.consoleColor("31", "31", "[ERROR => _getIdcard() => 身份证不能为None!]", "")
 
-    def _getIdcard2(self, d):
+    def _getAutoIdcard(self, d):
+
+        # 随机获取获取疾病身份证中身份证
+
+        varIdcard = ""
+        l_d_diseaseRuleCode_idcard = self.getDiseaseIdcard()
+        # print(l_d_diseaseRuleCode_idcard)  # [{'diseaseRuleCode': 'YH_JB001', 'idcard': 310101202308070001}, ...]
+        l_1 = []
+        for i in range(len(l_d_diseaseRuleCode_idcard)):
+            l_1.append(l_d_diseaseRuleCode_idcard[i]['idcard'])
+        d["varIdcard"] = random.choice(l_1)
+        # print(d["varIdcard"])
+        self.verifyIdcard(varIdcard)
+        if varIdcard != None:
+            if 'hitQty' in d and d['hitQty'] == 2:
+                self.outResult2(self.rule(d))
+            else:
+                self.outResult1(self.rule(d))
+        else:
+            Color_PO.consoleColor("31", "31", "[ERROR => _getDiseaseIdcard2() => 身份证不能为None!]", "")
+
+    def _getDiseaseIdcard2(self, d):
 
         # 健康干预命中次数之获取身份证
 
         # print(d)
         varIdcard = ""
-        l_d_diseaseRuleCode_idcard = self.getIdcard()
+        l_d_diseaseRuleCode_idcard = self.getDiseaseIdcard()
         # print(l_d_diseaseRuleCode_idcard)
         for i in range(len(l_d_diseaseRuleCode_idcard)):
             for k, v in l_d_diseaseRuleCode_idcard[i].items():
@@ -298,7 +293,7 @@ class ChcRulePO2():
                     break
 
         d["varIdcard"] = varIdcard
-        self.testIdcard(varIdcard)
+        self.verifyIdcard(varIdcard)
 
         if varIdcard != None:
             if 'hitQty' in d and d['hitQty'] == 2:
@@ -306,13 +301,13 @@ class ChcRulePO2():
             else:
                 self.outResult1(self.rule(d))
         else:
-            Color_PO.consoleColor("31", "31", "[ERROR => _getIdcard2() => 身份证不能为None!]", "")
+            Color_PO.consoleColor("31", "31", "[ERROR => _getDiseaseIdcard2() => 身份证不能为None!]", "")
 
-    def _getIdcardGW(self, d):
+    def _getDiseaseIdcardGW(self, d):
 
         # print(d)
         varIdcard = ""
-        l_d_diseaseRuleCode_idcard = self.getIdcard()
+        l_d_diseaseRuleCode_idcard = self.getDiseaseIdcard()
         # print(l_d_diseaseRuleCode_idcard)
         for i in range(len(l_d_diseaseRuleCode_idcard)):
             for k, v in l_d_diseaseRuleCode_idcard[i].items():
@@ -321,12 +316,12 @@ class ChcRulePO2():
                     varIdcard = l_d_diseaseRuleCode_idcard[i]['idcard']
                     break
         d["varIdcard"] = varIdcard
-        self.testIdcard(varIdcard)
+        self.verifyIdcard(varIdcard)
         if varIdcard != None:
             l_ruleCode, d_all = self.gw(d)
             self.outResultGW(d['diseaseRuleCode'], l_ruleCode, d_all)
         else:
-            Color_PO.consoleColor("31", "31", "[ERROR => _getIdcard() => 身份证不能为None!]", "")
+            Color_PO.consoleColor("31", "31", "[ERROR => _getDiseaseIdcard() => 身份证不能为None!]", "")
 
 
 
@@ -375,47 +370,47 @@ class ChcRulePO2():
             diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
         # 传递参数
-        if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
+        l_d_param = Sqlserver_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
+        if l_d_param[0]['param'] == 'p1':
+        # if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
             # 带参数1 1
             self.param1(rule, ruleParam, ruleCode)
-        elif (rule == "r3") or (rule == "r4") or (rule == "r8"):
+        elif l_d_param[0]['param'] == 'p2':
+        # elif (rule == "r3") or (rule == "r4") or (rule == "r8"):
             # 带参数2
             self.param2(rule, ruleParam, ruleCode)
-        elif rule == "r7":
+        elif l_d_param[0]['param'] == 'p4':
+        # elif rule == "r7":
             # 带参数4
             self.param4(rule, ruleParam, ruleCode)
-        elif (rule == "r9") or (rule == "r10"):
+        elif l_d_param[0]['param'] == 'p1_auto':
+            # 带参数1,自动身份证
+            self.param1_auto(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p2_auto':
+            # 带参数2,自动身份证
+            self.param2_auto(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p4_auto':
+            # 带参数4,自动身份证
+            self.param4_auto(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p1_idcard':
+        # elif (rule == "r9") or (rule == "r10"):
             # 带参数1（自动匹配身份证）1_idcard
             self.param1_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
-        elif rule == "r2":
+        elif l_d_param[0]['param'] == 'p2_idcard':
+        # elif rule == "r2":
             # 带参数2（自动匹配身份证）
             self.param2_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
-        elif rule == "r11":
+        elif l_d_param[0]['param'] == 'p1_hit2':
+        # elif rule == "r11":
             # 带参数1，健康干预两次命中（干预+疾病评估）1_hit2
             self.param1_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
-        elif rule == "r5":
+        elif l_d_param[0]['param'] == 'p3_hit2':
+        # elif rule == "r5":
             # 带参数3，健康干预两次命中（干预+疾病评估）
             self.param3_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
-        elif rule == "r_GW_JB001":
+        elif l_d_param[0]['param'] == 'r_GW':
             self._getParamByGW(rule, ruleCode, diseaseRuleCode)  # r_GW
-        elif rule == "r_GW_JB002":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
-        elif rule == "r_GW_JB003":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
-        elif rule == "r_GW_JB004":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
-        elif rule == "r_GW_JB005":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
-        elif rule == "r_GW_JB006":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
-        elif rule == "r_GW_JB007":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
-        elif rule == "r_GW_JB009":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
-        elif rule == "r_GW_JB010":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
-        elif rule == "r_GW_JB011":
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
+
 
     def _getParamByGW(self, rule, ruleCode, diseaseRuleCode):
         l_sql = self.x(rule)
@@ -423,7 +418,7 @@ class ChcRulePO2():
         d['rule'] = l_sql
         d['ruleCode'] = ruleCode
         d['diseaseRuleCode'] = diseaseRuleCode
-        self._getIdcardGW(d)
+        self._getDiseaseIdcardGW(d)
 
 
     def x(self, rule):
@@ -466,6 +461,25 @@ class ChcRulePO2():
         d['ruleCode'] = ruleCode
         self.outResult1(self.rule(d))
 
+    def param4_auto(self, rule, ruleParam, ruleCode):
+        l_sql = self.x(rule)
+        d = {}
+        d['rule'] = l_sql
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
+        d['ruleParam4'] = l_ruleParam[3].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self._getAutoIdcard(d)
+
+    def param1_auto(self, rule, ruleParam, ruleCode):
+        l_sql = self.x(rule)
+        d = {}
+        d['rule'] = l_sql
+        d['ruleParam'] = ruleParam.replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self._getAutoIdcard(d)
 
     def param1_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
 
@@ -475,8 +489,18 @@ class ChcRulePO2():
         d['ruleParam'] = ruleParam.replace(".and.", ',')
         d['ruleCode'] = ruleCode
         d['diseaseRuleCode'] = diseaseRuleCode
-        self._getIdcard2(d)
+        self._getDiseaseIdcard2(d)
 
+
+    def param2_auto(self, rule, ruleParam, ruleCode):
+        l_sql = self.x(rule)
+        d = {}
+        d['rule'] = l_sql
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self._getAutoIdcard(d)
 
     def param2_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
         l_sql = self.x(rule)
@@ -487,9 +511,7 @@ class ChcRulePO2():
         d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
         d['ruleCode'] = ruleCode
         d['diseaseRuleCode'] = diseaseRuleCode
-        # 
-        # # self.outResult1(self.rule(d))
-        self._getIdcard2(d)
+        self._getDiseaseIdcard2(d)
 
     def param1_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
         l_sql = self.x(rule)
@@ -499,7 +521,7 @@ class ChcRulePO2():
         d['ruleCode'] = ruleCode
         d['diseaseRuleCode'] = diseaseRuleCode
         d['hitQty'] = hitQty
-        self._getIdcard2(d)
+        self._getDiseaseIdcard2(d)
 
     def param3_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
         l_sql = self.x(rule)
@@ -512,7 +534,7 @@ class ChcRulePO2():
         d['ruleCode'] = ruleCode
         d['diseaseRuleCode'] = diseaseRuleCode
         d['hitQty'] = hitQty
-        self._getIdcard2(d)
+        self._getDiseaseIdcard2(d)
 
 
     def rule(self, d):
@@ -589,20 +611,6 @@ class ChcRulePO2():
                 self.log = str(i + 1) + ", " + l_sql[i]
             else:
                 self.log = self.log + "\n" + str(i + 1) + ", " + l_sql[i]
-
-            # # 健康干预 - 命中次数hitQty
-            # if "hitQty" in d:
-            #     if d['hitQty'] == 2:
-            #         a = self.sql(l_sql[i])
-            #         if "Q2" in a[0]:
-            #             self.log = self.log + "\n" + str(a[0])  # 步骤日志
-            #             varQ2 = a[0]['Q2']
-            #     else:
-            #         a = self.sql(l_sql[i])
-            #         varQ2 = 0
-            # else:
-            #     a = self.sql(l_sql[i])
-            #     varQ2 = 0
 
             a = self.sql(l_sql[i])
 
@@ -765,114 +773,9 @@ class ChcRulePO2():
                             Sqlserver_PO.execute(
                                 "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
-
-
-
-
-                        # # JB001
-                        # if d['diseaseRuleCode'] == 'GW_JB001':
-                        #     if "GW_JB001" in a[0]: d_all['GW_JB001'] = str(a[0]['GW_JB001'])
-                        #     if "PG_Age001" in a[0]: d_all['PG_Age001'] = str(a[0]['PG_Age001'])
-                        #     if "PG_SHXG001" in a[0]:d_all['PG_SHXG001'] = str(a[0]['PG_SHXG001'])
-                        #     if "PG_SHXG002" in a[0]:d_all['PG_SHXG002'] = str(a[0]['PG_SHXG002'])
-                        #     if "PG_STZB001" in a[0]:d_all['PG_STZB001'] = str(a[0]['PG_STZB001'])
-                        #     if "PG_STZB002" in a[0]:d_all['PG_STZB002'] = str(a[0]['PG_STZB002'])
-                        #     if "PG_SHXG004" in a[0]:d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
-                        #     if "PG_JYZB001" in a[0]:d_all['PG_JYZB001'] = str(a[0]['PG_JYZB001'])
-                        #     if "PG_JYZB002" in a[0]:d_all['PG_JYZB002'] = str(a[0]['PG_JYZB002'])
-                        #     if "PG_JZS001" in a[0]: d_all['PG_JZS001'] = str(a[0]['PG_JZS001'])
-                        #     if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB002':
-                        #     if "GW_JB002" in a[0]: d_all['GW_JB002'] = str(a[0]['GW_JB002'])
-                        #     if "PG_Age002" in a[0]: d_all['PG_Age002'] = str(a[0]['PG_Age002'])
-                        #     if "PG_JYZB003" in a[0]: d_all['PG_JYZB003'] = str(a[0]['PG_JYZB003'])
-                        #     if "PG_JWS002" in a[0]: d_all['PG_JWS002'] = str(a[0]['PG_JWS002'])
-                        #     if "PG_JWS003" in a[0]: d_all['PG_JWS003'] = str(a[0]['PG_JWS003'])
-                        #     if "PG_JWS004" in a[0]: d_all['PG_JWS004'] = str(a[0]['PG_JWS004'])
-                        #     if "PG_JWS005" in a[0]: d_all['PG_JWS005'] = str(a[0]['PG_JWS005'])
-                        #     if "PG_JWS006" in a[0]: d_all['PG_JWS006'] = str(a[0]['PG_JWS006'])
-                        #     if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
-                        #     if "PG_JZS002" in a[0]: d_all['PG_JZS002'] = str(a[0]['PG_JZS002'])
-                        #     if "PG_YWZL001" in a[0]: d_all['PG_YWZL001'] = str(a[0]['PG_YWZL001'])
-                        #     if "PG_SHXG004" in a[0]: d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
-                        #     if "PG_JYZB004" in a[0]: d_all['PG_JYZB004'] = str(a[0]['PG_JYZB004'])
-                        #     if "PG_JYZB005" in a[0]: d_all['PG_JYZB005'] = str(a[0]['PG_JYZB005'])
-                        #     if "PG_YWZL002" in a[0]: d_all['PG_YWZL002'] = str(a[0]['PG_YWZL002'])
-                        #     if "PG_STZB001" in a[0]: d_all['PG_STZB001'] = str(a[0]['PG_STZB001'])
-                        #     if "PG_STZB003" in a[0]: d_all['PG_STZB003'] = str(a[0]['PG_STZB003'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB003':
-                        #     if "GW_JB003" in a[0]: d_all['GW_JB003'] = str(a[0]['GW_JB003'])
-                        #     if "PG_JWS008" in a[0]: d_all['PG_JWS008'] = str(a[0]['PG_JWS008'])
-                        #     if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
-                        #     if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
-                        #     if "PG_JZS003" in a[0]: d_all['PG_JZS003'] = str(a[0]['PG_JZS003'])
-                        #     if "PG_SHXG004" in a[0]: d_all['PG_SHXG004'] = str(a[0]['PG_SHXG004'])
-                        #     if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
-                        #     if "PG_JYZB001" in a[0]: d_all['PG_JYZB001'] = str(a[0]['PG_JYZB001'])
-                        #     if "PG_STZB004" in a[0]: d_all['PG_STZB004'] = str(a[0]['PG_STZB004'])
-                        #     if "PG_JWS009" in a[0]: d_all['PG_JWS009'] = str(a[0]['PG_JWS009'])
-                        #     if "PG_JWS010" in a[0]: d_all['PG_JWS010'] = str(a[0]['PG_JWS010'])
-                        #     if "PG_JWS011" in a[0]: d_all['PG_JWS011'] = str(a[0]['PG_JWS011'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB004':
-                        #     if "GW_JB004" in a[0]: d_all['GW_JB004'] = str(a[0]['GW_JB004'])
-                        #     if "PG_Age003" in a[0]: d_all['PG_Age003'] = str(a[0]['PG_Age003'])
-                        #     if "PG_JWS001" in a[0]: d_all['PG_JWS001'] = str(a[0]['PG_JWS001'])
-                        #     if "PG_JWS007" in a[0]: d_all['PG_JWS007'] = str(a[0]['PG_JWS007'])
-                        #     if "PG_JZS004" in a[0]: d_all['PG_JZS004'] = str(a[0]['PG_JZS004'])
-                        #     if "PG_JZS005" in a[0]: d_all['PG_JZS005'] = str(a[0]['PG_JZS005'])
-                        #     if "PG_JYZB006" in a[0]: d_all['PG_JYZB006'] = str(a[0]['PG_JYZB006'])
-                        #     if "PG_JYZB007" in a[0]: d_all['PG_JYZB007'] = str(a[0]['PG_JYZB007'])
-                        #     if "PG_JYZB008" in a[0]: d_all['PG_JYZB008'] = str(a[0]['PG_JYZB008'])
-                        #     if "PG_JYZB009" in a[0]: d_all['PG_JYZB009'] = str(a[0]['PG_JYZB009'])
-                        #     if "PG_JWS012" in a[0]: d_all['PG_JWS012'] = str(a[0]['PG_JWS012'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB005':
-                        #     if "GW_JB005" in a[0]: d_all['GW_JB005'] = str(a[0]['GW_JB005'])
-                        #     # if "PG_Age004" in a[0]: d_all['PG_Age004'] = str(a[0]['PG_Age004'])
-                        #     if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
-                        #     if "PG_JWS013" in a[0]: d_all['PG_JWS013'] = str(a[0]['PG_JWS013'])
-                        #     if "PG_JZS006" in a[0]: d_all['PG_JZS006'] = str(a[0]['PG_JZS006'])
-                        #     if "PG_SHXG007" in a[0]: d_all['PG_SHXG007'] = str(a[0]['PG_SHXG007'])
-                        #     if "PG_JWS015" in a[0]: d_all['PG_JWS015'] = str(a[0]['PG_JWS015'])
-                        #     if "PG_STZB005" in a[0]: d_all['PG_STZB005'] = str(a[0]['PG_STZB005'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB006':
-                        #     if "GW_JB006" in a[0]: d_all['GW_JB006'] = str(a[0]['GW_JB006'])
-                        #     if "PG_Age005" in a[0]: d_all['PG_Age005'] = str(a[0]['PG_Age005'])
-                        #     if "PG_JWS016" in a[0]: d_all['PG_JWS016'] = str(a[0]['PG_JWS016'])
-                        #     if "PG_JWS017" in a[0]: d_all['PG_JWS017'] = str(a[0]['PG_JWS017'])
-                        #     if "PG_JWS018" in a[0]: d_all['PG_JWS018'] = str(a[0]['PG_JWS018'])
-                        #     if "PG_JZS007" in a[0]: d_all['PG_JZS007'] = str(a[0]['PG_JZS007'])
-                        #     if "PG_SHXG009" in a[0]: d_all['PG_SHXG009'] = str(a[0]['PG_SHXG009'])
-                        #     if "PG_SHXG005" in a[0]: d_all['PG_SHXG005'] = str(a[0]['PG_SHXG005'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB007':
-                        #     if "GW_JB007" in a[0]: d_all['GW_JB007'] = str(a[0]['GW_JB007'])
-                        #     if "PG_Age006" in a[0]: d_all['PG_Age006'] = str(a[0]['PG_Age006'])
-                        #     if "PG_JWS021" in a[0]: d_all['PG_JWS021'] = str(a[0]['PG_JWS021'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB009':
-                        #     if "GW_JB009" in a[0]: d_all['GW_JB009'] = str(a[0]['GW_JB009'])
-                        #     if "PG_Age007" in a[0]: d_all['PG_Age007'] = str(a[0]['PG_Age007'])
-                        #     if "PG_JWS026" in a[0]: d_all['PG_JWS026'] = str(a[0]['PG_JWS026'])
-                        #     if "PG_JWS027" in a[0]: d_all['PG_JWS027'] = str(a[0]['PG_JWS027'])
-                        #     if "PG_JWS028" in a[0]: d_all['PG_JWS028'] = str(a[0]['PG_JWS028'])
-                        #     if "PG_JWS031" in a[0]: d_all['PG_JWS031'] = str(a[0]['PG_JWS031'])
-                        #     if "PG_JWS032" in a[0]: d_all['PG_JWS032'] = str(a[0]['PG_JWS032'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB010':
-                        #     if "GW_JB010" in a[0]: d_all['GW_JB010'] = str(a[0]['GW_JB010'])
-                        #     if "PG_Age008" in a[0]: d_all['PG_Age008'] = str(a[0]['PG_Age008'])
-                        #     if "PG_JWS033" in a[0]: d_all['PG_JWS033'] = str(a[0]['PG_JWS033'])
-                        #     if "PG_JWS034" in a[0]: d_all['PG_JWS034'] = str(a[0]['PG_JWS034'])
-                        #     if "PG_JWS035" in a[0]: d_all['PG_JWS035'] = str(a[0]['PG_JWS035'])
-                        #     if "PG_JYZB010" in a[0]: d_all['PG_JYZB010'] = str(a[0]['PG_JYZB010'])
-                        #     if "PG_JWS037" in a[0]: d_all['PG_JWS037'] = str(a[0]['PG_JWS037'])
-                        # elif d['diseaseRuleCode'] == 'GW_JB011':
-                        #     if "GW_JB011" in a[0]: d_all['GW_JB011'] = a[0]['GW_JB011']
-                        #     if "PG_JWS041" in a[0]: d_all['PG_JWS041'] = a[0]['PG_JWS041']
-                        #     if "PG_JWS043" in a[0]: d_all['PG_JWS043'] = a[0]['PG_JWS043']
-
         ruleCode = d['ruleCode'].replace("(", '').replace(")", '').replace("'", '')
         # print(ruleCode)  # 'GW_JB011','PG_JWS041','PG_JWS043'
         l_ruleCode = Str_PO.str2list(ruleCode)
-        # l_ruleCode.insert(0, varQTY0)
-        # print(11112, d_all)
         if "ID" in d_all:
             del d_all['ID']
         if "ID_CARD" in d_all:
