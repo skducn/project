@@ -3,6 +3,7 @@
 # Author        : John
 # Date          : 2020-1-13
 # Description   : 字符 对象
+
 # todo: 关于 python3 编码过程中转码问题
 # 1，python 3中所有字符串都是 unicode 对象，也就是默认编码为 unicode，由str类型进行表示。
 # 2，二进制数据使用byte类型表示

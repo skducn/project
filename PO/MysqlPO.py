@@ -6,15 +6,18 @@
 # ***************************************************************
 # pip3 install mysqlclient  (MySQLdb)
 # pip3 install pymysql
-# 问1：数据库中乱码显示问题，查询后却显示中文？
-# 答1：设置 charset 编码，如 self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.db, port=self.varPort, use_unicode=True, charset='utf8') ，注意：charset 应该与数据库编码一致，如数据库是gb2312 ,则 charset='gb2312'。
-# None是一个对象，而NULL是一个类型。
-# Python中没有NULL，只有None，None有自己的特殊类型NoneType
-# None不等于0、任何空字符串、False等。
-# 在Python中，None、False、0、""(空字符串)、[](空列表)、()(空元组)、{}(空字典)都相当于False
 
-# python sqlalchemy中create_engine用法 https://blog.csdn.net/xc_zhou/article/details/118829588
+# todo 乱码
+# Q1：数据库中乱码显示问题，查询后却显示中文？
+# 分析：设置 charset 编码，charset 应该与数据库编码一致，如数据库是gb2312 ,则 charset='gb2312'。
+# 解决：self.conn = MySQLdb.connect(host=self.varHost, user=self.varUser, passwd=self.varPassword, db=self.db, port=self.varPort, use_unicode=True, charset='utf8')
 
+# todo sqlalchemy中create_engine用法 (https://blog.csdn.net/xc_zhou/article/details/118829588)
+# engine = create_engine('数据库类型+驱动://用户名:密码@服务器IP:端口/数据库?charset=utf8')
+# Mysql：engine = create_engine('mysql://scott:tiger@localhost/foo')
+# mysql-python: engine = create_engine('mysql+mysqldb://scott:tiger@localhost/foo')
+# mysql-connector-python: engine = create_engine('mysql+mysqlconnector://scott:tiger@localhost/foo')
+#
 # ***************************************************************
 
 """

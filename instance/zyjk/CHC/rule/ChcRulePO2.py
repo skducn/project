@@ -9,7 +9,7 @@ from ConfigparserPO import *
 Configparser_PO = ConfigparserPO('config.ini')
 
 from PO.SqlserverPO import *
-Sqlserver_PO = SqlServerPO(Configparser_PO.DB("host"), Configparser_PO.DB("user"), Configparser_PO.DB("password"), Configparser_PO.DB("database"), "utf8")  # 测试环境
+Sqlserver_PO = SqlServerPO(Configparser_PO.DB("host"), Configparser_PO.DB("user"), Configparser_PO.DB("password"), Configparser_PO.DB("database"))  # 测试环境
 
 from PO.StrPO import *
 Str_PO = StrPO()
@@ -427,7 +427,10 @@ class ChcRulePO2():
         l_0 = Sqlserver_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
         l_sql = []
         for i in range(len(l_0)):
-            l_sql.append(l_0[i]['sql'])
+            if Sys_PO.getPlatform() == "posix":
+                l_sql.append(l_0[i]['sql'])
+            else:
+                l_sql.append(l_0[i]['sql'].encode('latin1').decode('GB2312'))
         return l_sql
 
     def param1(self, rule, ruleParam, ruleCode):
