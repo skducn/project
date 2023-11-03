@@ -25,7 +25,7 @@ from PO.DataPO import *
 Data_PO = DataPO()
 
 # from PO.OpenpyxlPO import *
-import random,subprocess
+import random, subprocess
 
 class ChcRulePO2():
 
