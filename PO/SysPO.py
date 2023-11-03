@@ -34,17 +34,7 @@
 
 """
 
-import socket, uuid, subprocess, cv2, psutil, re, pyautogui
-from time import sleep
-from PO.TimePO import *
-Time_PO = TimePO()
-
-from PO.FilePO import *
-File_PO = FilePO()
-
-from PO.ColorPO import *
-Color_PO = ColorPO()
-
+import socket, uuid, psutil, pyautogui
 
 class SysPO:
 
@@ -247,73 +237,7 @@ class SysPO:
         # 进程开启的线程数
         print(p.num_threads())
 
-    def outMsg1(self, msgStatus, errLine, func2, errMsg):
 
-        # 3.1 输出带颜色的系统错误（简）
-
-        if msgStatus == "error":
-            Color_PO.consoleColor(
-                "31",
-                "31",
-                "["
-                + msgStatus
-                + "], line "
-                + str(errLine)
-                + ", "
-                + str(func2)
-                + ", "
-                + errMsg,
-                "",
-            )
-        elif msgStatus == "warning":
-            Color_PO.consoleColor(
-                "31",
-                "33",
-                "["
-                + msgStatus
-                + "], line "
-                + str(errLine)
-                + ", "
-                + str(func2)
-                + ", "
-                + errMsg,
-                "",
-            )
-
-    def outMsg2(self, msgStatus, errLine, func1, file, func2):
-
-        # 3.2 输出带颜色的系统错误??
-
-        if msgStatus == "error":
-            Color_PO.consoleColor(
-                "31",
-                "31",
-                "[Error] , line "
-                + str(errLine)
-                + " ("
-                + func1
-                + "()) jump to ("
-                + file
-                + " -> "
-                + func2
-                + "())",
-                "",
-            )
-        elif msgStatus == "warning":
-            Color_PO.consoleColor(
-                "31",
-                "33",
-                "[Warning] , line "
-                + str(errLine)
-                + " ("
-                + func1
-                + "()) jump to ("
-                + file
-                + " -> "
-                + func2
-                + "())",
-                "",
-            )
 
 
 if __name__ == "__main__":
