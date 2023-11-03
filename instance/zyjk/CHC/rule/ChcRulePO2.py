@@ -23,8 +23,7 @@ from PO.DictPO import *
 Dict_PO = DictPO()
 from PO.DataPO import *
 Data_PO = DataPO()
-from PO.SysPO import *
-Sys_PO = SysPO()
+
 # from PO.OpenpyxlPO import *
 import random,subprocess
 
@@ -429,7 +428,7 @@ class ChcRulePO2():
         l_0 = Sqlserver_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
         l_sql = []
         for i in range(len(l_0)):
-            if Sys_PO.getPlatform() == "posix":
+            if os.name == "posix":
                 l_sql.append(l_0[i]['sql'])
             else:
                 l_sql.append(l_0[i]['sql'].encode('latin1').decode('GB2312'))
