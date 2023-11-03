@@ -34,7 +34,7 @@
 
 """
 
-import socket, uuid, psutil, pyautogui
+import os, socket, uuid, psutil, pyautogui
 
 class SysPO:
 
