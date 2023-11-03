@@ -23,7 +23,7 @@ from PO.DictPO import *
 Dict_PO = DictPO()
 from PO.DataPO import *
 Data_PO = DataPO()
-from PO.OpenpyxlPO import *
+# from PO.OpenpyxlPO import *
 import random
 
 class ChcRulePO2():
