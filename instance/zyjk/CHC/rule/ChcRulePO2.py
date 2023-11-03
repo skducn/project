@@ -24,7 +24,7 @@ Dict_PO = DictPO()
 from PO.DataPO import *
 Data_PO = DataPO()
 # from PO.OpenpyxlPO import *
-import random
+import random,subprocess
 
 class ChcRulePO2():
 
