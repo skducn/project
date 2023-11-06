@@ -4,7 +4,6 @@
 # Data       : 2019-04-16
 # Description: DmPO 对象层  达梦dmPython
 # https://blog.csdn.net/qqQi_/article/details/133064594
-# 1111
 # pip install SQLAplchemy==1.3.23
 # cd\ c:\dmdbms\drivers\python\sqlalchemy
 # python setup.py install
