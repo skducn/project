@@ -9,6 +9,8 @@ from ConfigparserPO import *
 Configparser_PO = ConfigparserPO('config.ini')
 from PO.SqlserverPO import *
 Sqlserver_PO = SqlServerPO(Configparser_PO.DB("host"), Configparser_PO.DB("user"), Configparser_PO.DB("password"), Configparser_PO.DB("database"), "utf8")  # 测试环境
+
+
 def updateTable(sheetName, tableName):
     Sqlserver_PO.execute("drop table " + tableName)
     Sqlserver_PO.xlsx2db('规则db.xlsx', sheetName, tableName)

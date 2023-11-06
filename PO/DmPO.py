@@ -3,9 +3,15 @@
 # Author     : John
 # Data       : 2019-04-16
 # Description: DmPO 对象层  达梦dmPython
+# https://blog.csdn.net/qqQi_/article/details/133064594
+
+# pip install SQLAplchemy==1.3.23
+# cd\ c:\dmdbms\drivers\python\sqlalchemy
+# python setup.py install
 # ***************************************************************
 
 import dmPython
+from sqlalchemy import create_engine
 
 from PO.ColorPO import *
 Color_PO = ColorPO()
@@ -13,17 +19,20 @@ Color_PO = ColorPO()
 from PO.TimePO import *
 Time_PO = TimePO()
 
-class SqlServerPO:
+
+
+class DmPO:
 
     def __init__(self, server, user, password, port):
-        # self.server = server
-        # self.user = user
-        # self.password = password
-        # self.database = database
+        self.server = server
+        self.user = user
+        self.password = password
+        self.port = port
         self.conn = dmPython.connect(server=server, user=user, password=password, port=port)
         self.cur = self.conn.cursor()
         if not self.cur:
             raise (NameError, "error，创建游标失败！")
+
 
     def execute(self, sql):
 
@@ -34,16 +43,13 @@ class SqlServerPO:
         '''
 
         try:
-            # 判断表是否存在
-            # if self.isTable(varTable) == True:
-            self.conn.commit()
+            # self.conn.commit()
             self.cur.execute(sql)
             self.conn.commit()
             return "ok"
         except Exception as e:
             return str(e)
 
-    # 1.2 查询sql
     def execQuery(self, sql):
 
         '''
@@ -53,11 +59,8 @@ class SqlServerPO:
         '''
 
         try:
-            self.conn.commit()
             self.cur.execute(sql)
-            self.conn.commit()
             result = self.cur.fetchall()
-            # print("[ok], " + sql)
             return result
         except Exception as e:
             # print(e.args)  # ('table hh already exists',)
@@ -65,89 +68,27 @@ class SqlServerPO:
             # print(NameError(e))  # table hh already exists
             print(repr(e))  # OperationalError('table hh already exists')
 
-    # 1.3 查询带参数sql
-    def execQueryParam(self, sql, param):
-
-        '''
-        查询带参数sql， 返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
-        :param sql:
-        :param param:
-        :return:
-        '''
-
-        # cur = self.__GetConnect()
-        self.conn.commit()  # 用于新增后立即查询
-        self.cur.execute(sql, param)
-        try:
-            result = self.cur.fetchall()
-        except:
-            self.conn.commit()
-            self.cur.close()
-            self.conn.close()
-            return
-        self.conn.commit()
-        self.cur.close()
-        self.conn.close()
-        return result
-
-    # 1.4 执行存储过程
-    def execProcedure(self, varProcedureName):
-
-        '''
-        执行存储过程
-        :param varProcedureName:
-        :return:
-        '''
-
-        # execProcedure(存储过程名)
-
-        # cur = self.__GetConnect()
-        # sql =[]
-        # sql.append("exec procontrol")
-        # cur.callproc(varProcedureName)
-        self.cur.execute(varProcedureName)
-        self.conn.commit()
-        self.cur.close()  # 关闭游标
-        self.conn.close()  # 关闭连接
-
-    # 1.5.1 执行sql文件
-    def execSqlFile(self, varPathSqlFile):
-
-        '''
-        执行sql文件
-        :param varPathSqlFile:
-        :return:
-        '''
-
-        # execSqlFile('D:\\51\\python\\project\\instance\\zyjk\\EHR\\controlRule\\mm.sql')
-        # cur = self.__GetConnect()
-        with open(varPathSqlFile) as f:
-            sql = f.read()
-            self.cur.execute(sql)
-            self.conn.commit()
-            self.conn.close()
-
-    # 1.5.2 执行sql文件2
-    def execSqlFile2(self, varPathSqlFile):
-
-        """执行sql文件语句2"""
-
-        # cur = self.__GetConnect()
-        with open(varPathSqlFile) as f:
-            sql = f.read()
-            self.cur.execute(sql)
-            self.cur.nextset()
-            # cur.callproc(sql,(1,2))
-            # self.conn.commit()
-            self.conn.close()
-
-    # 1.6 关闭
     def close(self):
         self.cur.close()
         self.conn.close()
 
 
 
+    def xlsx2db(self, varPathFile, varSheetName, varTableName):
+
+        '''
+        5，xlsx导入数据库
+        :param varExcelFile:
+        :param varTable:
+        :return:
+        xlsx2db('./data/2.xlsx',"sheet3", "jh123")
+        excel表格第一行数据对应db表中字段，建议用英文
+        '''
+
+
+        df = pd.read_excel(varPathFile, sheet_name=varSheetName)
+        engine = create_engine("dm+dmPython://" + self.user + ":" + self.password + "@" + self.server + ":" + self.port)
+        df.to_sql(varTableName, con=engine, if_exists="replace", index=False)
 
 
     # 2.1.1 获取所有表
@@ -1146,14 +1087,22 @@ class SqlServerPO:
         self.conn.close()
 
 
+
 if __name__ == "__main__":
 
-    Dm_PO = DmPO("192.168.0.234", "PHUSERS", "Zy_123456789", 5236)  # 测试环境
-    a = Dm_PO.execQuery("select * from chc.测试规则 where id=1")
+    Dm_PO = DmPO("192.168.0.234", "PHUSERS", "Zy123456789", 5236)  # 测试环境
+
+
+    # result = Dm_PO.execQuery("select * from PHUSERS.SYS_DRUG where id=1")
+    # print(result[0])  # (1, '1', '阿莫西林', 'AMXL', '111', '1111', 'QD', '每天一次', '1', '颗', '3', '12:00', '1', '规律', False)
+
+
+    result = Dm_PO.execQuery("select * from PHUSERS.中医体质辨识 where id=%s" % (1))
+    print(result[0])  # (1, 'ok', '2023/10/26 13:16:46', 'r12', 'ABNORMAL_STATUS', 'GY_TZBS01', '体质=平和质', '郭斐', '')
+
 
     # print("5 excel导入数据库".center(100, "-"))
-    # Sqlserver_PO.xlsx2db('./data/2.xlsx', "Sheet3", "jh123")
-
+    Dm_PO.xlsx2db('规则db.xlsx', "疾病身份证", "PHUSERS")
 
     # print("1.1 查询sql".center(100, "-"))
     # a = Sqlserver_PO.execQuery("select * from aaa")
@@ -1255,28 +1204,4 @@ if __name__ == "__main__":
     # # print("4.3 判断是否有自增主键".center(100, "-"))
     # print(Sqlserver_PO.isIdentity('bbb'))
     # print(Sqlserver_PO.isIdentity('aaa'))
-
-
-    # **********************************************************************************************************************************
-    # **********************************************************************************************************************************
-
-    # todo 应用
-
-    # print("1 查看数据库表结构（字段、类型、大小、可空、注释）".center(100, "-"))
-    # # Sqlserver_PO.dbDesc()  # 1，所有表结构
-    # Sqlserver_PO.dbDesc("aaa")  # 2，单表结构
-    # Sqlserver_PO.dbDesc('s%')  # 3，带通配符表结构
-    # Sqlserver_PO.dbDesc('tb_org', ['id', 'org_name'])  # 4,单表结构的可选字段
-    # Sqlserver_PO.dbDesc('s%', ['id', 'kaId'])  # 5，带通配符表结构的可选字段(只输出找到字段的表)
-    # Sqlserver_PO.dbDesc(0, ['id', 'kaId', 'org_name'])  # 6，所有表结构的可选字段(只输出找到字段的表)
-
-    # print("2 查找记录".center(100, "-"))
-    # Sqlserver_PO.dbRecord('aaa', 'int', '%2%')  # 搜索指定表符合条件的记录.
-    # Sqlserver_PO.dbRecord('*', 'varchar', '310101202308070001')  # 搜索所有表符合条件的记录.
-    # Sqlserver_PO.dbRecord('QYYH', 'varchar', '132222196702240429')  # 搜索所有表符合条件的记录.
-    # Sqlserver_PO.dbRecord('TB_RIS_REPORT2', 'varchar', '000E434B-48BF-4B58-945B-6FDCD46CDECE')  # 搜索所有表符合条件的记录.
-    # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')l
-    # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。
-    # Sqlserver_PO.dbRecord('*', 'datetime', u'%2019-07-17 11:19%')  # 模糊搜索所有表中带2019-01的timestamp类型。
-
 
