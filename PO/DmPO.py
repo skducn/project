@@ -27,8 +27,8 @@ class DmPO:
         self.server = server
         self.user = user
         self.password = password
-        self.port = port
-        self.conn = dmPython.connect(server=server, user=user, password=password, port=port)
+        self.port = str(port)
+        self.conn = dmPython.connect(server=server, user=user, password=password, port=self.port)
         self.cur = self.conn.cursor()
         if not self.cur:
             raise (NameError, "error，创建游标失败！")
