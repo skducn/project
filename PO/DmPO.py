@@ -4,7 +4,7 @@
 # Data       : 2019-04-16
 # Description: DmPO 对象层  达梦dmPython
 # https://blog.csdn.net/qqQi_/article/details/133064594
-
+# 1111
 # pip install SQLAplchemy==1.3.23
 # cd\ c:\dmdbms\drivers\python\sqlalchemy
 # python setup.py install
@@ -1090,7 +1090,7 @@ class DmPO:
 
 if __name__ == "__main__":
 
-    Dm_PO = DmPO("192.168.0.234", "PHUSERS", "Zy123456789", 5236)  # 测试环境
+    Dm_PO = DmPO("192.168.0.234", "PHUSERS", "Zy123456789", "5236")  # 测试环境
 
 
     # result = Dm_PO.execQuery("select * from PHUSERS.SYS_DRUG where id=1")
