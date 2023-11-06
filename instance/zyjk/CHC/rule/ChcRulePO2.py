@@ -175,11 +175,12 @@ class ChcRulePO2():
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
             print("step log".center(100, "-"))
+            self.log = "error," + self.log
             print(self.log)
             self.log = (self.log).replace("'", "''")
             Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            Sqlserver_PO.execute("update %s set result='error' where id=%s" % (self.dbTableName, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
     def outResult2(self, varQty):
@@ -191,11 +192,12 @@ class ChcRulePO2():
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
             print("step log".center(100, "-"))
+            self.log = "error," + self.log
             print(self.log)
             self.log = (self.log).replace("'", "''")
             Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            Sqlserver_PO.execute("update %s set result='error' where id=%s" % (self.dbTableName, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
     def outResultGW(self, diseaseRuleCode, l_ruleCode, d_expect):
@@ -226,13 +228,14 @@ class ChcRulePO2():
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
             print("step log".center(100, "-"))
+            self.log = "error," + self.log
             print(self.log)
             print('预期 => ' + str(d_expect))
             print('实际 => ' + str(d_actual))
             self.log = (self.log).replace("'", "''")
             Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            Sqlserver_PO.execute("update %s set result='error' where id=%s" % (self.dbTableName, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
             Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
     def verifyIdcard(self, varIdcard):

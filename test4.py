@@ -5,104 +5,30 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
-# print("1234567890555555555")
-import os
-folder = "/Users/linghuchong/Downloads/Video/douyin/陈翔六点半"
-os.system("open " + folder)
-# import sys
-# query = sys.argv[1]
-# print(query)
+
 
 # # import pymysql
 # # pymysql.install_as_MySQLdb()
 #
 # args = "FullArgSpec(args=['self', 'interName', 'param'], varargs=None, varkw=None, defaults=('',), kwonlyargs=[], kwonlydefaults=None, annotations={})"
-# print(args.find('args='))
-# print(args.find(', varargs'))
+# print(args.find('self'))
+# # print(args.find(', varargs'))
 # # args = args[args.find('args=') + 5:args.find(', varargs')]  # ['self', 'interName', 'param']
+# # # print(args)
+# # print(args[args.find('args=') + 5:args.find(', varargs')])  # ['self', 'interName', 'param']
+# # print(args[17:47])
+# # args = (args[17:47])
 # # print(args)
-# print(args[args.find('args=') + 5:args.find(', varargs')])  # ['self', 'interName', 'param']
-# print(args[17:47])
-# args = (args[17:47])
-# print(args)
-# # print(args)
+# # # print(args)
 #
-# x =  {'localName':'阿里巴巴333','orgId':'279'}
-# print(x['orgId'])
-#
-# from PO.DataPO import *
-# Data_PO = DataPO()
-#
-#
-# param = "orgName=$$[Data_PO.getRandomName()]&region=310000000000&regionCity=310100000000&orgNo=$$[Data_PO.getRandomNum(20)]&duty=王磊&address=上海东方路100号&relation=令狐冲&relationPhone=13816109050&orgInfo=成立于2020年"
-#
-#
-# if "$$[" in param:
-#     for i in range(1, len(param.split("$$["))):
-#         var = param.split("$$[")[1].split("]")[0]
-#         param = param.replace("$$[" + var + "]", eval(var))
-#     print(param)
 
 
 
-# d = {'name':'Tom', 'age':10, 'Tel':{"token":1212121212}}
-#
-# if 'token' in d["Tel"]:
-#     print("1111111")
-# else:
-#     print(222222)
 
 
-# from PO.TimePO import *
-# Time_PO = TimePO()
-#
-# x = '../report/saas_' + str(Time_PO.getDatetime()) + '.html'
-# print(x)
-#
-# #
-# # def abc(x):
-# #     if x == 1:
-# #         print(11111)
-# #         return True
-# #     else:
-# #         print(22222)
-# #         return False
-# #
-# # exec("x = abc(1)")
-# # print(x)
-#
-# for i in range(111):
-#     if i == 5:
-#         exit()
-#     else:
-#         print(i)
 
 
-# varRule = "11222"
-# varQty = varRule.split(",")
-# print(len(varQty))
 
-# def x(*aa):
-#     pass
-#     print(aa[1])
-
-
-# x("a","b","c")
-
-# l_basic = ['问题数：19', '联系人姓名:', '(联系人姓名未填写)', '联系人电话:', '(联系人电话未填写)', '文化程度:', '大学本科', '(文化程度超出字典范围)', '生活环境_禽畜栏:', '(禽畜栏未填写)', '生活环境_燃料类型:', '其他', '(燃料类型超出字典范围)', '生活环境_厨房排风设施:', '(厨房排风设施超出字典范围)', '生活环境_厕所:', '(厕所未填写)', '生活环境_饮水:', '其他', '(饮水超出字典范围)', '家族史子女:', '(家族史（子女）未填写)', '既往史输血:', '无', '(既往史输血时间未填写)', '既往史手术:', '无', '(既往史手术时间未填写)', '既往史外伤:', '无', '(既往史外伤时间未填写)', '婚姻状况:', '(婚姻状况未填写)', '民族:', '(民族填写错误;民族超出字典范围)', '职业:', '(职业未填写)', '本人电话:', '(本人电话未填写)', 'RH血型编号:', '不详', '(RH超出字典范围)', '工作单位:', '(工作单位未填写)', '医疗支付方式:', '(医疗费用支付方式未填写)', '健康档案封面']
-# ll = []
-# for i in range(len(l_basic)):
-#     if i < len(l_basic):
-#         if ":" in l_basic[i] and "(" not in l_basic[i + 1]:
-#             ll.append(l_basic[i] + l_basic[i + 1])
-#             l_basic.pop(i + 1)
-#         else:
-#             ll.append(l_basic[i])
-#
-# print(ll.pop(0))
-# dict1 = List_PO.list2dictBySerial(ll)
-# for k in dict1:
-#     print(k, dict1[k])
 
 
 # import collections
@@ -134,12 +60,39 @@ os.system("open " + folder)
 # print(len(card))
 # print(choice(card))
 
+import pyttsx3
+engine = pyttsx3.init()
+engine.say('Sally sells seashells by the seashore.')
+engine.say('The quick brown fox jumped over the lazy dog.')
+engine.runAndWait()
 
+# import pyttsx3
+# # Initialize the converter
+# converter = pyttsx3.init()
+# # Set properties before adding
+# # Things to say
+# # Sets speed percent
+# # Can be more than 100
+# converter.setProperty('rate', 150)
+# # Set volume 0-1
+# converter.setProperty('volume', 0.7)
+# # Queue the entered text
+# # There will be a pause between
+# # each one like a pause in
+# # a sentence
+# converter.say("Hello GeeksforGeeks")
+# converter.say("I'm also a geek")
+# # Empties the say() queue
+# # Program will not continue
+# # until all speech is done talking
+# converter.runAndWait()
+
+# # 文本转语音
 # import pyttsx3
 # engine = pyttsx3.init()
 # rate = engine.getProperty('rate')
-# engine.setProperty('rate', rate-55)
-# engine.say('The quick brown fox jumped over the lazy dog.')
+# # engine.setProperty('rate', rate-55)
+# engine.say('The quick brown fox jumped over the lazy dog. 你是金浩吗？')
 # engine.runAndWait()
 #
 #
@@ -187,7 +140,6 @@ import imghdr
 #         print(imghdr.what(img_file))
 
 import imghdr
-import urllib3
 import uuid
 #
 #

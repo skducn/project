@@ -21,12 +21,12 @@ def updateTable(sheetName, tableName):
 
 
 # updateTable('健康评估', '健康评估')
-# updateTable('健康干预', '健康干预')
+updateTable('健康干预', '健康干预')
 # updateTable('中医体质辨识', '中医体质辨识')
 # updateTable('儿童健康干预', '儿童健康干预')
 # updateTable('已患和高风险疾病评估', '疾病评估')
 # updateTable('疾病身份证', '疾病身份证')
-updateTable('测试规则', '测试规则')
+# updateTable('测试规则', '测试规则')
 
 
 
