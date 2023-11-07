@@ -375,20 +375,19 @@ class Dm_chcPO():
 
         try:
             l_d_rows = Dm_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
-            print(l_d_rows[0])
-            print(l_d_rows[0][1])
-            print(l_d_rows[0][2])
-            print(l_d_rows[0][3])
+            # print(l_d_rows[0])
+            # print(l_d_rows[0][1])
+            # print(l_d_rows[0][2])
+            # print(l_d_rows[0][3])
             # todo 1
             self.l_d_rows = l_d_rows[0]
         except:
             sys.exit(0)
 
         # 格式化参数
-        rule = l_d_rows[0]['rule']
-
-        ruleParam = l_d_rows[0]['ruleParam']
-        ruleCode = l_d_rows[0]['ruleCode']
+        rule = l_d_rows[0][3]  # rule
+        ruleParam = l_d_rows[0][4]  # ruleParam
+        ruleCode = l_d_rows[0][5]  # ruleCode
         if 'diseaseRuleCode' in l_d_rows[0].keys():
             diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
