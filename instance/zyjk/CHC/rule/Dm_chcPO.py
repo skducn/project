@@ -393,6 +393,7 @@ class Dm_chcPO():
 
         # 传递参数
         l_d_param = Dm_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
+        print(l_d_param)
         if l_d_param[0]['param'] == 'p1':
         # if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
             # 带参数1 1
@@ -447,6 +448,7 @@ class Dm_chcPO():
         if Configparser_PO.SWITCH("printSql") == "on":
             Color_PO.consoleColor("31", "33", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]"), "")
         l_0 = Dm_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
+        print(l_0)
         l_sql = []
         for i in range(len(l_0)):
             if os.name == "posix":
