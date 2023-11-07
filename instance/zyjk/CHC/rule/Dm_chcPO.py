@@ -4,6 +4,8 @@
 # Created on : 2023-8-1
 # Description: CHC包
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+import sys
+sys.path.append("../../../../")
 
 from ConfigparserPO import *
 Configparser_PO = ConfigparserPO('config.ini')
@@ -373,6 +375,7 @@ class Dm_chcPO():
 
         try:
             l_d_rows = Dm_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
+            print(l_d_rows[0])
             # todo 1
             # print(l_d_rows[0]) # {'result': 'okay', 'memo': '2023/10/20 21:20:21', 'rule': 'r1', 'ruleParam': "AGE=55 .and. CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001', 'tester': '刘斌龙', 'id': 1, 'var': ''}
             self.l_d_rows = l_d_rows[0]
@@ -381,6 +384,7 @@ class Dm_chcPO():
 
         # 格式化参数
         rule = l_d_rows[0]['rule']
+
         ruleParam = l_d_rows[0]['ruleParam']
         ruleCode = l_d_rows[0]['ruleCode']
         if 'diseaseRuleCode' in l_d_rows[0].keys():
