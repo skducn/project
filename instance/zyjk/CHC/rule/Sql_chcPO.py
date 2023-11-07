@@ -376,6 +376,7 @@ class Sql_chcPO():
             # todo 1
             # print(l_d_rows[0]) # {'result': 'okay', 'memo': '2023/10/20 21:20:21', 'rule': 'r1', 'ruleParam': "AGE=55 .and. CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001', 'tester': '刘斌龙', 'id': 1, 'var': ''}
             self.l_d_rows = l_d_rows[0]
+            print(l_d_rows[0])
         except:
             sys.exit(0)
 
