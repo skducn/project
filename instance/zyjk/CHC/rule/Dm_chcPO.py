@@ -375,7 +375,7 @@ class Dm_chcPO():
 
         try:
             l_d_rows = Dm_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
-            # print(l_d_rows[0])
+            print(l_d_rows[0])
             # print(l_d_rows[0][1])
             # print(l_d_rows[0][2])
             # print(l_d_rows[0][3])
@@ -388,8 +388,8 @@ class Dm_chcPO():
         rule = l_d_rows[0][3]  # rule
         ruleParam = l_d_rows[0][4]  # ruleParam
         ruleCode = l_d_rows[0][5]  # ruleCode
-        if 'diseaseRuleCode' in l_d_rows[0].keys():
-            diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
+        # if 'diseaseRuleCode' in l_d_rows[0].keys():
+        #     diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
         # 传递参数
         l_d_param = Dm_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
