@@ -608,10 +608,12 @@ class Dm_chcPO():
 
         for i in range(len(l_sql)):
             var = Dm_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+            print(111111, var)
             # print("[] => ", var)
             # print(var[0]['var'])
 
-            if var[0]['var'] != None:
+            if var[0][0] != None:
+            # if var[0]['var'] != None:
                 # print(var[0]['var'])
                 if 'id=' in var[0]['var']:
                     varID = var[0]['var'].split("id=")[1].split(",")[0]
