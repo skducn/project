@@ -10,7 +10,7 @@
 # nacos  http://192.168.0.223:8848/nacos/#/serviceDetail?name=chc-auth&groupName=DEFAULT_GROUP
 # open /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/CHC/rule/健康评估规则表自动化1.xlsx
 #***************************************************************
-from ChcRulePO import *
+from ChcRulePO_Excel import *
 import threading
 
 

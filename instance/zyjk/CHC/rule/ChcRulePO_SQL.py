@@ -27,7 +27,7 @@ Data_PO = DataPO()
 # from PO.OpenpyxlPO import *
 import random, subprocess
 
-class ChcRulePO2():
+class ChcRulePO_SQL():
 
     def __init__(self, dbTableName):
 

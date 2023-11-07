@@ -29,6 +29,11 @@ class ConfigparserPO:
         value = self.cf.get("DB", name)
         return value
 
+    def DM(self, name):
+        value = self.cf.get("DM", name)
+        return value
+
+
     def EXCEL(self, name):
         value = self.cf.get("EXCEL", name)
         return value

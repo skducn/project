@@ -31,7 +31,7 @@ def updateTable(sheetName, tableName):
 
 
 # updateTable('健康评估', '健康评估')
-updateTable('健康干预', '健康干预')
+# updateTable('健康干预', '健康干预')
 # updateTable('中医体质辨识', '中医体质辨识')
 # updateTable('儿童健康干预', '儿童健康干预')
 # updateTable('疾病评估', '疾病评估')

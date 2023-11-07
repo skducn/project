@@ -24,7 +24,7 @@ Data_PO = DataPO()
 from PO.OpenpyxlPO import *
 
 
-class ChcRulePO():
+class ChcRulePO_Excel():
 
     def __init__(self, d_sheetName_colTitle):
 
