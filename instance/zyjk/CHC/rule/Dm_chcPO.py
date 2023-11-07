@@ -613,19 +613,18 @@ class Dm_chcPO():
             # print(var[0]['var'])
 
             if var[0][0] != None:
-            # if var[0]['var'] != None:
                 # print(var[0]['var'])
                 if 'id=' in var[0]['var']:
                     varID = var[0]['var'].split("id=")[1].split(",")[0]
                     # print(varID)
                     l_sql[i] = str(l_sql[i]).replace("{varID}", varID)
 
-            if var[0]['var'] != None:
+            if var[0][0] != None:
                 if 'idcard=' in var[0]['var']:
                     varIdcard = var[0]['var'].split("idcard=")[1].split(",")[0]
                     l_sql[i] = str(l_sql[i]).replace("{varIdcard}", varIdcard)
 
-            if var[0]['var'] != None:
+            if var[0][0] != None:
                 if 'guid=' in var[0]['var']:
                     varGUID = var[0]['var'].split("guid=")[1].split(",")[0]
                     l_sql[i] = str(l_sql[i]).replace("{varGUID}", varGUID)
