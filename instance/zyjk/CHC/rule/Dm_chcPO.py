@@ -392,7 +392,7 @@ class Dm_chcPO():
         #     diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
         # 传递参数
-        l_d_param = Dm_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
+        l_d_param = Dm_PO.execQuery("select param from 测试规则 where rule='%s'" % (rule))
         print(l_d_param)
         if l_d_param[0]['param'] == 'p1':
         # if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
