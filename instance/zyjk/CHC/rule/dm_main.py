@@ -2,15 +2,15 @@
 #***************************************************************
 # Author     : John
 # Created on : 2023-8-1
-# Description: SQLserver for chcrule
+# Description: DM for chc
 #***************************************************************
-from ChcRulePO_DM import *
+from Dm_chcPO import *
 
-r = ChcRulePO_DM("健康评估")
-# r = ChcRulePO_DM("健康干预")
-# r = ChcRulePO_DM("中医体质辨识")
-# r = ChcRulePO_DM("儿童健康干预")
-# r = ChcRulePO_DM("疾病评估")
+r = Dm_chcPO("健康评估")
+# r = Dm_chcPO("健康干预")
+# r = Dm_chcPO("中医体质辨识")
+# r = Dm_chcPO("儿童健康干预")
+# r = Dm_chcPO("疾病评估")
 # r.run(19)
 r.run(1)
 

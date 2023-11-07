@@ -2,7 +2,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Author :John
 # Created on : 2023-8-1
-# Description: CHC包
+# Description: CHC包 for Sqlserver
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 from ConfigparserPO import *
@@ -13,26 +13,39 @@ Sqlserver_PO = SqlServerPO(Configparser_PO.DB("host"), Configparser_PO.DB("user"
 
 from PO.StrPO import *
 Str_PO = StrPO()
+
 from PO.ColorPO import *
 Color_PO = ColorPO()
+
 from PO.TimePO import *
 Time_PO = TimePO()
+
 from PO.ListPO import *
 List_PO = ListPO()
+
 from PO.DictPO import *
 Dict_PO = DictPO()
+
 from PO.DataPO import *
 Data_PO = DataPO()
 
 # from PO.OpenpyxlPO import *
 import random, subprocess
 
-class ChcRulePO_SQL():
+class Sql_chcPO():
 
     def __init__(self, dbTableName):
 
         self.TOKEN = self.getToken(Configparser_PO.USER("user"), Configparser_PO.USER("password"))
         self.dbTableName = dbTableName
+
+    def insertTbl(self, sheetName, tableName):
+        Sqlserver_PO.execute("drop table " + tableName)
+        Sqlserver_PO.xlsx2db('规则db.xlsx', sheetName, tableName)
+        # Sqlserver_PO.execute("ALTER TABLE %s ADD id1 INT NOT NULL IDENTITY(1,1) primary key (id1) " % ('健康评估'))  # 新增id自增主键
+        Sqlserver_PO.execute("ALTER TABLE %s alter column id int not null" % (tableName))  # 设置主id不能为Null
+        Sqlserver_PO.execute("ALTER TABLE %s add PRIMARY KEY (id)" % (tableName))  # 设置主键（条件是id不能为Null）
+        Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(111)" % (tableName))  # 临时变量
 
     def getToken(self, varUser, varPass):
 

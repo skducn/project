@@ -2,12 +2,12 @@
 #***************************************************************
 # Author     : John
 # Created on : 2023-8-1
-# Description: SQLserver for chcrule
+# Description: SQLserver for chc
 #***************************************************************
-from ChcRulePO_SQL import *
+from Sql_chcPO import *
 
-# r = ChcRulePO_SQL("健康评估")
-r = ChcRulePO_SQL("健康干预")
+r = Sql_chcPO("健康评估")
+# r = Sql_chcPO("健康干预")
 # r = ChcRulePO_SQL("中医体质辨识")
 # r = ChcRulePO_SQL("儿童健康干预")
 # r = ChcRulePO_SQL("疾病评估")

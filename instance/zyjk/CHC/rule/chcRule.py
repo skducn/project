@@ -21,7 +21,7 @@
 import sys
 sys.path.append('../../../../')
 
-from ChcRulePO2 import *
+from Sql_chcPO import *
 import threading
 import argparse, ast
 
@@ -34,7 +34,7 @@ args = parser.parse_args()
 # todo -s jkpg
 # r = ChcRulePO2("健康评估")
 d = {'jkpg': '健康评估', 'jkgy': '健康干预',  'zytzbs': '中医体质辨识', 'etjkgy': '儿童健康干预', 'jbpg': '疾病评估'}
-r = ChcRulePO2(d[args.table])
+r = Sql_chcPO(d[args.table])
 
 
 # todo 参数-p on｜off(默认值)

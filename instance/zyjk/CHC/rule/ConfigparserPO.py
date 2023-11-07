@@ -33,7 +33,6 @@ class ConfigparserPO:
         value = self.cf.get("DM", name)
         return value
 
-
     def EXCEL(self, name):
         value = self.cf.get("EXCEL", name)
         return value

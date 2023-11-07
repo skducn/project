@@ -13,26 +13,39 @@ Dm_PO = DmPO(Configparser_PO.DM("host"), Configparser_PO.DM("user"), Configparse
 
 from PO.StrPO import *
 Str_PO = StrPO()
+
 from PO.ColorPO import *
 Color_PO = ColorPO()
+
 from PO.TimePO import *
 Time_PO = TimePO()
+
 from PO.ListPO import *
 List_PO = ListPO()
+
 from PO.DictPO import *
 Dict_PO = DictPO()
+
 from PO.DataPO import *
 Data_PO = DataPO()
 
 # from PO.OpenpyxlPO import *
 import random, subprocess
 
-class ChcRulePO_DM():
+class Dm_chcPO():
 
     def __init__(self, dbTableName):
 
         self.TOKEN = self.getToken(Configparser_PO.USER("user"), Configparser_PO.USER("password"))
         self.dbTableName = dbTableName
+
+    def insertTbl(self, sheetName, tableName):
+        Dm_PO.execute("drop table " + tableName)
+        Dm_PO.xlsx2db('规则db.xlsx', sheetName, tableName)
+        # Sqlserver_PO.execute("ALTER TABLE %s ADD id1 INT NOT NULL IDENTITY(1,1) primary key (id1) " % ('健康评估'))  # 新增id自增主键
+        Dm_PO.execute("ALTER TABLE %s alter column id int not null" % (tableName))  # 设置主id不能为Null
+        Dm_PO.execute("ALTER TABLE %s add PRIMARY KEY (id)" % (tableName))  # 设置主键（条件是id不能为Null）
+        Dm_PO.execute("ALTER TABLE %s ADD var varchar(111)" % (tableName))  # 临时变量
 
     def getToken(self, varUser, varPass):
 
@@ -54,7 +67,7 @@ class ChcRulePO_DM():
         :return: 
         '''
 
-        l_d_diseaseRuleCode_idcard = DM_PO.execQuery("select diseaseRuleCode, idcard from 疾病身份证")
+        l_d_diseaseRuleCode_idcard = Dm_PO.execQuery("select diseaseRuleCode, idcard from 疾病身份证")
         # print(l_d_diseaseRuleCode_idcard)  # [{'diseaseRuleCode': 'YH_JB001', 'idcard': 310101202308070001}, {'diseaseRuleCode': 'YH_JB002', 'idcard': 310101202308070002}, ...]
         return (l_d_diseaseRuleCode_idcard)
 
@@ -152,12 +165,12 @@ class ChcRulePO_DM():
             varPrefix = varSql.split(" ")[0]
             varPrefix = varPrefix.lower()
             if varPrefix == 'select':
-                command = 'DM_PO.execQuery("' + varSql + '")'
+                command = 'Dm_PO.execQuery("' + varSql + '")'
                 a = eval(command)
                 sleep(1)
                 return a
             elif varPrefix == 'update' or varPrefix == 'insert' or varPrefix == 'delete' :
-                command = 'DM_PO.execute("' + varSql + '")'
+                command = 'Dm_PO.execute("' + varSql + '")'
                 a = eval(command)
                 sleep(1)
                 return a
@@ -170,35 +183,35 @@ class ChcRulePO_DM():
 
         if varQty == 1:
             Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]"), "")
-            DM_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
-            DM_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            DM_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Dm_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
             print("step log".center(100, "-"))
             self.log = "error," + self.log
             print(self.log)
             self.log = (self.log).replace("'", "''")
             Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            DM_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
-            DM_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            DM_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Dm_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Dm_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
     def outResult2(self, varQty):
 
         if varQty == 2:
             Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]"), "")
-            DM_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
-            DM_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            DM_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Dm_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
             print("step log".center(100, "-"))
             self.log = "error," + self.log
             print(self.log)
             self.log = (self.log).replace("'", "''")
             Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            DM_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
-            DM_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            DM_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Dm_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Dm_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
     def outResultGW(self, diseaseRuleCode, l_ruleCode, d_expect):
 
@@ -223,9 +236,9 @@ class ChcRulePO_DM():
 
         if varSign == 0:
             Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]"), "")
-            DM_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
-            DM_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            DM_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Dm_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
         else:
             print("step log".center(100, "-"))
             self.log = "error," + self.log
@@ -234,30 +247,30 @@ class ChcRulePO_DM():
             print('实际 => ' + str(d_actual))
             self.log = (self.log).replace("'", "''")
             Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            DM_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
-            DM_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            DM_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+            Dm_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Dm_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Dm_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
     def verifyIdcard(self, varIdcard):
 
         # 检查患者主索引表身份证是否存在!
-        l_d_qty = DM_PO.execQuery("select count(*) as qty from TB_EMPI_INDEX_ROOT where IDCARDNO='%s'" % (varIdcard))
+        l_d_qty = Dm_PO.execQuery("select count(*) as qty from TB_EMPI_INDEX_ROOT where IDCARDNO='%s'" % (varIdcard))
         # print(l_d_qty)  # [{'qty': 1}]
         if l_d_qty[0]['qty'] == 0:
             guid = Data_PO.getFigures(6)
             name = Data_PO.getChineseName()
-            DM_PO.execute("INSERT INTO [TB_EMPI_INDEX_ROOT] ([GUID], [NAME], [SEXCODE], [SEXVALUE], [DATEOFBIRTH], [IDCARDNO]) VALUES ('" + str(guid) + "', N'" + str(name) + "', '2', '女', '1940-05-11', '" + str(varIdcard) + "')")
+            Dm_PO.execute("INSERT INTO [TB_EMPI_INDEX_ROOT] ([GUID], [NAME], [SEXCODE], [SEXVALUE], [DATEOFBIRTH], [IDCARDNO]) VALUES ('" + str(guid) + "', N'" + str(name) + "', '2', '女', '1940-05-11', '" + str(varIdcard) + "')")
 
         # 检查基本信息表身份证是否存在!
-        l_d_qty = DM_PO.execQuery("select count(*) as qty from HRPERSONBASICINFO where IDCARD='%s'" % (varIdcard))
+        l_d_qty = Dm_PO.execQuery("select count(*) as qty from HRPERSONBASICINFO where IDCARD='%s'" % (varIdcard))
         if l_d_qty[0]['qty'] == 0:
-            DM_PO.execute("INSERT INTO [dbo].[HRPERSONBASICINFO] ([ARCHIVENUM], [NAME], [SEX], [DATEOFBIRTH], [IDCARD], [WORKUNIT], [PHONE], [CONTACTSNAME], [CONTACTSPHONE], [RESIDENCETYPE], [NATIONCODE], [BLOODTYPE], [RHBLOODTYPE], [DEGREE], [OCCUPATION], [MARITALSTATUS], [HEREDITYHISTORYFLAG], [HEREDITYHISTORYCODE], [ENVIRONMENTKITCHENAERATION], [ENVIRONMENTFUELTYPE], [ENVIRONMENTWATER], [ENVIRONMENTTOILET], [ENVIRONMENTCORRAL], [DATASOURCES], [CREATEID], [CREATENAME], [CREATETIME], [UPDATEID], [UPDATENAME], [UPDATETIME], [STATUS], [ISDELETED], [VERSION], [WORKSTATUS], [TELEPHONE], [OCCUPATIONALDISEASESFLAG], [OCCUPATIONALDISEASESWORKTYPE], [OCCUPATIONALDISEASESWORKINGYEARS], [DUSTNAME], [DUSTFLAG], [RADIOACTIVEMATERIALNAME], [RADIOACTIVEMATERIALFLAG], [CHEMICALMATERIALNAME], [CHEMICALMATERIALFLAG], [OTHERNAME], [OTHERFLAG], [PHYSICSMATERIALNAME], [PHYSICSMATERIALFLAG], [DOWNLOADSTATUS], [NONUMBERPROVIDED], [YLZFMC], [PERSONID], [MEDICAL_PAYMENTCODE], [KALEIDOSCOPE], [ISGOVERNANCE]) VALUES ('" + str(varIdcard) + "', '高血压已患', '2', '1959-03-28 00:00:00.000', '" + str(varIdcard) + "', NULL, '13585543856', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-14 16:49:32.357', NULL, NULL, '2020-02-19 00:00:00.000', NULL, NULL, NULL, NULL, '13585543856', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'0')")
+            Dm_PO.execute("INSERT INTO [dbo].[HRPERSONBASICINFO] ([ARCHIVENUM], [NAME], [SEX], [DATEOFBIRTH], [IDCARD], [WORKUNIT], [PHONE], [CONTACTSNAME], [CONTACTSPHONE], [RESIDENCETYPE], [NATIONCODE], [BLOODTYPE], [RHBLOODTYPE], [DEGREE], [OCCUPATION], [MARITALSTATUS], [HEREDITYHISTORYFLAG], [HEREDITYHISTORYCODE], [ENVIRONMENTKITCHENAERATION], [ENVIRONMENTFUELTYPE], [ENVIRONMENTWATER], [ENVIRONMENTTOILET], [ENVIRONMENTCORRAL], [DATASOURCES], [CREATEID], [CREATENAME], [CREATETIME], [UPDATEID], [UPDATENAME], [UPDATETIME], [STATUS], [ISDELETED], [VERSION], [WORKSTATUS], [TELEPHONE], [OCCUPATIONALDISEASESFLAG], [OCCUPATIONALDISEASESWORKTYPE], [OCCUPATIONALDISEASESWORKINGYEARS], [DUSTNAME], [DUSTFLAG], [RADIOACTIVEMATERIALNAME], [RADIOACTIVEMATERIALFLAG], [CHEMICALMATERIALNAME], [CHEMICALMATERIALFLAG], [OTHERNAME], [OTHERFLAG], [PHYSICSMATERIALNAME], [PHYSICSMATERIALFLAG], [DOWNLOADSTATUS], [NONUMBERPROVIDED], [YLZFMC], [PERSONID], [MEDICAL_PAYMENTCODE], [KALEIDOSCOPE], [ISGOVERNANCE]) VALUES ('" + str(varIdcard) + "', '高血压已患', '2', '1959-03-28 00:00:00.000', '" + str(varIdcard) + "', NULL, '13585543856', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-14 16:49:32.357', NULL, NULL, '2020-02-19 00:00:00.000', NULL, NULL, NULL, NULL, '13585543856', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'0')")
 
         # 检查签约信息表身份证是否存在!
-        l_d_qty = DM_PO.execQuery("select count(*) as qty from QYYH where SFZH='%s'" % (varIdcard))
+        l_d_qty = Dm_PO.execQuery("select count(*) as qty from QYYH where SFZH='%s'" % (varIdcard))
         if l_d_qty[0]['qty'] == 0:
             guid = Data_PO.getFigures(6)
-            DM_PO.execute("INSERT INTO [dbo].[QYYH] ([CZRYBM], [CZRYXM], [JMXM], [SJHM], [SFZH], [JJDZ], [SFJD], [SIGNORGID], [ARCHIVEUNITCODE], [ARCHIVEUNITNAME], [DISTRICTORGCODE], [DISTRICTORGNAME], [TERTIARYORGCODE], [TERTIARYORGNAME], [PRESENTADDRDIVISIONCODE], [PRESENTADDRPROVCODE], [PRESENTADDRPROVVALUE], [PRESENTADDRCITYCODE], [PRESENTADDRCITYVALUE], [PRESENTADDRDISTCODE], [PRESENTADDDISTVALUE], [PRESENTADDRTOWNSHIPCODE], [PRESENTADDRTOWNSHIPVALUE], [PRESENTADDRNEIGHBORHOODCODE], [PRESENTADDRNEIGHBORHOODVALUE], [SIGNSTATUS], [SIGNDATE],[CATEGORY_CODE], [CATEGORY_NAME], [SEX_CODE], [SEX_NAME], [LAST_SERVICE_DATE], [ASSISTANT_DOC_ID], [ASSISTANT_DOC_NAME], [HEALTH_MANAGER_ID], [HEALTH_MANAGER_NAME], [ASSISTANT_DOC_PHONE], [HEALTH_MANAGER_PHONE]) VALUES ('" + str(guid) + "', N'姚皎情', N'高血压已患', NULL, '" + str(varIdcard) + "', N'平安街道16号', NULL, NULL, '0000001', '静安精神病院', '310118000000', '青浦区', '12345', '上海人民医院', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2020-06-01', 166, '4', N'老年人',N'男', NULL, NULL, NULL, NULL, NULL, NULL, NULL)")
+            Dm_PO.execute("INSERT INTO [dbo].[QYYH] ([CZRYBM], [CZRYXM], [JMXM], [SJHM], [SFZH], [JJDZ], [SFJD], [SIGNORGID], [ARCHIVEUNITCODE], [ARCHIVEUNITNAME], [DISTRICTORGCODE], [DISTRICTORGNAME], [TERTIARYORGCODE], [TERTIARYORGNAME], [PRESENTADDRDIVISIONCODE], [PRESENTADDRPROVCODE], [PRESENTADDRPROVVALUE], [PRESENTADDRCITYCODE], [PRESENTADDRCITYVALUE], [PRESENTADDRDISTCODE], [PRESENTADDDISTVALUE], [PRESENTADDRTOWNSHIPCODE], [PRESENTADDRTOWNSHIPVALUE], [PRESENTADDRNEIGHBORHOODCODE], [PRESENTADDRNEIGHBORHOODVALUE], [SIGNSTATUS], [SIGNDATE],[CATEGORY_CODE], [CATEGORY_NAME], [SEX_CODE], [SEX_NAME], [LAST_SERVICE_DATE], [ASSISTANT_DOC_ID], [ASSISTANT_DOC_NAME], [HEALTH_MANAGER_ID], [HEALTH_MANAGER_NAME], [ASSISTANT_DOC_PHONE], [HEALTH_MANAGER_PHONE]) VALUES ('" + str(guid) + "', N'姚皎情', N'高血压已患', NULL, '" + str(varIdcard) + "', N'平安街道16号', NULL, NULL, '0000001', '静安精神病院', '310118000000', '青浦区', '12345', '上海人民医院', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2020-06-01', 166, '4', N'老年人',N'男', NULL, NULL, NULL, NULL, NULL, NULL, NULL)")
 
 
     def _getAutoIdcard(self, d):
@@ -337,12 +350,12 @@ class ChcRulePO_DM():
         # r.runResult("all")  # 执行所有的规则(谨慎)
 
         if varResult == "error" or varResult == "ok" or varResult == "":
-            l_d_id = DM_PO.execQuery("select id from %s where result='%s'" % (self.dbTableName, varResult))
+            l_d_id = Dm_PO.execQuery("select id from %s where result='%s'" % (self.dbTableName, varResult))
             # print(l_d_id)  # [{'id': 2}, {'id': 10}]
             for i in range(len(l_d_id)):
                 self.run(l_d_id[i]['id'])
         elif varResult == "all":
-            l_d_id = DM_PO.execQuery("select id from %s" % (self.dbTableName))
+            l_d_id = Dm_PO.execQuery("select id from %s" % (self.dbTableName))
             for i in range(len(l_d_id)):
                 self.run(l_d_id[i]['id'])
 
@@ -359,7 +372,7 @@ class ChcRulePO_DM():
         self.varId = varId
 
         try:
-            l_d_rows = DM_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
+            l_d_rows = Dm_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
             # todo 1
             # print(l_d_rows[0]) # {'result': 'okay', 'memo': '2023/10/20 21:20:21', 'rule': 'r1', 'ruleParam': "AGE=55 .and. CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001', 'tester': '刘斌龙', 'id': 1, 'var': ''}
             self.l_d_rows = l_d_rows[0]
@@ -374,7 +387,7 @@ class ChcRulePO_DM():
             diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
         # 传递参数
-        l_d_param = DM_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
+        l_d_param = Dm_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
         if l_d_param[0]['param'] == 'p1':
         # if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
             # 带参数1 1
@@ -428,7 +441,7 @@ class ChcRulePO_DM():
     def x(self, rule):
         if Configparser_PO.SWITCH("printSql") == "on":
             Color_PO.consoleColor("31", "33", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]"), "")
-        l_0 = DM_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
+        l_0 = Dm_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
         l_sql = []
         for i in range(len(l_0)):
             if os.name == "posix":
@@ -587,7 +600,7 @@ class ChcRulePO_DM():
         # print("[第1次格式化sql] => ", l_sql)  #  ["delete from T_ASSESS_INFO where ID_CARD = '132222196702240429'", ...]
 
         for i in range(len(l_sql)):
-            var = DM_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+            var = Dm_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
             # print("[] => ", var)
             # print(var[0]['var'])
 
@@ -629,7 +642,7 @@ class ChcRulePO_DM():
                             Color_PO.consoleColor("31", "33", a[0], "")
                             # print(a[0])  # {'ID': 5977}
                         if "ID" in a[0]:
-                            l_d_var = DM_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            l_d_var = Dm_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
                             # print(l_d_var)  # [{'var': 'id=5977'}]
 
                             if l_d_var[0]['var'] == None or l_d_var[0]['var'] == "":
@@ -640,21 +653,21 @@ class ChcRulePO_DM():
                                     var2 = l_d_var[0]['var'].replace(l_d_var[0]['var'].split("id=")[1].split(",")[0], str(a[0]['ID']))
                                 else:
                                     var2 = l_d_var[0]['var'].replace(l_d_var[0]['var'].split("id=")[1], str(a[0]['ID']))
-                            DM_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                            Dm_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
                         if "ID_CARD" in a[0]:
                             varIdcard = a[0]['ID_CARD']
-                            var2 = DM_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            var2 = Dm_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
                             if var2[0]['var'] == None:
                                 var2 = "idcard=" + str(varIdcard)
                             else:
                                 var2 = var2[0]['var'] + ",idcard=" + str(varIdcard)
-                            DM_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                            Dm_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
                         if "GUID" in a[0]:
-                            var2 = DM_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            var2 = Dm_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
                             var2 = var2[0]['var'] + ",guid=" + str(a[0]['GUID'])
-                            DM_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                            Dm_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
                         if "QTY" in a[0]:
                             self.log = self.log + "\n" + str(a[0])  # 步骤日志
@@ -705,7 +718,7 @@ class ChcRulePO_DM():
                 l_sql[i] = str(l_sql[i]).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
 
         for i in range(len(l_sql)):
-            var = DM_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+            var = Dm_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
             # print("[] => ", var)
             # print(var[0]['var'])
 
@@ -749,7 +762,7 @@ class ChcRulePO_DM():
 
                         self.log = self.log + "\n" + str(a[0])  # 步骤日志
                         if "ID" in a[0]:
-                            l_d_var = DM_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            l_d_var = Dm_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
                             # print(l_d_var)  # [{'var': 'id=5977'}]
                             if l_d_var[0]['var'] == None or l_d_var[0]['var'] == "":
                                 var2 = "id=" + str(a[0]['ID'])
@@ -760,24 +773,24 @@ class ChcRulePO_DM():
                                         l_d_var[0]['var'].split("id=")[1].split(",")[0], str(a[0]['ID']))
                                 else:
                                     var2 = l_d_var[0]['var'].replace(l_d_var[0]['var'].split("id=")[1], str(a[0]['ID']))
-                            DM_PO.execute(
+                            Dm_PO.execute(
                                 "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
                         if "ID_CARD" in a[0]:
                             varIdcard = a[0]['ID_CARD']
-                            var2 = DM_PO.execQuery(
+                            var2 = Dm_PO.execQuery(
                                 "select var from %s where id=%s" % (self.dbTableName, self.varId))
                             if var2[0]['var'] == None:
                                 var2 = "idcard=" + str(varIdcard)
                             else:
                                 var2 = var2[0]['var'] + ",idcard=" + str(varIdcard)
-                            DM_PO.execute(
+                            Dm_PO.execute(
                                 "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
                         if "GUID" in a[0]:
-                            var2 = DM_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
+                            var2 = Dm_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
                             var2 = var2[0]['var'] + ",guid=" + str(a[0]['GUID'])
-                            DM_PO.execute(
+                            Dm_PO.execute(
                                 "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
         ruleCode = d['ruleCode'].replace("(", '').replace(")", '').replace("'", '')
