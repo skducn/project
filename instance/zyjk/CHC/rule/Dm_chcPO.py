@@ -452,7 +452,9 @@ class Dm_chcPO():
             if os.name == "posix":
                 l_sql.append(l_0[i]['sql'])
             else:
-                l_sql.append(l_0[i]['sql'].encode('latin1').decode('GB2312'))
+                # l_sql.append(l_0[i]['sql'].encode('latin1').decode('GB2312'))
+                print(l_0[i][0])
+                l_sql.append(l_0[i][0])
         return l_sql
 
     def param1(self, rule, ruleParam, ruleCode):
