@@ -392,7 +392,7 @@ class Dm_chcPO():
         l_param = Dm_PO.execQuery("select param from 测试规则 where rule='%s'" % (rule))
         print(l_param)
         print(l_param[0][0])  # param的值
-        if l_param[0] == 'p1':
+        if l_param[0][0] == 'p1':
         # if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
             # 带参数1 1
             self.param1(rule, ruleParam, ruleCode)
