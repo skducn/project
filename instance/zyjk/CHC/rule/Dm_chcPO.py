@@ -374,64 +374,62 @@ class Dm_chcPO():
         self.varId = varId
 
         try:
-            l_d_rows = Dm_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
-            print(l_d_rows[0])
-            # print(l_d_rows[0][1])
-            # print(l_d_rows[0][2])
-            # print(l_d_rows[0][3])
+            l_rows = Dm_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
+            print(l_rows[0])
             # todo 1
-            self.l_d_rows = l_d_rows[0]
+            self.l_d_rows = l_rows[0]
         except:
             sys.exit(0)
 
         # 格式化参数
-        rule = l_d_rows[0][3]  # rule
-        ruleParam = l_d_rows[0][4]  # ruleParam
-        ruleCode = l_d_rows[0][5]  # ruleCode
+        rule = l_rows[0][3]  # rule
+        ruleParam = l_rows[0][4]  # ruleParam
+        ruleCode = l_rows[0][5]  # ruleCode
         # if 'diseaseRuleCode' in l_d_rows[0].keys():
         #     diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
         # 传递参数
-        l_d_param = Dm_PO.execQuery("select param from 测试规则 where rule='%s'" % (rule))
-        print(l_d_param)
-        if l_d_param[0]['param'] == 'p1':
+        l_param = Dm_PO.execQuery("select param from 测试规则 where rule='%s'" % (rule))
+        print(l_param)
+        print(l_param[0])  # param的值
+        if l_param[0] == 'p1':
         # if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
             # 带参数1 1
             self.param1(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p2':
+        elif l_param[0] == 'p2':
         # elif (rule == "r3") or (rule == "r4") or (rule == "r8"):
             # 带参数2
             self.param2(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p4':
+        elif l_param[0] == 'p4':
         # elif rule == "r7":
             # 带参数4
             self.param4(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p1_auto':
+        elif l_param[0] == 'p1_auto':
             # 带参数1,自动身份证
             self.param1_auto(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p2_auto':
+        elif l_param[0] == 'p2_auto':
             # 带参数2,自动身份证
             self.param2_auto(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p4_auto':
+        elif l_param[0] == 'p4_auto':
             # 带参数4,自动身份证
             self.param4_auto(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p1_idcard':
+        elif l_param[0] == 'p1_idcard':
         # elif (rule == "r9") or (rule == "r10"):
             # 带参数1（自动匹配身份证）1_idcard
             self.param1_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
-        elif l_d_param[0]['param'] == 'p2_idcard':
+        elif l_param[0] == 'p2_idcard':
         # elif rule == "r2":
             # 带参数2（自动匹配身份证）
             self.param2_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
-        elif l_d_param[0]['param'] == 'p1_hit2':
+        elif l_param[0] == 'p1_hit2':
         # elif rule == "r11":
             # 带参数1，健康干预两次命中（干预+疾病评估）1_hit2
             self.param1_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
-        elif l_d_param[0]['param'] == 'p3_hit2':
+        elif l_param[0] == 'p3_hit2':
         # elif rule == "r5":
             # 带参数3，健康干预两次命中（干预+疾病评估）
             self.param3_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
-        elif l_d_param[0]['param'] == 'r_GW':
+        elif l_param[0] == 'r_GW':
             self._getParamByGW(rule, ruleCode, diseaseRuleCode)  # r_GW
 
 
@@ -447,7 +445,7 @@ class Dm_chcPO():
     def x(self, rule):
         if Configparser_PO.SWITCH("printSql") == "on":
             Color_PO.consoleColor("31", "33", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]"), "")
-        l_0 = Dm_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
+        l_0 = Dm_PO.execQuery("select sql from 测试规则 where rule='%s'" %(rule))
         print(l_0)
         l_sql = []
         for i in range(len(l_0)):
