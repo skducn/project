@@ -26,6 +26,12 @@
 import sys, pypinyin
 from xpinyin import Pinyin
 
+# p = Pinyin()
+# hanzi = "北京欢迎你"
+# pinyin_list = p.get_initials(hanzi, '')
+# print(pinyin_list)
+
+
 
 class CharPO:
     def __init__(self):
@@ -107,24 +113,25 @@ if __name__ == "__main__":
 
     Char_PO = CharPO()
 
-    print("1.1 中文转字节码".center(100, "-"))
-    print(Char_PO.chinese2byte("金浩", "utf-8"))  # b'\xe9\x87\x91\xe6\xb5\xa9'
-    print(Char_PO.chinese2byte("金浩", "GBK"))  # b'\xbd\xf0\xba\xc6'
+    # print("1.1 中文转字节码".center(100, "-"))
+    # print(Char_PO.chinese2byte("金浩", "utf-8"))  # b'\xe9\x87\x91\xe6\xb5\xa9'
+    # print(Char_PO.chinese2byte("金浩", "GBK"))  # b'\xbd\xf0\xba\xc6'
+    #
+    # print("1.2 字节码转中文字符串".center(100, "-"))
+    # print(Char_PO.byte2chinese(b"\xe9\x87\x91\xe6\xb5\xa9", "utf-8"))  # 金浩
+    # print(Char_PO.byte2chinese(b"\xbd\xf0\xba\xc6", "gbk"))  # 金浩
+    #
+    # print("1.3 中文转拼音".center(100, "-"))
+    # print(Char_PO.chinese2pinyin("上海市"))  # cengzengxiangyun
+    # print(Char_PO.chinese2pinyin("金浩", True))  # jinhaogaoge
+    #
+    # print("1.4 中文转拼音（带声调）".center(100, "-"))
+    # print(Char_PO.chinese2pinyinTone("金浩"))  # jīn hào
+    # print(Char_PO.chinese2pinyinTone("金浩", True))  # jīnjìn hàogǎogé
+    #
+    # print("1.5 中文转拼音（声调，分隔符，大小写）".center(100, "-"))
+    # print(Char_PO.chinese2pinyin3("你好", splitter="-"))  # ni-hao
+    # print(Char_PO.chinese2pinyin3("你好", tone_marks="marks"))  # nǐhǎo
+    # # print(Char_PO.chinese2pinyin3("你好", tone_marks="marks", convert="upper"))  # NǏHǍO
+    # print(Char_PO.chinese2pinyin3("你好", tone_marks="numbers", splitter="-"))  # ni3-hao3
 
-    print("1.2 字节码转中文字符串".center(100, "-"))
-    print(Char_PO.byte2chinese(b"\xe9\x87\x91\xe6\xb5\xa9", "utf-8"))  # 金浩
-    print(Char_PO.byte2chinese(b"\xbd\xf0\xba\xc6", "gbk"))  # 金浩
-
-    print("1.3 中文转拼音".center(100, "-"))
-    print(Char_PO.chinese2pinyin("上海市"))  # cengzengxiangyun
-    print(Char_PO.chinese2pinyin("金浩", True))  # jinhaogaoge
-
-    print("1.4 中文转拼音（带声调）".center(100, "-"))
-    print(Char_PO.chinese2pinyinTone("金浩"))  # jīn hào
-    print(Char_PO.chinese2pinyinTone("金浩", True))  # jīnjìn hàogǎogé
-
-    print("1.5 中文转拼音（声调，分隔符，大小写）".center(100, "-"))
-    print(Char_PO.chinese2pinyin3("你好", splitter="-"))  # ni-hao
-    print(Char_PO.chinese2pinyin3("你好", tone_marks="marks"))  # nǐhǎo
-    # print(Char_PO.chinese2pinyin3("你好", tone_marks="marks", convert="upper"))  # NǏHǍO
-    print(Char_PO.chinese2pinyin3("你好", tone_marks="numbers", splitter="-"))  # ni3-hao3

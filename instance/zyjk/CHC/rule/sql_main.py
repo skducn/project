@@ -6,13 +6,13 @@
 #***************************************************************
 from Sql_chcPO import *
 
-r = Sql_chcPO("健康评估")
+# r = Sql_chcPO("健康评估")
 # r = Sql_chcPO("健康干预")
-# r = ChcRulePO_SQL("中医体质辨识")
-# r = ChcRulePO_SQL("儿童健康干预")
-# r = ChcRulePO_SQL("疾病评估")
+# r = Sql_chcPO("中医体质辨识")
+# r = Sql_chcPO("儿童健康干预")
+r = Sql_chcPO("疾病评估")
 # r.run(19)
-r.run(1)
+r.run(2)
 
 
 # r.i_startAssess("110101196407281501")

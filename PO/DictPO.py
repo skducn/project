@@ -30,12 +30,68 @@ todo:【转换】
 1.5 字典key转列表（去重） dictKey2list(*dict1)
 1.6 判断字符串是否是json格式的字典 is_json()
 
-todo:【合并、交集、并集、差集、补集、互换】
-2.1 合并字典（保留字典中第一个重复key的值）mergeDictReserveFirstKey(*dict1)
-2.2 合并字典（保留字典中最后一个重复key的值）mergeDictReserveLastKey(*dict1)
-2.3 获取2个字典交、并、差集及对称差集(补集)后的key  getKeyBySet()
-2.4 获取2个字典交、并、对称差集(补集)后的keyValue getKeyValueBySet()
-2.5 字典key与value互转  # print({v:k for k,v in dict.items()}) , 如：dic = {'Python': 1, 'Java': 2j}  互换后 {1: 'Python', 2: 'Java'}
+todo:【合并、交集、并集、差集、对称差集、键值覆盖互换】
+    d1 = {'name':'jinhao' , "age":43}
+    d2 = {'gender':"male", "name":"yoyo"}
+    dd = {'address':'pudong'}
+合并字典
+# 2.1 覆盖合并当前字典(update)
+# d1.update(d2)
+# print(d1)  # {'name': 'yoyo', 'age': 43, 'gender': 'male'}
+
+# 覆盖合并当前字典（python 3.9之后版本支持，合并操作符｜= ， 等价于update）
+# d1 |= d2
+# print(d1)  # {'name': 'yoyo', 'age': 43, 'gender': 'male'}
+
+# 2.2 覆盖合并新字典({**,**})
+# 分析：将d2更新到d1，且后者覆盖前者重复的key
+# d4 = {**d1, **d2}
+# print(d4)  # {'name': 'yoyo', 'age': 43, 'gender': 'male'}
+
+# 覆盖合并新字典（python 3.9之后版本支持，合并操作符｜）
+# d7 = d1 | d2
+# print(d7)  # {'name': 'yoyo', 'age': 43, 'gender': 'male'}
+
+# 2.3 覆盖合并当前字典（deepcopy）
+# # 分析：使用深度拷贝一个新的字典即可,不影响原来的字典值
+# from copy import deepcopy
+# d3 = deepcopy(d1)
+# d3.update(d2)
+# print(d1)  # {'name': 'jinhao', 'age': 43}
+# print(d3)  # {'name': 'yoyo', 'age': 43, 'gender': 'male'}
+
+# 2.4 覆盖合并新字典（可迭代对象itertools）
+# import itertools
+# print(d1.items)  # <built-in method items of dict object at 0x7fb145b8c9c0>
+# d5 = dict(itertools.chain(d1.items(), d2.items()))  # <built-in method items of dict object at 0x7f892238c980>
+# print(d5)  # {'name': 'yoyo', 'age': 43, 'gender': 'male'}
+
+# 2.5 覆盖合并新字典（list）
+# d6 = dict(list(d1.items()) + list(d2.items()))
+# print(d6)  # {'name': 'yoyo', 'age': 43, 'gender': 'male'}
+
+# 2.6 不覆盖合并新字典（ChainMap）
+# from collections import ChainMap
+# d6 = dict(ChainMap(d1, d2))
+# print(d6)  # {'gender': 'male', 'name': 'jinhao', 'age': 43}
+
+# 2.7 非重合并新字典（dict{**,**}）
+# 分析：两个字典中不能有重复的key，否则报错
+# d4 = dict(**d1, **d2)
+# print(d4)  # TypeError: type object got multiple values for keyword argument 'name'  //因为有重复的key
+# d4 = dict(**d1, **dd)
+# print(d4)  # {'name': 'jinhao', 'age': 43, 'address': 'pudong'}
+
+2.8.1 字典key的交集 getKeyByIntersection
+2.8.2 字典key的并集 getKeyByUnion
+2.8.3 字典key的差集 getKeyByDifference
+2.8.4 字典key的对称差集 getKeyBySemmetricDifference
+2.8.5 字典Item的交集 getItemByIntersection
+2.8.6 字典Item的并集 getItemByUnion
+2.8.7 字典Item的差集 getItemByDifference
+2.8.8 字典Item的对称差集 getItemBySemmetricDifference
+
+2.9 键值覆盖互转  # print({v:k for k,v in dict.items()}) , 如：dict = {'Python': 1, 'Java': 2j}  =>  {1: 'Python', 2: 'Java'}
 
 todo:【key】
 4.1 删除字典中的key  delKey(dict，key) delKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'a': 5, 'c': 7}
@@ -59,14 +115,13 @@ todo:[分组]
 """
 
 from collections import ChainMap
-
 from collections import Counter
 import json
 from functools import reduce
 import itertools
 
-
 class DictPO:
+
     def dictKey2list(self, *varDict):
 
         """
@@ -103,79 +158,44 @@ class DictPO:
             return False
         return True
 
-    def mergeDictReserveFirstKey(self, *varDict):
 
-        """
-        # 2.1 合并字典（保留字典中第一个重复key的值）
-        :param varDict:
-        :return: dict
-        """
+    def getKeyByIntersection(self, dict1, dict2):
+        # key交集（设A，B是两个集合，由所有属于集合A且属于集合B的元素所组成的集合，叫做集合A与集合B的交集（intersection），记作A∩B）
+        return [k for k in dict1.keys() & dict2.keys()]
 
-        d_varMerge = {}
+    def getKeyByUnion(self, dict1, dict2):
+        # key并集（给定两个集合A，B，把他们所有的元素合并在一起组成的集合，叫做集合A与集合B的并集，记作A∪B）
+        return [k for k in dict1.keys() | dict2.keys()]
 
-        if len(varDict) == 2:
-            c = ChainMap(varDict[0], varDict[1])
-        elif len(varDict) == 3:
-            c = ChainMap(varDict[0], varDict[1], varDict[2])
-        elif len(varDict) == 4:
-            c = ChainMap(varDict[0], varDict[1], varDict[2], varDict[3])
-        elif len(varDict) == 5:
-            c = ChainMap(varDict[0], varDict[1], varDict[2], varDict[3], varDict[4])
-        for k, v in c.items():
-            d_varMerge[k] = v
-        return d_varMerge
+    def getKeyByDifference(self, dict1, dict2):
+        # key差集, dict1-dict2表示的是属于dict1但不属于dict2的所有元素组成的集合
+        return [k for k in dict1.keys() - dict2.keys()]
 
-    def mergeDictReserveLastKey(self, *varDict):
+    def getKeyBySemmetricDifference(self, dict1, dict2):
+        # key对称差 （两个集合的对称差是只属于其中一个集合，而不属于另一个集合的元素组成的集合。 ）
+        # 即两个相对补集的并集
+        # 即两个集合的并集减去它们的交集
+        return [k for k in dict1.keys() ^ dict2.keys()]
 
-        """
-        2.2 合并字典（保留字典中最后一个重复key的值）
-        :param varDict:
-        :return:
-        """
 
-        d_varMerge = {}
-        for i in range(len(varDict)):
-            d_varMerge.update(varDict[i])
-        return d_varMerge
+    def getItemByIntersection(self, dict1, dict2):
+        # item交集（设A，B是两个集合，由所有属于集合A且属于集合B的元素所组成的集合，叫做集合A与集合B的交集（intersection），记作A∩B）
+        return list((dict1.items() & dict2.items()))
 
-    def getKeyBySet(self, varOperator, varDict1, varDict2):
+    def getItemByUnion(self, dict1, dict2):
+        # item并集（给定两个集合A，B，把他们所有的元素合并在一起组成的集合，叫做集合A与集合B的并集，记作A∪B）
+        return list((dict1.items() | dict2.items()))
 
-        """
-        2.3 获取2个字典交、并、对称差集的key
-        :param varDict:
-        :return:
-        """
+    def getItemByDifference(self, dict1, dict2):
+        # item差集, dict1-dict2表示的是属于dict1但不属于dict2的所有元素组成的集合
+        return list((dict1.items() - dict2.items()))
 
-        # 提供  '&', '|' 和'^' ，即交、并、对称差集四种运算符。
-        if varOperator == "&":
-            return [k for k in varDict1.keys() & varDict2.keys()]
-        elif varOperator == "|":
-            return [k for k in varDict1.keys() | varDict2.keys()]
-        elif varOperator == "-":
-            return [k for k in varDict1.keys() - varDict2.keys()]
-        elif varOperator == "^":
-            return [k for k in varDict1.keys() ^ varDict2.keys()]
-        else:
-            return None
+    def getItemBySemmetricDifference(self, dict1, dict2):
+        # item对称差 （两个集合的对称差是只属于其中一个集合，而不属于另一个集合的元素组成的集合。 ）
+        # 即两个相对补集的并集
+        # 即两个集合的并集减去它们的交集
+        return list((dict1.items() ^ dict2.items()))
 
-    def getKeyValueBySet(self, varOperator, varDict1, varDict2):
-
-        """
-        2.4 获取2个字典交、并、对称差集(补集)后的keyValue
-        :param varDict:
-        :return:
-        """
-
-        if varOperator == "&":
-            return list((varDict1.items() & varDict2.items()))
-        elif varOperator == "|":
-            return list((varDict1.items() | varDict2.items()))
-        elif varOperator == "-":
-            return list((varDict1.items() - varDict2.items()))
-        elif varOperator == "^":
-            return list((varDict1.items() ^ varDict2.items()))
-        else:
-            return None
 
     def delKey(self, varDict, *varKey):
 
@@ -279,25 +299,29 @@ if __name__ == "__main__":
 
     Dict_PO = DictPO()
 
-    d1 = dict(a=1, b=2, test=3)
-    d2 = dict(a=10, b=20, dev=30)
-    d3 = dict(a=200, b=200, prd=300)
 
-    # print("1.1 字典转字符串".center(100, "-"))
-    # print(json.dumps(dict(a=5, b=6)))  # {"a": 5, "b": 6}
+    # d1 = dict(a=1, b=2, test=3)
+    # d2 = dict(a=10, b=20, dev=30)
+    # d3 = dict(a=200, b=200, prd=300)
+
+    # print("1.1 字典转字符串(dumps)".center(100, "-"))
+    # d1 = {'python': 1, 'java': 2, 'c': 3}
+    # print(json.dumps(d1))  # {"python": 1, "java": 2, "c": 3}  //双引号是字符串
     #
-    # print("1.2 json字符串转字典".center(100, "-"))
-    # print(json.loads('{"a": 5, "b": 6}'))  # {'a': 5, 'b': 6}  单引号是字典
-    #
-    # print("1.3 字典转字符串并保存到文件".center(100, "-"))
+    # print("1.2 json字符串转字典(loads)".center(100, "-"))
+    # print(json.loads('{"a": 5, "b": 6}'))  # {'a': 5, 'b': 6}  //单引号是字典
+
+    # print("1.3 字典转文件".center(100, "-"))
     # with open("./data/dictPO.json", "w+") as f:
     #     json.dump(dict(a=5, b=6), f)
     #
-    # print("1.4 将 JSON 文件转字典".center(100, "-"))
+    # print("1.4 文件转字典".center(100, "-"))
     # with open("dict.json", "r") as f:
     #     print(json.load(f))  # {'a': 5, 'b': 6}
 
-    # print("1.5 字典key转列表（去重）".center(100, "-"))
+    print("1.5 key转list(ChainMap)".center(100, "-"))
+    d1 = {'python': 1, 'java': 2, 'c': 3}
+    print(list(ChainMap(d1)))  # ['python', 'java', 'c']
     # print(Dict_PO.dictKey2list(d1))  # ['a', 'b', 'test']
     # print(Dict_PO.dictKey2list(d1, d2))  # ['a', 'b', 'dev', 'test']
     # print(Dict_PO.dictKey2list(d1, d2, d3))  # ['a', 'b', 'prd', 'dev', 'test']
@@ -311,33 +335,28 @@ if __name__ == "__main__":
     # print(Dict_PO.is_json('{"age":100 }'))  # True
     # print(Dict_PO.is_json('{"foo":[5,6.8],"foo":"bar"}'))  # True
 
-    # print("2.1 合并字典（保留字典中第一个重复key的值）".center(100, "-"))
-    # print(Dict_PO.mergeDictReserveFirstKey(d1, d2))  # {'a': 1, 'b': 2, 'dev': 30, 'test': 3}
-    # print(Dict_PO.mergeDictReserveFirstKey(d1, d2, d3))  # {'a': 1, 'b': 2, 'prd': 300, 'dev': 30, 'test': 3}
-    #
-    # print("2.2 合并字典（合并时如遇重复key,则保留最后一个字典key的值）".center(100, "-"))
-    # print(Dict_PO.mergeDictReserveLastKey(d1, d2, d3))  # {'a': 200, 'b': 200, 'test': 3, 'dev': 30, 'prd': 300}
-    # print({**d1, **d2, **d3})  # {'a': 200, 'b': 200, 'test': 3, 'dev': 30, 'prd': 300}
-    # print({**d1, **d2})  # {'a': 10, 'b': 20, 'test': 3, 'dev': 30}
-    # print({**d1, **d2, "a": 60})  # {'a': 60, 'b': 20, 'test': 3, 'dev': 30}  //先合再改
-    #
-    # a = {'python': 1, 'java': 2, 'c': 3}
-    # b = {'python': 10, 'java': 2, 'c++': 88}
-    #
-    # print("2.3 获取2个字典交、并、差集及对称差集(补集)后的key".center(100, "-"))
-    # print(Dict_PO.getKeyBySet("&", a, b))  # ['python', 'java'] //交集
-    # print(Dict_PO.getKeyBySet("|", a, b))  # ['c', 'python', 'java', 'c++'] //并集
-    # print(Dict_PO.getKeyBySet("-", a, b))  # ['c']  //差集即属于a且不属于b的元素构成的集合
-    # print(Dict_PO.getKeyBySet("^", a, b))  # ['c', 'c++'] //对称差集（(补集）即两集合所有不相同的元素的集合
-    #
-    # print("2.4 获取2个字典交、并、对称差集(补集)后的keyValue".center(100, "-"))
-    # print(Dict_PO.getKeyValueBySet("&", a, b))  # [('java', 2)] //交集(key和value都必须相同)
-    # print(Dict_PO.getKeyValueBySet("|", a, b))  # [('c', 3), ('python', 1), ('python', 10), ('java', 2), ('c++', 88)] //并集
-    # print(Dict_PO.getKeyValueBySet("-", a, b))  # [('c', 3), ('python', 1)]  //差集（去交集）
-    # print(Dict_PO.getKeyValueBySet("^", a, b))  # [('python', 1), ('python', 10), ('c++', 88), ('c', 3)] //对称差集（去交集）
-    #
-    # print("2.5 字典key与value互转".center(100, "-"))
-    # print({v: k for k, v in a.items()})  # {1: 'python', 2: 'java', 3: 'c'}
+
+
+    # print("2.8.1-4 获取交、并、差集及对称差集的key".center(100, "-"))
+    # d1 = {'python': 1, 'java': 2, 'c': 3}
+    # d2 = {'python': 10, 'java': 2, 'c++': 88}
+    # print(Dict_PO.getKeyByIntersection(d1, d2))  # ['python', 'java'] //交集
+    # print(Dict_PO.getKeyByUnion(d1, d2))  # ['c', 'python', 'java', 'c++'] //并集
+    # print(Dict_PO.getKeyByDifference(d1, d2))  # ['c']  //差集, d1-d2表示的是属于d1但不属于d2的所有元素组成的集合
+    # print(Dict_PO.getKeyBySemmetricDifference(d1, d2))  # ['c', 'c++'] //对称差，两集合所有不相同的元素的集合，即并集减去交集
+
+    # # print("2.8.5-8 获取交、并、差集及对称差集的item".center(100, "-"))
+    # d1 = {'python': 1, 'java': 2, 'c': 3}
+    # d2 = {'python': 10, 'java': 2, 'c++': 88}
+    # print(Dict_PO.getItemByIntersection(d1, d2))  # [('java', 2)] //交集
+    # print(Dict_PO.getItemByUnion(d1, d2))  # [('c', 3), ('python', 1), ('python', 10), ('java', 2), ('c++', 88)] //并集
+    # print(Dict_PO.getItemByDifference(d1, d2))  # [('c', 3), ('python', 1)]  //差集
+    # print(Dict_PO.getItemBySemmetricDifference(d1, d2))  # [('python', 1), ('python', 10), ('c++', 88), ('c', 3)] //对称差集
+
+
+    # print("2.9 键值覆盖互转".center(100, "-"))
+    # d1 = {'python': 1, 'java': 2, 'c': 3, 'hellp': 2}
+    # print({v: k for k, v in d1.items()})  # {1: 'python', 2: 'hellp', 3: 'c'}
 
     # print("4.1 删除字典中的key".center(100, "-"))
     # print(Dict_PO.delKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'a': 5, 'c': 7}

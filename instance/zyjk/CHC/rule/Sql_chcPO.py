@@ -31,6 +31,7 @@ Data_PO = DataPO()
 
 # from PO.OpenpyxlPO import *
 import random, subprocess
+import pyperclip as pc
 
 class Sql_chcPO():
 
@@ -96,17 +97,18 @@ class Sql_chcPO():
                 if Configparser_PO.SWITCH("printsql") == "on":
                     Color_PO.consoleColor("31", "31", str_r, "")
                 self.log = self.log + "\n" + str_r
-                return ([{'name':'重新评估', 'value' : "[ERROR => i_rerunExecuteRule() => " + str(str_r) + "]"}])
+                return ([{'name':'重新评估', 'value' : "[ERROR => 重新评估(i_rerunExecuteRule) => " + str(str_r) + "]"}])
             else:
-                if Configparser_PO.SWITCH("printsql") == "on":
-                    Color_PO.consoleColor("31", "36", "i_rerunExecuteRule => 重新评估 => " + str_r, "")
+                return None
+                # if Configparser_PO.SWITCH("printsql") == "on":
+                #     Color_PO.consoleColor("31", "33", "重新评估(i_rerunExecuteRule) => " + str_r, "")
                 # return ([{'name':'重新评估', 'value': 200}])
         else:
             if Configparser_PO.SWITCH("printsql") == "on":
                 Color_PO.consoleColor("31", "31", str_r, "")
             self.log = self.log + "\n" + str_r
             # 如：{"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
-            return ([{'name':'重新评估', 'value': "[ERROR => i_rerunExecuteRule() => " + str(str_r) + "]"}])
+            return ([{'name':'重新评估', 'value': "[ERROR => 重新评估(i_rerunExecuteRule) => " + str(str_r) + "]"}])
 
     def i_startAssess(self, varIdcard):
 
@@ -128,36 +130,32 @@ class Sql_chcPO():
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
         sleep(2)
+
         if Configparser_PO.SWITCH("printInterface") == "on":
             Color_PO.consoleColor("31", "33", str_r, "")
 
         if 'code' in d_r:
             if d_r['code'] != 200:
-                # Color_PO.consoleColor("31", "31", str_r, "")
                 if Configparser_PO.SWITCH("printsql") == "on":
                     Color_PO.consoleColor("31", "31", str_r, "")
                 self.log = self.log + "\n" + str_r
-                return ([{'name':'新增评估', 'value' : "[ERROR => i_startAssess() => " + str(str_r) + "]"}])
+                return ([{'name':'新增评估', 'value' : "[ERROR => 新增评估(i_startAssess) => " + str(str_r) + "]"}])
             else:
-                if Configparser_PO.SWITCH("printsql") == "on":
-                    Color_PO.consoleColor("31", "36", "self.i_startAssess => 新增评估 => " + str_r, "")
+                return None
+                # if Configparser_PO.SWITCH("printsql") == "on":
+                #     Color_PO.consoleColor("31", "33", "新增评估(i_startAssess) =>  => " + str_r, "")
                 # return ([{'name':'新增评估', 'value': 200}])
         else:
             if Configparser_PO.SWITCH("printsql") == "on":
                 Color_PO.consoleColor("31", "31", str_r, "")
             self.log = self.log + "\n" + str_r
             # 如：{"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
-            return ([{'name':'新增评估', 'value': "[ERROR => i_startAssess() => " + str(str_r) + "]"}])
+            return ([{'name':'新增评估', 'value': "[ERROR => 新增评估(i_startAssess) => " + str(str_r) + "]"}])
 
-    def sql(self, varSql):
+    def runSql(self, varSql):
 
-        '''
-        执行sql
-        :param varSql:
-        :param TOKEN:
-        :return:
-        '''
-        # print(varSql)
+        # 执行sql
+
         if 'self.' in varSql:
             a = eval(varSql)
             return a
@@ -179,77 +177,6 @@ class Sql_chcPO():
 
 
 
-    def outResult1(self, varQty):
-
-        if varQty == 1:
-            Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]"), "")
-            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
-        else:
-            print("step log".center(100, "-"))
-            self.log = "error," + self.log
-            print(self.log)
-            self.log = (self.log).replace("'", "''")
-            Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
-
-    def outResult2(self, varQty):
-
-        if varQty == 2:
-            Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]"), "")
-            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
-        else:
-            print("step log".center(100, "-"))
-            self.log = "error," + self.log
-            print(self.log)
-            self.log = (self.log).replace("'", "''")
-            Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
-
-    def outResultGW(self, diseaseRuleCode, l_ruleCode, d_expect):
-
-        # print(l_ruleCode)   # ['GW_JB011', 'PG_JWS041', 'PG_JWS043']
-        # print(d_expect)   # {'QTY0': 0, 'PG_JWS041': '1', 'PG_JWS043': '1'}
-        l_ruleCode.remove(diseaseRuleCode) #  ['PG_JWS041', 'PG_JWS043']
-        # print(l_ruleCode)  # ['QTY0', 'PG_JWS041', 'PG_JWS043']
-        varSign = 0
-        d_actual = {}
-        for k, v in d_expect.items():
-            if (k == "QTY0" and v == 0) or (k != "QTY0" and v == 1):
-                varSign = varSign + 0
-                d_actual[k] = v
-            else:
-                varSign = varSign + 1
-                d_actual[k] = v
-
-        # print(varSign)
-        if Configparser_PO.SWITCH("printSql") == "on":
-            print('预期 => ' + str(d_expect))
-            print('实际 => ' + str(d_actual))
-
-        if varSign == 0:
-            Color_PO.consoleColor("31", "36", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]"), "")
-            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
-        else:
-            print("step log".center(100, "-"))
-            self.log = "error," + self.log
-            print(self.log)
-            print('预期 => ' + str(d_expect))
-            print('实际 => ' + str(d_actual))
-            self.log = (self.log).replace("'", "''")
-            Color_PO.consoleColor("31", "31", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]"), "")
-            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
-            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
-            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
     def verifyIdcard(self, varIdcard):
 
@@ -272,6 +199,266 @@ class Sql_chcPO():
             guid = Data_PO.getFigures(6)
             Sqlserver_PO.execute("INSERT INTO [dbo].[QYYH] ([CZRYBM], [CZRYXM], [JMXM], [SJHM], [SFZH], [JJDZ], [SFJD], [SIGNORGID], [ARCHIVEUNITCODE], [ARCHIVEUNITNAME], [DISTRICTORGCODE], [DISTRICTORGNAME], [TERTIARYORGCODE], [TERTIARYORGNAME], [PRESENTADDRDIVISIONCODE], [PRESENTADDRPROVCODE], [PRESENTADDRPROVVALUE], [PRESENTADDRCITYCODE], [PRESENTADDRCITYVALUE], [PRESENTADDRDISTCODE], [PRESENTADDDISTVALUE], [PRESENTADDRTOWNSHIPCODE], [PRESENTADDRTOWNSHIPVALUE], [PRESENTADDRNEIGHBORHOODCODE], [PRESENTADDRNEIGHBORHOODVALUE], [SIGNSTATUS], [SIGNDATE],[CATEGORY_CODE], [CATEGORY_NAME], [SEX_CODE], [SEX_NAME], [LAST_SERVICE_DATE], [ASSISTANT_DOC_ID], [ASSISTANT_DOC_NAME], [HEALTH_MANAGER_ID], [HEALTH_MANAGER_NAME], [ASSISTANT_DOC_PHONE], [HEALTH_MANAGER_PHONE]) VALUES ('" + str(guid) + "', N'姚皎情', N'高血压已患', NULL, '" + str(varIdcard) + "', N'平安街道16号', NULL, NULL, '0000001', '静安精神病院', '310118000000', '青浦区', '12345', '上海人民医院', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2020-06-01', 166, '4', N'老年人',N'男', NULL, NULL, NULL, NULL, NULL, NULL, NULL)")
 
+
+
+
+    def runResult(self, varResult):
+
+        # r.runResult("")  # 执行result为空的规则
+        # r.runResult("error")  # 执行result为error的规则
+        # r.runResult("ok")  # 执行result为ok的规则
+        # r.runResult("all")  # 执行所有的规则(谨慎)
+
+        if varResult == "error" or varResult == "ok" or varResult == "":
+            l_d_id = Sqlserver_PO.execQuery("select id from %s where result='%s'" % (self.dbTableName, varResult))
+            # print(l_d_id)  # [{'id': 2}, {'id': 10}]
+            for i in range(len(l_d_id)):
+                self.run(l_d_id[i]['id'])
+        elif varResult == "all":
+            l_d_id = Sqlserver_PO.execQuery("select id from %s" % (self.dbTableName))
+            for i in range(len(l_d_id)):
+                self.run(l_d_id[i]['id'])
+
+
+    def run(self, varId):
+
+        '''
+        筛选执行条件
+        :param varA: 测试结果
+        :param varC_rule: 测试规则名
+        :return: none
+        '''
+
+        self.varId = varId
+
+        # todo 获取数据库数据
+        l_d_rows = Sqlserver_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
+        self.l_d_rows = l_d_rows[0]
+        # print(l_d_rows[0]) # {'id': 1, 'result': 'ok', 'memo': datetime.datetime(2023, 11, 7, 10, 4, 15), 'rule': 'r1', 'ruleParam': "AGE=55 .and. CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001', '分类': '年龄', '规则名称': '年龄≥55岁', '评估规则详细描述': '年龄≥55岁', '评估因素判断规则': '年龄>=55', 'tester': '刘斌龙', 'var': ''}
+        rule = l_d_rows[0]['rule']
+        ruleParam = l_d_rows[0]['ruleParam']
+        ruleCode = l_d_rows[0]['ruleCode']
+        if 'diseaseRuleCode' in l_d_rows[0].keys():
+            diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
+
+        # todo 适配相应的测试规则
+        l_d_param = Sqlserver_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
+        if l_d_param[0]['param'] == 'p1':
+            # 带参数1
+            self.param1(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p2':
+            # 带参数2
+            self.param2(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p4':
+            # 带参数4
+            self.param4(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p1_auto':
+            # 带参数1且获取自动身份证
+            self.param1_auto(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p2_auto':
+            # 带参数2且获取自动身份证
+            self.param2_auto(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p4_auto':
+            # 带参数4且获取自动身份证
+            self.param4_auto(rule, ruleParam, ruleCode)
+        elif l_d_param[0]['param'] == 'p1_idcard':
+            # 带参数1且自动匹配疾病身份证
+            self.param1_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
+        elif l_d_param[0]['param'] == 'p2_idcard':
+            # 带参数2且自动匹配疾病身份证
+            self.param2_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
+        elif l_d_param[0]['param'] == 'p1_hit2':
+            # 带参数1，健康干预两次命中（干预+疾病评估）
+            self.param1_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
+        elif l_d_param[0]['param'] == 'p3_hit2':
+            # 带参数3，健康干预两次命中（干预+疾病评估）
+            self.param3_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
+        elif l_d_param[0]['param'] == 'r_GW':
+            self._getParamByGW(rule, ruleCode, diseaseRuleCode)
+
+
+    def getSql(self, rule):
+        
+        # todo 获取sql语句
+        
+        if Configparser_PO.SWITCH("printSql") == "on":
+            # [健康评估 => 1(r1)]
+            Color_PO.consoleColor("31", "33", (("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]").center(100, '-')), "")
+        l_0 = Sqlserver_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
+        l_sql = []
+        for i in range(len(l_0)):
+            if os.name == "posix":
+                l_sql.append(l_0[i]['sql'])
+            else:
+                l_sql.append(l_0[i]['sql'].encode('latin1').decode('GB2312'))
+        return l_sql
+
+
+    def param1(self, rule, ruleParam, ruleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        d['ruleParam'] = ruleParam.replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self.outResult1(self.rule(d))
+
+    def param2(self, rule, ruleParam, ruleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self.outResult1(self.rule(d))
+
+
+    def param4(self, rule, ruleParam, ruleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
+        d['ruleParam4'] = l_ruleParam[3].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self.outResult1(self.rule(d))
+
+    def param4_auto(self, rule, ruleParam, ruleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
+        d['ruleParam4'] = l_ruleParam[3].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self._getAutoIdcard(d)
+
+    def param1_auto(self, rule, ruleParam, ruleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        d['ruleParam'] = ruleParam.replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self._getAutoIdcard(d)
+
+    def param1_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        d['ruleParam'] = ruleParam.replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        self._getDiseaseIdcard2(d)
+
+    def param2_auto(self, rule, ruleParam, ruleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        self._getAutoIdcard(d)
+
+    def param2_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        self._getDiseaseIdcard2(d)
+
+    def param1_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        d['ruleParam'] = ruleParam.replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        d['hitQty'] = hitQty
+        self._getDiseaseIdcard2(d)
+
+    def param3_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
+        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
+        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        d['hitQty'] = hitQty
+        self._getDiseaseIdcard2(d)
+
+    def _getParamByGW(self, rule, ruleCode, diseaseRuleCode):
+        d = {}
+        d['l_sql'] = self.getSql(rule)
+        d['ruleCode'] = ruleCode
+        d['diseaseRuleCode'] = diseaseRuleCode
+        self._getDiseaseIdcardGW(d)
+
+
+    def outResult1(self, varQty):
+
+        if varQty == 1:
+            Color_PO.consoleColor("31", "36", (("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]").center(100, '-')), "")
+            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+        else:
+            print("step log".center(100, "-"))
+            self.log = "error," + self.log
+            print(self.log)
+            self.log = (self.log).replace("'", "''")
+            Color_PO.consoleColor("31", "31", (("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]").center(100, '-')), "")
+            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+
+    def outResult2(self, varQty):
+
+        if varQty == 2:
+            Color_PO.consoleColor("31", "36", (("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]").center(100, '-')), "")
+            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+        else:
+            print("step log".center(100, "-"))
+            self.log = "error," + self.log
+            print(self.log)
+            self.log = (self.log).replace("'", "''")
+            Color_PO.consoleColor("31", "31", (("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]").center(100, '-')), "")
+            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+
+    def outResultGW(self, d_actual):
+
+        varSign = 0
+        d_error = {}
+        for k, v in d_actual.items():
+            if (k == "QTY0" and v == 0) or (k != "QTY0" and v == 1):
+                varSign = varSign + 0
+            else:
+                varSign = varSign + 1
+                d_error[k] = v
+
+        if Configparser_PO.SWITCH("printSql") == "on":
+            print('值 => ' + str(d_actual))
+
+        if varSign == 0:
+            Color_PO.consoleColor("31", "36", (("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => OK]").center(100, '-')), "")
+            Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTableName, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
+        else:
+            print("step log".center(100, "-"))
+            self.log = "error," + self.log
+            print(self.log)
+            Color_PO.consoleColor("31", "31", '错误值 => ' + str(d_error), "")
+            self.log = (self.log).replace("'", "''")
+            Color_PO.consoleColor("31", "31", (("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + str(self.l_d_rows['rule']) + ") => ERROR]").center(100, '-')), "")
+            Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTableName, self.log, self.varId))
+            Sqlserver_PO.execute("update %s set memo='%s' where id=%s" % (self.dbTableName, Time_PO.getDateTimeByDivide(), self.varId))
+            Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTableName, self.varId))
 
     def _getAutoIdcard(self, d):
 
@@ -335,242 +522,24 @@ class Sql_chcPO():
         d["varIdcard"] = varIdcard
         self.verifyIdcard(varIdcard)
         if varIdcard != None:
-            l_ruleCode, d_all = self.gw(d)
-            self.outResultGW(d['diseaseRuleCode'], l_ruleCode, d_all)
+            # d_actual = self.gw(d)
+            # l_ruleCode, d_actual = self.gw(d)
+            # l_ruleCode.remove(d['diseaseRuleCode'])  # ['PG_JWS041', 'PG_JWS043']
+            # print(d_actual)
+            # self.outResultGW(l_ruleCode, d_all)
+            # print(d_actual)
+            self.outResultGW(self.gw(d))
         else:
             Color_PO.consoleColor("31", "31", "[ERROR => _getDiseaseIdcard() => 身份证不能为None!]", "")
 
 
 
-    def runResult(self, varResult):
-
-        # r.runResult("")  # 执行result为空的规则
-        # r.runResult("error")  # 执行result为error的规则
-        # r.runResult("ok")  # 执行result为ok的规则
-        # r.runResult("all")  # 执行所有的规则(谨慎)
-
-        if varResult == "error" or varResult == "ok" or varResult == "":
-            l_d_id = Sqlserver_PO.execQuery("select id from %s where result='%s'" % (self.dbTableName, varResult))
-            # print(l_d_id)  # [{'id': 2}, {'id': 10}]
-            for i in range(len(l_d_id)):
-                self.run(l_d_id[i]['id'])
-        elif varResult == "all":
-            l_d_id = Sqlserver_PO.execQuery("select id from %s" % (self.dbTableName))
-            for i in range(len(l_d_id)):
-                self.run(l_d_id[i]['id'])
-
-
-    def run(self, varId):
-
-        '''
-        筛选执行条件
-        :param varA: 测试结果
-        :param varC_rule: 测试规则名
-        :return: none
-        '''
-
-        self.varId = varId
-
-        try:
-            l_d_rows = Sqlserver_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
-            # todo 1
-            # print(l_d_rows[0]) # {'result': 'okay', 'memo': '2023/10/20 21:20:21', 'rule': 'r1', 'ruleParam': "AGE=55 .and. CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001', 'tester': '刘斌龙', 'id': 1, 'var': ''}
-            self.l_d_rows = l_d_rows[0]
-            print(l_d_rows[0])
-        except:
-            sys.exit(0)
-
-        # 格式化参数
-        rule = l_d_rows[0]['rule']
-        ruleParam = l_d_rows[0]['ruleParam']
-        ruleCode = l_d_rows[0]['ruleCode']
-        if 'diseaseRuleCode' in l_d_rows[0].keys():
-            diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
-
-        # 传递参数
-        l_d_param = Sqlserver_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
-        if l_d_param[0]['param'] == 'p1':
-        # if (rule == "r1") or (rule == "r6") or (rule == "r12") or (rule == "r13") or (rule == "r14") or (rule == "r15") or (rule == "r16"):
-            # 带参数1 1
-            self.param1(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p2':
-        # elif (rule == "r3") or (rule == "r4") or (rule == "r8"):
-            # 带参数2
-            self.param2(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p4':
-        # elif rule == "r7":
-            # 带参数4
-            self.param4(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p1_auto':
-            # 带参数1,自动身份证
-            self.param1_auto(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p2_auto':
-            # 带参数2,自动身份证
-            self.param2_auto(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p4_auto':
-            # 带参数4,自动身份证
-            self.param4_auto(rule, ruleParam, ruleCode)
-        elif l_d_param[0]['param'] == 'p1_idcard':
-        # elif (rule == "r9") or (rule == "r10"):
-            # 带参数1（自动匹配身份证）1_idcard
-            self.param1_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
-        elif l_d_param[0]['param'] == 'p2_idcard':
-        # elif rule == "r2":
-            # 带参数2（自动匹配身份证）
-            self.param2_idcard(rule, ruleParam, ruleCode, diseaseRuleCode)
-        elif l_d_param[0]['param'] == 'p1_hit2':
-        # elif rule == "r11":
-            # 带参数1，健康干预两次命中（干预+疾病评估）1_hit2
-            self.param1_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
-        elif l_d_param[0]['param'] == 'p3_hit2':
-        # elif rule == "r5":
-            # 带参数3，健康干预两次命中（干预+疾病评估）
-            self.param3_idcard_hitQty2(rule, ruleParam, ruleCode, diseaseRuleCode, l_d_rows[0]['hitQty'])
-        elif l_d_param[0]['param'] == 'r_GW':
-            self._getParamByGW(rule, ruleCode, diseaseRuleCode)  # r_GW
-
-
-    def _getParamByGW(self, rule, ruleCode, diseaseRuleCode):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
-        self._getDiseaseIdcardGW(d)
-
-
-    def x(self, rule):
-        if Configparser_PO.SWITCH("printSql") == "on":
-            Color_PO.consoleColor("31", "33", ("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]"), "")
-        l_0 = Sqlserver_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
-        l_sql = []
-        for i in range(len(l_0)):
-            if os.name == "posix":
-                l_sql.append(l_0[i]['sql'])
-            else:
-                l_sql.append(l_0[i]['sql'].encode('latin1').decode('GB2312'))
-        return l_sql
-
-    def param1(self, rule, ruleParam, ruleCode):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        d['ruleParam'] = ruleParam.replace(".and.", ',')   # AGE=55 .and. CATEGORY_CODE='2'"
-        d['ruleCode'] = ruleCode  # GY_GW001001
-        self.outResult1(self.rule(d))
-
-    def param2(self, rule, ruleParam, ruleCode):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        l_ruleParam = Str_PO.str2list(ruleParam)
-        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
-        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        self.outResult1(self.rule(d))
-
-
-    def param4(self, rule, ruleParam, ruleCode):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        l_ruleParam = Str_PO.str2list(ruleParam)
-        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
-        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
-        d['ruleParam4'] = l_ruleParam[3].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        self.outResult1(self.rule(d))
-
-    def param4_auto(self, rule, ruleParam, ruleCode):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        l_ruleParam = Str_PO.str2list(ruleParam)
-        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
-        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
-        d['ruleParam4'] = l_ruleParam[3].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        self._getAutoIdcard(d)
-
-    def param1_auto(self, rule, ruleParam, ruleCode):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        d['ruleParam'] = ruleParam.replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        self._getAutoIdcard(d)
-
-    def param1_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
-
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        d['ruleParam'] = ruleParam.replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
-        self._getDiseaseIdcard2(d)
-
-
-    def param2_auto(self, rule, ruleParam, ruleCode):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        l_ruleParam = Str_PO.str2list(ruleParam)
-        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
-        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        self._getAutoIdcard(d)
-
-    def param2_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        l_ruleParam = Str_PO.str2list(ruleParam)
-        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
-        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
-        self._getDiseaseIdcard2(d)
-
-    def param1_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        d['ruleParam'] = ruleParam.replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
-        d['hitQty'] = hitQty
-        self._getDiseaseIdcard2(d)
-
-    def param3_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
-        l_sql = self.x(rule)
-        d = {}
-        d['rule'] = l_sql
-        l_ruleParam = Str_PO.str2list(ruleParam)
-        d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
-        d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
-        d['hitQty'] = hitQty
-        self._getDiseaseIdcard2(d)
-
-
     def rule(self, d):
 
-        '''
-        执行r规则
-        :param d:
-        :return:
-        '''
+        # todo 执行r规则
 
-        # print(d)  # {'rule': 'self.r1', 'ruleParam': "AGE=55 , CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001'}
-        # l_sql = eval(r)  # ['select top(1) ID,ID_CARD from T_ASSESS_INFO order by ID desc',...]
-        l_sql = d['rule']
-        # todo 2
-        # print("[原始] => ", l_sql)
+        # print(d)  # {'rule': ['select top(1) ID,ID_CARD from T_ASSESS_INFO order by ID desc', "UPDATE T_ASSESS_INFO set {测试规则参数} where ID_CARD = '{varIdcard}'", "delete from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE = '{规则编码}'", 'self.i_rerunExecuteRule({varID})', "select count(*) QTY from T_ASSESS_RULE_RECORD where ASSESS_ID = {varID} and RULE_CODE= '{规则编码}'"], 'ruleParam': "AGE=55 , CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001'}
+        l_sql = d['l_sql']
 
         self.log = ""
         varQTY = 0
@@ -578,7 +547,7 @@ class Sql_chcPO():
 
         for i in range(len(l_sql)):
 
-            # 格式转义
+            # todo 格式化sql
             if 'varIdcard' in d:
                 l_sql[i] = str(l_sql[i]).replace("{身份证}", str(d['varIdcard']))
             if 'ruleParam1' in d:
@@ -597,78 +566,45 @@ class Sql_chcPO():
                 l_sql[i] = str(l_sql[i]).replace("{随机数}", Data_PO.getPhone())
             if '{疾病评估规则编码}' in l_sql[i]:
                 l_sql[i] = str(l_sql[i]).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
-        # todo 3
-        # print("[第1次格式化sql] => ", l_sql)  #  ["delete from T_ASSESS_INFO where ID_CARD = '132222196702240429'", ...]
 
+        pc.copy('')  # 清空剪贴板
+
+        # todo 获取临时变量
+        d_update = {}  # 更新数据
+        d_new = {}  # 新数据
         for i in range(len(l_sql)):
-            var = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
-            # print("[] => ", var)
-            # print(var[0]['var'])
+            s = pc.paste()
+            if "{" in s:
+                d_new = Str_PO.str2dict(s)
+                d_update.update(d_new)  # 新数据合并到更新数据中
+                if 'ID' in d_update:
+                    l_sql[i] = str(l_sql[i]).replace("{varID}", str(d_update['ID']))
+                if 'IDCARD' in d_update:
+                    l_sql[i] = str(l_sql[i]).replace("{varIdcard}", str(d_update['IDCARD']))
+                if 'GUID' in d_update:
+                    l_sql[i] = str(l_sql[i]).replace("{varGUID}", str(d_update['GUID']))
 
-            if var[0]['var'] != None:
-                # print(var[0]['var'])
-                if 'id=' in var[0]['var']:
-                    varID = var[0]['var'].split("id=")[1].split(",")[0]
-                    # print(varID)
-                    l_sql[i] = str(l_sql[i]).replace("{varID}", varID)
-
-            if var[0]['var'] != None:
-                if 'idcard=' in var[0]['var']:
-                    varIdcard = var[0]['var'].split("idcard=")[1].split(",")[0]
-                    l_sql[i] = str(l_sql[i]).replace("{varIdcard}", varIdcard)
-
-            if var[0]['var'] != None:
-                if 'guid=' in var[0]['var']:
-                    varGUID = var[0]['var'].split("guid=")[1].split(",")[0]
-                    l_sql[i] = str(l_sql[i]).replace("{varGUID}", varGUID)
-
-            # todo 4
-
-            # # 输出sql语句
+            # todo 输出sql语句
             if Configparser_PO.SWITCH("printSql") == "on":
-                print(str(i + 1) + ", " + l_sql[i])  # 2, delete from T_ASSESS_INFO where ID_CARD = '310101202308070003'
-            # 步骤日志
+                print(str(i + 1) + ", " + l_sql[i])  # 1, delete from T_ASSESS_INFO where ID_CARD = '310101202308070003'
+
+            # todo 记录步骤日志
             if self.log == "":
                 self.log = str(i + 1) + ", " + l_sql[i]
             else:
                 self.log = self.log + "\n" + str(i + 1) + ", " + l_sql[i]
 
-            a = self.sql(l_sql[i])
+            # todo 执行sql
+            a = self.runSql(l_sql[i])
 
             if a != None:
                 if isinstance(a, list) and a != []:
                     if isinstance(a[0], dict):
                         # print(a[0])  # {'ID': 5977}
+                        pc.copy(str(a[0]))
                         if Configparser_PO.SWITCH("printSql") == "on":
                             Color_PO.consoleColor("31", "33", a[0], "")
                             # print(a[0])  # {'ID': 5977}
-                        if "ID" in a[0]:
-                            l_d_var = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
-                            # print(l_d_var)  # [{'var': 'id=5977'}]
-
-                            if l_d_var[0]['var'] == None or l_d_var[0]['var'] == "":
-                                var2 = "id=" + str(a[0]['ID'])
-                            else:
-                                # 替换最新的变量值，如 原varID=123, 再次生成varID=444时，替换原来的123
-                                if "," in l_d_var[0]['var']:
-                                    var2 = l_d_var[0]['var'].replace(l_d_var[0]['var'].split("id=")[1].split(",")[0], str(a[0]['ID']))
-                                else:
-                                    var2 = l_d_var[0]['var'].replace(l_d_var[0]['var'].split("id=")[1], str(a[0]['ID']))
-                            Sqlserver_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
-
-                        if "ID_CARD" in a[0]:
-                            varIdcard = a[0]['ID_CARD']
-                            var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
-                            if var2[0]['var'] == None:
-                                var2 = "idcard=" + str(varIdcard)
-                            else:
-                                var2 = var2[0]['var'] + ",idcard=" + str(varIdcard)
-                            Sqlserver_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
-
-                        if "GUID" in a[0]:
-                            var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
-                            var2 = var2[0]['var'] + ",guid=" + str(a[0]['GUID'])
-                            Sqlserver_PO.execute("update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
 
                         if "QTY" in a[0]:
                             self.log = self.log + "\n" + str(a[0])  # 步骤日志
@@ -686,19 +622,14 @@ class Sql_chcPO():
 
     def gw(self, d):
 
-        '''
-        执行gw规则
-        :param d:
-        :return:
-        '''
+        # todo 执行gw规则
 
-        l_sql = d['rule']
-        d_all = {}
+        l_sql = d['l_sql']
+        d_actual = {}
         self.log = ""
 
         for i in range(len(l_sql)):
-
-            # 格式转义
+            # todo 格式化sql - gw
             if 'varIdcard' in d:
                 l_sql[i] = str(l_sql[i]).replace("{身份证}", str(d['varIdcard']))
             if 'ruleParam1' in d:
@@ -718,90 +649,59 @@ class Sql_chcPO():
             if '{疾病评估规则编码}' in l_sql[i]:
                 l_sql[i] = str(l_sql[i]).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
 
+        pc.copy('')  # 清空剪贴板
+
+        # todo 获取临时变量 - gw
+        d_update = {}  # 更新数据
+        d_new = {}  # 新数据
         for i in range(len(l_sql)):
-            var = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
-            # print("[] => ", var)
-            # print(var[0]['var'])
+            s = pc.paste()
+            if "{" in s:
+                d_new = Str_PO.str2dict(s)
+                d_update.update(d_new)  # 新数据合并到更新数据中
+                if 'ID' in d_update:
+                    l_sql[i] = str(l_sql[i]).replace("{varID}", str(d_update['ID']))
+                if 'IDCARD' in d_update:
+                    l_sql[i] = str(l_sql[i]).replace("{varIdcard}", str(d_update['IDCARD']))
+                if 'GUID' in d_update:
+                    l_sql[i] = str(l_sql[i]).replace("{varGUID}", str(d_update['GUID']))
 
-            if var[0]['var'] != None:
-                # print(var[0]['var'])
-                if 'id=' in var[0]['var']:
-                    varID = var[0]['var'].split("id=")[1].split(",")[0]
-                    # print(varID)
-                    l_sql[i] = str(l_sql[i]).replace("{varID}", varID)
-
-            if var[0]['var'] != None:
-                if 'idcard=' in var[0]['var']:
-                    varIdcard = var[0]['var'].split("idcard=")[1].split(",")[0]
-                    l_sql[i] = str(l_sql[i]).replace("{varIdcard}", varIdcard)
-
-            if var[0]['var'] != None:
-                if 'guid=' in var[0]['var']:
-                    varGUID = var[0]['var'].split("guid=")[1].split(",")[0]
-                    l_sql[i] = str(l_sql[i]).replace("{varGUID}", varGUID)
-
-            # 执行sql
-            a = self.sql(l_sql[i])
-
-            # 输出sql语句
+            # todo 输出sql语句 - gw
             if Configparser_PO.SWITCH("printSql") == "on":
                 print(str(i + 1) + ", " + l_sql[i])  # 2, delete from T_ASSESS_INFO where ID_CARD = '310101202308070003'
 
-            # 步骤日志
+            # todo 记录步骤日志 - gw
             if self.log == "":
                 self.log = str(i + 1) + ", " + l_sql[i]
             else:
                 self.log = self.log + "\n" + str(i + 1) + ", " + l_sql[i]
 
+            # todo 执行sql - gw
+            a = self.runSql(l_sql[i])
+
             if a != None:
                 if isinstance(a, list) and a != []:
                     if isinstance(a[0], dict):
-                        d_all = Dict_PO.mergeDictReserveFirstKey(a[0], d_all)  # {'a': 1, 'b': 2, 'dev': 30, 'test': 3}
+                        pc.copy(str(a[0]))
+                        self.log = self.log + "\n" + str(a[0])
                         if Configparser_PO.SWITCH("printSql") == "on":
-                            Color_PO.consoleColor("31", "33", a[0], "")
-                            # print(a[0])  # {'ID': 5977}
-
-                        self.log = self.log + "\n" + str(a[0])  # 步骤日志
-                        if "ID" in a[0]:
-                            l_d_var = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
-                            # print(l_d_var)  # [{'var': 'id=5977'}]
-                            if l_d_var[0]['var'] == None or l_d_var[0]['var'] == "":
-                                var2 = "id=" + str(a[0]['ID'])
-                            else:
-                                # 替换最新的变量值，如 原varID=123, 再次生成varID=444时，替换原来的123
-                                if "," in l_d_var[0]['var']:
-                                    var2 = l_d_var[0]['var'].replace(
-                                        l_d_var[0]['var'].split("id=")[1].split(",")[0], str(a[0]['ID']))
+                            for k, v in a[0].items():
+                                if k == "QTY0" or k == "ID":
+                                    Color_PO.consoleColor("31", "33", a[0], "")
                                 else:
-                                    var2 = l_d_var[0]['var'].replace(l_d_var[0]['var'].split("id=")[1], str(a[0]['ID']))
-                            Sqlserver_PO.execute(
-                                "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
+                                    if v != 1 :
+                                        Color_PO.consoleColor("31", "31", a[0], "")
+                                    else:
+                                        Color_PO.consoleColor("31", "33", a[0], "")
+                        d_actual = Dict_PO.mergeDictReserveFirstKey(a[0], d_actual)  # {'a': 1, 'b': 2, 'dev': 30, 'test': 3}
 
-                        if "ID_CARD" in a[0]:
-                            varIdcard = a[0]['ID_CARD']
-                            var2 = Sqlserver_PO.execQuery(
-                                "select var from %s where id=%s" % (self.dbTableName, self.varId))
-                            if var2[0]['var'] == None:
-                                var2 = "idcard=" + str(varIdcard)
-                            else:
-                                var2 = var2[0]['var'] + ",idcard=" + str(varIdcard)
-                            Sqlserver_PO.execute(
-                                "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
-
-                        if "GUID" in a[0]:
-                            var2 = Sqlserver_PO.execQuery("select var from %s where id=%s" % (self.dbTableName, self.varId))
-                            var2 = var2[0]['var'] + ",guid=" + str(a[0]['GUID'])
-                            Sqlserver_PO.execute(
-                                "update %s set var='%s' where id=%s" % (self.dbTableName, var2, self.varId))
-
-        ruleCode = d['ruleCode'].replace("(", '').replace(")", '').replace("'", '')
-        # print(ruleCode)  # 'GW_JB011','PG_JWS041','PG_JWS043'
-        l_ruleCode = Str_PO.str2list(ruleCode)
-        if "ID" in d_all:
-            del d_all['ID']
-        if "ID_CARD" in d_all:
-            del d_all['ID_CARD']
-        if "GUID" in d_all:
-            del d_all['GUID']
-        # print(d_all)
-        return l_ruleCode, d_all
+        # ruleCode = d['ruleCode'].replace("(", '').replace(")", '').replace("'", '')
+        # # print(ruleCode)  # 'GW_JB011','PG_JWS041','PG_JWS043'
+        # l_ruleCode = Str_PO.str2list(ruleCode)
+        if "ID" in d_actual:
+            del d_actual['ID']
+        if "ID_CARD" in d_actual:
+            del d_actual['ID_CARD']
+        if "GUID" in d_actual:
+            del d_actual['GUID']
+        return d_actual

@@ -25,6 +25,7 @@ from Sql_chcPO import *
 import threading
 import argparse, ast
 
+
 parser = argparse.ArgumentParser(usage="程序用途描述", description='帮助文档的描述', epilog="额外说明")
 parser.add_argument('--table', '-t', help='数据库表表名，必要参数', required=True)
 parser.add_argument('--id', '-i', help='id，必要参数', required=True)
@@ -32,10 +33,11 @@ parser.add_argument('--log', '-l', help='日志，非必要参数')
 args = parser.parse_args()
 
 # todo -s jkpg
-# r = ChcRulePO2("健康评估")
-d = {'jkpg': '健康评估', 'jkgy': '健康干预',  'zytzbs': '中医体质辨识', 'etjkgy': '儿童健康干预', 'jbpg': '疾病评估'}
-r = Sql_chcPO(d[args.table])
-
+try:
+    d = {'jkpg': '健康评估', 'jkgy': '健康干预',  'zytzbs': '中医体质辨识', 'etjkgy': '儿童健康干预', 'jbpg': '疾病评估'}
+    r = Sql_chcPO(d[args.table])  # # r = Sql_chcPO("健康评估")
+except:
+    sys.exit(0)
 
 # todo 参数-p on｜off(默认值)
 if args.log == "on":
