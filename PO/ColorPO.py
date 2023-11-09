@@ -6,10 +6,7 @@
 # python for mac 输出带颜色的文字方法 https://www.cnblogs.com/yinjia/p/5559702.html
 # *******************************************************************************************************************************
 
-
 class ColorPO:
-    def __init__(self):
-        pass
 
     def consoleColor(self, varBackColor, varForeColor, *args):
         # 控制台输出各种颜色字体，多个参数颜色间隔开。
@@ -22,10 +19,9 @@ class ColorPO:
 if __name__ == "__main__":
 
     Color_PO = ColorPO()
-
-    Color_PO.consoleColor("31", "36", "[OK], ", "123123123123")
     Color_PO.consoleColor("31", "31", "[ERROR], ", "123123123123")
     Color_PO.consoleColor("31", "33", "[WARNING], ", "123123123123")
+    Color_PO.consoleColor("31", "36", "[OK], ", "123123123123")
 
     print("\033[1;31;41m", "[1], 红底红字", "\033[0m")
     print("\033[1;31;42m", "[2], 草绿底红字", "\033[0m")

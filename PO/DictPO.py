@@ -27,7 +27,8 @@ todo:【转换】
 1.4 文件转字典
     with open("dict.json", "r") as f:
         print(json.load(f))  # {'a': 5, 'b': 6}
-1.5 key转list(ChainMap)  list(ChainMap(dict1))
+1.5 字典key转列表(ChainMap)  list(ChainMap(dict1))
+1.6 列表转字典（fromkeys） dict.fromkeys(list1, value) => dict.fromkeys(['a',5], 1) => {'a':1, 5:1}
 
 todo:【合并、键值覆盖互换、删除保留key、批量更新value】
 2.1 覆盖合并当前字典(update)
@@ -187,11 +188,14 @@ if __name__ == "__main__":
     # with open("dict.json", "r") as f:
     #     print(json.load(f))  # {'a': 5, 'b': 6}
 
-    # print("1.5 key转list(ChainMap)".center(100, "-"))
+    # print("1.5 字典key转列表(ChainMap)".center(100, "-"))
     # d1 = {'python': 1, 'java': 2, 'c': 3}
     # print(list(ChainMap(d1)))  # ['python', 'java', 'c']
 
-
+    # print("1.6 列表转字典(fromkeys)".center(100, "-"))
+    print(dict.fromkeys(['a', 5], 1))  # {'a': 1, 5: 1}
+    dict1 = dict.fromkeys(['a', 5])  # {'a': None, 5: None}
+    print(dict1)
 
     d1 = {'name':'jinhao' , "age":43}
     d2 = {'gender':"male", "name":"yoyo"}
@@ -286,12 +290,12 @@ if __name__ == "__main__":
 
 
 
-    # print("5.1 按性别分组显示姓名".center(100, "-"))
-    tuple = ({'name': 'jinhao', 'age': 105, 'gender': 'male'},
-                {'name': 'baba', 'age': 76, 'gender': 'male'},
-                {'name': 'mama', 'age': 202, 'gender': 'female'},
-                {'name': 'yoyo', 'age': 84, 'gender': 'female'})
-    print(Dict_PO.getOneByGroupField(tuple, 'gender', 'age'))  # {'male': ['jinhao', 'baba'], 'female': ['mama', 'yoyo']}
-    #
-    # print("5.2 按性别分组显示所有值".center(100, "-"))
-    print(Dict_PO.getAllByGroupField(tuple, 'gender'))  # {'male': [{'name': 'jinhao', 'age': 105, 'gender': 'male'}, {'name': 'baba', 'age': 76, 'gender': 'male'}], 'female': [{'name': 'mama', 'age': 202, 'gender': 'female'}, {'name': 'yoyo', 'age': 84, 'gender': 'female'}]}
+    # # print("5.1 按性别分组显示姓名".center(100, "-"))
+    # tuple = ({'name': 'jinhao', 'age': 105, 'gender': 'male'},
+    #             {'name': 'baba', 'age': 76, 'gender': 'male'},
+    #             {'name': 'mama', 'age': 202, 'gender': 'female'},
+    #             {'name': 'yoyo', 'age': 84, 'gender': 'female'})
+    # print(Dict_PO.getOneByGroupField(tuple, 'gender', 'age'))  # {'male': ['jinhao', 'baba'], 'female': ['mama', 'yoyo']}
+    # #
+    # # print("5.2 按性别分组显示所有值".center(100, "-"))
+    # print(Dict_PO.getAllByGroupField(tuple, 'gender'))  # {'male': [{'name': 'jinhao', 'age': 105, 'gender': 'male'}, {'name': 'baba', 'age': 76, 'gender': 'male'}], 'female': [{'name': 'mama', 'age': 202, 'gender': 'female'}, {'name': 'yoyo', 'age': 84, 'gender': 'female'}]}
