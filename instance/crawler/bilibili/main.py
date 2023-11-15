@@ -17,6 +17,6 @@ from BilibiliPO import *
 Bilibili_PO = BilibiliPO()
 
 
-Bilibili_PO.downVideo("https://www.bilibili.com/video/BV1VP4y197si/?spm_id_from=333.788.recommend_more_video.0", "d:/11/22")
-# Bilibili_PO.downVideo("https://www.bilibili.com/video/BV1u84y1r7cg/", "d:/11/33")
+# Bilibili_PO.downVideo("https://www.bilibili.com/video/BV1VP4y197si/?spm_id_from=333.788.recommend_more_video.0")
+Bilibili_PO.downVideo("https://www.bilibili.com/video/BV1u84y1r7cg/")
 

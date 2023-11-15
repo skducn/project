@@ -83,7 +83,7 @@
 # 获取弹框中的文案 alertText()
 
 
-import sys, os, platform, psutil
+import sys, os, platform, psutil, pyautogui, ddddocr
 from time import sleep
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -94,6 +94,12 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.abstract_event_listener import *
 from selenium.webdriver.support.event_firing_webdriver import *
 from selenium.webdriver.support.expected_conditions import *
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from PIL import Image, ImageDraw, ImageGrab
+from pytesseract import *
 
 
 class DomPO(object):

@@ -2,47 +2,59 @@
 # ***************************************************************
 # Author     : John
 # Created on : 2018-7-2
-# Description: Web 对象层
-# ***************************************************************
-# selenium
-# 查看可安装的selenium版本， pip install selenium==
-# 注：部分新版本 selenium 4.10 会引起浏览器自动关闭现象，实测建议安装4.4.3, pip install selenium==4.4.3
-
+# Description: Web 对象层 （selenium 4.4.3）
 # pip install opencv_python    // cv2
 # ***************************************************************
-# chrome
-# 1，查看Chrome浏览器版本，chrome://version
-# print(driver.capabilities['browserVersion'])  # 浏览器版本，如：114.0.5735.198
-# print(driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # chrome驱动版本，如：114.0.5735.90
-# 以上两版本号前3位一样就可以，如 114.0.5735
+# todo selenium
+# 查看已安装的selenium版本：pip list | grep selenium   或 pip show selenium
+# 查看可安装的selenium版本：pip install selenium==
+# 安装指定selenium版本：pip install selenium==4.4.3
+# 注：selenium 4.10 会引起浏览器自动关闭现象，实测安装4.4.3 正常
 
-# 2，下载及配置 chromedriver 驱动
+# todo chrome
+# 1，查看Chrome浏览器版本，chrome://version
+# print(self.driver.capabilities['browserVersion'])  # 114.0.5735.198  //获取浏览器版本
+# print(self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # 114.0.5735.90  //获取chrome驱动版本
+# 注：以上两版本号前3位一样就可以，如 114.0.5735
+
+# 2，下载及配置chrome驱动
 # 下载1：http://chromedriver.storage.googleapis.com/index.html
-# 下载2：https://npm.taobao.org/mirrors/chromedriver
-# 系统默认调用路径：C:\Python38\Scripts\chromedrive.exe
-# 自定义调用路径：
+# 下载2：https://registry.npmmirror.com/binary.html?path=chromedriver
+# https://googlechromelabs.github.io/chrome-for-testing/#stable
+# https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6045.105/mac-arm64/chromedriver-mac-arm64.zip
+# 注：将以上版本119.0.6045.105替换为需要的版本。
+# win系统默认调用路径：C:\Python38\Scripts\chromedrive.exe
+# mac自定义调用路径：
 # from selenium.webdriver.chrome.service import Service
-# driver = webdriver.Chrome(service=Service("/Users/linghuchong/Downloads/51/Python/project/instance/web/chromedriver"), options=options)
+# self.driver = webdriver.Chrome(service=Service("/Users/linghuchong/Downloads/51/Python/project/instance/web/chromedriver"), options=options)
+
+# 3，自动下载chrome驱动
+# from webdriver_manager.chrome import ChromeDriverManager
+# ChromeDriverManager().install()
+# mac系统默认调用路径：/Users/linghuchong/.wdm/drivers/chromedriver/mac64/115.0.5790.170/chromedriver-mac-x64
+# self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 # 3，chrome的options参数
+# https://www.bilibili.com/read/cv25916901/
 # https://blog.csdn.net/xc_zhou/article/details/82415870
 # https://blog.csdn.net/amberom/article/details/107980370
 
+# 4，常见问题
 # Q1：MAC 移动chromedriver时报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
 # A1: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable , 重启电脑。
-# ***************************************************************
 
-# firefox
+# todo firefox
 # geckodriver 0.14.0 for selenium3.0
-# 下载地址：https://github.com/mozilla/geckodriver/releases
 # ff 66.0.4 (64 位) , selenium =3.141.0，gecko = 0.24.0
 # geckodriver下载：https://github.com/mozilla/geckodriver/releases
+# https://github.com/mozilla/geckodriver/releases/tag/v0.33.0
+# mac系统默认调用路径：/usr/local/bin/geckodriver
+# win系统默认调用路径：c:\python39\geckodriver.exe
 
 # Q1：WebDriverException:Message:'geckodriver'executable needs to be in Path
-# A1：geckodriver是原生态的第三方浏览器，对于selenium3.x版本使用geckodriver来驱动firefox，需下载geckodriver.exe,下载地址：https://github.com/mozilla/geckodriver/releases
+# A1：geckodriver是原生态的第三方浏览器，对于selenium3.x版本使用geckodriver来驱动firefox，需下载geckodriver.exe
 # 将 geckodriver 放在 C:\Python38\Scripts
 # ***************************************************************
-
 
 """
 1.1 打开网站 open()
@@ -67,39 +79,74 @@
 5.3 app屏幕上移 scrollUpByApp('1000', 5)
 5.4 app屏幕下移 scrollDownByApp('1000', 5)
 
-
 元素拖动到可见的元素 scrollIntoView(varXpath)
 内嵌窗口中滚动条操作 scrollTopById(varId)
 动态加载页面滚动到底部（加载所有数据） dynamicLoadToEnd()
 获取验证码 getCode()
-
 """
 
-
 from PO.DomPO import *
-# from selenium import webdriver
-# from selenium.webdriver.chrome.options import Options
-#
-# from selenium.webdriver.chrome.service import Service
-# # from selenium.webdriver.common.action_chains import ActionChains
-# # from selenium.webdriver.support.select import Select
-# # from selenium.webdriver.support.wait import WebDriverWait
-# # from selenium.webdriver.support import expected_conditions as EC
-# from PIL import ImageGrab
-# import cv2, requests, bs4
-# # from pytesseract import *
-# from PIL import Image, ImageDraw, ImageGrab
-# import pyautogui
-
+import cv2, requests, bs4
 
 class WebPO(DomPO):
 
-
     def _openURL(self, varURL):
-
         """1.1 打开"""
 
-        if self.driver == "firefox":
+        if self.driver == "chrome":
+
+            # 1 配置项
+            options = Options()
+
+            # todo 屏幕
+            options.add_argument("--start-maximized") # 最大化浏览器
+            # options.add_argument("--start-fullscreen")  # 全屏模式，F11可退出
+            # options.add_argument("--kiosk")  # 全屏模式，alt+tab切换。ctrl+f4退出
+            # options.add_argument('--window-size=%s,%s' % (pyautogui.size()[0], pyautogui.size()[1])) # 指定窗口大小
+            # width, height = pyautogui.size()  # 1440 900  //获取屏幕尺寸
+
+            # todo 浏览器
+            options.add_experimental_option("detach", True) # 浏览器永不关闭
+            options.add_argument("--disable-blink-features=AutomationControlled")  # 禁止浏览器出现验证滑块
+            options.add_argument('--incognito')  # 无痕模式
+            options.add_argument('--disable-popup-blocking')  # 禁用弹窗阻止（可能有助于避免某些弹窗相关的崩溃）
+            options.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])  # 屏蔽--ignore-certificate-errors提示信息的设置参数项
+            options.add_experimental_option("excludeSwitches", ["enable-automation"])  # 屏蔽 "Chrome正受到自动测试软件的控制"提示，建议放在最后。
+            # options.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片（提升速度）
+            options.add_argument('--hide-scrollbars')  # 隐藏滚动条（因对一些特殊页面）
+            # options.headless = True  # 无界面模式
+            # options.add_argument("--lang=en")  # 指定浏览器的语言，避免出现“询问是否翻译非您所用语言的网页”
+
+            # todo 系统
+            options.add_argument("disable-cache")  # 禁用缓存
+            options.add_argument("--disable-extensions")  # 禁用所有插件和扩展（提高稳定性，有时插件可能引起稳定性问题）
+            options.add_argument('--no-sandbox')  # 关闭沙盒模式（沙盒模式提一种提高安全性的技术，但可能与某系统不兼容，关闭可能会降低浏览器的安全性）
+            options.add_argument('-disable-dev-shm-usage')  # 禁用/dev/shm使用（可减少内存使用，但影响性能）
+            options.add_argument('--disable-gpu')  # 禁用GPU加速（虽然GPU加速可以提高性能，但有些情况下会导致崩溃）
+            # options.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁止打印日志
+            options.add_argument('--disable-logging')  # 禁用日志记录（减少日志记录的资源消耗）
+            # options.add_argument('--disable-javascript')  # 禁用JavaScript（有时可以用来测试JavaScript相关的问题）
+            # options.add_argument(r"--user-data-dir=c:\selenium_user_data")  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
+
+            try:
+                # 自动下载及配置chrome驱动
+                self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+            except:
+                # 手工指定chrome驱动路径
+                s = Service("/Users/linghuchong/Downloads/51/Python/project/PO/chromedriver")
+                # self.driver = webdriver.Chrome(executable_path="/Users/linghuchong/miniconda3/envs/py308/bin/chromedriver", chrome_options=options) # 启动带有自定义设置的Chrome浏览器
+                self.driver = webdriver.Chrome(service=s, options=options)  # 启动带有自定义设置的Chrome浏览器
+
+            # # 绕过检测（滑动验证码）
+            # self.driver.execute_cdp_cmd("Page.addScriptToEvaluteOnNewDocument",
+            #                             {"source": """Object.defineProperty(navigator,'webdriver', {get: () => undefined})"""})
+
+            # print(self.driver.capabilities['browserVersion'])  # 115.0.5790.170  //获取浏览器版本
+            # print(self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # 115.0.5790.170 //获取chrome驱动版本
+            self.driver.get(varURL)
+            return self.driver
+
+        elif self.driver == "firefox":
             if platform.system() == "Windows":
                 # profile = webdriver.FirefoxProfile()
                 # # profile = FirefoxProfile()
@@ -117,66 +164,29 @@ class WebPO(DomPO):
                 self.driver.implicitly_wait(10)  # 隐性等待
                 self.driver.get(varURL)
             elif platform.system() == "Darwin":
+                options = webdriver.FirefoxOptions()
+                options.add_argument("--start-maximized")  # 最大化浏览器
+                # options.add_argument("--start-fullscreen")  # 全屏模式，F11可退出
+                # options.add_argument("-headless")
+                options.add_argument("--disable-gpu")
+
                 self.driver = webdriver.Firefox(
-                    firefox_profile=None,
-                    firefox_binary=None,
-                    timeout=30,
-                    capabilities=None,
-                    proxy=None,
-                    executable_path="/usr/local/bin/geckodriver",
-                    firefox_options=None,
-                    log_path="geckodriver.log",
+                    # firefox_profile=None,
+                    # firefox_binary=None,
+                    # # timeout=30,
+                    # capabilities=None,
+                    # proxy=None,
+                    # executable_path="/usr/local/bin/geckodriver",
+                    # log_path="geckodriver.log",
+                    options=options
                 )
-                self.driver._is_remote = False  # 解决mac电脑上传图片问题
-                self.driver.implicitly_wait(10)  # 隐性等待
+                # self.driver._is_remote = False  # 解决mac电脑上传图片问题
+                # self.driver.implicitly_wait(10)  # 隐性等待
                 self.driver.get(varURL)
             return self.driver
 
-        if self.driver == "chrome":
-            options = Options()
-            # option = webdriver.ChromeOptions()
 
-            options.add_argument("--start-maximized")  # 最大化
-            # driver_width, driver_height = pyautogui.size()  # 通过pyautogui方法获得屏幕尺寸
-            # print(driver_width, driver_height)
-            # option.add_argument('--window-size=%sx%s' % (driver_width, driver_height))
 
-            # option.add_argument(
-            #     "--disable-blink-features=AutomationControlled"
-            # )  # 禁止浏览器出现验证滑块
-            # options.add_argument(
-            #     r"--user-data-dir=c:\selenium_user_data"
-            # )  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
-            # option.add_argument('--incognito')  # 无痕隐身模式
-            # # option.add_argument('disable-infobars')  # 不显示 Chrome正在受到自动软件的控制的提示（已废弃，替代者excludeSwitches）
-            options.add_argument("disable-cache")  # 禁用缓存
-            # # option.add_argument('--ignore-certificate-errors')
-            # option.add_argument("--disable-extensions")  # 禁用扩展插件的设置参数项
-            # option.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])  # 屏蔽--ignore-certificate-errors提示信息的设置参数项
-            options.add_experimental_option(
-                "excludeSwitches", ["enable-automation"]
-            )  # 不显示 chrome正受到自动测试软件的控制的提示
-            # option.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁止打印日志
-            # option.headless = True  # 无界面模式
-            options.add_argument('--no-sandbox')  # 解决文件不存咋的报错
-            options.add_argument('-disable-dev-shm-usage')  # 解决DevToolsActivePort文件不存咋的报错
-            options.add_argument('--disable-gpu')  # 谷歌文档提到需要加上这个属性来规避bug
-            options.add_argument('--hide-scrollbars')  # 隐藏滚动条，因对一些特殊页面
-            options.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片，提升速度
-            # self.driver = webdriver.Chrome(options=option)
-            # ver1 = self.driver.capabilities['browserVersion']
-            # ver2 = self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0]
-            # print(ver1)
-            # print(ver2)
-
-            s = Service("/Users/linghuchong/Downloads/51/Python/project/instance/web/chromedriver")
-            # self.driver = webdriver.Chrome(executable_path="/Users/linghuchong/miniconda3/envs/py308/bin/chromedriver", chrome_options=options) # 启动带有自定义设置的Chrome浏览器
-            self.driver = webdriver.Chrome(service=s, options=options)  # 启动带有自定义设置的Chrome浏览器
-            print(self.driver.capabilities['browserVersion'])
-            print(self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])
-            self.driver.get(varURL)
-            # sleep(5)
-            return self.driver
     def openURL(self, varURL):
         self._openURL(varURL)
 
@@ -188,7 +198,10 @@ class WebPO(DomPO):
         :param varURL:
         :return:
         '''
+
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(varUrl)
+
 
     def opnLabel(self, varURL):
 
@@ -492,13 +505,13 @@ class WebPO(DomPO):
 
 if __name__ == "__main__":
 
+    # todo main
     Web_PO = WebPO("chrome")
-    # Web_PO = WebPO("chromeHeadless")
     # Web_PO = WebPO("firefox")
 
     # # print("1.1 打开网站".center(100, "-"))
     # Web_PO.openURL("https://baijiahao.baidu.com/s?id=1753450036624046728&wfr=spider&for=pc")
-    Web_PO.openURL("http://www.baidu.com")
+    Web_PO.openURL("https://kyfw.12306.cn/otn/resources/login.html")
     # Web_PO.openURL("https://www.xvideos.com/video76932809/_")
     # Xvideos_PO.getInfo("https://www.xvideos.com/video76932809/_")
 

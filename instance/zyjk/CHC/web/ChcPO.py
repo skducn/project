@@ -6,17 +6,17 @@
 # https://chromedriver.storage.googleapis.com/index.html
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-import re, subprocess, requests, os, pyautogui
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-options = webdriver.ChromeOptions()
-
-options.add_argument("--start-maximized")  # 全屏
-options.add_experimental_option("excludeSwitches", ["enable-automation"])  # 不显示 chrome正受到自动测试软件的控制的提示
-options.add_experimental_option("prefs",  {"credentials_enable_service": False})  # 不弹出"保存密码"窗口
-options.add_argument('--incognito')  # 无痕隐身模式
-options.add_argument("disable-cache")  # 禁用缓存
+# import re, subprocess, requests, os, pyautogui
+# from webdriver_manager.chrome import ChromeDriverManager
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# options = webdriver.ChromeOptions()
+#
+# options.add_argument("--start-maximized")  # 全屏
+# options.add_experimental_option("excludeSwitches", ["enable-automation"])  # 不显示 chrome正受到自动测试软件的控制的提示
+# options.add_experimental_option("prefs",  {"credentials_enable_service": False})  # 不弹出"保存密码"窗口
+# options.add_argument('--incognito')  # 无痕隐身模式
+# options.add_argument("disable-cache")  # 禁用缓存
 
 # screen_width, screen_height = pyautogui.size()  # 通过pyautogui方法获得屏幕尺寸
 # print(screen_width, screen_height)
@@ -36,34 +36,38 @@ options.add_argument("disable-cache")  # 禁用缓存
 
 
 
-chromeBrowserVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
-chromeBrowserVer = bytes.decode(chromeBrowserVer)
-# print(chromeBrowserVer)  # Google Chrome 114.0.5735.198
-chromeBrowserFirstVersion = (chromeBrowserVer.split('Google Chrome ')[1].split(".")[0])  # 114
-resp = requests.get(url="https://chromedriver.storage.googleapis.com/")
-content = resp.text
-if os.name == "nt":
-    chromeDriverVer = re.search(f"<Contents><Key>({chromeBrowserFirstVersion}\.\d+\.\d+\.\d+)/chromedriver_win32\.zip</Key>.*?", content, re.S)
-    chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
-    print(chrome_driver_path)
-    if os.path.isfile('??/Users/linghuchong/.wdm/drivers/chromedriver/win32/' + chromeDriverVer.group(1) + '/chromedriver'):
-        chrome_driver_path = '??/Users/linghuchong/.wdm/drivers/chromedriver/win32/' + chromeDriverVer.group(1) + '/chromedriver'
-    else:
-        print('download chromedriver ...')
-        chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
-elif os.name == 'posix':
-    chromeDriverVer = re.search(f"<Contents><Key>({chromeBrowserFirstVersion}\.\d+\.\d+\.\d+)/chromedriver_mac64\.zip</Key>.*?", content, re.S)
-    # print(chromeDriverVer.group(1))  # 114.0.5735.16
-    if os.path.isfile('/Users/linghuchong/.wdm/drivers/chromedriver/mac64/' + chromeDriverVer.group(1) + '/chromedriver'):
-        chrome_driver_path = '/Users/linghuchong/.wdm/drivers/chromedriver/mac64/' + chromeDriverVer.group(1) + '/chromedriver'
-    else:
-        print('download chromedriver ...')
-        chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
-
-driver = webdriver.Chrome(service=Service(chrome_driver_path), chrome_options=options)
+# chromeBrowserVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
+# chromeBrowserVer = bytes.decode(chromeBrowserVer)
+# # print(chromeBrowserVer)  # Google Chrome 114.0.5735.198
+# chromeBrowserFirstVersion = (chromeBrowserVer.split('Google Chrome ')[1].split(".")[0])  # 114
+# resp = requests.get(url="https://chromedriver.storage.googleapis.com/")
+# content = resp.text
+# if os.name == "nt":
+#     chromeDriverVer = re.search(f"<Contents><Key>({chromeBrowserFirstVersion}\.\d+\.\d+\.\d+)/chromedriver_win32\.zip</Key>.*?", content, re.S)
+#     chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
+#     print(chrome_driver_path)
+#     if os.path.isfile('??/Users/linghuchong/.wdm/drivers/chromedriver/win32/' + chromeDriverVer.group(1) + '/chromedriver'):
+#         chrome_driver_path = '??/Users/linghuchong/.wdm/drivers/chromedriver/win32/' + chromeDriverVer.group(1) + '/chromedriver'
+#     else:
+#         print('download chromedriver ...')
+#         chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
+# elif os.name == 'posix':
+#     chromeDriverVer = re.search(f"<Contents><Key>({chromeBrowserFirstVersion}\.\d+\.\d+\.\d+)/chromedriver_mac64\.zip</Key>.*?", content, re.S)
+#     # print(chromeDriverVer.group(1))  # 114.0.5735.16
+#     if os.path.isfile('/Users/linghuchong/.wdm/drivers/chromedriver/mac64/' + chromeDriverVer.group(1) + '/chromedriver'):
+#         chrome_driver_path = '/Users/linghuchong/.wdm/drivers/chromedriver/mac64/' + chromeDriverVer.group(1) + '/chromedriver'
+#     else:
+#         print('download chromedriver ...')
+#         chrome_driver_path = ChromeDriverManager(driver_version=chromeDriverVer.group(1)).install()  # 自动下载与之匹配的chromedriver驱动
+#
+# driver = webdriver.Chrome(service=Service(chrome_driver_path), chrome_options=options)
 from PO.WebPO import *
-Web_PO = WebPO(driver)
+Web_PO = WebPO("chrome")
 
+from PO.Base64PO import *
+Base64_PO = Base64PO()
+
+import ddddocr
 
 class ChcPO():
 
@@ -90,11 +94,23 @@ class ChcPO():
 
     def login(self, varUrl, varUser, varPass):
         # 登录
-        Web_PO.opn(varUrl)
+        Web_PO.openURL(varUrl)
         Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[1]/div/div/div/input", varUser)
         Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[2]/div/div/div/input", varPass)
-        Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[3]/div/div/div[1]/input", '123')  # 万能验证码
-        Web_PO.clk("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[5]/button", 1)
+
+        for i in range(10):
+            code = Web_PO.getValueByAttr(u"//img[@class='login-code-img']", "src")
+            Base64_PO.decodeImg(code)
+            ocr = ddddocr.DdddOcr()
+            f = open("test.gif", mode='rb')
+            img = f.read()
+            result = ocr.classification(img)
+            # print(result)
+            Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[3]/div/div/div[1]/input", result)  # 万能验证码
+            Web_PO.clk("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[5]/button", 2)
+            if Web_PO.isElement("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[5]/button") == False:
+                break
+
 
 
 

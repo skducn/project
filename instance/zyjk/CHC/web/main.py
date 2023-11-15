@@ -7,7 +7,6 @@
 
 from PO.SysPO import *
 Sys_PO = SysPO()
-# Sys_PO.clsApp("Google Chrome")
 
 from ChcPO import *
 Chc_PO = ChcPO()
@@ -19,7 +18,7 @@ varUrl = 'http://192.168.0.243:8010/#/'
 Chc_PO.login('http://192.168.0.243:8010/#/login', 'admin', 'Zy@123456')
 
 # 签约居民管理 - 健康服务
-Web_PO.opn(varUrl + 'SignManage/service')
+# Web_PO.opn(varUrl + 'SignManage/service')
 
 
 # # 签约居民管理 - 健康评估

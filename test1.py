@@ -9,18 +9,31 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
+import feapder
 
-import dmPython
-try :
-    # 输入相关配置信息
-    conn = dmPython.connect(user='SYSDBA', password='SYSDBA001', server='localhost', port=5236)
-    # 连接数据库
-    curses = conn.cursor()
-    #连接成功提示
-    print("连接成功")
-except:
-    #失败提示
-    print("失败")
+
+class FirstSpider(feapder.AirSpider):
+    def start_requests(self):
+        yield feapder.Request("https://www.douyin.com/video/7301240807376407818", render=True)
+
+    def parse(self, request, response):
+        print(response)
+
+
+if __name__ == "__main__":
+    FirstSpider().start()
+
+# import dmPython
+# try :
+#     # 输入相关配置信息
+#     conn = dmPython.connect(user='SYSDBA', password='SYSDBA001', server='localhost', port=5236)
+#     # 连接数据库
+#     curses = conn.cursor()
+#     #连接成功提示
+#     print("连接成功")
+# except:
+#     #失败提示
+#     print("失败")
 
 
 

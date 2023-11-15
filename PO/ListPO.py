@@ -76,7 +76,6 @@ class ListPO:
 
     """[转换]"""
 
-
     def list2dictBySerial(self, varList):
         # 1.2 列表转字典之相邻元素键值对（update）
         # list2dictBySerial([key1, value1, key2, value2])  # {key1: value1, key2: value2}
@@ -91,7 +90,6 @@ class ListPO:
             for i in range(0, len(varList[:-1]), 2):
                 dict4.update({varList[i]: varList[i + 1]})
             return dict4
-
 
     def list2dictByKeyValue(self, varList, varSign=":"):
         # 1.3 列表转字典之键值对格式（覆盖update）
@@ -109,9 +107,6 @@ class ListPO:
             return dict3
         except:
             return None
-
-
-
 
     """[变换]"""
 
@@ -170,29 +165,33 @@ class ListPO:
 
     # 2.3 两列表元素相加或连接
     def addTwoList(self, varList1, varList2):
-        # 注意：连接的2个元素类型必须一致，否则返回None
-        try:
-            return [i + j for i, j in zip(varList1, varList2)]
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+        """
+        将两个列表中的对应元素相加，并返回结果列表。
+
+        Args:
+        varList1 (list): 第一个列表。
+        varList2 (list): 第二个列表
+
+        Returns:
+        list: 相加结果列表。如果两个列表长度不一致或元素类型不一致，则返回None。
+        """
+        return [i + j for i, j in zip(varList1, varList2)]
 
     # 2.4 生成元素索引
     def setIndex(self, varList, varStart=0):
-        # 默认编号从0开始，或指定从N开始
-        # 如：['Spring', 'Summer', 'Fall', 'Winter'] = > [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'),(3, 'Winter')]
+        """
+        设置索引
+        默认编号从0开始，或指定从N开始
+        如：['Spring', 'Summer', 'Fall', 'Winter'] = > [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'),(3, 'Winter')]
+        Args:
+            varList (list): 变量列表
+            varStart (int, optional): 开始索引值，默认为0
 
+        Returns:
+            list: 索引及其对应的变量列表
+
+        """
         return list(enumerate(varList, start=varStart))
-
 
     # 2.5 打散列表
     def resolveList(self, varList, varNum):
@@ -355,7 +354,6 @@ class ListPO:
         return ["".join([i.strip() for i in str(a).strip()]) for a in varList]
         # return ([''.join([i.strip() for i in str(a).strip().replace(varSource, varDest)]) for a in varList])
 
-
     # 5.3 删除列表中指定的（或模糊的）元素
     def listBatchDel(self, varList, varPartElement, varMode="-accurate"):
         tmpList = []
@@ -370,7 +368,6 @@ class ListPO:
                 elif varPartElement not in varList[i]:
                     tmpList.append(varList[i])
         return tmpList
-
 
     # 5.4 删除列表中重复的元素
     def delRepeatElem(self, varList):
@@ -427,9 +424,9 @@ class ListPO:
                 else:
                     l1.append(
                         str(varList[i])
-                        .replace("(", "（")
-                        .replace(")", "）")
-                        .replace(varSplit, "")
+                            .replace("(", "（")
+                            .replace(")", "）")
+                            .replace(varSplit, "")
                     )  # key
                     l2.append("")  # value
 
@@ -472,7 +469,6 @@ class ListPO:
 
 
 if __name__ == "__main__":
-
     # todo main
     List_PO = ListPO()
 
@@ -494,7 +490,6 @@ if __name__ == "__main__":
     # print(dict(zip([1, 2], ['skducn', 'yoyo'])))  # {1: 'skducn', 2: 'yoyo'}
     # print(dict(zip([1, 1], ['skducn', 'yoyo'])))  # {1: 'yoyo'}
     #
-
 
     """[变换]"""
 
@@ -518,7 +513,8 @@ if __name__ == "__main__":
     # list2 = [2, [222], "b", 0.07 ,66]
     # list3 = [-25, [222], "b", -0.07]
     # list4 = [2, [222], "b", "111"]
-    print(List_PO.addTwoList([1, [111], "a", 0.01], [2, [222], "b", 0.07 , 66]))  # [3, [111, 222], 'ab', 0.08]  //多余的元素被忽略
+    print(
+        List_PO.addTwoList([1, [111], "a", 0.01], [2, [222], "b", 0.07, 66]))  # [3, [111, 222], 'ab', 0.08]  //多余的元素被忽略
     # print(List_PO.addTwoList(list1, list3))  # [-24, [111, 222], 'ab', -0.060000000000000005]   //注意浮点数负数计算出现问题，未知
     # print(List_PO.addTwoList(list1, list4))  # None
     #
@@ -535,9 +531,11 @@ if __name__ == "__main__":
 
     #
     # print("2.5 打散列表".center(100, "-"))
-    print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 2))  # [['1', '2'], ['3', '4'], ['5', '6']]  // 一个列表拆分成2个一组。
+    print(
+        List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 2))  # [['1', '2'], ['3', '4'], ['5', '6']]  // 一个列表拆分成2个一组。
     print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 3))  # [['1', '2', '3'], ['4', '5', '6']]
-    print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 5))  # [['1', '2', '3', '4', '5'], ['6']]  // 一个列表拆分成5个一组，不足5个元素可组成子列表。
+    print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'],
+                              5))  # [['1', '2', '3', '4', '5'], ['6']]  // 一个列表拆分成5个一组，不足5个元素可组成子列表。
 
     print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 2)[0])
     print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 2)[1])

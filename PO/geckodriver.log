@@ -1,0 +1,368 @@
+error: Found argument '--websocket-port' which wasn't expected, or isn't valid in this context
+
+USAGE:
+    geckodriver [FLAGS] [OPTIONS]
+
+For more information try --help
+error: Found argument '--websocket-port' which wasn't expected, or isn't valid in this context
+
+USAGE:
+    geckodriver [FLAGS] [OPTIONS]
+
+For more information try --help
+1700018585183	geckodriver	INFO	Listening on 127.0.0.1:59570
+1700018585700	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/App ... s" "localhost" "-foreground" "-no-remote" "-profile" "/var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofilefgx3mw"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1700018586719	Marionette	INFO	Marionette enabled
+console.error: "Warning: unrecognized command line flag" "-remote-allow-hosts"
+1700018587247	Marionette	INFO	Listening on port 59585
+Read port: 59585
+WebDriver BiDi listening on ws://127.0.0.1:59571
+1700018587345	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+2023-11-15 11:23:07.380 plugin-container[5789:130654] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:23:07.380 plugin-container[5789:130654] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:23:07.631 plugin-container[5789:130654] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:23:07.631 plugin-container[5789:130654] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:23:07.631 plugin-container[5789:130709] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:23:07.631 plugin-container[5789:130709] nil host used in call to allowsAnyHTTPSCertificateForHost:
+DevTools listening on ws://127.0.0.1:59571/devtools/browser/4dde7696-49b4-4036-914d-e431502fd4d7
+2023-11-15 03:23:09.144 plugin-container[5795:130842] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:23:09.144 plugin-container[5795:130842] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:23:09.149 plugin-container[5795:130842] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:23:09.149 plugin-container[5795:130842] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:23:09.149 plugin-container[5795:130866] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:23:09.149 plugin-container[5795:130866] nil host used in call to allowsAnyHTTPSCertificateForHost:
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+2023-11-15 03:23:13.285 plugin-container[5804:131046] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:23:13.286 plugin-container[5804:131046] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:23:13.289 plugin-container[5804:131046] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:23:13.289 plugin-container[5804:131046] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:23:13.290 plugin-container[5804:131041] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:23:13.290 plugin-container[5804:131041] nil host used in call to allowsAnyHTTPSCertificateForHost:
+1700018985894	geckodriver	INFO	Listening on 127.0.0.1:63213
+1700018986406	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/App ... s" "localhost" "-foreground" "-no-remote" "-profile" "/var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofileBemG2g"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1700018987052	Marionette	INFO	Marionette enabled
+console.error: "Warning: unrecognized command line flag" "-start-maximized"
+1700018987331	Marionette	INFO	Listening on port 63230
+Read port: 63230
+2023-11-15 11:29:47.514 plugin-container[6009:137061] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:29:47.514 plugin-container[6009:137061] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:29:47.519 plugin-container[6009:137061] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:29:47.519 plugin-container[6009:137061] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:29:47.520 plugin-container[6009:137075] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:29:47.520 plugin-container[6009:137075] nil host used in call to allowsAnyHTTPSCertificateForHost:
+WebDriver BiDi listening on ws://127.0.0.1:63214
+1700018987635	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:63214/devtools/browser/745bd6da-5f8e-4d34-bd59-b27c4b3218ab
+2023-11-15 03:29:49.387 plugin-container[6014:137264] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:29:49.387 plugin-container[6014:137264] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:29:49.391 plugin-container[6014:137264] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:29:49.391 plugin-container[6014:137264] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:29:49.392 plugin-container[6014:137292] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:29:49.392 plugin-container[6014:137292] nil host used in call to allowsAnyHTTPSCertificateForHost:
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+2023-11-15 03:29:53.025 plugin-container[6021:137498] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:29:53.025 plugin-container[6021:137498] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:29:53.029 plugin-container[6021:137498] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:29:53.029 plugin-container[6021:137498] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:29:53.030 plugin-container[6021:137493] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:29:53.030 plugin-container[6021:137493] nil host used in call to allowsAnyHTTPSCertificateForHost:
+1700019023163	geckodriver	INFO	Listening on 127.0.0.1:63566
+1700019023673	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/App ... s" "localhost" "-foreground" "-no-remote" "-profile" "/var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile0EI3mF"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1700019024484	Marionette	INFO	Marionette enabled
+console.error: "Warning: unrecognized command line flag" "-start-maximized"
+1700019024738	Marionette	INFO	Listening on port 63585
+Read port: 63585
+WebDriver BiDi listening on ws://127.0.0.1:63567
+2023-11-15 11:30:24.856 plugin-container[6037:137928] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:30:24.856 plugin-container[6037:137928] nil host used in call to allowsAnyHTTPSCertificateForHost:
+1700019024898	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+2023-11-15 11:30:24.902 plugin-container[6037:137928] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:30:24.902 plugin-container[6037:137928] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:30:24.902 plugin-container[6037:137930] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:30:24.902 plugin-container[6037:137930] nil host used in call to allowsAnyHTTPSCertificateForHost:
+DevTools listening on ws://127.0.0.1:63567/devtools/browser/3f347fdf-3843-4fbb-bb9e-acade7cd338e
+2023-11-15 03:30:26.879 plugin-container[6045:138156] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:30:26.880 plugin-container[6045:138156] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:30:26.887 plugin-container[6045:138156] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:30:26.887 plugin-container[6045:138156] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:30:26.888 plugin-container[6045:138196] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:30:26.888 plugin-container[6045:138196] nil host used in call to allowsAnyHTTPSCertificateForHost:
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+2023-11-15 03:30:30.824 plugin-container[6052:138343] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:30:30.824 plugin-container[6052:138343] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:30:30.829 plugin-container[6052:138343] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:30:30.829 plugin-container[6052:138343] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:30:30.829 plugin-container[6052:138348] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:30:30.829 plugin-container[6052:138348] nil host used in call to allowsAnyHTTPSCertificateForHost:
+1700019195735	geckodriver	INFO	Listening on 127.0.0.1:64747
+1700019196247	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/App ... s" "localhost" "-foreground" "-no-remote" "-profile" "/var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofileewv33L"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1700019196904	Marionette	INFO	Marionette enabled
+2023-11-15 11:33:17.382 plugin-container[6106:140303] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:33:17.382 plugin-container[6106:140303] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:33:17.388 plugin-container[6106:140303] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:33:17.388 plugin-container[6106:140303] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:33:17.389 plugin-container[6106:140311] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:33:17.389 plugin-container[6106:140311] nil host used in call to allowsAnyHTTPSCertificateForHost:
+console.error: "Warning: unrecognized command line flag" "-start-maximized"
+1700019197434	Marionette	INFO	Listening on port 64760
+WebDriver BiDi listening on ws://127.0.0.1:64748
+Read port: 64760
+1700019197657	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:64748/devtools/browser/a26a1193-1575-4f3c-979e-04e8a3eac25c
+2023-11-15 03:33:19.193 plugin-container[6110:140499] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:33:19.194 plugin-container[6110:140499] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:33:19.198 plugin-container[6110:140499] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:33:19.198 plugin-container[6110:140499] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:33:19.199 plugin-container[6110:140525] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:33:19.199 plugin-container[6110:140525] nil host used in call to allowsAnyHTTPSCertificateForHost:
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/templateHome.js, line 2: Script terminated by timeout at:
+aa@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:5814
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:169372
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:31550
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:31780
+ef.prototype.run@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:208632
+getInfo/_0x123821/<@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:764597
+_0x5be3ba@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:758722
+_0x5be3ba@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:758883
+_0x5be3ba/<@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:759222
+@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:707302
+
+2023-11-15 03:33:22.817 plugin-container[6117:140706] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:33:22.817 plugin-container[6117:140706] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:33:22.822 plugin-container[6117:140706] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:33:22.822 plugin-container[6117:140706] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:33:22.823 plugin-container[6117:140712] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:33:22.823 plugin-container[6117:140712] nil host used in call to allowsAnyHTTPSCertificateForHost:
+1700019371359	geckodriver	INFO	Listening on 127.0.0.1:49641
+1700019371866	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/App ... s" "localhost" "-foreground" "-no-remote" "-profile" "/var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofilexNA52n"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1700019372482	Marionette	INFO	Marionette enabled
+console.error: "Warning: unrecognized command line flag" "-start-maximized"
+1700019372786	Marionette	INFO	Listening on port 49656
+Read port: 49656
+WebDriver BiDi listening on ws://127.0.0.1:49642
+1700019373147	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+2023-11-15 11:36:13.236 plugin-container[6159:142507] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:36:13.237 plugin-container[6159:142507] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:36:13.247 plugin-container[6159:142507] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:36:13.247 plugin-container[6159:142507] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:36:13.248 plugin-container[6159:142541] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:36:13.248 plugin-container[6159:142541] nil host used in call to allowsAnyHTTPSCertificateForHost:
+console.error: (new TypeError("this._searchProviderInfo is null", "resource:///modules/SearchSERPTelemetry.sys.mjs", 633))
+DevTools listening on ws://127.0.0.1:49642/devtools/browser/b0d531bf-4185-437a-884c-bd392d7263cb
+2023-11-15 03:36:14.996 plugin-container[6167:142712] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:36:14.996 plugin-container[6167:142712] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:36:15.003 plugin-container[6167:142712] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:36:15.003 plugin-container[6167:142712] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:36:15.004 plugin-container[6167:142725] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:36:15.004 plugin-container[6167:142725] nil host used in call to allowsAnyHTTPSCertificateForHost:
+1700019394200	geckodriver	INFO	Listening on 127.0.0.1:49814
+1700019394709	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/App ... s" "localhost" "-foreground" "-no-remote" "-profile" "/var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofile4Qy8Ve"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1700019395401	Marionette	INFO	Marionette enabled
+console.error: "Warning: unrecognized command line flag" "-start-fullscreen"
+1700019395707	Marionette	INFO	Listening on port 49827
+Read port: 49827
+2023-11-15 11:36:35.826 plugin-container[6184:143192] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:36:35.827 plugin-container[6184:143192] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:36:35.834 plugin-container[6184:143192] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:36:35.834 plugin-container[6184:143192] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:36:35.834 plugin-container[6184:143195] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:36:35.834 plugin-container[6184:143195] nil host used in call to allowsAnyHTTPSCertificateForHost:
+WebDriver BiDi listening on ws://127.0.0.1:49815
+1700019396057	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: (new TypeError("this._searchProviderInfo is null", "resource:///modules/SearchSERPTelemetry.sys.mjs", 633))
+DevTools listening on ws://127.0.0.1:49815/devtools/browser/e2687825-e0fc-4f36-8c21-cc5625663b1e
+2023-11-15 03:36:38.104 plugin-container[6188:143399] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:36:38.104 plugin-container[6188:143399] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:36:38.108 plugin-container[6188:143399] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:36:38.108 plugin-container[6188:143399] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:36:38.108 plugin-container[6188:143401] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:36:38.108 plugin-container[6188:143401] nil host used in call to allowsAnyHTTPSCertificateForHost:
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: Script terminated by timeout at:
+_0x516a6c@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:729107
+_0x3c2e49@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:761512
+getInfo/_0xcae5fd/_0x436d37.get/_0x3c2e49/<@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:761459
+
+1700019588572	geckodriver	INFO	Listening on 127.0.0.1:51125
+1700019589083	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/App ... s" "localhost" "-foreground" "-no-remote" "-profile" "/var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofiley4SoXs"
+*** You are running in headless mode.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1700019589567	Marionette	INFO	Marionette enabled
+2023-11-15 11:39:49.967 plugin-container[6235:145463] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:39:49.968 plugin-container[6235:145463] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:39:49.972 plugin-container[6235:145463] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:39:49.972 plugin-container[6235:145463] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:39:49.972 plugin-container[6235:145464] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:39:49.972 plugin-container[6235:145464] nil host used in call to allowsAnyHTTPSCertificateForHost:
+console.error: "Warning: unrecognized command line flag" "-start-maximized"
+console.error: "Warning: unrecognized command line flag" "-remote-allow-hosts"
+1700019590078	Marionette	INFO	Listening on port 51141
+WebDriver BiDi listening on ws://127.0.0.1:51126
+Read port: 51141
+1700019590305	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+DevTools listening on ws://127.0.0.1:51126/devtools/browser/1fc4dac3-7e22-4ec9-9436-9d9fcb624f6c
+2023-11-15 03:39:51.475 plugin-container[6238:145667] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:39:51.475 plugin-container[6238:145667] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:39:51.480 plugin-container[6238:145667] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:39:51.480 plugin-container[6238:145667] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:39:51.481 plugin-container[6238:145675] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:39:51.481 plugin-container[6238:145675] nil host used in call to allowsAnyHTTPSCertificateForHost:
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+2023-11-15 03:39:55.572 plugin-container[6245:145836] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:39:55.572 plugin-container[6245:145836] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:39:55.575 plugin-container[6245:145836] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:39:55.575 plugin-container[6245:145836] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:39:55.576 plugin-container[6245:145846] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:39:55.576 plugin-container[6245:145846] nil host used in call to allowsAnyHTTPSCertificateForHost:
+1700019600611	geckodriver	INFO	Listening on 127.0.0.1:51273
+1700019601124	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/App ... s" "localhost" "-foreground" "-no-remote" "-profile" "/var/folders/f7/4z7jtb213fs0mtgbw_0vs2600000gn/T/rust_mozprofilef7ajJ2"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1700019601685	Marionette	INFO	Marionette enabled
+console.error: "Warning: unrecognized command line flag" "-start-maximized"
+console.error: "Warning: unrecognized command line flag" "-remote-allow-hosts"
+1700019601985	Marionette	INFO	Listening on port 51291
+Read port: 51291
+2023-11-15 11:40:02.057 plugin-container[6255:146062] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:40:02.057 plugin-container[6255:146062] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:40:02.061 plugin-container[6255:146062] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:40:02.061 plugin-container[6255:146062] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:40:02.061 plugin-container[6255:146066] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 11:40:02.061 plugin-container[6255:146066] nil host used in call to allowsAnyHTTPSCertificateForHost:
+WebDriver BiDi listening on ws://127.0.0.1:51274
+1700019602242	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:51274/devtools/browser/3afabc72-8793-4290-9c4e-9a42a78e940a
+2023-11-15 03:40:04.045 plugin-container[6259:146247] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:40:04.045 plugin-container[6259:146247] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:40:04.050 plugin-container[6259:146247] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:40:04.050 plugin-container[6259:146247] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:40:04.051 plugin-container[6259:146257] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:40:04.051 plugin-container[6259:146257] nil host used in call to allowsAnyHTTPSCertificateForHost:
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js, line 1: WebGL context was lost.
+JavaScript warning: https://kyfw.12306.cn/otn/logsdk/templateHome.js, line 2: Script terminated by timeout at:
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:155355
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:27857
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:30959
+eg@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:165022
+aC/<@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:31550
+aC@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:31780
+ef.prototype.run@https://kyfw.12306.cn/otn/logsdk/templateHome.js:2:208632
+getInfo/_0x1c049f/<@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:763838
+_0x12a40b@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:758074
+_0x12a40b@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:758233
+_0x12a40b/<@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:758532
+@https://kyfw.12306.cn/otn/logsdk/handleIframeInner.js:1:708944
+
+2023-11-15 03:40:07.106 plugin-container[6268:146488] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:40:07.107 plugin-container[6268:146488] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:40:07.110 plugin-container[6268:146488] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:40:07.110 plugin-container[6268:146488] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 03:40:07.110 plugin-container[6268:146497] nil host used in call to allowsSpecificHTTPSCertificateForHost
+2023-11-15 03:40:07.111 plugin-container[6268:146497] nil host used in call to allowsAnyHTTPSCertificateForHost:
+2023-11-15 11:40:15.807 firefox-bin[6254:145974] TSM AdjustCapsLockLEDForKeyTransitionHandling - _ISSetPhysicalKeyboardCapsLockLED Inhibit
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
