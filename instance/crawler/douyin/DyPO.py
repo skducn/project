@@ -35,6 +35,58 @@ Web_PO = WebPO("chrome")
 
 class DyPO:
 
+	def getVideo(self, surl, toPath):
+
+		header = {
+			"User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36"}
+
+		# 解析获取id
+		share = re.search(r'/v.douyin.com/(.*?)/', surl).group(1)
+		share_url = "https://v.douyin.com/{}/".format(share)
+		# print(share_url)  # https://v.douyin.com/SrL7RnM/
+		s_html = requests.get(url=share_url, headers=header)
+		surl = s_html.url
+		# print(surl) # https://www.douyin.com/video/7206155470149635384
+		if len(surl) > 60:
+			id = re.search(r'video/(\d.*)/', surl).group(1)
+		else:
+			id = re.search(r'video/(\d.*)', surl).group(1)
+		# print(id) # 7206155470149635384
+
+
+		# 获取json数据
+		u_id = "https://m.douyin.com/web/api/v2/aweme/iteminfo/?item_ids={}&a_bogus=".format(id)
+		v_rs = requests.get(url=u_id, headers=header).json()
+		# print(v_rs)
+
+		# 作者名
+		nickname = v_rs['item_list'][0]['author']['nickname']
+		# print(nickname)
+
+		# 视频标题
+		titles = re.search(r'^(.*?)[；;。.#]', v_rs['item_list'][0]['desc']).group(1)
+		# print(titles)
+
+		# 创建video文件夹
+		if not os.path.exists(toPath + nickname):
+			os.makedirs(toPath + nickname)
+
+		# 获取uri参数
+		req = v_rs['item_list'][0]['video']['play_addr']['uri']
+		# print("vvvvvv", req)
+
+		# 下载无水印视频
+		v_url = "https://www.douyin.com/aweme/v1/play/?video_id={}".format(req)
+		v_req = requests.get(url=v_url, headers=header).content
+		print(f"[下载中] => {v_url}")
+
+		# 写入文件
+		with open(f'{toPath}{nickname}/{titles}.mp4', 'wb') as f:
+			f.write(v_req)
+
+		print(f'[已完成] => {toPath}{nickname}/{titles}.mp4')
+		return toPath + nickname
+
 	def downVideo(self, url, toSave):
 
 		'''
@@ -42,6 +94,7 @@ class DyPO:
 		:param url = 'https://www.douyin.com/video/7157633339661307168'
 		:param url = "https://v.douyin.com/hbjqhuT"
 		'''
+
 
 		headers = {
 			"cookie":
@@ -91,7 +144,7 @@ class DyPO:
 			# print(s_json)
 			d_json = json.loads(s_json)
 			# print("1111111111111")
-			# print(d_json)
+			print(d_json)
 
 			from jsonpath import jsonpath
 			# 用户名
