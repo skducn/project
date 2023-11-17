@@ -23,7 +23,7 @@ EmployeeRecord = namedtuple('EmployeeRecord', 'name, age, birthday, score, sex')
 
 import csv
 count = 0
-for emp in map(EmployeeRecord._make, csv.reader(open("name12.csv", "r", encoding="gbk"))):
+for emp in map(EmployeeRecord._make, csv.reader(open("namedtuple.csv", "r", encoding="gbk"))):
     print(emp.name, emp.score)
     print(emp._asdict())  # {'name': '张三', 'age': '30', 'birthday': '1990/12/12', 'score': '数学', 'sex': '男'}
 

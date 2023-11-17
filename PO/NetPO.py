@@ -8,6 +8,11 @@
 
 """
 1，发送邮件 sendEmail()
+1.1 发邮件之文本正文
+1.2 发邮件之表格正文(体验不好)
+1.3.1 发邮件之html正文(html内容)
+1.3.2 发邮件之html正文(html文件)
+1.4 发邮件之excel正文
 
 2.1，下载程序 dnldFile()
 2.2，下载文件、网页、图片 downFile()
@@ -76,16 +81,10 @@ class NetPO:
         return header + th + body + "</tbody></table></body></html>"
 
     # 1，163邮件发送
-    def sendEmail(
-        self,
-        varAddresser,
-        varTo,
-        varCc,
-        varSubject,
-        varMIMEText,
-        varHead,
-        varConent,
-        varFoot,
+    def sendEmail(self,
+        varAddresser,varTo,varCc,
+        varSubject, varMIMEText,
+        varHead,varConent,varFoot,
         *varAccessory,
     ):
         """
@@ -105,18 +104,14 @@ class NetPO:
         # 参数：发件人昵称，接收人邮箱，抄送人邮箱，主题，正文类型，正文，附件。
         """
 
-        # try:
+        # 发件人（发件人名称，发件人邮箱）=> 令狐冲 <skducn@163.com>
         msg = email.mime.multipart.MIMEMultipart()
-        # msg['From'] = varFrom   # 发件人：skducn@163.com
-        # 自定义处理邮件收发地址的显示内容，如： 令狐冲<skducn@163.com>
-        # 将邮件的name转换成utf-8格式，addr如果是unicode，则转换utf-8输出，否则直接输出addr，如：令狐冲<skducn@163.com>
-        # name, addr = parseaddr(varAddresser + u' <%s>' % varFrom)
-        name, addr = parseaddr(varAddresser + "<skducn@163.com>")
+        addresser, addresserEmail = parseaddr(varAddresser + "<skducn@163.com>")
+        # addresser, addresserEmail = parseaddr(varAddresser + u' <%s>' % "<skducn@163.com>")
+        msg["From"] = formataddr((Header(addresser, "utf-8").encode(), addresserEmail))
+        # 将邮件的name转换成utf-8格式，addresserEmail如果是unicode，则转换utf-8输出，否则直接输出，如：令狐冲 <skducn@163.com>
 
-        # 发件邮箱
-        msg["From"] = formataddr((Header(name, "utf-8").encode(), addr))
-
-        # 收件邮箱
+        # 收件人（收件人名称，收件人邮箱）=> 金浩 <h.jin@zy-healthtech.com>
         if "," in varTo:
             # 多个邮箱用逗号分隔
             varTo = [varTo.split(",")[0], varTo.split(",")[1]]
@@ -130,28 +125,27 @@ class NetPO:
         else:
             reciver = varTo
 
-        # 主题
+        # 标题
         msg["Subject"] = Header(varSubject, "utf-8").encode()
 
-        # 正文
-        # 调用外部html文件
+        # 正文 - 调用外部html文件
         if varMIMEText == "htmlFile":
             with open(varConent, "r", encoding="utf-8") as f:
                 varConent = f.read()
             varConent = varHead + varConent + varFoot
             html = MIMEText(varConent, "html", "utf-8")
-        # html格式的变量
         elif varMIMEText == "htmlContent":
+            # html格式的变量
             html = MIMEText(varConent, "html", "utf-8")
-        # excel转html格式
         elif varMIMEText == "excel":
+            # excel转html格式
             varConent = self.mailWrite(varConent)
             # print(varConent)
             # sys.exit(0)
             varConent = varHead + varConent + varFoot
             html = MIMEText(varConent, "html", "utf-8")
-        # 文本格式
         else:
+            # 文本格式
             varConent = varHead + varConent + varFoot
             html = MIMEText(varConent, "plain", "utf-8")
         msg.attach(html)
@@ -217,6 +211,8 @@ class NetPO:
         alarm_html += "</table>"
         return alarm_html
 
+
+
     # 2.1，下载程序
     def dnldFile(self, varUrlFile, toSave="./"):
         # 下载文件（显示下载进度，数据块大小，文件大小）
@@ -229,7 +225,6 @@ class NetPO:
         print("应用程序：{}".format(varUrlFile))
         print("保存路径：{}".format(toSave))
         urlretrieve(varUrlFile, os.path.join(toSave, filename), reporthook=reporthook)
-
 
 
     def downApp(self, vApp, toSave="./"):
@@ -289,7 +284,6 @@ class NetPO:
                 File_PO.newLayerFolder(path)  # 如果目录不存在，强制新增文件夹
                 urllib.request.urlretrieve(varUrlFile, path + "/" + fileName)
 
-
     # 2.3，下载图片
     def downImage(self, varUrlImage, varFilePath="./"):
         # 下载图片，将网上图片保存到本地。
@@ -331,7 +325,6 @@ class NetPO:
                     with open(varPath + "/" + varFile, "wb") as f:
                         f.write(image)
 
-
     # 2.4，异步多线程下载多张图
     def downImageAsync(self, varPathList, varFilePath="./"):
         # https://www.cnblogs.com/nigel-woo/p/5700329.html 多进程知识补遗整理
@@ -365,21 +358,23 @@ class NetPO:
             return img
 
 
+
 if __name__ == "__main__":
 
     Net_PO = NetPO()
 
     # print("1.1 发邮件之文本正文".center(100, "-"))
-    # Net_PO.sendEmail("测试组", [ 'h.jin@zy-healthtech.com'], ['skducn@163.com'],
-    #                  "发邮件之文本正文", "plain", "你好", "\n\n附件是本次自动化接口测试结果，请查阅。",
+    # Net_PO.sendEmail("令狐冲", ['h.jin@zy-healthtech.com'], ['skducn@163.com'],
+    #                  "自动化测试邮件", "plain", "你好", "\n\n附件是本次自动化接口测试结果，请查阅。",
     #                  "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
-    #                  r'D:\\51\\python\\project\\PO\\data\\report123.html'
+    #                  r'/Users/linghuchong/Downloads/51/Python/project/instance/摄像头/camera20231117163527.jpg'
     #                 )
-    # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
-    #                  "发邮件之文本正文", "plain", "你好", "\n\n附件是本次自动化接口测试结果，请查阅。",
+    # Net_PO.sendEmail("令狐冲", ['h.jin@zy-healthtech.com'], None,
+    #                  "自动化测试邮件", "plain", "您好！", "\n\n附件是本次自动化测试结果，请查阅。",
     #                  "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards",
-    #                  r'./data/report123.html', r'/Users/linghuchong/Desktop/mac/cetc.png'
+    #                  r'/Users/linghuchong/Downloads/51/Python/project/instance/摄像头/camera20231117163527.jpg'
     #                  )
+
 
     # print("1.2 发邮件之表格正文".center(100, "-"))
     # titles = ['表头1', '表头2', '表头3', '表头4', '表头5']
@@ -397,7 +392,7 @@ if __name__ == "__main__":
     # ]
     # varConent = Net_PO.data_to_html(data, titles)
     # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
-    #                  "发邮件之表格正文", "html", varHead, varConent, varFoot
+    #                  "发邮件之表格正文", "html", "Hello！", varConent, "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards"
     #                  )
 
     # print("1.3.1 发邮件之html正文(html内容)".center(100, "-"))
@@ -419,7 +414,7 @@ if __name__ == "__main__":
     #     </body>
     #     </html>
     # """
-    # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
+    # Net_PO.sendEmail("测试组2", ['h.jin@zy-healthtech.com'], None,
     #           "发送邮件html正文(html内容)", "htmlContent", "", varConent, "",
     #           )
 
@@ -431,35 +426,29 @@ if __name__ == "__main__":
     #    <h3>Best Regards</h3>
     #    """
     # Net_PO.sendEmail("测试组", ['h.jin@zy-healthtech.com'], None,
-    #           "发送邮件html正文(html文件)", "htmlFile", varHead, "./data/report.html", varFoot,
+    #           "发送邮件html正文(html文件)", "htmlFile", varHead, "./data/result.html", varFoot,
     #           )
     #
-    # print("1.4 发邮件之excel正文".center(100, "-"))
-    # varHead = "<h3>您好！</h3>"
-    # varFoot = """<br>
-    #    <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
-    #    <h3>智赢测试组</h3>
-    #    <h3>Best Regards</h3>
-    #    """
-    # Net_PO.sendEmail(
-    #     "测试组",
-    #     ["h.jin@zy-healthtech.com"],
-    #     None,
-    #     "发邮件之excel正文",
-    #     "excel",
-    #     varHead,
-    #     "./data/demo.xlsx",
-    #     varFoot,
-    #     r"./data/demo.xlsx",
-    # )
+    print("1.4 发邮件之excel正文".center(100, "-"))
+    varHead = "<h3>您好！</h3>"
+    varFoot = """<br>
+       <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
+       <h3>智赢测试组</h3>
+       <h3>Best Regards</h3>
+       """
+    Net_PO.sendEmail(
+        "测试组",["h.jin@zy-healthtech.com"],None,
+        "发邮件之excel正文", "excel",varHead,"./data/excel1.xls",varFoot,
+        r"./data/excel1.xls",
+    )
 
     # print("2.1，下载程序".center(100, "-"))
     # Net_PO.downApp("",'/Users/linghuchong/Downloads/eMule/pornhub/temp/' )  # 默认将文件保存在当前路径，文件存在则不覆盖。
     # Net_PO.downApp("https://www.7-zip.org/a/7z1900-x64.exe", "d:/1/2/3")  # 下载文件到指定目录，目录自动生成。
     # Net_PO.downApp("https://cdn77-vid.xvideos-cdn.com/RQ8awptsSFkElOGWOsXYsw==,1689224214/videos/hls/7b/d4/d4/7bd4d4b0c1d23afeed2f450edebfcc7f/hls-720p-518b45.ts", "/")  # 同上，/1/2/3 默认定位当前程序盘符，如 d:/1/2/3
 
-    print("2.2，下载文件、网页、图片".center(100, "-"))
-    Net_PO.downFile("http://www.jb51.net/Special/636.htm", "")  # 默认保存到当前路径下 636.htm
+    # print("2.2，下载文件、网页、图片".center(100, "-"))
+    # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "")  # 默认保存到当前路径下 636.htm
     # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "1234.html")  # 默认保存到当前路径，另存为1234.html
     # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "/Users/linghuchong/Downloads/1234.html")  # 保存到指定目录下名为1234.html文件
     # Net_PO.downFile("http://www.jb51.net/Special/636.htm", "/Users/linghuchong/Downloads/111/1234.html")  # 保存到指定目录下名为1234.html文件,目录不存在则自动创建

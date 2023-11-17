@@ -3,16 +3,15 @@
 # Author     : John
 # Date       : 2022-5-18
 # Description: enumerate()函数
-# enumerate()函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在for循环当中。它的语法如下所示：
+# enumerate() 将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标.
 # enumerate(iterable, start=0)
 # 它的两个参数，一个是序列、迭代器或其他支持迭代对象；另一个是下标起始位置，默认情况从0开始，也可以自定义计数器的起始编号。
-
 # ********************************************************************************************************************
 
-colors = ['red', 'yellow', 'green', 'black']
-result = enumerate(colors)
-for count, element in result:
-    print(f"迭代编号:{count},对应元素:{element}")
+l_colors = ['red', 'yellow', 'green', 'black']
+
+for i, ele in enumerate(l_colors):
+    print(f"迭代编号:{i},对应元素:{ele}")
 
 # 迭代编号: 0, 对应元素: red
 # 迭代编号: 1, 对应元素: yellow

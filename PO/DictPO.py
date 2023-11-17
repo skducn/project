@@ -79,21 +79,13 @@ class DictPO:
             counter.update(varDict[i])
         return counter.most_common()
 
-    def delKey(self, varDict, *varKey):
+    def delKey(self, varDict, l_key):
         # 2.10 删除字典中的key
-        list1 = []
-        for i in range(len(varKey)):
-            list1.append(varKey[i])
-        remove = set(list1)
-        return {k: v for k, v in varDict.items() if k not in remove}
+        return {k: v for k, v in varDict.items() if k not in l_key}
 
-    def reserveKey(self, varDict, *varKey):
+    def reserveKey(self, varDict, l_key):
         # 2.11 只保留部分key
-        list1 = []
-        for i in range(len(varKey)):
-            list1.append(varKey[i])
-        reserve = set(list1)
-        return {k: v for k, v in varDict.items() if k in reserve}
+        return {k: v for k, v in varDict.items() if k in l_key}
 
 
     def isDict(self, str1):
@@ -192,14 +184,14 @@ if __name__ == "__main__":
     # d1 = {'python': 1, 'java': 2, 'c': 3}
     # print(list(ChainMap(d1)))  # ['python', 'java', 'c']
 
-    # print("1.6 列表转字典(fromkeys)".center(100, "-"))
-    print(dict.fromkeys(['a', 5], 1))  # {'a': 1, 5: 1}
-    dict1 = dict.fromkeys(['a', 5])  # {'a': None, 5: None}
-    print(dict1)
-
-    d1 = {'name':'jinhao' , "age":43}
-    d2 = {'gender':"male", "name":"yoyo"}
-    dd = {'address':'pudong'}
+    # # print("1.6 列表转字典(fromkeys)".center(100, "-"))
+    # print(dict.fromkeys(['a', 5], 1))  # {'a': 1, 5: 1}
+    # dict1 = dict.fromkeys(['a', 5])  # {'a': None, 5: None}
+    # print(dict1)
+    #
+    # d1 = {'name':'jinhao' , "age":43}
+    # d2 = {'gender':"male", "name":"yoyo"}
+    # dd = {'address':'pudong'}
 
     # print("2.1 覆盖合并当前字典(update)".center(100, "-"))
     # d1.update(d2)
@@ -256,12 +248,14 @@ if __name__ == "__main__":
     # print({v: k for k, v in d1.items()})  # {1: 'python', 2: 'hellp', 3: 'c'}
 
     # print("2.10 删除key".center(100, "-"))
-    # print(Dict_PO.delKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'a': 5, 'c': 7}
+    # print(Dict_PO.delKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "d"]))  # {'a': 5, 'c': 7}
+    # print(Dict_PO.delKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "b"]))  # {'a': 5, 'c': 7, 'd': 8}
     # #
-    # print("2.11 只保留部分key".center(100, "-"))
-    # print(Dict_PO.reserveKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'b': 6, 'd': 8}
-
-
+    print("2.11 只保留部分key".center(100, "-"))
+    print(Dict_PO.reserveKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "d"]))  # {'b': 6, 'd': 8}
+    print(Dict_PO.reserveKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "w"]))  # {'b': 6}
+    a = {k: v for k, v in {"a": 5, "b": 6, "c": 7, "d": 8}.items() if k in ["b", "w"]}
+    print(a)  # {'b': 6}
 
     # # print("3 判断是不是字典".center(100, "-"))
     # print(Dict_PO.isDict('{}'))  # True

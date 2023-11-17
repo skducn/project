@@ -14,6 +14,7 @@
 import numpy as np
 from memory_profiler import profile
 import time
+
 @profile
 def demo():
     a = np.random.rand(10000000)

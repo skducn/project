@@ -3,7 +3,7 @@
 # Author     : John
 # Date       : 2019-1-29
 # Description: dir函数 common - dir1.py
-# dir()函数可以查看对像内所有属于及方法
+# dir()函数可以查看对象内所有属于及方法
 # *******************************************************************
 
 def gerInternalFunc(varType, param):

@@ -21,7 +21,7 @@ def getPid(varProcessName):
 
 # 获取程序的进程pid
 # pid = processinfo("pycharm.exe")
-pid = getPid("notepad.exe")
+pid = getPid("DBeaver")
 print(pid)  # 34168
 
 # 根据pid获取进程的信息
@@ -46,7 +46,7 @@ print(p.create_time())  # 1669855454.2351408
 print(p.cpu_times())    # pcputimes(user=1676.90625, system=242.828125, children_user=0.0, children_system=0.0)
 
 # 进程cpu亲和度,如果要设置cpu亲和度,将cpu号作为参考就好
-print(p.cpu_affinity())  #[0, 1, 2, 3]
+# print(p.cpu_affinity())  #[0, 1, 2, 3]
 
 # 进程内存利用率
 print(p.memory_percent())  # 5.433379501218663
@@ -55,7 +55,7 @@ print(p.memory_percent())  # 5.433379501218663
 print(p.memory_info())  # pmem(rss=926334976, vms=925048832, num_page_faults=1334125, peak_wset=934563840, wset=926334976, peak_paged_pool=423144, paged_pool=391224, peak_nonpaged_pool=101184, nonpaged_pool=92184, pagefile=925048832, peak_pagefile=926392320, private=925048832)
 
 # 进程的IO信息,包括读写IO数字及参数
-print(p.io_counters())  # pio(read_count=403123, write_count=19337, read_bytes=1447829500, write_bytes=4287870945, other_count=1411793, other_bytes=35545815)
+# print(p.io_counters())  # pio(read_count=403123, write_count=19337, read_bytes=1447829500, write_bytes=4287870945, other_count=1411793, other_bytes=35545815)
 
 # 进程开启的线程数
 print(p.num_threads())  # 45

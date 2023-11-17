@@ -38,6 +38,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/script/name12.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/test/PyTestApiAuto-master/Report/html/data/suites.csv">
           <value>
             <Attribute>

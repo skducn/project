@@ -24,6 +24,7 @@ Time_PO = TimePO()
 from PO.FilePO import *
 File_PO = FilePO()
 
+import numpy as np
 
 class DevicePO:
     def callCamera(self, varFilePath=0):
@@ -32,35 +33,37 @@ class DevicePO:
 
         # 调用当前笔记本摄像头拍照
         # 将拍照照片保存到本地.(不支持中文文件名)
-        try:
-            if varFilePath == 0:
-                tmp = Time_PO.getDateTime()
-                varSaveFile = os.getcwd() + "\callCamera" + str(tmp) + ".jpg"
-                cap = cv2.VideoCapture(0)
-                ret, frame = cap.read()
-                cv2.imwrite(varSaveFile, frame)
-                cap.release()
-            else:
-                varPath, varSaveFile = os.path.split(varFilePath)
-                File_PO.newLayerFolder(varPath)
-                cap = cv2.VideoCapture(0)
-                ret, frame = cap.read()
-                cv2.waitKey(2)
-                cv2.imwrite(varFilePath, frame)
-                cap.release()
-                cv2.destroyAllWindows()
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        if varFilePath == 0:
+            tmp = Time_PO.getDateTime()
+            # varSaveFile = os.getcwd() + "\callCamera" + str(tmp) + ".jpg"
+            cap = cv2.VideoCapture(0)
+            img = cv2.addWeighted(cap, 0, np.zeros(cap.shape, cap.dtype), 0, 0)
+
+            # cap.set(cv2.CAP_PROP_BRIGHTNESS, 99)
+            ret, frame = cap.read()
+            cv2.imwrite(varFilePath, frame)
+            cap.release()
+        else:
+            print(123)
+            varPath, varSaveFile = os.path.split(varFilePath)
+            File_PO.newLayerFolder(varPath)
+            cap = cv2.VideoCapture(0)
+            # cap = cv2.addWeighted(cap, 0, np.zeros(cap.shape, cap.dtype), 0, 0)
+
+            cap.set(3, 700)
+            cap.set(4, 500)
+            cap.set(5, 30)
+            cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
+            cap.set(cv2.CAP_PROP_BRIGHTNESS, 99)
+            cap.set(cv2.CAP_PROP_CONTRAST, 20)
+            cap.set(cv2.CAP_PROP_EXPOSURE, 3000)
+            ret, frame = cap.read()
+            cv2.waitKey(2)
+            cv2.imwrite(varFilePath, frame)
+            cap.release()
+            cv2.destroyAllWindows()
+
 
     def callCamera2(self):
 
@@ -235,6 +238,8 @@ class DevicePO:
 if __name__ == "__main__":
 
     Device_PO = DevicePO()
+
+
 
     # print("1，调用当前笔记本摄像头拍照".center(100, "-"))
     # Device_PO.callCamera()   # 无参数，则默认保存在当前路径，文件名为 callCamera当前日期时间，如 callCamera20200312121012.jpp
