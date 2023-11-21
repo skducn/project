@@ -31,59 +31,57 @@
 8，动态函数名
 '''
 
-print("1，eval() 简单表达式，有返回值。".center(100, "-"))
-b = eval("12 + 43")
-print(b)  # 55
+# print("1，eval() 简单表达式，有返回值。".center(100, "-"))
+# r = eval("12 + 43")
+# print(r)  # 55
+#
+# print("2.1，exec() 复杂表达式，无返回值".center(100, "-"))
+# a = '''l_1 = []
+# for i in range(10):
+#     l_1.append(i)'''
+# exec(a)
+# print(l_1)   # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+# print("2.2，exec() 赋值语句，无返回值".center(100, "-"))
+# exec("aa = 21")
+# print(aa)    # 21  //exec执行了赋值语句，并定义了aa变量
 
-print("2.1，exec() 复杂表达式，无返回值".center(100, "-"))
-a = '''ret = [] 
-for i in range(10):
-    ret.append(i)'''
-exec(a)
-print(ret)   # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+# # 2.3，exec() 导入模块，一般用于临时导入
+# print("2.3，exec() 导入模块，一般用于临时导入".center(100, "-"))
+# exec("import reflect2")  # index
+# print(reflect2.KEYWORD)   # john
+# reflect2.sayHello()  # hello yoyo
 
-print("2.2，exec() 赋值语句，无返回值".center(100, "-"))
-b = exec("aa = 21")
-print(b)      # None   //因为exec无返回值
-print(aa)    # 21  //exec执行了赋值语句，并定义了aa变量
+# print("2.4，exec() 调用类".center(100, "-"))
+# class Animal():
+#     def __init__(self):
+#         print("hello123")
+# a = "Animal"
+# exec(a + "()")  # # hello123   //相当于执行 Animal()
+# exec("Animal()")  # # hello123
+# Animal()  # hello123
 
-# 2.3，exec() 导入模块，一般用于临时导入
-print("2.3，exec() 导入模块，一般用于临时导入".center(100, "-"))
-exec("import reflect2")  # index
-print(reflect2.KEYWORD)   # john
-reflect2.sayHello()  # hello yoyo
-
-print("2.4，exec() 调用类".center(100, "-"))
-class Animal():
-    def __init__(self):
-        print("hello123")
-a = "Animal"
-exec(a + "()")  # # hello123   //相当于执行 Animal()
-exec("Animal()")  # # hello123
-Animal()  # hello123
-
-print("2.5，exec() 调用类中方法".center(100, "-"))
-class Base2:
-    def __init__(self):
-        self.name = "测试"
-    def func2(self, abc):
-        print("百度")
-        print(abc + 10)
-        return "淘宝"
-a = Base2()
-b = eval("a.func2(5)")
-# 百度
-# 15
-print(b)   # 淘宝
-exec("a.func2(7)")
-# 百度
-# 17
-
-print("2.6，exec() 调用方法".center(100, "-"))
-def test():
-    print("123")
-exec('test()')  # 123
+# print("2.5，exec() 调用类中方法".center(100, "-"))
+# class Base2:
+#     def __init__(self):
+#         self.name = "测试"
+#     def func2(self, abc):
+#         print("百度")
+#         print(abc + 10)
+#         return "淘宝"
+# a = Base2()
+# b = eval("a.func2(5)")
+# # 百度
+# # 15
+# print(b)   # 淘宝
+# exec("a.func2(7)")
+# # 百度
+# # 17
+#
+# print("2.6，exec() 调用方法".center(100, "-"))
+# def test():
+#     print("123")
+# exec('test()')  # 123
 
 
 
@@ -160,6 +158,10 @@ for i in range(5):
         print("I'm ''' + str(func) + ''', ''' + param + '''")'''
     exec(a)
     exec(func + "('" + param + "')")
+# # 相当于函数
+# def test1(param):
+#     name = '张三'
+#     print("I'm test1, hello")
 
 # I'm test0, hello
 # I'm test1, hello
@@ -167,7 +169,3 @@ for i in range(5):
 # I'm test3, hello
 # I'm test4, hello
 
-# # 相当于函数
-# def test1(param):
-#     name = '张三'
-#     print("I'm test1, hello")
