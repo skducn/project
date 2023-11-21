@@ -73,7 +73,7 @@ print(c)
 
 print("1.2, 数据源是numpy.ndarray时，array()复制一个副本，占用新的内存，而 asarray() 沿用原数据源内存地址。".center(100, "-"))
 a = np.zeros((2, 3))
-print(type(a))  # <class 'numpy.ndarray'>
+print(type(a))  # <类与实例 'numpy.ndarray'>
 b = np.array(a)  # 复制副本
 c = np.asarray(a)  # 沿用源数据地址
 a[0][0] = 1
@@ -119,25 +119,25 @@ print(data3)
 print("2, array() 将数据转为数组".center(100, "-"))
 data = [1, 2, 3]
 print(np.array(data))  # [1 2 3]
-print(type(np.array(data)))  # <class 'numpy.ndarray'>
+print(type(np.array(data)))  # <类与实例 'numpy.ndarray'>
 print(np.array(data).dtype)  # int32
 
 data = ((9, 10), (11.15, 12))
 print(np.array(data))
 # [[ 9 10]
 #  [11 12]]
-print(type(np.array(data)))  # <class 'numpy.ndarray'>
+print(type(np.array(data)))  # <类与实例 'numpy.ndarray'>
 print(np.array(data).dtype)  # float64
 print(data[1][0])  # 11.15
 
 data = "4,5,678"
 print(np.array(data))  # 4,5,678
-print(type(np.array(data)))  # <class 'numpy.ndarray'>
+print(type(np.array(data)))  # <类与实例 'numpy.ndarray'>
 print(np.array(data).dtype)  # <U7
 
 data = {"a": 88, "b": 123}
 print(np.array(data))  # {'a': 88, 'b': 123}
-print(type(np.array(data)))  # <class 'numpy.ndarray'>
+print(type(np.array(data)))  # <类与实例 'numpy.ndarray'>
 print(np.array(data).dtype)  # object
 
 
@@ -148,7 +148,7 @@ print(np.arange(1, 10, 3))  # [1 4 7]
 print(np.arange(1, 10, 3)[2])  # 7
 a = np.arange(1, 13)
 print(a)  # [ 1  2  3  4  5  6  7  8  9 10 11 12]
-print(type(a))  # <class 'numpy.ndarray'>
+print(type(a))  # <类与实例 'numpy.ndarray'>
 print(a.dtype)  # int32
 
 print("3.2, arange().reshape 生成序列多维数组".center(100, "-"))
@@ -231,7 +231,7 @@ arr_a = np.sum(x, axis=0)  # /列相加
 arr_b = np.sum(x, axis=1)  # 行相加
 print(arr_a)  # [7 7 8]
 print(arr_b)  # [3 6 11]
-print(type(arr_a))  # <class 'numpy.ndarray'>
+print(type(arr_a))  # <类与实例 'numpy.ndarray'>
 for i in range(len(arr_b)):
     print(arr_b[i])
 # 3

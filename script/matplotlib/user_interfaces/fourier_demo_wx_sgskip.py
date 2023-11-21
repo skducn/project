@@ -14,9 +14,9 @@ from matplotlib.figure import Figure
 
 class Knob:
     """
-    Knob - simple class with a "setKnob" method.
+    Knob - simple 类与实例 with a "setKnob" method.
     A Knob instance is attached to a Param instance, e.g., param.attach(knob)
-    Base class is for documentation purposes.
+    Base 类与实例 is for documentation purposes.
     """
 
     def setKnob(self, value):
@@ -25,12 +25,12 @@ class Knob:
 
 class Param:
     """
-    The idea of the "Param" class is that some parameter in the GUI may have
+    The idea of the "Param" 类与实例 is that some parameter in the GUI may have
     several knobs that both control it and reflect the parameter's state, e.g.
     a slider, text, and dragging can all change the value of the frequency in
     the waveform of this example.
-    The class allows a cleaner way to update/"feedback" to the other knobs when
-    one is being changed.  Also, this class handles min/max constraints for all
+    The 类与实例 allows a cleaner way to update/"feedback" to the other knobs when
+    one is being changed.  Also, this 类与实例 handles min/max constraints for all
     the knobs.
     Idea - knob list - in "set" method, knob object is passed as well
       - the other knobs in the knob list have a "set" method which gets

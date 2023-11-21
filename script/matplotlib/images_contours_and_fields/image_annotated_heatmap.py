@@ -33,7 +33,7 @@ universal function.
 # otherwise they would become out of sync. The locations are just
 # the ascending integer numbers, while the ticklabels are the labels to show.
 # Finally we can label the data itself by creating a
-# :class:`~matplotlib.text.Text` within each cell showing the value of
+# :类与实例:`~matplotlib.text.Text` within each cell showing the value of
 # that cell.
 
 
@@ -263,8 +263,8 @@ annotate_heatmap(im, valfmt="{x:d}", size=7, threshold=20,
                  textcolors=("red", "white"))
 
 # Sometimes even the data itself is categorical. Here we use a
-# :class:`matplotlib.colors.BoundaryNorm` to get the data into classes
-# and use this to colorize the plot, but also to obtain the class
+# :类与实例:`matplotlib.colors.BoundaryNorm` to get the data into classes
+# and use this to colorize the plot, but also to obtain the 类与实例
 # labels from an array of classes.
 
 data = np.random.randn(6, 6)
@@ -286,7 +286,7 @@ annotate_heatmap(im, valfmt=fmt, size=9, fontweight="bold", threshold=-1,
 # We can nicely plot a correlation matrix. Since this is bound by -1 and 1,
 # we use those as vmin and vmax. We may also remove leading zeros and hide
 # the diagonal elements (which are all 1) by using a
-# :class:`matplotlib.ticker.FuncFormatter`.
+# :类与实例:`matplotlib.ticker.FuncFormatter`.
 
 corr_matrix = np.corrcoef(np.random.rand(6, 5))
 im, _ = heatmap(corr_matrix, vegetables, vegetables, ax=ax4,

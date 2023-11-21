@@ -38,7 +38,7 @@ class ZhihuSpider(scrapy.Spider):
         time.sleep(3)  # 执行休眠10s等待浏览器的加载
         # input("检查网页是否有验证码要输入，有就在网页输入验证码，输入完后在编辑器中回车；如果无验证码，则直接回车")
         # 非常关键，有时候知乎会在输入密码后弹出验证码，这一步可将代码执行暂时停滞
-        # driver.find_element_by_css_selector("button[class='Button SignFlow-submitButton Button--primary Button--blue']").click()    # 点击登录按钮
+        # driver.find_element_by_css_selector("button[类与实例='Button SignFlow-submitButton Button--primary Button--blue']").click()    # 点击登录按钮
 
         # # 方式2 直接通过扫描二维码，如果不是要求全自动化，建议用这个，非常直接
         # # 毕竟我们这一步只是想保存登录后的cookies，至于用何种方式登录，可以不必过于计较

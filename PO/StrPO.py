@@ -384,7 +384,7 @@ if __name__ == "__main__":
     # t = Str_PO.str2tuple("1234", "digit")
     # print(t)  # ((1,), (2,), (3,), (4,))
     # print(t[2][0])  # 3
-    # print(type(t[2][0]))  # <class 'int'>
+    # print(type(t[2][0]))  # <类与实例 'int'>
     # print(Str_PO.str2tuple("1"))  # ('1',)
     # print(Str_PO.str2tuple("1", "digit"))  # ((1,),)
     # print(Str_PO.str2tuple("ab"))  # ('a', 'b')
@@ -478,7 +478,7 @@ if __name__ == "__main__":
     # print(Str_PO.subZero("123.5"))  # 123.5
     # print(Str_PO.subZero("123.05"))  # 123.05
     # print(Str_PO.subZero(1.00))  # 1
-    # print(type(Str_PO.subZero(1.00)))  # <class 'str'>
+    # print(type(Str_PO.subZero(1.00)))  # <类与实例 'str'>
     # print(Str_PO.subZero(1.10))  # 1.1
     # print(Str_PO.subZero(1))  # 1
     # print(Str_PO.subZero(0))  # 0

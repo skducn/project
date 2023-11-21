@@ -20,7 +20,7 @@ me = Me()
 # 爷爷
 # 爸爸
 # 我
-print(Me.__bases__)  # (<class '__main__.Parent'>,)  //继承了哪些类
+print(Me.__bases__)  # (<类与实例 '__main__.Parent'>,)  //继承了哪些类
 
 
 
@@ -37,7 +37,7 @@ class Apple(Fruit, Food):
 a = Apple()
 a.info(25)  # 水果的重量: 25
 a.taste()  # 不同食物，口味不同
-print(Apple.__bases__)  # (<class '__main__.Fruit'>, <class '__main__.Food'>)   //继承了哪些类，从左到右。
+print(Apple.__bases__)  # (<类与实例 '__main__.Fruit'>, <类与实例 '__main__.Food'>)   //继承了哪些类，从左到右。
 
 
 
@@ -55,7 +55,7 @@ m.info()  # 这是一个工艺
 
 # 内置属性 __mro__ 可以查看类方法搜索顺序
 # MRO 是 method resolution order，主要用于在多继承时判断方法、属性的调用路径
-print(Mouse.__mro__)  # (<class '__main__.Mouse'>, <class '__main__.Product'>, <class '__main__.Item'>, <class 'object'>)
+print(Mouse.__mro__)  # (<类与实例 '__main__.Mouse'>, <类与实例 '__main__.Product'>, <类与实例 '__main__.Item'>, <类与实例 'object'>)
 
 
 
@@ -83,7 +83,7 @@ class C(A):
 class D(B, C):
     pass
 
-print(D.__mro__)  # (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+print(D.__mro__)  # (<类与实例 '__main__.D'>, <类与实例 '__main__.B'>, <类与实例 '__main__.C'>, <类与实例 '__main__.A'>, <类与实例 'object'>)
 # 分析：d b a object c a object,重复的保留最后一个，最后结果： d b c a object
 x = D()
 x.show()  # C.show()
@@ -101,7 +101,7 @@ class B(Y):
 class C(A, B):
     pass
 
-print(C.__mro__)  # (<class '__main__.C'>, <class '__main__.A'>, <class '__main__.X'>, <class '__main__.B'>, <class '__main__.Y'>, <class 'object'>)
+print(C.__mro__)  # (<类与实例 '__main__.C'>, <类与实例 '__main__.A'>, <类与实例 '__main__.X'>, <类与实例 '__main__.B'>, <类与实例 '__main__.Y'>, <类与实例 'object'>)
 # 分析：c a x object y object b y object, 重复的保留最后一个，最后结果： c a x b y object
 
 

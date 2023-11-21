@@ -16,7 +16,7 @@ print(6//2)  # 3
 
 print("3，//求商数（整数除法），结果值是一个整数，但结果的类型不一定是 int".center(100, "-"))
 print(5//3)  # 1
-print(type(5//3))  # <class 'int'>
+print(type(5//3))  # <类与实例 'int'>
 # 运算结果总是向负无穷的方向舍入，如下：
 print(1//2)  # 0
 print(-1//2)  # -1
@@ -33,14 +33,14 @@ print("5，float也接受字符串 nan 和 inf".center(100, "-"))
 # INF / inf：这个值表示“无穷大 (infinity 的缩写)”，即超出了计算机可以表示的浮点数的最大范围(或者说超过了 double 类型的最大值)。
 x = "nan"
 print(float(x))  # nan
-print(type(float(x)))  # <class 'float'>
+print(type(float(x)))  # <类与实例 'float'>
 x = "-inf"
 print(float(x))  # -inf
 x = "+inf"
 print(float(x))  # inf
 x = "inf"
 print(float(x))  # inf
-print(type(float(x)))  # <class 'float'>
+print(type(float(x)))  # <类与实例 'float'>
 print(1 + float('inf'))  # inf    //用 inf 做简单加、乘算术运算仍会得到 inf
 print(2 * float("inf"))  # inf
 print(0 * float("inf"))  # nan   //但是用 inf 乘以0会得到 not-a-number(NaN)

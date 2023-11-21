@@ -38,22 +38,22 @@ class PimPO(object):
 
         ''' 切换主菜单'''
 
-        l_menu = Level_PO.getXpathsText("//div[@class='el-scrollbar__view']/ul/li/div/span")
+        l_menu = Level_PO.getXpathsText("//div[@类与实例='el-scrollbar__view']/ul/li/div/span")
         # print(l_menu)
         for i in range(len(l_menu)):
             if l_menu[i] == varFirstMenuName:
-                Level_PO.clickXpath("//div[@class='el-scrollbar__view']/ul/li[" + str(i+1) +"]/div/span", 2)
+                Level_PO.clickXpath("//div[@类与实例='el-scrollbar__view']/ul/li[" + str(i+1) +"]/div/span", 2)
 
     # 模块菜单
     def modelMenu(self, varMeneName):
 
         ''' 模块菜单'''
 
-        l_modelMenu = Level_PO.getXpathsText("//div[@class='clearfix btn_header']/ul/li")
+        l_modelMenu = Level_PO.getXpathsText("//div[@类与实例='clearfix btn_header']/ul/li")
         # print(l_modelMenu)
         for i in range(len(l_modelMenu)):
             if varMeneName in l_modelMenu[i]:
-                Level_PO.clickXpath("//div[@class='clearfix btn_header']/ul/li[" + str(i + 1) + "]", 2)
+                Level_PO.clickXpath("//div[@类与实例='clearfix btn_header']/ul/li[" + str(i + 1) + "]", 2)
 
     # 患者挂号
     def registration(self, varAdmin, varPatient):
@@ -65,18 +65,18 @@ class PimPO(object):
         Level_PO.inputXpathEnter("//input[@placeholder='姓名/手机/电话/身份证']", varPatient)  # 患者信息
         Level_PO.clickXpath("//div[@aria-label='患者信息列表']/div[3]/span/button[2]", 2)  # 患者信息列表 - 确定
         Level_PO.clickXpath("//input[@placeholder='请选择']", 2)  # 挂号代码
-        varInputCode = Level_PO.getXpathText("//li[@class='el-select-dropdown__item']/div/p[1]")  # 获取输入码
+        varInputCode = Level_PO.getXpathText("//li[@类与实例='el-select-dropdown__item']/div/p[1]")  # 获取输入码
         # print(varInputCode)  # nkmzpz
-        Level_PO.clickXpath("//li[@class='el-select-dropdown__item']/div/p[1]", 2)  # 自动选择未使用的挂号代码
-        l_modelMenu = Level_PO.getXpathsText("//ul[@class='clearfix topContentUl']/li")
+        Level_PO.clickXpath("//li[@类与实例='el-select-dropdown__item']/div/p[1]", 2)  # 自动选择未使用的挂号代码
+        l_modelMenu = Level_PO.getXpathsText("//ul[@类与实例='clearfix topContentUl']/li")
         for i in range(len(l_modelMenu)):
             if "结算" in l_modelMenu[i]:
-                Level_PO.clickXpath("//ul[@class='clearfix topContentUl']/li[" + str(i+1) + "]", 4)   # 点击菜单结算
+                Level_PO.clickXpath("//ul[@类与实例='clearfix topContentUl']/li[" + str(i+1) + "]", 4)   # 点击菜单结算
                 break
         Level_PO.clickXpath("//div[@aria-label='挂号唱票']/div[3]/span/button", 6)  # 结算
         Level_PO.clickXpathEnter("//div[@aria-label='发票二次确认']/div[3]/span/button[1]", 2)  # 发票二次确认 - 确认
-        Level_PO.clickXpath("//i[@class='el-icon-caret-bottom']", 2)  # 点击右上角账号
-        Level_PO.clickXpath("//ul[@class='el-dropdown-menu el-popper avatar-container-dropdown']/li[6]/span", 2)  # 退出登录
+        Level_PO.clickXpath("//i[@类与实例='el-icon-caret-bottom']", 2)  # 点击右上角账号
+        Level_PO.clickXpath("//ul[@类与实例='el-dropdown-menu el-popper avatar-container-dropdown']/li[6]/span", 2)  # 退出登录
         print("[done] " + varAdmin + "对患者‘" + varPatient + "’进行挂号操作")
         return varInputCode
 
@@ -87,21 +87,21 @@ class PimPO(object):
         self.leftMenu("诊间就诊")
         Level_PO.clickLinkstext("门诊患者列表", 2)
         if "nkmz" not in varInputCode:
-            Level_PO.clickXpath("//div[@class='searchWarp']/ul/li[2]", 2)  # 点击门诊科室
+            Level_PO.clickXpath("//div[@类与实例='searchWarp']/ul/li[2]", 2)  # 点击门诊科室
             if "wkmz" in varInputCode:
                 Level_PO.clickXpath(
-                    "//div[@class='el-select-dropdown el-popper select_component PT_component']/div[1]/div[1]/ul/li[2]/div/p[1]",
+                    "//div[@类与实例='el-select-dropdown el-popper select_component PT_component']/div[1]/div[1]/ul/li[2]/div/p[1]",
                     2)
             elif "kqmz" in varInputCode:
                 Level_PO.clickXpath(
-                    "//div[@class='el-select-dropdown el-popper select_component PT_component']/div[1]/div[1]/ul/li[3]/div/p[1]",
+                    "//div[@类与实例='el-select-dropdown el-popper select_component PT_component']/div[1]/div[1]/ul/li[3]/div/p[1]",
                     2)
             elif "zymz" in varInputCode:
                 Level_PO.clickXpath(
-                    "//div[@class='el-select-dropdown el-popper select_component PT_component']/div[1]/div[1]/ul/li[4]/div/p[1]",
+                    "//div[@类与实例='el-select-dropdown el-popper select_component PT_component']/div[1]/div[1]/ul/li[4]/div/p[1]",
                     2)
-        l_patientName = Level_PO.getXpathsText("//td[@class='el-table_1_column_6 is-center  ']/div")  # 患者姓名
-        l_patientRegType = Level_PO.getXpathsText("//td[@class='el-table_1_column_8 is-center  ']/div")  # 患者挂号类型
+        l_patientName = Level_PO.getXpathsText("//td[@类与实例='el-table_1_column_6 is-center  ']/div")  # 患者姓名
+        l_patientRegType = Level_PO.getXpathsText("//td[@类与实例='el-table_1_column_8 is-center  ']/div")  # 患者挂号类型
         l_zhuhe = [i + j for i, j in zip(l_patientName, l_patientRegType)]  # ['张洪瑞平诊', '张华卿急诊', '张洪瑞急诊', '张凯旋急诊']
         # print(l_zhuhe)
         if "jz" in varInputCode:
@@ -111,56 +111,56 @@ class PimPO(object):
         l_zhuhe2 = varPatient + varType
         aa = l_zhuhe.index(l_zhuhe2)
         # print(aa)
-        Level_PO.clickXpathsNum("//tr[@class='el-table__row']/td[2]/div", aa+1, 2)  # 选择指定的患者（依据 患者姓名+挂号类别）
-        # Level_PO.clickXpathsNum("//td[@class='el-table_1_column_10 is-center  cellColorVisit']/div", aa+1,2)  # 选择指定的患者（依据 患者姓名+挂号类别）
+        Level_PO.clickXpathsNum("//tr[@类与实例='el-table__row']/td[2]/div", aa+1, 2)  # 选择指定的患者（依据 患者姓名+挂号类别）
+        # Level_PO.clickXpathsNum("//td[@类与实例='el-table_1_column_10 is-center  cellColorVisit']/div", aa+1,2)  # 选择指定的患者（依据 患者姓名+挂号类别）
 
-        l_modelMenu = Level_PO.getXpathsText("//ul[@class='clearfix OutpationListUl']/li")
+        l_modelMenu = Level_PO.getXpathsText("//ul[@类与实例='clearfix OutpationListUl']/li")
         for i in range(len(l_modelMenu)):
             if "开始就诊" in l_modelMenu[i]:
-                Level_PO.clickXpath("//ul[@class='clearfix OutpationListUl']/li[" + str(i + 1) + "]", 2)
+                Level_PO.clickXpath("//ul[@类与实例='clearfix OutpationListUl']/li[" + str(i + 1) + "]", 2)
                 break
         Level_PO.inIframe("ueditor_0", 2)
         Level_PO.clickXpath("//body/p[6]/span/span/span", 2)  # 点击 门诊诊断
         Level_PO.outIframe(2)
-        Level_PO.clickXpath("//div[@class='el-table__fixed-header-wrapper']/table/thead/tr/th[5]/div/button",
+        Level_PO.clickXpath("//div[@类与实例='el-table__fixed-header-wrapper']/table/thead/tr/th[5]/div/button",
                             2)  # 诊断录入 - 添加
         Level_PO.clickXpath("//input[@placeholder='请输入关键词']", 2)  # 点击 诊断名称
         Level_PO.inputXpath("//input[@placeholder='请输入关键词']", "1")  # 输入 1
         Level_PO.clickXpath("//body/div[13]/div[1]/div[1]/ul/li[1]/div/p[1]", 2)  # 默认选择第一个诊断名称，如 结核性脑膜炎。
-        Level_PO.clickXpath("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr/td[5]/div/div/span[1]",
+        Level_PO.clickXpath("//div[@类与实例='el-table__fixed-body-wrapper']/table/tbody/tr/td[5]/div/div/span[1]",
                             2)  # 保存
-        Level_PO.clickXpath("//button[@class='el-button initBtn el-button--primary el-button--small']", 2)  # 保存
-        l_modelMenu = Level_PO.getXpathsText("//ul[@class='clearfix']/li")
+        Level_PO.clickXpath("//button[@类与实例='el-button initBtn el-button--primary el-button--small']", 2)  # 保存
+        l_modelMenu = Level_PO.getXpathsText("//ul[@类与实例='clearfix']/li")
         # print(l_modelMenu)
         for i in range(len(l_modelMenu)):
             if "处方" in l_modelMenu[i]:
-                Level_PO.clickXpath("//ul[@class='clearfix']/li[" + str(i + 1) + "]", 2)
+                Level_PO.clickXpath("//ul[@类与实例='clearfix']/li[" + str(i + 1) + "]", 2)
                 break
-        l_modelMenu = Level_PO.getXpathsText("//div[@class='OP_cinfo clearfix']/div/div/ul/li")
+        l_modelMenu = Level_PO.getXpathsText("//div[@类与实例='OP_cinfo clearfix']/div/div/ul/li")
         for i in range(len(l_modelMenu)):
             if "添加处方" in l_modelMenu[i]:
-                Level_PO.clickXpath("//div[@class='OP_cinfo clearfix']/div/div/ul/li[" + str(i + 1) + "]", 2)
+                Level_PO.clickXpath("//div[@类与实例='OP_cinfo clearfix']/div/div/ul/li[" + str(i + 1) + "]", 2)
                 break
-        Level_PO.clickXpath("//div[@class='el-dialog__body']/form/div[2]/div/div/div[2]/input", 2)  # 处方诊断
-        Level_PO.clickXpath("//div[@class='el-select-dropdown el-popper is-multiple']/div[1]/div[1]/ul/li",
+        Level_PO.clickXpath("//div[@类与实例='el-dialog__body']/form/div[2]/div/div/div[2]/input", 2)  # 处方诊断
+        Level_PO.clickXpath("//div[@类与实例='el-select-dropdown el-popper is-multiple']/div[1]/div[1]/ul/li",
                             2)  # 选择 结核性脑膜炎
         Level_PO.clickXpathEnter("//div[@aria-label='处方属性']/div[3]/span/button", 2)  # 处方属性 - 保存
         Level_PO.clickXpath("//input[@placeholder='名称/代码/输入码']", 2)  # 点击名称
         Level_PO.clickXpath("//div[@x-placement='bottom-start']/div[1]/div[1]/ul/li[4]/div/p[1]", 2)  # 选择 急支糖浆
-        # Level_PO.clickXpath("//li[@class='el-select-dropdown__item']/div/p[1]", 2)  # 自动获取未使用的种类
-        Level_PO.inputXpath("//tr[@class='el-table__row']/td[7]/div/div/div/div[1]/input", "2")  # 用量
-        Level_PO.inputXpath("//tr[@class='el-table__row']/td[8]/div/div/div/div[1]/input", "3")  # 数量
-        Level_PO.clickXpath("//tr[@class='el-table__row']/td[9]/div/div/div/div[1]/div[1]/input", 2)  # 途径
+        # Level_PO.clickXpath("//li[@类与实例='el-select-dropdown__item']/div/p[1]", 2)  # 自动获取未使用的种类
+        Level_PO.inputXpath("//tr[@类与实例='el-table__row']/td[7]/div/div/div/div[1]/input", "2")  # 用量
+        Level_PO.inputXpath("//tr[@类与实例='el-table__row']/td[8]/div/div/div/div[1]/input", "3")  # 数量
+        Level_PO.clickXpath("//tr[@类与实例='el-table__row']/td[9]/div/div/div/div[1]/div[1]/input", 2)  # 途径
         Level_PO.clickXpath("//div[@x-placement='bottom-start']/div[1]/div[1]/ul/li[3]", 2)  # 选择 嚼服
-        Level_PO.clickXpath("//tr[@class='el-table__row']/td[10]/div/div/div/div[1]/div[1]/input", 2)  # 频次
+        Level_PO.clickXpath("//tr[@类与实例='el-table__row']/td[10]/div/div/div/div[1]/div[1]/input", 2)  # 频次
         Level_PO.clickXpath("//div[@x-placement='bottom-start']/div[1]/div[1]/ul/li[3]", 2)  # 选择 bid
-        Level_PO.clickXpath("//div[@class='el-table__fixed-right']/div[2]/table/tbody/tr/td[18]/div/span[3]", 2)  # 保存
+        Level_PO.clickXpath("//div[@类与实例='el-table__fixed-right']/div[2]/table/tbody/tr/td[18]/div/span[3]", 2)  # 保存
         for i in range(len(l_modelMenu)):
             if "保存全部" in l_modelMenu[i]:
-                Level_PO.clickXpath("//div[@class='OP_cinfo clearfix']/div/div/ul/li[" + str(i + 1) + "]", 2)
+                Level_PO.clickXpath("//div[@类与实例='OP_cinfo clearfix']/div/div/ul/li[" + str(i + 1) + "]", 2)
                 break
-        Level_PO.clickXpath("//i[@class='el-icon-caret-bottom']", 2)  # 点击右上角账号
-        Level_PO.clickXpath("//ul[@class='el-dropdown-menu el-popper avatar-container-dropdown']/li[6]/span", 2)  # 退出登录
+        Level_PO.clickXpath("//i[@类与实例='el-icon-caret-bottom']", 2)  # 点击右上角账号
+        Level_PO.clickXpath("//ul[@类与实例='el-dropdown-menu el-popper avatar-container-dropdown']/li[6]/span", 2)  # 退出登录
         print("[done] " + varDoctor + "对患者‘" + varPatient + "’进行就诊开处方操作")
 
     # 患者结账
@@ -172,15 +172,15 @@ class PimPO(object):
         Level_PO.clickXpath("//div[@aria-label='请核对']/div[3]/span/button", 2)  # 请核对 - 确定
         Level_PO.inputXpathEnter("//input[@placeholder='姓名/手机/电话/身份证']", varPatient)  # 患者信息
         Level_PO.clickXpath("//div[@aria-label='患者信息列表']/div[3]/span/button", 2)  # 患者信息列表 - 确定
-        l_modelMenu = Level_PO.getXpathsText("//div[@class='clearfix topContent']/ul/li")
+        l_modelMenu = Level_PO.getXpathsText("//div[@类与实例='clearfix topContent']/ul/li")
         for i in range(len(l_modelMenu)):
             if "结算" in l_modelMenu[i]:
-                Level_PO.clickXpath("//div[@class='clearfix topContent']/ul/li[" + str(i + 1) + "]", 4)  # 点击菜单结算
+                Level_PO.clickXpath("//div[@类与实例='clearfix topContent']/ul/li[" + str(i + 1) + "]", 4)  # 点击菜单结算
                 break
         Level_PO.clickXpath("//div[@aria-label='收费唱票']/div[3]/span/button", 6)  # 结算
         Level_PO.clickXpathEnter("//div[@aria-label='发票确认']/div[3]/span/button[1]", 2)  # 发票确认 - 确认
-        Level_PO.clickXpath("//i[@class='el-icon-caret-bottom']", 2)  # 点击右上角账号
-        Level_PO.clickXpath("//ul[@class='el-dropdown-menu el-popper avatar-container-dropdown']/li[6]/span", 2)  # 退出登录
+        Level_PO.clickXpath("//i[@类与实例='el-icon-caret-bottom']", 2)  # 点击右上角账号
+        Level_PO.clickXpath("//ul[@类与实例='el-dropdown-menu el-popper avatar-container-dropdown']/li[6]/span", 2)  # 退出登录
         print("[done] " + varAdmin + "对患者‘" + varPatient + "’进行费用结账")
 
     # 门诊配发药
@@ -190,9 +190,9 @@ class PimPO(object):
         self.leftMenu("门诊配发药")
         Level_PO.clickLinkstext("门诊配发药管理", 2)
         # print("门诊配发药 - 门诊配发药管理")
-        varWinSum = Level_PO.getXpathsNums("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr")
+        varWinSum = Level_PO.getXpathsNums("//div[@类与实例='el-table__fixed-body-wrapper']/table/tbody/tr")
         # print("门诊配发药窗口数：" + str(varWinSum))
-        l_sum = Level_PO.getXpathsText("//div[@class='printWrap clearfix']/span/span")
+        l_sum = Level_PO.getXpathsText("//div[@类与实例='printWrap clearfix']/span/span")
         # print("待发数：" + str(l_sum[0]) + " , 已发数：" + str(l_sum[1]))
         # c1，检查已发数，默认翌日依法数量已发数为0
         if int(l_sum[1]) != 0:
@@ -213,7 +213,7 @@ class PimPO(object):
 
         # c4，检查患者药品名称的处方药品数量、单价、金额、总计。
         varEmpty = varCount = varSum = varMoney = varTotal = 0
-        l_recipeId = Level_PO.getXpathsText("//div[@class='el-table__body-wrapper is-scrolling-left']/table/tbody/tr/td[4]/div")
+        l_recipeId = Level_PO.getXpathsText("//div[@类与实例='el-table__body-wrapper is-scrolling-left']/table/tbody/tr/td[4]/div")
         # print(l_recipeId) # ['4323', '4322', '4321', '4218', '4314', '4307', '4308', '4310', '4292', '4294', '4295', '4291', '4290', '4289', '4288', '4287', '4286']
         for i in range(len(l_recipeId)):
             l_drugIdSpec = sqlserver_PO.ExecQuery('select drugId,drugName,spec,number,packUnit,price,amount from t_ph_outpatient_dispensing_detail where recipeId=%s ' % (l_recipeId[i]))
@@ -258,14 +258,14 @@ class PimPO(object):
         Level_PO.clickLinkstext("病区一览", 2)
         Level_PO.inputXpathEnter("//input[@placeholder='床位号/姓名/就诊卡号']", varBedNo)  # 搜索1-07
         sleep(6)
-        Level_PO.clickXpath("//button[@class='el-button el-button--primary el-button--medium']", 4)  # 查询
-        Level_PO.floatXpath("//div[@class='wl_card_content_top']", "//div[@class='wl_card_content']/div[2]/button[1]", 4)  # 医嘱录入
-        Level_PO.clickXpath("//div[@class='switch_three clearfix overHi']/ul/button[1]", 2)  # 添加
+        Level_PO.clickXpath("//button[@类与实例='el-button el-button--primary el-button--medium']", 4)  # 查询
+        Level_PO.floatXpath("//div[@类与实例='wl_card_content_top']", "//div[@类与实例='wl_card_content']/div[2]/button[1]", 4)  # 医嘱录入
+        Level_PO.clickXpath("//div[@类与实例='switch_three clearfix overHi']/ul/button[1]", 2)  # 添加
         Level_PO.clickXpath("//div[@x-placement='bottom-start']/div[1]/div[1]/ul/li[1]", 2)  # 长期
-        Level_PO.inputXpathEnter("//span[@class='idPopoverTrue']/div/input", "维生素b1片")  # 名称
-        Level_PO.inputXpath("//tr[@class='el-table__row current-row']/td[7]/div/div/div/div[1]/input", "5")  # 用量
+        Level_PO.inputXpathEnter("//span[@类与实例='idPopoverTrue']/div/input", "维生素b1片")  # 名称
+        Level_PO.inputXpath("//tr[@类与实例='el-table__row current-row']/td[7]/div/div/div/div[1]/input", "5")  # 用量
         # Level_PO.inputXpath("//input[@name='dosageInput']", "3")  # 用量
-        Level_PO.clickXpath("//tr[@class='el-table__row']/td[10]/div/div/div/div[1]/div/input", 2)  # 途径
+        Level_PO.clickXpath("//tr[@类与实例='el-table__row']/td[10]/div/div/div/div[1]/div/input", 2)  # 途径
         Level_PO.clickXpath("//div[@x-placement='top-start']/div[1]/div[1]/ul/li[2]", 2)  # 嚼服
         Level_PO.clickXpath("//div[@x-placement='top-start']/div[1]/div[1]/ul/li[2]", 2)  # bid
 

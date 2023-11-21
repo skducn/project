@@ -180,7 +180,7 @@ if __name__ == "__main__":
 # """
 #
 #
-# class DataDownload:
+# 类与实例 DataDownload:
 #     def GetVideo(self, line, f='134'):
 #         name = line.split('=')[1]
 #         # save address

@@ -35,7 +35,7 @@ print(p(1, 4))   # 5
 f1 = lambda x, y, z: (x+8) * y - z
 print(f1(5, 6, 8))   # 70
 print(f1)  # <function <lambda> at 0x000001F75FE0E160>  //即函数对象地址
-print(type(f1))  # <class 'function'>   //lambda它是函数
+print(type(f1))  # <类与实例 'function'>   //lambda它是函数
 
 
 print("2，非标匿名函数格式，即直接在匿名函数后接实参".center(100, "-"))

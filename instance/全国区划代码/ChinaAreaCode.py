@@ -692,7 +692,7 @@ class ChinaAreaCodePO():
         # print(self.get_html(url).select("tr." + spider_class + "tr"))
         for item in self.get_html(url).select("tr." + spider_class + "tr"):
             # print(item)
-            # <tr class="citytr"><td><a href="32/3201.html">320100000000</a></td><td><a href="32/3201.html">南京市</a></td></tr>
+            # <tr 类与实例="citytr"><td><a href="32/3201.html">320100000000</a></td><td><a href="32/3201.html">南京市</a></td></tr>
             item_td = item.select("td")
             # print(item_td)
             # [<td><a href="32/3201.html">320100000000</a></td>, <td><a href="32/3201.html">南京市</a></td>]

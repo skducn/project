@@ -24,7 +24,7 @@
 # pip3 install openpyxl == 3.0.0
 # 注意！：其他版本（如3.0.2使用中会报错）如有报错，请安装3.0.0
 # todo: 报错
-# 如：File "src\lxml\serializer.pxi", line 1652, in lxml.etree._IncrementalFileWriter.write TypeError: got invalid input value of type <class 'xml.etree.ElementTree.Element'>, expected string or Element
+# 如：File "src\lxml\serializer.pxi", line 1652, in lxml.etree._IncrementalFileWriter.write TypeError: got invalid input value of type <类与实例 'xml.etree.ElementTree.Element'>, expected string or Element
 # 解决方法: pip uninstall lxml   及更新 openpyxl 版本，3.0.7以上
 # todo: 乱码
 # gb2312 文字编码，在读取后会显示乱码，需转换成 Unicode

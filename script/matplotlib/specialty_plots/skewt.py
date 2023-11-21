@@ -22,7 +22,7 @@ import matplotlib.spines as mspines
 from matplotlib.projections import register_projection
 
 
-# The sole purpose of this class is to look at the upper, lower, or total
+# The sole purpose of this 类与实例 is to look at the upper, lower, or total
 # interval as appropriate and see what parts of the tick to draw, if any.
 class SkewXTick(maxis.XTick):
     def draw(self, renderer):
@@ -52,7 +52,7 @@ class SkewXTick(maxis.XTick):
         return self.axes.xaxis.get_view_interval()
 
 
-# This class exists to provide two separate sets of intervals to the tick,
+# This 类与实例 exists to provide two separate sets of intervals to the tick,
 # as well as create instances of the custom tick
 class SkewXAxis(maxis.XAxis):
     def _get_tick(self, major):
@@ -62,7 +62,7 @@ class SkewXAxis(maxis.XAxis):
         return self.axes.upper_xlim[0], self.axes.lower_xlim[1]
 
 
-# This class exists to calculate the separate data range of the
+# This 类与实例 exists to calculate the separate data range of the
 # upper X-axis and draw the spine there. It also provides this range
 # to the X-axis artist for ticking and gridlines
 class SkewSpine(mspines.Spine):
@@ -74,7 +74,7 @@ class SkewSpine(mspines.Spine):
             pts[:, 0] = self.axes.lower_xlim
 
 
-# This class handles registration of the skew-xaxes as a projection as well
+# This 类与实例 handles registration of the skew-xaxes as a projection as well
 # as setting up the appropriate transformations. It also overrides standard
 # spines and axes instances as appropriate.
 class SkewXAxes(Axes):
@@ -106,7 +106,7 @@ class SkewXAxes(Axes):
         """
         rot = 30
 
-        # Get the standard transform setup from the Axes base class
+        # Get the standard transform setup from the Axes base 类与实例
         super()._set_lim_and_transforms()
 
         # Need to put the skew in the middle, after the scale and limits,

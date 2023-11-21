@@ -9,7 +9,7 @@ from matplotlib.patches import BoxStyle
 import matplotlib.pyplot as plt
 
 
-# we may derive from matplotlib.patches.BoxStyle._Base class.
+# we may derive from matplotlib.patches.BoxStyle._Base 类与实例.
 # You need to override transmute method in this case.
 class MyStyle(BoxStyle._Base):
     """

@@ -5,7 +5,7 @@ Plotting with keywords
 
 There are some instances where you have data in a format that lets you
 access particular variables with strings. For example, with
-:class:`numpy.recarray` or :class:`pandas.DataFrame`.
+:类与实例:`numpy.recarray` or :类与实例:`pandas.DataFrame`.
 
 Matplotlib allows you provide such an object with the ``data`` keyword
 argument. If provided, then you may generate plots with the strings

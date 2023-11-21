@@ -78,7 +78,7 @@ class DataMonitorPO():
             # print(l_menu1)  # ['首页', '质控结果分析', '数据质量测评分析', '质控分析报告（社区）']
             for l in range(len(l_menu1)):
                 if varMenu1 == l_menu1[l]:
-                    Web_PO.clickXpath("//div[@class='el-scrollbar__view']/ul/li[" + str(l+1) + "]", 2)
+                    Web_PO.clickXpath("//div[@类与实例='el-scrollbar__view']/ul/li[" + str(l+1) + "]", 2)
                     l_menuTwoName = Web_PO.getXpathsText("//li")
                     l_menuTwoHref = Web_PO.getXpathsAttr("//li[@aria-expanded='true']/ul/li//a", "href")
                     for p in l_menuTwoName:
@@ -100,7 +100,7 @@ class DataMonitorPO():
     def getUpdateDate(self):
         ''' 获取质控数据截止日期 '''
 
-        s_tmp = Web_PO.getXpathText("//div[@class='content_left']")
+        s_tmp = Web_PO.getXpathText("//div[@类与实例='content_left']")
         updateDate = s_tmp.split("质控数据截止日期")[1]
 
         return updateDate.strip()  # 返回字符串日期
@@ -170,7 +170,7 @@ class DataMonitorPO():
     def getDistrictLevel(self):
         ''' 质控结果分析 - 区级'''
         
-        strTmp = Web_PO.getXpathText("//div[@class='resident']")
+        strTmp = Web_PO.getXpathText("//div[@类与实例='resident']")
 
         # 辖区常住人口
         czrk = str(strTmp).split("辖区常住人口（人）\n")[1].split("\n建档率：")[0]
@@ -188,7 +188,7 @@ class DataMonitorPO():
         jzrq = str(strTmp).split("截止日期：")[1].strip()
 
         # 1+1+1签约居民人数（人）
-        strTmp = Web_PO.getXpathText("//div[@class='contract']")
+        strTmp = Web_PO.getXpathText("//div[@类与实例='contract']")
         qyjm = str(strTmp).split("?\n")[1].split("\n签约率")[0]
         sql_qyjmrs = self.testSql('SELECT count(*) FROM report_qyyh')
         Web_PO.assertEqualValue(str(qyjm), str(sql_qyjmrs), "1+1+1签约居民人数（人）", "1+1+1签约居民人数（人）")
@@ -214,12 +214,12 @@ class DataMonitorPO():
 
 
         # 签约居民分类之重点人群
-        focusGroup = Web_PO.getXpathText("//div[@class='left_content']")
+        focusGroup = Web_PO.getXpathText("//div[@类与实例='left_content']")
         sql_focusGroup = self.testSql('SELECT(SELECT SUM(IIF( A15 + A5 + A6 + A7 > 0, 1, 0 )) FROM report_qyyh ) * 100 / ( SELECT COUNT ( 1 ) FROM report_qyyh )')
         Web_PO.assertEqualValue(str(focusGroup), str(sql_focusGroup) + "%", "重点人群占比", "重点人群占比")
 
         # 签约居民分类之非重点人群
-        noFocusGroup = Web_PO.getXpathText("//div[@class='right_content']")
+        noFocusGroup = Web_PO.getXpathText("//div[@类与实例='right_content']")
         sql_noFocusGroup = 100 - sql_focusGroup
         Web_PO.assertEqualValue(str(noFocusGroup), str(sql_noFocusGroup) + "%", "非重点人群占比", "非重点人群占比")
 
@@ -231,7 +231,7 @@ class DataMonitorPO():
         print("-" * 50)
 
         # 辖区常住人口（人）
-        strTmp = Web_PO.getXpathText("//div[@class='resident']")
+        strTmp = Web_PO.getXpathText("//div[@类与实例='resident']")
         czrk = str(strTmp).split("辖区常住人口（人）\n")[1].split("\n建档率：")[0]
         sql_czrk = self.testSql2('Select sum(live_people_num) from dict_org_info where hr_service_code=%s', "310118001")
         Web_PO.assertEqualValue(str(czrk), str(sql_czrk), "辖区常住人口（人）", "辖区常住人口（人）")
@@ -247,7 +247,7 @@ class DataMonitorPO():
         jzrq = str(strTmp).split("截止日期：")[1].strip()
 
         # 1+1+1签约居民人数
-        strTmp = Web_PO.getXpathText("//div[@class='contract']")
+        strTmp = Web_PO.getXpathText("//div[@类与实例='contract']")
         qyjm = str(strTmp).split("?\n")[1].split("\n签约率")[0]
         sql_qyjm = self.testSql('SELECT count(*) FROM report_qyyh where hr_service_code=%s' % ("310118001"))
         Web_PO.assertEqualValue(str(qyjm), str(sql_qyjm), "1+1+1签约居民人数（人）", "1+1+1签约居民人数（人）")
@@ -272,14 +272,14 @@ class DataMonitorPO():
         Web_PO.assertEqualValue(byz, str(sql_byz) + "人", "签约机构与档案管理机构不一致人数", "签约机构与档案管理机构不一致人数")
 
         # 签约居民分类之重点人群
-        focusGroup = Web_PO.getXpathText("//div[@class='left_content']")
+        focusGroup = Web_PO.getXpathText("//div[@类与实例='left_content']")
         sql_focusGroup = self.testSql(
             'SELECT ( SELECT SUM ( IIF ( A15 + A5 + A6 + A7 > 0, 1, 0 )) FROM report_qyyh where  hr_service_code=%s ) * 100 / ( SELECT COUNT ( 1 ) FROM report_qyyh where  hr_service_code=%s)' % (
             "310118001", "310118001"))
         Web_PO.assertEqualValue(str(focusGroup), str(sql_focusGroup) + "%", "重点人群占比", "重点人群占比")
 
         # 签约居民分类之非重点人群
-        noFocusGroup = Web_PO.getXpathText("//div[@class='right_content']")
+        noFocusGroup = Web_PO.getXpathText("//div[@类与实例='right_content']")
         sql_noFocusGroup = 100 - sql_focusGroup
         Web_PO.assertEqualValue(str(noFocusGroup), str(sql_noFocusGroup) + "%", "非重点人群占比", "非重点人群占比")
 
@@ -288,7 +288,7 @@ class DataMonitorPO():
     def getDoctor(self):
         '''  质控结果分析 - 家庭医生 '''
 
-        strTmp = Web_PO.getXpathText("//div[@class='resident']")
+        strTmp = Web_PO.getXpathText("//div[@类与实例='resident']")
 
         # 1+1+1签约居民人数（人）
         qyjm = str(strTmp).split("1+1+1签约居民人数（人）\n")[1].split("\n签约机构与档案管理机构不一致人数：")[0]
@@ -301,12 +301,12 @@ class DataMonitorPO():
         Web_PO.assertEqualValue(str(byz), str(sql_byzrs), "签约机构与档案管理机构不一致人数", "签约机构与档案管理机构不一致人数")
 
         # 签约居民分类 - 重点人群
-        focusGroup = Web_PO.getXpathText("//div[@class='left_content']")
+        focusGroup = Web_PO.getXpathText("//div[@类与实例='left_content']")
         sql_focusGroup = self.testSql('select( SELECT SUM ( IIF ( A15 + A5 + A6 + A7 > 0, 1, 0 )) FROM report_qyyh  WHERE CZRYBM=%s and org_code=%s) * 100 / ( SELECT COUNT ( 1 ) FROM report_qyyh WHERE CZRYBM=%s and org_code=%s)' % ("0041", "310118001", "0041", "310118001"))
         Web_PO.assertEqualValue(str(focusGroup), str(sql_focusGroup) + "%", "重点人群占比", "重点人群占比")
 
         # 签约居民分类 - 非重点人群
-        noFocusGroup = Web_PO.getXpathText("//div[@class='right_content']")
+        noFocusGroup = Web_PO.getXpathText("//div[@类与实例='right_content']")
         sql_noFocusGroup = 100 - sql_focusGroup
         Web_PO.assertEqualValue(str(noFocusGroup), str(sql_noFocusGroup) + "%", "非重点人群占比", "非重点人群占比")
 
@@ -508,7 +508,7 @@ class DataMonitorPO():
             Web_PO.clickXpath("//*[@id='pane-personnel']/div/div[1]/div[3]/div[2]/ul/li[" + str(varPage) + "]", 2)
 
 
-            l_groupDeficiency = (Web_PO.getXpathsText("//div[@class='ellipsis el-popover__reference']"))
+            l_groupDeficiency = (Web_PO.getXpathsText("//div[@类与实例='ellipsis el-popover__reference']"))
             # l_groupDeficiency = [i for i in l_groupDeficiency if i != '']  # 去掉空元素 ,如 [, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
             # l_groupDeficiency = [str(i).replace("\n", "") for i in l_groupDeficiency if i != '']  # 去掉空元素 ,如 [, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
             l_deficiency = []
@@ -657,8 +657,8 @@ class DataMonitorPO():
 
         try:
             Web_PO.driver.refresh()
-            # Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[2]/div/button[2]", 2)  # 重置
-            Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[1]/div/div/div/div/div/input", 2)  # 请选择
+            # Web_PO.clickXpath("//form[@类与实例='el-form login-form el-form--inline']/div[2]/div/button[2]", 2)  # 重置
+            Web_PO.clickXpath("//form[@类与实例='el-form login-form el-form--inline']/div[1]/div/div/div/div/div/input", 2)  # 请选择
             if varType == '用户名':
                 Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[1]", 2)  # 用户名
             elif varType == '昵称':
@@ -667,9 +667,9 @@ class DataMonitorPO():
                 Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[3]", 2)  # 手机
             else:
                 exit()
-            Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[2]/div/button[2]", 2)  # 重置
+            Web_PO.clickXpath("//form[@类与实例='el-form login-form el-form--inline']/div[2]/div/button[2]", 2)  # 重置
             Web_PO.inputXpathClear("//input[@placeholder='请输入搜索内容']", varValue)  # 输入搜索内容
-            Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[2]/div/button[1]", 2)  # 查找
+            Web_PO.clickXpath("//form[@类与实例='el-form login-form el-form--inline']/div[2]/div/button[1]", 2)  # 查找
 
             l_text = Web_PO.getXpathsText("//td/div")
             if l_text == None:
@@ -713,7 +713,7 @@ class DataMonitorPO():
             # 搜索用户名，如果不存在则新增
             varResult = self.sys_user_search("用户名", varUser)
             if varResult == False:
-                Web_PO.clickXpath("//button[@class='el-button el-button--success el-button--mini']", 2)  # 新增
+                Web_PO.clickXpath("//button[@类与实例='el-button el-button--success el-button--mini']", 2)  # 新增
                 Web_PO.inputXpath("//input[@placeholder='用户名']", varUser)  # 用户名（用户名不能重复，且不能是中文）
                 Web_PO.inputXpath("//input[@placeholder='昵称']", varNickName)  # 昵称
                 Web_PO.inputXpath("//input[@placeholder='手机']", varPhone)  # 手机
@@ -798,22 +798,22 @@ class DataMonitorPO():
             varResult = self.sys_user_search("用户名", varUser)  # 依据用户名搜索
             if varResult == True :
                 Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div[2]/table/tbody/tr/td[8]/div/button[1]/span', 2)  # 点击 角色
-                Web_PO.clickXpath("//div[@class='el-select__tags']/input", 2)  # 点击下拉框
-                x = Web_PO.getXpathsText("//div[@class='el-select-dropdown el-popper is-multiple']/div/div/ul/li")
+                Web_PO.clickXpath("//div[@类与实例='el-select__tags']/input", 2)  # 点击下拉框
+                x = Web_PO.getXpathsText("//div[@类与实例='el-select-dropdown el-popper is-multiple']/div/div/ul/li")
                 # print(x)  # # 角色：['社区管理员', '家庭医生', '区级管理员', '规则和指标强度管理', '系统管理模块权限', '数据评测质量分析']
                 # 清空原有的角色
-                if Web_PO.isElementXpath("//i[@class='el-tag__close el-icon-close']"):
-                    Web_PO.clickXpaths("//i[@class='el-tag__close el-icon-close']", 2)
+                if Web_PO.isElementXpath("//i[@类与实例='el-tag__close el-icon-close']"):
+                    Web_PO.clickXpaths("//i[@类与实例='el-tag__close el-icon-close']", 2)
                 if len(t_role) == 0:
-                    Web_PO.clickXpath("//div[@class='el-select__tags']/input", 2)  # 点击下拉框
-                    Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[3]", 2)  # 确认
+                    Web_PO.clickXpath("//div[@类与实例='el-select__tags']/input", 2)  # 点击下拉框
+                    Web_PO.clickXpath("//div[@类与实例='el-dialog__footer']/span/button[3]", 2)  # 确认
                     Color_PO.consoleColor("31", "36", "[OK] 已清空角色", "")
                 else:
                     for j in range(len(t_role)):
                         for i in range(len(x)):
                             if x[i] == t_role[j]:
-                                Web_PO.clickXpath("//div[@class='el-select-dropdown el-popper is-multiple']/div/div/ul/li[" + str(i + 1) + "]", 0)  # 选择 角色
-                    Web_PO.clickXpath("//div[@class='el-dialog__footer']/span/button[3]", 2)  # 确认
+                                Web_PO.clickXpath("//div[@类与实例='el-select-dropdown el-popper is-multiple']/div/div/ul/li[" + str(i + 1) + "]", 0)  # 选择 角色
+                    Web_PO.clickXpath("//div[@类与实例='el-dialog__footer']/span/button[3]", 2)  # 确认
                     Color_PO.consoleColor("31", "36", "[OK] 已选角色" + str(t_role), "")
         except:
             exit()
@@ -841,7 +841,7 @@ class DataMonitorPO():
 
         try:
             Web_PO.driver.refresh()
-            Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[1]/div/div/div/div/div/input", 2)  # 请选择
+            Web_PO.clickXpath("//form[@类与实例='el-form login-form el-form--inline']/div[1]/div/div/div/div/div/input", 2)  # 请选择
             if varType == '菜单名称':
                 Web_PO.clickXpath("//body/div[2]/div[1]/div[1]/ul/li[1]", 2)
             elif varType == '权限值':
@@ -855,7 +855,7 @@ class DataMonitorPO():
             else:
                 exit()
             Web_PO.inputXpathClear("//input[@placeholder='请输入搜索内容']", varValue)  # 输入搜索内容
-            Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[2]/div/button[1]", 2)  # 查找
+            Web_PO.clickXpath("//form[@类与实例='el-form login-form el-form--inline']/div[2]/div/button[1]", 2)  # 查找
 
             l_text = Web_PO.getXpathsText("//td/div")
             # print(l_text)
@@ -915,7 +915,7 @@ class DataMonitorPO():
             # 搜索用户名，如果不存在则新增
             varResult = self.sys_power_search("菜单名称", varMenu)
             if varResult == False:
-                Web_PO.clickXpath("//button[@class='el-button el-button--success el-button--mini']", 2)  # 点击 新增
+                Web_PO.clickXpath("//button[@类与实例='el-button el-button--success el-button--mini']", 2)  # 点击 新增
                 Web_PO.inputXpath("//input[@placeholder='菜单名称']", varMenu)  # 不能重复，且不能是中文
                 Web_PO.inputXpath("//input[@placeholder='权限值']", varPower)
                 Web_PO.inputXpath("//input[@placeholder='路径']", varPath)
@@ -1072,7 +1072,7 @@ class DataMonitorPO():
                 Web_PO.clickXpath("/html/body/div[2]/div[1]/div[1]/ul/li[3]", 2)  # 描述
             else:
                 exit()
-            # Web_PO.clickXpath("//form[@class='el-form login-form el-form--inline']/div[2]/div/button[2]", 2)  # 重置
+            # Web_PO.clickXpath("//form[@类与实例='el-form login-form el-form--inline']/div[2]/div/button[2]", 2)  # 重置
             Web_PO.inputXpathClear("//input[@placeholder='请输入搜索内容']", varValue)  # 输入搜索内容
             Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[1]/div/form/div[2]/div/button[1]', 2)  # 查找
 
@@ -1207,8 +1207,8 @@ class DataMonitorPO():
                 list2 = str(l_power[0]).split("\n")
                 # print(list2) # ['循环质量测评分析', '质控分析报告详情', '质控分析报告（社区）', '质控结果分析', '指标强度管理', '质控规则管理', '数据质量测评分析', '系统管理', '首页']
                 # 先清空所有勾选框
-                if Web_PO.isElementXpath("//span[@class='el-checkbox__input is-checked']"):
-                    Web_PO.clickXpaths("//span[@class='el-checkbox__input is-checked']", 2)
+                if Web_PO.isElementXpath("//span[@类与实例='el-checkbox__input is-checked']"):
+                    Web_PO.clickXpaths("//span[@类与实例='el-checkbox__input is-checked']", 2)
                 # 没有权限则直接确认
                 if len(t_power) == 0:
                     Web_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[1]/div[3]/span/button[3]', 2)  # 确认

@@ -45,9 +45,9 @@ def fn(self):
 Dog = type('Dog',(object,),dict(walk = fn,age = 6))  # 使用type函数定义Dog类
 
 d = Dog()
-print(type(d))  # <class '__main__.Dog'>
-print(type(Dog))  # <class 'type'>
-print(type(Dog()))  # <class '__main__.Dog'>
-print(type(d.walk))  # <class 'method'>
+print(type(d))  # <类与实例 '__main__.Dog'>
+print(type(Dog))  # <类与实例 'type'>
+print(type(Dog()))  # <类与实例 '__main__.Dog'>
+print(type(d.walk))  # <类与实例 'method'>
 d.walk()  # fn函数
 print(d.age)  # 6

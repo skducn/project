@@ -33,8 +33,8 @@ class L1auditProject(unittest.TestCase):
         print u"#1，完成 - 账号'" + sheetParam.cell_value(3, 1) + u"'已登录。"
 
         # 点击，项目审核
-        # print Home_PO.isElementXpath("//div[@class='index-1 disabled']", "显化被屏蔽")
-        # Home_PO.assertTrue(Home_PO.isElementXpath("//div[@class='index-1 disabled']"), u'显化被屏蔽',2)
+        # print Home_PO.isElementXpath("//div[@类与实例='index-1 disabled']", "显化被屏蔽")
+        # Home_PO.assertTrue(Home_PO.isElementXpath("//div[@类与实例='index-1 disabled']"), u'显化被屏蔽',2)
         Operation_PO.select_operations('项目审核',2)
         # 点击，发布申请
         Operation_PO.select_operations('发布申请',3)

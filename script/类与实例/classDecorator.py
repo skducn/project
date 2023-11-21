@@ -63,11 +63,11 @@ print("多层级继承，装饰器只修饰当前类".center(100, "-"))
 def decorator(num):
     print(num)   # 100
     def dec2(cls):
-        print(cls)   # <class '__main__.Model'>
+        print(cls)   # <类与实例 '__main__.Model'>
         return cls
     return dec2
 def decorator2(cls):
-    print(cls)   # <class '__main__.SubModel'>
+    print(cls)   # <类与实例 '__main__.SubModel'>
     return cls
 @decorator(100)
 class Model(object):
@@ -81,8 +81,8 @@ class SubModel(Model):
 
 model = SubModel()
 # 100
-# <class '__main__.Model'>
-# <class '__main__.SubModel'>
+# <类与实例 '__main__.Model'>
+# <类与实例 '__main__.SubModel'>
 
 
 
@@ -103,7 +103,7 @@ def funB():
 def funB():
     print("B")
 # A  B  //先执行装饰器@decorator , 再调用funB()
-print(type(funB)) #<class 'str'>   //被修饰的函数名变为了字符串
+print(type(funB)) #<类与实例 'str'>   //被修饰的函数名变为了字符串
 print(funB)  # 最终修饰结果  //被修饰的函数funB总是被替换成＠符号所引用的函数funA的返回值
 
 

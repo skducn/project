@@ -168,9 +168,9 @@ print("end")
 # varUpdateDate = "2020-03-22"
 # Bi_PO.menu2ByHref("2.4","门诊收入", "/bi/outpatientAnalysis/outpatientIncome", varUpdateDate)
 #
-# tmpList = Bi_PO.getContent(u"//div[@class='el-card__header']")
+# tmpList = Bi_PO.getContent(u"//div[@类与实例='el-card__header']")
 #
-# # tmpList = Bi_PO.getContent(u"//div[contains(@class,'el-card__body')]")
+# # tmpList = Bi_PO.getContent(u"//div[contains(@类与实例,'el-card__body')]")
 # print(tmpList)
 #
 # # print("__________________________")

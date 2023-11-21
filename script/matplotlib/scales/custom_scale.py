@@ -6,7 +6,7 @@ Custom scale
 Create a custom scale, by implementing the scaling use for latitude data in a
 Mercator Projection.
 
-Unless you are making special use of the `~.Transform` class, you probably
+Unless you are making special use of the `~.Transform` 类与实例, you probably
 don't need to use this verbose method, and instead can use
 `~.matplotlib.scale.FuncScale` and the ``'function'`` option of
 `~.matplotlib.axes.Axes.set_xscale` and `~.matplotlib.axes.Axes.set_yscale`.
@@ -44,7 +44,7 @@ class MercatorLatitudeScale(mscale.ScaleBase):
     http://en.wikipedia.org/wiki/Mercator_projection
     """
 
-    # The scale class must have a member ``name`` that defines the string used
+    # The scale 类与实例 must have a member ``name`` that defines the string used
     # to select the scale.  For example, ``gca().set_yscale("mercator")`` would
     # be used to select this scale.
     name = 'mercator'
@@ -66,8 +66,8 @@ class MercatorLatitudeScale(mscale.ScaleBase):
         Override this method to return a new instance that does the
         actual transformation of the data.
 
-        The MercatorLatitudeTransform class is defined below as a
-        nested class of this one.
+        The MercatorLatitudeTransform 类与实例 is defined below as a
+        nested 类与实例 of this one.
         """
         return self.MercatorLatitudeTransform(self.thresh)
 
@@ -80,7 +80,7 @@ class MercatorLatitudeScale(mscale.ScaleBase):
         there are many helpful examples in ``ticker.py``.
 
         In our case, the Mercator example uses a fixed locator from
-        -90 to 90 degrees and a custom formatter class to put convert
+        -90 to 90 degrees and a custom formatter 类与实例 to put convert
         the radians to degrees and put a degree symbol after the
         value::
         """
@@ -160,7 +160,7 @@ class MercatorLatitudeScale(mscale.ScaleBase):
             return MercatorLatitudeScale.MercatorLatitudeTransform(self.thresh)
 
 
-# Now that the Scale class has been defined, it must be registered so
+# Now that the Scale 类与实例 has been defined, it must be registered so
 # that ``matplotlib`` can find it.
 mscale.register_scale(MercatorLatitudeScale)
 

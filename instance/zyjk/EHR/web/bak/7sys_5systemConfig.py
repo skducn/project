@@ -30,20 +30,20 @@ level_PO.clickXpath("//button[@type='button']", 2)
 # 系统配置
 level_PO.clickXpathsContain("//a", "href", '#/setting', 2)
 
-x = level_PO.getXpathText("//span[@class='el-pagination__total']")
+x = level_PO.getXpathText("//span[@类与实例='el-pagination__total']")
 x = x.replace("共 ", "").replace(" 条", "")
 print(x)
 
 level_PO.clickXpath("//input[@placeholder='请选择']", 6)  # 定位第一下拉框
 # x = level_PO.getXpathsText("//span")
-# x = level_PO.getXpathText("//div[@class='el-select-dropdown el-popper']/div[1]/div[1]/ul/li[2]/span")  # 选择更新渠道
+# x = level_PO.getXpathText("//div[@类与实例='el-select-dropdown el-popper']/div[1]/div[1]/ul/li[2]/span")  # 选择更新渠道
 # print(x)
-level_PO.clickXpath("//div[@class='el-select-dropdown el-popper']/div[1]/div[1]/ul/li[2]/span", 2)  # 选择更新渠道
-# level_PO.clickXpath("//span[@class='el-pagination__sizes']/div/div/input", 2)  # 定位 10条/页
-# a = level_PO.getXpathsText("//div[@class='el-scrollbar']/div[1]/ul/li[3]/span")
+level_PO.clickXpath("//div[@类与实例='el-select-dropdown el-popper']/div[1]/div[1]/ul/li[2]/span", 2)  # 选择更新渠道
+# level_PO.clickXpath("//span[@类与实例='el-pagination__sizes']/div/div/input", 2)  # 定位 10条/页
+# a = level_PO.getXpathsText("//div[@类与实例='el-scrollbar']/div[1]/ul/li[3]/span")
 # print(a)
 
 
-x = level_PO.getXpathsText("//tr[@class='el-table__row warning-row']")
+x = level_PO.getXpathsText("//tr[@类与实例='el-table__row warning-row']")
 print(x)
 

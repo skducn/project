@@ -75,7 +75,7 @@ print(arr)
 
 
 print("8 数据源是ndarray时，asarray()引用原数据源内存地址".center(100, "-"))
-x = np.zeros((2, 3))  # <class 'numpy.ndarray'>
+x = np.zeros((2, 3))  # <类与实例 'numpy.ndarray'>
 arr = np.array(x)  # 复制副本
 asarr = np.asarray(x)  # 引用源数据地址
 x[0][0] = 1   # 修改原数据

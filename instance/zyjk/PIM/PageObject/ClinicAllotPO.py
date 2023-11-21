@@ -18,9 +18,9 @@ class ClinicAllotPO(object):
 
         ''' 模块菜单'''
 
-        l_modelMenu = Level_PO.getXpathsText("//div[@class='clearfix btn_header']/ul/li")
+        l_modelMenu = Level_PO.getXpathsText("//div[@类与实例='clearfix btn_header']/ul/li")
         print(l_modelMenu)
         for i in range(len(l_modelMenu)):
             if varMeneName in l_modelMenu[i]:
-                Level_PO.clickXpath("//div[@class='clearfix btn_header']/ul/li[" + str(i + 1) + "]", 2)
+                Level_PO.clickXpath("//div[@类与实例='clearfix btn_header']/ul/li[" + str(i + 1) + "]", 2)
 

@@ -51,10 +51,10 @@ print(l_merge)
 
 print("\n4，编辑第3个规则")
 print("编辑前：" + str(l_merge[2]))
-Level_PO.clickXpath("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr[" + str(3) + "]/td[3]/div/button", 2)  # 编辑
-Level_PO.inputXpathClear("//div[@class='el-table__body-wrapper is-scrolling-none']/table/tbody/tr[" + str(3) + "]/td[2]/div/span/div/input", "既往史结核与门诊就诊记录逻辑错误123")  # 替换内容
-Level_PO.clickXpath("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr[" + str(3) + "]/td[3]/div/button[2]", 2)  # 保存
-l_status = Level_PO.getXpathsText("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr")
+Level_PO.clickXpath("//div[@类与实例='el-table__fixed-body-wrapper']/table/tbody/tr[" + str(3) + "]/td[3]/div/button", 2)  # 编辑
+Level_PO.inputXpathClear("//div[@类与实例='el-table__body-wrapper is-scrolling-none']/table/tbody/tr[" + str(3) + "]/td[2]/div/span/div/input", "既往史结核与门诊就诊记录逻辑错误123")  # 替换内容
+Level_PO.clickXpath("//div[@类与实例='el-table__fixed-body-wrapper']/table/tbody/tr[" + str(3) + "]/td[3]/div/button[2]", 2)  # 保存
+l_status = Level_PO.getXpathsText("//div[@类与实例='el-table__fixed-body-wrapper']/table/tbody/tr")
 l_merge = DataMonitor_PO.ruleManage_getRuleList()
 print("编辑前：" + str(l_merge[2]))
 
@@ -63,9 +63,9 @@ print("编辑前：" + str(l_merge[2]))
 print("\n5，启用第三个规则")
 l_merge = DataMonitor_PO.ruleManage_getRuleList()
 print("操作前：" + str(l_merge[2]))
-varStatus = Level_PO.getXpathText("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr[" + str(3) + "]/td[3]/div/button[2]")
+varStatus = Level_PO.getXpathText("//div[@类与实例='el-table__fixed-body-wrapper']/table/tbody/tr[" + str(3) + "]/td[3]/div/button[2]")
 if varStatus == "停用":
-    Level_PO.clickXpath("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr[" + str(3) + "]/td[3]/div/button[2]", 2)  # 点击状态按钮
-    Level_PO.clickXpath("//div[@class='el-message-box']/div[3]/button[2]", 2)  # 点击确定
+    Level_PO.clickXpath("//div[@类与实例='el-table__fixed-body-wrapper']/table/tbody/tr[" + str(3) + "]/td[3]/div/button[2]", 2)  # 点击状态按钮
+    Level_PO.clickXpath("//div[@类与实例='el-message-box']/div[3]/button[2]", 2)  # 点击确定
 l_merge = DataMonitor_PO.ruleManage_getRuleList()
 print("操作后：" + str(l_merge[2]))

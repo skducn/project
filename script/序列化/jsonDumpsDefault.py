@@ -4,7 +4,6 @@
 # Date       : 2020-3-18
 # Description: 字典对象直接序列化为 JSON的{}  https://www.jb51.net/article/65101.htm
 # JSON encoder and decoder, https://docs.python.org/2/library/json.html#json.dumps
-# Python语言特定的序列化模块是pickle
 # ********************************************************************************************************************
 import json
 

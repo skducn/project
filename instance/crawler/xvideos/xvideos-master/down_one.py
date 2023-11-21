@@ -81,7 +81,7 @@ class Xvideos:
                 print(final_fail_hint)
 
     def mkdir(self):
-        self.title = re.search(r'<h2 class="page-title">(.*?)<span class="duration">', self.html)
+        self.title = re.search(r'<h2 类与实例="page-title">(.*?)<span 类与实例="duration">', self.html)
         if self.title:
             self.title = self.title.group(1).rstrip()
             self.title = html.unescape(self.title)  # 转换html实体，如&hellip;转换为省略号

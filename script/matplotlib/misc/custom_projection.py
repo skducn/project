@@ -19,7 +19,7 @@ import numpy as np
 
 rcParams = matplotlib.rcParams
 
-# This example projection class is rather long, but it is designed to
+# This example projection 类与实例 is rather long, but it is designed to
 # illustrate many features, not all of which will be used every time.
 # It is also common to factor out a lot of these methods into common
 # code used by a number of projections with similar characteristics
@@ -28,7 +28,7 @@ rcParams = matplotlib.rcParams
 
 class GeoAxes(Axes):
     """
-    An abstract base class for geographic projections
+    An abstract base 类与实例 for geographic projections
     """
     class ThetaFormatter(Formatter):
         """
@@ -99,7 +99,7 @@ class GeoAxes(Axes):
         # resizing the window or changing the dpi).
 
         # 1) The core transformation from data space into
-        # rectilinear space defined in the HammerTransform class.
+        # rectilinear space defined in the HammerTransform 类与实例.
         self.transProjection = self._get_core_transform(self.RESOLUTION)
 
         # 2) The above has an output range that is not in the unit
@@ -290,7 +290,7 @@ class GeoAxes(Axes):
         Set the number of degrees between each longitude grid.
 
         This is an example method that is specific to this projection
-        class -- it provides a more convenient interface to set the
+        类与实例 -- it provides a more convenient interface to set the
         ticking than set_xticks would.
         """
         # Skip -180 and 180, which are the fixed limits.
@@ -303,7 +303,7 @@ class GeoAxes(Axes):
         Set the number of degrees between each longitude grid.
 
         This is an example method that is specific to this projection
-        class -- it provides a more convenient interface than
+        类与实例 -- it provides a more convenient interface than
         set_yticks would.
         """
         # Skip -90 and 90, which are the fixed limits.
@@ -320,8 +320,8 @@ class GeoAxes(Axes):
         specify the degree at which to stop drawing longitude grids.
 
         This is an example method that is specific to this projection
-        class -- it provides an interface to something that has no
-        analogy in the base Axes class.
+        类与实例 -- it provides an interface to something that has no
+        analogy in the base Axes 类与实例.
         """
         self._longitude_cap = np.deg2rad(degrees)
         self._xaxis_pretransform \
@@ -366,7 +366,7 @@ class GeoAxes(Axes):
 
 class HammerAxes(GeoAxes):
     """
-    A custom class for the Aitoff-Hammer projection, an equal-area map
+    A custom 类与实例 for the Aitoff-Hammer projection, an equal-area map
     projection.
 
     https://en.wikipedia.org/wiki/Hammer_projection

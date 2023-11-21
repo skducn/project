@@ -5,7 +5,7 @@
 # Description   : openpyxl 对象层
 # openpyxl 官网 （http://openpyxl.readthedocs.org/en/latest/），支持Excel 2010 xlsx/xlsm/xltx/xltm 的读写，最新版本3.0.6（Oct 23, 2020）
 # 1，请安装 openpyxl 3.0.0，其他版本如3.0.2使用中会报错。 pip3 install openpyxl == 3.0.0
-# 报错：File "src\lxml\serializer.pxi", line 1652, in lxml.etree._IncrementalFileWriter.write TypeError: got invalid input value of type <class 'xml.etree.ElementTree.Element'>, expected string or Element
+# 报错：File "src\lxml\serializer.pxi", line 1652, in lxml.etree._IncrementalFileWriter.write TypeError: got invalid input value of type <类与实例 'xml.etree.ElementTree.Element'>, expected string or Element
 # 解决方法: pip uninstall lxml   或更新最新openpyxl 3.0.7以上版本
 # 2，如果文字编码是“gb2312” 读取后就会显示乱码，请先转成Unicode
 # 3，openpyxl 的首行、首列 是 （1,1）而不是（0,0）

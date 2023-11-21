@@ -34,7 +34,7 @@ class ThirdSitePO(object):
         level_PO.clickXpath("//input[@name='btnQuery']", 2)
         l = []
         s = b = 0
-        l = level_PO.getXpathsAttr("//table[@id='gvQueryResult_DXMainTable']/tbody/tr", "class")
+        l = level_PO.getXpathsAttr("//table[@id='gvQueryResult_DXMainTable']/tbody/tr", "类与实例")
         level_PO.outIframe(2)
         webdriver_PO.close()
         for i in range(len(l)):
@@ -57,7 +57,7 @@ class ThirdSitePO(object):
         level_PO.inIframe("myFrameId", 2)
         l = []
         s = b = 0
-        l = level_PO.getXpathsAttr("//table[@id='changetable']/tbody/tr", "class")
+        l = level_PO.getXpathsAttr("//table[@id='changetable']/tbody/tr", "类与实例")
         level_PO.outIframe(2)
         webdriver_PO.close()
         for i in range(len(l)):
@@ -81,9 +81,9 @@ class ThirdSitePO(object):
         level_PO.inputId("txtusername", varRow[5])
         level_PO.inputId("txtpassword", varRow[6])
         level_PO.inputId("txtcheck", code)
-        if level_PO.isElementText("//li[@class='xians']", "验证码不正确") or level_PO.isElementText("//li[@class='xians']", "验证码不能为空"):
+        if level_PO.isElementText("//li[@类与实例='xians']", "验证码不正确") or level_PO.isElementText("//li[@类与实例='xians']", "验证码不能为空"):
             for i in range(10):
-                if level_PO.isElementText("//li[@class='xians']", "验证码不正确") or level_PO.isElementText("//li[@class='xians']", "验证码不能为空"):
+                if level_PO.isElementText("//li[@类与实例='xians']", "验证码不正确") or level_PO.isElementText("//li[@类与实例='xians']", "验证码不能为空"):
                     img = cv2.imread('D://51//python//project//instance//zyjk//CRM//web//default.png')
                     cropImg = img[(366):(391), (800):(875)]
                     cv2.imwrite('D://51//python//project//instance//zyjk//CRM//web//code.png', cropImg)
@@ -161,7 +161,7 @@ class ThirdSitePO(object):
         level_PO.clickId("btnExport", 2)  # 所有库存明细
         l = []
         s = b = 0
-        l = level_PO.getXpathsAttr("//table[@id='gvStockList']/tbody/tr", "class")
+        l = level_PO.getXpathsAttr("//table[@id='gvStockList']/tbody/tr", "类与实例")
         webdriver_PO.close()
         for i in range(len(l)):
             if l[i] == "left_txt":
@@ -340,7 +340,7 @@ class ThirdSitePO(object):
                     level_PO.inputId("captcha", code)
                     level_PO.clickXpath("//input[@name='submit']", 2)
         level_PO.clickXpath("//input[@value='请用鼠标点我']", 1)
-        level_PO.clickXpath("//div[@class='maskDiv3']/div/input", 1)
+        level_PO.clickXpath("//div[@类与实例='maskDiv3']/div/input", 1)
         level_PO.clickXpath("//input[@value='开始使用']", 2)
         level_PO.clickXpath("//a[@href='/cas-webapp-portal/main/system_mysystem.do']", 2)  # 我的应用
         js = 'window.open("http://report10.shaphar.com/WebReport/decision?portalname=565743327E5B988A0A6FE8364F3D0860");'
@@ -349,14 +349,14 @@ class ThirdSitePO(object):
         for n in handles:
             if n != handle:
                 webdriver_PO.driver.switch_to.window(n)  # 切换到新标签页
-        level_PO.clickXpath("//div[@class='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div", 2)
+        level_PO.clickXpath("//div[@类与实例='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div", 2)
 
         print(varName + "(" + varURL + ", " + varUser + ", " + varPass + ")")
 
         # 库存
-        level_PO.clickXpath("//div[@class='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div[2]/div/div[2]/div",2)  # 产品历史库存查询
+        level_PO.clickXpath("//div[@类与实例='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div[2]/div/div[2]/div",2)  # 产品历史库存查询
         level_PO.inIframeXpth("//iframe[@src='/WebReport/decision/v10/entry/access/old-platform-reportlet-entry-2157?dashboardType=5&width=1296&height=692']",2)
-        # level_PO.inputXpath("//div[@class='pmeter-container fr-absolutelayout ui-state-enabled']/div[6]/div[1]/input", "上药控股有限公司")  # 子公司选择：上药控股有限公司
+        # level_PO.inputXpath("//div[@类与实例='pmeter-container fr-absolutelayout ui-state-enabled']/div[6]/div[1]/input", "上药控股有限公司")  # 子公司选择：上药控股有限公司
         level_PO.clickXpath("//div[@id='fr-btn-FORMSUBMIT0']", 2)  # 查询
         sleep(6)
         s = webdriver_PO.driver.page_source
@@ -369,7 +369,7 @@ class ThirdSitePO(object):
 
         # 采购
         level_PO.clickXpath(
-            "//div[@class='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div[2]/div/div[3]/div", 2)  # 采购业务查询
+            "//div[@类与实例='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div[2]/div/div[3]/div", 2)  # 采购业务查询
         level_PO.inIframeXpth(
             "//iframe[@src='/WebReport/decision/v10/entry/access/old-platform-reportlet-entry-2158?dashboardType=5&width=1296&height=692']",
             2)
@@ -447,7 +447,7 @@ class ThirdSitePO(object):
                     level_PO.inputId("captcha", code)
                     level_PO.clickXpath("//input[@name='submit']", 2)
         level_PO.clickXpath("//input[@value='请用鼠标点我']", 1)
-        level_PO.clickXpath("//div[@class='maskDiv3']/div/input", 1)
+        level_PO.clickXpath("//div[@类与实例='maskDiv3']/div/input", 1)
         level_PO.clickXpath("//input[@value='开始使用']", 2)
         level_PO.clickXpath("//a[@href='/cas-webapp-portal/main/system_mysystem.do']", 2)  # 我的应用
         js = 'window.open("http://report10.shaphar.com/WebReport/decision?portalname=565743327E5B988A0A6FE8364F3D0860");'
@@ -456,13 +456,13 @@ class ThirdSitePO(object):
         for n in handles:
             if n != handle:
                 webdriver_PO.driver.switch_to.window(n)  # 切换到新标签页
-        level_PO.clickXpath("//div[@class='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div", 2)
+        level_PO.clickXpath("//div[@类与实例='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div", 2)
         level_PO.clickXpath(
-            "//div[@class='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div[2]/div/div[2]/div", 2)
+            "//div[@类与实例='bi-custom-tree bi-loader bi-vertical-layout']/div/div[1]/div[2]/div/div[2]/div", 2)
         level_PO.inIframeXpth(
             "//iframe[@src='/WebReport/decision/v10/entry/access/old-platform-reportlet-entry-2157?dashboardType=5&width=1296&height=692']",
             2)
-        # level_PO.inputXpath("//div[@class='pmeter-container fr-absolutelayout ui-state-enabled']/div[6]/div[1]/input", "上药控股有限公司")  # 子公司选择：上药控股有限公司
+        # level_PO.inputXpath("//div[@类与实例='pmeter-container fr-absolutelayout ui-state-enabled']/div[6]/div[1]/input", "上药控股有限公司")  # 子公司选择：上药控股有限公司
         level_PO.clickXpath("//div[@id='fr-btn-FORMSUBMIT0']", 2)  # 查询
         sleep(6)
         s = webdriver_PO.driver.page_source

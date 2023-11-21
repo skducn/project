@@ -57,7 +57,7 @@ class BeautifulsoupPO:
     # for s in self.soup.stripped_strings:
     #     print(repr(s))
     # l_value = self.soup.find_all('ul')
-    # l_value = self.soup.find_all('div', {'class': 'text _nO'})
+    # l_value = self.soup.find_all('div', {'类与实例': 'text _nO'})
 
     # .find_all("a").attrs['title']
     #
@@ -71,12 +71,12 @@ if __name__ == "__main__":
     html = """
     <html><head><title>The Dormouse's story</title></head>
     <body>
-    <p class="title" name="dromouse"><b>The Dormouse's story</b></p>
-    <p class="story">Once upon a time there were three little sisters; and their names were
-    <a href="http://example.com/elsie" class="sister" id="link1"><!-- Elsie --></a>,
-    <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
-    <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>
-    <p class="story">...</p>
+    <p 类与实例="title" name="dromouse"><b>The Dormouse's story</b></p>
+    <p 类与实例="story">Once upon a time there were three little sisters; and their names were
+    <a href="http://example.com/elsie" 类与实例="sister" id="link1"><!-- Elsie --></a>,
+    <a href="http://example.com/lacie" 类与实例="sister" id="link2">Lacie</a> and
+    <a href="http://example.com/tillie" 类与实例="sister" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>
+    <p 类与实例="story">...</p>
     """
 
     # soup = BeautifulSoup(open('./data/video76932809__.mhtml', encoding="utf-8"), 'lxml')
@@ -127,10 +127,10 @@ if __name__ == "__main__":
     #
     #
     # # print('2 获取标签的文本内容'.center(100, "-"))
-    # x = Beautifulsoup_PO.soup.find_all("h1", {'class':'core_title_txt'})
+    # x = Beautifulsoup_PO.soup.find_all("h1", {'类与实例':'core_title_txt'})
     # print(x[0].text)  # 为什么pycharm显示找不到reduce函数？如图
     #
-    # x = Beautifulsoup_PO.soup.find("h1", {'class':'core_title_txt'}).contents[0]
+    # x = Beautifulsoup_PO.soup.find("h1", {'类与实例':'core_title_txt'}).contents[0]
     # print(x)  # 为什么pycharm显示找不到reduce函数？如图
 
     # print('3 格式化html'.center(100, "-"))
@@ -153,52 +153,52 @@ if __name__ == "__main__":
     # print('获取标签及内容（默认获取第一个标签）'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.title)  # <title>The Dormouse's story</title>
     # print(Beautifulsoup_PO.soup.head)  # <head><title>The Dormouse's story</title></head>
-    # print(Beautifulsoup_PO.soup.img)  # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>
-    # print(Beautifulsoup_PO.soup.p)  # <p class="title" name="dromouse"><b>The Dormouse's story</b></p>
+    # print(Beautifulsoup_PO.soup.img)  # <a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>
+    # print(Beautifulsoup_PO.soup.p)  # <p 类与实例="title" name="dromouse"><b>The Dormouse's story</b></p>
     #
     #
     # print('标签类型是Tag'.center(100, "-"))
-    # print(type(Beautifulsoup_PO.soup.a))  # <class 'bs4.element.Tag'>
+    # print(type(Beautifulsoup_PO.soup.a))  # <类与实例 'bs4.element.Tag'>
     #
     #
     # print('标签属性name和attrs'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.name)  # [document]  ，soup 对象的 name 即为 [document]，对于其他内部标签，输出的值便为标签本身的名称。
     # print(Beautifulsoup_PO.soup.head.name)  # head
-    # print(Beautifulsoup_PO.soup.img.attrs)  # {'class': ['title'], 'name': 'dromouse'} , 将标签中的属性转为字典，即可获取key或value
+    # print(Beautifulsoup_PO.soup.img.attrs)  # {'类与实例': ['title'], 'name': 'dromouse'} , 将标签中的属性转为字典，即可获取key或value
     #
     #
     # print('获取标签中属性的值'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.p.get('class'))  # ['title'] , 通过get获取值
-    # print(Beautifulsoup_PO.soup.p['class'])  # ['title']
+    # print(Beautifulsoup_PO.soup.p.get('类与实例'))  # ['title'] , 通过get获取值
+    # print(Beautifulsoup_PO.soup.p['类与实例'])  # ['title']
     #
     #
     # print('修改标签中属性的值'.center(100, "-"))
-    # Beautifulsoup_PO.soup.p['class'] = "newClass"  # 修改class的值
-    # print(Beautifulsoup_PO.soup.p['class'])  # newClass
-    # print(Beautifulsoup_PO.soup.p)  # <p class="newClass" name="dromouse"><b>The Dormouse's story</b></p>
+    # Beautifulsoup_PO.soup.p['类与实例'] = "newClass"  # 修改class的值
+    # print(Beautifulsoup_PO.soup.p['类与实例'])  # newClass
+    # print(Beautifulsoup_PO.soup.p)  # <p 类与实例="newClass" name="dromouse"><b>The Dormouse's story</b></p>
     #
     #
     # print('删除标签中属性的值'.center(100, "-"))
-    # del Beautifulsoup_PO.soup.p['class']
+    # del Beautifulsoup_PO.soup.p['类与实例']
     # print(Beautifulsoup_PO.soup.p)  # <p name="dromouse"><b>The Dormouse's story</b></p>
     # print(Beautifulsoup_PO.soup.video)  # <p name="dromouse"><b>The Dormouse's story</b></p>
     #
     #
     # print('获取标签内容'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.p.string)  # The Dormouse's story
-    # print(type(Beautifulsoup_PO.soup.p.string))  # <class 'bs4.element.NavigableString'>
+    # print(type(Beautifulsoup_PO.soup.p.string))  # <类与实例 'bs4.element.NavigableString'>
     #
     #
     # print('BeautifulSoup 对象表示的是一个文档的全部内容'.center(100, "-"))
-    # print(type(Beautifulsoup_PO.soup.name))  # <class 'str'> , 获取name的类型
+    # print(type(Beautifulsoup_PO.soup.name))  # <类与实例 'str'> , 获取name的类型
     # print(Beautifulsoup_PO.soup.name)  # [document] ， 获取name名称
     # print(Beautifulsoup_PO.soup.attrs)  # {}，获取soup属性，空字典
     #
     #
     # print('标签a的值是注释，但也被作为值输出'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.a)  # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>
+    # print(Beautifulsoup_PO.soup.a)  # <a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>
     # print(Beautifulsoup_PO.soup.a.string)  #  Elsie
-    # print(type(Beautifulsoup_PO.soup.a.string))  # <class 'bs4.element.Comment'> ， 对比一下soup.p.string 这个是NavigableString对象，而soup.a.string是Comment对象，只因为a的值是注释；
+    # print(type(Beautifulsoup_PO.soup.a.string))  # <类与实例 'bs4.element.Comment'> ， 对比一下soup.p.string 这个是NavigableString对象，而soup.a.string是Comment对象，只因为a的值是注释；
     #
     # # 判断标签值的类型，再决定输出 ， 需要导入import bs4模块
     # if type(Beautifulsoup_PO.soup.a.string) == bs4.element.Comment:
@@ -217,14 +217,14 @@ if __name__ == "__main__":
     # # <p name="dromouse"><b>The Dormouse's story</b></p>
     # #
     # #
-    # # <p class="story">Once upon a time there were three little sisters; and their names were
-    # # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
-    # # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
-    # # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>;
+    # # <p 类与实例="story">Once upon a time there were three little sisters; and their names were
+    # # <a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
+    # # <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
+    # # <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>;
     # # and they lived at the bottom of a well.</p>
     # #
     # #
-    # # <p class="story">...</p>
+    # # <p 类与实例="story">...</p>
     #
     # print('.stridescendantsng 获取所有子孙节点'.center(100, "-"))
     # # for child in Beautifulsoup_PO.soup.descendants:
@@ -282,19 +282,19 @@ if __name__ == "__main__":
     # print(Beautifulsoup_PO.soup.p.next_sibling)  #       //实际就是空，因为空白或者换行也可以被视作一个节点
     # print(Beautifulsoup_PO.soup.p.prev_sibling)  # None  ， 即前面没有节点，返回None
     # print(Beautifulsoup_PO.soup.p.next_sibling.next_sibling)  # // 下下一个节点
-    # # <p class="story">Once upon a time there were three little sisters; and their names were
-    # # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
-    # # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
-    # # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>;
+    # # <p 类与实例="story">Once upon a time there were three little sisters; and their names were
+    # # <a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
+    # # <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
+    # # <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>;
     # # and they lived at the bottom of a well.</p>
     #
     # print('.next_siblings .prev_siblings 属性 获取前后迭代节点 '.center(100, "-"))
     # for sibling in Beautifulsoup_PO.soup.a.next_siblings:
     #     print(repr(sibling))
     # # ',\n'
-    # # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>
+    # # <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>
     # # ' and\n'
-    # # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>
+    # # <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>
     # # ';and they lived at the bottom of a well.'
     # # None
     #
@@ -307,11 +307,11 @@ if __name__ == "__main__":
     # # <html><head><title>The Dormouse's story</title></head>
     # # <body>
     # # <p name="dromouse"><b>The Dormouse's story</b></p>
-    # # <p class="story">Once upon a time there were three little sisters; and their names were
-    # # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
-    # # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
-    # # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>
-    # # <p class="story">...</p>
+    # # <p 类与实例="story">Once upon a time there were three little sisters; and their names were
+    # # <a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
+    # # <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
+    # # <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>
+    # # <p 类与实例="story">...</p>
     # # </body></html>
     #
     #
@@ -320,14 +320,14 @@ if __name__ == "__main__":
     #     print(repr(ele))
     # # ' Elsie '
     # # ',\n'
-    # # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>
+    # # <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>
     # # 'Lacie'
     # # ' and\n'
-    # # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>
+    # # <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>
     # # 'Tillie'
     # # ';and they lived at the bottom of a well.'
     # # '\n'
-    # # <p class="story">...</p>
+    # # <p 类与实例="story">...</p>
     # # '...'
     # # '\n'
     #
@@ -336,7 +336,7 @@ if __name__ == "__main__":
     # print('find_all () 方法搜索当前 tag 的所有 tag 子节点之传标签名'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.find_all('video'))  # [<b>The Dormouse's story</b>]
     # print(Beautifulsoup_PO.soup.find_all('b'))  # [<b>The Dormouse's story</b>]
-    # print(Beautifulsoup_PO.soup.find_all('a'))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+    # print(Beautifulsoup_PO.soup.find_all('a'))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
     #
     #
     # print('find_all () 方法搜索当前 tag 的所有 tag 子节点之传正则表达式，适配所有b开头的标签'.center(100, "-"))
@@ -347,17 +347,17 @@ if __name__ == "__main__":
     # # body
     # # [<body>
     # # <p name="dromouse"><b>The Dormouse's story</b></p>
-    # # <p class="story">Once upon a time there were three little sisters; and their names were
-    # # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
-    # # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
-    # # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>
-    # # <p class="story">...</p>
+    # # <p 类与实例="story">Once upon a time there were three little sisters; and their names were
+    # # <a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
+    # # <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
+    # # <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>
+    # # <p 类与实例="story">...</p>
     # # </body>]
     # # b
     # # [<b>The Dormouse's story</b>]
     #
     # print('find_all () 方法搜索当前 tag 的所有 tag 子节点之传列表参数'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.find_all(["a", "b"])) # [<b>The Dormouse's story</b>, <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+    # print(Beautifulsoup_PO.soup.find_all(["a", "b"])) # [<b>The Dormouse's story</b>, <a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
     #
     # print('find_all () 方法搜索当前 tag 的所有 tag 子节点之传列表True'.center(100, "-"))
     # for tag in Beautifulsoup_PO.soup.find_all(True):
@@ -376,21 +376,21 @@ if __name__ == "__main__":
     #
     # print('find_all () 方法搜索当前 tag 的所有 tag 子节点之传方法，包含class属性却不包含id属性'.center(100, "-"))
     # def hasClassButNoId(tag):
-    #     return tag.has_attr('class') and not tag.has_attr('id')
+    #     return tag.has_attr('类与实例') and not tag.has_attr('id')
     #
     # print(Beautifulsoup_PO.soup.find_all(hasClassButNoId))
-    # # [<p class="story">Once upon a time there were three little sisters; and their names were
-    # # <a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
-    # # <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
-    # # <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>, <p class="story">...</p>]
+    # # [<p 类与实例="story">Once upon a time there were three little sisters; and their names were
+    # # <a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>,
+    # # <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a> and
+    # # <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>;and they lived at the bottom of a well.</p>, <p 类与实例="story">...</p>]
     #
     #
     #
     # print('find_all () 方法搜索当前 tag 的所有 tag 子节点之传方法keyword参数，'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.find_all(id='link2'))  # [<a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
-    # print(Beautifulsoup_PO.soup.find_all(href=re.compile("elsie")))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
-    # print(Beautifulsoup_PO.soup.find_all(href=re.compile("elsie"), id='link1'))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
-    # print(Beautifulsoup_PO.soup.find_all('a', class_='sister'))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+    # print(Beautifulsoup_PO.soup.find_all(id='link2'))  # [<a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
+    # print(Beautifulsoup_PO.soup.find_all(href=re.compile("elsie")))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
+    # print(Beautifulsoup_PO.soup.find_all(href=re.compile("elsie"), id='link1'))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
+    # print(Beautifulsoup_PO.soup.find_all('a', class_='sister'))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
     # # 注意：由于class是python的关键字，这里要加下划线即class_
     #
     #
@@ -406,7 +406,7 @@ if __name__ == "__main__":
     #
     #
     # print('find_all () 方法，limit参数限制数量'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.find_all("a",limit=2))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
+    # print(Beautifulsoup_PO.soup.find_all("a",limit=2))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>]
     #
     #
     # print('find_all () 方法，recursive参数只搜索直接子节点'.center(100, "-"))
@@ -418,30 +418,30 @@ if __name__ == "__main__":
     #
     # print('.select CSS选择器,通过标签名查找'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.select('title'))  # [<title>The Dormouse's story</title>]
-    # print(Beautifulsoup_PO.soup.select('a'))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+    # print(Beautifulsoup_PO.soup.select('a'))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
     #
     #
     # print('.select CSS选择器,通过类名查找'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.select('.sister'))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+    # print(Beautifulsoup_PO.soup.select('.sister'))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
     #
     # print('.select CSS选择器,通过id查找'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.select('#link1'))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
+    # print(Beautifulsoup_PO.soup.select('#link1'))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
     #
     # print('.select CSS选择器,通过组合查找,查找p标签中id等于link1的内容'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.select('p #link1'))  # [<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
+    # print(Beautifulsoup_PO.soup.select('p #link1'))  # [<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
     #
     # print('.select CSS选择器,通过组合查找,直接子标签查找'.center(100, "-"))
     # print(Beautifulsoup_PO.soup.select("head > title"))  # [<title>The Dormouse's story</title>]
     #
     #
     # print('.select CSS选择器,标签和属性查找'.center(100, "-"))
-    # print(Beautifulsoup_PO.soup.select('a[class="sister"]'))  #[<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a class="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a class="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
-    # print(Beautifulsoup_PO.soup.select('p a[href="http://example.com/elsie"]'))  #[<a class="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
+    # print(Beautifulsoup_PO.soup.select('a[类与实例="sister"]'))  #[<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>, <a 类与实例="sister" href="http://example.com/lacie" id="link2">Lacie</a>, <a 类与实例="sister" href="http://example.com/tillie" id="link3">Tillie</a>]
+    # print(Beautifulsoup_PO.soup.select('p a[href="http://example.com/elsie"]'))  #[<a 类与实例="sister" href="http://example.com/elsie" id="link1"><!-- Elsie --></a>]
     #
     #
     # print('.select CSS选择器,get_text () 方法来获取它的内容'.center(100, "-"))
     # soup = BeautifulSoup(html, 'lxml')
-    # print(type(Beautifulsoup_PO.soup.select('title')))  #<class 'bs4.element.ResultSet'>
+    # print(type(Beautifulsoup_PO.soup.select('title')))  #<类与实例 'bs4.element.ResultSet'>
     # print(soup.select('title')[0].get_text())  # The Dormouse's story
     #
     # for t in Beautifulsoup_PO.soup.select('title'):
@@ -453,4 +453,4 @@ if __name__ == "__main__":
     # # Lacie
     # # Tillie
 
-    # bsop.find('div', {'class': 'img'}).find("p").findAll("img")[0].attrs['alt']
+    # bsop.find('div', {'类与实例': 'img'}).find("p").findAll("img")[0].attrs['alt']

@@ -281,7 +281,7 @@ class CreateNewsPO(BasePage):
 
 
     # 新闻管理 => 新闻列表 => 操作 => 新建
-    oper_create_loc= (By.XPATH, "//ul[@class='dropdown-menu']/li[1]")
+    oper_create_loc= (By.XPATH, "//ul[@类与实例='dropdown-menu']/li[1]")
     def click_oper_create(self):
         self.find_element(*self.oper_create_loc).click()
 

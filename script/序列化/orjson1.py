@@ -2,17 +2,31 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2022-6-10
-# Description: 第三方JSON库, orjson
+# Description: orjson 序列化
 # orjson 支持3.7到3.10 所有版本64位的Python
 # pip install orjson
+# 可以将datetime、date和time实例序列化为RFC 3339格式，例如:"2022-06-12T00:00:00+00:00"
+# 序列化numpy.ndarray实例的速度比其他库快4-12倍，但使用的内存更少，约为其他库的1/3左右
+# 输出速度是标准库的10到20倍
+# 序列化的结果是bytes类型，而不是str
+# 序列化str时，不会将unicode转义为ASCII
+# 序列化float的速度是其他库的10倍，反序列化的速度是其他库的两倍,不会损失精度。当序列化NaN,Infinity,-Infinity时，会返回null。
+# 可以直接序列化str、int、list和dict的子类
+# 不提供load( )和dump( )方法，在原生JSON库中，load( )方法可以把json格式的文件转换成python对象
+# 功能丰富的高性能 Python JSON 库 https://weibo.com/ttarticle/p/show?id=2309634846250649583640
 # *****************************************************************
 
-import orjson
+import orjson,sys,json
 
+print(orjson.dumps([float('NaN'), float('Infinity'), float('-Infinity')]))  # b'[null,null,null]'
+str = json.dumps([float('NaN'), float('Infinity'), float('-Infinity')])
+print(str)  # [NaN, Infinity, -Infinity]
+
+sys.exit(0)
 
 print("1，序列化, 将Python对象序列化为JSON数据,结果bytes类型".center(100, "-"))
 b = orjson.dumps({"a":1, "b":2})
-print(type(b))  # <class 'bytes'>
+print(type(b))  # <类与实例 'bytes'>
 print(b)  # b'{"a":1,"b":2}'
 
 print("2，反序列化, 将JSON数据转换为Python对象，可以是str或bytes".center(100, "-"))
@@ -39,7 +53,10 @@ print(orjson.dumps({'now':datetime.now()})) # b'{"now":"2022-06-10T14:05:38.4132
 print(orjson.dumps({'now':datetime.now()}, option=orjson.OPT_OMIT_MICROSECONDS))  # b'{"now":"2022-06-10T14:06:13"}'
 
 print("5 参数 OPT_NON_STR_KEYS，强制将非数值型键转换为字符型：".center(100, "-"))
-print(orjson.dumps({1:"a", 2:"b"},option=orjson.OPT_NON_STR_KEYS)) # b'{"1":"a","2":"b"}'
+print(orjson.dumps({1:"a", 2:3},option=orjson.OPT_NON_STR_KEYS))  # b'{"1":"a","2":3}'
+b = (orjson.dumps({1:"a", 2:3},option=orjson.OPT_NON_STR_KEYS))
+d = orjson.loads(b)  # {'1': 'a', '2': 3}
+print(d)
 
 print("6 参数 OPT_SERIALIZE_NUMPY，可以将包含numpy中数据结构对象的复杂对象，兼容性地转换为JSON中的数组".center(100, "-"))
 import numpy as np

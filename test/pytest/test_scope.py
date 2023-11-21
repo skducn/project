@@ -3,10 +3,10 @@
 # Author     : John
 # Date       : 2020-10-27
 # Description: pytest 之 fixture作用范围 scope ， 测试用例执行之前的准备工作
-# scope 参数值分别是 session， module，class，function
+# scope 参数值分别是 session， module，类与实例，function
 # 1.session 会话级别（通常这个级别会结合conftest.py文件使用）
 # 2.module 模块级别，模块里所有的用例执行前执行一次module级别的fixture
-# 3.class 类级级别，每个类执行前都会执行一次class级别的fixture
+# 3.类与实例 类级级别，每个类执行前都会执行一次class级别的fixture
 # 4.function ：函数级别，这个是默认的模式，函数级别的，每个测试用例执行前都会执行一次function级别的fixture
 # ********************************************************************************************************************
 import pytest
@@ -18,7 +18,7 @@ import pytest
 def module_fixture():
     print('\n我是module fixture ~~~~~~~~~')
 
-@pytest.fixture(scope='class')
+@pytest.fixture(scope='类与实例')
 def class_fixture():
     print('\n我是class fixture +++++++++')
 

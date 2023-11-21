@@ -86,7 +86,7 @@ class Login(unittest.TestCase):
         # Login_PO.clickXPATH("//a[@href='/JobEngineW3/logout']",2)
 
         # # # 首页菜单(选择一级,二级)（作业管理、版本管理、宿主管理、日志管理、用户管理）
-        # Login_PO.selectMenu("//a[@class='dropdown-toggle']", u"用户管理", "//a[@href='#']", u"修改密码")
+        # Login_PO.selectMenu("//a[@类与实例='dropdown-toggle']", u"用户管理", "//a[@href='#']", u"修改密码")
         # #
         # # # 点击引擎管理
         # # Login_PO.clickLINKTEXT(u'引擎管理', 2)
@@ -98,14 +98,14 @@ class Login(unittest.TestCase):
         # Login_PO.printXPATH("//h5")
 
         # # 搜索作业，勾选radio
-        # varSelect = Login_PO.get_selectRadio("//div[@class='right_content_fff']/div[1]/div[2]/div[1]/div[1]/div[3]/table/tbody/tr",u'宿主12')
+        # varSelect = Login_PO.get_selectRadio("//div[@类与实例='right_content_fff']/div[1]/div[2]/div[1]/div[1]/div[3]/table/tbody/tr",u'宿主12')
         # Login_PO.clickXPATH("//input[@id='" + varSelect + "']", 2)
         # # 搜索作业
         # Login_PO.clickXPATH("//button[@onclick=\"searchJob()\"]",2)
 
 
         # 作业管理 - 作业框架管理
-        Login_PO.selectMenu("//a[@class='dropdown-toggle']", u"作业管理", "//a[@href='#']", u"作业框架管理")
+        Login_PO.selectMenu("//a[@类与实例='dropdown-toggle']", u"作业管理", "//a[@href='#']", u"作业框架管理")
 
         # # 注册，框架内
         Login_PO.clickXPATH("//button[@onclick=\"register();\"]", 4)
@@ -132,7 +132,7 @@ class Login(unittest.TestCase):
         # 起始执行时间,切换框架
         Login_PO.clickXPATH("//input[@id='_timeStr']", 2)
         Login_PO.outIframe(2)
-        Login_PO.inIframeXPATH("//body[@class='gray-bg top-navigation']/div[4]/iframe", 2)
+        Login_PO.inIframeXPATH("//body[@类与实例='gray-bg top-navigation']/div[4]/iframe", 2)
         Login_PO.clickXPATH("//input[@id='dpTodayInput']", 2)
         Login_PO.outIframe(2)
         # 切换框架
@@ -171,8 +171,8 @@ class Login(unittest.TestCase):
 
 
         # 2，进入发布项目，创建主项目
-        # Home_PO.assertTrue(Home_PO.isElementXpath("//div[@class='index-1 disabled']"), u'显化被屏蔽')
-        # Home_PO.assertTrue(Home_PO.isElementXpath("//div[@class='index-3 disabled']"), u'审核被屏蔽')
+        # Home_PO.assertTrue(Home_PO.isElementXpath("//div[@类与实例='index-1 disabled']"), u'显化被屏蔽')
+        # Home_PO.assertTrue(Home_PO.isElementXpath("//div[@类与实例='index-3 disabled']"), u'审核被屏蔽')
 
         Operation_PO.select_operations(u'发布的项目',2)
         # 发布项目 - 操作 - 新建
@@ -221,7 +221,7 @@ class Login(unittest.TestCase):
         Operation_PO.click_oper(2)
         Operation_PO.select_operations(u'添加子项目',2)
         # 进入第一层iframe >>>>>>>>>>>>>>>>>>>>>>>>>>>
-        Home_PO.inIframeDiv("[@class='cetc-popup-content']/div", 2)
+        Home_PO.inIframeDiv("[@类与实例='cetc-popup-content']/div", 2)
         # 添加子项目 - 子项目信息 - 子项目标题
         newWs = newbk.get_sheet(1)
         newWs.write(9, 2, Home_PO.input_rlsSubProjectTitle(u'规划' + datetime.datetime.now().strftime('%Y%m%d%H%M%S')), styleRed)
@@ -250,7 +250,7 @@ class Login(unittest.TestCase):
         Operation_PO.click_oper(2)
         Operation_PO.select_operations(u'添加子项目',2)
         # 进入第一层iframe >>>>>>>>>>>>>>>>>>>>>>>>>>>
-        Home_PO.inIframeDiv("[@class='cetc-popup-content']/div", 2)
+        Home_PO.inIframeDiv("[@类与实例='cetc-popup-content']/div", 2)
         # 添加子项目 - 子项目信息 - 子项目标题
         newWs = newbk.get_sheet(1)
         newWs.write(9, 2, Home_PO.input_rlsSubProjectTitle(u'规划' + datetime.datetime.now().strftime('%Y%m%d%H%M%S')), styleRed)
@@ -271,12 +271,12 @@ class Login(unittest.TestCase):
         Operation_PO.select_operations(u'添加', 2)
         # 发布项目 - 添加子项目 - 添加项目资源 - 勾选资源checkbox
         # 进入第二层iframe >>>>>>>>>>>>>>>>>>>>>>>>>>>
-        Home_PO.inIframeDiv("[@class='cetc-popup-content']/div", 2)
+        Home_PO.inIframeDiv("[@类与实例='cetc-popup-content']/div", 2)
         Home_PO.check_rlsAddProjectResource('2,4')  # 勾选1个
         # Home_PO.check_rlsAddProjectResource('3,5,6')  # 勾选3个
         Home_PO.outIframe(2)   # 退出所有的iframe <<<<<<<<<<<<<<<<<<<<<<<<<<<
         # 进入第一层iframe >>>>>>>>>>>>>>>>>>>>>>>>>>>
-        Home_PO.inIframeDiv("[@class='cetc-popup-content']/div", 2)
+        Home_PO.inIframeDiv("[@类与实例='cetc-popup-content']/div", 2)
         # 发布项目 - 添加子项目 - 添加项目资源 - 确认
         Home_PO.click_popupConfirm(4)
         # 发布项目 - 添加子项目 - 确认（你确定要添加新的资源吗？）

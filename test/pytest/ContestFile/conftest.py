@@ -9,7 +9,7 @@
 # conftest 应用中需要结合fixture，即fixture中参数scope也适用conftest中fixture的特性：
 # 1.@pytest.fixture(scope="session")，参数为session时，则先执行一次，再执行所有的测试文件。
 # 2.@pytest.fixture(scope="module")，参数为module时，则在每个测试文件前执行一次
-# 3.@pytest.fixture(scope="class")，参数为class时，则在每个测试文件中的类前执行一次，如果没有类则执行scope=function
+# 3.@pytest.fixture(scope="类与实例")，参数为class时，则在每个测试文件中的类前执行一次，如果没有类则执行scope=function
 # 4.@pytest.fixture(scope="function")，参数为function时，则在每个测试文件的函数前执行一次
 
 # 总结：
@@ -22,7 +22,7 @@
 
 import pytest
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="类与实例")
 def login():
     print('\n login in conftest.py -----------')
 

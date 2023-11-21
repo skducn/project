@@ -64,13 +64,13 @@ print(p.getname())  # 小wang, 通过函数self方式调用私有变量。
 
 
 
-# class GrandFather():
+# 类与实例 GrandFather():
 #     print('我是爷爷')
 #
-# class Parent(GrandFather):
+# 类与实例 Parent(GrandFather):
 #     print('我是父类')
 #
-# class SubClass(Parent):
+# 类与实例 SubClass(Parent):
 #     print('我是子类')
 #
 # # sub = SubClass()
@@ -88,7 +88,7 @@ class Me(Parent, Parent2):
     print('我')
 Me()
 
-print(Me.__bases__)  # (<class '__main__.Parent'>, <class '__main__.Parent2'>)
+print(Me.__bases__)  # (<类与实例 '__main__.Parent'>, <类与实例 '__main__.Parent2'>)
 
 #注意：类在定义的时候就执行类体代码，执行顺序是从上到下
 #
@@ -140,7 +140,7 @@ c.hello()  # 子类的方法
 p.hello()  # 父类的方法
 
 # 「方法解析顺序」（Method Resolution Order，或MRO
-print(Child.mro())  # [<class '__main__.Child'>, <class '__main__.Parent'>, <class 'object'>]
+print(Child.mro())  # [<类与实例 '__main__.Child'>, <类与实例 '__main__.Parent'>, <类与实例 'object'>]
 
 
 # 经典类的 MRO
@@ -159,10 +159,10 @@ class D(B, C):
     pass
 
 print(inspect.getmro(D))
-# (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+# (<类与实例 '__main__.D'>, <类与实例 '__main__.B'>, <类与实例 '__main__.C'>, <类与实例 '__main__.A'>, <类与实例 'object'>)
 
 print(D.__mro__)
-# (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+# (<类与实例 '__main__.D'>, <类与实例 '__main__.B'>, <类与实例 '__main__.C'>, <类与实例 '__main__.A'>, <类与实例 'object'>)
 
 x = D()
 x.show()
@@ -184,7 +184,7 @@ class C(A, B):
     pass
 
 print(C.__mro__)
-# (<class '__main__.C'>, <class '__main__.A'>, <class '__main__.X'>, <class '__main__.B'>, <class '__main__.Y'>, <class 'object'>)
+# (<类与实例 '__main__.C'>, <类与实例 '__main__.A'>, <类与实例 '__main__.X'>, <类与实例 '__main__.B'>, <类与实例 '__main__.Y'>, <类与实例 'object'>)
 c = C()
 
 

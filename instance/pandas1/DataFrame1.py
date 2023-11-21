@@ -37,7 +37,7 @@ print(df.dtypes)   # //返回的索引是列名，列名的混合型被存储为
 # string              object
 # dtype: object
 
-print(type(df.dtypes))  # <class 'pandas.core.series.Series'>
+print(type(df.dtypes))  # <类与实例 'pandas.core.series.Series'>
 print(df['int'].dtype)  # int64
 
 # 获取每个类型的数量
@@ -62,7 +62,7 @@ print(df.dtypes.value_counts())
 #
 # # 将第一行数据中所属行业竖向排列输出
 # print(data.loc[0, ['所属行业']])  # 所属行业    J 金融业
-# print(type(data.loc[0]))  # <class 'pandas.core.series.Series'>
+# print(type(data.loc[0]))  # <类与实例 'pandas.core.series.Series'>
 #
 # # 将第一行数据转换成列表
 # print(list(data.loc[0])) # ['主板', '000001', '平安银行', '1991-04-03', 19405918198.0, 19405534450.0, 'J 金融业', 0.9999802252077905, '主板J 金融业', 4519580162.0, 1.0]

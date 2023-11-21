@@ -30,7 +30,7 @@ Z = (Z1 - Z2) * 2
 # Make contour labels using creative float classes
 # Follows suggestion of Manuel Metz
 
-# Define a class that forces representation of float to look a certain way
+# Define a 类与实例 that forces representation of float to look a certain way
 # This remove trailing zero so '1.0' becomes '1'
 
 
@@ -44,7 +44,7 @@ class nf(float):
 fig, ax = plt.subplots()
 CS = ax.contour(X, Y, Z)
 
-# Recast levels to new class
+# Recast levels to new 类与实例
 CS.levels = [nf(val) for val in CS.levels]
 
 # Label levels with specially formatted floats

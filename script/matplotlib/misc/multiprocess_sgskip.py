@@ -23,7 +23,7 @@ np.random.seed(19680801)
 # Processing Class
 # ================
 #
-# This class plots data it receives from a pipe.
+# This 类与实例 plots data it receives from a pipe.
 #
 
 
@@ -62,11 +62,11 @@ class ProcessPlotter:
 
 ###############################################################################
 #
-# Plotting class
+# Plotting 类与实例
 # ==============
 #
-# This class uses multiprocessing to spawn a process to run code from the
-# class above. When initialized, it creates a pipe and an instance of
+# This 类与实例 uses multiprocessing to spawn a process to run code from the
+# 类与实例 above. When initialized, it creates a pipe and an instance of
 # ``ProcessPlotter`` which will be run in a separate process.
 #
 # When run from the command line, the parent process sends data to the spawned

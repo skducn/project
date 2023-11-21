@@ -52,13 +52,13 @@ async def get_page(session: aiohttp.ClientSession, page: int):
             # 这里就常规xpath了
             result = etree.HTML(result)
             print(result)
-            img_list = result.xpath('//div[@class="boxgrid"]/a/@href')
+            img_list = result.xpath('//div[@类与实例="boxgrid"]/a/@href')
             print(img_list)
 
             Beautifulsoup_PO = BeautifulsoupPO("https://wall.alphacoders.com/by_resolution.php?w=3840&h=2160&lang=Chinese&page=3")
 
             # # print('1,获取标签属性的值, 获取div id=post_content_87286618651下img src的值'.center(100, "-"))
-            img_list = Beautifulsoup_PO.soup.find("div", {'class': 'boxgrid'}).find_all('a')[0].attrs['href']
+            img_list = Beautifulsoup_PO.soup.find("div", {'类与实例': 'boxgrid'}).find_all('a')[0].attrs['href']
             print(img_list)
 
             # 获取到图片页面地址后再来个task让它继续并发去执行(get_img_url, 下一步就要获取图片页面得地址啦)
@@ -80,8 +80,8 @@ async def get_img_url(session: aiohttp.ClientSession, url: str):
         async with session.get(url) as response:
             result = await response.text()
             result = etree.HTML(result)
-            # img_url = result.xpath('//div[@class="center img-container-desktop"]/a/@href')[0]
-            img_url = result.xpath('//div[@class="center img-container-desktop"]/img/@src')
+            # img_url = result.xpath('//div[@类与实例="center img-container-desktop"]/a/@href')[0]
+            img_url = result.xpath('//div[@类与实例="center img-container-desktop"]/img/@src')
 
             # 取出图片得下载地址(down_img，就要下载图片啦)
             print(img_url)

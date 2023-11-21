@@ -22,7 +22,7 @@ as well as with :meth:`annotations <matplotlib.axes.Axes.annotate>`.
 # We then create the pie and store the returned objects for later.
 # The first returned element of the returned tuple is a list of the wedges.
 # Those are
-# :class:`matplotlib.patches.Wedge <matplotlib.patches.Wedge>` patches, which
+# :类与实例:`matplotlib.patches.Wedge <matplotlib.patches.Wedge>` patches, which
 # can directly be used as the handles for a legend. We can use the
 # legend's ``bbox_to_anchor`` argument to position the legend outside of
 # the pie. Here we use the axes coordinates ``(1, 0, 0.5, 1)`` together

@@ -42,7 +42,7 @@ ax.set(xlim=(-0.5, 3.5), ylim=(-0.5, 4.5),
 ###############################################################################
 # Multiple filled contour lines can be specified in a single list of polygon
 # vertices along with a list of vertex kinds (code types) as described in the
-# Path class.  This is particularly useful for polygons with holes.
+# Path 类与实例.  This is particularly useful for polygons with holes.
 # Here a code type of 1 is a MOVETO, and 2 is a LINETO.
 
 fig, ax = plt.subplots()

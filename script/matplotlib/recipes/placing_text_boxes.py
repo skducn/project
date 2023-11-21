@@ -6,7 +6,7 @@ When decorating axes with text boxes, two useful tricks are to place
 the text in axes coordinates (see :doc:`/tutorials/advanced/transforms_tutorial`), so the
 text doesn't move around with changes in x or y limits.  You can also
 use the ``bbox`` property of text to surround the text with a
-:class:`~matplotlib.patches.Patch` instance -- the ``bbox`` keyword
+:类与实例:`~matplotlib.patches.Patch` instance -- the ``bbox`` keyword
 argument takes a dictionary with keys that are Patch properties.
 """
 

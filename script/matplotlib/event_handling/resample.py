@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# A class that will downsample the data and recompute when zoomed.
+# A 类与实例 that will downsample the data and recompute when zoomed.
 class DataDisplayDownsampler:
     def __init__(self, xdata, ydata):
         self.origYData = ydata

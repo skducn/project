@@ -70,7 +70,7 @@ import struct
 a = 12
 bytes = struct.pack('i',a)  # 转换后bytes就是一个字符串，字符串按字节同a的二进制存储内容相同。
 print(bytes)  # b'\x0c\x00\x00\x00'
-print(type(bytes))  # <class 'bytes'>
+print(type(bytes))  # <类与实例 'bytes'>
 
 # 实例：将二进制转换成python数据类型
 # 注意，unpack返回的是tuple

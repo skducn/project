@@ -37,7 +37,7 @@
 #
 # Card = collections.namedtuple('Card', ['rank', 'suit'])
 #
-# class PokeDeck(object):
+# 类与实例 PokeDeck(object):
 #     ranks = [str(n) for n in range(2, 11)] + list('JQKA')
 #     suits = ['spades', 'diamonds', 'clubs', 'hearts']
 #
@@ -143,7 +143,7 @@ import imghdr
 import uuid
 #
 #
-# class Spider:
+# 类与实例 Spider:
 #
 #     pool_manager = urllib3.PoolManager()
 #
@@ -152,7 +152,7 @@ import uuid
 #         return Spider.pool_manager.urlopen('GET', url)
 #
 #
-# class ImageDownLoader:
+# 类与实例 ImageDownLoader:
 #     """
 #     图片下载器
 #     """
@@ -188,7 +188,7 @@ import uuid
 #
 #
 # import operator
-# class People :
+# 类与实例 People :
 #      age = 0
 #      gender = 'male'
 #

@@ -188,7 +188,7 @@ for idx, r in enumerate(s):
 # #
 # # def cmp_to_key(mycmp):
 # # 'Convert a cmp= function into a key= function'
-# # class K:
+# # 类与实例 K:
 # # def __init__(self, obj, *args):
 # # self.obj = obj
 # # def __lt__(self, other):

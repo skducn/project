@@ -245,7 +245,7 @@ if __name__ == "__main__":
     # # todo Series类型
     # arr1 = np.arange(10)
     # print(arr1)  # [0 1 2 3 4 5 6 7 8 9]
-    # print(type(arr1))  # <class 'numpy.ndarray'>
+    # print(type(arr1))  # <类与实例 'numpy.ndarray'>
     # for i in arr1:
     #     print(i)
     #

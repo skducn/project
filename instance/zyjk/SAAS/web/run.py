@@ -135,16 +135,16 @@ class Run(unittest.TestCase):
         #         x.pop(0)
         # print(x)
 
-        Level_PO.clickXpath("//body/div[@class='el-select-dropdown el-popper is-multiple']/div[1]/div[1]/ul/li[1]", 2)  # 选择第1个  li[1]
-        Level_PO.clickXpath("//button[@class='el-button el-button--primary']", 2)  # 查找
-        Level_PO.clickXpath("//button[@class='el-button el-button--text el-button--small']", 2)  # 操作详情
+        Level_PO.clickXpath("//body/div[@类与实例='el-select-dropdown el-popper is-multiple']/div[1]/div[1]/ul/li[1]", 2)  # 选择第1个  li[1]
+        Level_PO.clickXpath("//button[@类与实例='el-button el-button--primary']", 2)  # 查找
+        Level_PO.clickXpath("//button[@类与实例='el-button el-button--text el-button--small']", 2)  # 操作详情
         # 问题档案列表之 规则类型勾选
         for i in range(len(varRules)):
             Level_PO.clickXpathsNum("//span[@aria-checked='mixed']", varRules[i], 2)  # 勾选第？个
         sleep(4)
 
         # 勾选规则后，页面自动匹配显示符合条件的问题档案列表，并点击第一条记录
-        l_data = Level_PO.getXpathsText("//div[@class='tableTemplate']/div[2]/div[1]/div/div/div/div/div/div")
+        l_data = Level_PO.getXpathsText("//div[@类与实例='tableTemplate']/div[2]/div[1]/div/div/div/div/div/div")
         x = int(len(l_data) / 9)
         l_record = numpy.array_split(l_data, x)
         l_title = ['操作:', '档案编号:', '姓名:', '社区医院:', '表单名称:', '字段名称:', '规则类型:', '错误描述:']
@@ -155,9 +155,9 @@ class Run(unittest.TestCase):
         newWs.write(varExcelNum, 5, c, styleBlue)
         newbk.save(varExcel)
 
-        Level_PO.clickXpathsNum("//div[@class='tableTemplate']/div[2]/div[1]/div/div/div/div/div/div", 1, 2)  # 点击 第一条记录
-        # Level_PO.clickXpathsNum("//div[@class='tableTemplate']/div[2]/div[1]/div/div/div/div/div/div", 10, 2)  #  点击 第二条记录
-        # Level_PO.clickXpathsNum("//div[@class='tableTemplate']/div[2]/div[1]/div/div/div/div/div/div", 19, 2)  # 点击 第三条记录
+        Level_PO.clickXpathsNum("//div[@类与实例='tableTemplate']/div[2]/div[1]/div/div/div/div/div/div", 1, 2)  # 点击 第一条记录
+        # Level_PO.clickXpathsNum("//div[@类与实例='tableTemplate']/div[2]/div[1]/div/div/div/div/div/div", 10, 2)  #  点击 第二条记录
+        # Level_PO.clickXpathsNum("//div[@类与实例='tableTemplate']/div[2]/div[1]/div/div/div/div/div/div", 19, 2)  # 点击 第三条记录
 
     def qcAnalysis_cover(self, varExcelNum):
         print("【健康档案封面】")
@@ -219,8 +219,8 @@ class Run(unittest.TestCase):
 
     def qcAnalysis_project(self,varExcelNum):
         print("【质控项目汇总 - 个人基本信息表】")
-        l_person1 = Level_PO.getXpathText("//div[@class='main']/div[1]/div[2]/div[1]")
-        l_person1Value = Level_PO.getXpathText("//div[@class='main']/div[1]/div[2]/div[2]")
+        l_person1 = Level_PO.getXpathText("//div[@类与实例='main']/div[1]/div[2]/div[1]")
+        l_person1Value = Level_PO.getXpathText("//div[@类与实例='main']/div[1]/div[2]/div[2]")
         # print(l_person1)
         # print(l_person1Value)
         newWs = newbk.get_sheet(1)

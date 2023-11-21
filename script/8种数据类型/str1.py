@@ -15,7 +15,7 @@
 7，expandtabs，将字符串中tab符号(\\t)转为空格。如：str.expandtabs(16)，"this is\ta apply" => "this is         a apply"
 8，find，从左往右查找字符串中某字符是否存在，找到则返回下标，否则返回-1。如 str.find("are"), "you are a man"  => 4
 9，format，字符串格式化。 如：'{} {}'.format(str1,str2)
-10，format_map，字典格式化。如：'{class}班{name}总分{score}'.format_map(dict1), 如：{'name': '小明', 'class': '20190301', 'score': 597.5}  => "20190301班小明总分：597.5"
+10，format_map，字典格式化。如：'{类与实例}班{name}总分{score}'.format_map(dict1), 如：{'name': '小明', '类与实例': '20190301', 'score': 597.5}  => "20190301班小明总分：597.5"
 11，index，获取字符串中字符位置下标，如：str.index("are")，"you are a man" => 4
 12，isalnum，判断str1是否由数字、字母、中文组成， 如：str.isalnum() , "you你好123" => True
 13，isalpha，判断str1是否为纯字母（包括中文），如：str.isalpha(),  "you你好rrrr" => True
@@ -147,7 +147,7 @@ s = "金"
 x = "浩"
 print(ord(s))  # 37329
 print(ord(x))  # 28009
-print(type(ord(s)))  # <class 'int'>
+print(type(ord(s)))  # <类与实例 'int'>
 s = chr(37329)  # 金
 x = chr(28009)  # 浩
 print(s + x)  # 金浩
@@ -156,13 +156,13 @@ s = "严"
 print(s.encode('utf-8'))  # b'\xe4\xb8\xa5'  //unicode内存编码，十六进制
 print(s.encode('gb2312'))  # b'\xd1\xcf'   //unicode内存编码，十六进制
 print(s.encode('unicode_escape'))  # b'\\u9a6c'    //unicode内存编码，十六进制
-print(type(s.encode('unicode_escape')))  # <class 'bytes'>
+print(type(s.encode('unicode_escape')))  # <类与实例 'bytes'>
 print(s.encode('unicode_escape').decode())  # \u9a6c   //unicode编号 0x9A6C
-print(type(s.encode('unicode_escape').decode()))  # <class 'str'>
+print(type(s.encode('unicode_escape').decode()))  # <类与实例 'str'>
 print(ord(s))  # 39532   //unicode整数编号
-print(type(ord(s)))  # <class 'int'>
+print(type(ord(s)))  # <类与实例 'int'>
 print(bin(ord(s)))  # 0b 1001101001101100     //二进制形式的字符串
-print(type(bin(ord(s))))  # <class 'str'>
+print(type(bin(ord(s))))  # <类与实例 'str'>
 print(bytes(b'\\u9a6c').decode("unicode_escape"))  # 马   //解码
 
 
@@ -196,10 +196,10 @@ print(x)  # you are a nice man str3 hello john   # 如：在str1和str2中插入
 
 print("10, str.format_map(map) 字典格式化".center(100, "-"))
 # 参考：https://blog.csdn.net/LaoYuanPython/article/details/89478668  第3.10节 Python强大的字符串格式化新功能：使用format字符串格式化
-student = {'name': '小明', 'class': '20190301', 'score': 597.5}
-s1 = '{st[class]}班{st[name]}总分：{st[score]}'.format(st=student)
+student = {'name': '小明', '类与实例': '20190301', 'score': 597.5}
+s1 = '{st[类与实例]}班{st[name]}总分：{st[score]}'.format(st=student)
 print(s1)  # 20190301班小明总分：597.5
-s1 = '{class}班{name}总分：{score}'.format_map(student)
+s1 = '{类与实例}班{name}总分：{score}'.format_map(student)
 print(s1)  # 20190301班小明总分：597.5
 
 
@@ -256,7 +256,7 @@ print("17，isidentifier() 判断字符串是否是有效标识符".center(100, 
 # 如果字符串仅包含字母数字字母（a-z）和（0-9）或下划线（_）或中文，则该字符串被视为有效标识符。有效的标识符不能以数字开头或包含任何空格。
 print("if".isidentifier())  # True
 print("def".isidentifier())  # True
-print("class".isidentifier())  # True
+print("类与实例".isidentifier())  # True
 print("_a".isidentifier())  # True
 print("中国123a".isidentifier())  # True
 print("123".isidentifier())  # False
@@ -439,7 +439,7 @@ print(str1.startswith("o", 1))  # True
 # import json
 # # 字典 转 字符串，json.dumps()
 # str7 = json.dumps(dict7)
-# print(type(str7)) # <class 'str'>
+# print(type(str7)) # <类与实例 'str'>
 # print(str7)   # {"a": "192.168.1.1", "b": "192.168.1.2"} , 技巧，如果输出结果中是双引号，这一组就是字符串
 #
 # # 字符串 转 字典，json.loads()

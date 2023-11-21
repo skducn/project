@@ -238,7 +238,7 @@ class JinganPO():
         varStatus = '有'
         var = ['头孢类抗生素', '酒精', {"其他药物过敏原": '3333'}]
         # 判断默认勾选的是无还是有
-        currStatus = Base_PO.getXpathAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', 'class')
+        currStatus = Base_PO.getXpathAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', '类与实例')
         if currStatus == "mini-radiobuttonlist-item":
             currStatus = '无'
         else:

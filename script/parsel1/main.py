@@ -57,10 +57,10 @@ selector = Selector(html)  # 初始化Selector()对象
 
 shop_items = selector.css('.product-list li')
 for shop in shop_items:
-    shop_name = shop.xpath('.//div[@class="p-name"]/text()').get()  # 商品名称
+    shop_name = shop.xpath('.//div[@类与实例="p-name"]/text()').get()  # 商品名称
     shop_href = 'http:' + shop.xpath('./a/@href').get()  # 商品详细链接
-    price = shop.xpath('.//div[@class="p-price"]/text()').get()  # 商品价格
-    shop_price = shop.xpath('.//div[@class="p-price"]/text()').re('\d+\D\d+')[0]  # 商品价格
+    price = shop.xpath('.//div[@类与实例="p-price"]/text()').get()  # 商品价格
+    shop_price = shop.xpath('.//div[@类与实例="p-price"]/text()').re('\d+\D\d+')[0]  # 商品价格
 
     print(shop_name)
     print(shop_href)

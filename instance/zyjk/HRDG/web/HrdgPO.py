@@ -337,7 +337,7 @@ class HrdgPO():
             # # todo: 药物过敏史
 
             # 判断默认勾选的是无还是有
-            currStatus = Web_PO.getValueByAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', 'class')
+            currStatus = Web_PO.getValueByAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', '类与实例')
             if currStatus == "mini-radiobuttonlist-item":
                 currStatus = False  # '无'
             else:

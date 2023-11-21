@@ -74,7 +74,7 @@ print(obj1.attr1, obj2.attr1)  # value1 value1
 print(obj1 is obj2)
 
 
-# class Foo():
+# 类与实例 Foo():
 #     c = 1
 #     def __init__(self,name):
 #         self.name = name
@@ -90,7 +90,7 @@ print(obj1 is obj2)
 # print(foo.a)
 
 
-# class Foo():
+# 类与实例 Foo():
 #     c = 1
 #     def __init__(self,name):
 #         self.name = name
@@ -111,7 +111,7 @@ print(obj1 is obj2)
 # print(foo.a)
 
 
-# class Foo():
+# 类与实例 Foo():
 #     def __init__(self,name):
 #         self.name = name
 #
@@ -142,7 +142,7 @@ print(obj1 is obj2)
 
 
 
-# class Networkerror(RuntimeError):
+# 类与实例 Networkerror(RuntimeError):
 #     def __init__(self, arg):
 #         self.args = arg
 #

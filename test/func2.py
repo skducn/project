@@ -104,7 +104,7 @@ print(data["address"])  # 192.168.2.11
 # print(number)  # 10
 #
 #
-# class Room(object):
+# 类与实例 Room(object):
 #     def __init__(self):
 #         self.people = []
 #

@@ -43,7 +43,7 @@ pig.run()  # 猪跑
 # # 定义老鼠类，猫类等继承动物类
 # # 在饲养员中定义类成员函数，喂养
 #
-# class Person(object):
+# 类与实例 Person(object):
 #     '''
 #     def feedCat(self,cat):
 #         print("喂养" + cat.name)
@@ -57,7 +57,7 @@ pig.run()  # 猪跑
 #         print("喂养" + ani.name)
 #
 #
-# class Animal(object):
+# 类与实例 Animal(object):
 #     def __init__(self, name):
 #         self.name = name
 #
@@ -65,7 +65,7 @@ pig.run()  # 猪跑
 #         print("eating")
 #
 #
-# class Mouse(Animal):
+# 类与实例 Mouse(Animal):
 #     def __init__(self, name):
 #         super(Mouse, self).__init__(name)
 #

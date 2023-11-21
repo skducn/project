@@ -374,7 +374,7 @@ class BasePO(object):
 
     def getXpathText(self, varPath):
         # 获取路径的文本
-        # Level_PO.getXpathText(u"//input[@class='123']")
+        # Level_PO.getXpathText(u"//input[@类与实例='123']")
         try:
 
             return self.find_element(*(By.XPATH, varPath)).text
@@ -449,7 +449,7 @@ class BasePO(object):
 
     def getXpathAttr(self, varPath, varAttr):
         # 获取属性的值
-        # Level_PO.getXpathAttr(u"//input[@class='123']",u"value")
+        # Level_PO.getXpathAttr(u"//input[@类与实例='123']",u"value")
         try:
             return self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr)
         except:
@@ -546,7 +546,7 @@ class BasePO(object):
             return None
 
     def printXpathAttr(self, varPath, varAttr):
-        # Level_PO.printXpathAttr(u"//input[@class="123"]",u"value")
+        # Level_PO.printXpathAttr(u"//input[@类与实例="123"]",u"value")
         try:
             print(self.find_element(*(By.XPATH, varPath)).get_attribute(varAttr))
         except:
@@ -564,7 +564,7 @@ class BasePO(object):
 
     def isCheckbox(self, varPath):
         # ? 判断是否选中复选框 ，返回 True 或 False
-        # Level_PO.isCheckbox(u"//input[@class='123']")
+        # Level_PO.isCheckbox(u"//input[@类与实例='123']")
         try:
             return self.find_element(*(By.XPATH, varPath)).is_selected()
         except:
@@ -659,7 +659,7 @@ class BasePO(object):
 
     def selectXpathsMenu1Menu2(self, varPaths1, varMenu, varPaths2, varMenu2, t):
         # 遍历级联菜单（选择一级菜单后再选择二级菜单）
-        # Level_PO.selectMenu("//a[@class='dropdown-toggle']", u"作业管理", "//a[@href='#']", u"作业框架管理", 3)
+        # Level_PO.selectMenu("//a[@类与实例='dropdown-toggle']", u"作业管理", "//a[@href='#']", u"作业框架管理", 3)
         try:
             for a in self.driver.find_elements_by_xpath(varPaths1):
                 if varMenu == a.text:
@@ -708,7 +708,7 @@ class BasePO(object):
 
     def iframeXpath(self, dimXpath, t=0):
         # 定位iframe的Xpath
-        # self.Level_PO.iframeXpath("//body[@class='gray-bg top-navigation']/div[4]/iframe", 1)
+        # self.Level_PO.iframeXpath("//body[@类与实例='gray-bg top-navigation']/div[4]/iframe", 1)
         self.driver.switch_to_frame(self.driver.find_element_by_xpath(dimXpath))
         sleep(t)
 
@@ -728,7 +728,7 @@ class BasePO(object):
     def inIframeTopDiv(self, varPath, t=0):
         # 定位iframe的div路径
         # evel_PO.inIframeDiv("[@id='showRealtime']", 2)
-        # Home_PO.inIframeDiv("[@class='cetc-popup-content']/div", 2)
+        # Home_PO.inIframeDiv("[@类与实例='cetc-popup-content']/div", 2)
         iframe = self.driver.find_element_by_xpath("//div" + varPath + "/iframe")
         # print iframe.get_attribute("src")
         self.driver.switch_to_frame(iframe)

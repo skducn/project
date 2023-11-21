@@ -543,11 +543,11 @@ Crm_PO = CrmPO()
 Crm_PO.login()
 
 # 选择 商务管理 - 销售分析
-Level_PO.clickXpath("//div[@class='menu-scroll scroll-down']", 1)
-Level_PO.clickXpath("//div[@class='menu-scroll scroll-down']", 1)
-Level_PO.clickXpath("//div[@class='menu-scroll scroll-down']", 1)
-Level_PO.clickXpath("//div[@class='menu-scroll scroll-down']", 1)
-Level_PO.clickXpath("//div[@class='menu-scroll scroll-down']", 1)
+Level_PO.clickXpath("//div[@类与实例='menu-scroll scroll-down']", 1)
+Level_PO.clickXpath("//div[@类与实例='menu-scroll scroll-down']", 1)
+Level_PO.clickXpath("//div[@类与实例='menu-scroll scroll-down']", 1)
+Level_PO.clickXpath("//div[@类与实例='menu-scroll scroll-down']", 1)
+Level_PO.clickXpath("//div[@类与实例='menu-scroll scroll-down']", 1)
 Level_PO.clickXpath("//div[@id='m9321']/span", 2)  # 商务管理
 Level_PO.clickXpath("//ul[@id='third-menulist-f15881']/li/a", 2)  # 销售分析
 

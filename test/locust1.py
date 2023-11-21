@@ -10,14 +10,14 @@
 #
 #
 # # 定义用户行为
-# class UserBehavior(TaskSet):
+# 类与实例 UserBehavior(TaskSet):
 #
 #     @task
 #     def baidu_index(self):
 #         self.client.get("/")
 #
 #
-# class WebsiteUser(HttpUser):
+# 类与实例 WebsiteUser(HttpUser):
 #     task_set = UserBehavior
 #     # tasks = [UserBehavior]
 #     min_wait = 3000

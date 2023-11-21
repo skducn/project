@@ -10,7 +10,7 @@
 # 实例（构造）方法 __init__（构造函数）里面的是实例变量，程序中可以任何位置（类里面或者类外面）增加实例变量，删除则用del语句。
 
 # # todo: 类与实例变量
-# class Bird:
+# 类与实例 Bird:
 #     eyes = "two"
 #     def __init__(self, color, feet):
 #         self.color = color
@@ -113,9 +113,9 @@ Person.walk("你好")  # 你好 正在慢慢走 //Python只要求手动为第一
 
 
 print("类方法和静态方法".center(100, "-"))
-Person.fly()  # 类方法fly: <class '__main__.Person'>   //#调用类方法，类会自动绑定到第一个参数cls
+Person.fly()  # 类方法fly: <类与实例 '__main__.Person'>   //#调用类方法，类会自动绑定到第一个参数cls
 Person.info("真麻烦")  # 静态方法info: 真麻烦   //#调用静态方法，不会自动绑定，第一个参数必须手动输入
-p.fly()  # 类方法fly: <class '__main__.Person'>  //使用对象p调用fly类方法，其实还是使用类调用
+p.fly()  # 类方法fly: <类与实例 '__main__.Person'>  //使用对象p调用fly类方法，其实还是使用类调用
 p.info("好开心")  # 静态方法info: 好开心   //使用对象p调用info静态方法，其实还是使用了类调用
 
 

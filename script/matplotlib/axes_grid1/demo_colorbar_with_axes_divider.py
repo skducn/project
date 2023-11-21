@@ -5,7 +5,7 @@ Demo Colorbar with Axes Divider
 
 The make_axes_locatable function (part of the axes_divider module) takes an
 existing axes, creates a divider for it and returns an instance of the
-AxesLocator class. The append_axes method of this AxesLocator can then be used
+AxesLocator 类与实例. The append_axes method of this AxesLocator can then be used
 to create a new axes on a given side ("top", "right", "bottom", or "left") of
 the original axes. This example uses Axes Divider to add colorbars next to
 axes.

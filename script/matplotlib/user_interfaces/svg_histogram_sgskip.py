@@ -24,7 +24,7 @@ objects. Two mechanisms could be used to simplify things:
 
 For example, instead of modifying the properties of each individual bar,
 the bars from the `~.pyplot.hist` function could either be grouped in
-a PatchCollection, or be assigned a class="hist_##" attribute.
+a PatchCollection, or be assigned a 类与实例="hist_##" attribute.
 
 CSS could also be used more extensively to replace repetitive markup
 throughout the generated SVG.

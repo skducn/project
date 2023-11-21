@@ -48,7 +48,7 @@ class NetPO:
         header = "<style>table{table-layout: fixed;}td{word-break: break-all; word-wrap:break-word;} .mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style><html><head><title>saas高血压接口自动化报告</title></head>"
         # th = '<body text="#000000" ><table border="1" cellspacing="0" cellpadding="3" bordercolor="#000000" width="180" align="left" ><tr bgcolor="#F79646" align="left" ><th>本地地址</th><th>PBU</th></tr>'
         # th = '<body><table cellspacing="0" cellpadding="3" width="100%" border="1">'
-        th = '<body><table border="1" class="dataframe mystyle" width="100%">'
+        th = '<body><table border="1" 类与实例="dataframe mystyle" width="100%">'
 
         book = xlrd.open_workbook(varExcel)
         sheet = book.sheet_by_index(0)

@@ -6,7 +6,7 @@ Radian ticks
 Plot with radians from the basic_units mockup example package.
 
 
-This example shows how the unit class can determine the tick locating,
+This example shows how the unit 类与实例 can determine the tick locating,
 formatting and axis labeling.
 
 .. only:: builder_html

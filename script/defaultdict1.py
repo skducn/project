@@ -42,7 +42,7 @@ dict1 = defaultdict(dict)
 dict1[5]["a"] = 125
 dict1[5]["b"] = 1
 print(dict1[5])  # {'a': 125, 'b': 1}
-print(dict1)  # defaultdict(<class 'dict'>, {5: {'a': 125, 'b': 1}})
+print(dict1)  # defaultdict(<类与实例 'dict'>, {5: {'a': 125, 'b': 1}})
 
 # #
 # # print("6.2 collections中defaultdict之字典的 value 是列表".center(100, "-"))
@@ -60,5 +60,5 @@ print(dict1)  # defaultdict(<class 'dict'>, {5: {'a': 125, 'b': 1}})
 # # print("6.4 collections中defaultdict之字典的 value 里又是字典".center(100, "-"))
 # dict4 = defaultdict(lambda: defaultdict(dict))
 # dict4[5]["a"] = dict(b=123, c=666)
-# # print(dict4[5])  # defaultdict(<class 'dict'>, {'a': '123'})
+# # print(dict4[5])  # defaultdict(<类与实例 'dict'>, {'a': '123'})
 # print(dict4[5]['a'])  # {'b': 123, 'c': 666}

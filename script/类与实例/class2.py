@@ -20,11 +20,11 @@ class ClassWay:
 ClassWay.func()  # num= 1
 a = ClassWay()
 a.func()  # num= 1
-print(ClassWay.func)  # <bound method ClassWay.func of <class '__main__.ClassWay'>>
-print(a.func)  # <bound method ClassWay.func of <class '__main__.ClassWay'>>
-print(type(a.func))  # <class 'method'>
-print(type(a))  # <class '__main__.ClassWay'>
-print(type(ClassWay))  # <class '__main__.ClassWay'>
+print(ClassWay.func)  # <bound method ClassWay.func of <类与实例 '__main__.ClassWay'>>
+print(a.func)  # <bound method ClassWay.func of <类与实例 '__main__.ClassWay'>>
+print(type(a.func))  # <类与实例 'method'>
+print(type(a))  # <类与实例 '__main__.ClassWay'>
+print(type(ClassWay))  # <类与实例 '__main__.ClassWay'>
 
 
 # todo: 静态方法 @staticmethod

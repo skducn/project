@@ -43,7 +43,7 @@ print("3，map()返回iterators类型".center(100, "-"))
 a = ['1', '2', '3']
 b = map(int, a)
 print(b)  # <map object at 0x000002C04D600EE0>
-print(type(b))  # <class 'map'>
+print(type(b))  # <类与实例 'map'>
 
 
 l=map(str, '5678')

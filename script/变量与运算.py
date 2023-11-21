@@ -47,7 +47,7 @@ print("4，分数".center(100, "-"))
 import fractions
 x = fractions.Fraction(1, 3)
 print(x)  # 1/3
-print(type(x))  # <class 'fractions.Fraction'>
+print(type(x))  # <类与实例 'fractions.Fraction'>
 print(x*2)  # 2/3
 
 

@@ -4,7 +4,7 @@ Affine transform of an image
 ============================
 
 
-Prepending an affine transformation (:class:`~.transforms.Affine2D`)
+Prepending an affine transformation (:类与实例:`~.transforms.Affine2D`)
 to the :ref:`data transform <data-coords>`
 of an image allows to manipulate the image's shape and orientation.
 This is an example of the concept of

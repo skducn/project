@@ -24,7 +24,7 @@ print(foo('zen of python'))   # 13
 
 # todo:函数是对象，拥有对象模型的三个通用属性：id、类型、值
 print(id(foo))   # 1632628305984
-print(type(foo))  # <class 'function'>
+print(type(foo))  # <类与实例 'function'>
 print(foo)  # <function foo at 0x000001C3F7F8F040>
 
 # todo: 1，函数可赋值给一个变量
@@ -63,7 +63,7 @@ print(nick()("python"))    # 6
 # map() 会根据提供的函数对指定序列做映射
 lens = map(foo, ["the", "zen", "of", "python"])
 print(id(lens))  # 2132248108528
-print(type(lens))  # <class 'map'>
+print(type(lens))  # <类与实例 'map'>
 print(lens)  # <map object at 0x000001E327531DF0>  # 返回迭代器
 print(list(lens))  # [3, 3, 2, 6]  # 使用 list() 转换为列表
 # 等同于 链表推导式，但 map 的运行效率更快一点

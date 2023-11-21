@@ -234,20 +234,20 @@ print(dict20)  # {'a': '192.168.1.1', 'b': '192.168.1.2'}  //单引号是字典
 
 
 print("16.4，字典转字符串、元组、列表".center(100, "-"))
-dict18 = {'name': 'Zara', 'age': 7, 'class': 'First'}
+dict18 = {'name': 'Zara', 'age': 7, '类与实例': 'First'}
 # 字典 转 字符串
-print(type(str(dict18)), str(dict18))  # <type 'str'> {'age': 7, 'name': 'Zara', 'class': 'First'}
+print(type(str(dict18)), str(dict18))  # <type 'str'> {'age': 7, 'name': 'Zara', '类与实例': 'First'}
 # 字典 转 元组keys (返回的元组内容是keys的集合)
-print(type(tuple(dict18)), tuple(dict18))  # <class 'tuple'> ('name', 'age', 'class')
+print(type(tuple(dict18)), tuple(dict18))  # <类与实例 'tuple'> ('name', 'age', '类与实例')
 print(tuple(dict18)[1])  # age
 # 字典 转 元组values (返回的元组内容是values的集合)
 print(tuple(dict18.values()))  # ('Zara', 7, 'First')
 print(tuple(dict18.values())[1])  # 7
 # 字典 转 列表keys (返回的列表内容是keys的集合)
-print(list(dict18))  # ['age', 'name', 'class']
+print(list(dict18))  # ['age', 'name', '类与实例']
 # 字典 转 列表values (返回的列表内容是values的集合)
 print(list(dict18.values()))  # ['Zara', 7, 'First']
 
 
-dict18 = {'name': 'Zara', 'age': 7, 'class': 'First'}
+dict18 = {'name': 'Zara', 'age': 7, '类与实例': 'First'}
 print(dict18[1])

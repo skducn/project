@@ -19,4 +19,4 @@ class BmlPO(object):
         self.Level_PO.openURL(dimUrl, 1)
         self.Level_PO.inputXpath("//input[@placeholder='请输入用户名']", dimUsername)
         self.Level_PO.inputXpath("//input[@placeholder='请输入密码']", dimPassword)
-        self.Level_PO.clickXpath("//button[@class='el-button login-button el-button--default']", 2)
+        self.Level_PO.clickXpath("//button[@类与实例='el-button login-button el-button--default']", 2)

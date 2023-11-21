@@ -42,7 +42,7 @@ Point1 = namedtuple('Point', ['x', 'y'])
 p = Point1(11, y=22)   # 创建的一个元组的子类，并实例化元组对象p
 print(p)    # Point(x=11, y=22)
 print(p[0], p[1])
-print(type(p))  # <class '__main__.Point'>
+print(type(p))  # <类与实例 '__main__.Point'>
 
 a, b = p
 print(a+b)  # 33  ,但不能 print(p.a + p.b)

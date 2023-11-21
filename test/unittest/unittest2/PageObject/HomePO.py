@@ -28,14 +28,14 @@ class HomePO(BasePage):
 
     # 发布的项目 - 子项目列表中全选框
     def check_byPathInputClass(self, name, t):
-        self.find_element(*(By.XPATH, "//input[@class='" + name + "']")).click()
+        self.find_element(*(By.XPATH, "//input[@类与实例='" + name + "']")).click()
         sleep(t)
 
 
     # 发布的项目 - 子项目列表中文案"没有数据信息"
 
     def get_msg(self):
-        return self.find_element(*(By.XPATH, "//tbody[@class='cetc-page-lists-body-container']/tr/td")).text
+        return self.find_element(*(By.XPATH, "//tbody[@类与实例='cetc-page-lists-body-container']/tr/td")).text
         # sleep(t)
 
 
@@ -48,8 +48,8 @@ class HomePO(BasePage):
         l_name = []
         l_value = []
         xxx = 0
-        varNames = self.find_elements(*(By.XPATH, "//label[@class='checkbox']"))
-        # varNames = self.driver.find_elements_by_xpath("//label[@class='checkbox']")
+        varNames = self.find_elements(*(By.XPATH, "//label[@类与实例='checkbox']"))
+        # varNames = self.driver.find_elements_by_xpath("//label[@类与实例='checkbox']")
         for a in varNames:
             l_name.append(a.text)
             # print a.text
@@ -111,7 +111,7 @@ class HomePO(BasePage):
         list2 = []
         status1 = 0
         varStatus = 0
-        varProjectLists = self.find_elements(*(By.XPATH, "//tbody[@class='cetc-page-lists-body-container']/tr/td"))
+        varProjectLists = self.find_elements(*(By.XPATH, "//tbody[@类与实例='cetc-page-lists-body-container']/tr/td"))
         for a in varProjectLists:
             list1.append(a.text)
         for a1 in range(len(list1)):
@@ -135,9 +135,9 @@ class HomePO(BasePage):
     #     list1 = []
     #     status1 = 0
     #     varStatus = 0
-    #     varrlsSubProjectList = self.find_elements(*(By.XPATH, "//tbody[@class='cetc-page-lists-body-container']/tr/td"))
+    #     varrlsSubProjectList = self.find_elements(*(By.XPATH, "//tbody[@类与实例='cetc-page-lists-body-container']/tr/td"))
     #
-    #     # varrlsSubProjectList = self.driver.find_elements_by_xpath("//tbody[@class='cetc-page-lists-body-container']/tr/td")
+    #     # varrlsSubProjectList = self.driver.find_elements_by_xpath("//tbody[@类与实例='cetc-page-lists-body-container']/tr/td")
     #     for a1 in varrlsSubProjectList:
     #         list1.append(a1.text)
     #     for a1 in range(len(list1)):
@@ -158,9 +158,9 @@ class HomePO(BasePage):
     #     list1 = []
     #     status1 = 0
     #     varStatus = 0
-    #     vars = self.find_elements(*(By.XPATH, "//tbody[@class='cetc-page-lists-body-container']/tr/td"))
+    #     vars = self.find_elements(*(By.XPATH, "//tbody[@类与实例='cetc-page-lists-body-container']/tr/td"))
     #
-    #     # vars = self.driver.find_elements_by_xpath("//tbody[@class='cetc-page-lists-body-container']/tr/td")
+    #     # vars = self.driver.find_elements_by_xpath("//tbody[@类与实例='cetc-page-lists-body-container']/tr/td")
     #     for a in vars:
     #         list1.append(a.text)
     #     for a1 in range(len(list1)):
@@ -180,7 +180,7 @@ class HomePO(BasePage):
     # 打印，项目的发布 - 子项目列表，返回编号(去掉#)
     def get_subProjectlistsByXpath(self, value1, returnNum):
         list_varrlsSubProjectList=[]
-        varrlsSubProjectList = self.find_elements(*(By.XPATH, "//tbody[@class='cetc-page-lists-body-container']/tr/td"))
+        varrlsSubProjectList = self.find_elements(*(By.XPATH, "//tbody[@类与实例='cetc-page-lists-body-container']/tr/td"))
         for a1 in varrlsSubProjectList:
             list_varrlsSubProjectList.append(a1.text)
         # list_varrlsSubProjectList.pop(0)
@@ -202,7 +202,7 @@ class HomePO(BasePage):
         list3 = []
         list4 = []
         x = 0
-        vars = self.find_elements(*(By.XPATH, "//table[@class='table table-bordered table-hover']/tbody/tr/td"))
+        vars = self.find_elements(*(By.XPATH, "//table[@类与实例='table table-bordered table-hover']/tbody/tr/td"))
         for a1 in vars:list2.append(a1.text)
         for a1 in vars:
             x = x + 1
@@ -261,7 +261,7 @@ class HomePO(BasePage):
 
     # 下一步
     def click_L2Next(self, t):
-        self.find_element(*(By.XPATH, "//div[@class='col-md-offset-5 col-md-5']/button")).click()
+        self.find_element(*(By.XPATH, "//div[@类与实例='col-md-offset-5 col-md-5']/button")).click()
         sleep(t)
 
 
@@ -321,7 +321,7 @@ class HomePO(BasePage):
 
 
     # # 二级单位 发布的项目 - 下一步
-    # rlsNextStep_loc = (By.XPATH, "//div[@class='col-md-offset-5 col-md-5']/button")
+    # rlsNextStep_loc = (By.XPATH, "//div[@类与实例='col-md-offset-5 col-md-5']/button")
     # def click_rlsNextStep(self,sleeptime):
     #     self.find_element(*self.rlsNextStep_loc).click()
     #     sleep(sleeptime)
@@ -334,7 +334,7 @@ class HomePO(BasePage):
 
     # 弹框确定 （如：添加资源 - 确定 ，发布的项目 - 确定）
     def click_popupConfirm(self, t):
-        self.find_element(*(By.XPATH, "//div[@class='cetc-popup-footer']/button")).click()
+        self.find_element(*(By.XPATH, "//div[@类与实例='cetc-popup-footer']/button")).click()
         sleep(t)
 
     # 页面底部button1，(如：返回）
@@ -425,7 +425,7 @@ class HomePO(BasePage):
 
 
     # 新闻管理 => 新闻列表 => 操作 => 新建
-    oper_create_loc= (By.XPATH, "//ul[@class='dropdown-menu']/li[1]")
+    oper_create_loc= (By.XPATH, "//ul[@类与实例='dropdown-menu']/li[1]")
     def click_oper_create(self):
         self.find_element(*self.oper_create_loc).click()
 

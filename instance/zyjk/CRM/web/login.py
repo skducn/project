@@ -22,9 +22,9 @@ Level_PO.clickLinkstext("门诊配发药管理", 2)
 # c1,门诊配发药管理，检查门诊配发药窗口数量与待发数量是否一致，且已发数量默认第二天重置为0。
 # 备注，门诊配发药窗口数来自 门诊收费 （小寒提供门诊收费数量，未处理）
 # 默认第二天已发数量为0（未处理）
-varWinSum = Level_PO.getXpathsNums("//div[@class='el-table__fixed-body-wrapper']/table/tbody/tr")
+varWinSum = Level_PO.getXpathsNums("//div[@类与实例='el-table__fixed-body-wrapper']/table/tbody/tr")
 # print("门诊配发药窗口数统计：" + str(varWinSum))
-l_sum = Level_PO.getXpathsText("//div[@class='printWrap clearfix']/span/span")
+l_sum = Level_PO.getXpathsText("//div[@类与实例='printWrap clearfix']/span/span")
 # print("待发数：" + str(l_sum[0]) + " , 已发数：" + str(l_sum[1]))
 if int(varWinSum) != int(l_sum[0]):
     print("[errorrrrrrrrrrr] c1,门诊配发药管理，检查门诊配发药窗口数量与待发数量不一致！")
@@ -38,7 +38,7 @@ else:
 # c2, 门诊配发药管理，检查每个处方号是否有可用配发药数量（number - previewnumber + 规则*后数量）
 # 检查药品单价、数量、金额、总计。
 varEmpty = varCount = varSum = varMoney = varTotal = 0
-l_recipeId = Level_PO.getXpathsText("//div[@class='el-table__body-wrapper is-scrolling-left']/table/tbody/tr/td[4]/div")
+l_recipeId = Level_PO.getXpathsText("//div[@类与实例='el-table__body-wrapper is-scrolling-left']/table/tbody/tr/td[4]/div")
 # print(l_recipeId)
 for i in range(len(l_recipeId)):
     l_drugIdSpec = sqlserver_PO.ExecQuery('select drugId,spec,recipeId,price number from t_ph_outpatient_dispensing_detail where recipeId=%s ' % (l_recipeId[i]))

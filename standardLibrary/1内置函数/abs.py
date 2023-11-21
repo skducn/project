@@ -20,7 +20,7 @@ print(abs(-100))  # 100
 print(abs(-100.12))  # 100.12
 
 print("2，复数的绝对值返回模".center(100, "-"))
-print(type(complex))  # <class 'complex'>
+print(type(complex))  # <类与实例 'complex'>
 print(abs(complex))  # 5.385164807134504   //返回模
 
 

@@ -13,7 +13,7 @@
 # todo: 线上json文档(可用于测试)
 # https://www.lagou.com/lbs/getAllCitySearchLabels.json
 # https://www.toutiao.com/api/pc/feed/?min_behot_time=0&refresh_count=1&category=__all__&utm_source=toutiao&widen=1&tadrequire=true
-# from script.json1 import jsonDumpsDefault
+# from script.序列化 import jsonDumpsDefault
 
 # todo: json对象比较,输出差异部分
 # pip3 install deepdiff

@@ -3,7 +3,7 @@
 Evans test
 ==========
 
-A mockup "Foo" units class which supports conversion and different tick
+A mockup "Foo" units 类与实例 which supports conversion and different tick
 formatting depending on the "unit".  Here the "unit" is just a scalar
 conversion factor, but this example shows that Matplotlib is entirely agnostic
 to what kind of units client packages use.

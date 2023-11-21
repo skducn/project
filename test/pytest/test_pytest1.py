@@ -39,7 +39,7 @@ import pytest
 # # 实例2，在一个类中执行多个测试方法，注意只执行test开头的方法
 # # # 结果：.F  ,表示第一个方法正确，第二个错误
 # # # pytest pytest.py -q   //参数 quiet 表示减少冗长，不展示pytest的版本信息
-# # class TestClass:
+# # 类与实例 TestClass:
 # #     def test_one(self):
 # #         x = "this"
 # #         assert 'h' in x

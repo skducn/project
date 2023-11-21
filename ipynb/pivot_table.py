@@ -30,11 +30,11 @@ print(top10)
 
 
 df = pd.DataFrame({'student': ['小红', '小红', '李华', '李华', '小天', '小天'],
-                    'class': ['001','001','001','001','002','002'],
+                    '类与实例': ['001','001','001','001','002','002'],
                    'subject': ['C', 'Java', 'Python', 'C', 'C', 'Python'],
                    'grades': [80,  90, 78, 90, 80, 78]})
 print(df)
-#   student class subject  grades
+#   student 类与实例 subject  grades
 # 0      小红   001       C      80
 # 1      小红   001    Java      90
 # 2      李华   001  Python      78
@@ -52,14 +52,14 @@ print(df.pivot_table(columns='subject'))
 # grades   83.333333  90.0    78.0
 
 print(df.pivot_table(index='subject', aggfunc=lambda x: type(x)))
-#                                          class  ...                                student
+#                                          类与实例  ...                                student
 # subject                                         ...
-# C        <class 'pandas.core.frame.DataFrame'>  ...  <class 'pandas.core.frame.DataFrame'>
-# Java     <class 'pandas.core.frame.DataFrame'>  ...  <class 'pandas.core.frame.DataFrame'>
-# Python   <class 'pandas.core.frame.DataFrame'>  ...  <class 'pandas.core.frame.DataFrame'>
+# C        <类与实例 'pandas.core.frame.DataFrame'>  ...  <类与实例 'pandas.core.frame.DataFrame'>
+# Java     <类与实例 'pandas.core.frame.DataFrame'>  ...  <类与实例 'pandas.core.frame.DataFrame'>
+# Python   <类与实例 'pandas.core.frame.DataFrame'>  ...  <类与实例 'pandas.core.frame.DataFrame'>
 
 print(df.pivot_table(index='subject', aggfunc=lambda x: x.tolist()))
-#                    class        grades       student
+#                    类与实例        grades       student
 # subject
 # C        [001, 001, 002]  [80, 90, 80]  [小红, 李华, 小天]
 # Java               [001]          [90]          [小红]
@@ -67,31 +67,31 @@ print(df.pivot_table(index='subject', aggfunc=lambda x: x.tolist()))
 
 # 原来就是通过指定维度后透视得到的值的列表，或者你可以理解是通过lookup来得到的一列值。所以mean函数在作用于class、student这两列是字符串元素的列表肯定是不对的，所以被过滤掉了。
 
-# 统计各个班级(class)的平均分以及班级学生人数
-print(df.pivot_table(index='class', aggfunc={'grades': np.mean, 'student': lambda x: len(x.unique())}))
+# 统计各个班级(类与实例)的平均分以及班级学生人数
+print(df.pivot_table(index='类与实例', aggfunc={'grades': np.mean, 'student': lambda x: len(x.unique())}))
 #        grades  student
-# class
+# 类与实例
 # 001      84.5        2
 # 002      79.0        1
 
-# 统计各个班级(class)的各个科目(subject)的平均分
-print(df.pivot_table(index='class', columns='subject',  values='grades'))
+# 统计各个班级(类与实例)的各个科目(subject)的平均分
+print(df.pivot_table(index='类与实例', columns='subject',  values='grades'))
 # subject     C  Java  Python
-# class
+# 类与实例
 # 001      85.0  90.0    78.0
 # 002      80.0   NaN    78.0
 
 
-# 统计各个班级(class)的各个科目(subject)的最高分,并且将空值填充为0
-print(df.pivot_table(index='class', columns='subject',  values='grades', aggfunc=max, fill_value=0))
-# class
+# 统计各个班级(类与实例)的各个科目(subject)的最高分,并且将空值填充为0
+print(df.pivot_table(index='类与实例', columns='subject',  values='grades', aggfunc=max, fill_value=0))
+# 类与实例
 # 001      90    90      78
 # 002      80     0      78
 
-# 统计各个班级(class)的各个科目(subject)的人数
-print(df.pivot_table(index='class', columns='subject',  values='grades', aggfunc='count', fill_value=0))
+# 统计各个班级(类与实例)的各个科目(subject)的人数
+print(df.pivot_table(index='类与实例', columns='subject',  values='grades', aggfunc='count', fill_value=0))
 # subject  C  Java  Python
-# class
+# 类与实例
 # 001      2     1       1
 # 002      1     0       1
 

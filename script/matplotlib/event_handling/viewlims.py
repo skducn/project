@@ -20,7 +20,7 @@ class UpdatingRect(Rectangle):
         ax.figure.canvas.draw_idle()
 
 
-# A class that will regenerate a fractal set as we zoom in, so that you
+# A 类与实例 that will regenerate a fractal set as we zoom in, so that you
 # can actually see the increasing detail.  A box in the left panel will show
 # the area to which we are zoomed.
 class MandelbrotDisplay:

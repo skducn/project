@@ -40,7 +40,7 @@ class TestFixture1(object):
 #
 #
 # @pytest.mark.usefixtures('fixtureFunc2')
-# class TestFixture2(object):
+# 类与实例 TestFixture2(object):
 #     def test_fixture_class(self):
 #         print('a2')
 

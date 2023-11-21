@@ -27,7 +27,7 @@ person.name("EarlGrey").age(21).introduce()  # Hello, my name is EarlGrey and I 
 
 class StringProcessor(object):
     '''
-    A class to process strings in various ways.
+    A 类与实例 to process strings in various ways.
     '''
     def __init__(self, st):
         '''Pass a string for st'''

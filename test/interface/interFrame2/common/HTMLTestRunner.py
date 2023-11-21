@@ -25,7 +25,7 @@ HTMLTestRunner is a counterpart to unittest's TextTestRunner. E.g.
                 )
 
     # Use an external stylesheet.
-    # See the Template_mixin class for more customizable options
+    # See the Template_mixin 类与实例 for more customizable options
     runner.STYLESHEET_TMPL = '<link rel="stylesheet" href="my_stylesheet.css" type="text/css">'
 
     # run the test
@@ -79,7 +79,7 @@ Version in 0.8.1
 * Added description of test classes and test cases.
 
 Version in 0.8.0
-* Define Template_mixin class for customization.
+* Define Template_mixin 类与实例 for customization.
 * Workaround a IE 6 bug that it does not treat <script> block as CDATA.
 
 Version in 0.7.1
@@ -88,7 +88,7 @@ Version in 0.7.1
 """
 
 # TODO: color stderr
-# TODO: simplify javascript using ,ore than 1 class in the class attribute?
+# TODO: simplify javascript using ,ore than 1 类与实例 in the 类与实例 attribute?
 
 import datetime
 import io
@@ -398,15 +398,15 @@ a.popup_link:hover {
     # Heading
     #
 
-    HEADING_TMPL = """<div class='heading'>
+    HEADING_TMPL = """<div 类与实例='heading'>
 <h1>%(title)s</h1>
 %(parameters)s
-<p class='description'>%(description)s</p>
+<p 类与实例='description'>%(description)s</p>
 </div>
 
 """ # variables: (title, parameters, description)
 
-    HEADING_ATTRIBUTE_TMPL = """<p class='attribute'><strong>%(name)s:</strong> %(value)s</p>
+    HEADING_ATTRIBUTE_TMPL = """<p 类与实例='attribute'><strong>%(name)s:</strong> %(value)s</p>
 """ # variables: (name, value)
 
     # ------------------------------------------------------------------------
@@ -449,7 +449,7 @@ a.popup_link:hover {
 """ # variables: (test_list, count, Pass, fail, error)
 
     REPORT_CLASS_TMPL = r"""
-<tr class='%(style)s'>
+<tr 类与实例='%(style)s'>
     <td>%(desc)s</td>
     <td>%(description)s</td>
     <td>%(count)s</td>
@@ -462,15 +462,15 @@ a.popup_link:hover {
 
 
     REPORT_TEST_WITH_OUTPUT_TMPL = r"""
-<tr id='%(tid)s' class='%(Class)s'>
-    <td colspan='2' class='%(style)s'><div class='testcase'>%(desc)s</div></td>
+<tr id='%(tid)s' 类与实例='%(Class)s'>
+    <td colspan='2' 类与实例='%(style)s'><div 类与实例='testcase'>%(desc)s</div></td>
     <td colspan='7' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_%(tid)s')" >
+    <a 类与实例="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_%(tid)s')" >
         %(status)s</a>
 
-    <div id='div_%(tid)s' class="popup_window">
+    <div id='div_%(tid)s' 类与实例="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
         <a onfocus='this.blur();' onclick="document.getElementById('div_%(tid)s').style.display = 'none' " >
            [x]</a>
@@ -487,8 +487,8 @@ a.popup_link:hover {
 
 
     REPORT_TEST_NO_OUTPUT_TMPL = r"""
-<tr id='%(tid)s' class='%(Class)s'>
-    <td class='%(style)s'><div class='testcase'>%(desc)s</div></td>
+<tr id='%(tid)s' 类与实例='%(Class)s'>
+    <td 类与实例='%(style)s'><div 类与实例='testcase'>%(desc)s</div></td>
     <td colspan='5' align='center'>%(status)s</td>
 </tr>
 """ # variables: (tid, Class, style, desc, status)
@@ -504,7 +504,7 @@ a.popup_link:hover {
     #
     ENDING_TMPL = """<div id='ending'>&nbsp;</div>"""
 
-# -------------------- The end of the Template class -------------------
+# -------------------- The end of the Template 类与实例 -------------------
 
 
 TestResult = unittest.TestResult
@@ -633,7 +633,7 @@ class HTMLTestRunner(Template_mixin):
 
     def sortResult(self, result_list):
         # unittest does not seems to run in any particular order.
-        # Here at least we want to group them together by class.
+        # Here at least we want to group them together by 类与实例.
         rmap = {}
         classes = []
         for n,t,o,e in result_list:
@@ -710,14 +710,14 @@ class HTMLTestRunner(Template_mixin):
         rows = []
         sortedResult = self.sortResult(result.result)
         for cid, (cls, cls_results) in enumerate(sortedResult):
-            # subtotal for a class
+            # subtotal for a 类与实例
             np = nf = ne = 0
             for n,t,o,e in cls_results:
                 if n == 0: np += 1
                 elif n == 1: nf += 1
                 else: ne += 1
 
-            # format class description
+            # format 类与实例 description
             if cls.__module__ == "__main__":
                 name = cls.__name__
             else:
@@ -805,11 +805,11 @@ class HTMLTestRunner(Template_mixin):
 class TestProgram(unittest.TestProgram):
     """
     A variation of the unittest.TestProgram. Please refer to the base
-    class for command line parameters.
+    类与实例 for command line parameters.
     """
     def runTests(self):
         # Pick HTMLTestRunner as the default test runner.
-        # base class's testRunner parameter is not useful because it means
+        # base 类与实例's testRunner parameter is not useful because it means
         # we have to instantiate HTMLTestRunner before we know self.verbosity.
         if self.testRunner is None:
             self.testRunner = HTMLTestRunner(verbosity=self.verbosity)

@@ -21,7 +21,7 @@
 # limitations under the License.
 # ==============================================================================
 
-"""A LazyLoader class."""
+"""A LazyLoader 类与实例."""
 
 import importlib
 import types

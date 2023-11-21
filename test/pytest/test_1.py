@@ -68,7 +68,7 @@
 # # def test_user_reg(name): # 接收的变量名要和parametrize的"name"一致
 # #     print(name)
 #
-# # class TestClass:
+# # 类与实例 TestClass:
 # #     def test_one(self):
 # #         x = "this"
 # #         assert 'h' in x

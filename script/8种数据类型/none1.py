@@ -6,7 +6,7 @@
 # None与False不同，None不是0，也不是空字符串。
 # *******************************************************************
 
-print(type(None))  # <class 'NoneType'> 有自己的数据类型
+print(type(None))  # <类与实例 'NoneType'> 有自己的数据类型
 
 x = None
 if x:

@@ -143,8 +143,8 @@ print(d)
 # # # ['aaabb', 'bcccd', 'ddeee', 'edddd', 'dffff', 'fgggg', 'ghhhh', 'hhkkk', 'kkkk']
 # #
 # #
-# # print("定义 class textwrap.TextWrapper(…)".center(100, "-"))
-# # # class textwrap.TextWrapper(…) # 这个类的构造函数接受一系列的关键字参数来初始化自己的属性信息
+# # print("定义 类与实例 textwrap.TextWrapper(…)".center(100, "-"))
+# # # 类与实例 textwrap.TextWrapper(…) # 这个类的构造函数接受一系列的关键字参数来初始化自己的属性信息
 # # sample_text = '''aaa'''
 # # textWrap = textwrap.TextWrapper()
 # # textWrap.initial_indent = 'bbb'

@@ -12,7 +12,7 @@ from time import sleep
 # ／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／
 
 
-# class A(object):
+# 类与实例 A(object):
 #
 #     '''__eq__ 定义了类的等号(==)行为 ， 一般用于类的比较，发回ture'''
 #
@@ -77,7 +77,7 @@ if __name__ == '__main__':
 # # ／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／
 # print "~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 #
-# class O(object):
+# 类与实例 O(object):
 #
 #     '''
 #     1.__new__(cls, *args, **kwargs)  创建对象时调用，返回当前对象的一个实例;注意：这里的第一个参数是cls即class本身
@@ -96,13 +96,13 @@ if __name__ == '__main__':
 #     def __call__(self, *args, **kwargs):
 #         print "call"
 #
-# class Foo(object):
+# 类与实例 Foo(object):
 #
 #     def __call__(self):
 #         print "121212"
 #
 #
-# class Person(object):
+# 类与实例 Person(object):
 #     """Silly Person"""
 #
 #     def __init__(self, name, age):
@@ -129,12 +129,12 @@ if __name__ == '__main__':
 #
 # # 如果要把一个类的实例变成 str，就需要实现特殊方法__str__()：
 #
-# class Person(object):
+# 类与实例 Person(object):
 #     def __init__(self, name, gender):
 #         self.name = name
 #         self.gender = gender
 #
-# class Student(Person):
+# 类与实例 Student(Person):
 #
 #     '''' # __str__()用于显示给用户，而__repr__()用于显示给开发人员。'''
 #
@@ -154,7 +154,7 @@ if __name__ == '__main__':
 # # ／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／／
 #
 # animal.py
-# class animal(object):
+# 类与实例 animal(object):
 #     '''
 #     classdocs
 #     '''
@@ -173,7 +173,7 @@ if __name__ == '__main__':
 # from inheritance.base import animal
 #
 #
-# class cat(animal):
+# 类与实例 cat(animal):
 #
 #     def __init__(self):
 #         animal.__init__(self)

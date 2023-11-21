@@ -2,7 +2,7 @@
 # ********************************************************************************************************************
 # Author     : John
 # Date       : 2020-10-27
-# Description: pytest 之 xunit fixture的4个级别（function,method,class,module）
+# Description: pytest 之 xunit fixture的4个级别（function,method,类与实例,module）
 # 1.每个级别的setup/teardown都可以多次复用
 # 2.如果相应的初始化函数执行失败或者被跳过则不会执行teardown方法
 # 3.在pytest4.2之前，xunit fixture 不遵循fixture的作用规则的，因此可以在一个session级别且参数auto=True的fixture前执行setup_method方法
@@ -23,7 +23,7 @@ import pytest
 #
 #
 # # method级别
-# class TestMethod(object):
+# 类与实例 TestMethod(object):
 #     def setup_method(self, method):
 #         print('\nmethod setup +++++++')
 #     def teardown_method(self, method):
@@ -35,7 +35,7 @@ import pytest
 
 
 # # class级别
-# class TestClass(object):
+# 类与实例 TestClass(object):
 #     @classmethod
 #     def setup_class(cls):
 #         print('\nclass setup for {} ~~~~~~~~'.format(cls.__name__))

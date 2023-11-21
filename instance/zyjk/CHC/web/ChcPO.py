@@ -99,7 +99,7 @@ class ChcPO():
         Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[2]/div/div/div/input", varPass)
 
         for i in range(10):
-            code = Web_PO.getValueByAttr(u"//img[@class='login-code-img']", "src")
+            code = Web_PO.getValueByAttr(u"//img[@类与实例='login-code-img']", "src")
             Base64_PO.decodeImg(code)
             ocr = ddddocr.DdddOcr()
             f = open("test.gif", mode='rb')
@@ -306,7 +306,7 @@ class ChcPO():
         varStatus = '有'
         var = ['头孢类抗生素', '酒精', {"其他药物过敏原": '3333'}]
         # 判断默认勾选的是无还是有
-        currStatus = Web_PO.getValueByAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', 'class')
+        currStatus = Web_PO.getValueByAttr(u'//div[@id="signAllergy"]/table/tbody/tr/td/div/div[1]', '类与实例')
         if currStatus == "mini-radiobuttonlist-item":
             currStatus = '无'
         else:

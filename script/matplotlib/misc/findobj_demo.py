@@ -33,7 +33,7 @@ def myfunc(x):
 for o in fig.findobj(myfunc):
     o.set_color('blue')
 
-# match on class instances
+# match on 类与实例 instances
 for o in fig.findobj(text.Text):
     o.set_fontstyle('italic')
 

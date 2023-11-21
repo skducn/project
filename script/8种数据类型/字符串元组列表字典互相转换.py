@@ -7,15 +7,15 @@
 
 
 # 1、字典 ****************************************************************
-dict1 = {'name': 'Zara', 'age': 7, 'class': 'First'}
+dict1 = {'name': 'Zara', 'age': 7, '类与实例': 'First'}
 # 字典 转 字符串
 d_str = str(dict1)
-print( d_str)  # {'age': 7, 'name': 'Zara', 'class': 'First'}
+print( d_str)  # {'age': 7, 'name': 'Zara', '类与实例': 'First'}
 # print( type(d_str)  # <type 'str'>
 
 # 字典 转 元组，返回键
 d_tupleKey = tuple(dict1)
-print( d_tupleKey)  # ('age', 'name', 'class')
+print( d_tupleKey)  # ('age', 'name', '类与实例')
 # print( type(d_tupleKey)  # <type 'tuple'>
 # 字典 转 元组，返回值
 d_tupleValue = tuple(dict1.values())
@@ -24,7 +24,7 @@ print( d_tupleValue)  # (7, 'Zara', 'First')
 
 # 字典 转 列表，返回key：
 d_listKey = list(dict1)
-print( d_listKey)  # ['age', 'name', 'class']
+print( d_listKey)  # ['age', 'name', '类与实例']
 # 字典 转 列表, 返回value：
 d_listValue = list(dict1.values())
 print( d_listValue)  # [7, 'Zara', 'First']

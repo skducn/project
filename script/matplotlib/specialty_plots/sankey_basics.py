@@ -1,9 +1,9 @@
 """
 ================
-The Sankey class
+The Sankey 类与实例
 ================
 
-Demonstrate the Sankey class by producing three basic diagrams.
+Demonstrate the Sankey 类与实例 by producing three basic diagrams.
 """
 
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ from matplotlib.sankey import Sankey
 # Example 1 -- Mostly defaults
 #
 # This demonstrates how to create a simple diagram by implicitly calling the
-# Sankey.add() method and by appending finish() to the call to the class.
+# Sankey.add() method and by appending finish() to the call to the 类与实例.
 
 Sankey(flows=[0.25, 0.15, 0.60, -0.20, -0.15, -0.05, -0.50, -0.10],
        labels=['', '', '', 'First', 'Second', 'Third', 'Fourth', 'Fifth'],

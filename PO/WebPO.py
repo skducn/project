@@ -539,7 +539,7 @@ if __name__ == "__main__":
 
     # print("2.3 动态加载页面滚动到底部（加载所有数据）".center(100, "-"))
     # Web_PO.openURL('https://www.douyin.com/user/MS4wLjABAAAARzph2dTaIfZG4w_8czG9Yf5YiqHqc7RGXrqUM3fHtBU?vid=7180299495916326181')
-    # qty = Web_PO.dynamicLoadToEnd('Eie04v01')  # 动态加载页面直到最后一个 class=Eie04v01 ,并返回加载的数量。
+    # qty = Web_PO.dynamicLoadToEnd('Eie04v01')  # 动态加载页面直到最后一个 类与实例=Eie04v01 ,并返回加载的数量。
     # print(qty)
     # text = Web_PO.driver.page_source
     # text = bs4.BeautifulSoup(text, 'lxml')

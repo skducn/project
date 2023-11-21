@@ -13,7 +13,7 @@ conversion, tick locating and formatting is done behind the scenes so this
 is most transparent to you.  The dates module provides several converter
 functions `matplotlib.dates.date2num` and `matplotlib.dates.num2date`.
 These can convert between `datetime.datetime` objects and
-:class:`numpy.datetime64` objects.
+:类与实例:`numpy.datetime64` objects.
 """
 
 import numpy as np

@@ -28,7 +28,7 @@ print (a2.x)
 # # 2、实例引用时通过_类__私有变量直接init中私有变量，类似地，实例引用可通过_类_私有方法直接访问
 # # 3、私有方法可以重写init的self.x值
 #
-# class A(object):
+# 类与实例 A(object):
 #     def __init__(self, x):
 #         self.__a = 5  # 私有变量
 #         self.x = x

@@ -467,7 +467,7 @@ class DomPO(object):
 
         '''
         获取文本
-        :param varXpath: u"//input[@class='123']"
+        :param varXpath: u"//input[@类与实例='123']"
         :return: Text
         '''
 
@@ -583,7 +583,7 @@ class DomPO(object):
 
         '''
         获取属性的值
-        :param varXpaths: u"//input[@class='123']"
+        :param varXpaths: u"//input[@类与实例='123']"
         :param varAttr: "href"
         :return:
         '''
@@ -639,7 +639,7 @@ class DomPO(object):
 
         '''
         是否选中复选框
-        :param varXpath: u"//input[@class='123']"
+        :param varXpath: u"//input[@类与实例='123']"
         :return: True 或 False
         '''
 
@@ -752,7 +752,7 @@ class DomPO(object):
             return None
     def selectXpathsMenu1Menu2(self, varPaths1, varMenu, varPaths2, varMenu2, t):
         # 遍历级联菜单（选择一级菜单后再选择二级菜单）
-        # Level_PO.selectMenu("//a[@class='dropdown-toggle']", u"作业管理", "//a[@href='#']", u"作业框架管理", 3)
+        # Level_PO.selectMenu("//a[@类与实例='dropdown-toggle']", u"作业管理", "//a[@href='#']", u"作业框架管理", 3)
         try:
             for a in self.driver.find_elements_by_xpath(varPaths1):
                 if varMenu == a.text:
@@ -796,7 +796,7 @@ class DomPO(object):
     def iframe(self, varXpaths, t=1):
         '''
         通过Xpath定位iframe
-        :param varXpaths: "//body[@class='gray-bg top-navigation']/div[4]/iframe"
+        :param varXpaths: "//body[@类与实例='gray-bg top-navigation']/div[4]/iframe"
         :param t: 1
         :return:
         '''
@@ -863,7 +863,7 @@ class DomPO(object):
     def inIframeTopDiv(self, varPath, t=0):
         # 定位iframe的div路径?
         # evel_PO.inIframeDiv("[@id='showRealtime']", 2)
-        # Home_PO.inIframeDiv("[@class='cetc-popup-content']/div", 2)
+        # Home_PO.inIframeDiv("[@类与实例='cetc-popup-content']/div", 2)
         iframe = self.driver.find_element_by_xpath("//div" + varPath + "/iframe")
         # print iframe.get_attribute("src")
         self.driver.switch_to_frame(iframe)
