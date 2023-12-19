@@ -28,4 +28,6 @@ query = sys.argv[1]
 
 if platform.system() == "Darwin":
     folder = Dy_PO.getVideo(query, "/Users/linghuchong/Downloads/video/douyin/")
-    os.system("open " + folder)
+    f = folder.replace(" ", "\\ ")
+    # print(f)
+    os.system("open " + f)

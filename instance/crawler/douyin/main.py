@@ -15,7 +15,8 @@ Dy_PO = DyPO()
 
 
 # print("1，下载单个抖音视频".center(100, "-"))
-folder = Dy_PO.getVideo("https://v.douyin.com/SrL7RnM/", "/Users/linghuchong/Downloads/video/douyin/")
+# folder = Dy_PO.getVideo("https://v.douyin.com/SrL7RnM/", "/Users/linghuchong/Downloads/video/douyin/")
+folder = Dy_PO.getVideo("https://v.douyin.com/iR49gsDg/", "/Users/linghuchong/Downloads/video/douyin/")
 os.system("open " + folder)
 
 # folder = Dy_PO.downVideo("https://v.douyin.com/SrL7RnM/", "d:/11/44")

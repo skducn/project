@@ -1,46 +1,82 @@
 # coding=utf-8
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> >>
 # Author     : John
-# Created on : 2023-7-14
-# Description: 公卫 - 居民将康档案
+# Created on : 2023-12-19
+# Description: 公卫
 # *****************************************************************
-# #
-# from GwPO import *
-# Gw_PO = GwPO()
-import sys
+from PO.SysPO import *
+Sys_PO = SysPO()
 
-from PO.BasePO import *
+from GwPO import *
+Gw_PO = GwPO()
 
-
-# 登录
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-options = Options()
-# options.headless = True  # 无界面模式
-options.add_argument("--start-maximized")  # 最大化
-
-s = Service("/Users/linghuchong/miniconda3/envs/py308/bin/chromedriver")
-driver = webdriver.Chrome(service=s, options=options)
-Base_PO = BasePO(driver)
-driver.get('http://192.168.0.203:30080')
-
-# 登录
-Base_PO.inputXpath("//input[@placeholder='请输入用户名']", "jinhao")
-Base_PO.inputXpath("//input[@placeholder='输入密码']", "Jinhao123")
-Base_PO.inputXpath("//input[@placeholder='输入图形验证码']", "111")
-Base_PO.clickXpath("//button[@type='button']", 1)
+# a = '高血压管理\n高血压专项\n高血压随访\n高血压报病'
+# a = a.split("\n")
+# print(a)
+# l_menu1 = ['首页', '基本公卫', '三高共管六病同防', '系统配置', '社区管理', '报表', '更多菜单', '', '', '', '', '', '', '']
+# l_menu1 = [i for i in l_menu1 if i != '']
+# print(l_menu1)
+#
+# d_menu1 = (dict(enumerate(l_menu1, start=1)))
+# d_menu1 = {v: k for k, v in d_menu1.items()}
+# print(d_menu1)
+#
+# sys.exit(0)
 
 
-# 首页，居民健康档案
-Base_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div[1]/div[2]/div[1]', 1)  # 点击首页居民健康档案
-Base_PO.clickXpath('//*[@id="app"]/div/div[1]/div/div[1]/div/ul/div[2]/li', 1)  # 选择居民健康档案菜单
-Base_PO.clickXpath('//*[@id="app"]/div/div[1]/div/div[1]/div/ul/div[2]/li/ul/div[1]/a', 1)  # 选择个人健康档案菜单
+# 1，登录
+Gw_PO.login('http://192.168.0.203:30080/#/login', 'admin', 'zy@123456')
 
-# 个人健康档案列表页，新增
-Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/div/div[1]/div/button[3]', 1)  # 点击新增
-# 身份证号码
-Base_PO.inputXpath('//*[@id="app"]/div/div[3]/section/div/form/div[2]/div[2]/div[1]/div[2]/div/div/div/input', '310101198004110017')
+# 2.1 获取一级菜单字典
+d_menu1 = Gw_PO.menu1()
+# print(d_menu1)  # {'首页': 1, '基本公卫': 2, '三高共管六病同防': 3, '系统配置': 4, '社区管理': 5, '报表': 6, '更多菜单': 7}
+
+# # 2.2 获取二级菜单字典
+# d_menu2 = Gw_PO.menu2(d_menu1, '基本公卫')
+# # print(d_menu2)  # {'健康档案管理': 1, '儿童健康管理': 2, '孕产妇管理': 3, '老年人健康管理': 4, '肺结核患者管理': 5, '残疾人健康管理': 6, '严重精神障碍健康管理': 7, '健康教育': 8, '高血压管理': 9, '糖尿病管理': 10, '首页': 11, '基本公卫': 12, '三高共管六病同防': 13, '系统配置': 14, '社区管理': 15, '报表': 16, '更多菜单': 17}
+#
+# # # 2.3, 进入三级菜单
+# Gw_PO.menu3(d_menu2, "高血压管理", "高血压随访")
+# Web_PO.setTextById("name", "金浩")
+# Web_PO.clk("//button[@type='button']", 1)
+#
+# Gw_PO.menu3(d_menu2, "高血压管理", "高血压专项")
+# Web_PO.setTextById("name", "令狐冲")
+# Web_PO.clk("//button[@type='button']", 1)
+#
+# Gw_PO.menu3(d_menu2, "糖尿病管理", "糖尿病报病")
+# Web_PO.setText('//*[@id="app"]/div/div[3]/section/div/main/div[1]/form/div/div[1]/div/div/div/input', 'yoyo')  # 姓名
+# Web_PO.clk("//button[@type='button']", 1)
+
+
+d_menu2 = Gw_PO.menu2(d_menu1, '系统配置')
+Gw_PO.menu3(d_menu2, "机构管理", "医院维护")
+# 1, 新增医疗机构
+# Gw_PO.newMedicalInstitution('lhc的诊所', '12345678', '555555', '三级', '令狐冲', '浦东南路1000号', '13816109050', '上海知名急救诊所\n专治疑难杂病')
+
+# 2, 编辑医疗机构
+# Gw_PO.editMedicalInstitution('lhc的诊所', 'lhc的诊所1', '123456781', '5555551', '二级', '令狐冲1', '浦东南路1000号1', '13816109051', '上海知名急救诊所\n专治疑难杂病1')
+
+# 3，科室维护
+Gw_PO.editOffice('lhc的诊所1', {'儿科': '122233', '妇科': '665544', '骨科': '565656'})
+
+# d_menu2 = Gw_PO.menu2(d_menu1, '系统配置')
+# Gw_PO.menu3(d_menu2, "用户管理", "用户维护")
+
+
+
+
+
+#
+# # 首页，居民健康档案
+# Base_PO.clickXpath('//*[@id="app"]/div/div[2]/div[2]/div/div/div[1]/div[2]/div[1]', 1)  # 点击首页居民健康档案
+# Base_PO.clickXpath('//*[@id="app"]/div/div[1]/div/div[1]/div/ul/div[2]/li', 1)  # 选择居民健康档案菜单
+# Base_PO.clickXpath('//*[@id="app"]/div/div[1]/div/div[1]/div/ul/div[2]/li/ul/div[1]/a', 1)  # 选择个人健康档案菜单
+#
+# # 个人健康档案列表页，新增
+# Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/div/div[1]/div/button[3]', 1)  # 点击新增
+# # 身份证号码
+# Base_PO.inputXpath('//*[@id="app"]/div/div[3]/section/div/form/div[2]/div[2]/div[1]/div[2]/div/div/div/input', '310101198004110017')
 # # 姓名
 # Base_PO.inputXpath('//*[@id="app"]/div/div[3]/section/div/form/div[2]/div[3]/div[1]/div[2]/div/div/div[1]/input', "张三")
 # # 性别
@@ -257,52 +293,52 @@ Base_PO.inputXpath('//*[@id="app"]/div/div[3]/section/div/form/div[2]/div[2]/div
 # Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[7]/label', 1)  # 精神残疾
 # Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div/div[8]/label', 1)  # 其他残疾
 # Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[15]/div/div[2]/div/div/div/div[2]/div/div/input', '浑身都是疾病')
-# 家庭情况
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[1]/div[2]/div/div/div/div/div/input', 1)  # 与户主关系
-Base_PO.clickXpath('/html/body/div[2]/div[26]/div/div/div[1]/ul/li[2]', 1)
-Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[2]/div[2]/div/div/div[1]/input', '金金')  # 户主姓名
-Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[3]/div[2]/div/div/div[1]/input', '310101198004110014')  # 户主身份证号
-Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[4]/div[2]/div/div/div/input','3')  # 家庭人口数
-Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[2]/div[1]/div[2]/div/div/div/input', '家庭结构不复杂')  # 家庭结构
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[2]/div[2]/div[2]/div/div/div[2]/label', 1)  # 居住情况
-# 生活环境
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[1]/div/div[2]/div/div/div[2]/label', 1)  # 厨房排风设施
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[2]/div/div[2]/div/div/div[2]/label', 1)  # 燃料类型
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[3]/div/div[2]/div/div/div[2]/label', 1)  # 饮水
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[4]/div/div[2]/div/div/div[2]/label', 1)  # 厕所
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[5]/div/div[2]/div/div/div[2]/label', 1)  # 禽畜栏
-# 是否高危人群
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[18]/div/div[2]/div/div/div/label[1]') # 是
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[18]/div/div[2]/div/div/div/label[2]') # 否
-# 家庭团队
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[1]/div[2]/div/div/div/div/div/input', 1)
-Base_PO.clickXpath('/html/body/div[2]/div[27]/div/div/div[1]')
-# 责任医生
-Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[2]/div[2]/div/div/div/div/div/input', 1)
-Base_PO.clickXpath('/html/body/div[2]/div[28]/div', 1)
-# 建档日期
-Base_PO.inputXpathClear('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[3]/div[2]/div/div/div/input','2023-12-12'
-                   )
-
-
-sys.exit(0)
-
-
-# 查询后更新记录
-Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/div/div[2]/div[1]/div[1]/div[3]/div/div[1]/div/table/tbody/tr/td[13]/div/div[2]', 2)
-Base_PO.inputXpathClear('//*[@id="app"]/div/div[3]/section/div/form/div[2]/div[3]/div[1]/div[2]/div/div/div/input', "小郭55")
-print("333")
-
-# 随访方式
-Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/form/div[3]/div[2]/div[2]/div[2]/div/div/div[1]/label[2]/span[1]/span', 2)
-Base_PO.inputXpath('//*[@id="app"]/div/div[3]/section/div/form/div[3]/div[3]/div[2]/div/div/div[1]/input', "1111")
-Base_PO.inputXpath('//*[@id="symptom"]/div/div/div/input', "2023-12-12")
-print("444")
-
-Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/div[1]/button[1]', 2)
-# 二次确认
-Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/div[2]/div/div/div[3]/span/button[1]', 2)
-print("5555")
+# # 家庭情况
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[1]/div[2]/div/div/div/div/div/input', 1)  # 与户主关系
+# Base_PO.clickXpath('/html/body/div[2]/div[26]/div/div/div[1]/ul/li[2]', 1)
+# Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[2]/div[2]/div/div/div[1]/input', '金金')  # 户主姓名
+# Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[3]/div[2]/div/div/div[1]/input', '310101198004110014')  # 户主身份证号
+# Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[1]/div[4]/div[2]/div/div/div/input','3')  # 家庭人口数
+# Base_PO.inputXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[2]/div[1]/div[2]/div/div/div/input', '家庭结构不复杂')  # 家庭结构
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[16]/div[2]/div[2]/div[2]/div[2]/div/div/div[2]/label', 1)  # 居住情况
+# # 生活环境
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[1]/div/div[2]/div/div/div[2]/label', 1)  # 厨房排风设施
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[2]/div/div[2]/div/div/div[2]/label', 1)  # 燃料类型
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[3]/div/div[2]/div/div/div[2]/label', 1)  # 饮水
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[4]/div/div[2]/div/div/div[2]/label', 1)  # 厕所
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[17]/div[2]/div[5]/div/div[2]/div/div/div[2]/label', 1)  # 禽畜栏
+# # 是否高危人群
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[18]/div/div[2]/div/div/div/label[1]') # 是
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[18]/div/div[2]/div/div/div/label[2]') # 否
+# # 家庭团队
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[1]/div[2]/div/div/div/div/div/input', 1)
+# Base_PO.clickXpath('/html/body/div[2]/div[27]/div/div/div[1]')
+# # 责任医生
+# Base_PO.clickXpath('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[2]/div[2]/div/div/div/div/div/input', 1)
+# Base_PO.clickXpath('/html/body/div[2]/div[28]/div', 1)
+# # 建档日期
+# Base_PO.inputXpathClear('/html/body/div[1]/div/div[3]/section/div/form/div[2]/div[20]/div[3]/div[2]/div/div/div/input','2023-12-12'
+#                    )
+#
+#
+# sys.exit(0)
+#
+#
+# # 查询后更新记录
+# Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/div/div[2]/div[1]/div[1]/div[3]/div/div[1]/div/table/tbody/tr/td[13]/div/div[2]', 2)
+# Base_PO.inputXpathClear('//*[@id="app"]/div/div[3]/section/div/form/div[2]/div[3]/div[1]/div[2]/div/div/div/input', "小郭55")
+# print("333")
+#
+# # 随访方式
+# Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/form/div[3]/div[2]/div[2]/div[2]/div/div/div[1]/label[2]/span[1]/span', 2)
+# Base_PO.inputXpath('//*[@id="app"]/div/div[3]/section/div/form/div[3]/div[3]/div[2]/div/div/div[1]/input', "1111")
+# Base_PO.inputXpath('//*[@id="symptom"]/div/div/div/input', "2023-12-12")
+# print("444")
+#
+# Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/div[1]/button[1]', 2)
+# # 二次确认
+# Base_PO.clickXpath('//*[@id="app"]/div/div[3]/section/div/div[2]/div/div/div[3]/span/button[1]', 2)
+# print("5555")
 
 
 

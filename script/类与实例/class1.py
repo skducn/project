@@ -4,31 +4,35 @@
 # Date       : 2020-3-5
 # Description: 类与对象（继承，多态，公有私有，多重继承）
 # https://blog.csdn.net/weixin_42994525/article/details/86654983
-#****************************************************************
 # 类是抽象概念，对象是具体实例
-# 类中最重要的是类变量和类方法，类成员之间可以相互调用，程序中可以对类增加类变量，可以用del语句删除类变量。
+# 类变量和类方法，类成员之间可以相互调用，程序中可增加类或删除类变量。
 # 实例（构造）方法 __init__（构造函数）里面的是实例变量，程序中可以任何位置（类里面或者类外面）增加实例变量，删除则用del语句。
+#****************************************************************
+
+import sys
 
 # # todo: 类与实例变量
-# 类与实例 Bird:
-#     eyes = "two"
-#     def __init__(self, color, feet):
-#         self.color = color
-#         self.feet = feet
-#     def call(self, name):
-#         print("This bird:", name)
-#
-# b = Bird("green","two")  # 调用类的构造方法创建对象
-# b.call("pigeon")  # This bird: pigeon
-# print(b.color, b.feet)  # green two    //输出实例变量
-# b.color = "brown"  # 对实例变量重新赋值
-# b.skin = 'yellow'  # 新增实例变量
-# print(b.color, b.feet, b.skin)  # brown two yellow   //输出更新后的实例变量
-# b.call("sparrow")  # This bird: sparrow   //call()第一个参数self代表实例本身
-# print(b.eyes)  # two   //输出类变量
+class Bird():
+    eyes = "two"
+
+    # 构造方法创建对象
+    def __init__(self, color, feet):
+        self.color = color
+        self.feet = feet
+    def call(self, name):
+        print("This bird:", name)
+
+b = Bird("green","two")  # //创建对象b
+
+b.call("pigeon")  # This bird: pigeon
+print(b.color, b.feet)  # green two    //输出实例变量
+b.color = "brown"  # //对实例变量重新赋值
+b.skin = 'yellow'  # //新增实例变量
+print(b.color, b.feet, b.skin)  # brown two yellow   //输出更新后的实例变量
+b.call("sparrow")  # This bird: sparrow   //call()第一个参数self代表实例本身
+print(b.eyes)  # two   //输出类变量
 
 
-#****************************************************************
 
 class Person:
     hair = 'black'
@@ -41,7 +45,6 @@ class Person:
         print(content)
     def run(self, sound):
         self.say(sound)   # 调用实例对象的方法
-
     def grow(self):
         if hasattr(self, 'age'):    # 判断实例变量 self.age是否存在
             self.age += 1
@@ -78,16 +81,18 @@ del p.name  # 删除p对象的name成员变量，
 p2 = Person()
 print(p2.name)  # Will
 print(p)  # <__main__.Person object at 0x000001FCE8651FD0>    //
+print(p2)  # <__main__.Person object at 0x000001FCE8651FD0>    //
+
 
 
 print("动态增加方法".center(100, "-"))
-def info(self):
-     print("-----info函数-----", self)
+def info(self1):
+     print("-----info函数-----", self1)
      print("动态增加方法")
-     print(self.age)    # 8   //
+     print(self1.age)    # 8
 p.foo = info   # foo是新增的实例方法名，info是我们在外面定义的方法，当然二者名字可以相同
-p.foo(p)  # 第一个参数并没有绑定给调，用类的对象第一个参数是实例本身，可用实例名代表
-# -----info函数----- <__main__.Person object at 0x000001CF46FC1FD0>
+p.foo(p)  # p = <__main__.Person object at 0x000001FCE8651FD0> , 这是对象是实例本身，可用实例名代表，即 self1.age = p.age
+# -----info函数----- <__main__.Person object at 0x000001FCE8651FD0>
 # 动态增加方法
 # 8    //调用了类中实例变量的值
 
@@ -97,13 +102,13 @@ p.run("很大")  # 很大
 
 
 print("self可以作为变量来访问，或者作为实例方法的返回值".center(100, "-"))
-print(p.grow().age)  # 9   //之前构造函数中age = 8
+print(p.grow().age)  # 有age变量 9   //之前构造函数中age = 8
 p.isnotexist()  # 9
 p.grow().grow().isnotexist()   # //可以多次调用实例方法或变量
 # 有age变量
 # 有age变量
 # 11
-
+sys.exit(0)
 
 print("类也能调用实例方法".center(100, "-"))
 print(Person.hair)  # black   //类名.变量名
