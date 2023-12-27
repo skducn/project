@@ -20,6 +20,7 @@
 # pip install pyzbr
 # pip install pil 报错请切换 pip install pillow
 # ***************************************************************
+
 """
 1.1，随机获取中文用户名 getChineseName()
 1.2，随机获取手机号码 getPhone()

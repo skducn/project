@@ -10,7 +10,7 @@
 import ddddocr
 
 ocr = ddddocr.DdddOcr()
-f = open("1.jpg", mode='rb')
+f = open("3.gif", mode='rb')
 img = f.read()
 result = ocr.classification(img)
 print(result)  # 2345

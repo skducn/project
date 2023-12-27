@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/ipynb/ICD.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/ipynb/James_Harden - 副本.csv">
           <value>
             <Attribute>

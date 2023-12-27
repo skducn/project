@@ -67,6 +67,9 @@ Web_PO = WebPO("chrome")
 from PO.Base64PO import *
 Base64_PO = Base64PO()
 
+from PO.FilePO import *
+File_PO = FilePO()
+
 import ddddocr
 
 class ChcPO():
@@ -99,14 +102,14 @@ class ChcPO():
         Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[2]/div/div/div/input", varPass)
 
         for i in range(10):
-            code = Web_PO.getValueByAttr(u"//img[@类与实例='login-code-img']", "src")
-            Base64_PO.decodeImg(code)
             ocr = ddddocr.DdddOcr()
-            f = open("test.gif", mode='rb')
-            img = f.read()
-            result = ocr.classification(img)
-            # print(result)
-            Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[3]/div/div/div[1]/input", result)  # 万能验证码
+            dataURI = Web_PO.getValueByAttr(u"//img[@class='login-code-img']", "src")
+            imgFile = Base64_PO.base64ToImg(dataURI)
+            f = open(imgFile, mode='rb')
+            captcha = ocr.classification(f.read())
+            File_PO.removeFile('', imgFile)
+            # print(captcha)
+            Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[3]/div/div/div[1]/input", captcha)
             Web_PO.clk("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[5]/button", 2)
             if Web_PO.isElement("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[5]/button") == False:
                 break
