@@ -134,9 +134,9 @@ class WebPO(DomPO):
             if os.name == "nt":
                 # 表示windows
                 ...
-                chromeVer = subprocess.check_output("c:\Program Files\Google\Chrome\Application "
-                    "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
-                chromeVer = bytes.decode(chromeVer).replace("\n", '')
+                chromeVer = subprocess.check_output("powershell -command \"&{(Get-Item 'C:\Program Files\Google\Chrome\Application\chrome.exe').VersionInfo.ProductVersion}\"", shell=True)
+                print(chromeVer)
+                # chromeVer = bytes.decode(chromeVer).replace("\n", '')
                 # print("当前版本 =>", chromeVer)  # Google Chrome 120.0.6099.129
 
             elif os.name == "posix":
