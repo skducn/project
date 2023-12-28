@@ -131,13 +131,23 @@ class WebPO(DomPO):
             # options.add_argument('--disable-javascript')  # 禁用JavaScript（有时可以用来测试JavaScript相关的问题）
             # options.add_argument(r"--user-data-dir=c:\selenium_user_data")  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
 
-            # 2 获取浏览器版本及主版本（前三位如果相同，则为同一版本）
-            chromeVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
-            chromeVer = bytes.decode(chromeVer).replace("\n", '')
-            # print("当前版本 =>", chromeVer)  # Google Chrome 120.0.6099.129
-            chromeVer = chromeVer.split('Google Chrome ')[1].strip()  # 120.0.6099.129
-            chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
-            # print(chromeVer3)  # 120.0.6099.
+            if os.name == "nt":
+                # 表示windows
+                ...
+                chromeVer = subprocess.check_output("c:\Program Files\Google\Chrome\Application "
+                    "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
+                chromeVer = bytes.decode(chromeVer).replace("\n", '')
+                # print("当前版本 =>", chromeVer)  # Google Chrome 120.0.6099.129
+
+            elif os.name == "posix":
+                # 表示mac
+                # 2 获取浏览器版本及主版本（前三位如果相同，则为同一版本）
+                chromeVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
+                chromeVer = bytes.decode(chromeVer).replace("\n", '')
+                # print("当前版本 =>", chromeVer)  # Google Chrome 120.0.6099.129
+                chromeVer = chromeVer.split('Google Chrome ')[1].strip()  # 120.0.6099.129
+                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
+                # print(chromeVer3)  # 120.0.6099.
 
             # 3 检查chromedriver主版本是否存在
             macPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
