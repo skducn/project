@@ -136,8 +136,9 @@ class WebPO(DomPO):
                 ...
                 chromeVer = subprocess.check_output("powershell -command \"&{(Get-Item 'C:\Program Files\Google\Chrome\Application\chrome.exe').VersionInfo.ProductVersion}\"", shell=True)
                 print(chromeVer)
-                # chromeVer = bytes.decode(chromeVer).replace("\n", '')
-                # print("当前版本 =>", chromeVer)  # Google Chrome 120.0.6099.129
+                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
+                print(chromeVer3)  # 120.0.6099.
+                self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
             elif os.name == "posix":
                 # 表示mac
@@ -149,21 +150,21 @@ class WebPO(DomPO):
                 chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
                 # print(chromeVer3)  # 120.0.6099.
 
-            # 3 检查chromedriver主版本是否存在
-            macPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
-            if (os.path.isdir(macPath + chromeVer3)):
-                # 启动带有自定义设置的Chrome浏览器
-                s = Service(macPath + chromeVer3 + "/chromedriver-mac-x64/chromedriver")
-                self.driver = webdriver.Chrome(service=s, options=options)
-            else:
-                # 自动下载chrome驱动并修改成主板本
-                print("chromedriver下载中...")
-                self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-                l_folder = File_PO.getFolderName(macPath)
-                for folder in l_folder:
-                    if chromeVer3 in folder:
-                        os.rename(macPath + folder, macPath + chromeVer3)
-                        break
+                # 3 检查chromedriver主版本是否存在
+                macPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
+                if (os.path.isdir(macPath + chromeVer3)):
+                    # 启动带有自定义设置的Chrome浏览器
+                    s = Service(macPath + chromeVer3 + "/chromedriver-mac-x64/chromedriver")
+                    self.driver = webdriver.Chrome(service=s, options=options)
+                else:
+                    # 自动下载chrome驱动并修改成主板本
+                    print("chromedriver下载中...")
+                    self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+                    l_folder = File_PO.getFolderName(macPath)
+                    for folder in l_folder:
+                        if chromeVer3 in folder:
+                            os.rename(macPath + folder, macPath + chromeVer3)
+                            break
 
             # # 绕过检测（滑动验证码）
             # self.driver.execute_cdp_cmd("Page.addScriptToEvaluteOnNewDocument",
