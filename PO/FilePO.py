@@ -250,24 +250,13 @@ class FilePO:
                 + "'"
             )
 
-    # 目录改名
+
     def renameFolder(self, srcFolder, tgtFolder):
+
         # 目录改名
         # File_PO.moveFolder(os.getcwd() + "/folder3", os.getcwd() + "/folder9")  # 改名，将 folder3 改名为 folder9
-        try:
-            os.rename(srcFolder, tgtFolder)
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+        os.rename(srcFolder, tgtFolder)
+
 
 
     def newFile(self, varPath, varFile, text=""):
@@ -445,10 +434,21 @@ class FilePO:
                 + "'"
             )
 
+    def getFolderName(self, path):
+
+        # 获取指定路径下的目录名（不包含下级子目录）
+        list1 = []
+        for all in os.listdir(path):
+            file_path = os.path.join(path, all)
+            if os.path.isdir(file_path):
+                list1.append(all)
+        return list1
 
 if __name__ == "__main__":
 
     File_PO = FilePO()
+
+    print(File_PO.getFolderName("/Users/linghuchong/Downloads/python"))
 
     # print("1.1，获取环境变量信息".center(100, "-"))
     # print(os.environ.keys())

@@ -13,7 +13,7 @@ import numpy as np
 
 '''
 1，生成验证码图片 genCaptcha()
-2，获取验证码 getCaptcha()
+2，获取验证码 getCaptchaByDdddOcr()
 '''
 
 class CaptchaPO:
@@ -44,7 +44,7 @@ class CaptchaPO:
         # plt.show()
         plt.savefig(filename)
 
-    def getCaptcha(self, filename):
+    def getCaptchaByDdddOcr(self, filename):
         # 获取验证码
         ocr = ddddocr.DdddOcr()
         f = open(filename, mode='rb')
@@ -60,5 +60,5 @@ if __name__ == "__main__":
     # 生成验证码
     Captcha_PO.genCaptcha("./data/1.jpg")
 
-    # # 获取验证码
-    print(Captcha_PO.getCaptcha("./data/1.jpg"))
+    # 获取验证码
+    print(Captcha_PO.getCaptchaByDdddOcr("./data/1.jpg"))

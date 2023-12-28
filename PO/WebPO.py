@@ -18,9 +18,9 @@
 # 注：以上两版本号前3位一样就可以，如 114.0.5735
 
 # 2，下载及配置chrome驱动
-# 下载1：http://chromedriver.storage.googleapis.com/index.html
-# 下载2：https://registry.npmmirror.com/binary.html?path=chromedriver
-# https://googlechromelabs.github.io/chrome-for-testing/#stable
+# 下载1：http://chromedriver.storage.googleapis.com/index.html （旧）
+# 下载2：https://registry.npmmirror.com/binary.html?path=chromedriver （旧）
+# https://googlechromelabs.github.io/chrome-for-testing/#stable （新）
 # https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6045.105/mac-arm64/chromedriver-mac-arm64.zip
 # 注：将以上版本119.0.6045.105替换为需要的版本。
 # win系统默认调用路径：C:\Python38\Scripts\chromedrive.exe
@@ -31,8 +31,9 @@
 # 3，自动下载chrome驱动
 # from webdriver_manager.chrome import ChromeDriverManager
 # ChromeDriverManager().install()
-# mac系统默认调用路径：/Users/linghuchong/.wdm/drivers/chromedriver/mac64/115.0.5790.170/chromedriver-mac-x64
 # self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+# mac系统默认调用路径：/Users/linghuchong/.wdm/drivers/chromedriver/mac64/120.0.6099.109/chromedriver-mac-x64/chromedriver
+
 
 # 3，chrome的options参数
 # https://www.bilibili.com/read/cv25916901/
@@ -86,27 +87,29 @@
 """
 
 from PO.DomPO import *
-import cv2, requests, bs4
+import cv2, requests, bs4, subprocess
+from FilePO import *
+File_PO = FilePO()
+
 
 class WebPO(DomPO):
 
     def _openURL(self, varURL):
         """1.1 打开"""
-
         if self.driver == "chrome":
 
             # 1 配置项
             options = Options()
 
             # todo 屏幕
-            options.add_argument("--start-maximized") # 最大化浏览器
+            options.add_argument("--start-maximized")  # 最大化浏览器
             # options.add_argument("--start-fullscreen")  # 全屏模式，F11可退出
             # options.add_argument("--kiosk")  # 全屏模式，alt+tab切换。ctrl+f4退出
             # options.add_argument('--window-size=%s,%s' % (pyautogui.size()[0], pyautogui.size()[1])) # 指定窗口大小
             # width, height = pyautogui.size()  # 1440 900  //获取屏幕尺寸
 
             # todo 浏览器
-            options.add_experimental_option("detach", True) # 浏览器永不关闭
+            options.add_experimental_option("detach", True)  # 浏览器永不关闭
             options.add_argument("--disable-blink-features=AutomationControlled")  # 禁止浏览器出现验证滑块
             options.add_argument('--incognito')  # 无痕模式
             options.add_argument('--disable-popup-blocking')  # 禁用弹窗阻止（可能有助于避免某些弹窗相关的崩溃）
@@ -128,14 +131,29 @@ class WebPO(DomPO):
             # options.add_argument('--disable-javascript')  # 禁用JavaScript（有时可以用来测试JavaScript相关的问题）
             # options.add_argument(r"--user-data-dir=c:\selenium_user_data")  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
 
-            try:
-                # 自动下载及配置chrome驱动
+            # 2 获取浏览器版本及主版本（前三位如果相同，则为同一版本）
+            chromeVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
+            chromeVer = bytes.decode(chromeVer).replace("\n", '')
+            # print("当前版本 =>", chromeVer)  # Google Chrome 120.0.6099.129
+            chromeVer = chromeVer.split('Google Chrome ')[1].strip()  # 120.0.6099.129
+            chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
+            # print(chromeVer3)  # 120.0.6099.
+
+            # 3 检查chromedriver主版本是否存在
+            macPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
+            if (os.path.isdir(macPath + chromeVer3)):
+                # 启动带有自定义设置的Chrome浏览器
+                s = Service(macPath + chromeVer3 + "/chromedriver-mac-x64/chromedriver")
+                self.driver = webdriver.Chrome(service=s, options=options)
+            else:
+                # 自动下载chrome驱动并修改成主板本
+                print("chromedriver下载中...")
                 self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-            except:
-                # 手工指定chrome驱动路径
-                s = Service("/Users/linghuchong/Downloads/51/Python/project/PO/chromedriver")
-                # self.driver = webdriver.Chrome(executable_path="/Users/linghuchong/miniconda3/envs/py308/bin/chromedriver", chrome_options=options) # 启动带有自定义设置的Chrome浏览器
-                self.driver = webdriver.Chrome(service=s, options=options)  # 启动带有自定义设置的Chrome浏览器
+                l_folder = File_PO.getFolderName(macPath)
+                for folder in l_folder:
+                    if chromeVer3 in folder:
+                        os.rename(macPath + folder, macPath + chromeVer3)
+                        break
 
             # # 绕过检测（滑动验证码）
             # self.driver.execute_cdp_cmd("Page.addScriptToEvaluteOnNewDocument",
@@ -146,44 +164,45 @@ class WebPO(DomPO):
             self.driver.get(varURL)
             return self.driver
 
-        elif self.driver == "firefox":
-            if platform.system() == "Windows":
-                # profile = webdriver.FirefoxProfile()
-                # # profile = FirefoxProfile()
-                # profile.native_events_enabled = True
-                # # self.driver = Firefox(profile)
-                # profile.set_preference("browser.startup.homepage", "about:blank")  # 解决跳转到firefox官网指定页，过慢问题。
-                # profile.set_preference("startup.homepage_welcome_url", "about:blank")  # 解决跳转到firefox官网指定页，过慢问题。
-                # profile.set_preference("startup.homepage_welcome_url.additional", "about:blank")  # 解决跳转到firefox官网指定页，过慢问题。
-                # profile.assume_untrusted_cert_issuer = True  # 访问没有证书的https站点
-                # accept_untrusted_certs = True  # 访问没有证书的https站点
-                # profile.set_preference('permissions.default.image', 2)  # 不加载的图片，加快显示速度
-                # profile.set_preference('browser.migration.version', 9001)  # 不加载过多的图片，加快显示速度
-                # self.driver = webdriver.Firefox(profile)
-                self.driver = webdriver.Firefox()
-                self.driver.implicitly_wait(10)  # 隐性等待
-                self.driver.get(varURL)
-            elif platform.system() == "Darwin":
-                options = webdriver.FirefoxOptions()
-                options.add_argument("--start-maximized")  # 最大化浏览器
-                # options.add_argument("--start-fullscreen")  # 全屏模式，F11可退出
-                # options.add_argument("-headless")
-                options.add_argument("--disable-gpu")
 
-                self.driver = webdriver.Firefox(
-                    # firefox_profile=None,
-                    # firefox_binary=None,
-                    # # timeout=30,
-                    # capabilities=None,
-                    # proxy=None,
-                    # executable_path="/usr/local/bin/geckodriver",
-                    # log_path="geckodriver.log",
-                    options=options
-                )
-                # self.driver._is_remote = False  # 解决mac电脑上传图片问题
-                # self.driver.implicitly_wait(10)  # 隐性等待
-                self.driver.get(varURL)
-            return self.driver
+        # elif self.driver == "firefox":
+        #     if platform.system() == "Windows":
+        #         # profile = webdriver.FirefoxProfile()
+        #         # # profile = FirefoxProfile()
+        #         # profile.native_events_enabled = True
+        #         # # self.driver = Firefox(profile)
+        #         # profile.set_preference("browser.startup.homepage", "about:blank")  # 解决跳转到firefox官网指定页，过慢问题。
+        #         # profile.set_preference("startup.homepage_welcome_url", "about:blank")  # 解决跳转到firefox官网指定页，过慢问题。
+        #         # profile.set_preference("startup.homepage_welcome_url.additional", "about:blank")  # 解决跳转到firefox官网指定页，过慢问题。
+        #         # profile.assume_untrusted_cert_issuer = True  # 访问没有证书的https站点
+        #         # accept_untrusted_certs = True  # 访问没有证书的https站点
+        #         # profile.set_preference('permissions.default.image', 2)  # 不加载的图片，加快显示速度
+        #         # profile.set_preference('browser.migration.version', 9001)  # 不加载过多的图片，加快显示速度
+        #         # self.driver = webdriver.Firefox(profile)
+        #         self.driver = webdriver.Firefox()
+        #         self.driver.implicitly_wait(10)  # 隐性等待
+        #         self.driver.get(varURL)
+        #     elif platform.system() == "Darwin":
+        #         options = webdriver.FirefoxOptions()
+        #         options.add_argument("--start-maximized")  # 最大化浏览器
+        #         # options.add_argument("--start-fullscreen")  # 全屏模式，F11可退出
+        #         # options.add_argument("-headless")
+        #         options.add_argument("--disable-gpu")
+        #
+        #         self.driver = webdriver.Firefox(
+        #             # firefox_profile=None,
+        #             # firefox_binary=None,
+        #             # # timeout=30,
+        #             # capabilities=None,
+        #             # proxy=None,
+        #             # executable_path="/usr/local/bin/geckodriver",
+        #             # log_path="geckodriver.log",
+        #             options=options
+        #         )
+        #         # self.driver._is_remote = False  # 解决mac电脑上传图片问题
+        #         # self.driver.implicitly_wait(10)  # 隐性等待
+        #         self.driver.get(varURL)
+        #     return self.driver
 
 
 

@@ -64,6 +64,9 @@
 from PO.WebPO import *
 Web_PO = WebPO("chrome")
 
+from PO.CaptchaPO import *
+Captcha_PO = CaptchaPO()
+
 from PO.Base64PO import *
 Base64_PO = Base64PO()
 
@@ -102,11 +105,9 @@ class ChcPO():
         Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[2]/div/div/div/input", varPass)
 
         for i in range(10):
-            ocr = ddddocr.DdddOcr()
             dataURI = Web_PO.getValueByAttr(u"//img[@class='login-code-img']", "src")
             imgFile = Base64_PO.base64ToImg(dataURI)
-            f = open(imgFile, mode='rb')
-            captcha = ocr.classification(f.read())
+            captcha = Captcha_PO.getCaptchaByDdddOcr(imgFile)
             File_PO.removeFile('', imgFile)
             # print(captcha)
             Web_PO.setText("/html/body/div[1]/div/div[2]/div[1]/div[2]/form/div[3]/div/div/div[1]/input", captcha)

@@ -11,9 +11,8 @@ import ddddocr
 
 ocr = ddddocr.DdddOcr()
 f = open("3.gif", mode='rb')
-img = f.read()
-result = ocr.classification(img)
-print(result)  # 2345
+cpatcha = ocr.classification(f.read())
+print(cpatcha)  # 2345
 
 
 
