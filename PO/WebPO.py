@@ -130,63 +130,45 @@ class WebPO(DomPO):
             # options.add_argument('--disable-javascript')  # 禁用JavaScript（有时可以用来测试JavaScript相关的问题）
             # options.add_argument(r"--user-data-dir=c:\selenium_user_data")  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
 
+            # 2 获取不同系统的浏览器版本及执行路径
             if os.name == "nt":
-                # 表示windows
-                ...
+                # for win
                 chromeVer = subprocess.check_output("powershell -command \"&{(Get-Item 'C:\Program Files\Google\Chrome\Application\chrome.exe').VersionInfo.ProductVersion}\"", shell=True)
                 chromeVer = bytes.decode(chromeVer).replace("\n", '')
-                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
-                # print(chromeVer3)  # 120.0.6099.
-
-                # 3 检查chromedriver主版本是否存在
+                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')  # 120.0.6099.
                 autoPath = "C:\\Users\\jh\\.wdm\\drivers\\chromedriver\\win64\\"
-                if (os.path.isdir(autoPath + chromeVer3)):
-                    # 启动带有自定义设置的Chrome浏览器
-                    s = Service(autoPath + chromeVer3 + "\\chromedriver-win32\\chromedriver.exe")
-                    self.driver = webdriver.Chrome(service=s, options=options)
-                else:
-                    # 自动下载chrome驱动并修改成主板本
-                    print("chromedriver下载中...")
-                    s = Service(ChromeDriverManager().install())
-                    self.driver = webdriver.Chrome(service=s, options=options)
-                    l_folder = File_PO.getFolderName(autoPath)
-                    for folder in l_folder:
-                        if chromeVer3 in folder:
-                            os.rename(autoPath + folder, autoPath + chromeVer3)
-                            break
-
+                s = Service(autoPath + chromeVer3 + "\\chromedriver-win32\\chromedriver.exe")
             elif os.name == "posix":
-                # 表示mac
-                # 2 获取浏览器版本及主版本（前三位如果相同，则为同一版本）
+                # for mac
+                # 获取浏览器版本及主版本（前三位如果相同，则为同一版本）
                 chromeVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
                 chromeVer = bytes.decode(chromeVer).replace("\n", '')
-                # print("当前版本 =>", chromeVer)  # Google Chrome 120.0.6099.129
                 chromeVer = chromeVer.split('Google Chrome ')[1].strip()  # 120.0.6099.129
-                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
-                # print(chromeVer3)  # 120.0.6099.
+                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')  # # 120.0.6099.
+                autoPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
+                s = Service(autoPath + chromeVer3 + "/chromedriver-mac-x64/chromedriver")
 
-                # 3 检查chromedriver主版本是否存在
-                macPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
-                if (os.path.isdir(macPath + chromeVer3)):
-                    # 启动带有自定义设置的Chrome浏览器
-                    s = Service(macPath + chromeVer3 + "/chromedriver-mac-x64/chromedriver")
-                    self.driver = webdriver.Chrome(service=s, options=options)
-                else:
-                    # 自动下载chrome驱动并修改成主板本
-                    print("chromedriver下载中...")
-                    self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-                    l_folder = File_PO.getFolderName(macPath)
-                    for folder in l_folder:
-                        if chromeVer3 in folder:
-                            os.rename(macPath + folder, macPath + chromeVer3)
-                            break
+            # 3 检查chromedriver主版本是否存在
+            if (os.path.isdir(autoPath + chromeVer3)):
+                # 启动带有自定义设置的Chrome浏览器
+                self.driver = webdriver.Chrome(service=s, options=options)
+                # print("Googe Chrome Ver => ", self.driver.capabilities['browserVersion'])  # 115.0.5790.170  //获取浏览器版本
+                # print("chromedriverVer => ", self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # 115.0.5790.170 //获取chrome驱动版本
+
+            else:
+                # 自动下载chrome驱动并修改成主板本
+                print("chromedriver下载中...")
+                s = Service(ChromeDriverManager().install())
+                self.driver = webdriver.Chrome(service=s, options=options)
+                l_folder = File_PO.getFolderName(autoPath)
+                for folder in l_folder:
+                    if chromeVer3 in folder:
+                        os.rename(autoPath + folder, autoPath + chromeVer3)
+                        break
 
             # # 绕过检测（滑动验证码）
-            # self.driver.execute_cdp_cmd("Page.addScriptToEvaluteOnNewDocument",
-            #                             {"source": """Object.defineProperty(navigator,'webdriver', {get: () => undefined})"""})
+            # self.driver.execute_cdp_cmd("Page.addScriptToEvaluteOnNewDocument", {"source": """Object.defineProperty(navigator,'webdriver', {get: () => undefined})"""})
 
-            # print(self.driver.capabilities['browserVersion'])  # 115.0.5790.170  //获取浏览器版本
-            # print(self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # 115.0.5790.170 //获取chrome驱动版本
             self.driver.get(varURL)
             return self.driver
 
