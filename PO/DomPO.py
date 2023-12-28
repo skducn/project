@@ -83,7 +83,8 @@
 # 获取弹框中的文案 alertText()
 
 
-import sys, os, platform, psutil, pyautogui, ddddocr
+import sys, os, platform, platform, psutil, ddddocr, requests, bs4, subprocess
+import pyscreeze, pyautogui, cv2
 from time import sleep
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By

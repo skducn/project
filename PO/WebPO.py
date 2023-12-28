@@ -87,10 +87,9 @@
 """
 
 from PO.DomPO import *
-import cv2, requests, bs4, subprocess
+import requests, bs4, subprocess
 from FilePO import *
 File_PO = FilePO()
-
 
 class WebPO(DomPO):
 
@@ -135,10 +134,26 @@ class WebPO(DomPO):
                 # 表示windows
                 ...
                 chromeVer = subprocess.check_output("powershell -command \"&{(Get-Item 'C:\Program Files\Google\Chrome\Application\chrome.exe').VersionInfo.ProductVersion}\"", shell=True)
-                print(chromeVer)
+                chromeVer = bytes.decode(chromeVer).replace("\n", '')
                 chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
-                print(chromeVer3)  # 120.0.6099.
-                self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+                # print(chromeVer3)  # 120.0.6099.
+
+                # 3 检查chromedriver主版本是否存在
+                autoPath = "C:\\Users\\jh\\.wdm\\drivers\\chromedriver\\win64\\"
+                if (os.path.isdir(autoPath + chromeVer3)):
+                    # 启动带有自定义设置的Chrome浏览器
+                    s = Service(autoPath + chromeVer3 + "\\chromedriver-win32\\chromedriver.exe")
+                    self.driver = webdriver.Chrome(service=s, options=options)
+                else:
+                    # 自动下载chrome驱动并修改成主板本
+                    print("chromedriver下载中...")
+                    s = Service(ChromeDriverManager().install())
+                    self.driver = webdriver.Chrome(service=s, options=options)
+                    l_folder = File_PO.getFolderName(autoPath)
+                    for folder in l_folder:
+                        if chromeVer3 in folder:
+                            os.rename(autoPath + folder, autoPath + chromeVer3)
+                            break
 
             elif os.name == "posix":
                 # 表示mac
