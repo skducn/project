@@ -1,0 +1,14 @@
+2023-12-29 11:11:16 [DEBUG] debug message
+2023-12-29 11:11:16 [INFO] info message
+2023-12-29 11:11:16 [WARNING] warning message
+2023-12-29 11:11:16 [ERROR] error message
+2023-12-29 11:11:16 [CRITICAL] critical message
+2023-12-29 11:25:51 [DEBUG] debug message
+2023-12-29 11:25:51 [INFO] info message
+2023-12-29 11:25:51 [WARNING] warning message
+2023-12-29 11:25:51 [ERROR] error message
+2023-12-29 11:25:51 [CRITICAL] critical message
+2023-12-29 11:26:12 [ERROR] error message
+2023-12-29 11:26:12 [CRITICAL] critical message
+2023-12-29 11:29:02 [ERROR] error message
+2023-12-29 11:29:02 [CRITICAL] critical message
