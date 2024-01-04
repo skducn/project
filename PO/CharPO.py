@@ -45,21 +45,10 @@ class CharPO:
         # 注意：utf-8 可以看成是unicode的一个扩展集，varChinese就是unicode编码，所以无需再解码，python3开始已不支持decode属性。如：byte1 = varStr.decode('utf-8')     # AttributeError: 'str' object has no attribute 'decode'
         # print(Char_PO.chinese2byte("金浩", "utf-8"))  # b'\xe9\x87\x91\xe6\xb5\xa9'
         # print(Char_PO.chinese2byte("金浩", "GBK"))  # b'\xbd\xf0\xba\xc6'
-        try:
-            byte1 = varChinese.encode(varCoding)
-            return byte1
-        except:
-            print(
-                "[ERROR], "
-                + sys._getframe(1).f_code.co_name
-                + ", line "
-                + str(sys._getframe(1).f_lineno)
-                + ", in "
-                + sys._getframe(0).f_code.co_name
-                + ", SourceFile '"
-                + sys._getframe().f_code.co_filename
-                + "'"
-            )
+
+        byte1 = varChinese.encode(varCoding)
+        return byte1
+
 
     # 1.2 字节码转中文
     def byte2chinese(self, varByte, varCoding="utf-8"):
@@ -119,7 +108,7 @@ if __name__ == "__main__":
     #
     # print("1.2 字节码转中文字符串".center(100, "-"))
     # print(Char_PO.byte2chinese(b"\xe9\x87\x91\xe6\xb5\xa9", "utf-8"))  # 金浩
-    # print(Char_PO.byte2chinese(b"\xbd\xf0\xba\xc6", "gbk"))  # 金浩
+    print(Char_PO.byte2chinese(b"\xbd\xf0\xba\xc6", "gbk"))  # 金浩
     #
     # print("1.3 中文转拼音".center(100, "-"))
     # print(Char_PO.chinese2pinyin("上海市"))  # cengzengxiangyun
@@ -135,3 +124,8 @@ if __name__ == "__main__":
     # # print(Char_PO.chinese2pinyin3("你好", tone_marks="marks", convert="upper"))  # NǏHǍO
     # print(Char_PO.chinese2pinyin3("你好", tone_marks="numbers", splitter="-"))  # ni3-hao3
 
+    obj = b"\xbd\xf0\xba\xc6"
+    if isinstance(obj, bytes):
+        print(1111)
+    else:
+        print(2222)

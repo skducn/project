@@ -29,6 +29,9 @@ todo:【转换】
         print(json.load(f))  # {'a': 5, 'b': 6}
 1.5 字典key转列表(ChainMap)  list(ChainMap(dict1))
 1.6 列表转字典（fromkeys） dict.fromkeys(list1, value) => dict.fromkeys(['a',5], 1) => {'a':1, 5:1}
+1.7 字典转xlsx  dict2xlsx()
+1.8 字典转csv  dict2csv()
+1.9 字典转text  dict2json()  # https://juejin.cn/post/7153967412101152781 参数介绍
 
 todo:【合并、键值覆盖互换、删除保留key、批量更新value】
 2.1 覆盖合并当前字典(update)
@@ -64,13 +67,50 @@ todo:【分组】
 
 """
 
-from collections import ChainMap
-from collections import Counter
-import json
+
+from collections import Counter, ChainMap
 from functools import reduce
-import itertools
+import itertools, json
+import pandas as pd
+
 
 class DictPO:
+
+
+    def dict2xlsx(self, varDict, varExcelFile):
+
+        """1.7 字典转xlsx"""
+
+        try:
+            df = pd.DataFrame(varDict)
+            # df.to_excel(varExcelFile, encoding="utf_8_sig", index=False)
+            df.to_excel(varExcelFile, index=False)
+        except Exception as e:
+            print(e)
+
+    def dict2csv(self, varDict, varExcelFile):
+
+        """1.8 字典转csv"""
+
+        try:
+            df = pd.DataFrame(varDict)
+            # df.to_csv(varExcelFile, index=False)
+            df.to_csv(varExcelFile, encoding="utf_8_sig", index=False)
+        except Exception as e:
+            print(e)
+
+    def dict2json(self, varDict, varTextFile):
+
+        """1.9 字典转text"""
+        # https://juejin.cn/post/7153967412101152781
+        # https://blog.csdn.net/fontthrone/article/details/75212825
+
+        try:
+            df = pd.DataFrame(varDict)
+            df.to_json(varTextFile, force_ascii=False)  # 解决中文乱码问题
+        except Exception as e:
+            print(e)
+
 
     def sumValueBySameKey(self, *varDict):
         # 2.8 合并累加相同key的值
@@ -161,6 +201,8 @@ if __name__ == "__main__":
     # todo main
     Dict_PO = DictPO()
 
+
+
     # d1 = dict(a=1, b=2, test=3)
     # d2 = dict(a=10, b=20, dev=30)
     # d3 = dict(a=200, b=200, prd=300)
@@ -188,6 +230,16 @@ if __name__ == "__main__":
     # print(dict.fromkeys(['a', 5], 1))  # {'a': 1, 5: 1}
     # dict1 = dict.fromkeys(['a', 5])  # {'a': None, 5: None}
     # print(dict1)
+
+    # print("1.7 字典转xlsx".center(100, "-"))
+    # Dict_PO.dict2xlsx({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["中国", "bb", "cc", "dd"]}, "./data/qq.xlsx")
+
+    # print("1.8 字典转csv ".center(100, "-"))
+    # Dict_PO.dict2csv({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["美国", "bb", "cc", "dd"]}, "./data/qqw.csv")
+
+    # print("1.9 字典转text".center(100, "-"))
+    # Dict_PO.dict2json({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "澳大利亚", "cc", "dd"]}, "./data/qq3.txt")
+
     #
     # d1 = {'name':'jinhao' , "age":43}
     # d2 = {'gender':"male", "name":"yoyo"}
@@ -251,11 +303,11 @@ if __name__ == "__main__":
     # print(Dict_PO.delKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "d"]))  # {'a': 5, 'c': 7}
     # print(Dict_PO.delKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "b"]))  # {'a': 5, 'c': 7, 'd': 8}
     # #
-    print("2.11 只保留部分key".center(100, "-"))
-    print(Dict_PO.reserveKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "d"]))  # {'b': 6, 'd': 8}
-    print(Dict_PO.reserveKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "w"]))  # {'b': 6}
-    a = {k: v for k, v in {"a": 5, "b": 6, "c": 7, "d": 8}.items() if k in ["b", "w"]}
-    print(a)  # {'b': 6}
+    # print("2.11 只保留部分key".center(100, "-"))
+    # print(Dict_PO.reserveKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "d"]))  # {'b': 6, 'd': 8}
+    # print(Dict_PO.reserveKey({"a": 5, "b": 6, "c": 7, "d": 8}, ["b", "w"]))  # {'b': 6}
+    # a = {k: v for k, v in {"a": 5, "b": 6, "c": 7, "d": 8}.items() if k in ["b", "w"]}
+    # print(a)  # {'b': 6}
 
     # # print("3 判断是不是字典".center(100, "-"))
     # print(Dict_PO.isDict('{}'))  # True

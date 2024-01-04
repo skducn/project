@@ -54,58 +54,73 @@
 
 # todo sqlalchemy中create_engine用法 (https://blog.csdn.net/xc_zhou/article/details/118829588)
 # engine = create_engine('数据库类型+驱动://用户名:密码@服务器IP:端口/数据库?charset=utf8')
-# pymssql: engine = create_engine('mssql+pymssql://scott:tiger@hostname:port/dbname')
-# Microsoft SQL Server: engine = create_engine('mssql+pyodbc://scott:tiger@mydsn')
-
+# pymssql:
+# engine = create_engine('mssql+pymssql://scott:tiger@hostname:port/dbname')
+# Microsoft SQL Server:
+# engine = create_engine('mssql+pyodbc://scott:tiger@mydsn')
 # SQLite:
 # engine = create_engine('sqlite:///foo.db')
 # engine = create_engine('sqlite:absolute/path/to/foo.db')
 
+# sqlalchemy+pandas：错误 'OptionEngine' object has no attribute 'execute'，'str' object has no attribute '_execute_on_connection'
+# https://www.cnblogs.com/bruce-he/p/17113269.html
+
+#SqlServer判断表、列不存在则创建 &&ExecuteNonQuery 要求命令拥有事务
+# https://blog.csdn.net/Andrewniu/article/details/78028207
 # ***************************************************************
 
 """
-1.1 执行sql execute(self, varTable, sql)
-1.2 查询sql execQuery(self, sql)
-1.3 查询带参数sql execQueryParam(self, sql, param)
+1.1 查询sql语句 execQuery(self, sql)
+1.2 查询带参数sql execQueryParam(self, sql, param)
+1.3 执行sql语句 execute(self, varTable, sql)
 1.4 执行存储过程 execProcedure(self, varProcedureName)
 1.5.1 执行sql文件 execSqlFile(self, varPathSqlFile)
 1.5.2 执行sql文件2 execSqlFile2(self, varPathSqlFile)
 1.6 close
 
-2.1.1 获取所有表  getTables(self)
-2.1.2 获取所有表和表注释 getTableAndComment(self)
-2.1.3 获取表的结构信息 getTableInfor(self, varTable[all])
-2.2.1 获取字段  getFields(self, varTable)
-2.2.2 获取字段和字段注释 getFieldInfor(self, varTable)
-2.3 获取记录数 getRecordQty(self, varTable)
-2.4.1 获取所有字段和类型 getFieldAndType(self, varTable)
-2.4.2 获取N个字段和类型 getOneFieldAndType(self, varTable, varField)
-2.4.3 获取所有必填项字段和类型 getNotNullFieldAndType（self, varTable）
-2.5 获取自增主键 getIdentityPrimaryKey(self, varTable)
-2.6 获取主键  getPrimaryKey（self, varTable）
-2.7 获取主键最大值 getPrimaryKeyMaxValue（self, varTable）
+2.1 获取所有表  getTables(self)
+2.2 获取所有表和表注释 getTableAndComment(self)
+2.3 获取表的结构信息 getTableInfor(self, varTable[all])
+2.4 获取字段  getFields(self, varTable)
+2.5 获取字段和字段注释 getFieldInfor(self, varTable)
+2.6 获取记录数 getRecordQty(self, varTable)
+2.7 获取所有字段和类型 getFieldAndType(self, varTable)
+2.8 获取N个字段和类型 getOneFieldAndType(self, varTable, varField)
+2.9 获取所有必填项字段和类型 getNotNullFieldAndType（self, varTable）
+2.10 获取自增主键 getIdentityPrimaryKey(self, varTable)
+2.11 获取主键  getPrimaryKey（self, varTable）
+2.12 获取主键最大值 getPrimaryKeyMaxValue（self, varTable
 
 3.1 创建表 crtTable(self, varTable, sql)
-3.2.1 生成类型值 _genTypeValue(self, varTable)
-3.2.2 生成必填项类型值 _genNotNullTypeValue(self, varTable)
-3.2.3 自动生成第一条数据 genFirstRecord(self, varTable)
-3.2.3(2)所有表自动生成第一条数据 genFirstRecordByAll()
-3.2.4 自动生成数据 genRecord(self, varTable)
-3.2.5 自动生成必填项数据 genRecordByNotNull(self, varTable)
-3.2.6 执行insert _execInsert(self, varTable, d_init,{})
+3.2 生成类型值 _genTypeValue(self, varTable)
+3.3 生成必填项类型值 _genNotNullTypeValue(self, varTable)
+3.4 单表自动生成第一条数据 genFirstRecord(self, varTable)
+3.5 所有表自动生成第一条数据 genFirstRecordByAll()
+3.6 自动生成数据 genRecord(self, varTable)
+3.7 自动生成必填项数据 genRecordByNotNull(self, varTable)
+3.8 执行insert _execInsert(self, varTable, d_init,{})
 
 4.1 判断表是否存在 isTable(self, varTable)
-4.1 判断字段是否存在 isField(self, varTable, varField)
-4.2 判断是否有自增主键 isIdentity(self, varTable)
+4.2 判断字段是否存在 isField(self, varTable, varField)
+4.3 判断是否有自增主键 isIdentity(self, varTable)
 
-5 excel导入数据库
+5.1.1 csv2dbByType()  csv2db自定义字段类型
+5.1.2 csv2dbByAutoType()  csv2db自动生成字段类型
+5.2 exls2db  excel导入数据库
+5.3 dict2db
+5.4 list2db
+5.5 db2csv
+5.6 db2xlsx
+5.7 db2dict
+
 
 应用
 1 查看数据库表结构（字段、类型、大小、可空、注释），注意，表名区分大小写  dbDesc()
 2 查找记录  dbRecord('*', 'money', '%34.5%')
 
 """
-
+import pandas as pd
+import petl as etl
 import sys
 from collections.abc import Iterable, Iterator
 # from collections.abc import pymssql
@@ -113,13 +128,14 @@ import pymssql
 from time import sleep
 # print(pymssql.__version__)
 # from adodbapi import connect
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 
 from PO.ColorPO import *
 Color_PO = ColorPO()
 
 from PO.TimePO import *
 Time_PO = TimePO()
+
 
 class SqlServerPO:
 
@@ -154,49 +170,7 @@ class SqlServerPO:
         return create_engine("mssql+pymssql://" + self.user + ":" + self.password + "@" + self.server + "/" + self.database)
 
 
-    def xlsx2db(self, varPathFile, varSheetName, varDbTableName):
-
-        '''
-        5，xlsx导入数据库
-        :param varExcelFile:
-        :param varTable:
-        :return:
-        xlsx2db('./data/2.xlsx',"sheet3", "jh123")
-        excel表格第一行数据对应db表中字段，建议用英文
-        '''
-
-        try:
-            df = pd.read_excel(varPathFile, sheet_name=varSheetName)
-            engine = self.getEngine_pymssql()
-            df.to_sql(varDbTableName, con=engine, if_exists="replace", index=False)
-        except Exception as e:
-            print(e)
-
-
-    # 1.1 执行sql
-    def execute(self, sql):
-
-        '''
-        执行sql （insert，update）
-        :param sql:
-        :return:
-        '''
-
-        try:
-            # 判断表是否存在
-            # if self.isTable(varTable) == True:
-            self.conn.commit()
-            self.cur.execute(sql)
-            self.conn.commit()
-            return "ok"
-        except Exception as e:
-            # print(e.args)  # ('table hh already exists',)
-            # print(str(e))  # table hh already exists
-            # print(NameError(e))  # table hh already exists
-            # print(repr(e))  # OperationalError('table hh already exists')
-            return str(e)
-
-    # 1.2 查询sql
+    # 1.1 查询sql语句
     def execQuery(self, sql):
 
         '''
@@ -218,7 +192,7 @@ class SqlServerPO:
             # print(NameError(e))  # table hh already exists
             print(repr(e))  # OperationalError('table hh already exists')
 
-    # 1.3 查询带参数sql
+    # 1.2 查询带参数sql
     def execQueryParam(self, sql, param):
 
         '''
@@ -242,6 +216,26 @@ class SqlServerPO:
         self.cur.close()
         self.conn.close()
         return result
+
+    # 1.3 执行sql语句
+    def execute(self, sql):
+
+        '''
+        执行sql （insert，update）
+        :param sql:
+        :return:
+        '''
+
+        try:
+            self.cur.execute(sql)
+            self.conn.commit()
+            return "ok"
+        except Exception as e:
+            # print(e.args)  # ('table hh already exists',)
+            # print(str(e))  # table hh already exists
+            # print(NameError(e))  # table hh already exists
+            # print(repr(e))  # OperationalError('table hh already exists')
+            return str(e)
 
     # 1.4 执行存储过程
     def execProcedure(self, varProcedureName):
@@ -301,13 +295,10 @@ class SqlServerPO:
 
 
 
-
-
-    # 2.1.1 获取所有表
     def getTables(self):
 
         '''
-        获取所有表
+        2.1 获取所有表
         :return:
         '''
 
@@ -322,50 +313,69 @@ class SqlServerPO:
             print(e, ",[error], SqlserverPO.getTables()异常!")
             self.conn.close()
 
-    # 2.1.2 获取所有表和表注释
-    def getTableAndComment(self):
+
+    def getTableComment(self, varTable="allTables"):
 
         '''
-        获取所有表和表注释
-        :return:
+        2.2 获取所有表和表注释
+        :return: 字典格式 ，如{'ASSESS_DIAGNOSIS': '门诊数据', 'ASSESS_MEDICATION': '评估用药情况表'}
         '''
+        if varTable == "allTables":
+            try:    
+                r = self.execQuery("SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0")
+                # print(r)  # [{'name': 'aaa', 'value': None}, {'name': 'bbb', 'value': None}...]
+                l_table = []
+                l_comment = []
+                d = {}
+                for i in range(len(r)):
+                    l_table.append(r[i]['name'])
+                    if r[i]['value'] == None:
+                        l_comment.append(r[i]['value'])
+                    else:
+                        l_comment.append(r[i]['value'].decode(encoding="utf-8", errors="strict"))
+                d = dict(zip(l_table, l_comment))
+                # print(d)
+                return d
+            except Exception as e:
+                print(e, ",[error], SqlserverPO.getTableComment()异常!")
+                self.conn.close()
+        else:
+            try:
+                r = self.execQuery("SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0")
+                # print(r)  # [{'name': 'aaa', 'value': None}, {'name': 'bbb', 'value': None}...]
+                l_table = []
+                l_comment = []
+                d = {}
+                for i in range(len(r)):
+                    if r[i]['name'] == varTable:
+                        l_table.append(r[i]['name'])
+                        if r[i]['value'] == None:
+                            l_comment.append(r[i]['value'])
+                        else:
+                            l_comment.append(r[i]['value'].decode(encoding="utf-8", errors="strict"))
+                d = dict(zip(l_table, l_comment))
+                # print(d)
+                return d
+            except Exception as e:
+                print(e, ",[error], SqlserverPO.getTableComment()异常!")
+                self.conn.close()
 
-        try:
-            r = self.execQuery("SELECT DISTINCT d.name,f.value FROM syscolumns a LEFT JOIN systypes b ON a.xusertype= b.xusertype INNER JOIN sysobjects d ON a.id= d.id AND d.xtype= 'U' AND d.name<> 'dtproperties' LEFT JOIN syscomments e ON a.cdefault= e.id LEFT JOIN sys.extended_properties g ON a.id= G.major_id AND a.colid= g.minor_id LEFT JOIN sys.extended_properties f ON d.id= f.major_id AND f.minor_id= 0")
-            # print(r)  # [{'name': 'aaa', 'value': None}, {'name': 'bbb', 'value': None}...]
-            l_table = []
-            l_comment = []
-            d = {}
-            for i in range(len(r)):
-                l_table.append(r[i]['name'])
-                if r[i]['value'] == None:
-                    l_comment.append(r[i]['value'])
-                else:
-                    l_comment.append(r[i]['value'].decode(encoding="utf-8", errors="strict"))
-            d = dict(zip(l_table, l_comment))
-            # print(d)
-            return d
-        except Exception as e:
-            print(e, ",[error], SqlserverPO.getTableAndComment()异常!")
-            self.conn.close()
 
-    # 2.1.3 获取表的结构信息
-    def getTableInfor(self, varTable="allTables"):
+    def getStructure(self, varTable="allTables"):
 
         '''
-        获取表的结构信息 (查询表的列名称、说明、备注、类型等)
-        :param varTable: 如果有表名就获取一个表的信息，否则所有表的信息
-        :return:
+        2.3 获取表的结构信息
+        :param varTable: 所有表或单表
+        :return: [{表：'','表注释:'', '字段序号':'', '字段':'', '': '', '主键': '√', '类型': 'int', '占用字节数': 4, '长度': 10, '小数位数': 0, '允许空': '', '默认值': '', '字段注释': b''},{}...]
         其他用法：将如下查询内容，在navicate中执行，并导出excel文档。
         '''
 
         if varTable == "allTables":
-
-            r = self.execQuery('''
-            SELECT 表名 = case when a.colorder = 1 then d.name else '' end,
-              表说明 = case when a.colorder = 1 then isnull(f.value, '') else '' end,
+            list1 = self.execQuery('''
+            SELECT 表 = d.name,
+              表注释 = isnull(f.value, ''),
               字段序号 = a.colorder,
-              字段名 = a.name,
+              字段 = a.name,
               标识 = case when COLUMNPROPERTY(a.id, a.name, 'IsIdentity')= 1 then '√' else '' end,
               主键 = case when exists(SELECT 1 FROM sysobjects where xtype = 'PK' and parent_obj = a.id and name in (SELECT name FROM sysindexes WHERE indid in(SELECT indid FROM sysindexkeys WHERE id = a.id AND colid = a.colid))) then '√' else '' end,
               类型 = b.name,
@@ -374,7 +384,7 @@ class SqlServerPO:
               小数位数 = isnull(COLUMNPROPERTY(a.id, a.name, 'Scale'),0),
               允许空 = case when a.isnullable = 1 then '√' else '' end,
               默认值 = isnull(e.text, ''),
-              字段说明 = isnull(g.[value], '')
+              字段注释 = isnull(g.[value], '')
             FROM
               syscolumns a
               left join systypes b on a.xusertype = b.xusertype
@@ -391,11 +401,11 @@ class SqlServerPO:
               a.colorder
             ''')
         else:
-            r = self.execQuery('''
-            SELECT 表名 = case when a.colorder = 1 then d.name else '' end,
-              表说明 = case when a.colorder = 1 then isnull(f.value, '') else '' end,
+            list1 = self.execQuery('''
+            SELECT 表 = d.name ,
+              表注释 =  isnull(f.value, '') ,
               字段序号 = a.colorder,
-              字段名 = a.name,
+              字段 = a.name,
               标识 = case when COLUMNPROPERTY(a.id, a.name, 'IsIdentity')= 1 then '√' else '' end,
               主键 = case when exists(SELECT 1 FROM sysobjects where xtype = 'PK' and parent_obj = a.id and name in (SELECT name FROM sysindexes WHERE indid in(SELECT indid FROM sysindexkeys WHERE id = a.id AND colid = a.colid))) then '√' else '' end,
               类型 = b.name,
@@ -404,7 +414,7 @@ class SqlServerPO:
               小数位数 = isnull(COLUMNPROPERTY(a.id, a.name, 'Scale'),0),
               允许空 = case when a.isnullable = 1 then '√' else '' end,
               默认值 = isnull(e.text, ''),
-              字段说明 = isnull(g.[value], '')
+              字段注释 = isnull(g.value, '')
             FROM
               syscolumns a
               left join systypes b on a.xusertype = b.xusertype
@@ -423,13 +433,19 @@ class SqlServerPO:
               a.colorder
             ''')
 
-        return r
+        for index, i in enumerate(list1):
+            for k, v in i.items():
+                if isinstance(v, bytes):
+                    list1[index][k] = v.decode(encoding="utf-8", errors="strict")
 
-    # 2.2.1 获取字段
+        return list1
+
+
+
     def getFields(self, varTable):
 
         '''
-        获取字段
+        2.4 获取字段
         :param varTable:
         :return:
         '''
@@ -448,11 +464,11 @@ class SqlServerPO:
             print(e, ",[error], SqlserverPO.getFields()异常!")
             self.conn.close()
 
-    # 2.2.2 获取字段和字段注释
-    def getFieldAndComment(self, varTable):
+
+    def getFieldComment(self, varTable):
 
         '''
-        获取字段和字段注释
+        2.5 获取字段和字段注释
         :param varTable:
         :return:
         '''
@@ -479,11 +495,11 @@ class SqlServerPO:
             self.conn.close()
 
 
-    # 2.3 获取记录数
+
     def getRecordQty(self, varTable):
 
         '''
-        获取记录数（特别适合大数据）
+        2.6 获取记录数（特别适合大数据）
         :param varTable:
         :return:
         '''
@@ -492,11 +508,11 @@ class SqlServerPO:
             "SELECT rows FROM sysindexes WHERE id = OBJECT_ID('" + varTable + "') AND indid < 2")
         return qty[0]['rows']
 
-    # 2.4.1 获取所有字段和类型
+
     def getFieldAndType(self, varTable):
 
         '''
-        获取字段和类型
+        2.6 获取字段和类型
         :param varTable:
         :return:
         '''
@@ -514,11 +530,11 @@ class SqlServerPO:
             raise e
         return d_fields
 
-    # 2.4.2 获取N个字段和类型
+
     def getMoreFieldAndType(self, varTable, l_field):
 
         '''
-        获取单个字段和类型
+        2.8 获取N个字段和类型
         :param varTable:
         :param varField:
         :return:
@@ -535,11 +551,11 @@ class SqlServerPO:
                     d[k] = v
         return d  # [{'field': 'ID', 'type': 'int'}, {'field': 'AGE', 'type': 'int'}]
 
-    # 2.4.3 获取所有必填项字段和类型
+
     def getNotNullFieldAndType(self, varTable):
 
         '''
-        获取必填项字段和类型
+        2.9 获取必填项字段和类型
         :param varTable:
         :return:
         '''
@@ -557,11 +573,11 @@ class SqlServerPO:
             raise e
         return d_fields  # {'ID': 'int', 'NAME': 'text', 'AGE': 'int', 'ADDRESS': 'char'}
 
-    # 2.5 获取自增主键
+
     def getIdentityPrimaryKey(self, varTable):
 
         '''
-        获取自增主键
+        2.10 获取自增主键
         :param varTable:
         :return:
         '''
@@ -573,11 +589,11 @@ class SqlServerPO:
         else:
             return None
 
-    # 2.6 获取主键
+
     def getPrimaryKey(self, varTable):
 
         '''
-        获取主键
+        2.11 获取主键
         :param varTable:
         :return:
         '''
@@ -589,11 +605,11 @@ class SqlServerPO:
         else:
             return l_primaryKey
 
-    # 2.7 获取主键最大值
+
     def getPrimaryKeyMaxValue(self, varTable):
 
         '''
-        获取表主键最大值
+        2.12 获取表主键最大值
         :param varTable:
         :return:
         '''
@@ -619,32 +635,27 @@ class SqlServerPO:
 
 
 
-    # 3.1 创建表
+
     def crtTable(self, varTable, sql):
 
         '''
-        创建表
-        :param sql: 
-        :return: 
+        3.1 创建表
+        :param varTable : test99
+        :param sql: id INTEGER PRIMARY KEY, name TEXT, age INTEGER
+        :return:
         '''
 
-        # 判断表是否存在
-        if self.isTable(varTable) == False:
-            try:
-                c_cur = self.conn.cursor()
-                c_cur.execute(sql)
-                print("[ok], 表<" + varTable + "> 创建成功")
-            except Exception as e:
-                print("表创建失败")
-                # print(f"表创建失败，失败信息为:{e}")
-        else:
-            print("[warning], 创建<" + str(varTable) + ">表失败，表已存在！")
+        # Sqlserver_PO.execute('''if not exists (select * from sysobjects where id = object_id('test99') and OBJECTPROPERTY(id, 'IsUserTable') = 1)create table test99(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)''')
 
-    # 3.2.1 生成类型值
+        sql = "if not exists (select * from sysobjects where id = object_id('" + varTable + "') and OBJECTPROPERTY(id, 'IsUserTable') = 1)create table " + varTable + "(" + sql + ")"
+        print(sql)
+        self.execute(sql)
+
+
     def _genTypeValue(self, varTable):
 
         '''
-        初始化对应类型的值
+        3.2 生成类型值
         :param varTable:
         :return:
         '''
@@ -675,11 +686,10 @@ class SqlServerPO:
         # print(d1)  # {'id': 1, 'name': 'a', 'age': 1}
         return d_init
 
-    # 3.2.2 生成必填项类型值
     def _genNotNullTypeValue(self, varTable):
 
         '''
-        生成必填项类型值
+        3.3 生成必填项类型值
         :param varTable:
         :return:
         '''
@@ -709,12 +719,10 @@ class SqlServerPO:
         # print(d1)  # {'id': 1, 'name': 'a', 'age': 1}
         return d_init
 
-
-    # 3.2.3 单表自动生成第一条数据
     def genFirstRecord(self, varTable):
 
         '''
-        自动生成第一条数据
+        3.4 单表自动生成第一条数据
         :param varTable:
         :return:
         '''
@@ -739,11 +747,10 @@ class SqlServerPO:
             else:
                 return False
 
-    # 3.2.3(2)所有表自动生成第一条数据
     def genFirstRecordByAll(self):
 
         '''
-        所有表自动生成第一条数据
+        3。5 所有表自动生成第一条数据
         :return:
         '''
         r = self.getTables()
@@ -751,12 +758,10 @@ class SqlServerPO:
         for i in range(len(r)):
             self.genFirstRecord(r[i])
 
-
-    # 3.2.4 自动生成数据
     def genRecord(self, varTable, d_field={}):
 
         '''
-        自动生成数据
+        3.6 自动生成数据
         :param varTbl:
         :param d_field: 可以设置字段的值，如："ID = 123" ， 但不能设置主键
         Sqlserver_PO.genRecord("TB_HIS_MZ_Reg", {"GTHBZ": None, "GHRQ":"777"})  # 自动生成数据
@@ -789,11 +794,10 @@ class SqlServerPO:
                 # 执行insert
                 self._execInsert(varTable, d_init, d_field)
 
-    # 3.2.5 自动生成必填项数据
     def genRecordByNotNull(self, varTable):
 
         '''
-        自动生成必填项数据（非必填项忽略）
+        3.7 自动生成必填项数据（非必填项忽略）
         :param varTbl:
         :return:
         '''
@@ -822,11 +826,10 @@ class SqlServerPO:
                 # 执行insert
                 self._execInsert(varTable, d_init,{})
 
-    # 3.2.6 执行insert
     def _execInsert(self, varTable, d_init, d_field):
 
         '''
-        执行insert
+        3.8 执行insert
         :param varTable:
         :param d_init:
         :return:
@@ -870,11 +873,10 @@ class SqlServerPO:
 
 
 
-    # 4.1 判断表是否存在
     def isTable(self, varTable):
 
         '''
-        判断表是否存在
+        4.1 判断表是否存在
         :param varTable:
         :return: 返回True或False
         '''
@@ -886,11 +888,10 @@ class SqlServerPO:
         else:
             return False
 
-    # 4.2 判断字段是否存在
     def isField(self, varTable, varField):
 
         '''
-        判断字段是否存在
+        4.2 判断字段是否存在
         :param varTable:
         :param varField:
         :return: 返回True或False
@@ -906,11 +907,10 @@ class SqlServerPO:
                 return True
         return False
 
-    # 4.3 判断是否有自增主键
     def isIdentity(self, varTable):
 
         '''
-        判断是否有自增主键, 如果有则返回1，无则返回0
+        4.3 判断是否有自增主键, 如果有则返回1，无则返回0
         :param varTable:
         :return:
         '''
@@ -924,7 +924,140 @@ class SqlServerPO:
             return False
 
 
+    # todo 迁移
 
+    def csv2dbByType(self, varPathFile, varDbTable, varFieldAndType):
+
+        '''
+        5.1.1 csv2db 自定义字段类型
+        varPathFile = './data/test.csv'
+        varDbTable = 'test000'
+        varFieldAndType = 'id INTEGER PRIMARY KEY, name TEXT, age INTEGER'
+        csv2dbBy
+        '''
+
+        try:
+            data = etl.fromcsv(varPathFile)
+            self.crtTable(varDbTable, varFieldAndType)  # 创建表
+            etl.todb(data, self.conn, varDbTable)
+        except Exception as e:
+            print(e)
+
+    def csv2dbByAutoType(self, varPathFile, varDbTable):
+
+        '''
+        5.1.2 csv2db 自动生成字段类型
+        varTable = './data/test.csv'
+        varFieldAndType = 'tableName'
+        '''
+
+        try:
+            df = pd.read_csv(varPathFile, encoding='gbk')
+            engine = self.getEngine_pymssql()
+            df.to_sql(varDbTable, con=engine, if_exists="replace", index=False)
+        except Exception as e:
+            print(e)
+
+    def xlsx2db(self, varPathFile, varDbTable, varSheetName=0):
+
+        '''
+        5.2，xlsx导入数据库
+        :param varExcelFile: './data/test.xlsx'
+        :param varTable:
+        :return:
+        xlsx2db('./data/2.xlsx', "jh123""sheet3",)
+        excel表格第一行数据对应db表中字段，建议用英文
+        '''
+
+        try:
+            df = pd.read_excel(varPathFile, sheet_name=varSheetName)
+            engine = self.getEngine_pymssql()
+            df.to_sql(varDbTable, con=engine, if_exists="replace", index=False)
+            pd.read
+        except Exception as e:
+            print(e)
+
+
+    def dict2db(self, varDict, varDbTable, index="True"):
+
+        """5.3 字典导入数据库"""
+
+        try:
+            df = pd.DataFrame(varDict)
+            engine = self.getEngine_pymssql()
+            if index == "False":
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace", index=False)
+            else:
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace")
+        except Exception as e:
+            print(e)
+
+    def list2db(self, l_col, l_value, varDbTable, index="True"):
+
+        """5.4 列表导入数据库
+        l_col = 列名，如 ['id','name','age']
+        l_value= 值,如 [['1','john','44],['2','ti','4']]
+        """
+
+        try:
+
+            df = pd.DataFrame(l_value, columns=l_col)
+            engine = self.getEngine_pymssql()
+            if index == "False":
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace", index=False)
+            else:
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace")
+        except Exception as e:
+            print(e)
+
+
+    def db2csv(self, sql, varExcelFile, header=1):
+
+        """5.5 数据库转csv(含字段或不含字段)"""
+
+        try:
+            engine = self.getEngine_pymssql()
+            df = pd.read_sql(text(sql), con= engine.connect())
+            # header=None表示不含列名
+            if header == None:
+                df.to_csv(varExcelFile, index=None, header=None)
+            else:
+                df.to_csv(varExcelFile, index=None)
+        except Exception as e:
+            print(e)
+
+    def db2xlsx(self, sql, varExcelFile, header=1):
+
+        """5.6 数据库转xlsx(含字段或不含字段)"""
+
+        try:
+            engine = self.getEngine_pymssql()
+            df = pd.read_sql(text(sql), con=engine.connect())
+            # header=None表示不含列名
+            if header == None:
+                df.to_excel(varExcelFile, index=None, header=None)
+            else:
+                df.to_excel(varExcelFile, index=None)
+        except Exception as e:
+            print(e)
+
+    def db2dict(self, sql, orient='list'):
+
+        """5.7 db转字典"""
+
+        try:
+            engine = self.getEngine_pymssql()
+            df = pd.read_sql(text(sql), con=engine.connect())
+            return df.to_dict(orient=orient)
+
+        except Exception as e:
+            print(e)
+
+
+
+
+
+    # todo 应用
     def _dbDesc_search(self, varTable=0, var_l_field=0):
 
         d_tableComment = {}
@@ -1203,7 +1336,6 @@ class SqlServerPO:
             self._dbDesc_search(args[0], args[1])
 
 
-
     def dbRecord(self, varTable, varType, varValue):
 
         """ 查找记录
@@ -1305,63 +1437,56 @@ if __name__ == "__main__":
     Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "utf8")  # 测试环境
 
 
-    # print("5 excel导入数据库".center(100, "-"))
-    # Sqlserver_PO.xlsx2db('./data/2.xlsx', "Sheet3", "jh123")
-
-
     # print("1.1 查询sql".center(100, "-"))
     # a = Sqlserver_PO.execQuery("select * from aaa")
     # print(a)
 
-    # print("1.2 执行sql".center(100, "-"))
+    # print("1.3 执行sql".center(100, "-"))
     # Sqlserver_PO.execute("aaa", "UPDATE aaa set AGE=20 where ID=4")  # 更新数据
     # Sqlserver_PO.execute("aaa", "drop table aaa")  # 删除表
     # Sqlserver_PO.execute("aaa", "truncate table aaa")  # 删除数据
 
 
 
-    # print("2.1.1 获取所有表".center(100, "-"))
+    # print("2.1 获取所有表".center(100, "-"))
     # print(Sqlserver_PO.getTables())  # ['condition_item', 'patient_demographics', 'patient_diagnosis']
 
-    # print("2.1.2 获取所有表和表注释".center(100, "-"))
-    # print(Sqlserver_PO.getTableAndComment())  # {'aaa': None, 'bbb': None, 'EMR_ADMISSION_ASSESSMENT': '入院评估记录',...}
+    # print("2.2 获取所有表和表注释".center(100, "-"))
+    # print(Sqlserver_PO.getTableComment())  # {'ASSESS_DIAGNOSIS': '门诊数据', 'ASSESS_MEDICATION': '评估用药情况表',...}
+    # print(Sqlserver_PO.getTableComment('ASSESS_MEDICATION'))  # {'ASSESS_DIAGNOSIS': '门诊数据', 'ASSESS_MEDICATION': '评估用药情况表',...}
 
-    # print("2.1.3 获取所有表结构信息".center(100, "-"))
-    # print(Sqlserver_PO.getTableInfor('aaa'))
-    # print(Sqlserver_PO.getTableInfor())
-
-
-
-    # print("2.2.1 获取字段".center(100, "-"))
-    # print(Sqlserver_PO.getFields('aaa'))  # ['ID', 'ADDRESS', 'SALARY', 'NAME', 'AGE', 'time']
-
-    # print("2.2.2 获取字段和字段注释".center(100, "-"))
-    # print(Sqlserver_PO.getFieldAndComment('TB_HIS_MZ_Reg'))
-
-    # getFieldAndComment
-
-    # print("2.3 获取记录数 ".center(100, "-"))
-    # print(Sqlserver_PO.getQty('aaa'))  # 0
-
-    # print("2.4.1 获取所有字段和类型 ".center(100, "-"))
-    # print(Sqlserver_PO.getFieldAndType("aaa"))  # {'ID': 'int', 'NAME': 'text', 'AGE': 'int', 'ADDRESS': 'char', 'SALARY': 'float'}
+    # print("2.3 获取表结构信息".center(100, "-"))
+    # print(Sqlserver_PO.getStructure('test000'))
+    # # print(Sqlserver_PO.getStructure())
     #
-    # print("2.4.2 获取N个字段和类型 ".center(100, "-"))
-    # print(Sqlserver_PO.getMoreFieldAndType("aaa", ["ID"]))  # {'ID': 'int'}
-    # print(Sqlserver_PO.getMoreFieldAndType("aaa", ["ID", 'AGE']))  # {'ID': 'int', 'AGE': 'int'}
+    # print("2.4 获取字段".center(100, "-"))
+    # print(Sqlserver_PO.getFields('test000'))  # ['id', 'name', 'age']
     #
-    # print("2.4.3 获取必填项字段和类型".center(100, "-"))
-    # print(Sqlserver_PO.getNotNullFieldAndType('aaa'))  # {'ID': 'int', 'NAME': 'text', 'AGE': 'int', 'ADDRESS': 'char'}
+    # print("2.5 获取字段和字段注释".center(100, "-"))
+    # print(Sqlserver_PO.getFieldComment('test000'))  # {'id': '编号ID', 'name': '姓名', 'age': '年龄'}
     #
-    # print("2.5 获取自增主键".center(100, "-"))
-    # print(Sqlserver_PO.getIdentityPrimaryKey('aaa'))  # None // 没有自增主键
-    # print(Sqlserver_PO.getIdentityPrimaryKey('bbb'))  # id
+    # print("2.6 获取记录数 ".center(100, "-"))
+    # print(Sqlserver_PO.getRecordQty('test000'))  # 3
+
+    # print("2.7 获取所有字段和类型 ".center(100, "-"))
+    # print(Sqlserver_PO.getFieldAndType("test000"))  # {'ID': 'int', 'NAME': 'text', 'AGE': 'int', 'ADDRESS': 'char', 'SALARY': 'float'}
     #
-    # print("2.6 获取表主键".center(100, "-"))
-    # print(Sqlserver_PO.getPrimaryKey('aaa'))  # [{'COLUMN_NAME': 'ADDRESS'}, {'COLUMN_NAME': 'ID'}]
+    # print("2.8 获取N个字段和类型 ".center(100, "-"))
+    # print(Sqlserver_PO.getMoreFieldAndType("test000", ["ID"]))  # {'ID': 'int'}
+    # print(Sqlserver_PO.getMoreFieldAndType("test000", ["ID", 'AGE']))  # {'ID': 'int', 'AGE': 'int'}
+    # #
+    # print("2.9 获取必填项字段和类型".center(100, "-"))
+    # print(Sqlserver_PO.getNotNullFieldAndType('test000'))  # {'ID': 'int', 'NAME': 'text', 'AGE': 'int', 'ADDRESS': 'char'}
+    #
+    # print("2.10 获取自增主键".center(100, "-"))
+    # print(Sqlserver_PO.getIdentityPrimaryKey('test000'))  # None // 没有自增主键
+    # print(Sqlserver_PO.getIdentityPrimaryKey('test000'))  # id
+    # #
+    # print("2.10 获取主键".center(100, "-"))
+    # print(Sqlserver_PO.getPrimaryKey('test000'))  # [{'COLUMN_NAME': 'ADDRESS'}, {'COLUMN_NAME': 'ID'}]
     # print(Sqlserver_PO.getPrimaryKey('bbb'))  # [{'COLUMN_NAME': 'id'}]
 
-    # print("2.7 获取表主键最大值 ".center(100, "-"))
+    # print("2.11 获取表主键最大值 ".center(100, "-"))
     # print(Sqlserver_PO.getPrimaryKeyMaxValue('aaa'))  # {'ID': 9}
     # print(Sqlserver_PO.getPrimaryKeyMaxValue('bbb'))  # {'id': 4}
 
@@ -1381,21 +1506,22 @@ if __name__ == "__main__":
     #         ADDRESS        CHAR(50),
     #         SALARY         REAL);''')
 
-    # print("3.2.1 生成类型值".center(100, "-"))
+    # print("3.2 生成类型值".center(100, "-"))
     # print(Sqlserver_PO._genTypeValue("aaa"))  # {'ID': 1, 'NAME': 'a', 'AGE': 1, 'ADDRESS': 'a', 'SALARY': 1.0, 'time': '08:12:23'}
 
-    # print("3.2.2 生成必填项类型值".center(100, "-"))
+    # print("3.3 生成必填项类型值".center(100, "-"))
     # print(Sqlserver_PO._genNotNullTypeValue("aaa"))
 
-    # print("3.2.3 自动生成第一条数据".center(100, "-"))
+    # print("3.4 单表自动生成第一条数据".center(100, "-"))
     # Sqlserver_PO.genFirstRecord('bbb')
-    # print("3.2.3(2) 所有表自动生成第一条数据".center(100, "-"))
+
+    # print("3.5 所有表自动生成第一条数据".center(100, "-"))
     # Sqlserver_PO.genFirstRecordByAll()
 
-    # print("3.2.4 自动生成数据".center(100, "-"))
+    # print("3.6 自动生成数据".center(100, "-"))
     # Sqlserver_PO.genRecord('aaa')
 
-    # print("3.2.5 自动生成必填项数据".center(100, "-"))
+    # print("3.7 自动生成必填项数据".center(100, "-"))
     # Sqlserver_PO.genRecordByNotNull('aaa')
 
 
@@ -1409,6 +1535,46 @@ if __name__ == "__main__":
     # # print("4.3 判断是否有自增主键".center(100, "-"))
     # print(Sqlserver_PO.isIdentity('bbb'))
     # print(Sqlserver_PO.isIdentity('aaa'))
+
+
+
+    # # print("5.1.1 csv2db自定义字段类型".center(100, "-"))
+    # Sqlserver_PO.csv2dbByType('./data/test12.csv', "test555")
+
+    # # print("5.1.2 csv2db自动生成字段类型".center(100, "-"))
+    # Sqlserver_PO.csv2dbByAutoType('./data/test12.csv', "test555")
+
+    # # print("5.2 excel导入数据库".center(100, "-"))
+    # Sqlserver_PO.xlsx2db('./data/area.xlsx', "hello", "test333")
+
+    # print("5.3 字典转数据库".center(100, "-"))
+    # Sqlserver_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test99")  # 带index
+    # Sqlserver_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test99", "False")  # 不带index
+
+    # print("5.4 列表转数据库".center(100, "-"))
+    # Sqlserver_PO.list2db(['name','age','sex'], [['1','2','3'],['a','b','c']], "test99")  # 生成index
+    # Sqlserver_PO.list2db(['name','age','sex'], [['1','2','3'],['a','b','c']], "test99", "False")  # 不生成index
+
+    # print("5.5 数据库转csv(含字段或不含字段)".center(100, "-"))
+    # Sqlserver_PO.db2csv("SELECT * FROM test99", './data/test99.csv')
+    # Sqlserver_PO.db2csv("SELECT * FROM test99", './data/test99.csv', None)  # 不导出字段名
+
+    # print("5.6 数据库转xlsx(含字段或不含字段)".center(100, "-"))
+    # Sqlserver_PO.db2xlsx("SELECT * FROM test99", './data/test99.xlsx')  # 导出字段
+    # Sqlserver_PO.db2xlsx("SELECT * FROM test99", './data/test99.xlsx', None)  # 不导出字段
+
+    print("5.7 db转字典".center(100, "-"))
+    print(Sqlserver_PO.db2dict("SELECT * FROM test99")) # {'index': [0, 1], 'name': ['1', 'a'], 'age': ['2', 'b'], 'sex': ['3', 'c']}
+    print(Sqlserver_PO.db2dict("SELECT * FROM test99", 'series'))
+    # {'index': 0    0
+    # 1    1
+    # Name: index, dtype: int64, 'name': 0    1
+    # 1    a
+    # Name: name, dtype: object, 'age': 0    2
+    # 1    b
+    # Name: age, dtype: object, 'sex': 0    3
+    # 1    c
+    # Name: sex, dtype: object}
 
 
     # **********************************************************************************************************************************
@@ -1427,7 +1593,7 @@ if __name__ == "__main__":
     # print("2 查找记录".center(100, "-"))
     # Sqlserver_PO.dbRecord('aaa', 'int', '%2%')  # 搜索指定表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'varchar', '310101202308070001')  # 搜索所有表符合条件的记录.
-    Sqlserver_PO.dbRecord('QYYH', 'varchar', '132222196702240429')  # 搜索所有表符合条件的记录.
+    # Sqlserver_PO.dbRecord('QYYH', 'varchar', '132222196702240429')  # 搜索所有表符合条件的记录.
     # Sqlserver_PO.dbRecord('TB_RIS_REPORT2', 'varchar', '000E434B-48BF-4B58-945B-6FDCD46CDECE')  # 搜索所有表符合条件的记录.
     # Sqlserver_PO.dbRecord('*', 'money', '%34.5%')l
     # Sqlserver_PO.dbRecord('*','double', u'%35%')  # 模糊搜索所有表中带35的double类型。

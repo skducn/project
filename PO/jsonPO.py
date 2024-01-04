@@ -7,6 +7,7 @@
 
 # todo:数据结构
 # json 文件中存储的数据结构为“列表” 或 “字典”。
+
 # todo: 安装
 # pip3 install jsonpath-rw
 # 下载包：https://pypi.python.org/pypi/jsonpath-rw
@@ -19,19 +20,19 @@
 # pip3 install deepdiff
 # ****************************************************************
 
-# '''
-# 1.1 将JSON格式序列化内容保存到文件  json2file()
-# 1.2 将变量保存到json文件  var2file()
-# 1.3 json格式的文件内容保存到excel  file2xlsx()
-#
-# 2.1 用jsonpath_expr表达式从文件中提取json值  getValueFromFileByExpr()  如： stu_info[*].name
-# 2.2 用jsonpath_expr表达式从变量中提取json值 getValueFromVarByExpr()
-# 2.3 用jsonpath从文件中提取json值  getValueFromFileByJsonpath()
-# 2.4 用jsonpath从变量中提取json值  getValueFromVarByJsonpath()  如：$.token
-#
-# 3. 比较2个json对象，输出差异部分
-#
-# '''
+'''
+1.1 将JSON格式序列化内容保存到文件  json2file()
+1.2 将变量保存到json文件  var2file()
+1.3 json格式的文件内容保存到excel  file2xlsx()
+
+2.1 用jsonpath_expr表达式从文件中提取json值  getValueFromFileByExpr()  如： stu_info[*].name
+2.2 用jsonpath_expr表达式从变量中提取json值 getValueFromVarByExpr()
+2.3 用jsonpath从文件中提取json值  getValueFromFileByJsonpath()
+2.4 用jsonpath从变量中提取json值  getValueFromVarByJsonpath()  如：$.token
+
+3. 比较2个json对象，输出差异部分
+
+'''
 
 
 from jsonpath_rw import parse
