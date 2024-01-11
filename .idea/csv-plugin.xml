@@ -10,34 +10,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/instance/zyjk/xindian/100.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/instance/zyjk/xindian/100atr.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/instance/zyjk/xindian/103.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/instance/zyjk/xindian/103hea.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="/ipynb/DC.csv">
           <value>
             <Attribute>

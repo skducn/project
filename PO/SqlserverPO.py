@@ -973,7 +973,7 @@ class SqlServerPO:
             df = pd.read_excel(varPathFile, sheet_name=varSheetName)
             engine = self.getEngine_pymssql()
             df.to_sql(varDbTable, con=engine, if_exists="replace", index=False)
-            pd.read
+            # pd.read
         except Exception as e:
             print(e)
 

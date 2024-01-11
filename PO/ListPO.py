@@ -474,6 +474,13 @@ if __name__ == "__main__":
 
     """[转换]"""
 
+    a = [('YLJGDM', 'VARCHAR2'), ('GRDAID', 'VARCHAR2')]
+    # print(dict(a))  # {'YLJGDM': 'VARCHAR2', 'GRDAID': 'VARCHAR2'}
+
+
+
+
+
     # print("1.2 列表转字典之相邻元素键值对（覆盖update）".center(100, "-"))
     # print(List_PO.list2dictBySerial(["a", "1", 100, 2]))  # {'a': '1', 100: 2}
     # print(List_PO.list2dictBySerial(["a", "1", "a", "2"]))  # {'a': '2'}   //如遇到重复key，则取后面的key值
@@ -513,8 +520,8 @@ if __name__ == "__main__":
     # list2 = [2, [222], "b", 0.07 ,66]
     # list3 = [-25, [222], "b", -0.07]
     # list4 = [2, [222], "b", "111"]
-    print(
-        List_PO.addTwoList([1, [111], "a", 0.01], [2, [222], "b", 0.07, 66]))  # [3, [111, 222], 'ab', 0.08]  //多余的元素被忽略
+    # print(
+    #     List_PO.addTwoList([1, [111], "a", 0.01], [2, [222], "b", 0.07, 66]))  # [3, [111, 222], 'ab', 0.08]  //多余的元素被忽略
     # print(List_PO.addTwoList(list1, list3))  # [-24, [111, 222], 'ab', -0.060000000000000005]   //注意浮点数负数计算出现问题，未知
     # print(List_PO.addTwoList(list1, list4))  # None
     #
@@ -531,16 +538,16 @@ if __name__ == "__main__":
 
     #
     # print("2.5 打散列表".center(100, "-"))
-    print(
-        List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 2))  # [['1', '2'], ['3', '4'], ['5', '6']]  // 一个列表拆分成2个一组。
-    print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 3))  # [['1', '2', '3'], ['4', '5', '6']]
-    print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'],
-                              5))  # [['1', '2', '3', '4', '5'], ['6']]  // 一个列表拆分成5个一组，不足5个元素可组成子列表。
-
-    print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 2)[0])
-    print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 2)[1])
-    print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 5)[0][1])
-    print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 5)[1])
+    # print(
+    #     List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 2))  # [['1', '2'], ['3', '4'], ['5', '6']]  // 一个列表拆分成2个一组。
+    # print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'], 3))  # [['1', '2', '3'], ['4', '5', '6']]
+    # print(List_PO.resolveList(['1', '2', '3', '4', '5', '6'],
+    #                           5))  # [['1', '2', '3', '4', '5'], ['6']]  // 一个列表拆分成5个一组，不足5个元素可组成子列表。
+    #
+    # print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 2)[0])
+    # print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 2)[1])
+    # print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 5)[0][1])
+    # print(numpy.array_split(['1', '2', '3', '4', '5', '6'], 5)[1])
 
     # print("2.6 切片列表".center(100, "-"))
     # print(List_PO.sliceList([1, 2, 3, '测试', 4, 5, "测试", 6], '测试', 0))  # [1,2,3]

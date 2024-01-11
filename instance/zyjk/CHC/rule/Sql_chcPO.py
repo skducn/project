@@ -42,11 +42,16 @@ class Sql_chcPO():
 
     def insertTbl(self, sheetName, tableName):
         Sqlserver_PO.execute("drop table " + tableName)
-        Sqlserver_PO.xlsx2db('规则db.xlsx', sheetName, tableName)
+        Sqlserver_PO.xlsx2db('规则db.xlsx', tableName, sheetName)
         # Sqlserver_PO.execute("ALTER TABLE %s ADD id1 INT NOT NULL IDENTITY(1,1) primary key (id1) " % ('健康评估'))  # 新增id自增主键
         Sqlserver_PO.execute("ALTER TABLE %s alter column id int not null" % (tableName))  # 设置主id不能为Null
         Sqlserver_PO.execute("ALTER TABLE %s add PRIMARY KEY (id)" % (tableName))  # 设置主键（条件是id不能为Null）
+        # Sqlserver_PO.execute("ALTER table %s alter column result varchar(111)" % (tableName))  # 修改字段类型
+        Sqlserver_PO.execute("EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % (sheetName, tableName))  # sheetName=注释，tableName=表名
         # Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(111)" % (tableName))  # 临时变量
+        # 2、sqlserver用语句给表的“字段”注释
+        # EXECUTE sp_addextendedproperty N'MS_Description', N'字段注释', N'user', N'dbo', N'table', N'表名', N'column', N'字段名'
+
 
     def getToken(self, varUser, varPass):
 

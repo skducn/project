@@ -103,7 +103,7 @@ if __name__ == "__main__":
     Char_PO = CharPO()
 
     # print("1.1 中文转字节码".center(100, "-"))
-    # print(Char_PO.chinese2byte("金浩", "utf-8"))  # b'\xe9\x87\x91\xe6\xb5\xa9'
+    print(Char_PO.chinese2byte("金浩", "utf-8"))  # b'\xe9\x87\x91\xe6\xb5\xa9'
     # print(Char_PO.chinese2byte("金浩", "GBK"))  # b'\xbd\xf0\xba\xc6'
     #
     # print("1.2 字节码转中文字符串".center(100, "-"))
