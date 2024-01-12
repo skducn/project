@@ -8,6 +8,8 @@
 import warnings
 warnings.simplefilter("ignore")
 # *****************************************************************
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
 from PO.SqlserverPO import *
 Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS")  # 测试环境
@@ -16,48 +18,49 @@ Oracle_PO = OraclePO("SUNWENBO", "Sunwenbo1204", "192.168.0.235:1521", "ORCL")
 
 import sys
 
-def main(sqlTableName, oracleTableName, sql_sqlserver, sql_oracle):
+def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
 
+    print(("测试库(" + var_s_table + ") -  比对库(" + var_o_table + ")").center(100, "-"))
 
     # todo sqlserver表（字段：注释）
-    d_fieldComment_sqlserver = Sqlserver_PO.getFieldComment(sqlTableName)
-    print('d_fieldComment_sqlserver = ', d_fieldComment_sqlserver)  # {'ID': '主键', 'IDCARD': '身份证号', 'EHR_NUM': '档案编号',...
+    d_s_comment = Sqlserver_PO.getFieldComment(var_s_table)
+    # print('d_s_comment = ', d_s_comment)  # {'ID': '主键', 'IDCARD': '身份证号', 'EHR_NUM': '档案编号',...
     # todo sqlserver表（字段：类型）
-    d_fieldType_sqlserver = Sqlserver_PO.getFieldAndType(sqlTableName)
-    print('d_fieldType_sqlserver = ', d_fieldType_sqlserver)  # {'ID': 'int', 'NAME': 'text', 'AGE': 'int', 'ADDRESS': 'char', 'SALARY': 'float' ...
+    d_s_type = Sqlserver_PO.getFieldAndType(var_s_table)
+    # print('d_s_type = ', d_s_type)  # {'ID': 'int', 'NAME': 'text', 'AGE': 'int', 'ADDRESS': 'char', 'SALARY': 'float' ...
     # todo sqlserver表（字段：值）
-    l_d_sqlserver = Sqlserver_PO.execQuery(sql_sqlserver)
-    d_fieldValue_sqlserver = l_d_sqlserver[0]
-    print('d_fieldValue_sqlserver = ', d_fieldValue_sqlserver)  # {'ID': 75, 'IDCARD': '110101199003071234', 'EHR_NUM': '11011600100100005'...
+    l_temp = Sqlserver_PO.execQuery(var_s_sql)
+    d_s_value = l_temp[0]
+    # print('d_s_value = ', d_s_value)  # {'ID': 75, 'IDCARD': '110101199003071234', 'EHR_NUM': '11011600100100005'...
 
 
 
     # todo oracle表（字段：注释）序号乱
-    l_t_fieldComment_oracle = Oracle_PO.execQueryParam("select COLUMN_NAME, COMMENTS from all_col_comments where Table_Name= :tableName order by table_name", {"tableName": oracleTableName})
-    d_fieldComment_oracle = dict(l_t_fieldComment_oracle)
-    print("d_fieldComment_oracle = ", d_fieldComment_oracle)  # {'JKKH': '健康卡号', 'ZJHM': '证件号码',
+    l_t_o_comment = Oracle_PO.execQueryParam("select COLUMN_NAME, COMMENTS from all_col_comments where Table_Name= :tableName order by table_name", {"tableName": var_o_table})
+    d_o_comment = dict(l_t_o_comment)
+    # print("d_o_comment = ", d_o_comment)  # {'JKKH': '健康卡号', 'ZJHM': '证件号码',
     #todo oracle表（字段：编号）
-    l_t_fieldNo_oracle = Oracle_PO.execQueryParam("SELECT column_name,column_id from all_tab_columns a where table_name= :tableName AND OWNER='DIP' order by column_id", {"tableName": oracleTableName})
-    d_fieldNo_oracle = dict(l_t_fieldNo_oracle)
-    print("d_fieldNo_oracle = ", d_fieldNo_oracle)  # {'YLJGDM': 1, 'GRDAID': 2, 'BZFLX': 3,
+    l_t_o_no = Oracle_PO.execQueryParam("SELECT column_name,column_id from all_tab_columns a where table_name= :tableName AND OWNER='DIP' order by column_id", {"tableName": var_o_table})
+    d_o_no = dict(l_t_o_no)
+    # print("d_o_no = ", d_o_no)  # {'YLJGDM': 1, 'GRDAID': 2, 'BZFLX': 3,
     # todo oracle表（字段：注释）序号正确
-    for k1, v1 in d_fieldComment_oracle.items():
-        for k, v in d_fieldNo_oracle.items():
+    for k1, v1 in d_o_comment.items():
+        for k, v in d_o_no.items():
             if k == k1:
-                d_fieldNo_oracle[k] = v1
-    d_fieldComment_oracle = d_fieldNo_oracle
-    print("d_fieldComment_oracle = ", d_fieldComment_oracle)  # {'YLJGDM': 1, 'GRDAID': 2, 'BZFLX': 3,
+                d_o_no[k] = v1
+    d_o_comment = d_o_no
+    # print("d_o_comment = ", d_o_comment)  # {'YLJGDM': 1, 'GRDAID': 2, 'BZFLX': 3,
 
     # todo oracle表（字段：类型）
     # 获取表信息
     # l_t_field_oracle = Oracle_PO.execQuery("select * from all_tab_cols where table_name='TB_CHSS_INFO'")
-    l_t_fieldType_oracle = Oracle_PO.execQueryParam(
+    l_t_o_type = Oracle_PO.execQueryParam(
         "select a.column_name, a.DATA_TYPE from all_tab_columns a where table_name= :tableName AND OWNER='DIP' order by column_id",
-        {"tableName": oracleTableName})
+        {"tableName": var_o_table})
     # l_t_field_oracle = Oracle_PO.execQuery("select a.column_name from all_tab_columns a where table_name='TB_CHSS_INFO' AND OWNER='DIP' order by table_name,column_id")
-    # print(l_t_fieldType_oracle)  # [('YLJGDM', 'VARCHAR2'), ('GRDAID', 'VARCHAR2'),...
-    d_fieldType_oracle = dict(l_t_fieldType_oracle)
-    print('d_fieldType_oracle = ', d_fieldType_oracle)  # {'YLJGDM': 'VARCHAR2', 'GRDAID': 'VARCHAR2', ...
+    # print(l_t_o_type)  # [('YLJGDM', 'VARCHAR2'), ('GRDAID', 'VARCHAR2'),...
+    d_o_type = dict(l_t_o_type)
+    # print('d_o_type = ', d_o_type)  # {'YLJGDM': 'VARCHAR2', 'GRDAID': 'VARCHAR2', ...
 
     # todo sqlserver表（字段：值）
     d_oracle = {}
@@ -65,40 +68,40 @@ def main(sqlTableName, oracleTableName, sql_sqlserver, sql_oracle):
     # todo oracle表（值）
     # Oracle_PO.execQuery(sql_oracle)  # [('10', '7566', '1', '-1', '1', '居民身份证', '340823199303196117',...
     # print(len(Oracle_PO.execQuery(sql_oracle)))
-    for r in Oracle_PO.execQuery(sql_oracle):
-        for i in range(len(l_t_fieldType_oracle)):
-            # print(l_t_fieldType_oracle[i], r[i])
-            d_oracle[l_t_fieldType_oracle[i][0]] = r[i]
+    for r in Oracle_PO.execQuery(var_o_sql):
+        for i in range(len(l_t_o_type)):
+            # print(l_t_o_type[i], r[i])
+            d_oracle[l_t_o_type[i][0]] = r[i]
         l_d_oracle.append(d_oracle)
         d_oracle = {}
-    print(d_oracle)
-    d_fieldValue_oracle = l_d_oracle[0]
-    # print('d_fieldValue_oracle = ', d_fieldValue_oracle)  # {'YLJGDM': '123456', 'GRDAID': '11011600100100005', ...
+    d_o_value = l_d_oracle[0]
+    # print('d_o_value = ', d_o_value)  # {'YLJGDM': '123456', 'GRDAID': '11011600100100005', ...
 
 
     # todo 省平台上报字段对应表（比对）
     l_d_row = Sqlserver_PO.execQuery("select * from a_upload")
-    # print(l_d_row)  # [{'sqlTableComment': '档案信息表', 'sqlTableName': 'T_EHR_INFO',,...
+    # print("l_d_row", l_d_row)  # [{'s_value': None, 'o_value': None, 's_field': None, 'o_field': None, 's_comment': None, 'o_comment': None, 's_type': None, 'o_type': None, 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'y', 'tester': '郭斐', 's_sql': "SELECT * FROM T_CHILD_INFO where id='1189'", 'o_sql': "SELECT * FROM DIP.TB_EB_ETJBQK where ETBSFID='1189'"}, {'s_value': '1189', 'o_value': '1189', 's_field': 'ID', 'o_field': 'ETBSFID', 's_comment': '主键', 'o_comment': 'None', 's_type': 'int', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '111', 'o_value': '111', 's_field': 'CREATE_ORG_CODE', 'o_field': 'YLJGDM', 's_comment': '创建机构代码', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '马德勇', 'o_value': '马德勇', 's_field': 'NAME', 'o_field': 'XM', 's_comment': '姓名', 'o_comment': 'None', 's_type': 'nvarchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '1', 'o_value': '1', 's_field': 'SEX_CODE', 'o_field': 'XBDM', 's_comment': '性别代码', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'CHAR', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '220621199012163357', 'o_value': '220621199012163357', 's_field': 'IDCARD', 'o_field': 'ZJHM', 's_comment': '身份证', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '测试', 'o_value': '测试', 's_field': 'MOTHER_NAME', 'o_field': 'MQXM', 's_comment': '母亲姓名', 'o_comment': 'None', 's_type': 'nvarchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '222222222222222222', 'o_value': '222222222222222222', 's_field': 'MOTHER_IDCARD', 'o_field': 'MQSFZ_HM', 's_comment': '母亲身份证号', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '370685001001', 'o_value': '370685001001', 's_field': 'PRESENT_VILLAGE_CODE', 'o_field': 'XZDZ_JWBM', 's_comment': '现住址-居委编码', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '文化区社区居民委员会', 'o_value': '文化区社区居民委员会', 's_field': 'PRESENT_VILLAGE_NAME', 'o_field': 'XZDZ_JW', 's_comment': '现住址-居委', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '2024-01-06 00:00:00', 'o_value': '2024-01-06 00:00:00', 's_field': 'BIRTH', 'o_field': 'CSRQSJ', 's_comment': '出生日期', 'o_comment': 'None', 's_type': 'datetime', 'o_type': 'DATE', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}]
+
 
     for r, index in enumerate(l_d_row):
-        if l_d_row[r]['sqlTableName'] == sqlTableName:
-            # print(1,d_fieldValue_sqlserver[l_d_row[r]['sqlField']])
-            # print(2,d_fieldValue_oracle[l_d_row[r]['oracleField']])
-            if str(d_fieldValue_sqlserver[l_d_row[r]['sqlField']]) == str(d_fieldValue_oracle[l_d_row[r]['oracleField']]):
-                # print("[ok] => ", r['sqlField'] + "=" + r['oracleField'] + "=" + str(d_fieldValue_sqlserver[r['sqlField']]))
-                # Sqlserver_PO.execute("update a_upload set sqlValue=%s,oracleValue=%s,result='ok' where sqlField='%s'" % (d_sqlserver0[r['sqlField']], d_oracle0[r['oracleField']], r['sqlField']))
-                Sqlserver_PO.execute("update a_upload set result='ok' where sqlField='%s' and oracleTableName='%s'" % (l_d_row[r]['sqlField'], oracleTableName))
+        if l_d_row[r]['s_table'] == var_s_table and l_d_row[r]['o_table'] == var_o_table and l_d_row[r]['s_sql'] == None:
+            # print(r+1, ['s'], d_s_value[l_d_row[r]['s_field']])
+            # print(r+1, ['o'], d_o_value[l_d_row[r]['o_field']])
+            if str(d_s_value[l_d_row[r]['s_field']]) == str(d_o_value[l_d_row[r]['o_field']]):
+                Sqlserver_PO.execute("update a_upload set result='ok' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
             else:
-                print(r+1, "[error] => ", l_d_row[r]['sqlField'] + "(" + d_fieldType_sqlserver[l_d_row[r]['sqlField']] + ") = " + str(d_fieldValue_sqlserver[l_d_row[r]['sqlField']]) + ", " + l_d_row[r]['oracleField'] + "(" + d_fieldType_oracle[l_d_row[r]['oracleField']] + ") = " + str(d_fieldValue_oracle[l_d_row[r]['oracleField']]))
-                Sqlserver_PO.execute("update a_upload set result='error' where sqlField='%s' and oracleTableName='%s'" % (l_d_row[r]['sqlField'], oracleTableName))
+                # print(r+1, "[error] => ", l_d_row[r]['s_field'] + "(" + d_s_type[l_d_row[r]['s_field']] + ") = " + str(d_s_value[l_d_row[r]['s_field']]) + ", " + l_d_row[r]['o_field'] + "(" + d_o_type[l_d_row[r]['o_field']] + ") = " + str(d_o_value[l_d_row[r]['o_field']]))
+                Color_PO.consoleColor("31", "31", str(r+1) + " [ERROR], " + var_s_table + "." + d_s_type[l_d_row[r]['s_field']] + "." + d_s_comment[l_d_row[r]['s_field']] + ".(" + l_d_row[r]['s_field'] + " = " + str(d_s_value[l_d_row[r]['s_field']]) + ")"
+                                      + ", " + var_o_table + "." + d_o_type[l_d_row[r]['o_field']] + ".(" + l_d_row[r]['o_field'] + " = " + str(d_o_value[l_d_row[r]['o_field']]) + ")", "")
+                Sqlserver_PO.execute("update a_upload set result='error' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
 
-            Sqlserver_PO.execute("update a_upload set sqlComment='%s' where sqlField='%s' and sqlTableName='%s' and oracleTableName='%s'" % (d_fieldComment_sqlserver[l_d_row[r]['sqlField']], l_d_row[r]['sqlField'], sqlTableName, oracleTableName))
-            Sqlserver_PO.execute("update a_upload set sqlType='%s' where sqlField='%s' and sqlTableName='%s' and oracleTableName='%s'" % (d_fieldType_sqlserver[l_d_row[r]['sqlField']], l_d_row[r]['sqlField'], sqlTableName, oracleTableName))
-            Sqlserver_PO.execute("update a_upload set sqlValue='%s' where sqlField='%s' and sqlTableName='%s' and oracleTableName='%s'" % (d_fieldValue_sqlserver[l_d_row[r]['sqlField']], l_d_row[r]['sqlField'], sqlTableName, oracleTableName))
+            Sqlserver_PO.execute("update a_upload set s_comment='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_s_comment[l_d_row[r]['s_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update a_upload set s_type='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_s_type[l_d_row[r]['s_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update a_upload set s_value='%s' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (d_s_value[l_d_row[r]['s_field']], l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
 
-            Sqlserver_PO.execute("update a_upload set oracleComment='%s' where sqlField='%s' and sqlTableName='%s' and oracleTableName='%s'" % (d_fieldComment_oracle[l_d_row[r]['oracleField']], l_d_row[r]['sqlField'], sqlTableName, oracleTableName))
-            Sqlserver_PO.execute("update a_upload set oracleType='%s' where sqlField='%s' and sqlTableName='%s' and oracleTableName='%s'" % (d_fieldType_oracle[l_d_row[r]['oracleField']], l_d_row[r]['sqlField'], sqlTableName, oracleTableName))
-            Sqlserver_PO.execute("update a_upload set oracleValue='%s' where sqlField='%s' and sqlTableName='%s' and oracleTableName='%s'" % (d_fieldValue_oracle[l_d_row[r]['oracleField']], l_d_row[r]['sqlField'], sqlTableName, oracleTableName))
+            Sqlserver_PO.execute("update a_upload set o_comment='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_o_comment[l_d_row[r]['o_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update a_upload set o_type='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_o_type[l_d_row[r]['o_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update a_upload set o_value='%s' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (d_o_value[l_d_row[r]['o_field']], l_d_row[r]['s_field'], l_d_row[r]['o_field'],  var_s_table, var_o_table))
 
 
 
@@ -107,44 +110,26 @@ def main(sqlTableName, oracleTableName, sql_sqlserver, sql_oracle):
 def insertTbl(sheetName, tableName):
     Sqlserver_PO.execute("drop table " + tableName)
     Sqlserver_PO.xlsx2db('upload.xlsx', tableName, sheetName)
-    Sqlserver_PO.execute("ALTER table %s alter column sqlComment varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column sqlValue varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column sqlType varchar(111)" % (tableName))  # 修改字段类型
-
-    Sqlserver_PO.execute("ALTER table %s alter column oracleComment varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column oracleType varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column oracleValue varchar(111)" % (tableName))  # 修改字段类型
-
+    Sqlserver_PO.execute("ALTER table %s alter column s_value varchar(111)" % (tableName))  # 修改字段类型
+    Sqlserver_PO.execute("ALTER table %s alter column o_value varchar(111)" % (tableName))  # 修改字段类型
+    Sqlserver_PO.execute("ALTER table %s alter column s_comment varchar(111)" % (tableName))  # 修改字段类型
+    Sqlserver_PO.execute("ALTER table %s alter column o_comment varchar(111)" % (tableName))  # 修改字段类型
+    Sqlserver_PO.execute("ALTER table %s alter column s_type varchar(111)" % (tableName))  # 修改字段类型
+    Sqlserver_PO.execute("ALTER table %s alter column o_type varchar(111)" % (tableName))  # 修改字段类型
+    Sqlserver_PO.execute("ALTER table %s alter column s_tc varchar(111)" % (tableName))  # 修改字段类型
+    Sqlserver_PO.execute("ALTER table %s alter column o_tc varchar(111)" % (tableName))  # 修改字段类型
     Sqlserver_PO.execute("ALTER table %s alter column result varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column memo varchar(111)" % (tableName))  # 修改字段类型
-
 
     Sqlserver_PO.execute(
         "EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % (
             sheetName, tableName))  # sheetName=注释，tableName=表名
-# insertTbl('省平台上报字段对应表', 'a_upload')
 
-# 档案信息表
-# main("T_EHR_INFO", "TB_CHSS_INFO", "SELECT * FROM T_EHR_INFO where IDCARD='110101199003071234'", "SELECT * FROM DIP.TB_CHSS_INFO where ZJHM='110101199003071234'")
-#
-# # 糖尿病患者报病卡
-# main("TB_TNB_HZBBK", "TB_TNB_HZBBK", "SELECT * FROM TB_TNB_HZBBK where BKBH='1' AND YLJGDM='xxfs'", "SELECT * FROM DIP.TB_TNB_HZBBK where BKBH='1' AND YLJGDM='xxfs'")
 
-# 糖尿病患者管理卡
-# main("TB_TNB_HZGLK", "TB_TNB_HZGLK", "SELECT * FROM TB_TNB_HZGLK where YLJGDM='1231' AND GLKBH='1234'", "SELECT * FROM DIP.TB_TNB_HZGLK where YLJGDM='1231' AND GLKBH='1234'")
+# todo 1, 导入数据库
+insertTbl('省平台上报字段对应表', 'a_upload')
 
-# 儿童健康档案登记表
-# main("T_CHILD_INFO", "TB_EB_ETJBQK", "SELECT * FROM T_CHILD_INFO where id='1189'", "SELECT * FROM DIP.TB_EB_ETJBQK where ETBSFID='1189'")
-
-# 儿童家庭访视记录表
-# main("T_CHILD_HOME_VISIT", "TB_EB_ETJBQK", "SELECT * FROM T_CHILD_HOME_VISIT where INFO_ID='1189'", "SELECT * FROM DIP.TB_EB_ETJBQK where ETBSFID='1189'")
-
-# 个人健康档案首页表
-main("T_EHR_GRJKDA", "TB_CHSS_GRJKDA", "SELECT * FROM T_EHR_GRJKDA where zjhm='110101199003071234'", "SELECT * FROM DIP.TB_CHSS_GRJKDA where ZJHM='110101199003071234'")
-
-# 糖尿病患者随访卡
-# main("TB_TNB_HZSFK", "TB_TNB_HZSFK", "SELECT * FROM TB_TNB_HZSFK where YLJGDM='1234' AND SFJLID='1234'", "SELECT * FROM DIP.TB_TNB_HZSFK where YLJGDM='1234' AND SFJLID='1234'")
-
-# # 儿童健康档案登记表 ??
-# main("T_CHILD_INFO", "TB_EB_ETTGJCJL", "SELECT * FROM T_CHILD_INFO where id='1189'", "SELECT * FROM DIP.TB_EB_ETTGJCJL where TJDJBDH='1189' and TGJCJLBH='1101'")
-# main("T_CHILD_EXAMINATION", "TB_EB_ETTGJCJL", "SELECT * FROM T_CHILD_EXAMINATION where id='1101'", "SELECT * FROM DIP.TB_EB_ETTGJCJL where TGJCJLBH='1101' and YLJGDM = '111'")
+# todo 2，从库中获取sql行数据
+l_row = Sqlserver_PO.execQuery("select s_table,o_table,s_sql,o_sql from a_upload where result ='y'")
+for i in range(len(l_row)):
+    # 3，todo 执行比对
+    main(l_row[i]['s_table'], l_row[i]['o_table'], l_row[i]['s_sql'], l_row[i]['o_sql'])
