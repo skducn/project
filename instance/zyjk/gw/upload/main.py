@@ -38,8 +38,8 @@ def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
     else:
         d_o_table[var_o_table] = l_t_o_comments[0][0]
 
-    d_s_table = Sqlserver_PO.getTableComment(var_s_table)
-    print(("测试库(" + str(d_s_table) + ") - 比对库(" + str(d_o_table) + ")").center(100, "-"))
+
+    # print(("测试库(" + str(d_s_table) + ") - 比对库(" + str(d_o_table) + ")").center(100, "-"))
 
 
     # todo sqlserver表（字段：注释）
@@ -107,14 +107,17 @@ def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
 
 
     for r, index in enumerate(l_d_row):
+
         if l_d_row[r]['s_table'] == var_s_table and l_d_row[r]['o_table'] == var_o_table and l_d_row[r]['s_sql'] == None:
+            # if l_d_row[r]['s_field'] == None:
+            #     print(r + 1, ("测试库(" + str(d_s_table) + ") - 比对库(" + str(d_o_table) + ")").center(100, "-"))
             # print(r+1, ['s'], d_s_value[l_d_row[r]['s_field']])
             # print(r+1, ['o'], d_o_value[l_d_row[r]['o_field']])
             if str(d_s_value[l_d_row[r]['s_field']]) == str(d_o_value[l_d_row[r]['o_field']]):
                 Sqlserver_PO.execute("update a_upload set result='ok' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
             else:
                 # print(r+1, "[error] => ", l_d_row[r]['s_field'] + "(" + d_s_type[l_d_row[r]['s_field']] + ") = " + str(d_s_value[l_d_row[r]['s_field']]) + ", " + l_d_row[r]['o_field'] + "(" + d_o_type[l_d_row[r]['o_field']] + ") = " + str(d_o_value[l_d_row[r]['o_field']]))
-                Color_PO.consoleColor("31", "31", str(r+1) + " [ERROR], " + var_s_table + "." + d_s_type[l_d_row[r]['s_field']] + "." + d_s_comment[l_d_row[r]['s_field']] + ".(" + l_d_row[r]['s_field'] + " = " + str(d_s_value[l_d_row[r]['s_field']]) + ")"
+                Color_PO.consoleColor("31", "31", str(r+1) + " [ERROR], " + str(d_s_table[var_s_table]) + " " + var_s_table + "." + d_s_type[l_d_row[r]['s_field']] + "." + d_s_comment[l_d_row[r]['s_field']] + ".(" + l_d_row[r]['s_field'] + " = " + str(d_s_value[l_d_row[r]['s_field']]) + ")"
                                       + ", " + var_o_table + "." + d_o_type[l_d_row[r]['o_field']] + ".(" + l_d_row[r]['o_field'] + " = " + str(d_o_value[l_d_row[r]['o_field']]) + ")", "")
                 Sqlserver_PO.execute("update a_upload set result='error' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
 
