@@ -80,7 +80,7 @@
 
 2.1 获取所有表  getTables(self)
 2.2 获取所有表和表注释 getTableAndComment(self)
-2.3 获取表的结构信息 getTableInfor(self, varTable[all])
+2.3 获取表的结构信息 getStructure(self, varTable[all])
 2.4 获取字段  getFields(self, varTable)
 2.5 获取字段和字段注释 getFieldInfor(self, varTable)
 2.6 获取记录数 getRecordQty(self, varTable)

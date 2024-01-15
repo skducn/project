@@ -20,7 +20,27 @@ import sys
 
 def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
 
-    print(("测试库(" + var_s_table + ") -  比对库(" + var_o_table + ")").center(100, "-"))
+    # 获取sqlserver表注释
+    d_s_table = {}
+    # print(Sqlserver_PO.getTableComment(var_s_table))  # {'T_CHILD_INFO': '儿童健康档案登记表'}
+    if Sqlserver_PO.getTableComment(var_s_table) == {}:
+        d_s_table[var_s_table] = 'None'
+    else:
+        d_s_table[var_s_table] = Sqlserver_PO.getTableComment(var_s_table)[var_s_table]
+        # print(Sqlserver_PO.getTableComment(var_s_table)[var_s_table])  # '儿童健康档案登记表'
+
+    # 获取oracle表注释
+    d_o_table = {}
+    l_t_o_comments = Oracle_PO.execQueryParam("select COMMENTS  from all_tab_comments where Table_Name=:tableName  and owner = 'DIP'", {"tableName": var_o_table})
+    # print(l_t_o_comments[0][0])  # GW-31006 糖尿病随访服药信息
+    if l_t_o_comments[0][0] == "":
+        d_o_table[var_o_table] = 'None'
+    else:
+        d_o_table[var_o_table] = l_t_o_comments[0][0]
+
+    d_s_table = Sqlserver_PO.getTableComment(var_s_table)
+    print(("测试库(" + str(d_s_table) + ") - 比对库(" + str(d_o_table) + ")").center(100, "-"))
+
 
     # todo sqlserver表（字段：注释）
     d_s_comment = Sqlserver_PO.getFieldComment(var_s_table)
@@ -30,6 +50,8 @@ def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
     # print('d_s_type = ', d_s_type)  # {'ID': 'int', 'NAME': 'text', 'AGE': 'int', 'ADDRESS': 'char', 'SALARY': 'float' ...
     # todo sqlserver表（字段：值）
     l_temp = Sqlserver_PO.execQuery(var_s_sql)
+    # print(var_s_sql)
+    # print(l_temp)
     d_s_value = l_temp[0]
     # print('d_s_value = ', d_s_value)  # {'ID': 75, 'IDCARD': '110101199003071234', 'EHR_NUM': '11011600100100005'...
 
@@ -67,13 +89,14 @@ def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
     l_d_oracle = []
     # todo oracle表（值）
     # Oracle_PO.execQuery(sql_oracle)  # [('10', '7566', '1', '-1', '1', '居民身份证', '340823199303196117',...
-    # print(len(Oracle_PO.execQuery(sql_oracle)))
+    # print(Oracle_PO.execQuery(var_o_sql))
     for r in Oracle_PO.execQuery(var_o_sql):
         for i in range(len(l_t_o_type)):
             # print(l_t_o_type[i], r[i])
             d_oracle[l_t_o_type[i][0]] = r[i]
         l_d_oracle.append(d_oracle)
         d_oracle = {}
+    # print(l_d_oracle[0])
     d_o_value = l_d_oracle[0]
     # print('d_o_value = ', d_o_value)  # {'YLJGDM': '123456', 'GRDAID': '11011600100100005', ...
 
@@ -95,11 +118,11 @@ def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
                                       + ", " + var_o_table + "." + d_o_type[l_d_row[r]['o_field']] + ".(" + l_d_row[r]['o_field'] + " = " + str(d_o_value[l_d_row[r]['o_field']]) + ")", "")
                 Sqlserver_PO.execute("update a_upload set result='error' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
 
-            Sqlserver_PO.execute("update a_upload set s_comment='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_s_comment[l_d_row[r]['s_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update a_upload set s_comment='%s' where s_table='%s'" % (d_s_table[var_s_table], var_s_table))
             Sqlserver_PO.execute("update a_upload set s_type='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_s_type[l_d_row[r]['s_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
             Sqlserver_PO.execute("update a_upload set s_value='%s' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (d_s_value[l_d_row[r]['s_field']], l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
 
-            Sqlserver_PO.execute("update a_upload set o_comment='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_o_comment[l_d_row[r]['o_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update a_upload set o_comment='%s' where o_table='%s'" % (d_o_table[var_o_table], var_o_table))
             Sqlserver_PO.execute("update a_upload set o_type='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_o_type[l_d_row[r]['o_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
             Sqlserver_PO.execute("update a_upload set o_value='%s' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (d_o_value[l_d_row[r]['o_field']], l_d_row[r]['s_field'], l_d_row[r]['o_field'],  var_s_table, var_o_table))
 
@@ -133,3 +156,5 @@ l_row = Sqlserver_PO.execQuery("select s_table,o_table,s_sql,o_sql from a_upload
 for i in range(len(l_row)):
     # 3，todo 执行比对
     main(l_row[i]['s_table'], l_row[i]['o_table'], l_row[i]['s_sql'], l_row[i]['o_sql'])
+
+# do to others as you would have them do to you
