@@ -11,9 +11,16 @@
 
 from pydub import AudioSegment
 import os, sys, subprocess
-varFile, x = os.path.splitext(os.path.split(sys.argv[1])[1])
-print(os.getcwd() + "\\" + str(varFile) + '.wav')
-subprocess.call("ffmpeg -i " + os.path.split(sys.argv[1])[1] + " -ar 16000 -vn " + os.getcwd() + "\\" + str(varFile) + '.wav', shell=True)
+# varFile, x = os.path.splitext(os.path.split(sys.argv[1])[1])
+# print(os.getcwd() + "\\" + str(varFile) + '.mp3')
+
+varSource = "/Users/linghuchong/Downloads/Video/douyin/皓晨音乐/霉霉20首经典英文歌曲合集.mp4"
+varTarget = "/Users/linghuchong/Downloads/Video/douyin/皓晨音乐/霉霉20首经典英文歌曲合集.mp3"
+# subprocess.call("ffmpeg -i " + os.path.split(sys.argv[1])[1] + " -ar 16000 -vn " + os.getcwd() + "\\" + str(varFile) + '.mp3', shell=True)
+subprocess.call("ffmpeg -i " + varSource + " -ar 16000 -vn " + varTarget, shell=True)
+
+
+
 
 
 

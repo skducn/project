@@ -111,8 +111,8 @@ def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
         if l_d_row[r]['s_table'] == var_s_table and l_d_row[r]['o_table'] == var_o_table and l_d_row[r]['s_sql'] == None:
             # if l_d_row[r]['s_field'] == None:
             #     print(r + 1, ("测试库(" + str(d_s_table) + ") - 比对库(" + str(d_o_table) + ")").center(100, "-"))
-            # print(r+1, ['s'], d_s_value[l_d_row[r]['s_field']])
-            # print(r+1, ['o'], d_o_value[l_d_row[r]['o_field']])
+            print(r+2, ['s'], d_s_value[l_d_row[r]['s_field']])
+            print(r+2, ['o'], d_o_value[l_d_row[r]['o_field']])
             if str(d_s_value[l_d_row[r]['s_field']]) == str(d_o_value[l_d_row[r]['o_field']]):
                 Sqlserver_PO.execute("update a_upload set result='ok' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
             else:
