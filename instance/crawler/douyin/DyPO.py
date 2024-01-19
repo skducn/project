@@ -18,20 +18,20 @@ from urllib import parse
 # sys.path.append("../../../")
 sys.path.append("/Users/linghuchong/Downloads/51/Python/project/")
 
-from PO.DataPO import *
-Data_PO = DataPO()
+# from PO.DataPO import *
+# Data_PO = DataPO()
+#
+# from PO.FilePO import *
+# File_PO = FilePO()
+#
+# from PO.HttpPO import *
+# Http_PO = HttpPO()
+#
+# from PO.StrPO import *
+# Str_PO = StrPO()
 
-from PO.FilePO import *
-File_PO = FilePO()
-
-from PO.HttpPO import *
-Http_PO = HttpPO()
-
-from PO.StrPO import *
-Str_PO = StrPO()
-
-from PO.WebPO import *
-Web_PO = WebPO("chrome")
+# from PO.WebPO import *
+# Web_PO = WebPO("chrome")
 
 class DyPO:
 
@@ -61,7 +61,9 @@ class DyPO:
 
 		# 作者名
 		nickname = v_rs['item_list'][0]['author']['nickname']
-		# print(1,nickname)
+
+		nickname = str(nickname).replace(" ", "_")
+		print(1, nickname)
 
 		# 视频标题
 		titles = v_rs['item_list'][0]['desc']
@@ -86,13 +88,18 @@ class DyPO:
 		# 下载无水印视频
 		v_url = "https://www.douyin.com/aweme/v1/play/?video_id={}".format(req)
 		v_req = requests.get(url=v_url, headers=header).content
-		print(f"[下载中] => {v_url}")
+		# print(v_url)
+		print("下载中 ", v_url)
+		# print(f"[下载中] => {v_url}")
+
+		ff = toPath + nickname + "/" + titles + ".mp4"
+		print(ff)
 
 		# 写入文件
-		with open(f'{toPath}{nickname}/{titles}.mp4', 'wb') as f:
+		with open(ff, 'wb') as f:
 			f.write(v_req)
 
-		print(f'[已完成] => {toPath}{nickname}/{titles}.mp4')
+		print("[已完成] => ", ff)
 		return toPath + nickname
 
 	# def downVideo(self, url, toSave):

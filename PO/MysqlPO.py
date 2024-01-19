@@ -32,8 +32,7 @@ pandas引擎（mysqldb）  getEngine_mysqldb()
 4.2，将数据库表查询结果导出csv  sql2csv()
 4.3，将数据库表查询结果导出html  sql2html()
 4.4，将数据库表结构导出excel  dbDesc2xlsx()
-4.5, 将数据库表导出html  Mysql_PO.db2html("erp_开发计划总揽_2022-11-12", "sys_area", "d://123.html",False)
-
+4.5，将数据库表导出html  Mysql_PO.db2html("erp_开发计划总揽_2022-11-12", "sys_area", "d://123.html",False)
 
 5 获取单个表的所有字段 getTableField(self, varTable)
 
@@ -42,24 +41,26 @@ pandas引擎（mysqldb）  getEngine_mysqldb()
 7 获取mysql关键字列表 ？
 
 """
-import sys
-import pymysql
+
+import sys, pymysql
 
 pymysql.install_as_MySQLdb()
 import MySQLdb
-from PO.ExcelPO import *
 import pandas as pd
+
+from PO.ExcelPO import *
 from sqlalchemy import create_engine
 from bs4 import BeautifulSoup
 from PO.OpenpyxlPO import *
 from PO.NewexcelPO import *
 from PO.ColorPO import *
-
 Color_PO = ColorPO()
 
 
 class MysqlPO:
+
     def __init__(self, varHost, varUser, varPassword, varDB, varPort=3336):
+
         self.host = varHost
         self.user = varUser
         self.password = varPassword
@@ -77,11 +78,32 @@ class MysqlPO:
         if not self.cur:
             raise (NameError, "error，创建游标失败！")
 
+
+    def getEngine(self):
+        # mysql 引擎
+        return create_engine("mysql://" + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+
+    def getEngine_pymysql(self):
+        # pymysql 引擎
+        return create_engine("mysql+pymysql://" + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+        # return create_engine('mysql+pymysql://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db + "?charset=utf8")
+
+    def getEngine_mysqlconnector(self):
+        # mysqlconnector 引擎
+        return create_engine("mysql+mysqlconnector://" + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+
+    def getEngine_mysqldb(self):
+        # mysqldb 引擎
+        return create_engine("mysql+mysqldb://" + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+
+    def getEngine_oursql(self):
+        # oursql 引擎
+        return create_engine("mysql+oursql://" + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db)
+
+
     def execQuery(self, sql):
 
-        """执行sql"""
-
-        # self.conn.commit()
+        """查询sql"""
 
         try:
             self.cur.execute(sql)
@@ -94,85 +116,29 @@ class MysqlPO:
             # print(NameError(e))  # table hh already exists
             print(repr(e))  # OperationalError('table hh already exists')
 
+
+    def execute(self, sql):
+
+        '''
+        执行sql （insert，update）
+        :param sql:
+        :return:
+        '''
+
+        try:
+            self.cur.execute(sql)
+            self.conn.commit()
+            return "ok"
+        except Exception as e:
+            # print(e.args)  # ('table hh already exists',)
+            # print(str(e))  # table hh already exists
+            # print(NameError(e))  # table hh already exists
+            # print(repr(e))  # OperationalError('table hh already exists')
+            return str(e)
+
     def close(self):
         self.cur.close()
         self.conn.close()
-
-    def getEngine(self):
-        # mysql 引擎
-        return create_engine(
-            "mysql://"
-            + self.user
-            + ":"
-            + self.password
-            + "@"
-            + self.host
-            + ":"
-            + str(self.port)
-            + "/"
-            + self.db
-        )
-
-    def getEngine_pymysql(self):
-        # pymysql 引擎
-        return create_engine(
-            "mysql+pymysql://"
-            + self.user
-            + ":"
-            + self.password
-            + "@"
-            + self.host
-            + ":"
-            + str(self.port)
-            + "/"
-            + self.db
-        )
-        # return create_engine('mysql+pymysql://' + self.user + ":" + self.password + "@" + self.host + ":" + str(self.port) + "/" + self.db + "?charset=utf8")
-
-    def getEngine_mysqlconnector(self):
-        # mysqlconnector 引擎
-        return create_engine(
-            "mysql+mysqlconnector://"
-            + self.user
-            + ":"
-            + self.password
-            + "@"
-            + self.host
-            + ":"
-            + str(self.port)
-            + "/"
-            + self.db
-        )
-
-    def getEngine_mysqldb(self):
-        # mysqldb 引擎
-        return create_engine(
-            "mysql+mysqldb://"
-            + self.user
-            + ":"
-            + self.password
-            + "@"
-            + self.host
-            + ":"
-            + str(self.port)
-            + "/"
-            + self.db
-        )
-
-    def getEngine_oursql(self):
-        # oursql 引擎
-        return create_engine(
-            "mysql+oursql://"
-            + self.user
-            + ":"
-            + self.password
-            + "@"
-            + self.host
-            + ":"
-            + str(self.port)
-            + "/"
-            + self.db
-        )
 
     def _dbDesc_search(self, varTable, var_l_field=0):
 
@@ -805,7 +771,34 @@ if __name__ == "__main__":
     ...
 
     # sass ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "saasusertest", 3306)
+    # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "saasusertest", 3306)
+
+    # docker mysql ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    Mysql_PO = MysqlPO("127.0.0.1", "root", "root", "test", 3306)
+
+    # # 创建users表，没有设置id主键
+    # Mysql_PO.execute("CREATE TABLE users(id int not null,name varchar(10),age int(4))")
+    # # 在users表上，创建id主键
+    # Mysql_PO.execute("alter table users add primary key(id)")
+    #
+    # # 创建teacher表，设置id主键
+    # Mysql_PO.execute("CREATE TABLE teather(id int auto_increment primary key, name varchar(10),age int(4))")
+
+    # # 删除teacher表的id主键(需要注意的是主键如果设置了自动递增，需要先将自动递增去掉，再删除主键。)
+    # Mysql_PO.execute("alter table teather change id id int not null")  # 取消id的自动递增
+    # Mysql_PO.execute("alter table teather DROP PRIMARY KEY")  # 取消所有主键
+
+
+    # # 创建haha表，如果不存在的话。
+    # Mysql_PO.execute("CREATE TABLE if not exists haha(id int auto_increment primary key, name varchar(10),age int(4))")
+
+
+
+
+
+    # Mysql_PO.execute("INSERT INTO haha (name, age) VALUES ('john', 12)")
+
+
     # t_userNo = Mysql_PO.execQuery('select * from sys_user_detail where userNo="%s"' % ("16766667777"))
     # print(t_userNo)
     # print(t_userNo[0][0])  # 278
@@ -907,3 +900,5 @@ if __name__ == "__main__":
 
     # print("6.2 expain SQL语句的执行计划文件".center(100, "-"))
     # Mysql_PO.explainMore("./data/i_erp_reportField_case.xlsx", "拜访分析报表", 4, 5, 2)
+
+

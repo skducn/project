@@ -16,13 +16,13 @@ Dy_PO = DyPO()
 
 # print("1，下载单个抖音视频".center(100, "-"))
 # folder = Dy_PO.getVideo("https://v.douyin.com/SrL7RnM/", "/Users/linghuchong/Downloads/video/douyin/")
-folder = Dy_PO.getVideo("https://v.douyin.com/iR49gsDg/", "/Users/linghuchong/Downloads/video/douyin/")
+folder = Dy_PO.getVideo("https://v.douyin.com/iLPh1Lt4/", "/Users/linghuchong/Downloads/video/douyin/")
 os.system("open " + folder)
 
 # folder = Dy_PO.downVideo("https://v.douyin.com/SrL7RnM/", "d:/11/44")
 # os.system("start " + folder)
 
-
+# 7.61 i@P.kp jca:/ 10/11 学习英语短语“伟大的户外活动”和“竭尽全力”（双语版） # 英语 # 英语口语 # 英语启蒙 # 英语学习 # 英语听力  https://v.douyin.com/iLPh1Lt4/ 复制此链接，打开Dou音搜索，直接观看视频！
 
 
 # print("2，下载多个抖音(列表页)视频".center(100, "-"))

@@ -140,6 +140,7 @@ Time_PO = TimePO()
 class SqlServerPO:
 
     def __init__(self, server, user, password, database, charset="utf8"):
+
         self.server = server
         self.user = user
         self.password = password
@@ -170,14 +171,9 @@ class SqlServerPO:
         return create_engine("mssql+pymssql://" + self.user + ":" + self.password + "@" + self.server + "/" + self.database)
 
 
-    # 1.1 查询sql语句
     def execQuery(self, sql):
 
-        '''
-        查询sql
-        :param sql:
-        :return:
-        '''
+        '''1.1 查询sql'''
 
         try:
             self.conn.commit()
@@ -192,17 +188,15 @@ class SqlServerPO:
             # print(NameError(e))  # table hh already exists
             print(repr(e))  # OperationalError('table hh already exists')
 
-    # 1.2 查询带参数sql
     def execQueryParam(self, sql, param):
 
         '''
-        查询带参数sql， 返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
+        1.2 带参查询sql， 返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
         :param sql:
         :param param:
         :return:
         '''
 
-        # cur = self.__GetConnect()
         self.conn.commit()  # 用于新增后立即查询
         self.cur.execute(sql, param)
         try:
@@ -217,11 +211,10 @@ class SqlServerPO:
         self.conn.close()
         return result
 
-    # 1.3 执行sql语句
     def execute(self, sql):
 
         '''
-        执行sql （insert，update）
+        1.3 执行sql （insert，update）
         :param sql:
         :return:
         '''
