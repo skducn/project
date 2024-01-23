@@ -136,6 +136,20 @@ class MysqlPO:
             # print(repr(e))  # OperationalError('table hh already exists')
             return str(e)
 
+
+    def execCall(self, varProcedure, varList = []):
+
+        # 执行存储过程
+
+        self.cur.callproc(varProcedure, varList)
+        result = self.cur.fetchone()
+
+        self.conn.commit()
+        self.cur.close()
+        self.conn.close()
+
+        return result
+
     def close(self):
         self.cur.close()
         self.conn.close()

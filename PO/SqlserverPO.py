@@ -231,7 +231,7 @@ class SqlServerPO:
             return str(e)
 
     # 1.4 执行存储过程
-    def execProcedure(self, varProcedureName):
+    def execCall(self, varProcedureName, params=()):
 
         '''
         执行存储过程
@@ -239,16 +239,24 @@ class SqlServerPO:
         :return:
         '''
 
-        # execProcedure(存储过程名)
+        try:
+            # 定义要执行的存储过程及其参数（若有）
+            # varProcedureName = '存储过程名'
+            # params = ('参数1值', '参数2值', ...)
 
-        # cur = self.__GetConnect()
-        # sql =[]
-        # sql.append("exec procontrol")
-        # cur.callproc(varProcedureName)
-        self.cur.execute(varProcedureName)
-        self.conn.commit()
-        self.cur.close()  # 关闭游标
-        self.conn.close()  # 关闭连接
+            # 调用存储过程
+            self.cur.callproc(varProcedureName, params)
+
+            # 提交事务
+            self.conn.commit()
+        except Exception as e:
+            print('发生错误: ', str(e))
+        # finally:
+        #     # 关闭连接
+        #     self.cur.close()
+        #     self.conn.close()
+
+
 
     # 1.5.1 执行sql文件
     def execSqlFile(self, varPathSqlFile):
@@ -641,8 +649,9 @@ class SqlServerPO:
         # Sqlserver_PO.execute('''if not exists (select * from sysobjects where id = object_id('test99') and OBJECTPROPERTY(id, 'IsUserTable') = 1)create table test99(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)''')
 
         sql = "if not exists (select * from sysobjects where id = object_id('" + varTable + "') and OBJECTPROPERTY(id, 'IsUserTable') = 1)create table " + varTable + "(" + sql + ")"
-        print(sql)
+        # print(sql)
         self.execute(sql)
+        self.conn.commit()
 
 
     def _genTypeValue(self, varTable):
@@ -1486,6 +1495,13 @@ if __name__ == "__main__":
 
 
     # print("3.1 创建表（自增id主键）".center(100, "-"))
+    # Sqlserver_PO.crtTable('a_phs2gw', '''
+    #     id INT IDENTITY(1,1) PRIMARY KEY,
+    #     phsField VARCHAR(20) NOT NULL,
+    #     phsValue VARCHAR(20) NOT NULL,
+    #     phusersField VARCHAR(20) NOT NULL,
+    #     phusersValue VARCHAR(20) NOT NULL''')
+
     # Sqlserver_PO.crtTable('bbb', ''''CREATE TABLE bbb (
     # id INT IDENTITY(1,1) PRIMARY KEY,
     # name VARCHAR(20) NOT NULL,

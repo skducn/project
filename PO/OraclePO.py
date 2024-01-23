@@ -78,7 +78,17 @@ class OraclePO:
             # print(NameError(e))  # table hh already exists
             print(repr(e))  # OperationalError('table hh already exists')
 
+    def execCall(self, varProcedure, varList = []):
 
+        # 执行存储过程
+        cur = self.__GetConnect()
+        result = cur.callproc(varProcedure, varList)
+
+        self.conn.commit()
+        cur.close()
+        self.conn.close()
+
+        return result
 
 if __name__ == "__main__":
 

@@ -72,9 +72,7 @@ class TimePO:
         如：getDateTimeByPeriod（0.5）  //晚30分钟  2020-03-19 15:49:28
         如：getDateTimeByPeriod（-1）  //早1小时  2020-03-19 14:19:28
         """
-        return (datetime.datetime.now() + datetime.timedelta(hours=n)).strftime(
-            "%Y-%m-%d %H:%M:%S"
-        )
+        return (datetime.datetime.now() + datetime.timedelta(hours=n)).strftime("%Y-%m-%d %H:%M:%S")
 
     def getNow(self):
 
@@ -382,13 +380,13 @@ if __name__ == "__main__":
     print(time.strftime("%H:%M:%S"))  # 15:19:28
 
     #
-    # print(Time_PO.getDateByMinus())  # 2022-11-29   //当前日期
+    print(Time_PO.getDateByMinus())  # 2022-11-29   //当前日期
     # print(Time_PO.getDateByMinusPeriod(2))  # 2022-12-01  //2天后
     # print(Time_PO.getDateByMinusPeriod(-3))  # 2022-11-26  //3天前
     # print(type(Time_PO.getDateByMinusPeriod(-3)))  # 2022-11-26  //3天前
     # print(Time_PO.getDateTimeByPeriod(0))  # 2020-03-19 15:19:28   //当前时间
     # print(Time_PO.getDateTimeByPeriod(0.5))  # 2020-03-19 15:49:28  //比当前时间晚30分钟
-    # print(Time_PO.getDateTimeByPeriod(-1))  # 2020-03-19 14:19:28   //比当前时间早1小时
+    print(Time_PO.getDateTimeByPeriod(-1))  # 2020-03-19 14:19:28   //比当前时间早1小时
     # print(Time_PO.getNow())  # 2022-11-29 12:48:23.907028  //当前时间
     # print(Time_PO.getNowByPeriod(0.5))  # 2022-11-29 13:19:37.939408  //比当前时间晚30分钟
     # print(Time_PO.getNowByPeriod(-1))  # 2022-11-29 11:49:37.939408  //比当前时间早1小时
