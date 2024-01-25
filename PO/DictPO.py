@@ -3,18 +3,42 @@
 # Author        : John
 # Date          : 2020-4-21
 # Description   : 字典对象层
-# https://www.jb51.net/article/167029.htm
-# https://www.cnblogs.com/it-tsz/p/10605021.html set集合
+# 判断2个字典相同 https://www.jb51.net/article/167029.htm
+# set集合 https://www.cnblogs.com/it-tsz/p/10605021.html
+
 # 字典是Python语言中唯一的映射类型。
-# 映射类型对象里哈希值（键，key）和指向的对象（值，value）是一对多的的关系，通常被认为是可变的哈希表。
 # 字典对象是可变的，它是一个容器类型，能存储任意个数的Python对象，其中也可包括其他容器类型。
-# # 字典形式
+# 字典的键必须不可变，所以可以用数字，字符串或元组充当，但不能用列表、字典等。
+# 映射类型对象里哈希值（键 key）和指向的对象（值 value）是一对多的的关系，通常被认为是可变的哈希表。
+# 字典是无序的，因为它是按照hash来存储的
+
+# 一个字典就是一个键集合与值集合的映射关系。
+# 字典的 keys() 方法返回一个展现键集合的键视图对象，该对象支持集合操作，比如集合并、交、差运算。 所以，可以直接对字典的键执行普通的集合操作，而不用先将它们转换成一个 set。
+# 字典的 items() 方法返回一个包含 (键，值) 对的元素视图对象，该对象同样也支持集合操作。
+# 字典的 values() 方法返回结果，并不支持集合操作，因为值视图不能保证所有的值互不相同，这样会导致某些集合操作出现问题，可以先将值集合转换成 set，然后再执行集合运算。
+
+# # 字典形式及判断字典是否相同（用 ==）
 # a = dict(one=1, two=2, three=3)
 # b = {'one': 1, 'two': 2, 'three': 3}
 # c = dict(zip(['one', 'two', 'three'], [1, 2, 3]))
 # d = dict([('two', 2), ('one', 1), ('three', 3)])
 # e = dict({'three': 3, 'one': 1, 'two': 2})
-# print(a == b == c == d == e)  # True
+# print(a == b == c == d == e)  # True   //比较多个字典是否相同
+
+# todo OrderedDict子类，将无须变为有序
+# collections模块的子类OrderedDict，实现了对字典对象中元素的有序排序。
+# Python中OrderedDict的使用: https://www.cnblogs.com/notzy/p/9312049.html
+# import collections
+# dd = {'x': 0, 'b': 444, 'c': 555, 'a': 3}
+
+# # 按keyi排序
+# d1 = collections.OrderedDict(sorted(dd.items(), key=lambda t:t[0]))
+# print(d1)  # OrderedDict([('a', 3), ('b', 444), ('c', 555), ('x', 0)])
+# print(d1['c'])  # 555
+#
+# # 按value排序
+# d1 = collections.OrderedDict(sorted(dd.items(), key=lambda t:t[1]))
+# print(d1)  # OrderedDict([('x', 0), ('a', 3), ('b', 444), ('c', 555)])
 # *********************************************************************
 
 """
