@@ -2,19 +2,16 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2022-3-21
-# Description: 未初始化数组 np.empty()
+# Description: 未初始化的垃圾值 np.empty()
 # np.empty 构造一个长度为 shape 的未初始化数组，这个数组的元素可能是内存位置上存在的任何数值。
 # empty(shape, dtype=float, order='C')
 # *****************************************************************
 
 import numpy as np
 
-
-print("1 创建5个浮点数1的一维数组".center(100, "-"))
 a = np.empty(shape=3)  # 等同于 a = np.empty(3)
 print(a)  # [1.74928933e+243 1.69375778e+190 1.38496762e+219]
 print(a.dtype)  # float64
-
 
 print(np.empty(shape=(2, 3)))
 # [[6.23042070e-307 1.16824187e-307 2.22522597e-306]

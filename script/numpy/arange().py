@@ -13,9 +13,6 @@ print(np.arange(10))  # [0 1 2 3 4 5 6 7 8 9]
 print(np.arange(1, 10))  # [1 2 3 4 5 6 7 8 9]
 print(np.arange(1, 10, 3))  # [1 4 7]
 print(np.arange(1, 10, 3)[2])  # 7
-a = np.arange(1, 13)
-print(a)  # [ 1  2  3  4  5  6  7  8  9 10 11 12]
-print(a.dtype)  # int32
 
 
 print("3.2, arange().reshape() 生成序列多维数组".center(100, "-"))

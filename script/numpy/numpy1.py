@@ -1,28 +1,68 @@
-# # coding: utf-8
-# # *****************************************************************
-# # Author     : John
-# # Date       : 2020-3-19
-# # Description: numpy (Numerical Python) 多维数组对象
-# # NumPy 是一个运行速度非常快的数学库，主要用于数组计算
-# # ndarray = N-dimensional array 多维度数组
-# # 广播功能函数、整合 C/C++/Fortran 代码的工具、线性代数、傅里叶变换、随机数生成等功能
-# # NumPy 通常与 SciPy（Scientific Python）和 Matplotlib（绘图库）一起使用， 这种组合广泛用于替代 MatLab，是一个强大的科学计算环境，有助于我们通过 Python 学习数据科学或者机器学习。
-# # SciPy 是一个开源的 Python 算法库和数学工具包。
-# # SciPy 包含的模块有最优化、线性代数、积分、插值、特殊函数、快速傅里叶变换、信号处理和图像处理、常微分方程求解和其他科学与工程中常用的计算。
-# # Matplotlib 是 Python 编程语言及其数值数学扩展包 NumPy 的可视化操作界面。它为利用通用的图形用户界面工具包，如 Tkinter, wxPython, Qt 或 GTK+ 向应用程序嵌入式绘图提供了应用程序接口（API）。
-# # NumPy 官网 http://www.numpy.org/
-# # NumPy 源代码：https://github.com/numpy/numpy
-# # SciPy 官网：https://www.scipy.org/
-# # SciPy 源代码：https://github.com/scipy/scipy
-# # Matplotlib 官网：https://matplotlib.org/
-# # Matplotlib 源代码：https://github.com/matplotlib/matplotlib
-# # *****************************************************************
-# # https://blog.csdn.net/weixin_40040404/article/details/80776678
-# # https://www.cnblogs.com/q735613050/p/9130312.html
-# # http://www.voidcn.com/article/p-cylcldlk-btm.html
-# # https://zhuanlan.zhihu.com/p/99889912
-# # http://www.uml.org.cn/python/201811131.asp  多维数组
-# # *****************************************************************
+# coding: utf-8
+# *****************************************************************
+# Author     : John
+# Date       : 2020-3-19
+# Description: numpy (Numerical Python) 高性能科学计算和数据分析的基础包
+# NumPy 是一个运行速度非常快的数学库，部分功能如下：
+# ndarray（N-dimensional array），一个具有矢量算术运算和复杂广播能力的快速且节省 空间的多维数组
+# 用于对整组数据进行快速运算的标准数学函数
+# 用于读写磁盘数据的工具以及用于操作内存映射文件的工具
+# 线性代数、随机数生成以及傅里叶变换功能。
+# 用于集成由C、C++、Fortran等语言编写的代码的工具。
+
+# 对于大部分数据分析应用而言：
+# 用于数据整理和清理、子集构造和过滤、转换等快速的矢量化数组运算。
+# 常用的数组算法，如排序、唯一化、集合运算等。
+# 高效的描述统计和数据聚合/摘要运算。
+# 用于异构数据集的合并/连接运算的数据对齐和关系型数据运算。
+# 将条件逻辑表述为数组表达式(而不是带有if-elif-else分支的循 环)。
+# 数据的分组运算(聚合、转换、函数应用等)。
+
+# NumPy 通常与 SciPy（Scientific Python）和 Matplotlib（绘图库）一起使用， 这种组合广泛用于替代 MatLab，是一个强大的科学计算环境，有助于我们通过 Python 学习数据科学或者机器学习。
+# SciPy 是一个开源的 Python 算法库和数学工具包。
+# SciPy 包含的模块有最优化、线性代数、积分、插值、特殊函数、快速傅里叶变换、信号处理和图像处理、常微分方程求解和其他科学与工程中常用的计算。
+# Matplotlib 是 Python 编程语言及其数值数学扩展包 NumPy 的可视化操作界面。它为利用通用的图形用户界面工具包，如 Tkinter, wxPython, Qt 或 GTK+ 向应用程序嵌入式绘图提供了应用程序接口（API）。
+# NumPy 官网 http://www.numpy.org/
+# NumPy 源代码：https://github.com/numpy/numpy
+# SciPy 官网：https://www.scipy.org/
+# SciPy 源代码：https://github.com/scipy/scipy
+# Matplotlib 官网：https://matplotlib.org/
+# Matplotlib 源代码：https://github.com/matplotlib/matplotlib
+# *****************************************************************
+# https://blog.csdn.net/weixin_40040404/article/details/80776678
+# https://www.cnblogs.com/q735613050/p/9130312.html
+# http://www.voidcn.com/article/p-cylcldlk-btm.html
+# https://zhuanlan.zhihu.com/p/99889912
+# http://www.uml.org.cn/python/201811131.asp  多维数组
+# *****************************************************************
+import numpy as np
+import pandas as pd
+import sys
+
+# ndarray是一个通用的同构数据多维容器
+# 创建ndarray
+data1 = [6, 7.5, 8, 0, 1]
+arr1 = np.array(data1)
+print(arr1)  # [6.  7.5 8.  0.  1. ]
+print(arr1.shape)  # (5,)   // 维度大小的元组
+print(arr1.dtype)  # flat64  //数据类型的对象
+
+# 嵌套序列
+data2 = [[1, 2, 3, 4], [5, 6, 7, 8]]
+arr2 = np.array(data2)
+print(arr2)
+# [[1 2 3 4]
+#  [5 6 7 8]]
+print(arr2.dtype)  # int64
+print(arr2.ndim)  # 2  // 二维数组
+
+
+
+
+
+sys.exit(0)
+
+
 #
 # '''
 # 1.1 数据源是list时，array和asarray一样，复制一个副本，占用新的内存。
@@ -44,20 +84,17 @@
 # 7，数组统计（平均数、合计、平铺）
 # '''
 #
-import numpy as np
-import pandas as pd
-#
-
-# #
-# #
-
-# #
-# #
 
 
-# #
-# #
+# print(np.tile(x, (2, 2)))   # [1,2,3,1,2,3],[1,2,3,1,2,3]  //维度扩大2倍，值扩大2倍
+# print(np.tile(x, (1, 2)))   # [1,2,3,1,2,3]  //维度不变，值扩大2倍
+
+
+
 # print("5，维度与维数".center(100, "-"))
+
+
+
 # M = np.array(((np.arange(3)), (np.arange(3))))
 # print(M)  # [[0, 1, 2],[0, 1, 2]]
 # print(M.shape)  # (2, 3)
@@ -82,8 +119,6 @@ import pandas as pd
 # print(np.tile(x, 1))  # [1,2,3]  //不变
 # print(np.tile(x, 2))   # [1,2,3,1,2,3]   //维度不变，值扩大2倍
 # print(np.tile(x, 4))   # [1 2 3 1 2 3 1 2 3 1 2 3]  //维度不变，值扩大4倍
-# print(np.tile(x, (1, 2)))   # [1,2,3,1,2,3]  //维度不变，值扩大2倍
-# print(np.tile(x, (2, 2)))   # [1,2,3,1,2,3],[1,2,3,1,2,3]  //维度扩大2倍，值扩大2倍
 # print(np.tile(x, (2, 1)))   # [1,2,3],[1,2,3]  //维度扩大2倍，值不变
 
 
@@ -661,9 +696,6 @@ print(np.where([[[1, 0, 3], [0, 4, 7], [9, 7, 0]]]))  # (array([0, 0, 0, 0, 0, 0
 
 
 print("29，np.ogrid() 整数步长".center(100, "-"))
-# 1、arange函数产生的是一维数组，而ogrid函数产生的是二维数组
-# 2、arange函数产生的是一个数组，而ogrid函数产生的是二个数组
-# 3、ogrid函数产生的数组，第一个数组是以纵向产生的，即数组第二维的大小始终为1。第二个数组是以横向产生的，即数组第一维的大小始终为1。
 
 x,y = np.ogrid[:3, :4]
 print(x)
@@ -728,7 +760,6 @@ print(y)
 #  [ 0.   2.5  5.   7.5 10. ]
 #  [ 0.   2.5  5.   7.5 10. ]]
 
-x = np.mgrid[0:10:2]
 print(x)
 
 
@@ -798,3 +829,7 @@ print(arr[Ellipsis, 2])
 # [[ 2  5  8]
 #  [11 14 17]
 #  [20 23 26]]
+# 3、ogrid函数产生的数组，第一个数组是以纵向产生的，即数组第二维的大小始终为1。第二个数组是以横向产生的，即数组第一维的大小始终为1。
+# 1、arange函数产生的是一维数组，而ogrid函数产生的是二维数组
+# 2、arange函数产生的是一个数组，而ogrid函数产生的是二个数组
+x = np.mgrid[0:10:2]

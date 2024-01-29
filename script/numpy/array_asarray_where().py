@@ -15,12 +15,12 @@ import numpy as np
 
 
 print("1 array()数据源类型列表int&float、元组int&float、字符串<U7、字典object".center(100, "-"))
-list1 = [1, 2, 3]  # 列表
+list1 = [1, 2, 3]
 print(np.array(list1))  # [1 2 3]
 print(np.array(list1).dtype)  # int32
 
 tuple1 = ((9, 10), (11.15, 12))  # 元组
-print(np.array(tuple1)) # [[ 9.   10.  ][11.15 12.  ]]
+print(np.array(tuple1))  # [[ 9.   10.  ][11.15 12.  ]]
 print(np.array(tuple1).dtype)  # float64
 
 str1 = "4,5,678"   # 字符串
@@ -33,10 +33,10 @@ print(np.array(dict1).dtype)  # object
 
 
 
-print("2 array（）创建整数int32数组".center(100, "-"))
+print("2 array（）创建整数int64数组".center(100, "-"))
 arr = np.array([1, 2, 3, 4, 5])
 print(arr)  # [1 2 3 4 5]
-print(arr.dtype)  # int32
+print(arr.dtype)  # int64
 
 
 print("3 array（）创建浮点型float64数组".center(100, "-"))
@@ -93,7 +93,7 @@ print(asarr)
 print("9 asarray()数据类型（float32或int32）互转".center(100, "-"))
 l = [55, 66]
 print(np.asarray(l))  # [55 66]
-print(np.asarray(l).dtype)  # int32
+print(np.asarray(l).dtype)  # int64
 f = np.asarray(l, "f")
 print(f.dtype)  # float32
 print(f)  # [55. 66.]
@@ -107,8 +107,8 @@ print("10 asarray()判断元素符合条件改为1，否则为0".center(100, "-"
 data = np.asarray([[51, 2], [-3, 0]])
 asarr = np.asarray(asarr > 0, "i")
 print(asarr)
-# [[1 1]
-#  [0 0]]
+# [[1 0 0]
+#  [0 0 0]]
 asarr = np.asarray(data < -1, "i")
 print(asarr)
 # [[0 0]

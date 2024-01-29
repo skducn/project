@@ -2,7 +2,7 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2022-3-21
-# Description: 1数组 np.ones()
+# Description: 创建指定长度或形状的全0或全1数组 np.ones() np.zeros()
 # numpy.ones(shape, dtype=None, order='C')
 # shape : 数组的形状，例如 (2, 3) 或 2.
 # dtype : 数组的数据类型，默认为float64. (i = int32, f = float32)
@@ -11,13 +11,12 @@
 
 import numpy as np
 
-
 print("1 创建5个浮点数1的一维数组".center(100, "-"))
 a = np.ones(5)
 print(a)  # [1. 1. 1. 1. 1.]
 print(a.dtype)  # float64
 
-d = np.ones(5, "f")  # array([1., 1., 1., 1., 1.], dtype=float32)
+d = np.ones(5, "f")
 print(d)  # [1. 1. 1. 1. 1.]
 print(d.dtype)  # float32
 
@@ -29,7 +28,6 @@ print(b.dtype)  # int32
 c = np.ones(5, dtype=np.int64)
 print(c)  # [1 1 1 1 1]
 print(c.dtype)  # int64
-
 
 
 print("3 创建3*5浮点数1的二维数组".center(100, "-"))
