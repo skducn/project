@@ -417,7 +417,7 @@ if __name__ == "__main__":
 
     # print(Time_PO.now2timestamp())  # 1584603355.0  //当前日期时间转时间戳
     # print(Time_PO.datetime2timestamp(Time_PO.getDateTimeByPeriod(0)))  # 1584603355   //日期时间转时间戳
-    # print(Time_PO.timestamp2datetime(Time_PO.now2timestamp()))  # 2020-03-19 15:35:55  //时间戳转日期时间
+    print(Time_PO.timestamp2datetime(Time_PO.now2timestamp()))  # 2020-03-19 15:35:55  //时间戳转日期时间
 
     # print("求时间差，输出天时分秒".center(100, "-"))
     # date_start = pd.to_datetime(datetime.datetime.now())  # Timestamp('2021-05-19 08:06:08.683355')

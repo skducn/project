@@ -102,7 +102,7 @@ def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
 
 
     # todo 省平台上报字段对应表（比对）
-    l_d_row = Sqlserver_PO.execQuery("select * from a_upload")
+    l_d_row = Sqlserver_PO.execQuery("select * from %s" % (varTable))
     # print("l_d_row", l_d_row)  # [{'s_value': None, 'o_value': None, 's_field': None, 'o_field': None, 's_comment': None, 'o_comment': None, 's_type': None, 'o_type': None, 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'y', 'tester': '郭斐', 's_sql': "SELECT * FROM T_CHILD_INFO where id='1189'", 'o_sql': "SELECT * FROM DIP.TB_EB_ETJBQK where ETBSFID='1189'"}, {'s_value': '1189', 'o_value': '1189', 's_field': 'ID', 'o_field': 'ETBSFID', 's_comment': '主键', 'o_comment': 'None', 's_type': 'int', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '111', 'o_value': '111', 's_field': 'CREATE_ORG_CODE', 'o_field': 'YLJGDM', 's_comment': '创建机构代码', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '马德勇', 'o_value': '马德勇', 's_field': 'NAME', 'o_field': 'XM', 's_comment': '姓名', 'o_comment': 'None', 's_type': 'nvarchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '1', 'o_value': '1', 's_field': 'SEX_CODE', 'o_field': 'XBDM', 's_comment': '性别代码', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'CHAR', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '220621199012163357', 'o_value': '220621199012163357', 's_field': 'IDCARD', 'o_field': 'ZJHM', 's_comment': '身份证', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '测试', 'o_value': '测试', 's_field': 'MOTHER_NAME', 'o_field': 'MQXM', 's_comment': '母亲姓名', 'o_comment': 'None', 's_type': 'nvarchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '222222222222222222', 'o_value': '222222222222222222', 's_field': 'MOTHER_IDCARD', 'o_field': 'MQSFZ_HM', 's_comment': '母亲身份证号', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '370685001001', 'o_value': '370685001001', 's_field': 'PRESENT_VILLAGE_CODE', 'o_field': 'XZDZ_JWBM', 's_comment': '现住址-居委编码', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '文化区社区居民委员会', 'o_value': '文化区社区居民委员会', 's_field': 'PRESENT_VILLAGE_NAME', 'o_field': 'XZDZ_JW', 's_comment': '现住址-居委', 'o_comment': 'None', 's_type': 'varchar', 'o_type': 'VARCHAR2', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}, {'s_value': '2024-01-06 00:00:00', 'o_value': '2024-01-06 00:00:00', 's_field': 'BIRTH', 'o_field': 'CSRQSJ', 's_comment': '出生日期', 'o_comment': 'None', 's_type': 'datetime', 'o_type': 'DATE', 's_table': 'T_CHILD_INFO', 'o_table': 'TB_EB_ETJBQK', 's_tc': None, 'o_tc': None, 'result': 'ok', 'tester': '郭斐', 's_sql': None, 'o_sql': None}]
 
     for r, index in enumerate(l_d_row):
@@ -110,57 +110,57 @@ def main(var_s_table, var_o_table, var_s_sql, var_o_sql):
         if l_d_row[r]['s_table'] == var_s_table and l_d_row[r]['o_table'] == var_o_table and l_d_row[r]['s_sql'] == None:
             # if l_d_row[r]['s_field'] == None:
             #     print(r + 1, ("测试库(" + str(d_s_table) + ") - 比对库(" + str(d_o_table) + ")").center(100, "-"))
-            print(r+2, ['s'], d_s_value[l_d_row[r]['s_field']])
-            print(r+2, ['o'], d_o_value[l_d_row[r]['o_field']])
+            # print(r+2, ['s'], d_s_value[l_d_row[r]['s_field']])
+            # print(r+2, ['o'], d_o_value[l_d_row[r]['o_field']])
             if str(d_s_value[l_d_row[r]['s_field']]) == str(d_o_value[l_d_row[r]['o_field']]):
-                Sqlserver_PO.execute("update a_upload set result='ok' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
+                Sqlserver_PO.execute("update %s set result='ok' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (varTable, l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
             else:
                 # print(r+1, "[error] => ", l_d_row[r]['s_field'] + "(" + d_s_type[l_d_row[r]['s_field']] + ") = " + str(d_s_value[l_d_row[r]['s_field']]) + ", " + l_d_row[r]['o_field'] + "(" + d_o_type[l_d_row[r]['o_field']] + ") = " + str(d_o_value[l_d_row[r]['o_field']]))
                 Color_PO.consoleColor("31", "31", str(r+1) + " [ERROR], " + str(d_s_table[var_s_table]) + " " + var_s_table + "." + d_s_type[l_d_row[r]['s_field']] + "." + d_s_comment[l_d_row[r]['s_field']] + ".(" + l_d_row[r]['s_field'] + " = " + str(d_s_value[l_d_row[r]['s_field']]) + ")"
                                       + ", " + var_o_table + "." + d_o_type[l_d_row[r]['o_field']] + ".(" + l_d_row[r]['o_field'] + " = " + str(d_o_value[l_d_row[r]['o_field']]) + ")", "")
-                Sqlserver_PO.execute("update a_upload set result='error' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
+                Sqlserver_PO.execute("update %s set result='error' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (varTable, l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
 
-            Sqlserver_PO.execute("update a_upload set s_comment='%s' where s_table='%s'" % (d_s_table[var_s_table], var_s_table))
-            Sqlserver_PO.execute("update a_upload set s_type='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_s_type[l_d_row[r]['s_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
-            Sqlserver_PO.execute("update a_upload set s_value='%s' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (d_s_value[l_d_row[r]['s_field']], l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update %s set s_comment='%s' where s_table='%s'" % (varTable, d_s_table[var_s_table], var_s_table))
+            Sqlserver_PO.execute("update %s set s_type='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (varTable, d_s_type[l_d_row[r]['s_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update %s set s_value='%s' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (varTable, d_s_value[l_d_row[r]['s_field']], l_d_row[r]['s_field'], l_d_row[r]['o_field'], var_s_table, var_o_table))
 
-            Sqlserver_PO.execute("update a_upload set o_comment='%s' where o_table='%s'" % (d_o_table[var_o_table], var_o_table))
-            Sqlserver_PO.execute("update a_upload set o_type='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (d_o_type[l_d_row[r]['o_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
-            Sqlserver_PO.execute("update a_upload set o_value='%s' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (d_o_value[l_d_row[r]['o_field']], l_d_row[r]['s_field'], l_d_row[r]['o_field'],  var_s_table, var_o_table))
+            Sqlserver_PO.execute("update %s set o_comment='%s' where o_table='%s'" % (varTable, d_o_table[var_o_table], var_o_table))
+            Sqlserver_PO.execute("update %s set o_type='%s' where s_field='%s' and s_table='%s' and o_table='%s'" % (varTable, d_o_type[l_d_row[r]['o_field']], l_d_row[r]['s_field'], var_s_table, var_o_table))
+            Sqlserver_PO.execute("update %s set o_value='%s' where s_field='%s' and o_field='%s' and s_table='%s' and o_table='%s'" % (varTable, d_o_value[l_d_row[r]['o_field']], l_d_row[r]['s_field'], l_d_row[r]['o_field'],  var_s_table, var_o_table))
 
-            varCurrDate = date.today()
-            # print(varCurrDate)
-            Sqlserver_PO.execute("update a_upload set updateDate='%s'" % str(varCurrDate))
-
-
-# todo 省平台上报字段对应表（新建upload表）
-
-def insertTbl(sheetName, tableName):
-    Sqlserver_PO.execute("drop table " + tableName)
-    Sqlserver_PO.xlsx2db('upload.xlsx', tableName, sheetName)
-    Sqlserver_PO.execute("ALTER table %s alter column updateDate datetime" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column s_value varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column o_value varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column s_comment varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column o_comment varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column s_type varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column o_type varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column s_tc varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column o_tc varchar(111)" % (tableName))  # 修改字段类型
-    Sqlserver_PO.execute("ALTER table %s alter column result varchar(111)" % (tableName))  # 修改字段类型
-
-    Sqlserver_PO.execute(
-        "EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % (
-            sheetName, tableName))  # sheetName=注释，tableName=表名
+            # 更新时间
+            Sqlserver_PO.execute("update %s set updateDate='%s' where s_field != '' " % (varTable, date.today()))
 
 
-# todo 1, 导入数据库
-insertTbl('省平台上报字段对应表', 'a_upload')
+# todo 省平台上报字段对应表
 
-# todo 2，从库中获取sql行数据
-l_row = Sqlserver_PO.execQuery("select s_table,o_table,s_sql,o_sql from a_upload where result ='y'")
+def importDb(varFile, varTable, varSheet):
+    Sqlserver_PO.xlsx2db(varFile, varTable, varSheet)
+    Sqlserver_PO.execute("ALTER table %s alter column updateDate char(11)" % (varTable))  # 将float改为char类型
+    Sqlserver_PO.execute("ALTER table %s alter column updateDate DATE" % (varTable))  # 注意sqlserver无法将float改为date，先将float改为char，再将char改为data，
+    Sqlserver_PO.execute("ALTER table %s alter column s_value varchar(111)" % (varTable))
+    Sqlserver_PO.execute("ALTER table %s alter column o_value varchar(111)" % (varTable))
+    Sqlserver_PO.execute("ALTER table %s alter column s_comment varchar(111)" % (varTable))
+    Sqlserver_PO.execute("ALTER table %s alter column o_comment varchar(111)" % (varTable))
+    Sqlserver_PO.execute("ALTER table %s alter column s_type varchar(111)" % (varTable))
+    Sqlserver_PO.execute("ALTER table %s alter column o_type varchar(111)" % (varTable))
+    Sqlserver_PO.execute("ALTER table %s alter column s_tc varchar(111)" % (varTable))
+    Sqlserver_PO.execute("ALTER table %s alter column o_tc varchar(111)" % (varTable))
+    Sqlserver_PO.execute("ALTER table %s alter column result varchar(111)" % (varTable))
+    Sqlserver_PO.execute("EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % ('测试省平台上报字段对应表', varTable))  # sheetName=注释
+
+
+
+
+varTable ='a_compare_gw_spt'
+
+# todo 1, 初始化表（删除表）
+Sqlserver_PO.execute("drop table " + varTable)
+
+# todo 2, 导入比对数据
+importDb('compare_gw_spt.xlsx', varTable, 'data')
+
+# todo 3，执行比对
+l_row = Sqlserver_PO.execQuery("select s_table,o_table,s_sql,o_sql from %s where result ='y'" % (varTable))
 for i in range(len(l_row)):
-    # 3，todo 执行比对
     main(l_row[i]['s_table'], l_row[i]['o_table'], l_row[i]['s_sql'], l_row[i]['o_sql'])
-
-# do to others as you would have them do to you

@@ -31,6 +31,7 @@
 1.7.1，随机获取用户代理1 getUserAgent()
 1.7.2，随机获取用户代理2(访问fake地址) getUserAgent2()
 1.7.3，随机获取用户代理3(解析fake地址另存为json，本地访问json文件) getUserAgent3()
+1.8 随机获取一个日期 getDate()
 
 2.1，生成身份证号 getIdCard()
 2.1.1，获取身份证出生年月 getBirthday(varIdcard)
@@ -191,9 +192,7 @@ class DataPO:
 
 
 
-    def getUserAgent2(
-        self, varVersionUrl="https://fake-useragent.herokuapp.com/browsers/0.1.11"
-    ):
+    def getUserAgent2(self, varVersionUrl="https://fake-useragent.herokuapp.com/browsers/0.1.11"):
 
         """1.7.2，随机获取用户代理2(访问fake地址)"""
 
@@ -256,6 +255,29 @@ class DataPO:
                 random.randint(0, len(l_browsers[browsers_name]) - 1)
             ]
             return final_browser
+
+
+    def getDate(self):
+
+        # 1.8 随机获取一个日期
+
+        # 设置起始日期和结束日期（包含）
+        start_date = date(2019, 1, 1)
+        end_date = date.today()
+
+        # 计算日期范围内的天数
+        delta = end_date - start_date + timedelta(days=1)
+        total_days = delta.days
+
+        # 生成随机索引值
+        index = random.randint(0, total_days - 1)
+
+        # 根据索引值计算随机日期
+        random_date = start_date + timedelta(days=index)
+
+        return random_date
+
+
 
     def getIdCard(self, areaCode="310101", start="1950-01-01"):
 

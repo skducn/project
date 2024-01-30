@@ -137,6 +137,8 @@ print(A*B)  # 等同于 np.multiply(A, B)
 
 
 print("13 条件选取 where(), 大于0.5的值不处理，其余值替换成0".center(100, "-"))
+# numpy.where函数是三元表达式x if condition else y的矢量化版本。
+# np.where的第二个和第三个参数不必是数组，它们都可以是标量 值。在数据分析工作中，where通常用于根据另一个数组而产生一个新 的数组。
 data = np.random.random([2, 3])
 print(data)
 # [[0.89637997 0.81094498 0.2752972 ]

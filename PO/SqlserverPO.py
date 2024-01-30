@@ -39,6 +39,11 @@
 # inset ...
 # set identity_insert[tableName] off
 
+# Errors 1000 - 1999 https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2008/cc645860(v=sql.100)
+# 关于 1753 Column '%.*ls.%.*ls' is not the same length or scale as referencing column '%.*ls.%.*ls' in foreign key '%.*ls'. Columns participating in a foreign key relationship must be defined with the same length and scale.
+# 发生在外键关联失败，请检查表结构，是否在关联的字段类型与尺寸一致。
+
+
 # todo 数据库中的NULL
 # SQLserver中，NULL表示缺失或未知的数据
 # python中，没有NULL，只有None，None的类型为NoneType ，None是一个对象。
@@ -67,6 +72,17 @@
 
 #SqlServer判断表、列不存在则创建 &&ExecuteNonQuery 要求命令拥有事务
 # https://blog.csdn.net/Andrewniu/article/details/78028207
+
+# https://blog.51cto.com/u_16213439/7729728
+# sys.foreign_keys视图：该视图包含了数据库中所有的外键的信息，包括外键名称、关联表、主表等。
+
+# 获取日期时间为：年-月-日 时：分：秒， 如：2024-01-30 14:50：12
+# select CONVERT(nvarchar(20), getdate(),120) as Sdatetime from a_student;
+# 获取日期时间为：年-月-日 时：分， 如：2024-01-30 14:50
+# select substring(convert(varchar,getdate(),120),1,16) as Sdatetime from a_student;
+# 获取日期时间为：年-月-日 时， 如：2024-01-30 14
+# select substring(convert(varchar,getdate(),120),1,13) as Sdatetime from a_student;
+
 # ***************************************************************
 
 """
@@ -89,7 +105,9 @@
 2.9 获取所有必填项字段和类型 getNotNullFieldAndType（self, varTable）
 2.10 获取自增主键 getIdentityPrimaryKey(self, varTable)
 2.11 获取主键  getPrimaryKey（self, varTable）
-2.12 获取主键最大值 getPrimaryKeyMaxValue（self, varTable
+2.12 获取主键最大值 getPrimaryKeyMaxValue（self, varTable)
+2.13 获取所有外键 getForeignKey()
+
 
 3.1 创建表 crtTable(self, varTable, sql)
 3.2 生成类型值 _genTypeValue(self, varTable)
@@ -99,6 +117,7 @@
 3.6 自动生成数据 genRecord(self, varTable)
 3.7 自动生成必填项数据 genRecordByNotNull(self, varTable)
 3.8 执行insert _execInsert(self, varTable, d_init,{})
+3.9 删除表的所有外键关系 dropKey(varTable)
 
 4.1 判断表是否存在 isTable(self, varTable)
 4.2 判断字段是否存在 isField(self, varTable, varField)
@@ -220,6 +239,7 @@ class SqlServerPO:
         '''
 
         try:
+            self.conn.commit()
             self.cur.execute(sql)
             self.conn.commit()
             return "ok"
@@ -634,8 +654,12 @@ class SqlServerPO:
                     pass
                     # print(l_primaryKey)  # [{'name': 'ID'}, {'name': 'ADDRESS'}]  //1个主键
 
+    def getForeignKey(self):
 
-
+        # 获取所有外键关联表
+        l_d_fk = self.execQuery(
+            "select OBJECT_NAME(fk.parent_object_id) as 'table', fk.name as 'foreignKey', OBJECT_NAME(fk.referenced_object_id) as 'relatingTable' FROM sys.foreign_keys fk")
+        return l_d_fk
 
     def crtTable(self, varTable, sql):
 
@@ -873,7 +897,16 @@ class SqlServerPO:
             self.conn.commit()
             print("[ok], " + str(sql))
 
+    def dropKey(self, varFk, varTable):
 
+        # fk = Sqlserver_PO.getForeignKey()  # 获取所有外键关联表
+        #     Sqlserver_PO.dropKey(fk, varTable)  # 删除外键关系
+        # 3.9 删除表的所有外键关系
+        for i in range(len(varFk)):
+            if varFk[i]['table'] == varTable:
+                self.execute("ALTER table %s DROP %s" % (varTable, varFk[i]['foreignKey']))
+            if varFk[i]['relatingTable'] == varTable:
+                self.execute("ALTER table %s DROP %s" % (varFk[i]['table'], varFk[i]['foreignKey']))
 
     def isTable(self, varTable):
 
