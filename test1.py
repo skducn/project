@@ -9,19 +9,27 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-import feapder
+list1 = [1,2,4,6,8]
+# 反向迭代
+for i in reversed(list1):
+    print(i)
 
 
-class FirstSpider(feapder.AirSpider):
-    def start_requests(self):
-        yield feapder.Request("https://www.douyin.com/video/7301240807376407818", render=True)
-
-    def parse(self, request, response):
-        print(response)
 
 
-if __name__ == "__main__":
-    FirstSpider().start()
+# import feapder
+#
+#
+# class FirstSpider(feapder.AirSpider):
+#     def start_requests(self):
+#         yield feapder.Request("https://www.douyin.com/video/7301240807376407818", render=True)
+#
+#     def parse(self, request, response):
+#         print(response)
+#
+#
+# if __name__ == "__main__":
+#     FirstSpider().start()
 
 # import dmPython
 # try :

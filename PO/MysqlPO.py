@@ -47,12 +47,12 @@ import sys, pymysql
 pymysql.install_as_MySQLdb()
 import MySQLdb
 import pandas as pd
-
 from PO.ExcelPO import *
 from sqlalchemy import create_engine
 from bs4 import BeautifulSoup
 from PO.OpenpyxlPO import *
 from PO.NewexcelPO import *
+
 from PO.ColorPO import *
 Color_PO = ColorPO()
 
@@ -441,13 +441,7 @@ class MysqlPO:
         l_fields = []
         l_fieldComment = []
 
-    def dbRecord(
-        self,
-        varTable,
-        varType,
-        varValue,
-        varMysqlKeywordFile="D:\\51\\python\\project\\PO\\mysqlKeyword.xlsx",
-    ):
+    def dbRecord(self, varTable, varType, varValue, varMysqlKeywordFile="D:\\51\\python\\project\\PO\\mysqlKeyword.xlsx"):
         """
         # 2, 搜索表记录
         # 参数1：varTable = 表名（*表示所有的表）
@@ -782,10 +776,6 @@ class MysqlPO:
 
 if __name__ == "__main__":
 
-    ...
-
-    # sass ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "saasusertest", 3306)
 
     # docker mysql ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     Mysql_PO = MysqlPO("127.0.0.1", "root", "root", "test", 3306)

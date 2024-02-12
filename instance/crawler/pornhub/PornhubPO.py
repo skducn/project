@@ -220,7 +220,7 @@ class PornhubPO:
 		# python cmd.py folder https://cn.pornhub.com/view_video.php?viewkey=63de9d08b9
 		# folder 如果为/表示 下载到 '/Users/linghuchong/Downloads/eMule/pornhub/'
 
-		os.system("clear")
+		# os.system("clear")
 		
 		varPath = '/Users/linghuchong/Downloads/eMule/pornhub/'
 

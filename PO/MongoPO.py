@@ -92,17 +92,18 @@ if __name__ == "__main__":
 
     Mongo_PO = MongoPO("127.0.0.1:27017")
 
-
     # 获取test库中的集合
     l_collection = Mongo_PO.getCollection("test")
-    # print(l_collection)  # ['cat', 'dog']
+    print(l_collection)  # ['cat', 'dog']
 
 
-    col = Mongo_PO.getRecord("test", "dog")
 
-    # todo 查询第一条记录 find_one
+
+    # col = Mongo_PO.getRecord("test", "dog")
+    #
+    # # todo 查询第一条记录 find_one
     # d_one = col.find_one()
-    # # print(d_one)  # {'_id': ObjectId('65a89cc692c79cad7b3cafb2'), 'dogNum': 'A-1001', 'dogName': '麦兜', 'dogAge': 3, 'dogKind': '边牧'}
+    # print(d_one)  # {'_id': ObjectId('65a89cc692c79cad7b3cafb2'), 'dogNum': 'A-1001', 'dogName': '麦兜', 'dogAge': 3, 'dogKind': '边牧'}
     # print(d_one['_id'])  # 65a89cc692c79cad7b3cafb2
 
     # # todo 查询集合中所有数据 find

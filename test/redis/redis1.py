@@ -22,7 +22,8 @@ from time import sleep
 # redis实例共享连接池
 # redis-py使用connection_pool来管理对一个redis server的所有连接，避免每次建立、释放连接的开销。
 # 可以直接建立一个连接池，然后作为参数Redis，这样就可以实现多个Redis实例共享一个连接池
-pool = redis.ConnectionPool(host='192.168.31.177', port=6379, db=0, password="123456")
+# pool = redis.ConnectionPool(host='127.0.0.1', port=6379, db=0, password="123456")
+pool = redis.ConnectionPool(host='127.0.0.1', port=6379, db=0)
 r = redis.Redis(connection_pool=pool)
 # r.set('foo','Bar')
 # print(r.get("foo"))
@@ -34,10 +35,9 @@ r = redis.Redis(connection_pool=pool)
 # xx，如果设置为True，则只有name存在时，当前set操作才执行（修改）
 r.set('foo','123', ex=3)
 print(r.get("foo"))  # b'123'
-sleep(8)
-print(r.get("foo"))  # None
-print(r.set('foo', 'Bar', nx=True))  # None，已经存在
-print(r.set('foo', 'Bar123', xx=True))   # 编辑
+
+# print(r.set('foo', 'Bar', nx=True))  # None，已经存在
+# print(r.set('foo', 'Bar123', xx=True))   # 编辑
 
 
 # # 获取redis信息

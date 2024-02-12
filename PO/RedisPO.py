@@ -51,7 +51,8 @@ class RedisPO:
 
 if __name__ == "__main__":
 
-    Redis_PO = RedisPO("192.168.0.213", "", 6379, 0, False)
+    # Redis_PO = RedisPO("192.168.0.213", "", 6379, 0, False)
+    Redis_PO = RedisPO("127.0.0.1", "", 6379, 0, False)
 
     print("1，获取所有的keys".center(100, "-"))
     list1 = Redis_PO.getKeys()
