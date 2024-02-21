@@ -1,0 +1,8 @@
+﻿
+rar
+安装方法：brew install rar
+压缩方法：rar a -p12345678 123.rar
+解压方法：rar x -p12345678 123.rar   //p密码
+
+
+详解Python解压压缩包的五种方法 https://pythonjishu.com/qgcywqtzrovxdng/

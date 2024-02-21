@@ -9,10 +9,42 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-list1 = [1,2,4,6,8]
-# 反向迭代
-for i in reversed(list1):
-    print(i)
+# -*- coding: utf-8 -*-
+
+import os, sys
+from unrar import rarfile
+
+
+def rar_attack():
+    file_handle = rarfile.RarFile('/Users/linghuchong/Downloads/4/4.rar')
+    handle_password = open('passwords.txt')
+    for pwd in handle_password:
+        pwd = pwd.rstrip()
+        try:
+            file_handle.extractall(path='/Users/linghuchong/Downloads/4/', pwd=pwd.encode())
+            print('Found:' + pwd)
+            break
+        except:
+            pass
+    handle_password.close()
+    file_handle.close()
+
+rar_attack()
+
+# if __name__ == '__main__':
+#     file_name = sys.argv[1]
+#     if os.path.isfile(file_name) and file_name.endswith('.rar'):
+#         rar_attack(file_name)
+#     else:
+#         print('Not RAR')
+
+
+
+
+# list1 = [1,2,4,6,8]
+# # 反向迭代
+# for i in reversed(list1):
+#     print(i)
 
 
 
