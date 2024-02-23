@@ -120,6 +120,12 @@
 3.7 自动生成必填项数据 genRecordByNotNull(self, varTable)
 3.8 执行insert _execInsert(self, varTable, d_init,{})
 3.9 删除表的所有外键关系 dropKey(varTable)
+3.10 设置表注释 setTableComment(varTable, varComment)
+3.11 修改表注释 reviseTableComment(varTable, varComment)
+3.12 设置字段注释 setFieldComment(varTable, varField, varComment)
+3.13 修改字段注释  reviseFieldComment(varTable, varField, varComment)
+3.14 设置数据类型与备注 setFieldTypeComment(varTable, varField, varType, varComment)
+3.15 设置自增主键 setIdentityPrimaryKey(varTable, varField)
 
 4.1 判断表是否存在 isTable(self, varTable)
 4.2 判断字段是否存在 isField(self, varTable, varField)
@@ -154,9 +160,12 @@ from sqlalchemy import create_engine, text
 from PO.ColorPO import *
 Color_PO = ColorPO()
 
+
 from PO.TimePO import *
 Time_PO = TimePO()
 
+from PO.FilePO import *
+File_PO = FilePO()
 
 class SqlServerPO:
 
@@ -496,7 +505,8 @@ class SqlServerPO:
                 if r[i]['comment'] == None:
                     l_comment.append(r[i]['comment'])
                 else:
-                    l_comment.append(r[i]['comment'].decode(encoding="GBK", errors="strict"))
+                    # l_comment.append(r[i]['comment'].decode(encoding="GBK", errors="strict"))
+                    l_comment.append(r[i]['comment'].decode(encoding="utf-8", errors="strict"))
             return dict(zip(l_field, l_comment))
         except Exception as e:
             print(e, ",[error], SqlserverPO.getFields()异常!")
@@ -865,6 +875,61 @@ class SqlServerPO:
             if varFk[i]['relatingTable'] == varTable:
                 self.execute("ALTER table %s DROP %s" % (varFk[i]['table'], varFk[i]['foreignKey']))
 
+    def setTableComment(self, varTable, varComment):
+
+        # 3.10 添加表注释
+        # 注意：原注释必须为空，否则报错
+        # setTableComment('t_user', '用户表')
+        self.execute("EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % (varComment, varTable))
+
+    def reviseTableComment(self, varTable, varComment):
+
+        # 3.11 修改表注释
+        # 注意：原注释必须有值，否则报错
+        # setTableComment('t_user', '用户表')
+        self.execute("EXECUTE sp_updateextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % (varComment, varTable))
+
+
+    def setFieldComment(self, varTable, varField, varComment):
+
+        # 3.12 添加字段注释
+        # 注意：原注释必须为空，否则报错
+        # setFieldComment('t_user','ID','编号')
+        self.execute("EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'SCHEMA', N'dbo',N'TABLE', N'%s', N'COLUMN', N'%s'" % (varComment, varTable, varField))
+
+    def reviseFieldComment(self, varTable, varField, varComment):
+
+        # 3.13 修改字段注释
+        # 注意：原注释必须有值，否则报错
+        # reviseFieldComment('t_user','ID','编号')
+        self.execute("EXECUTE sp_updateextendedproperty N'MS_Description', N'%s', N'SCHEMA', N'dbo',N'TABLE', N'%s', N'COLUMN', N'%s'" % (varComment, varTable, varField))
+
+
+    def setFieldTypeComment(self, varTable, varField, varType, varComment):
+
+        # 3.14 设置字段类型与备注
+        # 应用于pandas带入数据
+        # Sqlserver_PO.setFieldTypeComment(varTable, 'pResult', 'varchar(100)', '正向测试结果')  //修改pResult数据类型和备注
+        self.execute("ALTER table %s alter column %s %s" % (varTable, varField, varType))
+
+        try:
+            # 1 获取所有字段的备注
+            d_comments = self.getFieldAndComment(varTable)
+
+            if d_comments[varField] == None:
+                self.setFieldComment(varTable, varField, varComment)
+            else:
+                self.reviseFieldComment(varTable, varField, varComment)
+        except Exception as e:
+            print(e)
+
+
+    def setIdentityPrimaryKey(self, varTable, varField):
+
+        # 3.15 设置自增主键
+        # 新的主键在最后列
+        self.execute("alter table %s ADD %s INT identity(1,1) primary key" % (varTable, varField))
+
     def isTable(self, varTable):
 
         '''
@@ -1045,6 +1110,48 @@ class SqlServerPO:
 
         except Exception as e:
             print(e)
+
+    def db2html(self, sql, varHtml):
+
+        # 5.8 将数据库数据转换成html
+        # Sqlserver_PO.db2html("select ID, pResult as 正向, nResult as 反向, QC_type as 类型, QC_field as 质控字段, QC_rule as 质控规则, QC_desc as 错我描述"
+        #                      ", pCase as 正向用例, nCase as 反向用例, pCheck as 正向校验 from A_testrule", 'ehr_rule_result.html')
+        try:
+            engine = self.getEngine_pymssql()
+            df = pd.read_sql(text(sql), con=engine.connect())
+            pd.set_option('colheader_justify', 'center')
+
+            # html标题、title
+            html = '''<html><head><title>EHR规则自动化报表</title></head>
+            <body><b><caption>EHR规则自动化_''' + str(strftime("%Y-%m-%d %H:%M:%S", localtime())) + '''</caption></b><br><br>{table}</body></html>'''
+            html_string = '''<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style>'''
+
+            with open(varHtml, 'w') as f:
+                f.write(html_string + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
+                # f.write(html.format(table=df.to_html(classes="mystyle", col_space=50)))
+
+            # 修改菜单颜色 - 优化
+            # 绿色 = 00E400，黄色 = FFFF00，橙色 = FF7E00，红色 = FF0000，粉色 = 99004C，
+            # 褐色 =7E0023,'c6efce = 淡绿', '006100 = 深绿'，'ffffff=白色', '000000=黑色'，'ffeb9c'= 橙色
+            from bs4 import BeautifulSoup
+            html_text = BeautifulSoup(open(varHtml), features='html.parser')
+            html_text = str(html_text).replace("<td>None</td>", "<td></td>")\
+                .replace(">正向结果</th>", 'bgcolor="#ffeb9c">正向结果</th>')\
+                .replace(">反向结果</th>", 'bgcolor="#ffeb9c">反向结果</th>')\
+                .replace("<td>error</td>", '<td bgcolor="#ff0000">error</td>')
+
+            # 另存为report.html
+            tf = open(varHtml, 'w', encoding='utf-8')
+            tf.write(str(html_text))
+            tf.close()
+
+            count = self.select(sql)
+            return (len(count))
+
+
+        except Exception as e:
+            print(e)
+
 
 
     def _dbDesc_search(self, varTable=0, var_l_field=0):
@@ -1516,6 +1623,7 @@ if __name__ == "__main__":
     # print(Sqlserver_PO.getForeignKey())  # []   //没有返回空列表
 
 
+    # https://www.jb51.net/article/264740.htm
 
     # print("3.1 创建表（自增id主键）".center(100, "-"))
     # Sqlserver_PO.crtTable('a_phs2gw', '''

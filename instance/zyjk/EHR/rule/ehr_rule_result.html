@@ -1,0 +1,271 @@
+<style>.mystyle {font-size: 11pt; font-family: Arial;    border-collapse: collapse;     border: 1px solid silver;}.mystyle td, th {    padding: 5px;}.mystyle tr:nth-child(even) {    background: #E0E0E0;}.mystyle tr:hover {    background: silver;    cursor: pointer;}</style><html><head><title>EHR规则自动化报表</title></head>
+<body><b><caption>EHR规则自动化_2024-02-23 17:20:25</caption></b><br/><br/><table border="1" class="dataframe mystyle">
+<thead>
+<tr style="text-align: center;">
+<th style="min-width: 100px;">ID</th>
+<th style="min-width: 100px;"bgcolor="#ffeb9c">正向结果</th>
+<th style="min-width: 100px;"bgcolor="#ffeb9c">反向结果</th>
+<th style="min-width: 100px;">类型</th>
+<th style="min-width: 100px;">质控字段</th>
+<th style="min-width: 100px;">质控规则</th>
+<th style="min-width: 100px;">错我描述</th>
+<th style="min-width: 100px;">正向用例</th>
+<th style="min-width: 100px;">反向用例</th>
+<th style="min-width: 100px;">正向校验</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>填表日期</td>
+<td>《填表日期》为空值</td>
+<td>填表日期未填写</td>
+<td>UPDATE tb_dc_first_prenatal_visit set formDate =NULL WHERE visitId='1'</td>
+<td>UPDATE tb_dc_first_prenatal_visit set formDate ='2021-01-01' WHERE visitId='1'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='b09655c795d04090b98e3b3ae9c059c1'</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>孕周</td>
+<td>《填表孕周》为空值</td>
+<td>孕周未填写</td>
+<td>UPDATE tb_dc_first_prenatal_visit set gestationalForm ='' WHERE visitId='1'\n</td>
+<td>UPDATE tb_dc_first_prenatal_visit set gestationalForm ='11' WHERE visitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='72c15a843cdb4d3ca2326be46f701dee'</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>孕周</td>
+<td>《填表孕周》不为数字</td>
+<td>孕周不为数字</td>
+<td>UPDATE tb_dc_first_prenatal_visit set gestationalForm ='cs' WHERE visitId='1'\n</td>
+<td>UPDATE tb_dc_first_prenatal_visit set gestationalForm ='11' WHERE visitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='6401bbc23dc94394940cd73fde6a8964'</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>孕周</td>
+<td>《填表孕周》=13周</td>
+<td>第一次产前随访超过13周</td>
+<td>UPDATE tb_dc_first_prenatal_visit set gestationalForm ='13' WHERE visitId='1'\n</td>
+<td>UPDATE tb_dc_first_prenatal_visit set gestationalForm ='12' WHERE visitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='e853d2ea39ca4c7d942ba35344045690'</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>孕周</td>
+<td>《填表孕周》&gt;13周</td>
+<td>第一次产前随访超过13周</td>
+<td>UPDATE tb_dc_first_prenatal_visit set gestationalForm ='14' WHERE visitId='1'\n</td>
+<td>UPDATE tb_dc_first_prenatal_visit set gestationalForm ='12' WHERE visitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='e853d2ea39ca4c7d942ba35344045690'</td>
+</tr>
+<tr>
+<td>6</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>健康指导</td>
+<td>《保健指导代码》为空值</td>
+<td>健康指导未填写</td>
+<td>UPDATE tb_dc_first_prenatal_visit set healthGuidanceCode ='' WHERE visitId='1'\n</td>
+<td>UPDATE tb_dc_first_prenatal_visit set healthGuidanceCode ='2' WHERE visitId='1'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='a77ddc2cbafa4b5d806a744882cd1360'\n</td>
+</tr>
+<tr>
+<td>7</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>随访日期</td>
+<td>《随访日期》为空值</td>
+<td>随访日期未填写</td>
+<td>UPDATE tb_dc_repeated_prenatal_visit set visitDate =null WHERE visitId='1'</td>
+<td>UPDATE tb_dc_repeated_prenatal_visit set visitDate ='2020-01-01' WHERE visitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='45ed7626a3254070ab4cd308fd22f7e5'\n</td>
+</tr>
+<tr>
+<td>8</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>孕周</td>
+<td>《孕周》为空值</td>
+<td>孕周未填写</td>
+<td>UPDATE tb_dc_repeated_prenatal_visit set gestationalWeek ='' WHERE visitId='1'\n</td>
+<td>UPDATE tb_dc_repeated_prenatal_visit set gestationalWeek ='2' WHERE visitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='a98bcf1829bd44b2902fb8e18e0cd2e9'</td>
+</tr>
+<tr>
+<td>9</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>孕周</td>
+<td>《孕周》不为数字</td>
+<td>孕周不为数字</td>
+<td>UPDATE tb_dc_repeated_prenatal_visit set gestationalWeek ='Catego' WHERE visitId='1'\n</td>
+<td>UPDATE tb_dc_repeated_prenatal_visit set gestationalWeek ='1' WHERE visitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='5189cad679c845d195b3541a704e598c'\n</td>
+</tr>
+<tr>
+<td>10</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>指导</td>
+<td>《指导方式代码》为空值</td>
+<td>指导未填写</td>
+<td>UPDATE tb_dc_repeated_prenatal_visit set guideTypeCode ='' WHERE visitId='1'\n</td>
+<td>UPDATE tb_dc_repeated_prenatal_visit set guideTypeCode ='1' WHERE visitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='a737f6697f0e4d9ead7f25a201240db5'</td>
+</tr>
+<tr>
+<td>11</td>
+<td>ok</td>
+<td>ok</td>
+<td>孕产妇</td>
+<td>随访日期</td>
+<td>《检查日期》为空值</td>
+<td>随访日期未填写</td>
+<td>UPDATE tb_dc_postpartum_visit_record set checkDate =NULL WHERE postpartumVisitId='1'\n\n</td>
+<td>UPDATE tb_dc_postpartum_visit_record set checkDate ='2020-01-01' WHERE postpartumVisitId='1'\n</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310102194402092040' and t2.RuleId='bfa3789e22454d18814f58b33e1e1605'</td>
+</tr>
+<tr>
+<td>12</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>随访日期</td>
+<td>儿童体格检查记录表《体检日期》为空值</td>
+<td>随访日期未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationDate =null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationDate ='2024-02-21' WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='79898847fa684750a49924f68868508a'</td>
+</tr>
+<tr>
+<td>13</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>发育评估</td>
+<td>同时满足以下条件：\n1、儿童体格检查记录表《查体月（年）龄》等于“3月龄”\n2、儿童体格检查记录表《发育评估》为空值</td>
+<td>发育评估未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='3',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='1',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='a88278d222104ec7beec7df28121440c'</td>
+</tr>
+<tr>
+<td>14</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>发育评估</td>
+<td>同时满足以下条件：\n1、儿童体格检查记录表《查体月（年）龄》等于“6月龄”\n2、儿童体格检查记录表《发育评估》为空值</td>
+<td>发育评估未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='6',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='1',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='2a6b1159428348dd9ac76499ab8d3891'</td>
+</tr>
+<tr>
+<td>15</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>发育评估</td>
+<td>同时满足以下条件：\n1、儿童体格检查记录表《查体月（年）龄》等于“8月龄”\n2、儿童体格检查记录表《发育评估》为空值</td>
+<td>发育评估未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='8',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='1',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='98bfaffdd45144ecaa7b28b6132e5004'</td>
+</tr>
+<tr>
+<td>16</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>发育评估</td>
+<td>同时满足以下条件：\n1、儿童体格检查记录表《查体月（年）龄》等于“12月龄”\n2、儿童体格检查记录表《发育评估》为空值</td>
+<td>发育评估未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='12',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='1',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='fe02a7e323864d158198217c686cd6e6'</td>
+</tr>
+<tr>
+<td>17</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>发育评估</td>
+<td>同时满足以下条件：\n1、儿童体格检查记录表《查体月（年）龄》等于“18月龄”\n2、儿童体格检查记录表《发育评估》为空值</td>
+<td>发育评估未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='18',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='1',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='9eded5adefe94964a1df0159d204050d'</td>
+</tr>
+<tr>
+<td>18</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>发育评估</td>
+<td>同时满足以下条件：\n1、儿童体格检查记录表《查体月（年）龄》等于“24月龄”\n2、儿童体格检查记录表《发育评估》为空值</td>
+<td>发育评估未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='24',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='1',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='7540ba6367334eb39265136b3f2fcc6b'</td>
+</tr>
+<tr>
+<td>19</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>发育评估</td>
+<td>同时满足以下条件：\n1、儿童体格检查记录表《查体月（年）龄》等于“30月龄”\n2、儿童体格检查记录表《发育评估》为空值</td>
+<td>发育评估未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='30',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='1',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='27d451648c4d4a8faedfd803ed64da31'</td>
+</tr>
+<tr>
+<td>20</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>发育评估</td>
+<td>同时满足以下条件：\n1、儿童体格检查记录表《查体月（年）龄》等于“3岁”\n2、儿童体格检查记录表《发育评估》为空值</td>
+<td>发育评估未填写</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='36',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set examinationAge ='1',assessPassFlag = null WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='256bb4ae156f4f30b9ed86443eec756d'</td>
+</tr>
+<tr>
+<td>21</td>
+<td>ok</td>
+<td>ok</td>
+<td>儿童</td>
+<td>指导</td>
+<td>儿童体格检查记录表《健康指导类别代码》为空值</td>
+<td>指导未填写</td>
+<td>UPDATE tb_dc_child_examination set guideTypeCode = null WHERE childMainId='1111'</td>
+<td>UPDATE tb_dc_child_examination set guideTypeCode = '1' WHERE childMainId='1111'</td>
+<td>SELECT t2.Comment FROM HrRuleRecord t1 INNER JOIN HrRule t2 on t1.RuleId=t2.RuleId where ArchiveNum='310101202312011711' and t2.RuleId='700645bf50a4471081ecd2b9031481ce'</td>
+</tr>
+</tbody>
+</table></body></html>

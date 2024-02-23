@@ -6,43 +6,58 @@
 #***************************************************************
 # 警告如下：D:\dwp_backup\python study\GUI_wxpython\lib\site-packages\openpyxl\worksheet\_reader.py:312: UserWarning: Unknown extension is not supported and will be removed warn(msg)
 # 解决方法：
+import sys
 import warnings
 warnings.simplefilter("ignore")
 # *****************************************************************
-from PO.ColorPO import *
-Color_PO = ColorPO()
+# 要切换到 $ cd /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/EHR/rule 下执行 python main.py
+sys.path.append("../../../../")
+# sys.path.append("/Users/linghuchong/Downloads/51/Python/project")
 
-import subprocess,json
+# from PO.ColorPO import *
+# Color_PO = ColorPO()
+
+import subprocess, json
 from PO.SqlserverPO import *
 Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "EHRDC")  # 测试环境
 # a = Sqlserver_PO.select('select * from tb_dc_first_prenatal_visit')
 # print(a)
 # sys.exit(0)
 
-def importDb(varFile, varTable, varSheet):
+def excel2db(varFile, varTable, varSheet=0):
+
+    # 1, 删除表
+    # Sqlserver_PO.execute("drop table A_testrule")
+
+    # 2, excel导入db
     Sqlserver_PO.xlsx2db(varFile, varTable, varSheet)
-    Sqlserver_PO.execute("ALTER table %s alter column pResult varchar(111)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column nResult varchar(111)" % (varTable))
 
-    Sqlserver_PO.execute("ALTER table %s alter column QC_type varchar(111)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column QC_tn varchar(111)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column QC_field varchar(111)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column QC_rule varchar(333)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column QC_desc varchar(111)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column QC_ruleID varchar(111)" % (varTable))
+    # 3, 设置表注释
+    Sqlserver_PO.setTableComment(varTable, '自动化质控规则表')
 
-    Sqlserver_PO.execute("ALTER table %s alter column runQC varchar(111)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column pCase varchar(111)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column pCheck varchar(333)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column nCase varchar(111)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column nCheck varchar(333)" % (varTable))
-    Sqlserver_PO.execute("ALTER table %s alter column tester varchar(20)" % (varTable))
-    Sqlserver_PO.execute("EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % ('自动化质控规则表', varTable))  # sheetName=注释
+    # 4, 设置字段类型与描述
+    Sqlserver_PO.setFieldTypeComment(varTable, 'pResult', 'varchar(100)', '正向测试结果')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'nResult', 'varchar(100)', '反向测试结果')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'QC_type', 'varchar(100)', '质控类型')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'QC_tn', 'varchar(100)', '质控表')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'QC_field', 'varchar(100)', '质控字段')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'QC_rule', 'varchar(300)', '质控规则')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'QC_desc', 'varchar(100)', '质控错误描述')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'QC_ruleID', 'varchar(100)', '质控规则ID')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'runQC', 'varchar(100)', '执行质控')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'pCase', 'varchar(300)', '正向用例')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'pCheck', 'varchar(300)', '正向检查')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'nCase', 'varchar(300)', '正向用例')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'nCheck', 'varchar(300)', '反向检查')
+    Sqlserver_PO.setFieldTypeComment(varTable, 'tester', 'varchar(100)', '测试者')
+
+    # 5, 设置自增主键
+    Sqlserver_PO.setIdentityPrimaryKey(varTable, "ID")
 def main(varTable, varRun='all'):
 
     if varRun != 'all':
         l_d_row = Sqlserver_PO.select("select * from %s where pResult != 'ok' or nResult != 'ok'" % (varTable))
-        print("l_d_row => ", l_d_row)
+        # print("l_d_row => ", l_d_row)
 
     else:
         l_d_row = Sqlserver_PO.select("select * from %s" % (varTable))
@@ -130,19 +145,45 @@ def main(varTable, varRun='all'):
             Color_PO.consoleColor("31", "31", str(i+1) + "[ERROR], ", "执行档案编号对单个档案执行质控 失败！" + status)
 
 
-
-varTable ='A_testrule'
-
-# # # # # todo 1, 初始化表（删除表）
-# Sqlserver_PO.execute("drop table " + varTable)
-#
-# # todo 2, 导入数据
-# importDb('rule.xlsx', varTable, 'rule')
-
-main(varTable, 'error')
+#***************************************************************#***************************************************************
+#***************************************************************#***************************************************************
+#***************************************************************#***************************************************************
 
 
+# todo 1, excel导入db
+excel2db('rule.xlsx', 'A_testrule')
 
+
+# todo 2, 运行主程序
+# main('A_testrule', 'error')  # 执行错误记录
+main('A_testrule', 'all')  # 执行全部记录
+
+# Sqlserver_PO.execute("update A_testrule set nResult='error' where ID=2;")
+# Sqlserver_PO.execute("update A_testrule set pResult='error' where ID=4;")
+
+# todo 3, 输出记录
+# 所有记录
+Sqlserver_PO.db2html("select ID, pResult as 正向结果, nResult as 反向结果, QC_type as 类型, QC_field as 质控字段, QC_rule as 质控规则, QC_desc as 错我描述, pCase as 正向用例, nCase as 反向用例, pCheck as 正向校验 from A_testrule", 'ehr_rule_result.html')
+
+# 错误记录
+# c = Sqlserver_PO.db2html("select ID, pResult as 正向结果, nResult as 反向结果, QC_type as 类型, QC_field as 质控字段, QC_rule as 质控规则, QC_desc as 错我描述, pCase as 正向用例, nCase as 反向用例, pCheck as 正向校验 from A_testrule where pResult='error' or nResult='error'", 'ehr_rule_result.html')
+# print(c)
+
+# if c > 0:
+# #     # todo 4，如结果中有错误记录，则发邮件
+from PO.NetPO import *
+Net_PO = NetPO()
+Net_PO.sendEmail("测试组23", ['h.jin@zy-healthtech.com'], None,
+          "EHR规则自动化测试报告", "htmlFile", "<h3>您好，h.jin：</h3>", "ehr_rule_result.html", """<br>
+   <h3>本邮件由智赢测试系统自动发出，请勿直接回复！</h3>
+   <h3>如您不愿意接收此类邮件，请联系我们，如有打扰请谅解。</h3>
+   <h3>谢谢</h3>
+   """)
+
+
+
+
+# os.system("open ehr_rule_result.html")
 
 
 

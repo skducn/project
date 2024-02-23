@@ -395,28 +395,28 @@ if __name__ == "__main__":
     #                  "发邮件之表格正文", "html", "Hello！", varConent, "\n\n这是一封自动生成的email，请勿回复，如有打扰请谅解。 \n\n测试组\nBest Regards"
     #                  )
 
-    # print("1.3.1 发邮件之html正文(html内容)".center(100, "-"))
     # varConent = """
-    #     <html lang = "en"
-    #     <body>
-    #     <table id="header" bgcolor="#020D3D" cellpadding="5" width="100%" style="background-image: url('https://cloud.ibm.com/avatar/v1/avatar/migrate-bluemix-photos-production/1b0b8d80-6292-11e9-8868-e948ac984fd4.png'); background-position: top right; background-repeat: no-repeat; background-size: cover; background-color: #020D3D;" background="https://cloud.ibm.com/avatar/v1/avatar/migrate-bluemix-photos-production/1b0b8d80-6292-11e9-8868-e948ac984fd4.png">
-    #     <tbody>
-    #     <tr>
-    #     <td><img alt="IBM Cloud" src="https://cloud.ibm.com/avatar/v1/avatar/migrationsegment/IBM_Cloud_Lockup_Rev_RGB.png" style="width: 175px; height: 68px;" width="175"></td>
-    #     </tr>
-    #     </tbody>
-    #     </table>
-    #     <h1>您好！<h1>
-    #     <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次项目接口自动化测试已完成，请查看附件。<h1>
-    #     <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。<h1>
-    #     <h1>智赢测试组<h1>
-    #     <h1>Best Regards<h1>
-    #     </body>
-    #     </html>
-    # """
-    # Net_PO.sendEmail("测试组2", ['h.jin@zy-healthtech.com'], None,
-    #           "发送邮件html正文(html内容)", "htmlContent", "", varConent, "",
-    #           )
+    #         <html lang = "en"
+    #         <body>
+    #         <table id="header" bgcolor="#020D3D" cellpadding="5" width="100%" style="background-image: url('https://cloud.ibm.com/avatar/v1/avatar/migrate-bluemix-photos-production/1b0b8d80-6292-11e9-8868-e948ac984fd4.png'); background-position: top right; background-repeat: no-repeat; background-size: cover; background-color: #020D3D;" background="https://cloud.ibm.com/avatar/v1/avatar/migrate-bluemix-photos-production/1b0b8d80-6292-11e9-8868-e948ac984fd4.png">
+    #         <tbody>
+    #         <tr>
+    #         <td><img alt="IBM Cloud" src="https://cloud.ibm.com/avatar/v1/avatar/migrationsegment/IBM_Cloud_Lockup_Rev_RGB.png" style="width: 175px; height: 68px;" width="175"></td>
+    #         </tr>
+    #         </tbody>
+    #         </table>
+    #         <h1>您好，<h1>
+    #         <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次项目接口自动化测试已完成，请查看附件。<h1>
+    #         <br>
+    #         <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一封自动发送的电子邮件，如有打扰请谅解。<h1>
+    #         <h1>智赢测试组<h1>
+    #         <h1>Best Regards<h1>
+    #         </body>
+    #         </html>
+    #     """
+    # Net_PO.sendEmail("适合pc查看，移动端无法打开附件", ['h.jin@zy-healthtech.com'], None,
+    #                  "EHR规则自动化测试报告", "htmlContent", "", varConent, "", "./ehr_rule_result.html"
+    #                  )
 
     # print("1.3.2 发邮件之html正文(html文件)".center(100, "-"))
     # varHead = "<h3>您好！</h3>"
@@ -429,18 +429,22 @@ if __name__ == "__main__":
     #           "发送邮件html正文(html文件)", "htmlFile", varHead, "./data/result.html", varFoot,
     #           )
     #
-    print("1.4 发邮件之excel正文".center(100, "-"))
-    varHead = "<h3>您好！</h3>"
-    varFoot = """<br>
-       <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
-       <h3>智赢测试组</h3>
-       <h3>Best Regards</h3>
-       """
-    Net_PO.sendEmail(
-        "测试组",["h.jin@zy-healthtech.com"],None,
-        "发邮件之excel正文", "excel",varHead,"./data/excel1.xls",varFoot,
-        r"./data/excel1.xls",
-    )
+
+
+    # print("1.4 发邮件之excel正文".center(100, "-"))
+    # varHead = "<h3>您好！</h3>"
+    # varFoot = """<br>
+    #    <h3>这是一封自动发送的电子邮件，如有打扰请谅解，请联系我们。</h3>
+    #    <h3>智赢测试组</h3>
+    #    <h3>Best Regards</h3>
+    #    """
+    # Net_PO.sendEmail(
+    #     "测试组",["h.jin@zy-healthtech.com"],None,
+    #     "发邮件之excel正文", "excel",varHead,"./data/excel1.xls",varFoot,
+    #     r"./data/excel1.xls",
+    # )
+
+
 
     # print("2.1，下载程序".center(100, "-"))
     # Net_PO.downApp("",'/Users/linghuchong/Downloads/eMule/pornhub/temp/' )  # 默认将文件保存在当前路径，文件存在则不覆盖。

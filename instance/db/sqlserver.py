@@ -27,6 +27,7 @@ Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS", "GB
 # )
 # """)
 
+# alter table A_testrule ADD ID2 INT identity(1,1) primary key;
 
 # # 插入多条记录
 # Sqlserver_PO.executemany("INSERT INTO a_test VALUES (%d, %s, %s)", [(1, 'John Smith2', 'John Doe3'), (2, 'Jane Doe', 'Joe Dog'), (3, 'Mike T.', 'Sarah H.')])
