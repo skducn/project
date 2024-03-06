@@ -33,7 +33,7 @@ Data_PO = DataPO()
 import random, subprocess
 import pyperclip as pc
 
-class Sql_chcPO():
+class Chc_sqlPO():
 
     def __init__(self, dbTableName):
 
@@ -41,7 +41,7 @@ class Sql_chcPO():
         self.dbTableName = dbTableName
 
     def insertTbl(self, sheetName, tableName):
-        Sqlserver_PO.execute("drop table " + tableName)
+        # Sqlserver_PO.execute("drop table " + tableName)
         Sqlserver_PO.xlsx2db('规则db.xlsx', tableName, sheetName)
         # Sqlserver_PO.execute("ALTER TABLE %s ADD id1 INT NOT NULL IDENTITY(1,1) primary key (id1) " % ('健康评估'))  # 新增id自增主键
         Sqlserver_PO.execute("ALTER TABLE %s alter column id int not null" % (tableName))  # 设置主id不能为Null
@@ -73,7 +73,7 @@ class Sql_chcPO():
         :return: 
         '''
 
-        l_d_diseaseRuleCode_idcard = Sqlserver_PO.execQuery("select diseaseRuleCode, idcard from 疾病身份证")
+        l_d_diseaseRuleCode_idcard = Sqlserver_PO.select("select diseaseRuleCode, idcard from 疾病身份证")
         # print(l_d_diseaseRuleCode_idcard)  # [{'diseaseRuleCode': 'YH_JB001', 'idcard': 310101202308070001}, {'diseaseRuleCode': 'YH_JB002', 'idcard': 310101202308070002}, ...]
         return (l_d_diseaseRuleCode_idcard)
 
@@ -168,7 +168,7 @@ class Sql_chcPO():
             varPrefix = varSql.split(" ")[0]
             varPrefix = varPrefix.lower()
             if varPrefix == 'select':
-                command = 'Sqlserver_PO.execQuery("' + varSql + '")'
+                command = 'Sqlserver_PO.select("' + varSql + '")'
                 a = eval(command)
                 sleep(1)
                 return a
@@ -186,7 +186,7 @@ class Sql_chcPO():
     def verifyIdcard(self, varIdcard):
 
         # 检查患者主索引表身份证是否存在!
-        l_d_qty = Sqlserver_PO.execQuery("select count(*) as qty from TB_EMPI_INDEX_ROOT where IDCARDNO='%s'" % (varIdcard))
+        l_d_qty = Sqlserver_PO.select("select count(*) as qty from TB_EMPI_INDEX_ROOT where IDCARDNO='%s'" % (varIdcard))
         # print(l_d_qty)  # [{'qty': 1}]
         if l_d_qty[0]['qty'] == 0:
             guid = Data_PO.getFigures(6)
@@ -194,12 +194,12 @@ class Sql_chcPO():
             Sqlserver_PO.execute("INSERT INTO [TB_EMPI_INDEX_ROOT] ([GUID], [NAME], [SEXCODE], [SEXVALUE], [DATEOFBIRTH], [IDCARDNO]) VALUES ('" + str(guid) + "', N'" + str(name) + "', '2', '女', '1940-05-11', '" + str(varIdcard) + "')")
 
         # 检查基本信息表身份证是否存在!
-        l_d_qty = Sqlserver_PO.execQuery("select count(*) as qty from HRPERSONBASICINFO where IDCARD='%s'" % (varIdcard))
+        l_d_qty = Sqlserver_PO.select("select count(*) as qty from HRPERSONBASICINFO where IDCARD='%s'" % (varIdcard))
         if l_d_qty[0]['qty'] == 0:
             Sqlserver_PO.execute("INSERT INTO [dbo].[HRPERSONBASICINFO] ([ARCHIVENUM], [NAME], [SEX], [DATEOFBIRTH], [IDCARD], [WORKUNIT], [PHONE], [CONTACTSNAME], [CONTACTSPHONE], [RESIDENCETYPE], [NATIONCODE], [BLOODTYPE], [RHBLOODTYPE], [DEGREE], [OCCUPATION], [MARITALSTATUS], [HEREDITYHISTORYFLAG], [HEREDITYHISTORYCODE], [ENVIRONMENTKITCHENAERATION], [ENVIRONMENTFUELTYPE], [ENVIRONMENTWATER], [ENVIRONMENTTOILET], [ENVIRONMENTCORRAL], [DATASOURCES], [CREATEID], [CREATENAME], [CREATETIME], [UPDATEID], [UPDATENAME], [UPDATETIME], [STATUS], [ISDELETED], [VERSION], [WORKSTATUS], [TELEPHONE], [OCCUPATIONALDISEASESFLAG], [OCCUPATIONALDISEASESWORKTYPE], [OCCUPATIONALDISEASESWORKINGYEARS], [DUSTNAME], [DUSTFLAG], [RADIOACTIVEMATERIALNAME], [RADIOACTIVEMATERIALFLAG], [CHEMICALMATERIALNAME], [CHEMICALMATERIALFLAG], [OTHERNAME], [OTHERFLAG], [PHYSICSMATERIALNAME], [PHYSICSMATERIALFLAG], [DOWNLOADSTATUS], [NONUMBERPROVIDED], [YLZFMC], [PERSONID], [MEDICAL_PAYMENTCODE], [KALEIDOSCOPE], [ISGOVERNANCE]) VALUES ('" + str(varIdcard) + "', '高血压已患', '2', '1959-03-28 00:00:00.000', '" + str(varIdcard) + "', NULL, '13585543856', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-14 16:49:32.357', NULL, NULL, '2020-02-19 00:00:00.000', NULL, NULL, NULL, NULL, '13585543856', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'0')")
 
         # 检查签约信息表身份证是否存在!
-        l_d_qty = Sqlserver_PO.execQuery("select count(*) as qty from QYYH where SFZH='%s'" % (varIdcard))
+        l_d_qty = Sqlserver_PO.select("select count(*) as qty from QYYH where SFZH='%s'" % (varIdcard))
         if l_d_qty[0]['qty'] == 0:
             guid = Data_PO.getFigures(6)
             Sqlserver_PO.execute("INSERT INTO [dbo].[QYYH] ([CZRYBM], [CZRYXM], [JMXM], [SJHM], [SFZH], [JJDZ], [SFJD], [SIGNORGID], [ARCHIVEUNITCODE], [ARCHIVEUNITNAME], [DISTRICTORGCODE], [DISTRICTORGNAME], [TERTIARYORGCODE], [TERTIARYORGNAME], [PRESENTADDRDIVISIONCODE], [PRESENTADDRPROVCODE], [PRESENTADDRPROVVALUE], [PRESENTADDRCITYCODE], [PRESENTADDRCITYVALUE], [PRESENTADDRDISTCODE], [PRESENTADDDISTVALUE], [PRESENTADDRTOWNSHIPCODE], [PRESENTADDRTOWNSHIPVALUE], [PRESENTADDRNEIGHBORHOODCODE], [PRESENTADDRNEIGHBORHOODVALUE], [SIGNSTATUS], [SIGNDATE],[CATEGORY_CODE], [CATEGORY_NAME], [SEX_CODE], [SEX_NAME], [LAST_SERVICE_DATE], [ASSISTANT_DOC_ID], [ASSISTANT_DOC_NAME], [HEALTH_MANAGER_ID], [HEALTH_MANAGER_NAME], [ASSISTANT_DOC_PHONE], [HEALTH_MANAGER_PHONE]) VALUES ('" + str(guid) + "', N'姚皎情', N'肝癌高危', NULL, '" + str(varIdcard) + "', N'平安街道16号', NULL, NULL, '0000001', '静安精神病院', '310118000000', '青浦区', '12345', '上海人民医院', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2020-06-01', 166, '4', N'1',N'男', NULL, NULL, NULL, NULL, NULL, NULL, NULL)")
@@ -214,12 +214,12 @@ class Sql_chcPO():
         # r.runResult("all")  # 执行所有的规则(谨慎)
 
         if varResult == "error" or varResult == "ok" or varResult == "":
-            l_d_id = Sqlserver_PO.execQuery("select id from %s where result='%s'" % (self.dbTableName, varResult))
+            l_d_id = Sqlserver_PO.select("select id from %s where result='%s'" % (self.dbTableName, varResult))
             # print(l_d_id)  # [{'id': 2}, {'id': 10}]
             for i in range(len(l_d_id)):
                 self.run(l_d_id[i]['id'])
         elif varResult == "all":
-            l_d_id = Sqlserver_PO.execQuery("select id from %s" % (self.dbTableName))
+            l_d_id = Sqlserver_PO.select("select id from %s" % (self.dbTableName))
             for i in range(len(l_d_id)):
                 self.run(l_d_id[i]['id'])
 
@@ -236,7 +236,7 @@ class Sql_chcPO():
         self.varId = varId
 
         # todo 获取数据库数据
-        l_d_rows = Sqlserver_PO.execQuery("select * from %s where id=%s" % (self.dbTableName, self.varId))
+        l_d_rows = Sqlserver_PO.select("select * from %s where id=%s" % (self.dbTableName, self.varId))
         self.l_d_rows = l_d_rows[0]
         # print(l_d_rows[0]) # {'id': 1, 'result': 'ok', 'memo': datetime.datetime(2023, 11, 7, 10, 4, 15), 'rule': 'r1', 'ruleParam': "AGE=55 .and. CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001', '分类': '年龄', '规则名称': '年龄≥55岁', '评估规则详细描述': '年龄≥55岁', '评估因素判断规则': '年龄>=55', 'tester': '刘斌龙', 'var': ''}
         rule = l_d_rows[0]['rule']
@@ -246,7 +246,7 @@ class Sql_chcPO():
             diseaseRuleCode = l_d_rows[0]['diseaseRuleCode']
 
         # todo 适配相应的测试规则
-        l_d_param = Sqlserver_PO.execQuery("select param from 测试规则 where [rule]='%s'" % (rule))
+        l_d_param = Sqlserver_PO.select("select param from 测试规则 where [rule]='%s'" % (rule))
         if l_d_param[0]['param'] == 'p1':
             # 带参数1
             self.param1(rule, ruleParam, ruleCode)
@@ -288,7 +288,7 @@ class Sql_chcPO():
         if Configparser_PO.SWITCH("printSql") == "on":
             # [健康评估 => 1(r1)]
             Color_PO.consoleColor("31", "33", (("[" + str(self.dbTableName) + " => " + str(self.varId) + "(" + rule + ")]").center(100, '-')), "")
-        l_0 = Sqlserver_PO.execQuery("select sql from 测试规则 where [rule]='%s'" %(rule))
+        l_0 = Sqlserver_PO.select("select sql from 测试规则 where [rule]='%s'" %(rule))
         l_sql = []
         for i in range(len(l_0)):
             if os.name == "posix":

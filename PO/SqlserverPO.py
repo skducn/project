@@ -200,6 +200,7 @@ class SqlServerPO:
         # return create_engine("mssql+pymssql://" + self.user + ":" + self.password + "@" + self.server + ":" + str(self.port) + "/" + self.database)
         return create_engine("mssql+pymssql://" + self.user + ":" + self.password + "@" + self.server + "/" + self.database)
 
+
     def selectParam(self, sql, param):
 
         ''' 1.0 查询带参数 '''

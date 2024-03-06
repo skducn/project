@@ -12,7 +12,7 @@ from PO.MysqlPO import *
 
 
 # todo 健康俱乐部
-Mysql_PO = MysqlPO("121.36.248.183", "clubtest", "Club5678", "hclub", 2306)
+# Mysql_PO = MysqlPO("121.36.248.183", "clubtest", "Club5678", "hclub", 2306)
 # Mysql_PO.dbDesc()
 
 
@@ -50,9 +50,9 @@ Mysql_PO = MysqlPO("121.36.248.183", "clubtest", "Club5678", "hclub", 2306)
 
 
 # todo OA
-# Mysql_PO = MysqlPO("192.168.0.65", "ceshi", "123456", "TD_OA", 3336)
+Mysql_PO = MysqlPO("192.168.0.65", "ceshi", "123456", "TD_OA", 3336)
 # Mysql_PO = MysqlPO("192.168.0.65", "ceshi", "123456", "TD_APP", 3336)
-# Mysql_PO.dbDesc()
+Mysql_PO.dbDesc()
 
 
 # todo 招远防疫
