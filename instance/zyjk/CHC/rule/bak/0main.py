@@ -4,8 +4,6 @@
 # Created on : 2023-8-1
 # Description: 社区健康管理中心 - 规则自动化脚本
 # http://192.168.0.243:8012/swagger-ui/index.html#/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/loginUsingPOST
-# http://192.168.0.223:8848/nacos/#/serviceDetail?name=chc-auth&groupName=DEFAULT_GROUP
-# http://192.168.0.243:8011/doc.html#/chc-auth/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/loginUsingPOST
 # http://192.168.0.243:8010/login#/login  登录页面
 # 1，获取规则内容 《健康评估规则表》
 # 2，执行规则

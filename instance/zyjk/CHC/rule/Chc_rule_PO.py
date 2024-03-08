@@ -1,16 +1,21 @@
 # coding=utf-8
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Author :John
-# Created on : 2023-8-1
-# Description: CHC包 for Sqlserver
+# Created on : 2024-3-8
+# Description: CHC规则包
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-import pymssql
+
+import subprocess
+import pyperclip as pc
+# 1、复制内容到剪贴板
+# 2、粘贴剪贴板里的内容
 
 from ConfigparserPO import *
 Configparser_PO = ConfigparserPO('config.ini')
 
 from PO.SqlserverPO import *
-Sqlserver_PO = SqlServerPO(Configparser_PO.DB("host"), Configparser_PO.DB("user"), Configparser_PO.DB("password"), Configparser_PO.DB("database"))  # 测试环境
+Sqlserver_PO = SqlServerPO(Configparser_PO.DB_SQL("host"), Configparser_PO.DB_SQL("user"), Configparser_PO.DB_SQL("password"), Configparser_PO.DB_SQL("database"))  # 测试环境
+# SqlServerPO = SqlServerPO(Configparser_PO.DB_DM("host"), Configparser_PO.DB_DM("user"), Configparser_PO.DB_DM("password"), Configparser_PO.DB_DM("port"))  # 测试环境
 
 from PO.StrPO import *
 Str_PO = StrPO()
@@ -33,14 +38,9 @@ Data_PO = DataPO()
 from PO.CharPO import *
 Char_PO = CharPO()
 
-import random, subprocess
-
-import pyperclip as pc
-# 1、复制内容到剪贴板
-# 2、粘贴剪贴板里的内容
 
 
-class Chc_rule_sqlPO():
+class Chc_rule_PO():
 
     def __init__(self, sheetName):
 
@@ -48,6 +48,13 @@ class Chc_rule_sqlPO():
         self.dbTable = Char_PO.chinese2pinyin(sheetName)
         self.dbTable = "a_" + self.dbTable
         self.sheetName = sheetName
+
+        # 读取疾病身份证对应的表(a_jibingshenfenzheng)
+        self.jbsfz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.EXCEL("jbsfz"))
+        # print(self.jbsfz)
+        # 读取测试规则对应的表(a_ceshiguize)
+        self.csgz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.EXCEL("csgz"))
+        # print(self.csgz)
 
     def createTable(self, sheetName):
 
@@ -90,7 +97,7 @@ class Chc_rule_sqlPO():
         :return: 
         '''
 
-        l_d_diseaseRuleCode_idcard = Sqlserver_PO.select("select diseaseRuleCode, idcard from a_jibingshenfenzheng")
+        l_d_diseaseRuleCode_idcard = Sqlserver_PO.select("select diseaseRuleCode, idcard from %s" % (self.jbsfz))
         # print(l_d_diseaseRuleCode_idcard)  # [{'diseaseRuleCode': 'YH_JB001', 'idcard': 310101202308070001}, {'diseaseRuleCode': 'YH_JB002', 'idcard': 310101202308070002}, ...]
         return (l_d_diseaseRuleCode_idcard)
     def i_rerunExecuteRule(self, varId):
@@ -192,7 +199,7 @@ class Chc_rule_sqlPO():
                 # todo 输出sql语句（调试）
                 # print(command)
                 a = eval(command)
-                sleep(1)
+                sleep(2)
                 return a
             else:
                 return None
@@ -258,61 +265,62 @@ class Chc_rule_sqlPO():
         # r.runResult("error")  # 执行result为error的规则
         # r.runResult("all")  # 执行所有的规则(谨慎)
 
-        if varResult != "ok":
-            l_d_id = Sqlserver_PO.select("select id from %s where result <> 'ok'" % (self.dbTable))
-            for i in range(len(l_d_id)):
-                self.runRow(l_d_id[i]['id'])
-        elif varResult == "all":
+        if varResult == "all":
             l_d_id = Sqlserver_PO.select("select id from %s" % (self.dbTable))
             for i in range(len(l_d_id)):
                 self.runRow(l_d_id[i]['id'])
+        elif varResult != "ok":
+            l_d_id = Sqlserver_PO.select("select id from %s where result <> 'ok'" % (self.dbTable))
+            for i in range(len(l_d_id)):
+                self.runRow(l_d_id[i]['id'])
+
 
     def _matchRule(self):
         # todo 适配相应的测试规则
-        l_d_param = Sqlserver_PO.select("select param from a_ceshiguize where [rule]='%s'" % (self.rule))
+        l_d_param = Sqlserver_PO.select("select param from %s where [rule]='%s'" % (self.csgz, self.rule))
         if l_d_param[0]['param'] == 'p1':
             # 带参数1
-            self.param1(self.rule, self.ruleParam, self.ruleCode)
+            self.param1()
         elif l_d_param[0]['param'] == 'p2':
             # 带参数2
-            self.param2(self.rule, self.ruleParam, self.ruleCode)
+            self.param2()
         elif l_d_param[0]['param'] == 'p4':
             # 带参数4
-            self.param4(self.rule, self.ruleParam, self.ruleCode)
+            self.param4()
         elif l_d_param[0]['param'] == 'p1_auto':
             # 带参数1且获取自动身份证
-            self.param1_auto(self.rule, self.ruleParam, self.ruleCode)
+            self.param1_auto()
         elif l_d_param[0]['param'] == 'p2_auto':
             # 带参数2且获取自动身份证
-            self.param2_auto(self.rule, self.ruleParam, self.ruleCode)
+            self.param2_auto()
         elif l_d_param[0]['param'] == 'p4_auto':
             # 带参数4且获取自动身份证
-            self.param4_auto(self.rule, self.ruleParam, self.ruleCode)
+            self.param4_auto()
         elif l_d_param[0]['param'] == 'p1_idcard':
             # 带参数1且自动匹配疾病身份证
-            self.param1_idcard(self.rule, self.ruleParam, self.ruleCode, self.diseaseRuleCode)
+            self.param1_idcard()
         elif l_d_param[0]['param'] == 'p2_idcard':
             # 带参数2且自动匹配疾病身份证
-            self.param2_idcard(self.rule, self.ruleParam, self.ruleCode, self.diseaseRuleCode)
+            self.param2_idcard()
         elif l_d_param[0]['param'] == 'p1_hit2':
             # 带参数1，健康干预两次命中（干预+疾病评估）
-            self.param1_idcard_hitQty2(self.rule, self.ruleParam, self.ruleCode, self.diseaseRuleCode, self.hitQty)
+            self.param1_idcard_hitQty2()
         elif l_d_param[0]['param'] == 'p3_hit2':
             # 带参数3，健康干预两次命中（干预+疾病评估）
-            self.param3_idcard_hitQty2(self.rule, self.ruleParam, self.ruleCode, self.diseaseRuleCode, self.hitQty)
+            self.param3_idcard_hitQty2()
         elif l_d_param[0]['param'] == 'r_GW':
-            self._getParamByGW(self.rule, self.ruleCode, self.diseaseRuleCode)
+            self._getParamByGW()
 
 
-    def getSql(self, rule):
+    def getSql(self):
         
         # 获取sql语句
 
         # todo 输出第一行
-        print("[" + str(self.sheetName) + " => " + str(self.dbId) + "(" + rule + ")]")
+        print("[" + str(self.sheetName) + " => " + str(self.dbId) + "(" + self.rule + ")]")
 
         # Color_PO.consoleColor("31", "33", (("[" + str(self.dbTable) + " => " + str(self.dbId) + "(" + rule + ")]").center(100, '-')), "")
-        l_0 = Sqlserver_PO.select("select sql from a_ceshiguize where [rule]='%s'" %(rule))
+        l_0 = Sqlserver_PO.select("select sql from %s where [rule]='%s'" %(self.csgz, self.rule))
         l_sql = []
         for i in range(len(l_0)):
             if os.name == "posix":
@@ -322,104 +330,104 @@ class Chc_rule_sqlPO():
         return l_sql
 
 
-    def param1(self, rule, ruleParam, ruleCode):
+    def param1(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        d['ruleParam'] = ruleParam.replace(".and.", ',')
-        d['ruleCode'] = ruleCode
+        d['l_sql'] = self.getSql()
+        d['ruleParam'] = self.ruleParam.replace(".and.", ',')
+        d['ruleCode'] = self.ruleCode
         self.outResult1(self.testRule(d))
 
-    def param2(self, rule, ruleParam, ruleCode):
+    def param2(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['l_sql'] = self.getSql()
+        l_ruleParam = Str_PO.str2list(self.ruleParam)
         d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
         d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
+        d['ruleCode'] = self.ruleCode
         self.outResult1(self.testRule(d))
 
-    def param4(self, rule, ruleParam, ruleCode):
+    def param4(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['l_sql'] = self.getSql()
+        l_ruleParam = Str_PO.str2list(self.ruleParam)
         d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
         d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
         d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
         d['ruleParam4'] = l_ruleParam[3].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
+        d['ruleCode'] = self.ruleCode
         self.outResult1(self.testRule(d))
 
-    def param4_auto(self, rule, ruleParam, ruleCode):
+    def param4_auto(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['l_sql'] = self.getSql()
+        l_ruleParam = Str_PO.str2list(self.ruleParam)
         d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
         d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
         d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
         d['ruleParam4'] = l_ruleParam[3].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
+        d['ruleCode'] = self.ruleCode
         self._getAutoIdcard(d)
 
-    def param1_auto(self, rule, ruleParam, ruleCode):
+    def param1_auto(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        d['ruleParam'] = ruleParam.replace(".and.", ',')
-        d['ruleCode'] = ruleCode
+        d['l_sql'] = self.getSql()
+        d['ruleParam'] = self.ruleParam.replace(".and.", ',')
+        d['ruleCode'] = self.ruleCode
         self._getAutoIdcard(d)
 
-    def param1_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
+    def param1_idcard(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        d['ruleParam'] = ruleParam.replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
+        d['l_sql'] = self.getSql()
+        d['ruleParam'] = self.ruleParam.replace(".and.", ',')
+        d['ruleCode'] = self.ruleCode
+        d['diseaseRuleCode'] = self.diseaseRuleCode
         self._getDiseaseIdcard2(d)
 
-    def param2_auto(self, rule, ruleParam, ruleCode):
+    def param2_auto(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['l_sql'] = self.getSql()
+        l_ruleParam = Str_PO.str2list(self.ruleParam)
         d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
         d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
+        d['ruleCode'] = self.ruleCode
         self._getAutoIdcard(d)
 
-    def param2_idcard(self, rule, ruleParam, ruleCode, diseaseRuleCode):
+    def param2_idcard(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['l_sql'] = self.getSql()
+        l_ruleParam = Str_PO.str2list(self.ruleParam)
         d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
         d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
+        d['ruleCode'] = self.ruleCode
+        d['diseaseRuleCode'] = self.diseaseRuleCode
         self._getDiseaseIdcard2(d)
 
-    def param1_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
+    def param1_idcard_hitQty2(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        d['ruleParam'] = ruleParam.replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
-        d['hitQty'] = hitQty
+        d['l_sql'] = self.getSql()
+        d['ruleParam'] = self.ruleParam.replace(".and.", ',')
+        d['ruleCode'] = self.ruleCode
+        d['diseaseRuleCode'] = self.diseaseRuleCode
+        d['hitQty'] = self.hitQty
         self._getDiseaseIdcard2(d)
 
-    def param3_idcard_hitQty2(self, rule, ruleParam, ruleCode, diseaseRuleCode, hitQty):
+    def param3_idcard_hitQty2(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        l_ruleParam = Str_PO.str2list(ruleParam)
+        d['l_sql'] = self.getSql()
+        l_ruleParam = Str_PO.str2list(self.ruleParam)
         d['ruleParam1'] = l_ruleParam[0].replace(".and.", ',')
         d['ruleParam2'] = l_ruleParam[1].replace(".and.", ',')
         d['ruleParam3'] = l_ruleParam[2].replace(".and.", ',')
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
-        d['hitQty'] = hitQty
+        d['ruleCode'] = self.ruleCode
+        d['diseaseRuleCode'] = self.diseaseRuleCode
+        d['hitQty'] = self.hitQty
         self._getDiseaseIdcard2(d)
 
-    def _getParamByGW(self, rule, ruleCode, diseaseRuleCode):
+    def _getParamByGW(self):
         d = {}
-        d['l_sql'] = self.getSql(rule)
-        d['ruleCode'] = ruleCode
-        d['diseaseRuleCode'] = diseaseRuleCode
+        d['l_sql'] = self.getSql()
+        d['ruleCode'] = self.ruleCode
+        d['diseaseRuleCode'] = self.diseaseRuleCode
         self._getDiseaseIdcardGW(d)
 
 

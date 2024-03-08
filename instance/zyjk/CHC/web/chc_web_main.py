@@ -3,19 +3,21 @@
 # Author     : John
 # Created on : 2023-7-25
 # Description: 社区健康管理中心
+# 测试环境 # http://192.168.0.243:8010/#/login
+
 #***************************************************************
 
 from PO.SysPO import *
 Sys_PO = SysPO()
 
-from ChcPO import *
-Chc_PO = ChcPO()
+from Chc_web_PO import *
+Chc_web_PO = Chc_web_PO()
 
 
 varUrl = 'http://192.168.0.243:8010/#/'
 
 # 1，登录
-Chc_PO.login('http://192.168.0.243:8010/#/login', 'admin', 'Zy@123456')
+Chc_web_PO.login('http://192.168.0.243:8010/#/login', 'admin', 'Zy@123456')
 
 # 签约居民管理 - 健康服务
 # Web_PO.opn(varUrl + 'SignManage/service')
@@ -34,7 +36,7 @@ Chc_PO.login('http://192.168.0.243:8010/#/login', 'admin', 'Zy@123456')
 
 
 # 社区配置 - 常住人口
-# Web_PO.opnLabel(varUrl + 'Community/permanent')
+Web_PO.opnLabel(varUrl + 'Community/permanent')
 # 社区配置 - 家医团队维护
 # Web_PO.opnLabel(varUrl + 'Community/team')
 # 社区配置 - 家医助手

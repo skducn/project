@@ -188,11 +188,12 @@ def main():
 
     e = SM2Util.GenKeyPair()
     # e = ('', '')
-    print('私钥:{} 公钥:{}'.format(e[0], e[1]))
+    print('私钥:{}\n公钥:{}'.format(e[0], e[1]))
     sm2 = SM2Util(pri_key=e[0], pub_key=e[1][2:])
 
     sign = sm2.Sign(data)
     print('签名:{} 验签:{}'.format(sign, sm2.Verify(data, sign)))
+    # print('签名:{} 验签:{}'.format(sign, sm2.Verify("4fa9de3518e897f29468be4e4e3956e53bae3cbdb8a64310f41ecbdf76843eb4c81acf3721bf8113cf4d3563c698ab74e060989daab802154ea144938bfcdc228608df8ec3548140f9fe745b6fc11bdf0d1c679116d56648d55e362fd3334b0a5f2a0995918b49e3f273c96dc3fd9f1a0b719dccd5910039783c6315bbf2156432003e34d8dada6e81c58d42a674a455ccdfeb41323b379fe1c06ab36462", sign)))
 
     cipher = sm2.Encrypt(data)
     print('加密:{}\n解密:{}'.format(cipher, sm2.Decrypt(cipher)))

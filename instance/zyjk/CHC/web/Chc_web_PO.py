@@ -75,7 +75,7 @@ File_PO = FilePO()
 
 import ddddocr
 
-class ChcPO():
+class Chc_web_PO():
 
     def clsApp(self, varApp):
 
