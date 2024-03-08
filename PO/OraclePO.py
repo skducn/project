@@ -11,11 +11,11 @@ import cx_Oracle
 
 
 class OraclePO:
-    def __init__(self, varUser, varPassword, varHost, varServerName):
+    def __init__(self, varHost, varUser, varPassword, varServerName):
 
+        self.varHost = varHost
         self.varUser = varUser
         self.varPassword = varPassword
-        self.varHost = varHost
         self.varServerName = varServerName
 
     def __GetConnect(self):
@@ -38,7 +38,7 @@ class OraclePO:
         else:
             return self.cur
 
-    def execQuery(self, sql):
+    def select(self, sql):
 
         """执行查询语句
         返回一个包含tuple的list，list是元素的记录行，tuple记录每行的字段数值
@@ -92,9 +92,9 @@ class OraclePO:
 
 if __name__ == "__main__":
 
-    Oracle_PO = OraclePO("SUNWENBO", "Sunwenbo1204", "192.168.0.235:1521", "ORCL")
+    Oracle_PO = OraclePO("192.168.0.235:1521", "SUNWENBO", "Sunwenbo1204", "ORCL")
 
-    r = Oracle_PO.execQuery('SELECT * FROM DIP.EHR_DISABILITY_VISIT')
+    r = Oracle_PO.select('SELECT * FROM DIP.EHR_DISABILITY_VISIT')
     print(r)
     for i in r:
         print(i)

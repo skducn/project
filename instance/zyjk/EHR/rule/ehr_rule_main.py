@@ -10,6 +10,7 @@
 from Ehr_rule_PO import *
 ehr_rule_PO = Ehr_rule_PO()
 
+
 # todo 1, excel导入db
 ehr_rule_PO.excel2db(Configparser_PO.FILE("case"), Configparser_PO.DB_SQL("table"))
 

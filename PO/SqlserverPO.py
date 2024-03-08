@@ -373,7 +373,7 @@ class SqlServerPO:
                     if r[i]['value'] == None:
                         l_comment.append(r[i]['value'])
                     else:
-                        l_comment.append(r[i]['value'].decode(encoding="GBK", errors="strict"))  # encoding="utf-8"
+                        l_comment.append(r[i]['value'].decode(encoding="utf-8", errors="strict"))  # encoding="utf-8"
                 return dict(zip(l_table, l_comment))
             else:
                 for i in range(len(r)):
@@ -382,7 +382,7 @@ class SqlServerPO:
                         if r[i]['value'] == None:
                             l_comment.append(r[i]['value'])
                         else:
-                            l_comment.append(r[i]['value'].decode(encoding="GBK", errors="strict"))  # encoding="utf-8"
+                            l_comment.append(r[i]['value'].decode(encoding="utf-8", errors="strict"))  # encoding="utf-8"
                 return dict(zip(l_table, l_comment))
         except Exception as e:
             print(e, ",[error], SqlserverPO.getTableAndComment()异常!")
