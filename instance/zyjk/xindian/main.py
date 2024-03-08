@@ -1,9 +1,10 @@
 ﻿# coding=utf-8
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Author     : John
-# Created on : 2024-1-5 获取MIT-BIH 心律数据，一组两个导联的心电波形
-# Description: https://zhuanlan.zhihu.com/p/150941077?utm_id=0
-# 参考：https://cloud.tencent.com/developer/article/1408068
+# Created on : 2024-1-5
+# Description: 获取 MIT-BIH 心律数据，一组两个导联的心电波形
+# 基于机器学习的心律失常分类(二)——读取MIT-BIH数据库中的心电数据[MATLAB] https://zhuanlan.zhihu.com/p/150941077?utm_id=0
+# 读取 MIT-BIH 心律数据（pyton）：https://cloud.tencent.com/developer/article/1408068
 # *****************************************************************
 
 import wfdb as wf

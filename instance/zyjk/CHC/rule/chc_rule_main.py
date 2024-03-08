@@ -8,7 +8,7 @@ from Chc_rule_PO import *
 
 # todo 1, 将规则用例（rulecase.xlsx）导入db
 # 自动将SheetName转为拼音字母，并添加前缀a_, 如"健康评估: => a_jinhaogaoge
-# chc_sqlPO = Chc_rule_sqlPO('')
+# chc_sqlPO = Chc_rule_PO('')
 # chc_sqlPO.createTable('健康评估')
 # chc_sqlPO.createTable('健康干预')
 # chc_sqlPO.createTable('中医体质辨识')
@@ -23,7 +23,7 @@ from Chc_rule_PO import *
 r = Chc_rule_PO("中医体质辨识")
 
 # 按行执行
-# r.runRow(1)
+r.runRow(4)
 # r.runRow(32)
 # r.runRow(33)
 # r.runRow(34)
@@ -37,4 +37,4 @@ r = Chc_rule_PO("中医体质辨识")
 
 # 按结果执行
 # r.runResult("error")
-r.runResult("all")
+# r.runResult("all")

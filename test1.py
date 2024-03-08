@@ -9,27 +9,29 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-# -*- coding: utf-8 -*-
+a= [{'in': 'body', 'name': 'loginFormVO', 'description': 'loginFormVO', 'required': True, 'schema': {'$ref': '#/definitions/LoginInputVO对象'}}]
 
-import os, sys
-from unrar import rarfile
+print(a[1]['in'])
+
+# import os, sys
+# from unrar import rarfile
 
 
-def rar_attack():
-    file_handle = rarfile.RarFile('/Users/linghuchong/Downloads/4/4.rar')
-    handle_password = open('passwords.txt')
-    for pwd in handle_password:
-        pwd = pwd.rstrip()
-        try:
-            file_handle.extractall(path='/Users/linghuchong/Downloads/4/', pwd=pwd.encode())
-            print('Found:' + pwd)
-            break
-        except:
-            pass
-    handle_password.close()
-    file_handle.close()
-
-rar_attack()
+# def rar_attack():
+#     file_handle = rarfile.RarFile('/Users/linghuchong/Downloads/4/4.rar')
+#     handle_password = open('passwords.txt')
+#     for pwd in handle_password:
+#         pwd = pwd.rstrip()
+#         try:
+#             file_handle.extractall(path='/Users/linghuchong/Downloads/4/', pwd=pwd.encode())
+#             print('Found:' + pwd)
+#             break
+#         except:
+#             pass
+#     handle_password.close()
+#     file_handle.close()
+#
+# rar_attack()
 
 # if __name__ == '__main__':
 #     file_name = sys.argv[1]

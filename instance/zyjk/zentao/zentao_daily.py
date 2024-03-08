@@ -1,10 +1,9 @@
 # coding=utf-8
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Author     : John
 # Created on : 2020-6-3
 # Description: 统计禅道中测试人员某个时间段的记录，如统计 2023-2-1 到 2023-2-8 所有人的记录，生成 zentao_daily.xlsx文档。
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 import sys, platform,os
 sys.path.append("../../../")
@@ -22,7 +21,7 @@ Str_PO = StrPO()
 
 from PO.SysPO import *
 Sys_PO = SysPO()
-Sys_PO.closeApp('EXCEL.EXE')
+# Sys_PO.closeApp('EXCEL.EXE')
 
 from PO.MysqlPO import *
 Mysql_PO = MysqlPO("192.168.0.211", "readonly", "benetech123", "zentaoep", 3306)
@@ -34,12 +33,12 @@ from PO.OpenpyxlPO import *
 
 # 统计人员
 varJinhao = '金浩'
-varShuyangyang = '舒阳阳'
-varWanggang = '汪刚'
-varChenxiaodong = '陈晓东'
-varGuohaojie = '郭浩杰'
-varGuofei = '郭斐'
-varLiubinlong = '刘斌龙'
+# varShuyangyang = '舒阳阳'
+# varWanggang = '汪刚'
+# varChenxiaodong = '陈晓东'
+# varGuohaojie = '郭浩杰'
+# varGuofei = '郭斐'
+# varLiubinlong = '刘斌龙'
 
 # 统计日期
 # varStartDate = "2023-02-01"
@@ -56,14 +55,15 @@ excelSheet = str(varStartDate) + "_" + Time_PO.getDateByMinus()
 # 如果文档不存在，自动创建
 if os.path.isfile(os.getcwd() + "\\" + excelName):
     Openpyxl_PO = OpenpyxlPO(excelName)
-    Openpyxl_PO.addSheetCover(excelSheet, 0)
+    Openpyxl_PO.addCoverSheet(excelSheet, 0)
 else:
     Openpyxl_PO = OpenpyxlPO('')
     Openpyxl_PO.newExcel(excelName, excelSheet)
 
 
 # 获取人员的禅道日报记录，并保存到文档
-Mysql_PO.cur.execute("SELECT zt_user.realname AS '姓名', zt_project.`name` AS '项目', zt_module.`name` AS '模块', zt_task.`name` AS '任务', zt_task.desc AS '描述', zt_effort.consumed AS '工时', zt_task.finishedDate AS '完成时间' FROM zt_task INNER JOIN zt_project ON zt_task.project = zt_project.id INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story LEFT JOIN zt_module ON zt_task.module = zt_module.id LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id WHERE zt_task.finishedDate BETWEEN '%s' AND '%s' AND zt_effort.date BETWEEN  '%s' AND '%s' AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 AND realname IN ('%s','%s','%s','%s','%s','%s','%s')ORDER BY realname,finishedDate" % (varStartDate, varEndDate, varStartDate, varEndDate, varJinhao,varShuyangyang,varWanggang,varChenxiaodong,varGuohaojie,varGuofei,varLiubinlong))
+# Mysql_PO.cur.execute("SELECT zt_user.realname AS '姓名', zt_project.`name` AS '项目', zt_module.`name` AS '模块', zt_task.`name` AS '任务', zt_task.desc AS '描述', zt_effort.consumed AS '工时', zt_task.finishedDate AS '完成时间' FROM zt_task INNER JOIN zt_project ON zt_task.project = zt_project.id INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story LEFT JOIN zt_module ON zt_task.module = zt_module.id LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id WHERE zt_task.finishedDate BETWEEN '%s' AND '%s' AND zt_effort.date BETWEEN  '%s' AND '%s' AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 AND realname IN ('%s','%s','%s','%s','%s','%s','%s')ORDER BY realname,finishedDate" % (varStartDate, varEndDate, varStartDate, varEndDate, varJinhao,varShuyangyang,varWanggang,varChenxiaodong,varGuohaojie,varGuofei,varLiubinlong))
+Mysql_PO.cur.execute("SELECT zt_user.realname AS '姓名', zt_project.`name` AS '项目', zt_module.`name` AS '模块', zt_task.`name` AS '任务', zt_task.desc AS '描述', zt_effort.consumed AS '工时', zt_task.finishedDate AS '完成时间' FROM zt_task INNER JOIN zt_project ON zt_task.project = zt_project.id INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story LEFT JOIN zt_module ON zt_task.module = zt_module.id LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id WHERE zt_task.finishedDate BETWEEN '%s' AND '%s' AND zt_effort.date BETWEEN  '%s' AND '%s' AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 AND realname IN ('%s')ORDER BY realname,finishedDate" % (varStartDate, varEndDate, varStartDate, varEndDate, varJinhao))
 tmpTuple = Mysql_PO.cur.fetchall()
 list1 = []
 list2 = []
@@ -83,8 +83,8 @@ for i in tmpTuple:
     list1 = []
     count = count + 1
 
-Openpyxl_PO.setRowValue({1: ["姓名", "项目", "模块", "标题", "描述", "工时", "完成日期", "评审意见"]}, excelSheet)
-Openpyxl_PO.addOnRowValue(list2, excelSheet)
+Openpyxl_PO.insertRows({1: ["姓名", "项目", "模块", "标题", "描述", "工时", "完成日期", "评审意见"]}, excelSheet)
+Openpyxl_PO.setRows(list2, excelSheet)
 Openpyxl_PO.save()
 
 

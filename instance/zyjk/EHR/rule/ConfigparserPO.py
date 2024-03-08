@@ -13,28 +13,12 @@ class ConfigparserPO:
         self.cf.read(file, encoding="utf-8-sig")
         self.file = file
 
-    def SWITCH(self, name):
-        value = self.cf.get("SWITCH", name)
-        return value
-
-    def HTTP(self, name):
-        value = self.cf.get("HTTP", name)
-        return value
-
-    def USER(self, name):
-        value = self.cf.get("USER", name)
+    def FILE(self, name):
+        value = self.cf.get("FILE", name)
         return value
 
     def DB_SQL(self, name):
         value = self.cf.get("DB_SQL", name)
-        return value
-
-    def DB_DM(self, name):
-        value = self.cf.get("DB_DM", name)
-        return value
-
-    def FILE(self, name):
-        value = self.cf.get("FILE", name)
         return value
 
     def write(self, folder, key, value):

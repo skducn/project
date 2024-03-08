@@ -50,10 +50,10 @@ class Chc_rule_PO():
         self.sheetName = sheetName
 
         # 读取疾病身份证对应的表(a_jibingshenfenzheng)
-        self.jbsfz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.EXCEL("jbsfz"))
+        self.jbsfz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.FILE("jbsfz"))
         # print(self.jbsfz)
         # 读取测试规则对应的表(a_ceshiguize)
-        self.csgz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.EXCEL("csgz"))
+        self.csgz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.FILE("csgz"))
         # print(self.csgz)
 
     def createTable(self, sheetName):
@@ -64,7 +64,7 @@ class Chc_rule_PO():
 
         Sqlserver_PO.execute("drop table if exists " + dbTable)
         # excel导入db
-        Sqlserver_PO.xlsx2db(Configparser_PO.EXCEL("case"), dbTable, sheetName)
+        Sqlserver_PO.xlsx2db(Configparser_PO.FILE("case"), dbTable, sheetName)
 
         if sheetName != "测试规则" and sheetName != "疾病身份证":
             Sqlserver_PO.execute("ALTER table %s alter column result varchar(999)" % (dbTable))  # 此列没数据，创建后是float，需转换成char
@@ -110,29 +110,29 @@ class Chc_rule_PO():
         '''
 
         command = "curl -X GET \"" + Configparser_PO.HTTP("url") + ":8011/server/tAssessInfo/rerunExecuteRule/" + str(varId) + "\" -H \"accept: */*\" -H \"Content-Type: application/json\" -H \"Authorization:" + str(self.TOKEN) + "\""
-        if Configparser_PO.SWITCH("printInterface") == "on":
+        if Configparser_PO.SWITCH("interface") == "on":
             print(command)
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
         sleep(2)
-        if Configparser_PO.SWITCH("printInterface") == "on":
+        if Configparser_PO.SWITCH("interface") == "on":
             Color_PO.consoleColor("31", "33", str_r, "")
 
         if 'code' in d_r:
             if d_r['code'] != 200:
-                if Configparser_PO.SWITCH("printsql") == "on":
+                if Configparser_PO.SWITCH("SQL") == "on":
                     Color_PO.consoleColor("31", "31", str_r, "")
                 self.log = self.log + "\n" + str_r
                 return ([{'name':'重新评估', 'value' : "[ERROR => 重新评估(i_rerunExecuteRule) => " + str(str_r) + "]"}])
             else:
                 return None
-                # if Configparser_PO.SWITCH("printsql") == "on":
+                # if Configparser_PO.SWITCH("SQL") == "on":
                 #     Color_PO.consoleColor("31", "33", "重新评估(i_rerunExecuteRule) => " + str_r, "")
                 # return ([{'name':'重新评估', 'value': 200}])
         else:
-            if Configparser_PO.SWITCH("printsql") == "on":
+            if Configparser_PO.SWITCH("SQL") == "on":
                 Color_PO.consoleColor("31", "31", str_r, "")
             self.log = self.log + "\n" + str_r
             # 如：{"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
@@ -150,7 +150,7 @@ class Chc_rule_PO():
         command = "curl -X POST \"" + Configparser_PO.HTTP("url") + ":8014/tAssessInfo/startAssess\" -H \"token:" + \
                   self.TOKEN + "\" -H \"Request-Origion:SwaggerBootstrapUi\" -H \"accept:*/*\" -H \"Authorization:\" " \
                                "-H \"Content-Type:application/json\" -d \"{\\\"categoryCode\\\":\\\"\\\",\\\"idCard\\\":\\\"" + str(varIdcard) + "\\\",\\\"orgCode\\\":\\\"\\\"}\""
-        if Configparser_PO.SWITCH("printInterface") == "on":
+        if Configparser_PO.SWITCH("interface") == "on":
             print(command)
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
@@ -158,22 +158,22 @@ class Chc_rule_PO():
         d_r = json.loads(str_r)
         sleep(2)
 
-        if Configparser_PO.SWITCH("printInterface") == "on":
+        if Configparser_PO.SWITCH("interface") == "on":
             Color_PO.consoleColor("31", "33", str_r, "")
 
         if 'code' in d_r:
             if d_r['code'] != 200:
-                if Configparser_PO.SWITCH("printsql") == "on":
+                if Configparser_PO.SWITCH("SQL") == "on":
                     Color_PO.consoleColor("31", "31", str_r, "")
                 self.log = self.log + "\n" + str_r
                 return ([{'name':'新增评估', 'value' : "[ERROR => 新增评估(i_startAssess) => " + str(str_r) + "]"}])
             else:
                 return None
-                # if Configparser_PO.SWITCH("printsql") == "on":
+                # if Configparser_PO.SWITCH("SQL") == "on":
                 #     Color_PO.consoleColor("31", "33", "新增评估(i_startAssess) =>  => " + str_r, "")
                 # return ([{'name':'新增评估', 'value': 200}])
         else:
-            if Configparser_PO.SWITCH("printsql") == "on":
+            if Configparser_PO.SWITCH("SQL") == "on":
                 Color_PO.consoleColor("31", "31", str_r, "")
             self.log = self.log + "\n" + str_r
             # 如：{"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
@@ -436,8 +436,6 @@ class Chc_rule_PO():
         if varQty == 1:
             Color_PO.consoleColor("31", "36", (("[" + str(self.sheetName) + " => " + str(self.dbId) + "(" + str(self.rule) + ") => OK]").center(100, '-')), "")
             Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTable, self.dbId))
-            Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
-            # Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTable, self.dbId))
         else:
             # Color_PO.consoleColor("31", "31", (("[" + str(self.dbTable) + " => " + str(self.dbId) + "(" + str(self.rule) + ") => ERROR]").center(100, '-')), "")
             # self.log = "[error]\n" + self.log
@@ -445,25 +443,21 @@ class Chc_rule_PO():
             self.log = (self.log).replace("'", "''")
             Color_PO.consoleColor("31", "31", (("[" + str(self.sheetName) + " => " + str(self.dbId) + "(" + str(self.rule) + ") => ERROR]").center(100, '-')), "")
             Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTable, self.log, self.dbId))
-            Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
-            # Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTable, self.dbId))
+        Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
 
     def outResult2(self, varQty):
 
         if varQty == 2:
             Color_PO.consoleColor("31", "36", (("[" + str(self.dbTable) + " => " + str(self.dbId) + "(" + str(self.rule) + ") => OK]").center(100, '-')), "")
             Sqlserver_PO.execute("update %s set result='ok' where id=%s" % (self.dbTable, self.dbId))
-            Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
-            # Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTable, self.dbId))
         else:
-            print("step log".center(100, "-"))
-            self.log = "error," + self.log
+            # print("step log".center(100, "-"))
+            # self.log = "error," + self.log
             print(self.log)
             self.log = (self.log).replace("'", "''")
             Color_PO.consoleColor("31", "31", (("[" + str(self.dbTable) + " => " + str(self.dbId) + "(" + str(self.rule) + ") => ERROR]").center(100, '-')), "")
             Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTable, self.log, self.dbId))
-            Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
-            # Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTable, self.dbId))
+        Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
 
     def outResultGW(self, d_actual):
 
@@ -476,7 +470,7 @@ class Chc_rule_PO():
                 varSign = varSign + 1
                 d_error[k] = v
 
-        if Configparser_PO.SWITCH("printSql") == "on":
+        if Configparser_PO.SWITCH("SQL") == "on":
             print('值 => ' + str(d_actual))
 
         if varSign == 0:
@@ -623,7 +617,7 @@ class Chc_rule_PO():
                     l_sql[i] = str(l_sql[i]).replace("{GUID}", str(d_update['GUID']))
 
             # todo 输出sql语句
-            if Configparser_PO.SWITCH("printSql") == "on":
+            if Configparser_PO.SWITCH("SQL") == "on":
                 print(str(i + 1) + ", " + l_sql[i])  # 1, delete from T_ASSESS_INFO where ID_CARD = '310101202308070003'
 
             # 记录步骤日志
@@ -640,7 +634,7 @@ class Chc_rule_PO():
                 if isinstance(a, list) and a != []:
                     if isinstance(a[0], dict):
                         pc.copy(str(a[0]))  # 复制到剪贴板
-                        if Configparser_PO.SWITCH("printSql") == "on":
+                        if Configparser_PO.SWITCH("SQL") == "on":
                             Color_PO.consoleColor("31", "33", a[0], "")  # 橙色显示参数值 {'ID': 498228, 'ID_CARD': '110101193001191103'}
 
                         if "QTY" in a[0]:
@@ -704,7 +698,7 @@ class Chc_rule_PO():
                     l_sql[i] = str(l_sql[i]).replace("{GUID}", str(d_update['GUID']))
 
             # todo 输出sql语句 - gw
-            if Configparser_PO.SWITCH("printSql") == "on":
+            if Configparser_PO.SWITCH("SQL") == "on":
                 print(str(i + 1) + ", " + l_sql[i])  # 2, delete from T_ASSESS_INFO where ID_CARD = '310101202308070003'
 
             # todo 记录步骤日志 - gw
@@ -721,7 +715,7 @@ class Chc_rule_PO():
                     if isinstance(a[0], dict):
                         pc.copy(str(a[0]))
                         self.log = self.log + "\n" + str(a[0])
-                        if Configparser_PO.SWITCH("printSql") == "on":
+                        if Configparser_PO.SWITCH("SQL") == "on":
                             for k, v in a[0].items():
                                 if k == "QTY0" or k == "ID":
                                     Color_PO.consoleColor("31", "33", a[0], "")
