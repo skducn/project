@@ -2,7 +2,9 @@
 # *****************************************************************
 # Author     : John
 # Created on : 2024-1-10
-# Description: 公卫 - 省平台数据上报
+# Description: 公卫上传省平台字段比对自动化
+# 【腾讯文档】公卫上传省平台字段比对自动化
+# https://docs.qq.com/sheet/DQmt3b0ZtaFJ0UUx0?scene=38dd5f6f6c27e537c65a062eHM2mr1&tab=6t6cya
 # *****************************************************************
 
 from Gw_upload_PO import *
