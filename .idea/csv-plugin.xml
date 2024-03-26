@@ -3,6 +3,27 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/PO/data/qqw.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/PO/data/test12.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/PO/data/test99.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/instance/httpRunner2/cms/data/account.csv">
           <value>
             <Attribute>
@@ -10,7 +31,14 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/ipynb/DC.csv">
+        <entry key="/instance/数据分析挖掘/sales_data.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/instance/数据分析挖掘/sales_data1.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -31,13 +59,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/ipynb/James_Harden.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="/ipynb/RTF.csv">
           <value>
             <Attribute>
@@ -52,13 +73,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/test/pytest/hello.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="/test/pytest/hello2.csv">
           <value>
             <Attribute>
@@ -66,21 +80,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/test/pytest/test.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="/test/pytest/test1.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/test/pytest/test3.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

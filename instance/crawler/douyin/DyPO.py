@@ -27,8 +27,8 @@ sys.path.append("/Users/linghuchong/Downloads/51/Python/project/")
 # from PO.HttpPO import *
 # Http_PO = HttpPO()
 #
-# from PO.StrPO import *
-# Str_PO = StrPO()
+from PO.StrPO import *
+Str_PO = StrPO()
 
 # from PO.WebPO import *
 # Web_PO = WebPO("chrome")
@@ -147,6 +147,7 @@ class DyPO:
 
 		# 视频标题
 		v_desc = v_rs['aweme_detail']['desc']
+		v_desc = Str_PO.delSpecialChar(v_desc)
 		# print(v_desc)
 		# title = re.search(r'^(.*?)[；;。.#]', v_desc).group(0)
 		# print(title)
@@ -154,8 +155,8 @@ class DyPO:
 		# print(title)
 
 		# 3 下载视频
-		result = self.downVideo(v_url, v_nickname, v_desc, savePath)
-		return result
+		result, pathFile = self.downVideo(v_url, v_nickname, v_desc, savePath)
+		return (result, pathFile)
 
 
 	def downVideo(self, v_url, v_folder, v_title,  savePath):
@@ -170,9 +171,10 @@ class DyPO:
 
 		print("下载 => ", v_url)
 
-		# 存放路径
+		# 完整路径文件
 		ff = savePath + v_folder + "/" + v_title + ".mp4"
 		# print(ff)
+		pathFile = savePath + v_folder + "/" + v_title
 
 		# 写入文件
 		res = requests.get(v_url)
@@ -180,7 +182,7 @@ class DyPO:
 			f.write(res.content)
 
 		print("[已完成] => ", ff)
-		return savePath + v_folder
+		return (savePath + v_folder, pathFile)
 
 
 

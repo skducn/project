@@ -187,7 +187,7 @@ class StrPO:
         """3 删除特殊字符"""
         # 文件名不包含以下任何字符：”（双引号）、 * （星号）、 < （小于）、 > （大于）、?（问号）、\（反斜杠）、 | （竖线）、 / (正斜杠)、: (冒号)。
 
-        varStr = str(varStr).replace('"', "").replace('*', "").replace('<', "").replace('>', "").replace('?', "").replace('\\', "").replace('/', "").replace('|', "").replace(':', "")
+        varStr = str(varStr).replace('"', "").replace('*', "").replace('<', "").replace('>', "").replace('?', "").replace('\\', "").replace('/', "").replace('|', "").replace(':', "").replace(' ', "")
         return varStr
 
     def roundInt(self, float):

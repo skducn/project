@@ -16,6 +16,11 @@
 from DyPO import *
 Dy_PO = DyPO()
 
+from pydub import AudioSegment
+import os, sys, subprocess
+# varFile, x = os.path.splitext(os.path.split(sys.argv[1])[1])
+# print(os.getcwd() + "\\" + str(varFile) + '.mp3')
+
 import sys
 query = sys.argv[1]
 # print(query)
@@ -27,7 +32,14 @@ query = sys.argv[1]
 
 
 if platform.system() == "Darwin":
-    folder, pathFile = Dy_PO.getVideo2(query, "/Users/linghuchong/Downloads/video/douyin/")
+    (folder, pathFile) = Dy_PO.getVideo2(query, "/Users/linghuchong/Downloads/video/douyin/")
+    print(folder, pathFile)
+    subprocess.call("ffmpeg -i " + pathFile + ".mp4" + " -ar 16000 -vn " + pathFile + ".mp3", shell=True)
+
     f = folder.replace(" ", "\\ ")
-    # print(f)
     os.system("open " + f)
+
+
+
+
+
