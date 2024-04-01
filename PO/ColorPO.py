@@ -19,7 +19,12 @@ class ColorPO:
             total = total + "\033[31;" + str(k) + "m" + str(v) + " \033[0m"
         print(total)
 
-
+    def getColor(self, d):
+        # 控制台输出各种颜色字体，多个参数颜色间隔开。
+        result = ""
+        for k, v in d.items():
+            result = result + "\033[31;" + str(k) + "m" + str(v) + " \033[0m"
+        return result
 
 if __name__ == "__main__":
 
