@@ -81,7 +81,7 @@ def _getManHour(varYear, varMonth, varProject, var_l_who):
         r = Mysql_PO.execQuery(sql)
         if r[0][0] != None:
             sum = sum + r[0][0]
-    r = Color_PO.getColor({"31": varProject}) + "=> " + str(sum) + " => " + Color_PO.getColor({"34": str((sum/8)) + "天 "})
+    r = Color_PO.getColor({"31": varProject}) + "=> " + str(sum) + Color_PO.getColor({"34": " (" + str((sum/8)) + "天" + ")"} )
     print(r)
     return sum
 
@@ -94,6 +94,8 @@ def getProject(varYear, varMonth, var_l_who):
     s_lastDay = calendar.monthrange(varYear, varMonth)[1]
     varStartDate = str(varYear) + "-" + str(varMonth) + "-1"
     varEndDate = str(varYear) + "-" + str(varMonth) + "-" + str(s_lastDay)
+    # todo print 2024-3-1 ~ 2024-3-31
+    print(str(varMonth) + "月(" + varStartDate + " ~ " + varEndDate + ")工时明细")
 
     for i in range(len(var_l_who)):
         sql="SELECT DISTINCT zt_project.`name` FROM " \
@@ -105,7 +107,9 @@ def getProject(varYear, varMonth, var_l_who):
             "ORDER By realname, finishedDate"
         p = Mysql_PO.execQuery(sql)
         # print(str(var_l_who[i]) + " => " + str(p))
-        print((str(varMonth) + "月 " + str(var_l_who[i])).center(100, "-"))
+        # todo print 3月XXX
+        print("-----------------------------------")
+        print(str(var_l_who[i]))
         for j in range(len(p)):
             sum = _getManHour(varYear, varMonth, p[j][0], [var_l_who[i]])
             sum2 = sum2 + sum
@@ -124,7 +128,7 @@ def getProject(varYear, varMonth, var_l_who):
 
 
 # todo 获取所有项目明细工时与总工时
-getProject(2024, 3, ['郭浩杰', '陈晓东', '郭斐', '刘斌龙', '舒阳阳', '金浩'])
+getProject(2024, 4, ['郭浩杰', '陈晓东', '郭斐', '刘斌龙', '舒阳阳', '金浩'])
 # 3月工时(电子健康档案数据管理平台产品研发项目2.0) => 3.0['刘斌龙(3.0)'] => 0.375天
 # 3月工时(社区健康管理中心) => 52.0['刘斌龙(52.0)'] => 6.5天
 # 3月工时(区域公共卫生管理系统) => 103.0['刘斌龙(103.0)'] => 12.875天

@@ -142,17 +142,12 @@ class DyPO:
 
 		# 昵称（目录）
 		v_nickname = v_rs['aweme_detail']['author']['nickname']
-		# print(v_nickname)
-		v_nickname = str(v_nickname).replace(" ", "_")
+		v_nickname = str(v_nickname).replace(" ", "_").replace("(", "").replace(")", "")
 
-		# 视频标题
+		# 标题
 		v_desc = v_rs['aweme_detail']['desc']
 		v_desc = Str_PO.delSpecialChar(v_desc)
-		# print(v_desc)
-		# title = re.search(r'^(.*?)[；;。.#]', v_desc).group(0)
-		# print(title)
-		# title = re.search(r'^(.*?)[；;。.#]', v_desc).group(1)
-		# print(title)
+
 
 		# 3 下载视频
 		result, pathFile = self.downVideo(v_url, v_nickname, v_desc, savePath)
