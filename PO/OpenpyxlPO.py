@@ -81,7 +81,7 @@ from PO.MysqlPO import *
 
 2.0.1 在第N行前插入多行空白 insertNullRows(3, 5) 在第3行前插入5行空白
 2.0.2 在第N列前插入多列空白 insertNullCols(3) 在第3列前插入1列空白
-2.1 更新单元格值 setCell(1, 2, "hello") 等同于 Openpyxl_PO.setCell(1, 'B', "hello")
+2.1 更新单元格值 setCell(1, 2, "hello") 等同于 setCell(1, 'B', "hello")
 
 2.2 插入行数据 insertRows({1: ["100", 101, "102"], 5: ["444", "123", "666"]})
 2.3 更新行数据 setRows({7: ["200", 222, "555"], 8: ["777", "345", "888"]})
@@ -162,7 +162,14 @@ class OpenpyxlPO:
 
         self.file = file
         if self.file != "":
+
             self.wb = openpyxl.load_workbook(self.file)
+        else:
+            wb = openpyxl.Workbook()
+            ws = wb.active
+            ws.title = "Sheet1"
+            wb.create_sheet("Sheet1")
+            wb.save(self.file)
         # self.wb.sheetnames
         # self.wb.active  # 获取当前活跃的Worksheet对象
         # print(self.wb.active)  # <Worksheet "北京">
@@ -175,21 +182,21 @@ class OpenpyxlPO:
 
     # todo [工作表]
 
-    # def newExcel(self, varFileName, *varSheetName):
-    # 
-    #     # 1.1 新建excel(覆盖)
-    #     # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
-    #     # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
-    #     # 注意：如果文件已存在则会先删除后再新建。
-    #     wb = openpyxl.Workbook()
-    #     ws = wb.active
-    #     if len(varSheetName) == 0:
-    #         ws.title = "Sheet1"
-    #     else:
-    #         ws.title = varSheetName[0]
-    #     for i in range(1, len(varSheetName)):
-    #         wb.create_sheet(varSheetName[i])
-    #     wb.save(varFileName)
+    def newExcel_str(self, varFileName, *varSheetName):
+
+        # 1.1 新建excel(覆盖)
+        # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
+        # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
+        # 注意：如果文件已存在则会先删除后再新建。
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        if len(varSheetName) == 0:
+            ws.title = "Sheet1"
+        else:
+            ws.title = varSheetName[0]
+        for i in range(1, len(varSheetName)):
+            wb.create_sheet(varSheetName[i])
+        wb.save(varFileName)
 
     def newExcel(self, varFileName, l_sheetName):
 
@@ -402,6 +409,7 @@ class OpenpyxlPO:
         for k, v in d_var.items():
             self.insertNullRows(int(k), varSheet=varSheet)
         self.setRows(d_var, varSheet=varSheet)
+        self.save()
 
     def setRows(self, d_var, varSheet=0):
 
@@ -1338,7 +1346,7 @@ class OpenpyxlPO:
 if __name__ == "__main__":
 
     Sys_PO.clsApp("Microsoft Excel")
-    Openpyxl_PO = OpenpyxlPO("./data/area.xlsx")
+    Openpyxl_PO = OpenpyxlPO("./data/2.xlsx")
 
 
     # print("1.1 新建".center(100, "-"))
@@ -1346,7 +1354,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.newExcel("d://t44.xlsx", ["mySheet661", "mySheet552", "mySheet32"])  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
 
     # print("1.2 打开".center(100, "-"))
-    Openpyxl_PO.open(1)  # 打开第二个工作表
+    # Openpyxl_PO.open(1)  # 打开第二个工作表
     # Openpyxl_PO.open() # 打开第一个工作表
     # Openpyxl_PO.open('test')  # 打开test工作表
 
@@ -1365,9 +1373,7 @@ if __name__ == "__main__":
 
 
     # print("2.0.1 在第N行前插入多行空白".center(100, "-"))
-    # Openpyxl_PO.insertNullRows(1)  # 在第三行前插入一行空白， 等同于 insertRows(3, 1)
-    # Openpyxl_PO.insertNullRows(5)  # 在第三行前插入一行空白， 等同于 insertRows(3, 1)
-    # Openpyxl_PO.insertRows(3, 5)  # 在第三行前插入五行空白
+    # Openpyxl_PO.insertNullRows(5)  # 在第5行前插入一行空白
 
     # print("2.0.2 在第N列前插入多列空白".center(100, "-"))
     # Openpyxl_PO.insertCols(3)  # 在第3列前插入1列空白， 等同于 insertCols(3, 1)
@@ -1378,7 +1384,7 @@ if __name__ == "__main__":
     # Openpyxl_PO.setCell(1, 3, "hello")
 
     # print("2.2 插入行数据".center(100, "-"))
-    # Openpyxl_PO.insertRows({2: ["金浩", "101", "102"], 5: ["yoyo", "123", "666"]})
+    # Openpyxl_PO.insertRows({2: ["金浩", "101", "102"]}, "Sheet1")
 
     # print("2.3 更新行数据".center(100, "-"))
     # Openpyxl_PO.setRows({2: ["金浩", "101", "102"], 5: ["yoyo", "123", "666"]})

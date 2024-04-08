@@ -34,7 +34,6 @@ from PO.OpenpyxlPO import *
 # 统计人员
 varJinhao = '金浩'
 # varShuyangyang = '舒阳阳'
-# varWanggang = '汪刚'
 # varChenxiaodong = '陈晓东'
 # varGuohaojie = '郭浩杰'
 # varGuofei = '郭斐'
@@ -45,26 +44,30 @@ varJinhao = '金浩'
 varStartDate = Time_PO.getDateByMinusPeriod(-1)
 # varEndDate = "2023-02-08  23:59:59"
 varEndDate = Time_PO.getDateByMinus() + " 23:59:59"
-
+print(varStartDate)
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 excelName = "zentao_daily.xlsx"
-excelSheet = str(varStartDate) + "_" + Time_PO.getDateByMinus()
-
+# excelSheet = str(varStartDate) + "_" + Time_PO.getDateByMinus()
+sheetName = str(varStartDate)
+sheetName = "test"
+print(sheetName)
 
 # 如果文档不存在，自动创建
 if os.path.isfile(os.getcwd() + "\\" + excelName):
     Openpyxl_PO = OpenpyxlPO(excelName)
-    Openpyxl_PO.addCoverSheet(excelSheet, 0)
+    Openpyxl_PO.addCoverSheet(sheetName, 0)
 else:
     Openpyxl_PO = OpenpyxlPO('')
-    Openpyxl_PO.newExcel(excelName, excelSheet)
+    # Openpyxl_PO.newExcel(excelName, l_sheetName)
+    Openpyxl_PO.newExcel_str(excelName, sheetName)
 
 
 # 获取人员的禅道日报记录，并保存到文档
 # Mysql_PO.cur.execute("SELECT zt_user.realname AS '姓名', zt_project.`name` AS '项目', zt_module.`name` AS '模块', zt_task.`name` AS '任务', zt_task.desc AS '描述', zt_effort.consumed AS '工时', zt_task.finishedDate AS '完成时间' FROM zt_task INNER JOIN zt_project ON zt_task.project = zt_project.id INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story LEFT JOIN zt_module ON zt_task.module = zt_module.id LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id WHERE zt_task.finishedDate BETWEEN '%s' AND '%s' AND zt_effort.date BETWEEN  '%s' AND '%s' AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 AND realname IN ('%s','%s','%s','%s','%s','%s','%s')ORDER BY realname,finishedDate" % (varStartDate, varEndDate, varStartDate, varEndDate, varJinhao,varShuyangyang,varWanggang,varChenxiaodong,varGuohaojie,varGuofei,varLiubinlong))
 Mysql_PO.cur.execute("SELECT zt_user.realname AS '姓名', zt_project.`name` AS '项目', zt_module.`name` AS '模块', zt_task.`name` AS '任务', zt_task.desc AS '描述', zt_effort.consumed AS '工时', zt_task.finishedDate AS '完成时间' FROM zt_task INNER JOIN zt_project ON zt_task.project = zt_project.id INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story LEFT JOIN zt_module ON zt_task.module = zt_module.id LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id WHERE zt_task.finishedDate BETWEEN '%s' AND '%s' AND zt_effort.date BETWEEN  '%s' AND '%s' AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 AND realname IN ('%s')ORDER BY realname,finishedDate" % (varStartDate, varEndDate, varStartDate, varEndDate, varJinhao))
 tmpTuple = Mysql_PO.cur.fetchall()
+print(tmpTuple)
 list1 = []
 list2 = []
 count = 1
@@ -82,9 +85,12 @@ for i in tmpTuple:
     list2.append(list1)
     list1 = []
     count = count + 1
+print(list2)
 
-Openpyxl_PO.insertRows({1: ["姓名", "项目", "模块", "标题", "描述", "工时", "完成日期", "评审意见"]}, excelSheet)
-Openpyxl_PO.setRows(list2, excelSheet)
+
+
+Openpyxl_PO.insertRows({1: ["姓名", "项目", "模块", "标题", "描述", "工时", "完成日期", "评审意见"]}, sheetName)
+# Openpyxl_PO.setRows(list2, sheetName)
 Openpyxl_PO.save()
 
 
