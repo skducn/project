@@ -158,18 +158,21 @@ from PO.MysqlPO import *
 
 class OpenpyxlPO:
 
-    def __init__(self, file):
+    def __init__(self, pathFile, status=""):
 
-        self.file = file
-        if self.file != "":
+        self.file = pathFile
 
-            self.wb = openpyxl.load_workbook(self.file)
-        else:
+        if status == 'new':
             wb = openpyxl.Workbook()
             ws = wb.active
             ws.title = "Sheet1"
-            wb.create_sheet("Sheet1")
+            wb.create_sheet("Sheet2")
+            wb.create_sheet("Sheet3")
+            os.getcwd()
             wb.save(self.file)
+        else:
+            self.wb = openpyxl.load_workbook(self.file)
+
         # self.wb.sheetnames
         # self.wb.active  # 获取当前活跃的Worksheet对象
         # print(self.wb.active)  # <Worksheet "北京">
@@ -282,7 +285,6 @@ class OpenpyxlPO:
                 sheet.sheet_view.tabSelected = False
         self.save()
 
-        # return self.wb[varSheet]
 
     def addSheet(self, varSheetName, varIndex=0):
     
@@ -352,6 +354,13 @@ class OpenpyxlPO:
         '''
         self.wb.save(self.file)
 
+    def renameSheet(self, varOldSheetName, varNewSheetName):
+
+        "1.10 sheet改名"
+        # ws = self.wb.get_sheet_by_name(varOldSheetName)
+        ws = self.wb[varOldSheetName]
+        ws.title = varNewSheetName
+        self.save()
 
 
     # todo [设置]
@@ -1345,8 +1354,16 @@ class OpenpyxlPO:
 
 if __name__ == "__main__":
 
-    Sys_PO.clsApp("Microsoft Excel")
-    Openpyxl_PO = OpenpyxlPO("./data/2.xlsx")
+    # Sys_PO.clsApp("Microsoft Excel")
+    Openpyxl_PO = OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/qq1.xlsx")
+    Openpyxl_PO.renameSheet("test", "123")
+    Openpyxl_PO.open()
+
+
+    # print("1.1 新建".center(100, "-"))
+    # OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/qq1.xlsx", 'new')
+    # Openpyxl_PO = OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/qq1.xlsx")
+    # Openpyxl_PO.open()
 
 
     # print("1.1 新建".center(100, "-"))

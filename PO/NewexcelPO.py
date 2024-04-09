@@ -44,14 +44,9 @@ from openpyxl.utils import get_column_letter
 from datetime import date
 from time import sleep
 import psutil
-from PO.ColorPO import *
 
-Color_PO = ColorPO()
-from PO.CharPO import *
 
-Char_PO = CharPO()
 from PO.SysPO import *
-
 Sys_PO = SysPO()
 
 """
@@ -80,22 +75,13 @@ class NewexcelPO:
         for i in range(1, len(varSheetName)):
             wb.create_sheet(varSheetName[i])
         wb.save(varFileName)
-        # except:
-        #     print("errorrrrrrrrrr, call " + sys._getframe().f_code.co_name + "() from " + str(sys._getframe(1).f_lineno) + " row, error from " + str(sys._getframe(0).f_lineno) + " row")
 
-    def open(self, file):
-        if platform.system() == "Darwin":
-            os.system("open " + file)
-        if platform.system() == "Windows":
-            os.system("start " + file)
 
 
 if __name__ == "__main__":
 
-    Sys_PO.killPid("EXCEL.EXE")
 
     # 新建excel，默认生成一个工作表Sheet1
     # Newexcel_PO = NewexcelPO("./ExcelPO/KILL.xlsx", "mySheet1", "mySheet2", "mySheet3")
     Newexcel_PO = NewexcelPO("./ExcelPO/KILL.xlsx")
 
-    # Newexcel_PO.open("./OpenpyxlPO/KILL.xlsx")

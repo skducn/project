@@ -88,8 +88,6 @@ class FilePO:
         else:
             shutil.copyfile(srcFilePath, tgtFilePath)
 
-
-
     def removeFile(self, varPath, varFile):
 
         '''
