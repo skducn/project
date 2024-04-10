@@ -3,18 +3,21 @@
 # Author        : John
 # Date          : 2020-12-8
 # Description   : openpyxl 对象层
-# openpyxl 官网：http://openpyxl.readthedocs.org/en/latest/
-# 支持.xlsx / .xlsm / .xltx / .xltm格式的文件
-# 首行、首列 是 （1,1）而不是（0,0）
-# NULL空值 = python中的None，表示这个cell里面没有数据。
-# numberic数字型 = python中的float
-# string字符串型 = python中的unicode
-# openpyxl 会将整个xlsx读入到内存中，方便处理。
+# *********************************************************************
+# 官网：http://openpyxl.readthedocs.org/en/latest/
+# openpyxl 工作原理：将整个xlsx读入内存，方便处理。
 # openpyxl 操作大文件时可使用 Optimized reader 和 Optimized writer 两种模式，它们提供了流式的接口，速度更快，使我们可以用常量级的内存消耗来读取和写入无限量的数据。
 # Optimized reader 可用 use_iterators=True参数打开，如：wb = load_workbook(filename = 'haggle.xlsx',use_iterators=True)
 # openpyxl 读取大数据的效率没有 xlrd 高。
 # xlsxwriter xlrd xlwt xlutils 这些库都不支持 excel 写操作，一般只能将原excel中的内容读出、做完处理后，再写入一个新的excel文件。
 # 扩展学习 xlwings https://blog.csdn.net/qfxietian/article/details/123822358
+
+# 支持excel2010 .xlsx / .xlsm / .xltx / .xltm格式的文件
+# 首行、首列 是（1,1）而不是（0,0）
+# NULL表示空值，即cell里面没有数据 ，等同于 python中的None
+# numberic 数字型 = python中的float
+# string 字符串型 = python中的unicode
+
 
 # todo: 使用方法
 # 参考：openpyxl常用模块用法 https://www.debug8.com/python/t_41519.html
@@ -31,6 +34,7 @@
 # todo: 颜色
 # 颜色码对照表（RGB与十六进制颜色码互转） https://www.sioe.cn/yingyong/yanse-rgb-16/
 # 绿色 = 00E400，黄色 = FFFF00，橙色 = FF7E00，红色 = FF0000，粉色 = 99004C，褐色 =7E0023,'c6efce = 淡绿', '006100 = 深绿'，'ffffff=白色', '000000=黑色'，'ffeb9c'= 橙色
+
 # todo: 表格列 A，B，C 与 1，2，3 互转
 from openpyxl.utils import get_column_letter, column_index_from_string
 # get_column_letter(2)  # 'B'
@@ -38,34 +42,19 @@ from openpyxl.utils import get_column_letter, column_index_from_string
 # *********************************************************************
 
 from openpyxl import load_workbook
-import openpyxl, sys, platform, os
-import openpyxl.styles
-from openpyxl.styles import (
-    Font,
-    PatternFill,
-    GradientFill,
-    Border,
-    Side,
-    Alignment,
-    Protection,
-    Alignment,
-)
-from openpyxl.utils import get_column_letter, column_index_from_string
 from datetime import date
 from time import sleep
 import psutil
 import xlwings as xw
 
-from PO.ColorPO import *
-Color_PO = ColorPO()
-from PO.CharPO import *
-Char_PO = CharPO()
-from PO.SysPO import *
-Sys_PO = SysPO()
+import openpyxl, platform, os
+# import openpyxl.styles
+from openpyxl.styles import (Font, PatternFill, GradientFill, Border, Side, Protection, Alignment)
+from openpyxl.utils import get_column_letter, column_index_from_string
+
 from PO.ListPO import *
 List_PO = ListPO()
 
-from PO.MysqlPO import *
 
 
 """
@@ -144,7 +133,7 @@ from PO.MysqlPO import *
 4.2.1 清空列保留标题 clsColRetainTitle(2)  # 清空第2列
 4.3 删除连续行 delSeriesRow(2, 3)  # 删除从第二行开始连续三行数据 （即删除2，3，4行）
 4.4 删除连续列 delSeriesCol(2, 3)  # 删除从第二列开始连续三列数据 （即删除2，3，4列）
-4.
+
 
 5.1 两表比较，获取差异内容（两表标题与行数必须一致）getDiffValueByCmp(Openpyxl_PO.getRow("Sheet2"), Openpyxl_PO2.getRow("Sheet2"))
 5.2 两工作表比较，对差异内容标注颜色 setColorByDiff("Sheet1", "Sheet2")
@@ -1354,9 +1343,8 @@ class OpenpyxlPO:
 
 if __name__ == "__main__":
 
-    # Sys_PO.clsApp("Microsoft Excel")
-    Openpyxl_PO = OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/qq1.xlsx")
-    Openpyxl_PO.renameSheet("test", "123")
+    Openpyxl_PO = OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/fold.xlsx")
+    Openpyxl_PO.renameSheet("1231", "444")
     Openpyxl_PO.open()
 
 
