@@ -55,6 +55,8 @@ from openpyxl.utils import get_column_letter, column_index_from_string
 from PO.ListPO import *
 List_PO = ListPO()
 
+print(openpyxl.__version__)
+
 
 
 """
@@ -152,6 +154,7 @@ class OpenpyxlPO:
         self.file = pathFile
 
         if status == 'new':
+            # 创建文件
             wb = openpyxl.Workbook()
             ws = wb.active
             ws.title = "Sheet1"
@@ -160,17 +163,22 @@ class OpenpyxlPO:
             os.getcwd()
             wb.save(self.file)
         else:
+            # 打开文件
             self.wb = openpyxl.load_workbook(self.file)
 
-        # self.wb.sheetnames
-        # self.wb.active  # 获取当前活跃的Worksheet对象
-        # print(self.wb.active)  # <Worksheet "北京">
-        # self.wb.worksheets  # 以列表的形式返回所有的Worksheet对象，如：[<Worksheet "北京">, <Worksheet "mySheet1">, <Worksheet "上海">]
-        # sh2 = self.wb['上海']
-        # print(sh2)
-        # self.wb.encoding  # 获取文档的字符集编码
-        # self.wb.properties  # 获取文档的元数据，如标题，创建者，创建日期等
-        # self.wb.active = 0  # 通过索引值设置当前活跃的worksheet
+            # 获取文档的字符集编码
+            # print(self.wb.encoding)  # utf-8
+
+            # 获取文档的元数据，如标题，创建者，创建日期等
+            # print(self.wb.properties)
+            # <openpyxl.packaging.core.DocumentProperties object>
+            # Parameters:
+            # creator='openpyxl', title=None, description=None, subject=None, identifier=None, language=None, created=datetime.datetime(2019, 1, 27, 18, 43, 19), modified=datetime.datetime(2024, 4, 11, 3, 55, 45), lastModifiedBy='jh', category=None, contentStatus=None, version=None, revision=None, keywords=None, lastPrinted=None
+
+            # print(self.wb.properties.lastModifiedBy)  # jh
+
+            # 通过索引值设置当前活跃的sheet
+            # self.wb.active = 1
 
     # todo [工作表]
 
@@ -485,7 +493,8 @@ class OpenpyxlPO:
         for i in range(len(l_l_cols)):
             l_colLetter.append(get_column_letter(totalCol+i+1))
         # print(l_colLetter)
-        d = List_PO.twoList2dict(l_colLetter, l_l_cols)
+        # d = List_PO.twoList2dict(l_colLetter, l_l_cols)
+        d = (dict(zip(l_colLetter, l_l_cols)))
         self.setCols(d)
 
     def setCellDimensions(self, row, rowQty, col, colQty, varSheet=0):
