@@ -41,23 +41,6 @@ from openpyxl.utils import get_column_letter, column_index_from_string
 # a = column_index_from_string('B')  # 2
 # *********************************************************************
 
-from openpyxl import load_workbook
-from datetime import date
-from time import sleep
-import psutil
-import xlwings as xw
-
-import openpyxl, platform, os
-# import openpyxl.styles
-from openpyxl.styles import (Font, PatternFill, GradientFill, Border, Side, Protection, Alignment)
-from openpyxl.utils import get_column_letter, column_index_from_string
-
-from PO.ListPO import *
-List_PO = ListPO()
-
-print(openpyxl.__version__)
-
-
 
 """
 1.1 新建 newExcel("./OpenpyxlPO/newfile2.xlsx", "mySheet1", "mySheet2", "mySheet3") 
@@ -146,81 +129,84 @@ print(openpyxl.__version__)
 
 """
 
+from openpyxl import load_workbook
+from datetime import date
+from time import sleep
+import psutil
+import xlwings as xw
+
+import openpyxl, platform, os
+# import openpyxl.styles
+from openpyxl.styles import (Font, PatternFill, GradientFill, Border, Side, Protection, Alignment)
+from openpyxl.utils import get_column_letter, column_index_from_string
+
+from PO.ListPO import *
+List_PO = ListPO()
+
+from PO.ColorPO import *
+Color_PO = ColorPO()
+
+print(openpyxl.__version__)
+
+import pandas as pd
+
 
 class OpenpyxlPO:
 
-    def __init__(self, pathFile, status=""):
+    def __init__(self, pathFile, l_sheet=[]):
 
         self.file = pathFile
 
-        if status == 'new':
+        if os.path.exists(self.file) == False:
+
             # 创建文件
             wb = openpyxl.Workbook()
             ws = wb.active
             ws.title = "Sheet1"
-            wb.create_sheet("Sheet2")
-            wb.create_sheet("Sheet3")
-            os.getcwd()
+            if l_sheet != []:
+                ws.title = "Sheet1"
+                for i in range(len(l_sheet)):
+                    wb.create_sheet(l_sheet[i])
             wb.save(self.file)
-        else:
-            # 打开文件
-            self.wb = openpyxl.load_workbook(self.file)
+            print('已创建 => ' + self.file)
 
-            # 获取文档的字符集编码
-            # print(self.wb.encoding)  # utf-8
+        # 打开文件
 
-            # 获取文档的元数据，如标题，创建者，创建日期等
-            # print(self.wb.properties)
-            # <openpyxl.packaging.core.DocumentProperties object>
-            # Parameters:
-            # creator='openpyxl', title=None, description=None, subject=None, identifier=None, language=None, created=datetime.datetime(2019, 1, 27, 18, 43, 19), modified=datetime.datetime(2024, 4, 11, 3, 55, 45), lastModifiedBy='jh', category=None, contentStatus=None, version=None, revision=None, keywords=None, lastPrinted=None
+        self.wb = openpyxl.load_workbook(self.file)
 
-            # print(self.wb.properties.lastModifiedBy)  # jh
 
-            # 通过索引值设置当前活跃的sheet
-            # self.wb.active = 1
+        # ws = self.wb.active
+        # ws.protection.sheet = False
+        # ws.protection.enable()
+        # ws.protection.disable()
+
+
+
+
+        # self.wb = openpyxl.load_workbook(self.file, keep_vba=True)
+        # self.wb.protect_worksheet(1)
+        # self.wb.active = 1
+        # self.wb.save(self.file)
+
+        # 获取文档的字符集编码
+        # print(self.wb.encoding)  # utf-8
+
+        # 获取文档的元数据，如标题，创建者，创建日期等
+        # print(self.wb.properties)
+        # <openpyxl.packaging.core.DocumentProperties object>
+        # Parameters:
+        # creator='openpyxl', title=None, description=None, subject=None, identifier=None, language=None, created=datetime.datetime(2019, 1, 27, 18, 43, 19), modified=datetime.datetime(2024, 4, 11, 3, 55, 45), lastModifiedBy='jh', category=None, contentStatus=None, version=None, revision=None, keywords=None, lastPrinted=None
+        # print(self.wb.properties.lastModifiedBy)  # jh
+
+        # 通过索引值设置当前活跃的sheet
+        # self.wb.active= 2
+
 
     # todo [工作表]
 
-    def newExcel_str(self, varFileName, *varSheetName):
 
-        # 1.1 新建excel(覆盖)
-        # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
-        # Openpyxl_PO.newExcel("d:\\444.xlsx", "mySheet1", "mySheet2","mySheet3")  # 新建excel生成三个工作表，默认在第一个mySheet1表。
-        # 注意：如果文件已存在则会先删除后再新建。
-        wb = openpyxl.Workbook()
-        ws = wb.active
-        if len(varSheetName) == 0:
-            ws.title = "Sheet1"
-        else:
-            ws.title = varSheetName[0]
-        for i in range(1, len(varSheetName)):
-            wb.create_sheet(varSheetName[i])
-        wb.save(varFileName)
 
-    def newExcel(self, varFileName, l_sheetName):
-
-        '''
-        1.1 新建excel(覆盖)
-        :param varFileName: 
-        :param l_sheetName: 
-        :return: 
-        # Openpyxl_PO.newExcel("d:\\444.xlsx")  # 新建excel默认一个Sheet1工作表
-        # Openpyxl_PO.newExcel("d:\\444.xlsx", ["mySheet1", "mySheet2","mySheet3"])  # 新建excel生成三个工作表，默认在第一个mySheet1表。
-        # 注意：如果文件已存在则会先删除后再新建。
-        '''
-
-        wb = openpyxl.Workbook()
-        ws = wb.active
-        if len(l_sheetName) == 1:
-            ws.title = "Sheet1"
-        else:
-            ws.title = l_sheetName[0]
-        for i in range(1, len(l_sheetName)):
-            wb.create_sheet(l_sheetName[i])
-        wb.save(varFileName)
-
-    def open(self, varSheet=0):
+    def open(self):
 
         '''
         1.2 打开
@@ -231,7 +217,6 @@ class OpenpyxlPO:
             # Openpyxl_PO.open('test')  # 打开test工作表
         '''
 
-        self.switchSheet(varSheet)
         if platform.system() == "Darwin":
             os.system("open " + self.file)
         if platform.system() == "Windows":
@@ -240,11 +225,10 @@ class OpenpyxlPO:
 
     def getSheets(self):
 
-        '''
-        1.3 获取所有工作表
+        ''' 1.1 获取所有工作表
         如 ['mySheet1', 'mySheet2', 'mySheet3']
-        :return: 
         '''
+
         return self.wb.sheetnames
 
     def sh(self, varSheet):
@@ -269,18 +253,18 @@ class OpenpyxlPO:
         '''
         1.5 切换工作表
         # switchSheet("Sheet2")
-        :param varSheet: 
-        :return: 
         '''
 
-        # self.wb[varSheet]
-        self.wb.active = self.sh(varSheet)
+        sh = self.sh(varSheet)
+        self.wb.active = 2
         for sheet in self.wb:
-            if sheet.title == varSheet:
+            # print(sheet,sh)
+            if sheet.title == sh.title:
                 sheet.sheet_view.tabSelected = True
             else:
                 sheet.sheet_view.tabSelected = False
         self.save()
+
 
 
     def addSheet(self, varSheetName, varIndex=0):
@@ -347,17 +331,31 @@ class OpenpyxlPO:
 
         '''
         1.9 保存
-        :return:
         '''
+
         self.wb.save(self.file)
 
-    def renameSheet(self, varOldSheetName, varNewSheetName):
+        # try:
+        #     self.wb.save(self.file)
+        # except PermissionError:
+        #     print("没有足够的权限保存文件，请检查权限。")
+        # except FileNotFoundError:
+        #     print("文件路径不存在，请检查路径是否正确。")
+        # except Exception as e:
+        #     print(f"发生未知错误：{e}")
 
-        "1.10 sheet改名"
-        # ws = self.wb.get_sheet_by_name(varOldSheetName)
-        ws = self.wb[varOldSheetName]
-        ws.title = varNewSheetName
-        self.save()
+
+    def renameSheet(self, varOldSheet, varNewSheet):
+
+        "1.10 重命名工作表"
+
+        try:
+            ws = self.wb[varOldSheet]
+            ws.title = varNewSheet
+            self.save()
+        except Exception as e :
+            # print("[ERROR] => renameSheet() => " + str(e))
+            Color_PO.consoleColor("31", "31", "[ERROR] => renameSheet() => " + str(e), '')
 
 
     # todo [设置]
@@ -405,7 +403,7 @@ class OpenpyxlPO:
         if isinstance(varCol, str):
             varCol = column_index_from_string(varCol)  # 将'B'转换成2
         sh.cell(row=varRow, column=varCol, value=varContent)
-        self.save()
+        # self.save()
 
 
     def insertRows(self, d_var, varSheet=0):

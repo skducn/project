@@ -3,19 +3,35 @@
 # Author        : John
 # Date          : 2020-12-8
 # Description   : openpyxl 应用层
+# https://pypi.org/project/openpyxl/#files
+# https://foss.heptapod.net/openpyxl/openpyxl/-/issues
+
 # *********************************************************************
 
 from PO.OpenpyxlPO import *
+from time import sleep
 
+# 打开文件（文件不存在则创建文件，默认Sheet1）
+# Openpyxl_PO = OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/7.xlsx")
+Openpyxl_PO = OpenpyxlPO("./data/7.xlsx")
+# Openpyxl_PO = OpenpyxlPO(r"/Users/linghuchong/Downloads/51/Python/project/PO/data/11.xlsx",['Sheet2','Sheet3'])
 
-Openpyxl_PO = OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/area2.xlsx")
-# Openpyxl_PO.renameSheet("1231", "444")
+# Openpyxl_PO.sh("Sheet2")
+# Openpyxl_PO.switchSheet("Sheet2")
+
+# Openpyxl_PO.setCell(12, 'B', "hello")
 Openpyxl_PO.save()
 
-# print("1.1 新建".center(100, "-"))
-# OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/qq1.xlsx", 'new')
-# Openpyxl_PO = OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/qq1.xlsx")
+# df = pd.DataFrame(pd.read_excel("./data/7.xlsx"))
+# df.to_excel("./data/7.xlsx", index=False, header=None)
+
+Openpyxl_PO.open()
+
+# Openpyxl_PO.renameSheet("Sheet1", "444")
+# Openpyxl_PO.addCoverSheet("mysheet1")
+# Openpyxl_PO.open('Sheet3')
 # Openpyxl_PO.open()
+
 
 # print("1.1 新建".center(100, "-"))
 # Openpyxl_PO.newExcel("./OpenpyxlPO/newfile2.xlsx", ["mySheet1", "mySheet2", "mySheet3"])  # 新建excel，生成三个工作表（mySheet1,mySheet2,mySheet3），默认定位在第一个mySheet1表。
@@ -261,4 +277,4 @@ Openpyxl_PO.save()
 # # print("7 将excel中标题（第一行字段）排序（从小打大）".center(100, "-"))
 # Openpyxl_PO.sortFields("Sheet1")
 
-Openpyxl_PO.open()
+# Openpyxl_PO.open()

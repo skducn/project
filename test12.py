@@ -9,9 +9,16 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-a= [{'in': 'body', 'name': 'loginFormVO', 'description': 'loginFormVO', 'required': True, 'schema': {'$ref': '#/definitions/LoginInputVO对象'}}]
+import pkg_resources
 
-print(a[1]['in'])
+installed_packages = pkg_resources.working_set
+for package in installed_packages:
+    print(package.key, package.version)
+
+
+# a= [{'in': 'body', 'name': 'loginFormVO', 'description': 'loginFormVO', 'required': True, 'schema': {'$ref': '#/definitions/LoginInputVO对象'}}]
+#
+# print(a[1]['in'])
 
 # import os, sys
 # from unrar import rarfile
