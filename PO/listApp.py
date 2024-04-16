@@ -225,5 +225,11 @@ a = [('YLJGDM', 'VARCHAR2'), ('GRDAID', 'VARCHAR2')]
 
 # 将整数转化成数字列表
 print(list(map(int, str(12345))))  # [1, 2, 3, 4, 5]
-
 print([int(x) for x in str(12345)])  # [1, 2, 3, 4, 5]
+
+# 递归展开列表
+from iteration_utilities import deepflatten
+l = [[1,2,3],[4,[5],[6,7]],[8,[9,[10]]]]
+print(list(deepflatten(l, depth=3)))  # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+print([i for sublist in [[1,2,3],[3]] for i in sublist])  # [1, 2, 3, 3]
