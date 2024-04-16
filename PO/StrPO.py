@@ -195,13 +195,13 @@ class StrPO:
 
     def delSpecialChar(self, varStr, *sc):
 
-        """3 删除特殊字符"""
+        """3.1 删除特殊字符"""
         # 文件名不包含以下任何字符：”（双引号）、 * （星号）、 < （小于）、 > （大于）、?（问号）、\（反斜杠）、 | （竖线）、 / (正斜杠)、: (冒号)。
         return str(varStr).replace('"', "").replace('*', "").replace('<', "").replace('>', "").replace('?', "").replace('\\', "").replace('/', "").replace('|', "").replace(':', "").replace(' ', "")
 
     def roundInt(self, float):
 
-        """5.1 浮点数四舍五入到整数位（取整）
+        """3.2 浮点数四舍五入到整数位（取整）
         # 分析：优化round（）函数整数四舍五入缺陷，原round()函数遇偶整数四舍五入时不进位如：round(12.5) =12 ； 遇奇整数则进位如：round(13.5)=14
         """
 
@@ -211,58 +211,58 @@ class StrPO:
         else:
             return round(float)
 
-    def addZero(self, varNum, varPatchNum):
-
-        """5.3 数字转字符串小数点后补0"""
-
-        varStr = ""
-        try:
-            if self.isComplex(varNum) == True:
-                if varNum == True:
-                    varNum = 1
-                if varNum == False:
-                    varNum = 0
-
-                if "." not in str(varNum):
-                    if isinstance(varPatchNum, int):
-                        if varPatchNum < 0:
-                            print("error1")
-                        elif varPatchNum == 0:
-                            return varNum
-                        else:
-                            varStr = str(varNum) + "." + "0" * varPatchNum  # 整数小数位补1个0
-                    else:
-                        print("error2")
-                else:
-                    if isinstance(varPatchNum, int):
-                        if varPatchNum < 0:
-                            dotLen = str(varNum).split(".")[1]
-                            if len(dotLen) <= int(-varPatchNum):
-                                return varNum[0 : -(len(dotLen) + 1)]
-                            else:
-                                return varNum[0:varPatchNum]
-                        else:
-                            dotLen = str(varNum).split(".")[1]  # 小数点后一个0
-                            if len(dotLen) > 0:
-                                varStr = str(varNum) + "0" * varPatchNum  # 整数小数位补1个0
-                    else:
-                        print("error3")
-
-                return varStr
-            else:
-                print("error4")
-        except:
-            print("error5")
+    # def addZero(self, varNum, varPatchNum):
+    #
+    #     """3.3 数字转字符串小数点后补0"""
+    #
+    #     varStr = ""
+    #     try:
+    #         if self.isComplex(varNum) == True:
+    #             if varNum == True:
+    #                 varNum = 1
+    #             if varNum == False:
+    #                 varNum = 0
+    #
+    #             if "." not in str(varNum):
+    #                 if isinstance(varPatchNum, int):
+    #                     if varPatchNum < 0:
+    #                         print("error1")
+    #                     elif varPatchNum == 0:
+    #                         return varNum
+    #                     else:
+    #                         varStr = str(varNum) + "." + "0" * varPatchNum  # 整数小数位补1个0
+    #                 else:
+    #                     print("error2")
+    #             else:
+    #                 if isinstance(varPatchNum, int):
+    #                     if varPatchNum < 0:
+    #                         dotLen = str(varNum).split(".")[1]
+    #                         if len(dotLen) <= int(-varPatchNum):
+    #                             return varNum[0 : -(len(dotLen) + 1)]
+    #                         else:
+    #                             return varNum[0:varPatchNum]
+    #                     else:
+    #                         dotLen = str(varNum).split(".")[1]  # 小数点后一个0
+    #                         if len(dotLen) > 0:
+    #                             varStr = str(varNum) + "0" * varPatchNum  # 整数小数位补1个0
+    #                 else:
+    #                     print("error3")
+    #
+    #             return varStr
+    #         else:
+    #             print("error4")
+    #     except:
+    #         print("error5")
 
     def subZero(self, varValue):
 
-        """5.4 数字转字符串小数点后去0"""
+        """3.3 数字转字符串小数点后去0"""
 
         return "{:g}".format(float(varValue))
 
     def patchZero(self, varList, varPatchNum=2):
 
-        """5.5 数字转字符串小数点后不足位数的补零（批量）"""
+        """3.4 数字转字符串小数点后不足位数的补零（批量）"""
         # 将列表中所有元素的格式变成.00，如： [11, 22.0, 33.00] => [11.00, 22.0, 33.00]
         # 注意：支持 数字或字符串数字，转换后列表内元素都是字符串。
 

@@ -57,6 +57,10 @@ todo：【删除】
 
 8 对齐列表的键值对格式 alignKeyValue(['key1,value1', 'key1,value1'], ","))
 
+# todo 应用
+整数转列表
+
+
 """
 
 import numpy
