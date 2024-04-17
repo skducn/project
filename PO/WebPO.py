@@ -6,48 +6,58 @@
 # pip install opencv_python    // cv2
 # ***************************************************************
 # todo selenium
-# 查看已安装的selenium版本：pip list | grep selenium   或 pip show selenium
-# 查看可安装的selenium版本：pip install selenium==
-# 安装指定selenium版本：pip install selenium==4.4.3
+# 查看版本：pip list | grep selenium 或 pip show selenium
+# 查看可安装版本：pip install selenium==
+# 安装指定版本：pip install selenium==4.4.3
 # 注：selenium 4.10 会引起浏览器自动关闭现象，实测安装4.4.3 正常
 
+
 # todo chrome
-# 1，查看Chrome浏览器版本，chrome://version
+# 1，查看版本：chrome://version
 # print(self.driver.capabilities['browserVersion'])  # 114.0.5735.198  //获取浏览器版本
 # print(self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # 114.0.5735.90  //获取chrome驱动版本
 # 注：以上两版本号前3位一样就可以，如 114.0.5735
 
-# 2，下载及配置chrome驱动
-# 下载1：http://chromedriver.storage.googleapis.com/index.html （旧）
-# 下载2：https://registry.npmmirror.com/binary.html?path=chromedriver （旧）
-# https://googlechromelabs.github.io/chrome-for-testing/#stable （新）
-# https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6045.105/mac-arm64/chromedriver-mac-arm64.zip
-# 注：将以上版本119.0.6045.105替换为需要的版本。
-# win系统默认调用路径：C:\Python38\Scripts\chromedrive.exe
-# mac自定义调用路径：
-# from selenium.webdriver.chrome.service import Service
-# self.driver = webdriver.Chrome(service=Service("/Users/linghuchong/Downloads/51/Python/project/instance/web/chromedriver"), options=options)
+# 2，下载驱动
+# 下载1：https://googlechromelabs.github.io/chrome-for-testing/#stable （新）
+# https://storage.googleapis.com/chrome-for-testing-public/123.0.6312.122/mac-x64/chrome-mac-x64.zip
+# 下载2：http://chromedriver.storage.googleapis.com/index.html （旧）
+# 下载3：https://registry.npmmirror.com/binary.html?path=chromedriver （旧）
 
-# 3，自动下载chrome驱动
+# 3，自动下载驱动
 # from webdriver_manager.chrome import ChromeDriverManager
 # ChromeDriverManager().install()
 # self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 # mac系统默认调用路径：/Users/linghuchong/.wdm/drivers/chromedriver/mac64/120.0.6099.109/chromedriver-mac-x64/chromedriver
 
+# 4, 设置配置
+# for win 路径：C:\Python38\Scripts\chromedrive.exe
+# for mac 路径：
+# from selenium.webdriver.chrome.service import Service
+# self.driver = webdriver.Chrome(service=Service("/Users/linghuchong/Downloads/51/Python/project/instance/web/chromedriver"), options=options)
 
-# 3，chrome的options参数
+# 5，options参数
 # https://www.bilibili.com/read/cv25916901/
 # https://blog.csdn.net/xc_zhou/article/details/82415870
 # https://blog.csdn.net/amberom/article/details/107980370
 
-# 4，常见问题
+# 6，常见问题
 # Q1：MAC 移动chromedriver时报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
 # A1: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable , 重启电脑。
+
+
+# todo edge
+# edge 114.0.1823.37 (64 位) , selenium =3.141.0，edge = 114.0.1823.37
+# edge下载：https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
+# mac系统默认调用路径：/usr/local/bin/msedgedriver
+# win系统默认调用路径：c:\python39\msedgedriver.exe
+
 
 # todo firefox
 # geckodriver 0.14.0 for selenium3.0
 # ff 66.0.4 (64 位) , selenium =3.141.0，gecko = 0.24.0
-# geckodriver下载：https://github.com/mozilla/geckodriver/releases
+# 下载驱动：
+# https://github.com/mozilla/geckodriver/releases
 # https://github.com/mozilla/geckodriver/releases/tag/v0.33.0
 # mac系统默认调用路径：/usr/local/bin/geckodriver
 # win系统默认调用路径：c:\python39\geckodriver.exe
@@ -157,10 +167,10 @@ class WebPO(DomPO):
 
             else:
                 # 自动下载chrome驱动并修改成主板本
-                print("chromedriver下载中...")
+                print("chromedriver 下载中...")
                 s = Service(ChromeDriverManager().install())
                 self.driver = webdriver.Chrome(service=s, options=options)
-                l_folder = File_PO.getFolderName(autoPath)
+                l_folder = os.listdir(autoPath)
                 for folder in l_folder:
                     if chromeVer3 in folder:
                         os.rename(autoPath + folder, autoPath + chromeVer3)
