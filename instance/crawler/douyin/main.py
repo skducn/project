@@ -16,9 +16,11 @@ Dy_PO = DyPO()
 # 0.25 02/24 O@k.pD odn:/ # 股票 # 短线交易 # 成交量 # 股民交流 # 上证指数 跳空高开，分时图，预判主力的预判  https://v.douyin.com/iFyomEfY/ 复制此链接，打开Dou音搜索，直接观看视频！
 
 # print("1，下载单个抖音视频".center(100, "-"))
-# folder = Dy_PO.getVideo("https://v.douyin.com/SrL7RnM/", "/Users/linghuchong/Downloads/video/douyin/")
-folder = Dy_PO.getVideo2("https://www.douyin.com/video/7316708968867401014", "/Users/linghuchong/Downloads/video/douyin/")
+# folder = Dy_PO.getVideo("https://v.douyin.com/iYVuq563/ ", "/Users/linghuchong/Downloads/video/douyin/")
+folder = Dy_PO.getVideo2("https://v.douyin.com/iYVuq563/ ", "/Users/linghuchong/Downloads/video/douyin/")
 os.system("open " + folder)
+
+# 8.48 03/06 qeO:/ G@i.CH 超爱的一版Greedy # 王嘉尔 # jacksonwang # 王嘉尔jackson # # 向全世界安利王嘉尔 # 王嘉尔科切拉舞台  https://v.douyin.com/iYVuq563/ 复制此链接，打开Dou音搜索，直接观看视频！
 
 # 4.66 ZzG:/ 12/30 W@m.QX （上）人类和机器共生时代的到来：特斯拉机器人的领先地位 特斯拉机器人展示了自然的动作，通过先进的技术和触觉感知实现了人类般的操作。优化的设计使其更灵活、精准，具备更大的自由度。# 看视频学英语 # 英语听力 # 英语听力训练  https://v.douyin.com/iFfLR75B/ 复制此链接，打开Dou音搜索，直接观看视频！
 # folder = Dy_PO.downVideo("https://v.douyin.com/SrL7RnM/", "d:/11/44")

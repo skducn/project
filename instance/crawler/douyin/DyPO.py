@@ -46,12 +46,12 @@ class DyPO:
 		# print(share_url)  # https://v.douyin.com/SrL7RnM/
 		s_html = requests.get(url=share_url, headers=header)
 		surl = s_html.url
-		# print(surl) # https://www.douyin.com/video/7316708968867401014
+		print(surl)  # https://www.douyin.com/video/7352751321570757924
 		if len(surl) > 60:
 			id = re.search(r'video/(\d.*)/', surl).group(1)
 		else:
 			id = re.search(r'video/(\d.*)', surl).group(1)
-		# print(id) # 7206155470149635384
+		print(id) # 7206155470149635384
 
 		#
 
@@ -133,6 +133,7 @@ class DyPO:
 		# 获取视频地址
 		# 解析
 		url = "https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id={}".format(id)
+		print(url)
 		v_rs = requests.get(url=url, headers=headers).json()
 		# print(v_rs)
 		# 获取地址
