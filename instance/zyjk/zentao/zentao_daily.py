@@ -41,7 +41,7 @@ def getRecord(varStartDate, varEndDate, l_varWho):
               "LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id WHERE zt_task.finishedDate BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' AND zt_effort.date BETWEEN  " \
               "'" + varStartDate + "' AND '" + varEndDate + "' AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 AND realname IN ('" + l_varWho[j] + "') ORDER BY " \
               "realname,finishedDate"
-
+        # print(sql)
         tmpTuple = Mysql_PO.execQuery(sql)
         # print(tmpTuple)
         list1 = []
@@ -64,17 +64,35 @@ def getRecord(varStartDate, varEndDate, l_varWho):
     # print(listall)
     # sys.exit(0)
     d2 = dict(enumerate(listall, start=2))
-    Openpyxl_PO.insertRows({1: ["姓名", "项目", "模块", "标题", "描述", "工时", "完成日期"]}, sheetName)
-    Openpyxl_PO.setRows(d2, sheetName)
-    Openpyxl_PO.save()
+    # print(d2)
+    for k, v in d2.items():
+        print(v[0], v[6], v[1], v[3], v[4].replace("<div>", "").replace("\n\n", "").replace("\n\n\n", "")
+              .replace("</div>", "").replace('<span style="background-color:#FFFFFF;">', "")
+              .replace('<p class="MsoNormal">', "").replace('<p class="MsoNormal" style="margin-left:0pt;text-indent:0pt;background:#FFFFFF;">',"")
+              .replace('<p class="MsoNormal" style="text-indent:27pt;">',"")
+              .replace('<p class="MsoNormal" style="text-indent:36pt;">',"")
+              .replace('<p class="p" style="margin-left:0pt;text-indent:0pt;background:#FFFFFF;">',"")
+              .replace('<p class="MsoNormal" style="text-indent:40pt;">',"")
+              .replace('<p class="MsoNormal" style="text-indent:45pt;">',"")
+              .replace('<p class="MsoNormal" style="margin-left:0pt;text-indent:36pt;background:#FFFFFF;">',"")
+              .replace('<p class="MsoNormal" style="text-indent:72pt;">',"")
+              .replace('<p class="MsoNormal" style="text-indent:36pt;background:#FFFFFF;">',"")
+              .replace('<p class="MsoNormal" style="text-indent:72pt;background:#FFFFFF;">',"")
+              .replace('<p style="background-color:#FFFFFF;">',"")
+              .replace('\n\t\n\t',""))
+        # print(v)
 
-    print(excelName + " 生成中，请稍等...")
-    if platform.system() == 'Darwin':
-        os.system("open " + excelName)
-    if platform.system() == 'Windows':
-        os.system("start " + excelName)
+    # Openpyxl_PO.insertRows({1: ["姓名", "项目", "模块", "标题", "描述", "工时", "完成日期"]}, sheetName)
+    # Openpyxl_PO.setRows(d2, sheetName)
+    # Openpyxl_PO.save()
+    #
+    # print(excelName + " 生成中，请稍等...")
+    # if platform.system() == 'Darwin':
+    #     os.system("open " + excelName)
+    # if platform.system() == 'Windows':
+    #     os.system("start " + excelName)
 
 
 # 生成4-7到4-8两天的工作日志
-# getRecord("2024-4-7", "2024-4-8", ['舒阳阳', '金浩', '郭斐', '刘斌龙', '陈晓东', '郭浩杰'])
-getRecord("2024-4-2", "2024-4-17", ['陈晓东', '郭浩杰'])
+getRecord("2024-4-1", "2024-4-30", ['刘斌龙'])
+# getRecord("2024-4-15", "2024-4-17", ['金浩', '郭斐'])

@@ -22,37 +22,37 @@ Color_PO = ColorPO()
 from PO.MysqlPO import *
 Mysql_PO = MysqlPO("192.168.0.211", "readonly", "benetech123", "zentaoep", 3306)
 
-def getManHour(varYear, varMonth, varProject, var_l_who):
-    sum = 0.0
-    l1 = []
-
-    # 获取月份最后一天
-    s_lastDay = calendar.monthrange(varYear, varMonth)[1]
-    varStartDate = str(varYear) + "-" + str(varMonth) + "-1"
-    varEndDate = str(varYear) + "-" + str(varMonth) + "-" + str(s_lastDay)
-
-    for i in range(len(var_l_who)):
-        sql = "select sum(a.工时) as manHour " \
-                "from ( SELECT zt_user.realname AS '姓名', zt_project.`name` AS '项目', zt_module.`name` AS '模块', " \
-                "zt_task.`name` AS '任务', zt_task.desc AS '描述', zt_effort.consumed   AS '工时', zt_task.finishedDate AS '完成时间' "\
-                "FROM zt_task "\
-                "INNER JOIN zt_project ON zt_task.project = zt_project.id "\
-                "INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story "\
-                "LEFT JOIN zt_module ON zt_task.module = zt_module.id "\
-                "LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id "\
-                "WHERE zt_task.finishedDate BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' AND zt_effort.date BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' "\
-                "AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 "\
-                "AND zt_project.`name` = '" + varProject + "' "\
-                "AND realname IN ('" + var_l_who[i] + "') "\
-                "ORDER BY realname, finishedDate) as a"
-
-        r = Mysql_PO.execQuery(sql)
-        if r[0][0] != None:
-            sum = sum + r[0][0]
-        l1.append(var_l_who[i] + "(" + str(r[0][0]) + ")")
-    # print(str(varMonth) + "月工时(" + varProject + ")" + "=> " + str(sum) + str(l1) + " => " + str((sum/8)) + "天 ")
-    r = Color_PO.getColor({"31": str(varMonth) + "月工时(" + varProject + ")"}) + "=> " + str(sum) + str(l1) + " => " + Color_PO.getColor({"34": str((sum/8)) + "天 "})
-    print(r)
+# def getManHour(varYear, varMonth, varProject, var_l_who):
+#     sum = 0.0
+#     l1 = []
+#
+#     # 获取月份最后一天
+#     s_lastDay = calendar.monthrange(varYear, varMonth)[1]
+#     varStartDate = str(varYear) + "-" + str(varMonth) + "-1"
+#     varEndDate = str(varYear) + "-" + str(varMonth) + "-" + str(s_lastDay)
+#
+#     for i in range(len(var_l_who)):
+#         sql = "select sum(a.工时) as manHour " \
+#                 "from ( SELECT zt_user.realname AS '姓名', zt_project.`name` AS '项目', zt_module.`name` AS '模块', " \
+#                 "zt_task.`name` AS '任务', zt_task.desc AS '描述', zt_effort.consumed   AS '工时', zt_task.finishedDate AS '完成时间' "\
+#                 "FROM zt_task "\
+#                 "INNER JOIN zt_project ON zt_task.project = zt_project.id "\
+#                 "INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story "\
+#                 "LEFT JOIN zt_module ON zt_task.module = zt_module.id "\
+#                 "LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id "\
+#                 "WHERE zt_task.finishedDate BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' AND zt_effort.date BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' "\
+#                 "AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 "\
+#                 "AND zt_project.`name` = '" + varProject + "' "\
+#                 "AND realname IN ('" + var_l_who[i] + "') "\
+#                 "ORDER BY realname, finishedDate) as a"
+#
+#         r = Mysql_PO.execQuery(sql)
+#         if r[0][0] != None:
+#             sum = sum + r[0][0]
+#         l1.append(var_l_who[i] + "(" + str(r[0][0]) + ")")
+#     # print(str(varMonth) + "月工时(" + varProject + ")" + "=> " + str(sum) + str(l1) + " => " + str((sum/8)) + "天 ")
+#     r = Color_PO.getColor({"31": str(varMonth) + "月工时(" + varProject + ")"}) + "=> " + str(sum) + str(l1) + " => " + Color_PO.getColor({"34": str((sum/8)) + "天 "})
+#     print(r)
 
 def _getManHour(varYear, varMonth, varProject, var_l_who):
     sum = 0.0
@@ -72,7 +72,7 @@ def _getManHour(varYear, varMonth, varProject, var_l_who):
                 "INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story "\
                 "LEFT JOIN zt_module ON zt_task.module = zt_module.id "\
                 "LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id "\
-                "WHERE zt_task.finishedDate BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' AND zt_effort.date BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' "\
+                "WHERE zt_task.finishedDate BETWEEN '" + varStartDate + "' AND '" + varEndDate + " 23:23:59' AND zt_effort.date BETWEEN '" + varStartDate + "' AND '" + varEndDate + " 23:23:59' "\
                 "AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 "\
                 "AND zt_project.`name` = '" + varProject + "' "\
                 "AND realname IN ('" + var_l_who[i] + "') "\
@@ -101,7 +101,7 @@ def getProject(varYear, varMonth, var_l_who):
         sql="SELECT DISTINCT zt_project.`name` FROM " \
             "zt_task INNER JOIN zt_project ON zt_task.project = zt_project.id INNER JOIN zt_user ON zt_task.finishedBy = zt_user.account AND zt_user.account = zt_task.story " \
             "LEFT JOIN zt_module ON zt_task.module = zt_module.id LEFT JOIN zt_effort ON zt_effort.objectID = zt_task.id " \
-            "WHERE zt_task.finishedDate BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' AND zt_effort.date BETWEEN '" + varStartDate + "' AND '" + varEndDate + "' " \
+            "WHERE zt_task.finishedDate BETWEEN '" + varStartDate + "' AND '" + varEndDate + " 23:23:59' AND zt_effort.date BETWEEN '" + varStartDate + "' AND '" + varEndDate + " 23:23:59' " \
             "AND zt_effort.objectType = 'task' AND zt_effort.account != 'admin' AND zt_effort.consumed > 0 AND realname IN ('" + var_l_who[i] + "') " \
             "group by zt_project.`name`" \
             "ORDER By realname, finishedDate"
@@ -128,7 +128,8 @@ def getProject(varYear, varMonth, var_l_who):
 
 
 # todo 获取所有项目明细工时与总工时
-getProject(2024, 4, ['郭浩杰', '陈晓东', '郭斐', '刘斌龙', '舒阳阳', '金浩'])
+# getProject(2024, 4, ['郭浩杰', '陈晓东', '郭斐', '刘斌龙', '舒阳阳', '金浩'])
+getProject(2024, 5, ['郭浩杰', '陈晓东', '郭斐', '刘斌龙', '舒阳阳', '金浩'])
 # 3月工时(电子健康档案数据管理平台产品研发项目2.0) => 3.0['刘斌龙(3.0)'] => 0.375天
 # 3月工时(社区健康管理中心) => 52.0['刘斌龙(52.0)'] => 6.5天
 # 3月工时(区域公共卫生管理系统) => 103.0['刘斌龙(103.0)'] => 12.875天

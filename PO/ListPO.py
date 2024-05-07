@@ -10,6 +10,7 @@ todo：【转换】
     => dict.fromkeys(['a',5], 1) # {'a':1, 5:1}
     => dict.fromkeys(['a', 5]) # {'a': None, 5: None}
 1.2 列表生成序列字典 print(dict(enumerate(['a','b','c'], start=1)))  # {1: 'a', 2: 'b', 3: 'c'}
+    键值互转 {v:k for k:v in dict.items()}  # {1: 'a', 2: 'b', 3: 'c'} => # {'a':1, 'b':2, 'c':3}
 1.3 列表转字典（键值对,覆盖update）list2dictBySerial([key1, value1, key2, value2])  # {key1: value1, key2: value2}
 1.4 列表转字典（键值对格式,覆盖update）list2dictByKeyValue(['key1:value1', 'key2:value2']))  # {key1: value1, key2: value2}
 1.5 列表转字典（元组格式,覆盖update） print(dict([(1, 'a'), ('b', 2), ((1, 2), 444)]))  => {1: 'a', 'b': 2, (1, 2): 444}
@@ -480,9 +481,6 @@ if __name__ == "__main__":
 
     a = [('YLJGDM', 'VARCHAR2'), ('GRDAID', 'VARCHAR2')]
     # print(dict(a))  # {'YLJGDM': 'VARCHAR2', 'GRDAID': 'VARCHAR2'}
-
-
-
 
 
     # print("1.2 列表转字典之相邻元素键值对（覆盖update）".center(100, "-"))

@@ -68,7 +68,7 @@ todo:【合并、键值覆盖互换、删除保留key、批量更新value】
 2.6 不覆盖合并新字典（ChainMap）
 2.7 非重合并新字典（dict{**,**}）分析：两个字典中不能有重复的key，否则报错
 2.8 合并累加相同key的值
-2.9 键值覆盖互转  {v:k for k,v in dict.items()} , 如：dict = {'Python': 1, 'Java': 2j}  =>  {1: 'Python', 2: 'Java'}
+2.9 键值互转  {v:k for k,v in dict.items()} , 如：dict = {'Python': 1, 'Java': 2j}  =>  {1: 'Python', 2: 'Java'}
 2.10 删除字典中的key  delKey(dict，key) delKey({"a": 5, "b": 6, "c": 7, "d": 8}, "b", "d"))  # {'a': 5, 'c': 7}
 2.11 保留字典中的key  reserveKey(dict，key) reserveKey({"a": 5, "b": 6, "c":7, "d":8}, "b", "d"))  # {'b': 6, 'd': 8}
 2.12 批量更新value   {k: v + 2 for k, v in varDict.items()} ， {"a": 5, "b": 6」 => {"a": 7, "b": 8}
