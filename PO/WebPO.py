@@ -236,7 +236,7 @@ class WebPO(DomPO):
         :return:
         '''
 
-        self.driver = webdriver.Chrome(ChromeDriverManager().install())
+        # self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(varUrl)
 
 

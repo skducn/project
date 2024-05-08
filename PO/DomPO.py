@@ -3,85 +3,96 @@
 # Author     : John
 # Created on : 2020-3-20
 # Description: 通过DOM来操作页面中各种元素，例如添加元素、删除元素、替换元素等
-# # 重新定义 find_element, find_elements, send_keys,
-# set, click, get, checkbox, select, iframe, js, True or False, alert
+# 重新定义 find_element, find_elements, send_keys,
+# clk, get, set, checkbox, select, iframe, js, boolean
 # ***************************************************************
-# Set
-# setTextById
-# appendTextById
-# setByName
-# appendTextByName
-# setText
-# appendText
-# setTextEnter
-# appendTextEnter
-#
-# clk
-# 通过Xpath点击 clk(varXpath)
-# 通过Xpaths点击所有 clks(varXpaths)
-# 通过Xpath按回车键 clkEnter(varXpath)
-# 多个click点击第N个 clkSeats(varXpaths)
-# 点击所有text中包含某内容的连接 clkTextsContain(varXpaths,varContain)
-# 点击所有属性varAttr中包含某内容的连接 clkAttrsContain(varXpaths, varAttr,varContain)
-# 遍历路径之路径, 一般用于，click后二次确认  clkClks(varXpaths, varXpaths2)
-# 通过id点击 clkById(varId)
-# 通过超链接点击 clkByLinktext(varText)
-# 点击所有超链接 clkByLinkstext(varText)
-# 通过标签点击 clkByTagname(varText)
-#
-# Get
-# 获取文本 getText(varXpath)
-# 获取所有文本 getTexts(varXpaths)
-# 获取指定文本之前的文本 getTextBeforeTexts(varXpaths, varText)
-# 获取文本所在的位置 getSeatByText(varXpaths, varText)
-# 获取部分文本所在位置 getSeatByPartialText(varXpaths, varText)
-# 获取某属性值所在的位置 getSeatByAttrValue(varXpaths, varAttr, varValue)
-# 获取某属性部分值所在的位置 getSeatByAttrPortialValue(varXpaths, varAttr, varValue)
-# 获取元素数量 getElementQty(varXpaths)
-# 获取属性的值 getValueByAttr(varXpaths, varAttr)
-# 获取所有相同属性的值 getValuesByAttr(varXpaths, varAttr)
-# 获取所有文本对应的属性值，如 {文本：属性值} getTextsAndAttrs
-# (varXpaths, varAttr)
-# 获取超链接文本的属性值 getHyperlinkByAttr(varXpaths, varAttr)
-#
-# Checkbox
-# 是否选中复选框 isSelected(varXpath)
-# 取消所有已勾选的复选框clsSelected(varXpaths)
-#
-# Select
-# 通过Id属性选择文本 sltTextById(varId, varText)
-# 通过Id属性选择值 sltValueById(varId, varValue)
-# 通过Name属性选择文本 sltTextByName(varName, varText)
-# 通过Name属性选择值 sltValueByName(varName, varValue)
-#
-# Iframe
-# 通过Xpath定位iframe iframe(varXpath,0)
-# 通过id定位iframe   iframeById(varId,0)
-# 通过遍历属性中包含指定值定位iframe  iframeByAttrs(varXpaths,varAttr,varValue,2)
-# 多个iframe之间切换  iframeSwitch(0)
-# 退出iframe  iframeQuit(0)
-#
-# Js
-# 清除input输入框内容 jsExecute()
-# 清除readonly属性，是元素可见  jsReadonly(varXpath)
-# 通过id去掉控件只读属性 jsReadonlyById(varId)
-# 通过Name去掉控件只读属性 jsReadonlyByName(varName)
-# 通过name去掉隐藏属性 jsDisplayByName(varName)
-#
-# True or False
-# 通过Xpath方式检查元素是否存在 isElement(varPath)
-# 通过Xpath方式检查特定属性的元素是否存在 isElementByAttr(varXpath, varAttr,varValue)
-# 通过Id方式检查元素是否存在 isElementById(varId)
-# 通过Name方式检查元素是否存在 isElementByName(varName)
-# 通过超链接方式检查文本是否包含varText  isElementByPartialText(varPartText)
-# 通过超链接方式检查文本是否存在 isElementByLinkText(varText)
-# 通过文本比对检查文本是否存在  isElementText(varPath, varText)
-#
-# alert(system)
-# 点击弹框中的确认 alertAccept()
-# 点击弹框中的取消 alertDismiss()
-# 获取弹框中的文案 alertText()
+'''
+重新定义
+find_element
+find_elements
+send_keys
+sendKeysByX
+sendKeysById
+sendKeysByname
 
+todo clk
+通过Xpath点击 clkByX(varXpath)
+通过Xpaths遍历点击 clksByX(varXpaths)
+通过Xpath按回车键 clkEnterByX(varXpath)
+通过xpaths遍历点击第N个索引号 clkIndexByX(varXpaths)
+通过xpaths遍历点击文本中包含varTPC的内容 clkTextPartialContentByX(varXpaths,varTPC)
+通过xpaths遍历点击属性中包含varAPC内容 clkAttrPartialContentByX(varXpaths, varAttr,varAPC)
+通过xpaths遍历二次xpath clkDoubleByX(varXpaths, varXpath)
+通过id点击 clkById(varId)
+通过name点击 clkByName(varText)
+通过tagname点击 clkByTagname(varText)
+通过linktext点击 clkByLinktext(varText)
+通过linkstext点击 clkByLinkstext(varText)
+
+todo get
+通过xpaths遍历获取标签数量 getQtyByX(varXpaths)
+通过xpath获取文本 getTextByX(varXpath)
+通过xpaths遍历获取文本列表 getTextListByX(varXpaths)
+通过xpaths遍历获取文本所在的位置 getTextIndexByX(varXpaths, varText)
+通过xpaths遍历获取文本包含部分内容的位置 getTextPartialContentIndexByX(varXpaths, varText)
+通过xpaths遍历获取指定文本之前的文本 getLeftTextByX(varXpaths, varText)
+通过xpath获取属性值 getAttrValueByX(varXpath, varAttr)
+通过xpaths遍历获取所有相同属性的值列表 getAttrValueListByX(varXpaths, varAttr)
+通过xpaths遍历获取属性值所在的位置 getAttrIndexByX(varXpaths, varAttr, varValue)
+通过xpaths遍历获取部分包含属性值所在的位置 getAttrPartialContentIndexByX(varXpaths, varAttr, varValue)
+通过xpaths遍历获取所有文本对应的属性值字典 getTextAttrValueDictByX(varXpaths, varAttr)
+通过linktext获取文本属性值 getAttrValueByH(varText, varAttr)
+
+todo set
+通过id设置文本 setTextById()
+通过id追加文本 appendTextById()
+通过name设置文本 setTextByName()
+通过name追加文本 appendTextByName()
+通过xpath设置文本 setTextByX()
+通过xpath追加文本 appendTextByX()
+通过xpath键盘设置文本 setTextEnterByX()
+通过xpath键盘追加文本  appendTextEnterByX()
+
+todo checkbox
+是否选中复选框 isSelected(varXpath)
+取消所有已勾选的复选框clsSelected(varXpaths)
+
+todo select
+通过id选择文本 sltTextById(varId, varText)
+通过id选择值 sltValueById(varId, varValue)
+通过name选择文本 sltTextByName(varName, varText)
+通过name选择值 sltValueByName(varName, varValue)
+
+todo iframe
+通过Xpath切换到iframe switchIframeByX(varXpath)
+通过id切换到iframe   switchIframeById(varId)
+通过xpaths遍历遍历属性中包含指定值切换iframe  switchIframeAttrPartialContentByX(varXpaths,varAttr,varValue,2)
+多个iframe之间切换  switchIframe(0)
+退出iframe  quitIframe(0)
+
+todo js
+清除input输入框内容 clsTextByJs()
+清除readonly属性，是元素可见  clsReadonlyByX(varXpath)
+通过id去掉控件只读属性 clsReadonlyById(varId)
+通过name去掉只读属性 clsReadonlyByName(varName)
+通过name去掉隐藏属性 clsDisplayByName(varName)
+通过tagname去掉隐藏属性 clsDisplayByTagName(varLabel, varLen)
+
+todo boolean
+通过xpath判断ture或false isBooleanByX(varPath)
+通过xpath判断属性是否存在 isBooleanAttr(varXpath, varAttr)
+通过xpath判断属性值是否存在 isBooleanAttrValue(varPath, varAttr, varValue)
+通过Id判断ture或false isBooleanById(varId)
+通过name判断ture或false isBooleanByName(varName)
+通过超链接判断是否包含varText  isBooleanTextPartialContentByP(varPartText)
+通过超链接判断是否存在varText isBooleanTextByL(varText)
+通过xpath判断varText是否存在  isBooleanTextByX(varPath, varText)
+
+todo alert(system)
+点击弹框中的确认 alertAccept()
+点击弹框中的取消 alertDismiss()
+获取弹框中的文案 alertText()
+'''
 
 import sys, os, platform, platform, psutil, ddddocr, requests, bs4, subprocess
 # import pyscreeze, pyautogui, cv2
@@ -118,13 +129,12 @@ class DomPO(object):
     def find_element(self, *loc):
         """重写元素定位"""
         try:
-            # 注意：入参为元组的元素，需要加*。Python存在这种特性，就是将入参放在元组里。
+            # Python特性，将入参放在元组里，入参loc，加*，变成元组。
             # WebDriverWait(self.driver,10).until(lambda driver: driver.find_element(*loc).is_displayed())
-            # 注意：以下入参本身是元组，不需要加*
+            # 注意：以下loc入参本身就是元组，所以不需要再加*
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(loc))
             return self.driver.find_element(*loc)
         except:
-            # print u"%s 页面中未能找到元素 %s "%(self, loc)
             print("未找到元素 %s " % (loc))
 
     def find_elements(self, *loc):
@@ -145,21 +155,25 @@ class DomPO(object):
                 self.find_element(*loc).clear()
                 self.find_element(*loc).send_keys(vaule)
         except AttributeError:
-            # print u"%s 页面中未能找到 %s 元素"%(self, loc)
             print("未找到元素 %s " % (loc))
 
-    def sendKeysId(self, varId, dimValue):
-        # 上传文件
-        # Oa_PO.Web_PO.sendKeysId("impload", os.getcwd() + "\\drugTemplet.xls")  # 导入文件
-        self.driver.find_element_by_id(varId).send_keys(dimValue)
+    def sendKeysByX(self, varXpath, varValue):
+        """通过Xpath键盘发送"""
+        # 如：Web_PO.sendKeysXpath("//input[@id='impload'", os.getcwd() + "\\drugTemplet.xls")  # 导入文件
+        # self.driver.find_element_by_xpath(varXpath).send_keys(varValue)
+        self.find_element(*(By.XPATH, varXpath)).send_keys(varValue)
 
-    def sendKeysName(self, varName, dimValue):
-        self.driver.find_element_by_name(varName).send_keys(dimValue)
+    def sendKeysById(self, varId, varValue):
+        """通过id键盘发送"""
+        # 如：Web_PO.sendKeysId("impload", os.getcwd() + "\\drugTemplet.xls")  # 导入文件
+        # self.driver.find_element_by_id(varId).send_keys(varValue)
+        self.find_element(*(By.ID, varId)).send_keys(varValue)
 
-    def sendKeysXpath(self, dimXpath, dimValue):
-        # 上传文件
-        # Oa_PO.Web_PO.sendKeysXpath("//input[@id='impload'", os.getcwd() + "\\drugTemplet.xls")  # 导入文件
-        self.driver.find_element_by_xpath(dimXpath).send_keys(dimValue)
+    def sendKeysName(self, varName, varValue):
+        """通过name键盘发送"""
+        # self.driver.find_element_by_name(varName).send_keys(varValue)
+        self.find_element(*(By.NAME, varName)).send_keys(varValue)
+
 
 
    # todo assert
@@ -203,7 +217,6 @@ class DomPO(object):
 
             return False
 
-
     def assertContain(self, one, all, okMsg, errMsg):
         try:
             if one in all:
@@ -224,7 +237,6 @@ class DomPO(object):
         except:
             return None
 
-
     def getError(self, varStatus, varErrorInfo, varErrorRow):
         # 当函数返回error时，获取当前语句行号及错误提示。
         # 因此函数必须要有返回值
@@ -236,207 +248,87 @@ class DomPO(object):
 
 
 
+    # todo clk
 
-
-    # todo set
-
-    def setTextById(self, varId, varText):
-
-        self.find_element(*(By.ID, varId)).clear()
-        self.find_element(*(By.ID, varId)).send_keys(varText)
-
-    def appendTextById(self, varId, varText):
-
-        self.find_element(*(By.ID, varId)).send_keys(varText)
-
-    def setByName(self, varName, varText):
-
-        self.find_element(*(By.ID, varName)).clear()
-        self.find_element(*(By.NAME, varName)).send_keys(varText)
-
-    def appendTextByName(self, varName, varText):
-
-        self.find_element(*(By.NAME, varName)).send_keys(varText)
-
-    def setText(self, varXpath, varText):
-
-        self.find_element(*(By.XPATH, varXpath)).clear()
-        self.find_element(*(By.XPATH, varXpath)).send_keys(varText)
-
-    def appentText(self, varXpath, varText):
-
-        self.find_element(*(By.XPATH, varXpath)).send_keys(varText)
-
-    def setTextEnter(self, varXpath, varText):
-
-        self.find_element(*(By.XPATH, varXpath)).clear()
-        self.find_element(*(By.XPATH, varXpath)).send_keys(varText)
-        self.find_element(*(By.XPATH, varXpath)).send_keys(Keys.ENTER)
-
-    def appendTextEnter(self, varXpath, varText):
-
-        self.find_element(*(By.XPATH, varXpath)).send_keys(varText)
-        self.find_element(*(By.XPATH, varXpath)).send_keys(Keys.ENTER)
-
-
-
-    # todo click
-
-    def clk(self, varXpath, t=0):
-
-        '''
-        通过Xpath点击
-        :param varPath:
-        :param t:
-        :return:
-        '''
-
+    def clkByX(self, varXpath, t=0):
+        """通过Xpath点击"""
         self.find_element(*(By.XPATH, varXpath)).click()
         sleep(t)
 
-    def clks(self, varXpaths, t=0):
-
-        '''
-        通过Xpaths点击所有
-        :param varPaths:
-        :param t:
-        :return:
-        '''
-
+    def clksByX(self, varXpaths, t=0):
+        """通过Xpaths遍历点击"""
         for a in self.find_elements(*(By.XPATH, varXpaths)):
             a.click()
             sleep(t)
 
-    def clkEnter(self, varXpath, t=0):
-
-        '''
-        通过Xpath按回车键
-        :param varPath:
-        :param t:
-        :return:
-        '''
-
+    def clkEnterByX(self, varXpath, t=0):
+        """通过Xpath按回车键"""
         self.find_element(*(By.XPATH, varXpath)).send_keys(Keys.ENTER)
         sleep(t)
 
-    def clkSeats(self, varPaths, varSeat, t=0):
-
-        '''
-        多个click点击第N个
-        :param varPaths: u"//button[@ng-click='action.callback()']"
-        :param varNum: 5
-        :param t:
-        :return:
-        表示遍历后点击第五个连接。
-        '''
-
-        c = 0
+    def clkIndexByX(self, varPaths, varIndex, t=0):
+        """通过xpaths遍历点击第N个索引号"""
+        # 如：遍历按钮点击第5个。clkIndexByX(u"//button[@ng-click='action.callback()']",5)
+        index = 0
         for a in self.find_elements(*(By.XPATH, varPaths)):
-            c = c + 1
-            if c == varSeat:
+            index = index + 1
+            if index == varIndex:
                 a.click()
                 break
         sleep(t)
 
-    def clkTextsContain(self, varXpaths, varContain, t=0):
-
-        '''
-        点击所有text中包含某内容的连接
-        :param varPaths: "//td[@aria-describedby='gridTable_run_name']/a"
-        :param varContain: 20190506059
-        :param t:
-        :return:
-        '''
-
+    def clkTextPartialContentByX(self, varXpaths, varTPC, t=0):
+        """通过xpaths遍历点击文本中包含varTPC的内容"""
+        # 如：遍历按钮点击所有文本中包含20190506059的内容。clkTextsContain(u"//td[@aria-describedby='gridTable_run_name']/a",u"20190506059")
         for a in self.find_elements(*(By.XPATH, varXpaths)):
-            if varContain in a.text:
+            if varTPC in a.text:
                 a.click()
                 break
         sleep(t)
 
-    def clkAttrsContain(self, varXpaths, varAttr, varContain, t=0):
-
-        '''
-        点击所有属性varAttr中包含某内容的连接。
-        :param varXpaths:   //a
-        :param varAttr:  href
-        :param varContain:  1212
-        :param t:
-        :return:
-        '''
-
+    def clkAttrPartialContentByX(self, varXpaths, varAttr, varAPC, t=0):
+        """通过xpaths遍历点击属性中包含varAPC内容"""
+        # 如：遍历点击a链接属性href中包含www内容， clkAttrPartialContentByX("//a","href","www")
         for a in self.find_elements(*(By.XPATH, varXpaths)):
-            if varContain in a.get_attribute(varAttr):
+            if varAPC in a.get_attribute(varAttr):
                 a.click()
                 break
         sleep(t)
 
-    def clkClks(self, varPaths, varPaths2, t=1):
-
-        '''
-        遍历路径之路径, 一般用于，click后二次确认
-        :param varPaths:
-        :param varPaths2:
-        :param t:
-        :return:
-        '''
-
-        for a in self.find_elements(*(By.XPATH, varPaths)):
+    def clkDoubleByX(self, varXpaths, varXpath, t=1):
+        """通过xpaths遍历二次xpath"""
+        # 一般用于，click后二次确认
+        for a in self.find_elements(*(By.XPATH, varXpaths)):
             a.click()
             sleep(t)
-            self.find_element(*(By.XPATH, varPaths2)).click()
-            sleep(t)
+            self.find_element(*(By.XPATH, varXpath)).click()
+        sleep(t)
 
     def clkById(self, varId, t=0):
-
-        '''
-        通过id点击
-        :param varId:
-        :param t:
-        :return:
-        '''
-
+        """通过id点击"""
         self.find_element(*(By.ID, varId)).click()
         sleep(t)
 
+    def clkByName(self, varName, t=0):
+        """通过name点击"""
+        self.find_element(*(By.NAME, varName)).click()
+        sleep(t)
+
+    def clkByTagname(self, varText, t=0):
+        """通过tagname点击"""
+        self.find_element(*(By.TAG_NAME, varText)).click()
+        sleep(t)
+
     def clkByLinktext(self, varText, t=0):
-
-        '''
-        通过超链接点击
-        :param varText:
-        :param t:
-        :return:
-        '''
-
+        """通过linktext点击"""
         self.find_element(*(By.LINK_TEXT, varText)).click()
         sleep(t)
 
     def clkByLinkstext(self, varText, t=0):
-
-        '''
-        点击所有超链接
-        :param varText:
-        :param t:
-        :return:
-        '''
-
+        """通过linkstext点击"""
         for a in self.find_elements(*(By.LINK_TEXT, varText)):
             a.click()
         sleep(t)
-
-    def clkByTagname(self, varText, t=0):
-
-        '''
-        通过标签点击
-        :param varText: "test"
-        :param t:
-        :return:
-        '''
-
-        self.find_element(*(By.TAG_NAME, varText)).click()
-        sleep(t)
-
-
 
     def clickXpathXpath(self, varPath, varPath2, t=0):
         # ? 未侧式
@@ -470,196 +362,158 @@ class DomPO(object):
 
     # todo get
 
-    def getText(self, varXpath):
-
-        '''
-        获取文本
-        :param varXpath: u"//input[@class='123']"
-        :return: Text
-        '''
-
-        return self.find_element(*(By.XPATH, varXpath)).text
-
-    def getTexts(self, varXpaths):
-
-        '''
-        获取文本列表
-        :param varXpaths: "//tr"
-        :return: list
-        '''
-
-        l_text = []
-        for a in self.find_elements(*(By.XPATH, varXpaths)):
-            l_text.append(a.text)
-        return l_text
-
-    def getTextBeforeTexts(self, varXpaths, varText):
-
-        '''
-        获取指定文本之前的文本
-        :param varXpaths: "//div"
-        :param varText: "姓名"
-        :return:
-        '''
-
-        l_text = []
-        for a in self.find_elements(*(By.XPATH, varXpaths)):
-            if varText in a.text:
-                break
-            else:
-                l_text.append(a.text)
-        return l_text
-
-    def getSeatByText(self, varXpaths, varText):
-
-        '''
-        获取文本所在的位置
-        :param varXpaths: "//tr"
-        :param varText:  "测试"
-        :return: 位置，如3，表示"测试"在第3个tr里，未找到返回None
-        '''
-
-        seat = 0
-        for a in self.find_elements(*(By.XPATH, varXpaths)):
-            seat = seat + 1
-            if a.text == varText:
-                return seat
-        return None
-
-    def getSeatByPartialText(self, varXpaths, varPartialText):
-
-        '''
-        获取部分文本所在位置
-        :param varXpaths: "//tr"
-        :param varPartialText:  "test"
-        :return: 位置
-        '''
-
-        seat = 0
-        for a in self.find_elements(*(By.XPATH, varXpaths)):
-            seat = seat + 1
-            if varPartialText in a.text:
-                return seat
-
-    def getSeatByAttrValue(self, varXpaths, varAttr, varValue):
-
-        '''
-        获取某属性值所在的位置
-        :param varXpaths: "//td[9]/a"
-        :param varAttr: "href"
-        :param varValue: "http://www.baidu.com"
-        :return: 位置
-        '''
-
-        seat = 0
-        for a in self.find_elements(*(By.XPATH, varXpaths)):
-            seat = seat + 1
-            if varValue == a.get_attribute(varAttr):
-                return seat
-
-    def getSeatByAttrPortialValue(self, varXpaths, varAttr, varValue):
-
-        '''
-        获取某属性部分值所在的位置
-        :param varXpaths: "//td[9]/a"
-        :param varAttr:  "href"
-        :param varValue:  "123"
-        :return:
-        '''
-
-        seat = 0
-        for a in self.find_elements(*(By.XPATH, varXpaths)):
-            seat = seat + 1
-            if varValue in a.get_attribute(varAttr):
-                return seat
-
-    def getElementQty(self, varXpaths):
-
-        '''
-        获取元素数量
-        :param varXpaths: '//*[@id="app"]/tr/div'
-        :return: div数量，获取tr下有多少个div标签
-        '''
-
+    def getQtyByX(self, varXpaths):
+        """通过xpaths遍历获取标签数量"""
+        # 如：获取tr下有多少个div标签 getQtyByX('//*[@id="app"]/tr/div')
         qty = 0
         for a in self.find_elements(*(By.XPATH, varXpaths)):
             qty = qty + 1
         return qty
 
-    def getValueByAttr(self, varXpaths, varAttr):
+    def getTextByX(self, varXpath):
+        """通过xpath获取文本"""
+        # 如：getTextByX(u"//input[@class='123']")
+        return self.find_element(*(By.XPATH, varXpath)).text
 
-        '''
-        获取属性的值
-        :param varXpaths: u"//input[@class='123']"
-        :param varAttr: "href"
-        :return:
-        '''
-
-        return self.find_element(*(By.XPATH, varXpaths)).get_attribute(varAttr)
-
-    def getValuesByAttr(self, varXpaths, varAttr):
-
-        '''
-        获取所有相同属性的值
-        :param varXpaths: "//tr"
-        :param varAttr:  "href"
-        :return: 获取所有tr标签中 href的值
-        '''
-
-        l_value = []
+    def getTextListByX(self, varXpaths):
+        """通过Xpaths遍历获取文本列表"""
+        # 如：getTextListByX("//tr")
+        l_text = []
         for a in self.find_elements(*(By.XPATH, varXpaths)):
-            l_value.append(a.get_attribute(varAttr))
-        return l_value
+            l_text.append(a.text)
+        return l_text
 
-    def getTextsAndAttrs(self, varXpaths, varAttr):
-
-        '''
-        获取所有文本对应的属性值，如 {文本：属性值}
-        :param varXpaths: u"//input[@name='office_id']"
-        :param varAttr:  "href"
-        :return:
-        '''
-
-        list1 = []
-        list2 = []
+    def getTextIndexByX(self, varXpaths, varText):
+        """通过xpaths遍历获取文本所在的位置（索引号）"""
+        # 获取test文本在tr里的位置，返回3，表示在第三个tr里，未找到返回none， 如：getTextIndexByX("//tr",'test')
+        index = 0
         for a in self.find_elements(*(By.XPATH, varXpaths)):
-            list1.append(a.text)
-            list2.append(a.get_attribute(varAttr))
-        return dict(zip(list1, list2))
+            index = index + 1
+            if a.text == varText:
+                return index
+        return None
 
-    def getHyperlinkByAttr(self, varText, varAttr):
+    def getTextPartialContentIndexByX(self, varXpaths, varTPC):
+        """通过xpaths遍历获取文本包含部分内容的位置（索引号）"""
+        # 如：getTextPartialContentIndexByX("//tr","test")
+        index = 0
+        for a in self.find_elements(*(By.XPATH, varXpaths)):
+            index = index + 1
+            if varTPC in a.text:
+                return index
 
-        '''
-        获取超链接文本的属性值
-        :param varText: u"超链接文本"
-        :param varAttr: "href"
-        :return:
-        '''
+    def getLeftTextByX(self, varXpaths, varText):
+        """通过xpaths遍历获取指定文本之前的文本"""
+        # 如文本集 a,b,c,d, getLeftTextByX("//tr",'c'), 返回列表【a,b】
+        l_leftText = []
+        for a in self.find_elements(*(By.XPATH, varXpaths)):
+            if varText == a.text:
+                break
+            else:
+                l_leftText.append(a.text)
+        return l_leftText
 
+
+    def getAttrValueByX(self, varXpath, varAttr):
+        """通过xpath获取属性值"""
+        # 如：getValueByAttr(u"//input[@class='123']","href")
+        return self.find_element(*(By.XPATH, varXpath)).get_attribute(varAttr)
+
+    def getAttrValueListByX(self, varXpaths, varAttr):
+        """通过xpaths遍历获取所有相同属性的值列表"""
+        # 如：获取所有tr标签中 href的值 getAttrValueListByX("//tr", "href")
+        l_attrValue = []
+        for a in self.find_elements(*(By.XPATH, varXpaths)):
+            l_attrValue.append(a.get_attribute(varAttr))
+        return l_attrValue
+
+    def getAttrIndexByX(self, varXpaths, varAttr, varValue):
+        """通过xpaths遍历获取属性值所在的位置（索引号）"""
+        # 如：getAttrIndexByX("//td[9]/a","href","http://www.baidu.com")
+        index = 0
+        for a in self.find_elements(*(By.XPATH, varXpaths)):
+            index = index + 1
+            if varValue == a.get_attribute(varAttr):
+                return index
+
+    def getAttrPartialContentIndexByX(self, varXpaths, varAttr, varValue):
+        """通过xpaths遍历获取部分包含属性值所在的位置（索引号）"""
+        # 如：getAttrPartialContentIndexByX("//td[9]/a","href","http://")
+        index = 0
+        for a in self.find_elements(*(By.XPATH, varXpaths)):
+            index = index + 1
+            if varValue in a.get_attribute(varAttr):
+                return index
+
+    def getTextAttrValueDictByX(self, varXpaths, varAttr):
+        """通过xpaths遍历获取文本对应的属性值字典"""
+        # :如获取input下href即 {文本：属性值} getTextAttrValueDictByX(u"//input[@name='office_id']","href")
+        l_text = []
+        l_attrValue = []
+        for a in self.find_elements(*(By.XPATH, varXpaths)):
+            l_text.append(a.text)
+            l_attrValue.append(a.get_attribute(varAttr))
+        return dict(zip(l_text, l_attrValue))
+
+    def getAttrValueByH(self, varText, varAttr):
+        """通过linktext获取文本属性值"""
+        # 如：getAttrValueByH("超链接文本","href")
         return self.find_element(*(By.LINK_TEXT, varText)).get_attribute(varAttr)
+
+
+
+    # todo set
+
+    def setTextById(self, varId, varText):
+        """通过id设置文本"""
+        self.find_element(*(By.ID, varId)).clear()
+        self.find_element(*(By.ID, varId)).send_keys(varText)
+
+    def appendTextById(self, varId, varText):
+        """通过id追加文本"""
+        self.find_element(*(By.ID, varId)).send_keys(varText)
+
+    def setTextByName(self, varName, varText):
+        """通过name设置文本"""
+        self.find_element(*(By.ID, varName)).clear()
+        self.find_element(*(By.NAME, varName)).send_keys(varText)
+
+    def appendTextByName(self, varName, varText):
+        """通过name追加文本"""
+        self.find_element(*(By.NAME, varName)).send_keys(varText)
+
+    def setTextByX(self, varXpath, varText):
+        """通过xpath设置文本"""
+        self.find_element(*(By.XPATH, varXpath)).clear()
+        self.find_element(*(By.XPATH, varXpath)).send_keys(varText)
+
+    def appentTextByX(self, varXpath, varText):
+        """通过xpath追加文本"""
+        self.find_element(*(By.XPATH, varXpath)).send_keys(varText)
+
+    def setTextEnterByX(self, varXpath, varText):
+        """通过xpath键盘设置文本"""
+        self.find_element(*(By.XPATH, varXpath)).clear()
+        self.find_element(*(By.XPATH, varXpath)).send_keys(varText)
+        self.find_element(*(By.XPATH, varXpath)).send_keys(Keys.ENTER)
+
+    def appendTextEnterByX(self, varXpath, varText):
+        """通过xpath键盘追加文本"""
+        self.find_element(*(By.XPATH, varXpath)).send_keys(varText)
+        self.find_element(*(By.XPATH, varXpath)).send_keys(Keys.ENTER)
 
 
 
     # todo checkbox
 
     def isSelected(self, varXpath):
-
-        '''
-        是否选中复选框
-        :param varXpath: u"//input[@class='123']"
-        :return: True 或 False
-        '''
-
+        """是否选中复选框, True 或 False"""
+        # isSelected(u"//input[@class='123']")
         return self.find_element(*(By.XPATH, varXpath)).is_selected()
 
     def clrSelected(self, varXpaths):
-
-        '''
-        取消所有已勾选的复选框
-        :param varXpaths: u"//input[@type='checkbox']"
-        :return:
-        '''
-
+        """取消所有已勾选的复选框"""
+        # clrSelected(u"//input[@type='checkbox']")
         for a in self.find_elements(*(By.XPATH, varXpaths)):
             if a.is_selected() == True:
                 a.click()
@@ -669,59 +523,31 @@ class DomPO(object):
     # todo select
 
     def sltTextById(self, varId, varText):
-
-        '''
-        通过Id属性选择文本
-        :param varId: "id"
-        :param varText: u'启用'
-        :return:
-        （一般情况 value=1 , Text=启用）
-        '''
-
+        """通过id选择文本"""
+        # 如：value=1 , Text=启用 ，sltTextById("id", u'启用')
         Select(self.find_element(*(By.ID, varId))).select_by_visible_text(varText)
         # Select(self.driver.find_element_by_id(varId)).select_by_visible_text(varText)
 
     def sltValueById(self, varId, varValue):
-
-        '''
-        通过Id属性选择值
-        :param varId: "id"
-        :param dimValue: "10"
-        :return:
-        （一般情况 value=10 , Text=启用）
-        '''
-
+        """通过id选择值"""
+        # 如：value=10 , Text=启用 ，sltTextById("id", '10')
         Select(self.find_element(*(By.ID, varId))).select_by_value(varValue)
         # Select(self.driver.find_element_by_id(varId)).select_by_value(varValue)
 
     def sltTextByName(self, varName, varText):
-
-        '''
-        通过Name属性选择文本
-        :param varName: u"isAvilable"
-        :param varText: u"启动"
-        :return:
-        '''
-
+        """通过name选择文本"""
+        # 如：value=10 , Text=启用 ，sltTextByName("isAvilable", '启动')
         Select(self.find_element(*(By.NAME, varName))).select_by_visible_text(varText)
         # Select(self.driver.find_element_by_name(varName)).select_by_visible_text(varText)
 
     def sltValueByName(self, varName, varValue):
-
-        '''
-        通过Name属性选择值
-        :param varName: u"isAvilable"
-        :param varValue: 10
-        :return:
-        '''
-
+        """通过name选择值"""
+        # 如：value=10 , Text=启用 ，sltValueByName("isAvilable", '10')
         Select(self.find_element(*(By.NAME, varName))).select_by_value(varValue)
         # Select(self.driver.find_element_by_name(varName)).select_by_value(varValue)
 
-
-
     def selectXpathText(self, varPath, varText):
-        # 遍历Xpath下的Option,
+        # 遍历Xpath下的Option,(待确认)
         # self.selectXpathText(u"//select[@regionlevel='1']", u'启用'), （一般情况 value=1 , Text=启用）
         s1 = self.driver.find_element_by_xpath(varPath)
         l_content1 = []
@@ -737,7 +563,7 @@ class DomPO(object):
                 Select(s1).select_by_value(sorted(d_total1.items())[i][1])
                 break
     def selectIdStyle(self, varByID, varText):
-        # ？ 遍历某ID的下的option (不包含 隐藏的属性，如style=display:none），获取varText对应的值
+        # ？ 遍历某ID的下的option (不包含 隐藏的属性，如style=display:none），获取varText对应的值(待确认)
         # self.selectIdStyle(u"id", u'启用')  # （一般情况 value=1 , Text=启用）
         l_content1 = []
         l_value1 = []
@@ -758,7 +584,7 @@ class DomPO(object):
         else:
             return None
     def selectXpathsMenu1Menu2(self, varPaths1, varMenu, varPaths2, varMenu2, t):
-        # 遍历级联菜单（选择一级菜单后再选择二级菜单）
+        # 遍历级联菜单（选择一级菜单后再选择二级菜单）(待确认)
         # Level_PO.selectMenu("//a[@class='dropdown-toggle']", u"作业管理", "//a[@href='#']", u"作业框架管理", 3)
         try:
             for a in self.driver.find_elements_by_xpath(varPaths1):
@@ -774,7 +600,7 @@ class DomPO(object):
         except:
             return None
     def get_selectNAMEvalue(self, varByname, varContent):
-        # 获取某select下text的value值。（下拉框，定位ByName，选择内容，text != value ）
+        # 获取某select下text的value值。（下拉框，定位ByName，选择内容，text != value ）(待确认)
         s1 = self.driver.find_element_by_name(varByname)
         l_content1 = []
         l_value1 = []
@@ -790,7 +616,7 @@ class DomPO(object):
                 value = sorted(d_total1.items())[i][1]
                 return value
     def get_selectOptionValue(self, varByname, varNum):
-        # 获取某个select中text的value值。
+        # 获取某个select中text的value值。(待确认)
         varValue = self.driver.find_element_by_xpath(
             "//select[@name='" + varByname + "']/option[" + varNum + "]"
         ).get_attribute("value")
@@ -800,75 +626,40 @@ class DomPO(object):
 
     # todo iframe
 
-    def iframe(self, varXpaths, t=1):
-        '''
-        通过Xpath定位iframe
-        :param varXpaths: "//body[@class='gray-bg top-navigation']/div[4]/iframe"
-        :param t: 1
-        :return:
-        '''
-
-        self.driver.switch_to_frame(self.find_element(*(By.XPATH, varXpaths)))
-        # self.driver.switch_to_frame(self.driver.find_element_by_xpath(varXpaths))
+    def switchIframeByX(self, varXpath, t=1):
+        """通过Xpath切换到iframe"""
+        # 如：switchIframeByX("//body[@class='gray-bg top-navigation']/div[4]/iframe")
+        self.driver.switch_to_frame(self.find_element(*(By.XPATH, varXpath)))
         sleep(t)
 
-    def iframeById(self, varId, t=1):
-
-        '''
-        通过id定位iframe
-        :param varId: "layui-layer-iframe1"
-        :param t: 1
-        :return:
-        '''
-
+    def switchIframeById(self, varId, t=1):
+        """通过id切换到iframe"""
+        #如：switchIframeById（"layui-layer-iframe1"）
         self.driver.switch_to_frame(self.find_element(*(By.ID, varId)))
-        # self.driver.switch_to_frame(self.driver.find_element_by_id(varId))
         sleep(t)
 
-    def iframeByAttrs(self, varXpaths, varAttr, varValue, t=1):
-
-        '''
-        通过遍历属性中包含指定值定位iframe
-        :param varXpaths: "//iframe"
-        :param varAttr: "src"
-        :param varValue: "/general/workflow/new/"
-        :param t: 1
-        :return:
-        '''
-
+    def switchIframeAttrPartialContentByX(self, varXpaths, varAttr, varValue, t=1):
+        """通过xpaths遍历遍历属性中包含指定值切换iframe"""
+        # 如：switchIframeAttrPartialContentByX（"//iframe", "src", "/general/workflow/new/"）
         for a in self.find_elements(*(By.XPATH, varXpaths)):
             if varValue in a.get_attribute(varAttr):
                 self.driver.switch_to_frame(self.driver.find_element_by_xpath(varXpaths))
                 break
         sleep(t)
 
-    def iframeSwitch(self, t=1):
-
-        '''
-        多个iframe之间切换
-        :param t: 1
-        :return:
-        如第一层iframe1，第二层iframe2，两者之间切换
-        '''
-
+    def switchIframe(self, t=1):
+        """多个iframe之间切换"""
+        # 如：如第一层iframe1，第二层iframe2，两者之间切换
         self.driver.switch_to.parent_frame()
         sleep(t)
 
-    def iframeQuit(self, t=1):
-
-        '''
-        退出iframe
-        :param t: 1
-        :return:
-        '''
-
+    def quitIframe(self, t=1):
+        """退出iframe"""
         self.driver.switch_to_default_content()
         sleep(t)
 
-
-
     def inIframeTopDiv(self, varPath, t=0):
-        # 定位iframe的div路径?
+        # 定位iframe的div路径?(未确认)
         # evel_PO.inIframeDiv("[@id='showRealtime']", 2)
         # Home_PO.inIframeDiv("[@class='cetc-popup-content']/div", 2)
         iframe = self.driver.find_element_by_xpath("//div" + varPath + "/iframe")
@@ -880,120 +671,73 @@ class DomPO(object):
 
     # todo js
 
-    def jsExecute(self, t=1):
-
-        '''
-        清除input输入框内容
-        :param t:
-        :return:
-        '''
-
+    def clsTextByJs(self, t=1):
+        """清除input输入框内容"""
         self.driver.execute_script('document.querySelector("input[type=number]").value=""')
         sleep(t)
 
-    def jsReadonly(self, varXpath, t=0):
-
-        '''
-        清除readonly属性，是元素可见
-        :param varXpath:
-        :param t:
-        :return:
-        '''
-
-        # d = self.driver.find_element_by_xpath(varXpath)
+    def clsReadonlyByX(self, varXpath, t=0):
+        """通过xpath去掉只读属性"""
         d = self.find_element(*(By.XPATH, varXpath))
         self.driver.execute_script('arguments[0].removeAttribute("readonly")', d)
         sleep(t)
 
-    def jsReadonlyById(self, varId, t=0):
-        '''
-        通过id去掉控件只读属性，一般用于第三方日期控件
-        :param varId:
-        :param t:
-        :return:
-        '''
-
+    def clsReadonlyById(self, varId, t=0):
+        """通过id去掉只读属性"""
+        # 一般用于第三方日期控件
         self.driver.execute_script('document.getElementById("' + varId + '").removeAttribute("readonly")')
         sleep(t)
 
-    def jsReadonlyByName(self, varName, t=0):
-
-        '''
-        通过Name去掉控件只读属性，一般用于第三方日期控件
-        :param varName:
-        :param t:
-        :return:
-         # 注意：document不支持getElementByName方法，只有getElementsByName方法获取标签数组，可通过数组第一个元素获取，如 array[0]
-        '''
-
+    def clsReadonlyByName(self, varName, t=0):
+        """通过name去掉只读属性"""
+        # 注意：document只支持getElementsByName方法获取标签数组，如 array[0]
         self.driver.execute_script('document.getElementsByName("' + varName + '")[0].removeAttribute("readonly")')
         sleep(t)
 
-    def jsDisplayByName(self, varName, t=0):
-
-        '''
-        通过name去掉隐藏属性，显示UI
-        :param varName:
-        :param t:
-        :return:
-        '''
-
+    def clsDisplayByName(self, varName, t=0):
+        """通过name去掉隐藏属性"""
         self.driver.execute_script('document.getElementsByName("' + varName + '")[0].style.display=""')
         sleep(t)
 
+    def clsDisplayByTagName(self, varLabel, varLen, t=1):
+        """通过tagname去掉隐藏属性"""
+        # 如：清除30个ul标签的display，30是ul数量，可以通过其他方式获取。 jsDisplayByTagName(30, "ul")
+        for i in range(varLen):
+            self.driver.execute_script('document.getElementsByTagName("' + varLabel + '")[' + str(i) + '].style.display=""')
+        sleep(t)
 
 
     def displayBlockID(self, varID):
-        # 未验证？
-        # varJs = 'document.getElementById("filePath").style.display="block"'
+        # 未验证？(未确认)
+        varJs = 'document.getElementById("filePath").style.display="block"'
+        # document.getElementByPath
         return self.driver.find_element_by_id(varID).style.display
 
 
 
     # todo True or False
 
-    def isElement(self, varPath):
-
-        '''
-        通过Xpath方式检查元素是否存在
-        :param varPath:
-        :return:
-        '''
-
+    def isBooleanByX(self, varPath):
+        """通过xpath判断ture或false"""
         flag = False
         try:
             self.find_element(*(By.XPATH, varPath))
-            # self.driver.find_element_by_xpath(varPath)
             flag = True
         except:
             flag = False
         return flag
 
-    def isElementAttr(self, varPath, varAttr):
-
-        '''
-        通过Xpath方式判断元素属性是否存在
-        :param varPath: //input
-        :return:
-        '''
+    def isBooleanAttr(self, varPath, varAttr):
+        """通过xpath判断属性是否存在"""
         element = self.find_element(*(By.XPATH, varPath))
         if element.has_attribute(varAttr):
             return True
         else:
             return False
 
-
-
-    def isElementByAttr(self, varPath, varAttr, varValue):
-
-        '''
-        通过Xpath方式检查特定属性的元素是否存在
-        :param varPath:  //tr
-        :param varAttr:  href
-        :param varContain:  http://
-        :return:
-        '''
-
+    def isBooleanAttrValue(self, varPath, varAttr, varValue):
+        """通过xpath判断属性值是否存在"""
+        # 如：isBooleanAttrValue("//tr","href","www.badu.com")
         flag = False
         try:
             for a in self.find_elements(*(By.XPATH, varPath)):
@@ -1004,47 +748,28 @@ class DomPO(object):
             flag = False
         return flag
 
-    def isElementById(self, varId):
-
-        '''
-        通过Id方式检查元素是否存在
-        :param varId:
-        :return:
-        '''
-
+    def isBooleanById(self, varId):
+        """通过Id判断ture或false"""
         flag = False
         try:
             self.find_element(*(By.ID, varId))
-            # self.driver.find_element_by_id(varId)
             flag = True
         except:
             flag = False
         return flag
 
-    def isElementByName(self, varName):
-
-        '''
-        通过Name方式检查元素是否存在
-        :param varName:
-        :return:
-        '''
+    def isBooleanByName(self, varName):
+        """通过name判断ture或false"""
         flag = False
         try:
             self.find_element(*(By.NAME, varName))
-            # self.driver.find_element_by_name(varName)
             flag = True
         except:
             flag = False
         return flag
 
-    def isElementByPartialText(self, varPartText):
-
-        '''
-        通过超链接方式检查文本是否包含varText
-        :param varPartText:
-        :return:
-        '''
-
+    def isBooleanTextPartialContentByP(self, varPartText):
+        """通过超链接判断是否包含varText"""
         flag = False
         try:
             self.driver.find_element_by_partial_link_text(varPartText)
@@ -1053,14 +778,8 @@ class DomPO(object):
             flag = False
         return flag
 
-    def isElementByLinkText(self, varText):
-
-        '''
-        通过超链接方式检查文本是否存在
-        :param varText:
-        :return:
-        '''
-
+    def isBooleanTextByL(self, varText):
+        """通过超链接判断是否存在varText"""
         flag = False
         try:
             self.driver.find_element_by_link_text(varText)
@@ -1069,28 +788,19 @@ class DomPO(object):
             flag = False
         return flag
 
-    def isElementText(self, varPath, varText):
-
-        '''
-        通过文本比对检查文本是否存在
-        :param varPath:
-        :param varText:
-        :return:
-        '''
-
+    def isBooleanTextByX(self, varPath, varText):
+        """通过xpath判断文本是否存在"""
         flag = False
         try:
             if self.find_element(*(By.XPATH, varPath)).text == varText:
-            # if self.driver.find_element_by_xpath(varPath).text == varText:
                 flag = True
         except:
             flag = False
         return flag
 
 
-
     def isElementVisibleXpath(self, element):
-        # 未验证？？？
+        # 未验证？？？（未确认）
         driver = self.driver
         try:
             the_element = EC.visibility_of_element_located(
@@ -1102,7 +812,7 @@ class DomPO(object):
             flag = False
         return flag
     def locElement(self, varPath, t=0):
-        # 定位到某元素???
+        # 定位到某元素???（未确认）
         try:
             elements = self.find_element(*(By.XPATH, varPath))
             actions = ActionChains(self.driver)
@@ -1116,32 +826,17 @@ class DomPO(object):
     # todo alert(system)
 
     def alertAccept(self):
-
-        '''
-        点击弹框中的确认
-        :return:
-        '''
-
+        """点击弹框中的确认"""
         alert = self.driver.switch_to.alert
         alert.accept()
 
     def alertDismiss(self):
-
-        '''
-        点击弹框中的取消
-        :return:
-        '''
-
+        """点击弹框中的取消"""
         alert = self.driver.switch_to.alert
         alert.dismiss()
 
     def alertText(self):
-
-        '''
-        获取弹框中的文案
-        :return:
-        '''
-
+        """获取弹框中的文案"""
         alert = self.driver.switch_to.alert
         return alert.text
 
