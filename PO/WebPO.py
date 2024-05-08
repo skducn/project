@@ -228,7 +228,7 @@ class WebPO(DomPO):
         self._openURL(varURL)
 
 
-    def opn(self, varUrl):
+    def opn(self, varUrl, t=1):
 
         '''
         1.1 打开网页
@@ -238,7 +238,7 @@ class WebPO(DomPO):
 
         # self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(varUrl)
-
+        sleep(t)
 
     def opnLabel(self, varURL):
 
@@ -273,6 +273,9 @@ class WebPO(DomPO):
 
         self.driver.close()
 
+    def refresh(self):
+        """刷新页面"""
+        self.driver.refresh()
 
     def getBrowserSize(self):
 

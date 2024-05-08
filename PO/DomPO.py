@@ -546,6 +546,12 @@ class DomPO(object):
         Select(self.find_element(*(By.NAME, varName))).select_by_value(varValue)
         # Select(self.driver.find_element_by_name(varName)).select_by_value(varValue)
 
+    def sltValueByX(self, varXpath, varValue):
+        """通过xpath选择值"""
+        # 如：value=10 , Text=启用 ，sltValueByName("isAvilable", '10')
+        Select(self.find_element(*(By.XPATH, varXpath))).select_by_visible_text(varValue)
+        # Select(self.driver.find_element_by_name(varName)).select_by_value(varValue)
+
     def selectXpathText(self, varPath, varText):
         # 遍历Xpath下的Option,(待确认)
         # self.selectXpathText(u"//select[@regionlevel='1']", u'启用'), （一般情况 value=1 , Text=启用）
