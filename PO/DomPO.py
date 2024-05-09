@@ -132,7 +132,7 @@ class DomPO(object):
             # Python特性，将入参放在元组里，入参loc，加*，变成元组。
             # WebDriverWait(self.driver,10).until(lambda driver: driver.find_element(*loc).is_displayed())
             # 注意：以下loc入参本身就是元组，所以不需要再加*
-            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(loc))
+            WebDriverWait(self.driver, 3).until(EC.visibility_of_element_located(loc))
             return self.driver.find_element(*loc)
         except:
             print("未找到元素 %s " % (loc))
@@ -735,11 +735,14 @@ class DomPO(object):
 
     def isBooleanAttr(self, varPath, varAttr):
         """通过xpath判断属性是否存在"""
-        element = self.find_element(*(By.XPATH, varPath))
-        if element.has_attribute(varAttr):
-            return True
-        else:
-            return False
+        flag = False
+        try:
+            element = self.find_element(*(By.XPATH, varPath))
+            if element.get_attribute(varAttr):
+                flag = True
+        except:
+            flag = False
+        return flag
 
     def isBooleanAttrValue(self, varPath, varAttr, varValue):
         """通过xpath判断属性值是否存在"""
