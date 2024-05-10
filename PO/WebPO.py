@@ -222,23 +222,20 @@ class WebPO(DomPO):
         #         self.driver.get(varURL)
         #     return self.driver
 
-
-
     def openURL(self, varURL):
         self._openURL(varURL)
 
 
     def opn(self, varUrl, t=1):
-
-        '''
-        1.1 打开网页
-        :param varURL:
-        :return:
-        '''
-
+        """1.1 打开网页"""
         # self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(varUrl)
         sleep(t)
+
+    def getSource(self):
+        """1. 获取源码"""
+        return self.driver.page_source
+
 
     def opnLabel(self, varURL):
 
