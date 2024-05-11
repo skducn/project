@@ -84,51 +84,65 @@ class Chc_web_PO():
                 Web_PO.opn("http://192.168.0.243:8010/" + d_menuUrl[varMenuName])
         sleep(t)
 
-    def getTechnicalTarget(self, html_source):
+    def getTechnicalTarget(self):
+        """首页，获取首页指标"""
+        l1 = Web_PO.getTextListByX("//div[@class='headerdiv']")
+        l2 = Web_PO.getTextListByX("//div[@class='box_center']")
 
-        # l1 = Web_PO.getTextListByX("//div")
-        # print(l1)
+        # 签约居民总数（人）
+        qyjmzs = l1[0].split("\n")
+        print(qyjmzs)
 
-        # 1, 获取html_source
-        soup = BeautifulSoup(html_source, 'html.parser')
+        # 重点人群
+        zdrq = l1[1].split("\n")
+        print(zdrq)
 
+        # 疾病风险人群\普通人群
+        jbfx = l1[2].split("\n")
+        print(jbfx)
 
-        c = 0
-        for a in soup.find_all('div'):
-            if c == 1 :
-                # print(type(a),a)
-                s = BeautifulSoup(str(a), 'lxml')
+        # 健康档案完善
+        jkdaws = l2[0].split("\n")
+        print(jkdaws)
 
+        # 慢病随访
+        mbsf = l2[1].split("\n")
+        print(mbsf)
 
-                # for b in s.find_all('h4'):
-                #     print(b.get_text())
-                list1 = []
-                for c in s.find_all("div"):
-                    # print(c.get_text())
-            
-                    list1.append(c.get_text())
-                print(list1)
+        # 老年人体检
+        lnrtj = l2[2].split("\n")
+        print(lnrtj)
 
-                # tag = s.h4
-                # for b in tag.find_all('h4'):
-                #     print(b.get_text())
-                # print(tag.get_text())
+        # 65岁以上重点人群管理
+        zdrqgl = l2[3].split("\n")
+        print(zdrqgl)
 
-                break
-            c = c + 1
+    def _dropDownList(self, varValue, varXpath):
+        """下拉框定义"""
+        Web_PO.clsReadonlyByX(varXpath)
+        Web_PO.setTextByX(varXpath, varValue)
 
+    def healthEvaluateIntervene_search(self, d):
+        """健康评估及干预 - 查询"""
+        #({'姓名': '儿童', '身份证': '310101', '人群分类': '老年人', '家庭医生': '测试', '签约日期范围start': '2024-05-05',
+                           # '签约日期范围end': '2024-05-07', '年度评估状态': '未评估', '管理人群': '高血压', '最近一次评估日期start': '2024-05-05',
+                           # '最近一次评估日期end': '2024-05-07', '最近一次确认日期start': '2024-05-05', '最近一次确认日期end': '2024-05-07'})
 
-        # # 2, 获取菜单和链接，所有a标签的href属性
-        # d_menuUrl = {}
-        # for link in soup.find_all('div'):
-        #     key = str(soup.find("a", {'href': link.get('href')}).find_all('span'))
-        #     if key != "[]" and '<span class="menu-title" title="' in key:
-        #         s = BeautifulSoup(key, 'lxml')
-        #         tag = s.span
-        #         # print(tag.get_text())
-        #         d_menuUrl[tag.get_text()] = link.get('href')
-        # # print(d_menuUrl)  # {'首页': '#/index', '健康服务': '#/SignManage/service', '健康评估及干预': '#/SignManage/signAssess', '慢病管理': '#/SignManage/chronic', '老年人体检': '#/SignManage/snrExam', '重点人群': '#/SignManage/keyPopulation', '居民登记': '#/OpManage/register', '健康评估': '#/OpManage/assess', '机构维护': '#/UserManage/org', '用户维护': '#/UserManage/user', '角色维护': '#/UserManage/role', '接口管理': '#/UserManage/interface', '批量评估': '#/UserManage/MassAppraisal', '错误日志': '#/UserManage/errorLog', '常住人口': '#/Community/permanent', '家医团队维护': '#/Community/team', '家医助手': '#/Community/assistant', '干预规则配置': '#/Community/interveneRule', '停止评估名单': '#/Community/stopList', '社区用户维护': '#/Community/communityUser', '评估建议': '#/Community/SuggestionTemplate', '定时任务': '#/monitor/index', '社区健康评估': '#/dataStatistics/communityHealth', '全区健康评估': '#/dataStatistics/allHealth'}
+        if '姓名' in d: Web_PO.setTextByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[1]/div[1]/div/div/div/input", d['姓名'])
+        if '身份证' in d: Web_PO.setTextByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[1]/div[2]/div/div/div/input", d['身份证'])
+        if '人群分类' in d: self._dropDownList(d['人群分类'], "/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[1]/div[3]/div/div/div/div/div/input")
+        if '家庭医生' in d: self._dropDownList(d['家庭医生'], "/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[1]/div[4]/div/div/div/div/div/input")
+        if '签约日期范围start' in d: Web_PO.setTextEnterByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[1]/div[5]/div/div/div[1]/input", d['签约日期范围start'])
+        if '签约日期范围end' in d: Web_PO.setTextEnterByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[1]/div[5]/div/div/div[2]/input", d['签约日期范围end'])
+        if '年度评估状态' in d: self._dropDownList(d['年度评估状态'], "/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[2]/div[1]/div/div/div/div/div/input")
+        if '管理人群' in d: self._dropDownList(d['管理人群'], "/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[2]/div[2]/div/div/div/div/div[2]/input")
+        if '最近一次评估日期start' in d: Web_PO.setTextEnterByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[2]/div[3]/div/div/div[1]/input", d['最近一次评估日期start'])
+        if '最近一次评估日期end' in d: Web_PO.setTextEnterByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[2]/div[3]/div/div/div[2]/input", d['最近一次评估日期end'])
+        if '最近一次确认日期start' in d: Web_PO.setTextEnterByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[2]/div[4]/div/div/div[1]/input", d['最近一次确认日期start'])
+        if '最近一次确认日期end' in d: Web_PO.setTextEnterByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[2]/div[4]/div/div/div[2]/input", d['最近一次确认日期end'])
 
+        # 查询
+        Web_PO.clkByX("/html/body/div[1]/div/div[2]/section/div/div/main/div[1]/form/div[3]/div/div/button")
     def edtBasicInfo(self, idCard):
         # 2，通过身份证打开用户页
         Web_PO.opnLabel('http://172.16.209.10:9071/cdc/a/doctor/archive/detail?personcard=' + str(idCard))

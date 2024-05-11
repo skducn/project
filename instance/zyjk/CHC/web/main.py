@@ -21,14 +21,20 @@ html_source = Web_PO.getSource()
 # print(html_source)
 
 # 获取首页上指标名称与值
-Chc_web_PO.getTechnicalTarget(html_source)
+Chc_web_PO.getTechnicalTarget()
 
 # 首页
 # Chc_web_PO.clkMenu(html_source, '首页')
 
 # # 居民健康服务
 # Chc_web_PO.clkMenu(html_source, '健康服务')
-# Chc_web_PO.clkMenu(html_source, '健康评估及干预')
+Chc_web_PO.clkMenu(html_source, '健康评估及干预')
+# 健康评估及干预 - 查询
+Chc_web_PO.healthEvaluateIntervene_search({'姓名': '儿童', '身份证': '310101', '人群分类': '老年人', '家庭医生': '测试', '签约日期范围start': '2024-05-01', '签约日期范围end': '2024-05-02', '年度评估状态': '未评估', '管理人群': '高血压', '最近一次评估日期start': '2024-05-03', '最近一次评估日期end': '2024-05-05', '最近一次确认日期start': '2024-05-06', '最近一次确认日期end': '2024-05-07'})
+# Chc_web_PO.healthEvaluateIntervene_search({'姓名': '儿童', '家庭医生': '测试', '年度评估状态': '预评估'})
+
+
+
 # Chc_web_PO.clkMenu(html_source, '慢病管理')
 # Chc_web_PO.clkMenu(html_source, '老年人体检')
 # Chc_web_PO.clkMenu(html_source, '重点人群')
