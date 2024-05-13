@@ -40,7 +40,7 @@
 # https://www.bilibili.com/read/cv25916901/
 # https://blog.csdn.net/xc_zhou/article/details/82415870
 # https://blog.csdn.net/amberom/article/details/107980370
-
+# https://www.5axxw.com/questions/content/ey8x1v  解决不安全下载被阻止问题
 # 6，常见问题
 # Q1：MAC 移动chromedriver时报错，如 sudo mv chromedriver /usr/bin 提示： Operation not permitted
 # A1: 重启按住command + R,进入恢复模式，实用工具 - 终端，输入 csrutil disable , 重启电脑。
@@ -103,6 +103,17 @@ File_PO = FilePO()
 
 class WebPO(DomPO):
 
+    def saveas(self):
+        # 等待并接受"另存为"弹框
+        try:
+            save_as = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.CSS_SELECTOR, "存储"))  # "Save As"
+            )
+            save_as.click()  # 或者
+            # save_as.send_keys("/Users/linghuchong/Downloads/123.xlsx") # 手动指定保存位置和文件名
+        except Exception as e:
+            print(f"未找到'另存为'弹框: {e}")
+
     def _openURL(self, varURL):
         """1.1 打开"""
         if self.driver == "chrome":
@@ -119,8 +130,12 @@ class WebPO(DomPO):
 
             # todo 浏览器
             options.add_experimental_option("detach", True)  # 浏览器永不关闭
+            options.add_argument("--allow-running-insecure-content") # Allow insecure content
+            options.add_argument("--unsafely-treat-insecure-origin-as-secure=http://192.168.0.243:8010/")  # Replace example.com with your site's domain (this is what worked for me)
+
             options.add_argument("--disable-blink-features=AutomationControlled")  # 禁止浏览器出现验证滑块
             options.add_argument('--incognito')  # 无痕模式
+
             options.add_argument('--disable-popup-blocking')  # 禁用弹窗阻止（可能有助于避免某些弹窗相关的崩溃）
             options.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])  # 屏蔽--ignore-certificate-errors提示信息的设置参数项
             options.add_experimental_option("excludeSwitches", ["enable-automation"])  # 屏蔽 "Chrome正受到自动测试软件的控制"提示，建议放在最后。
