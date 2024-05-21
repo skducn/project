@@ -5,6 +5,14 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
+numbers = [1, 2, 2, 3, 2, 3, 3]
+counts = {num: numbers.count(num) for num in set(numbers)}
+print(counts)
+
+# for num in set(numbers):
+#     print(num)
+
+print(numbers.count(2))
 
 
 # # import pymysql
@@ -60,11 +68,11 @@
 # print(len(card))
 # print(choice(card))
 
-import pyttsx3
-engine = pyttsx3.init()
-engine.say('Sally sells seashells by the seashore.')
-engine.say('The quick brown fox jumped over the lazy dog.')
-engine.runAndWait()
+# import pyttsx3
+# engine = pyttsx3.init()
+# engine.say('Sally sells seashells by the seashore.')
+# engine.say('The quick brown fox jumped over the lazy dog.')
+# engine.runAndWait()
 
 # import pyttsx3
 # # Initialize the converter
