@@ -250,56 +250,56 @@ print(pd.__version__)
 # print(df)
 
 
-# # 显示前N行
-# df = pd.read_csv('test.csv', nrows=4, encoding='gb2312')
+# # # 显示前N行
+# # df = pd.read_csv('test.csv', nrows=4, encoding='gb2312')
+# # print(df)
+# # #      year    income  ...  industrial_added_value3  memo
+# # # 0  2018.0  896915.6  ...                 469574.6    测试
+# # # 1     NaN       NaN  ...                      NaN   NaN
+# # # 2  2015.0  683390.5  ...                 346178.0    44
+# # # 3  2014.0  642097.6  ...                 308082.5    腾讯
+#
+# df = pd.read_csv('test.csv', encoding='gb2312')
 # print(df)
 # #      year    income  ...  industrial_added_value3  memo
 # # 0  2018.0  896915.6  ...                 469574.6    测试
 # # 1     NaN       NaN  ...                      NaN   NaN
 # # 2  2015.0  683390.5  ...                 346178.0    44
 # # 3  2014.0  642097.6  ...                 308082.5    腾讯
-
-df = pd.read_csv('test.csv', encoding='gb2312')
-print(df)
-#      year    income  ...  industrial_added_value3  memo
-# 0  2018.0  896915.6  ...                 469574.6    测试
-# 1     NaN       NaN  ...                      NaN   NaN
-# 2  2015.0  683390.5  ...                 346178.0    44
-# 3  2014.0  642097.6  ...                 308082.5    腾讯
-# 4  2013.0  588141.2  ...                 277979.1    阿里
-# 5  2012.0  537329.0  ...                 244852.2    抖音
-# 6  2011.0  483392.8  ...                 216120.0    美团
-
-# 跳过前N行
-# 注意表头
-# df = pd.read_csv('test.csv', skiprows=2, encoding='gb2312')
-df = pd.read_csv('test.csv', skiprows=range(2), encoding='gb2312')  # 同上
-print(df)
-#    Unnamed: 0  Unnamed: 1  Unnamed: 2  ...  Unnamed: 4  Unnamed: 5  Unnamed: 6
-# 0        2015    683390.5         NaN  ...    282040.3    346178.0          44
-# 1        2014    642097.6         1.0  ...    277571.8    308082.5          腾讯
-# 2        2013    588141.2         0.0  ...    261956.1    277979.1          阿里
-# 3        2012    537329.0         NaN  ...    244643.3    244852.2          抖音
-# 4        2011    483392.8         NaN  ...    227038.8    216120.0          美团
-
-# 跳过指定行，之后第一行数据为表头
-# df = pd.read_csv('test.csv', skiprows=[0, 2], encoding='gb2312')
-df = pd.read_csv('test.csv', skiprows=np.array([0, 2]), encoding='gb2312')  # 同上
-print(df)
-#    2018  896915.6  900309.5    64734  366000.9  469574.6  测试
-# 0  2015  683390.5       NaN  57774.6  282040.3  346178.0  44
-# 1  2014  642097.6       1.0  55626.3  277571.8  308082.5  腾讯
-# 2  2013  588141.2       0.0  53028.1  261956.1  277979.1  阿里
-# 3  2012  537329.0       NaN  49084.5  244643.3  244852.2  抖音
-# 4  2011  483392.8       NaN  44781.4  227038.8  216120.0  美团
-
-# 隔行跳过
-df = pd.read_csv('test.csv', skiprows=lambda x: x % 2 !=0, encoding='gb2312')
-print(df)
-#      year    income  ...  industrial_added_value3  memo
-# 0     NaN       NaN  ...                      NaN   NaN
-# 1  2014.0  642097.6  ...                 308082.5    腾讯
-# 2  2012.0  537329.0  ...                 244852.2    抖音
+# # 4  2013.0  588141.2  ...                 277979.1    阿里
+# # 5  2012.0  537329.0  ...                 244852.2    抖音
+# # 6  2011.0  483392.8  ...                 216120.0    美团
+#
+# # 跳过前N行
+# # 注意表头
+# # df = pd.read_csv('test.csv', skiprows=2, encoding='gb2312')
+# df = pd.read_csv('test.csv', skiprows=range(2), encoding='gb2312')  # 同上
+# print(df)
+# #    Unnamed: 0  Unnamed: 1  Unnamed: 2  ...  Unnamed: 4  Unnamed: 5  Unnamed: 6
+# # 0        2015    683390.5         NaN  ...    282040.3    346178.0          44
+# # 1        2014    642097.6         1.0  ...    277571.8    308082.5          腾讯
+# # 2        2013    588141.2         0.0  ...    261956.1    277979.1          阿里
+# # 3        2012    537329.0         NaN  ...    244643.3    244852.2          抖音
+# # 4        2011    483392.8         NaN  ...    227038.8    216120.0          美团
+#
+# # 跳过指定行，之后第一行数据为表头
+# # df = pd.read_csv('test.csv', skiprows=[0, 2], encoding='gb2312')
+# df = pd.read_csv('test.csv', skiprows=np.array([0, 2]), encoding='gb2312')  # 同上
+# print(df)
+# #    2018  896915.6  900309.5    64734  366000.9  469574.6  测试
+# # 0  2015  683390.5       NaN  57774.6  282040.3  346178.0  44
+# # 1  2014  642097.6       1.0  55626.3  277571.8  308082.5  腾讯
+# # 2  2013  588141.2       0.0  53028.1  261956.1  277979.1  阿里
+# # 3  2012  537329.0       NaN  49084.5  244643.3  244852.2  抖音
+# # 4  2011  483392.8       NaN  44781.4  227038.8  216120.0  美团
+#
+# # 隔行跳过
+# df = pd.read_csv('test.csv', skiprows=lambda x: x % 2 !=0, encoding='gb2312')
+# print(df)
+# #      year    income  ...  industrial_added_value3  memo
+# # 0     NaN       NaN  ...                      NaN   NaN
+# # 1  2014.0  642097.6  ...                 308082.5    腾讯
+# # 2  2012.0  537329.0  ...                 244852.2    抖音
 
 # # 显示指定列
 # df = pd.read_csv('test.csv', usecols=[0, 1, 2], encoding='gb2312')
@@ -485,8 +485,8 @@ print(df)
 # # 3  2015.0  683390.5                 NaN
 # # 4  2014.0  642097.6                 NaN
 #
-df = pd.read_csv('test.csv', usecols=[0,1,2], encoding='gb2312')
-print(df.head())
+# df = pd.read_csv('test.csv', usecols=[0,1,2], encoding='gb2312')
+# print(df.head())
 
 # df = pd.read_csv('test.csv', usecols=[0,1,2], na_values={4:2}, encoding='gb2312')
 # print(df.head())
@@ -530,10 +530,24 @@ print(df.head())
 
 
 
-
-
-
-
-# df = pd.read_csv('test.csv', skip_blank_lines=True)
+df = pd.read_csv('test2.csv')
 # print(df)
 
+
+from PO.TimePO import *
+Time_PO = TimePO()
+
+
+title = "工作日志"
+filePrefix = "abc"
+
+pd.set_option('colheader_justify', 'center')  # 对其方式居中
+html = '''<html><head><title>''' + str(title) + '''</title></head>
+  <body><b><caption>''' + str(title) + '''_''' + str(
+    Time_PO.getDate()) + '''</caption></b><br><br>{table}</body></html>'''
+style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;border-collapse: collapse;border: 1px solid silver;}.mystyle td, 
+th {padding: 5px;}.mystyle tr:nth-child(even) {background: #E0E0E0;}.mystyle tr:hover {background: silver;cursor:pointer;}</style>'''
+rptNameDate = "report/" + str(filePrefix) + str(Time_PO.getDate()) + ".html"
+with open(rptNameDate, 'w') as f:
+    f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
+    # f.write(html.format(table=df.to_html(classes="mystyle", col_space=50)))

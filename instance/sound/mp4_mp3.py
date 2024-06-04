@@ -14,8 +14,8 @@ import os, sys, subprocess
 # varFile, x = os.path.splitext(os.path.split(sys.argv[1])[1])
 # print(os.getcwd() + "\\" + str(varFile) + '.mp3')
 
-varSource = "/Users/linghuchong/Downloads/letsgo4.mp4"
-varTarget = "/Users/linghuchong/Downloads/letsgo4.mp3"
+varSource = "/Users/linghuchong/Desktop/他僧.mp4"
+varTarget = "/Users/linghuchong/Desktop/他僧.mp3"
 # subprocess.call("ffmpeg -i " + os.path.split(sys.argv[1])[1] + " -ar 16000 -vn " + os.getcwd() + "\\" + str(varFile) + '.mp3', shell=True)
 subprocess.call("ffmpeg -i " + varSource + " -ar 16000 -vn " + varTarget, shell=True)
 

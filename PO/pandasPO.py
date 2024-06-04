@@ -24,6 +24,7 @@
 
 4 xlsx转列表
 
+将df输出html
 """
 
 
@@ -31,6 +32,8 @@ from PO.MysqlPO import *
 from sqlalchemy import create_engine
 import numpy
 
+from PO.TimePO import *
+Time_PO = TimePO()
 
 class PandasPO:
     def __init__(self):
@@ -190,6 +193,23 @@ class PandasPO:
             return t.tolist()
         except Exception as e:
             print(e)
+
+
+    def toHtml(self, df, title, filePrefix):
+        # title = "页面标题工作日志"
+        # filePrefix = "文件名前缀"
+
+        # 将df输出html
+        pd.set_option('colheader_justify', 'center')  # 对其方式居中
+        html = '''<html><head><title>''' + str(title) + '''</title></head>
+          <body><b><caption>''' + str(title) + '''_''' + str(
+            Time_PO.getDate()) + '''</caption></b><br><br>{table}</body></html>'''
+        style = '''<style>.mystyle {font-size: 11pt; font-family: Arial;border-collapse: collapse;border: 1px solid silver;}.mystyle td, 
+        th {padding: 5px;}.mystyle tr:nth-child(even) {background: #E0E0E0;}.mystyle tr:hover {background: silver;cursor:pointer;}</style>'''
+        # rptNameDate = "report/" + str(filePrefix) + str(Time_PO.getDate()) + ".html"
+        rptNameDate = str(filePrefix) + str(Time_PO.getDate()) + ".html"
+        with open(rptNameDate, 'w') as f:
+            f.write(style + html.format(table=df.to_html(classes="mystyle", col_space=100, index=False)))
 
 
 if __name__ == "__main__":

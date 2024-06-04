@@ -50,14 +50,16 @@ html_source = Web_PO.getSource()
 # print(html_source)
 
 # 获取首页上指标名称与值
+print("1，获取首页信息")
 Chc_web_PO.getTechnicalTarget()
 
 # 首页
 # Chc_web_PO.clkMenu(html_source, '首页')
 
 # # 居民健康服务
-# Chc_web_PO.clkMenu(html_source, '健康服务')
-# Chc_web_PO.clkMenu(html_source, '健康评估及干预')
+print("2,点击健康服务")
+Chc_web_PO.clkMenu(html_source, '健康服务')
+Chc_web_PO.clkMenu(html_source, '健康评估及干预')
 # 健康评估及干预 - 查询
 # Chc_web_PO.healthEvaluateIntervene_search({'姓名': '儿童', '身份证': '310101', '人群分类': '老年人', '家庭医生': '测试', '签约日期范围start': '2024-05-01', '签约日期范围end': '2024-05-02', '年度评估状态': '未评估', '管理人群': '高血压', '最近一次评估日期start': '2024-05-03', '最近一次评估日期end': '2024-05-05', '最近一次确认日期start': '2024-05-06', '最近一次确认日期end': '2024-05-07'})
 # Chc_web_PO.healthEvaluateIntervene_search({'姓名': '儿童', '家庭医生': '测试', '年度评估状态': '预评估'})
@@ -92,15 +94,15 @@ Chc_web_PO.getTechnicalTarget()
 # 系统监控
 # Chc_web_PO.clkMenu(html_source, '定时任务')
 
-# 统计分析
-Chc_web_PO.clkMenu(html_source, '社区健康评估')
-# 点击 导出Excel
-Web_PO.clkByX("/html/body/div[1]/div/div[2]/section/div/div/main/div/div[2]/div[1]/div/div[1]/div[2]/button", 2)
-# 模拟按下 command + S 完成保存
-pyautogui.keyDown('command')
-pyautogui.press('s')
-pyautogui.keyUp('s')
-pyautogui.keyUp('command')
+# # 统计分析
+# Chc_web_PO.clkMenu(html_source, '社区健康评估')
+# # 点击 导出Excel
+# Web_PO.clkByX("/html/body/div[1]/div/div[2]/section/div/div/main/div/div[2]/div[1]/div/div[1]/div[2]/button", 2)
+# # 模拟按下 command + S 完成保存
+# pyautogui.keyDown('command')
+# pyautogui.press('s')
+# pyautogui.keyUp('s')
+# pyautogui.keyUp('command')
 
 # pyautogui.moveTo(x=1033, y=627, duration=1)  # 将鼠标移动到确定按钮的位置
 # pyautogui.click()
