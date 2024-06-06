@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/PO/data/ee.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/PO/data/qqw.csv">
           <value>
             <Attribute>
@@ -18,6 +25,20 @@
           </value>
         </entry>
         <entry key="/PO/data/test99.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/instance/bigData/GDP-China.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/instance/bigData/pandas1/GDP-China.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -73,6 +94,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/instance/数据分析挖掘/sales_data2.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/ipynb/DC.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/ipynb/ICD.csv">
           <value>
             <Attribute>
@@ -87,7 +122,21 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/ipynb/James_Harden.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/ipynb/RTF.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/ipynb/tr2.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

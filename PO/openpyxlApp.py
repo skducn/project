@@ -9,8 +9,8 @@
 # *********************************************************************
 
 from PO.OpenpyxlPO import *
-from time import sleep
 
+# todo 文件，工作表
 # 打开文件（文件不存在则创建文件，默认Sheet1）
 # Openpyxl_PO = OpenpyxlPO("/Users/linghuchong/Downloads/51/Python/project/PO/data/7.xlsx")
 Openpyxl_PO = OpenpyxlPO("./data/7.xlsx")
@@ -25,7 +25,6 @@ Openpyxl_PO.save()
 # df = pd.DataFrame(pd.read_excel("./data/7.xlsx"))
 # df.to_excel("./data/7.xlsx", index=False, header=None)
 
-Openpyxl_PO.open()
 
 # Openpyxl_PO.renameSheet("Sheet1", "444")
 # Openpyxl_PO.addCoverSheet("mysheet1")
@@ -86,6 +85,8 @@ Openpyxl_PO.open()
 # print("2.7 追加列数据".center(100, "-"))
 # Openpyxl_PO.appendCols([["test", "张三", "李四"], ["dev", "55", "34"]], 2)
 
+# todo 样式
+
 # print("2.5 设置单元格行高与列宽".center(100, "-"))
 # Openpyxl_PO.setCellDimensions(3, 30, 'f', 34)  # 设置第三行行高30，第f列宽34
 
@@ -100,7 +101,7 @@ Openpyxl_PO.open()
 # Openpyxl_PO.setAllWordWrap("Sheet1")
 
 # print("2.8 设置冻结首行".center(100, "-"))
-# Openpyxl_PO.setFreeze('A2', "saasuser")
+# Openpyxl_PO.setFreeze('A2', "Sheet1")
 
 # print("2.9 设置单元格对齐样式".center(100, "-"))
 # Openpyxl_PO.setCellAlignment(5, 4, 'center', 'top')
@@ -151,14 +152,14 @@ Openpyxl_PO.open()
 
 # print("2.15.2 设置单行多列背景色".center(100, "-"))
 # Openpyxl_PO.setRowColColor(5, ['b', 'd'], "ff0000") # 设置第五行第b，c，d列背景色
-# Openpyxl_PO.setRowColColor(7, "all", "ff0000")  # 设置第五行所有列背景色
+# Openpyxl_PO.setRowColColor(7, "all", "ff0000")  # 设置第7行所有列背景色
 
 # print("2.15.3 设置所有单元格背景色".center(100, "-"))
 # Openpyxl_PO.setAllCellColor("ff0000")  # 设置所有单元格背景色
 # Openpyxl_PO.setAllCellColor(None)  # 清除所有单元格背景色
 
 # print("2.16 设置整行(可间隔)背景色".center(100, "-"))
-# Openpyxl_PO.setRowColor(5, 0, "ff0000")  # 从第3行开始每行颜色标红色
+# Openpyxl_PO.setRowColor(5, 0, "ff0000")  # 从第5行开始每行颜色标红色
 # Openpyxl_PO.setRowColor(3, 1, "ff0000")  # 从第3行开始每隔1行颜色标红色
 
 # print("2.17 设置整列(可间隔)背景色".center(100, "-"))

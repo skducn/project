@@ -146,7 +146,7 @@ List_PO = ListPO()
 from PO.ColorPO import *
 Color_PO = ColorPO()
 
-print(openpyxl.__version__)
+# print(openpyxl.__version__)
 
 import pandas as pd
 

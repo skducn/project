@@ -1,0 +1,18 @@
+﻿# yaml-language-server:$schema=https://files.cnblogs.com/files/chenxizhang/blogschema.json
+
+# 外号
+---
+user:
+  - 可优
+  - keyou
+  - 小可可
+  - 小优优
+
+# 爱人
+lovers:
+  - 柠檬小姐姐
+  - 橘子小姐姐
+
+test: |
+  你好我是金浩，
+  我来自上海。

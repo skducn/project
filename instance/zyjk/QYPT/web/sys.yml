@@ -1,0 +1,48 @@
+﻿# 系统入口，平台模块，菜单
+
+# 系统入口
+login:
+  url: 'http://192.168.0.213:1080/admin/login'
+  user: 'jh'
+  pass: '123456'
+# 平台模块
+app:
+  # 菜单
+  'platform': '平台管理系统'
+  'platform_M':
+    # 子菜单
+    'application': '应用管理'
+    'user': '用户管理'
+    'role': '角色管理'
+  'standard': '标准管理'
+  'standard_M':
+    'orgReg': '医疗卫生机构注册'
+    'officeReg': '科室注册'
+    'staffReg': '医疗卫生人员注册'
+#  'residentMasterIndex': '居民主索引'
+#  'residentMasterIndex_M':
+#  'shareDocument': '共享文档管理'
+#  'shareDocument_M':
+#  'platformMonitor': '平台监控'
+#  'platformMonitor_M':
+#  'registerService': '注册服务管理'
+#  'registerService_M':
+#  'healthDocument': '健康档案存储服务'
+#  'healthDocument_M':
+#  'healthBrowser': '健康浏览器'
+#  'healthBrowser_M':
+#  'doubleReferral': '双向转诊管理'
+#  'doubleReferral_M':
+#  'deadResident': '死亡居民管理'
+#  'deadResident_M':
+#  'dataExchange': '数据交换及数据质控服务'
+#  'dataExchange_M':
+#  'safe': '卫健安全生产管理系统'
+#  'safe_M':
+#  'emergencyMaterials': '应急物资管理'
+#  'emergencyMaterials_M':
+#  'diseasePrevention': '疾病预防管理'
+#  'diseasePrevention_M':
+
+
+

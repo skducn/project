@@ -1,0 +1,15 @@
+- !User
+  name: 可优
+  age: 17
+  gender: 油腻男
+  lovers:
+  - !User
+    name: 柠檬小姐姐
+    age: 16
+    gender: 素颜小仙女
+    lovers: []
+  - !User
+    name: 橘子小姐姐
+    age: 18
+    gender: 不会PS的靓妹
+    lovers: []

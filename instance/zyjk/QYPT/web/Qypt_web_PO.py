@@ -92,51 +92,60 @@ class Qypt_web_PO():
         elif varStatus == "限制登录":
             Web_PO.clkByX("/html/body/div[4]/div[1]/div[1]/ul/li[3]")
 
-    def platformManagement_userManagement_search(self, varOption, varValue, varOrganization, varStatus):
+    def platform_user_search(self, NO, l_c):
         """平台管理系统 - 权限管理 - 用户管理 - 搜索"""
+        # varOption, varValue, varOrganization, varStatus, varAssert
         # Web_PO.userManager_Search("登录名", "mql", "招远市妇幼医院", "启用")
+        # print(l_c)  # ['搜索用户，参数登录名为mql，医院名为招远市妇幼医院，状态为启用，断言检查预期值为1', '登录名', 'mql', '招远市妇幼医院', '启用', 1]
 
         # 1，选择登录名、用户工号、用户姓名
         # 获取所属机构xpath
         varOrganizationByX = "/html/body/div[1]/section/div/section/section/main/div[2]/section/header/form/div/div[5]/div/div/div/input"
         # 获取状态xpath
         varStatusByX = "/html/body/div[1]/section/div/section/section/main/div[2]/section/header/form/div/div[6]/div/div/div/input"
-        if varOption == "登录名":
+        if l_c[1] == "登录名":
             Web_PO.clkByX("//input[@placeholder='请选择']")
             Web_PO.clkByX("/html/body/div[2]/div[1]/div[1]/ul/li[1]")
-            Web_PO.setTextByX("//input[@placeholder='登录名']", varValue)
-        elif varOption == "用户工号":
+            Web_PO.setTextByX("//input[@placeholder='登录名']", l_c[2])
+        elif l_c[1] == "用户工号":
             Web_PO.clkByX("//input[@placeholder='请选择']")
             Web_PO.clkByX("/html/body/div[2]/div[1]/div[1]/ul/li[2]")
-            Web_PO.setTextByX("//input[@placeholder='用户工号']", varValue)
+            Web_PO.setTextByX("//input[@placeholder='用户工号']", l_c[2])
             # 获取所属机构xpath
             varOrganizationByX = "/html/body/div[1]/section/div/section/section/main/div[2]/section/header/form/div/div[4]/div/div/div/input"
             # 获取状态xpath
             varStatusByX = "/html/body/div[1]/section/div/section/section/main/div[2]/section/header/form/div/div[5]/div/div/div/input"
-        elif varOption == "用户姓名":
+        elif l_c[1] == "用户姓名":
             Web_PO.clkByX("//input[@placeholder='请选择']")
             Web_PO.clkByX("/html/body/div[2]/div[1]/div[1]/ul/li[3]")
-            Web_PO.setTextByX("//input[@placeholder='用户姓名']", varValue)
+            Web_PO.setTextByX("//input[@placeholder='用户姓名']", l_c[2])
             # 获取所属机构xpath
             varOrganizationByX = "/html/body/div[1]/section/div/section/section/main/div[2]/section/header/form/div/div[4]/div/div/div/input"
             # 获取状态xpath
             varStatusByX = "/html/body/div[1]/section/div/section/section/main/div[2]/section/header/form/div/div[5]/div/div/div/input"
         else:
-            print("[warning], 平台管理系统 => 权限管理 => 用户管理 => 第一个下拉框中没有'" + varOption + "'选项！")
+            print("[warning], 平台管理系统 => 权限管理 => 用户管理 => 第一个下拉框中没有'" + l_c[1] + "'选项！")
             sys.exit(0)
 
         # 2，选择所属机构和选择状态
-        self._userManager_Search(varOrganizationByX, varStatusByX, varOrganization, varStatus)
+        self._userManager_Search(varOrganizationByX, varStatusByX, l_c[3], l_c[4])
 
         # 3，点击搜索
         Web_PO.clkByX("/html/body/div[1]/section/div/section/section/main/div[2]/section/header/form/div/button", 2)
 
         # 4，获取结果并返回
         result = Web_PO.getTextByX("//span[@class='el-pagination__total']")
-        if result == "共 1 条":
-            print("[ok], 共 1 条")
+        excepted = "共 " + str(l_c[5]) + " 条"
+
+        Web_PO.refresh()
+
+        if result == excepted:
+            print("[ok] => " + NO + " => " + result)
+            return result, 'passed'
         else:
-            print("[errorrrrrr], " + result)
+            print("[errorrrrrr] => " + NO + " => " + result)
+            return result, 'failed'
+
 
     # todo 主数据管理
     def mainDataManagement_orgManagement_search(self, d_search):
