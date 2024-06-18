@@ -1,15 +1,16 @@
-# -*- coding: utf-8 -*-
 # *****************************************************************
 # Author        : John
-# Date          : 2024-3-6
-# Description   : CHC 社区健康（静安）包，加密接口测试
-# 接口文档：http://192.168.0.202:22081/doc.html
+# Date          : 2024-6-18
+# Description   : gw 公卫接口测试
+# 接口文档：http://192.168.0.203:38080/doc.html
+# web：http://192.168.0.203:30080  testwjw, Qa@123456
+# 【腾讯文档】项目信息表
+# https://docs.qq.com/sheet/DYmZMVmFTeXFWRFpQ?tab=BB08J2
+
 # todo nacos
 # http://192.168.0.223:8848/nacos/	nacos,Zy123456
-# chc-pp-test  //社区健康（静安）
-# chc-gateway-sqlserver.yml
-# thirdPublicKey: 0471d15668167f40390ee07e16f9515cf64c1bfab1d09c492c618c7caadf0c4285ce11bdebc420f5ebc13a79fab49e506aa8e24797891e67c2705fd38b4833b33b
-# thirdPrivateKey: 686b3ec76f53610bbfbf171bf8b9ff9d17a15fb928155a2248f601b021e13b6b
+# phs-test
+# phs-gateway-sqlserver.yml
 # publicKey: 04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249
 # privateKey: 124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
 # enabled: false    // 改为false无法登录，因为页面加密，用于接口测试
@@ -18,23 +19,23 @@
 #   验证码
 #   # captcha:
 #   #   enabled: false    //去掉验证码
-
 # *****************************************************************
 
 
 import subprocess, json
 
-class Chc_i_PO():
+class Gw_i_PO():
 
     def __init__(self, sm_account):
-        # 登录
-        # 获取用户token(lbl,Ww123456) '{"password": "Ww123456", "username": "lbl"}'
-        # -d '4fa9de3518e897f29468be4e4e3956e53bae3cbdb8a.. 是用sm2对'{"password": "Ww123456", "username": "lbl"}'的加密，
-        # 非加密写法 -d '{"password": "Ww123456", "username": "lbl"}'
+        # # 登录(testwjw, Qa@123456)
+        # # 注意需要关闭验证码
+        # 参数：'{"password": "Qa@123456", "username": "testwjw"}'
+        # -d '4fa9de3518e897f29468be4e4e3956e53bae3cbdb8a.. 是用sm2对'{"password": "Qa@123456", "username": "testwjw"}'的加密，
+        # 非加密写法 -d '{"password": "Qa@123456", "username": "testwjw"}'
 
         # todo chc-auth, 登录模块
         # 登录
-        self.ipAddr = "http://192.168.0.202:22081"
+        self.ipAddr = "http://192.168.0.203:38080/"
         command = "curl -X POST '" + self.ipAddr + "/auth/login' -d '" + sm_account + "' -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Authorization:' -H 'Content-Type:application/json'"
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
@@ -62,17 +63,17 @@ class Chc_i_PO():
 
     # todo REST-用户信息表
 
+    def getDocByOrg(self):
+        # 根据当前所在的机构获取医生
+        return self.curl("GET", "/system/sysUser/getDocByOrg")
+
     def getFamilyDoc(self):
         # 获取家庭医生
         return self.curl("GET", "/system/sysUser/getFamilyDoc")
 
-    def getAssistantList(self):
-        # 获取家医助手
-        return self.curl("GET", "/system/sysUser/getAssistantList")
-
-    def getHealthManagerList(self):
-        # 获取健康管理师
-        return self.curl("GET", "/system/sysUser/getHealthManagerList")
+    def getOrgUser(self):
+        # 当前登录用户所在机构及子机构用户
+        return self.curl("GET", "/system/sysUser/getOrgUser")
 
     def getUser(self):
         # 根据用户名获取用户信息（chc-system, REST-用户信息表）
@@ -82,21 +83,9 @@ class Chc_i_PO():
         # 根据机构获取医生
         return self.curl("GET", "/system/sysUser/getUserByOrg")
 
-    def getUserConfigByThird(self, orgCode, thridNO):
-        # 获取用户配置信息（chc-system, REST-用户信息表）
-        return self.curl("GET", "/system/sysUser/getUserConfigByThird")
-
-    def getUserInfoByThirdNo(self, thirdNO):
-        # 根据用户名获取用户信息（chc-system, REST-用户信息表）
-        return self.curl("GET", "/system/sysUser/getUserInfoByThirdNo")
-
-    def getUserInfoByThirdNoAndOrgCode(self, orgCode, thirdNO):
-        # 根据用户名和机构号获取用户信息（chc-system, REST-用户信息表）
-        return self.curl("GET", "/system/sysUser/getUserInfoByThirdNoAndOrgCode")
-
-    def getUserInfoThirdInfo(self, orgCode, thirdNO):
-        # 根据用户名获取用户信息（chc-system, REST-用户信息表）
-        return self.curl("GET", "/system/sysUser/getUserInfoThirdInfo")
+    def getVisitUser(self):
+        # 根据机构获取医生--随访使用
+        return self.curl("GET", "/system/sysUser/getVisitUser")
 
     def selectUserInfo(self):
         # 根据token获取用户信息（chc-system, REST-用户信息表）
@@ -108,7 +97,7 @@ class Chc_i_PO():
 
 
 
-    # todo REST-系统信息表
+    # todo phs-system, REST-系统信息表
 
     def querySystemRole(self, userId):
         # 获取所有系统的角色
@@ -126,13 +115,18 @@ class Chc_i_PO():
         # 根据系统Id获取所有菜单
         return self.curl("GET", "/system/sysSystem/systemMenuInfoBySystemId?" + str(systemId))
 
+    def systemMenuInfoByUserId(self):
+        # 根据用户ID获取能够使用的系统及菜单
+        return self.curl("GET", "/system/sysSystem/systemMenuInfoByUserId")
+
+
     def sysSystem(self, Id):
         # 单条查询
         return self.curl("GET", "/system/sysSystem/?" + str(Id))
 
 
 
-    # todo chc-auth, 登录模块
+    # todo phs-auth, 登录模块
 
     def logined(self, userName):
         # 确认用户是否已经登录
@@ -146,9 +140,7 @@ class Chc_i_PO():
         # 刷新
         return self.curl("POST", '/auth/refresh')
 
-    def thirdLogin(self, orgCode, thirdNo):
-        # 第三方登录
-        return self.curl("POST", '/auth/thirdLogin')
+
 
 
 # *****************************************************************
@@ -156,37 +148,36 @@ class Chc_i_PO():
 if __name__ == "__main__":
 
 
-    # 登录(lbl, Ww123456)
-    chc_i_PO = Chc_i_PO('9580414215bd76bf8ddd310c894fdfb155f439b427a43fb3dbb13a142055e4b7236fd7498a6e8d2febc7a44688c45d68c11606a34632ce07aa94d037124c0c15c0a19ab3c9f35bab234dd5bc8a3b37d419786c17b2e26d46d0f378e3691f2823e48804aecfb23ebc8511fd66e9b927bb5344d97a9f6c9c001ba4e76865f4890a5c6f7c21810fdedf6bbe85625e6ca990e1fe1cef025760c3382326c993')
+    # 登录(testwjw, Qa@123456)
+    gw_i_PO = Gw_i_PO('9580414215bd76bf8ddd310c894fdfb155f439b427a43fb3dbb13a142055e4b7236fd7498a6e8d2febc7a44688c45d68c11606a34632ce07aa94d037124c0c15c0a19ab3c9f35bab234dd5bc8a3b37d419786c17b2e26d46d0f378e3691f2823e48804aecfb23ebc8511fd66e9b927bb5344d97a9f6c9c001ba4e76865f4890a5c6f7c21810fdedf6bbe85625e6ca990e1fe1cef025760c3382326c993')
+
+    # todo chc-system, REST-用户信息表
+    print(gw_i_PO.getDocByOrg())  # 根据当前所在的机构获取医生
+    print(gw_i_PO.getFamilyDoc())  # 获取家庭医生
+    print(gw_i_PO.getOrgUser())  # 当前登录用户所在机构及子机构用户
+    # print(gw_i_PO.getUser())  # 根据用户名获取用户信息
+    # print(gw_i_PO.getUserByOrg())  # 根据机构获取医生
+    # print(gw_i_PO.getVisitUser())  # 根据机构获取医生--随访使用
+    print(gw_i_PO.selectUserInfo())  # 根据token获取用户信息
+    # print(gw_i_PO.sysUser(id))  # 单条查询
 
 
     # todo chc-system, REST-系统信息表
-    # print(chc_i_PO.querySystemRole(userId))  # 获取所有系统的角色
-    print(chc_i_PO.systemMenuInfoBySystemId())  # 根据用户ID获取能够使用的系统
-    # print(chc_i_PO.systemMenuInfo(systemId))  # 获取系统菜单
-    # print(chc_i_PO.systemMenuInfoBySystemId(systemId))  # 根据系统Id获取所有菜单
-    # print(chc_i_PO.sysSystem(Id))  # 单条查询
+    # print(gw_i_PO.querySystemRole(userId))  # 获取所有系统的角色
+    print(gw_i_PO.systemMenuInfoBySystemId())  # 根据用户ID获取能够使用的系统
+    print(gw_i_PO.systemMenuInfoByUserId())  # 根据用户ID获取能够使用的系统及菜单
+    # print(gw_i_PO.systemMenuInfo(systemId))  # 获取系统菜单
+    # print(gw_i_PO.systemMenuInfoBySystemId(systemId))  # 根据系统Id获取所有菜单
+    # print(gw_i_PO.sysSystem(Id))  # 单条查询
 
 
-    # todo chc-system, REST-用户信息表
-    # print(chc_i_PO.getFamilyDoc())  # 获取家庭医生
-    # print(chc_i_PO.getAssistantList())  # 获取家医助手
-    # print(chc_i_PO.getHealthManagerList())  # 获取健康管理师
-    # print(chc_i_PO.getUser())  # 根据用户名获取用户信息
-    # print(chc_i_PO.getUserByOrg())  # 根据机构获取医生
-    # print(chc_i_PO.getUserConfigByThird(orgCode,thirdNO))  # 获取用户配置信息
-    # print(chc_i_PO.getUserInfoByThirdNo(thirdNO))  # 根据用户名获取用户信息
-    # print(chc_i_PO.getUserInfoByThirdNoAndOrgCode(orgCode,thirdNO))  # 根据用户名和机构号获取用户信息
-    # print(chc_i_PO.getUserInfoThirdInfo(orgCode,thirdNO))  # 根据用户名获取用户信息
-    print(chc_i_PO.selectUserInfo())  # 根据token获取用户信息
-    # print(chc_i_PO.sysUser(id))  # 单条查询
+
 
 
 
     # todo chc-auth, 登录模块
-    # print(chc_i_PO.logined())  # 确认用户是否已经登录
-    print(chc_i_PO.logout())  # 登出
-    # print(chc_i_PO.refresh())  # 刷新
-    # print(chc_i_PO.thirdLogin(orgCode,thridNo))  # 第三方登录
+    # print(gw_i_PO.logined())  # 确认用户是否已经登录
+    print(gw_i_PO.logout())  # 登出
+    # print(gw_i_PO.refresh())  # 刷新
 
 
