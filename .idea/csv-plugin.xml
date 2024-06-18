@@ -157,6 +157,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/test/pytest/test.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/test/pytest/test1.csv">
           <value>
             <Attribute>

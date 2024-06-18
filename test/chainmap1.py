@@ -18,12 +18,12 @@ ChainMap 将多个字典或其他映射组合在一起以创建单个可更新�
 
 from collections import ChainMap
 
-# 1， 获取第一个存在的key值
-d1 = {'a': 1, 'b': 2 }
-d2 = {'c': 3, 'd': 4 }
-d3 = {'b': 4, 'c': 5 }
-d4 = {'d': 6, 'e': 6 }
-print(list(ChainMap(d2)))
+# 1， 字典key转list
+d1 = {'a': 1, 'b': 2}
+d2 = {'c': 3, 'd': 4}
+d3 = {'b': 4, 'c': 5}
+d4 = {'d': 6, 'e': 6}
+print(list(ChainMap(d1, d2, d3)))
 
 
 c = ChainMap(d1,d2,d3,d4)

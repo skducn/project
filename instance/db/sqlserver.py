@@ -7,14 +7,22 @@
 # 查找记录  dbRecord('*', 'money', '%34.5%')
 # 创建、删除表，插入、删除记录
 # *****************************************************************
-
 from PO.SqlserverPO import *
 
 
 # todo 公卫
-Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS", "GBK")
+# Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "ZYCONFIG", "GBK")
 # Sqlserver_PO = SqlServerPO("192.168.180.237", "PHUR_TEST", "testPH@2023", "zyconfig_pprod", "GBK")  # 预发布，通过VPN访问
-# Sqlserver_PO.dbDesc()
+# Sqlserver_PO.dbRecord('*', 'varchar', 'testwjw')
+
+
+Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS", "GBK")
+# Sqlserver_PO.dbRecord('*', 'varchar', '37068500100100082')
+# Sqlserver_PO.dbRecord('*', 'varchar', '卫健委')  # id=72
+Sqlserver_PO.dbRecord('*', 'varchar', '招远市卫健局')  # id=72
+
+
+
 
 
 # 创建表（如存在先删除）

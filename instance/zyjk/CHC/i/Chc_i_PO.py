@@ -2,8 +2,24 @@
 # *****************************************************************
 # Author        : John
 # Date          : 2024-3-6
-# Description   : CHC封装包，加密接口测试（静安），无场景
+# Description   : CHC 社区健康（静安）包，加密接口测试
 # 接口文档：http://192.168.0.202:22081/doc.html
+# todo nacos
+# http://192.168.0.223:8848/nacos/	nacos,Zy123456
+# chc-pp-test  //社区健康（静安）
+# chc-gateway-sqlserver.yml
+# thirdPublicKey: 0471d15668167f40390ee07e16f9515cf64c1bfab1d09c492c618c7caadf0c4285ce11bdebc420f5ebc13a79fab49e506aa8e24797891e67c2705fd38b4833b33b
+# thirdPrivateKey: 686b3ec76f53610bbfbf171bf8b9ff9d17a15fb928155a2248f601b021e13b6b
+# publicKey: 04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249
+# privateKey: 124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
+# enabled: false    // 改为false无法登录，因为页面加密，用于接口测试
+# 安全配置
+# # security:
+#   验证码
+#   # captcha:
+#   #   enabled: false    //去掉验证码
+
+
 # *****************************************************************
 
 
@@ -12,18 +28,19 @@ import subprocess, json
 class Chc_i_PO():
 
     def __init__(self):
-        # 登录（登录模块）
-        # 获取用户token(lbl,Ww1234567)
+        # 登录
+        # 获取用户token(lbl,Ww123456) '{"password": "Ww123456", "username": "lbl"}'
+        # -d '4fa9de3518e897f29468be4e4e3956e53bae3cbdb8a.. 是用sm2对'{"password": "Ww123456", "username": "lbl"}'的加密，
+        # 非加密写法 -d '{"password": "Ww123456", "username": "lbl"}'
 
         self.ipAddr = "http://192.168.0.202:22081"
-
         command = "curl -X POST '" + self.ipAddr + "/auth/login' -d '4fa9de3518e897f29468be4e4e3956e53bae3cbdb8a64310f41ecbdf76843eb4c81acf3721bf8113cf4d3563c698ab74e060989daab802154ea144938bfcdc228608df8ec3548140f9fe745b6fc11bdf0d1c679116d56648d55e362fd3334b0a5f2a0995918b49e3f273c96dc3fd9f1a0b719dccd5910039783c6315bbf2156432003e34d8dada6e81c58d42a674a455ccdfeb41323b379fe1c06ab36462' " \
                   "-H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Authorization:' -H 'Content-Type:application/json'"
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
-        # print(d_r)  # {'code': 200, 'msg': None, 'data': {'access_token': 'eyJhbGciOiJIUzUxMiJ9.eyJhZmZpbGlhdGVkX2lkIjoiIiwidXNlcl9pZCI6ODIsImNhdGVnb3J5X2NvZGUiOiIxIiwidXNlcl9rZXkiOiIwYzU3YmM3OC05OTNiLTQ1M2ItYjZkMC0yMmNlZTBhMWFkNzMiLCJ0aGlyZF9ubyI6IjEyMzEyMyIsImhvc3BpdGFsX2lkIjoiMDAwMDAwMSIsInVzZXJuYW1lIjoi5YiY5paM6b6ZIiwiaG9zcGl0YWxfbmFtZSI6IumdmeWuieeyvuelnueXhemZoiIsImFmZmlsaWF0ZWRfbmFtZSI6IiJ9.-xh2D7Obdensd3OcL_dqRaA7Qs4I0l0h--3ZYpYifgBZBP16Gzzq24W3IxS8c5ofcQTNyczRK2e3JipcCuyTqg', 'expires_in': 30}}
+        print(d_r)  # {'code': 200, 'msg': None, 'data': {'access_token': 'eyJhbGciOiJIUzUxMiJ9.eyJhZmZpbGlhdGVkX2lkIjoiIiwidXNlcl9pZCI6ODIsImNhdGVnb3J5X2NvZGUiOiIxIiwidXNlcl9rZXkiOiIwYzU3YmM3OC05OTNiLTQ1M2ItYjZkMC0yMmNlZTBhMWFkNzMiLCJ0aGlyZF9ubyI6IjEyMzEyMyIsImhvc3BpdGFsX2lkIjoiMDAwMDAwMSIsInVzZXJuYW1lIjoi5YiY5paM6b6ZIiwiaG9zcGl0YWxfbmFtZSI6IumdmeWuieeyvuelnueXhemZoiIsImFmZmlsaWF0ZWRfbmFtZSI6IiJ9.-xh2D7Obdensd3OcL_dqRaA7Qs4I0l0h--3ZYpYifgBZBP16Gzzq24W3IxS8c5ofcQTNyczRK2e3JipcCuyTqg', 'expires_in': 30}}
         try:
             # {'code': 200, 'msg': None, 'data': {'access_token': 'eyJhbGciOiJIUzUxMiJ9.eyJhZmZpbGlhdGVkX2lkIjoiIiwidXNlcl9pZCI6ODIsImNhdGVnb3J5X2NvZGUiOiIxIiwidXNlcl9rZXkiOiIwYzU3YmM3OC05OTNiLTQ1M2ItYjZkMC0yMmNlZTBhMWFkNzMiLCJ0aGlyZF9ubyI6IjEyMzEyMyIsImhvc3BpdGFsX2lkIjoiMDAwMDAwMSIsInVzZXJuYW1lIjoi5YiY5paM6b6ZIiwiaG9zcGl0YWxfbmFtZSI6IumdmeWuieeyvuelnueXhemZoiIsImFmZmlsaWF0ZWRfbmFtZSI6IiJ9.-xh2D7Obdensd3OcL_dqRaA7Qs4I0l0h--3ZYpYifgBZBP16Gzzq24W3IxS8c5ofcQTNyczRK2e3JipcCuyTqg', 'expires_in': 30}}
             self.token = d_r['data']['access_token']
