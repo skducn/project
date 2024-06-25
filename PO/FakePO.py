@@ -32,7 +32,7 @@
 import sys, os
 from faker import Faker
 from faker.providers import internet
-from PO.pandasPO import *
+from PO.PandasPO import *
 
 
 list1 = []

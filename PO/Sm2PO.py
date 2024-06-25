@@ -187,29 +187,27 @@ class SM2Util:
 
 
 if __name__ == '__main__':
-    #  publicKey: 04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249
-    #     privateKey: 124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
-    #     enabled: true
 
     # from PO.Sm2PO import *
 
     # # todo 生成私钥和公钥
-    # d = SM2Util.GenKeyPair()
-    # print(d) # {'private': '1d3509589095e652dd3008acef9fb36657d2dfdd0777bf2ba4b85e83b2f7767e', 'public': '04c5e5bfe650a5fbdb6dfe40cba0fca92468be18783141cc444c387e32394aea6728504f720adb50afb82163d4642c5ce717f6863b0a63c6db291d563eff8e8f47'}
+    d = SM2Util.GenKeyPair()
+    print(d) # {'private': '1d3509589095e652dd3008acef9fb36657d2dfdd0777bf2ba4b85e83b2f7767e', 'public': '04c5e5bfe650a5fbdb6dfe40cba0fca92468be18783141cc444c387e32394aea6728504f720adb50afb82163d4642c5ce717f6863b0a63c6db291d563eff8e8f47'}
+    # print(d['private'])
+    # print(d['public'])
 
-
-    # todo 对数据签名与验证
+    # # todo 对数据签名与验证
     data = '123456'
-    sm2 = SM2Util(pri_key='124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62', pub_key='025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249')
-    # sm2 = SM2Util(pri_key=d['private'], pub_key=d['public'][2:])
+    # sm2 = SM2Util(pri_key='124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62', pub_key='025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249')
+    sm2 = SM2Util(pri_key=d['private'], pub_key=d['public'][2:])
     sign = sm2.Sign(data)
     print('签名:{} 验签:{}'.format(sign, sm2.Verify(data, sign)))  # 签名:e63652b2c2c3f983a06e5c7b6fe7d37f0fc42f058ce70ee3c6f6fdaf3c7b7534a05659bd2f7ab5d4c6a15a4d7512c92bcda48d2af607cedebb5190d863d20210 验签:True
-
-
-    # todo 加密与解密
+    #
+    #
+    # # todo 加密与解密
     dataEncrypt = sm2.Encrypt(data)
     print('加密:{}'.format(dataEncrypt))  # 加密:jbm5KDRjoZSgJinaAxcsbOPakFKQ/oLiwn49LCpm7johHp9wSZud12GMqXdYGC35XA8cmOCZJ70FS7hpdAAcGWDen47AvH/htbqprHLhteR54OPWbeYSl80xgz/tBL3RwgAg6UJh
-
+    #
     dataDecrypt = sm2.Decrypt(dataEncrypt)
     print('解密:{}'.format(dataDecrypt))  # 解密:123456
 

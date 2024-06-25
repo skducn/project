@@ -15,15 +15,10 @@ from PO.SqlserverPO import *
 # Sqlserver_PO = SqlServerPO("192.168.180.237", "PHUR_TEST", "testPH@2023", "zyconfig_pprod", "GBK")  # 预发布，通过VPN访问
 # Sqlserver_PO.dbRecord('*', 'varchar', 'testwjw')
 
-
-Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS", "GBK")
-# Sqlserver_PO.dbRecord('*', 'varchar', '37068500100100082')
-# Sqlserver_PO.dbRecord('*', 'varchar', '卫健委')  # id=72
-Sqlserver_PO.dbRecord('*', 'varchar', '招远市卫健局')  # id=72
-
-
-
-
+# Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS", "GBK")
+# # Sqlserver_PO.dbRecord('*', 'varchar', '37068500100100082')
+# # Sqlserver_PO.dbRecord('*', 'varchar', '卫健委')  # id=72
+# Sqlserver_PO.dbRecord('*', 'varchar', '招远市卫健局')  # id=72
 
 # 创建表（如存在先删除）
 # Sqlserver_PO.execute(""" IF OBJECT_ID('a_test', 'U') IS NOT NULL DROP TABLE a_test
@@ -48,8 +43,8 @@ Sqlserver_PO.dbRecord('*', 'varchar', '招远市卫健局')  # id=72
 
 
 # todo 社区健康平台（标准版）
-# Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "GBK")
-# Sqlserver_PO.dbRecord('*', 'varchar', '110101196407281506')
+Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "GBK")
+Sqlserver_PO.dbRecord('*', 'varchar', '140202197610156018')
 # Sqlserver_PO.dbDesc()
 # Sqlserver_PO.dbDesc('HRCOVER')
 # Sqlserver_PO.dbDesc('原始治理规则')
