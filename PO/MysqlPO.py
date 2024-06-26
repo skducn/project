@@ -709,6 +709,8 @@ class MysqlPO:
         # tf.write(str(html_text))
         # tf.close()
 
+
+
     def getTableField(self, varTable):
 
         """5, 获取单个表的所有字段"""
@@ -726,7 +728,8 @@ class MysqlPO:
             return l_field
 
         except Exception as e:
-            print(e, ",很抱歉，出现异常您搜索的<" + varTable + ">不存在！")
+            print(e)
+            # print(e, ",很抱歉，出现异常您搜索的<" + varTable + ">不存在！")
 
     def explainSingle(self, sql):
 
@@ -740,6 +743,7 @@ class MysqlPO:
         )
         for i in range(len(db_result)):
             print(db_result[i])
+
 
     def explainMore(self, varFile, varSheet, getCol, varCol, varRow):
 
@@ -778,7 +782,7 @@ if __name__ == "__main__":
 
 
     # docker mysql ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    Mysql_PO = MysqlPO("127.0.0.1", "root", "root", "test", 3306)
+    # Mysql_PO = MysqlPO("127.0.0.1", "root", "root", "test", 3306)
 
     # # 创建users表，没有设置id主键
     # Mysql_PO.execute("CREATE TABLE users(id int not null,name varchar(10),age int(4))")
@@ -813,6 +817,7 @@ if __name__ == "__main__":
     # Mysql_PO.close()
 
     # # # 238 erp (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "crm", 3306)
     # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "crmtest", 3306)
     # # crm小程序清空账号权限
     # # Mysql_PO.execQuery("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")

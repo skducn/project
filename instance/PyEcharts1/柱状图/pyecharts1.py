@@ -3,8 +3,13 @@
 # Author     : John
 # Created on : 2022-3-3
 # Description: pyEcharts
-# pip3.9 install pyecharts
+# pip install pyecharts
+
 # pip3.9 install ta-lib   //https://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib
+# 安装ta-lib报错 https://zhuanlan.zhihu.com/p/647474788
+# https://github.com/cgohlke/talib-build/releases 下载安装whl
+# ta-lib-0.4.0.jar # https://sourceforge.net/projects/ta-lib/files/latest/download
+
 # pip3.9 install TA_Lib-0.4.24-cp39-cp39-win_amd64.whl
 # 首先用 YahooFinancials API 来下载若干外汇和加密货币的三年半历史数据，安装该 API 用一行代码 pip3.9 install yahoofinancials
 # 起始日：2016-01-01

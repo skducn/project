@@ -10,11 +10,7 @@
 # 如需更复杂的sql操作，框架支持直接运行sql
 # *****************************************************************
 
-#!/usr/bin/env python3
-
 from copy import deepcopy
-
-
 
 class Field(object):
         def __init__(self, name, ctype, *attrs):
@@ -207,6 +203,9 @@ class Database(object):
 
         def drop(self, model):
                 self.cursor.execute('drop table ' + model.__table__)
+
+        def dropIf(self, model):
+                self.cursor.execute('drop table if exists ' + model.__table__)
 
         def selectAll(self, model):
                 self.cursor.execute('select * from ' + model.__table__)
