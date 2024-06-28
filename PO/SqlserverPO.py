@@ -131,14 +131,19 @@
 4.2 判断字段是否存在 isField(self, varTable, varField)
 4.3 判断是否有自增主键 isIdentity(self, varTable)
 
-5.1.1 csv2dbByType()  csv2db自定义字段类型
-5.1.2 csv2dbByAutoType()  csv2db自动生成字段类型
-5.2 exls2db  excel导入数据库
-5.3 dict2db
-5.4 list2db
-5.5 db2csv
-5.6 db2xlsx
-5.7 db2dict
+5.1 csv2dbByType()  csv2db自定义字段类型
+5.2 csv2dbByAutoType()  csv2db自动生成字段类型
+5.3 xlsx2db  excel导入数据库
+5.4 dict2db  字典导入数据库
+5.5 list2db  列表导入数据库
+5.6 df2db    DataFrame导入数据库
+
+6.1 db2csv   数据库sql导出csv
+6.2 db2xlsx  数据库sql导出xlsx
+6.3 db2dict  数据库sql导出字典
+6.4 db2html  数据库sql导出html
+6.5 db2df    数据库sql导出DataFrame
+
 
 6.1 查看表结构（字段、类型、大小、可空、注释），注意，表名区分大小写  dbDesc()   //实例请参考 instance/db/sqlserver.py
 6.2 查找记录  dbRecord('*', 'money', '%34.5%')  //实例请参考 instance/db/sqlserver.py
@@ -987,9 +992,9 @@ class SqlServerPO:
     def csv2dbByType(self, varPathFile, varDbTable, varFieldAndType):
 
         '''
-        5.1.1 csv2db 自定义字段类型
+        5.1 csv2db 自定义字段类型
         varPathFile = './data/test.csv'
-        varDbTable = 'test000'
+        varDbTable = 'tableName'
         varFieldAndType = 'id INTEGER PRIMARY KEY, name TEXT, age INTEGER'
         csv2dbBy
         '''
@@ -1004,9 +1009,9 @@ class SqlServerPO:
     def csv2dbByAutoType(self, varPathFile, varDbTable):
 
         '''
-        5.1.2 csv2db 自动生成字段类型
-        varTable = './data/test.csv'
-        varFieldAndType = 'tableName'
+        5.2 csv2db 自动生成字段类型
+        varPathFile = './data/test.csv'
+        varDbTable = 'tableName'
         '''
 
         try:
@@ -1019,11 +1024,8 @@ class SqlServerPO:
     def xlsx2db(self, varPathFile, varDbTable, varSheetName=0):
 
         '''
-        5.2，xlsx导入数据库
-        :param varExcelFile: './data/test.xlsx'
-        :param varTable:
-        :return:
-        xlsx2db('./data/2.xlsx', "jh123""sheet3",)
+        5.3，xlsx导入数据库
+        xlsx2db('2.xlsx', "tableName", "sheet1")
         excel表格第一行数据对应db表中字段，建议用英文
         '''
 
@@ -1038,7 +1040,7 @@ class SqlServerPO:
 
     def dict2db(self, varDict, varDbTable, index="True"):
 
-        """5.3 字典导入数据库"""
+        """5.4 字典导入数据库"""
 
         try:
             df = pd.DataFrame(varDict)
@@ -1052,13 +1054,12 @@ class SqlServerPO:
 
     def list2db(self, l_col, l_value, varDbTable, index="True"):
 
-        """5.4 列表导入数据库
+        """5.5 列表导入数据库
         l_col = 列名，如 ['id','name','age']
         l_value= 值,如 [['1','john','44],['2','ti','4']]
         """
 
         try:
-
             df = pd.DataFrame(l_value, columns=l_col)
             engine = self.getEngine_pymssql()
             if index == "False":
@@ -1068,10 +1069,20 @@ class SqlServerPO:
         except Exception as e:
             print(e)
 
+    def df2db(self, varDF, varDbTable):
+
+        '''5.6，dataframe导入数据库'''
+
+        try:
+            engine = self.getEngine_pymssql()
+            varDF.to_sql(varDbTable, con=engine, if_exists="replace", index=False)
+        except Exception as e:
+            print(e)
+
 
     def db2csv(self, sql, varExcelFile, header=1):
 
-        """5.5 数据库转csv(含字段或不含字段)"""
+        """6.1 数据库sql导出csv(含字段或不含字段)"""
 
         try:
             engine = self.getEngine_pymssql()
@@ -1086,7 +1097,7 @@ class SqlServerPO:
 
     def db2xlsx(self, sql, varExcelFile, header=1):
 
-        """5.6 数据库转xlsx(含字段或不含字段)"""
+        """6.2 数据库sql导出xlsx(含字段或不含字段)"""
 
         try:
             engine = self.getEngine_pymssql()
@@ -1102,19 +1113,18 @@ class SqlServerPO:
 
     def db2dict(self, sql, orient='list'):
 
-        """5.7 db转字典"""
+        """6.3 数据库sql导出字典"""
 
         try:
             engine = self.getEngine_pymssql()
             df = pd.read_sql(text(sql), con=engine.connect())
             return df.to_dict(orient=orient)
-
         except Exception as e:
             print(e)
 
     def db2html(self, sql, varHtml):
 
-        # 5.8 将数据库数据转换成html
+        # 6.4 数据库sql导出html
         # Sqlserver_PO.db2html("select ID, pResult as 正向, nResult as 反向, QC_type as 类型, QC_field as 质控字段, QC_rule as 质控规则, QC_desc as 错我描述"
         #                      ", pCase as 正向用例, nCase as 反向用例, pCheck as 正向校验 from A_testrule", 'ehr_rule_result.html')
         try:
@@ -1153,6 +1163,18 @@ class SqlServerPO:
         except Exception as e:
             print(e)
 
+    def db2df(self, sql):
+
+        # 6.5 db转dataframe
+        # db2df("select * from a_test")
+
+        l_d_data = self.select(sql)
+        print(l_d_data)  # [{'id': 1, 'name': 'John Smith2', 'salesrep': 'John Doe3'}, {'id': 2, 'name': 'Jane Doe', 'salesrep': 'Joe Dog'},...
+        # print(l_d_data[0])
+        # print(list(l_d_data[0].keys()))
+        df = pd.DataFrame(l_d_data, columns=list(l_d_data[0].keys()))
+        # df.to_string(index=False)
+        return df
 
 
     def _dbDesc_search(self, varTable=0, var_l_field=0):
@@ -1533,9 +1555,8 @@ if __name__ == "__main__":
     Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS", "GBK")
 
 
-    a = Sqlserver_PO.selectParam("select * from a_test where id=%s", 3)
-    print(a)
-
+    # a = Sqlserver_PO.selectParam("select * from a_test where id=%s", 3)
+    # print(a)
 
     # print("1.2 执行".center(100, "-"))
     # 创建表（如存在先删除）
@@ -1679,32 +1700,39 @@ if __name__ == "__main__":
 
 
 
-    # # print("5.1.1 csv2db自定义字段类型".center(100, "-"))
+    # # print("5.1 csv2db自定义字段类型".center(100, "-"))
     # Sqlserver_PO.csv2dbByType('./data/test12.csv', "test555")
 
-    # # print("5.1.2 csv2db自动生成字段类型".center(100, "-"))
+    # # print("5.2 csv2db自动生成字段类型".center(100, "-"))
     # Sqlserver_PO.csv2dbByAutoType('./data/test12.csv', "test555")
 
-    # # print("5.2 excel导入数据库".center(100, "-"))
+    # # print("5.3 excel导入数据库".center(100, "-"))
     # Sqlserver_PO.xlsx2db('./data/area.xlsx', "hello", "test333")
 
-    # print("5.3 字典转数据库".center(100, "-"))
+    # print("5.4 字典导入数据库".center(100, "-"))
     # Sqlserver_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test99")  # 带index
     # Sqlserver_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test99", "False")  # 不带index
 
-    # print("5.4 列表转数据库".center(100, "-"))
+    # print("5.5 列表导入数据库".center(100, "-"))
     # Sqlserver_PO.list2db(['name','age','sex'], [['1','2','3'],['a','b','c']], "test99")  # 生成index
     # Sqlserver_PO.list2db(['name','age','sex'], [['1','2','3'],['a','b','c']], "test99", "False")  # 不生成index
 
-    # print("5.5 数据库转csv(含字段或不含字段)".center(100, "-"))
+    # print("5.6 DataFrame导入数据库".center(100, "-"))
+    df = Sqlserver_PO.db2df("select * from a_test")
+    print(df)
+    Sqlserver_PO.df2db(df, "a_test1")
+
+
+
+    # print("6.1 数据库sql导出csv(含字段或不含字段)".center(100, "-"))
     # Sqlserver_PO.db2csv("SELECT * FROM test99", './data/test99.csv')
     # Sqlserver_PO.db2csv("SELECT * FROM test99", './data/test99.csv', None)  # 不导出字段名
 
-    # print("5.6 数据库转xlsx(含字段或不含字段)".center(100, "-"))
+    # print("6.2 数据库sql导出xlsx(含字段或不含字段)".center(100, "-"))
     # Sqlserver_PO.db2xlsx("SELECT * FROM test99", './data/test99.xlsx')  # 导出字段
     # Sqlserver_PO.db2xlsx("SELECT * FROM test99", './data/test99.xlsx', None)  # 不导出字段
 
-    # print("5.7 db转字典".center(100, "-"))
+    # print("6.3 数据库sql导出字典".center(100, "-"))
     # print(Sqlserver_PO.db2dict("SELECT * FROM test99")) # {'index': [0, 1], 'name': ['1', 'a'], 'age': ['2', 'b'], 'sex': ['3', 'c']}
     # print(Sqlserver_PO.db2dict("SELECT * FROM test99", 'series'))
     # {'index': 0    0
@@ -1716,6 +1744,16 @@ if __name__ == "__main__":
     # Name: age, dtype: object, 'sex': 0    3
     # 1    c
     # Name: sex, dtype: object}
+
+    # print("6.4 数据库sql导出html".center(100, "-"))
+    # Sqlserver_PO.db2html("select ID, pResult as 正向, nResult as 反向, QC_type as 类型, QC_field as 质控字段, QC_rule as 质控规则, QC_desc as 错我描述"
+    #                      ", pCase as 正向用例, nCase as 反向用例, pCheck as 正向校验 from A_testrule", 'ehr_rule_result.html')
+
+    # # print("6.5 数据库sql导出DataFrame".center(100, "-"))
+    # df = Sqlserver_PO.db2df("select * from a_test")
+    # print(df)
+    # df.style.highlight_max(color='lime').highlight_min().to_excel('hello1.xlsx', index=False)  # 输出到excel带颜色
+
 
 
 

@@ -2,7 +2,7 @@
 # *****************************************************************
 # Author     : John
 # Date       : 2023-11-14
-# Description: 验证码
+# Description: 验证码 (测试)
 # https://blog.csdn.net/Cameback_Tang/article/details/124247948 Python使用pytesseract进行验证码图像识别
 # https://blog.csdn.net/u010698107/article/details/121736386
 # *****************************************************************
@@ -15,27 +15,62 @@ from PIL import ImageFilter
 import cv2
 import pytesseract
 
-from PO.CaptchaPO import *
-Captcha_PO = CaptchaPO()
-Captcha_PO.genCaptcha("1.jpg")
+from PIL import Image
+import pytesseract
 
-# 加载验证码图片
-image_path = "1.jpg"  # 替换为实际的图片路径
-image = cv2.imread(image_path)
+import cv2
+import pytesseract
 
-# 将图像转换为灰度图像
-gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+def recognize_captcha(image_path):
+    # 读取验证码图片
+    image = cv2.imread(image_path)
 
-# 对图像进行二值化处理
-_, binary_image = cv2.threshold(gray_image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    # 图像预处理
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    ret, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
 
-# 去除干扰线
-kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-clean_image = cv2.morphologyEx(binary_image, cv2.MORPH_OPEN, kernel)
-cv2.imwrite("1.jpg", clean_image)
+    # 字符分割
+    contours, hierarchy = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-code = pytesseract.image_to_string("1.jpg")
-print("验证码识别结果：", code)
+    # 特征提取和字符识别
+    result = []
+    for contour in contours:
+        (x, y, w, h) = cv2.boundingRect(contour)
+        roi = gray[y:y+h, x:x+w]
+        text = pytesseract.image_to_string(roi, config='--psm 10 --oem 3 -c tessedit_char_whitelist=0123456789')
+        result.append(text)
+
+    return result
+
+# 调用识别函数
+captcha_path = '18cm.jpg'
+result = recognize_captcha(captcha_path)
+print(result)
+
+
+
+
+# from PO.CaptchaPO import *
+# Captcha_PO = CaptchaPO()
+# Captcha_PO.genCaptcha("4.jpg")
+#
+# # 加载验证码图片
+# image_path = "4.jpg"  # 替换为实际的图片路径
+# image = cv2.imread(image_path)
+#
+# # 将图像转换为灰度图像
+# gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#
+# # 对图像进行二值化处理
+# _, binary_image = cv2.threshold(gray_image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+#
+# # 去除干扰线
+# kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+# clean_image = cv2.morphologyEx(binary_image, cv2.MORPH_OPEN, kernel)
+# cv2.imwrite("44.jpg", clean_image)
+#
+# code = pytesseract.image_to_string("44.jpg")
+# print("验证码识别结果：", code)
 
 # img = cv.imread('2.gif')
 # blur = cv.pyrMeanShiftFiltering(img, sp=10, sr=50)  # sp :定义的漂移物理空间半径大小  sr：定义的漂移色彩空间半径大小

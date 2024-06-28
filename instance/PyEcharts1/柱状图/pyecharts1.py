@@ -5,7 +5,9 @@
 # Description: pyEcharts
 # pip install pyecharts
 
-# pip3.9 install ta-lib   //https://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib
+# ta-lib 安装
+# brew install ta-lib
+# pip install ta-lib   //https://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib
 # 安装ta-lib报错 https://zhuanlan.zhihu.com/p/647474788
 # https://github.com/cgohlke/talib-build/releases 下载安装whl
 # ta-lib-0.4.0.jar # https://sourceforge.net/projects/ta-lib/files/latest/download

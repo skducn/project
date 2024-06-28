@@ -41,31 +41,70 @@ class GwPO():
             p.terminate()
 
 
-
     def login(self, varUrl, varUser, varPass):
         # 登录
         Web_PO.openURL(varUrl)
-        Web_PO.setText("//input[@placeholder='请输入用户名']", varUser)
-        Web_PO.setText("//input[@placeholder='输入密码']", varPass)
-        for i in range(10):
-            code = Web_PO.getValueByAttr(u"//img[@class='login-code-img']", "src")
-            Base64_PO.decodeImg(code)
-            ocr = ddddocr.DdddOcr()
-            f = open("test.gif", mode='rb')
-            img = f.read()
-            varCode = ocr.classification(img)
-            # print(varCode)
-            Web_PO.setText("//input[@placeholder='输入图形验证码']", varCode)
-            Web_PO.clk("//button[@type='button']", 1)
-            if Web_PO.isElement("//button[@type='button']") == False:
-                break
+        Web_PO.setTextByX("//input[@placeholder='请输入用户名']", varUser)
+        Web_PO.setTextByX("//input[@placeholder='输入密码']", varPass)
+        Web_PO.clkByX("//button[@type='button']", 1)
+        # for i in range(10):
+        #     code = Web_PO.getAttrValueByX(u"//img[@class='login-code-img']", "src")
+        #     Base64_PO.base64ToImg(code)
+        #     ocr = ddddocr.DdddOcr()
+        #     f = open("test.gif", mode='rb')
+        #     img = f.read()
+        #     varCode = ocr.classification(img)
+        #     # print(varCode)
+        #     Web_PO.setTextByX("//input[@placeholder='输入图形验证码']", varCode)
+        #     Web_PO.clkByX("//button[@type='button']", 1)
+        #     if Web_PO.isBooleanByX("//button[@type='button']") == False:
+        #         break
 
-    def menu1(self):
+    def getDecode(self, varKey, varSm2Data):
+
+        # 在线sm2解密数据
+        d = {}
+        Web_PO.opnLabel("https://the-x.cn/zh-cn/cryptography/Sm2.aspx")
+        Web_PO.swhLabel(1)
+        # 解密秘钥：124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
+        Web_PO.setTextByX("/html/body/div/form/div[1]/div[1]/div[1]/textarea", "124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62")
+        Web_PO.setTextByX("/html/body/div/form/div[1]/div[1]/div[2]/textarea", varSm2Data)
+        Web_PO.clkByX("/html/body/div/form/div[2]/div[2]/input[2]", 2)
+        s_result = Web_PO.getAttrValueByX("/html/body/div/form/div[3]/textarea", "value")
+        d_result = eval(s_result)
+        d[varKey] = d_result
+        Web_PO.cls()
+        Web_PO.swhLabel(0)
+        return d
+
+    def getMenu2Url(self):
+
+        # 获取菜单连接
+
+        # 统计ur数量
+        c = Web_PO.getCount("ul")
+        varLabelCount = c-3
+
+        # 获取二级菜单名
+        Web_PO.clsDisplayByTagName("ul", varLabelCount)  # 展开所有二级菜单（去掉display：none）
+        l_menu2 = Web_PO.getTextListByX("//ul/div/a/li/span[2]")
+        # print(l_menu2)  # ['健康档案概况', '个人健康档案', '家庭健康档案', ...
+
+        # 获取二级菜单链接
+        l_menu2Url = Web_PO.getAttrValueListByX("//a", "href")
+        # print(l_menu2Url) # ['http://192.168.0.203:30080/#/phs/HealthRecord/ehrindex', 'http://192.168.0.203:30080/#/phs/HealthRecord/Personal', ...
+
+        # 生成字典{菜单：URL}
+        d_menuUrl = dict(zip(l_menu2, l_menu2Url))
+        # print(d_menuUrl)  # {'健康档案概况': 'http://192.168.0.203:30080/#/phs/HealthRecord/ehrindex',...
+
+        return d_menuUrl
+
+    def menu1(self, varMenu1):
 
         '''格式化一级菜单'''
-        # ['首页', '基本公卫', '三高共管六病同防', '系统配置', '社区管理', '报表', '更多菜单', '', '', '', '', '', '', '']
 
-        l_menu = Web_PO.getTexts("//li")
+        l_menu = Web_PO.getTextListByX("//li")
         # 去掉''
         l_menu = [i for i in l_menu if i != '']  # ['首页', '基本公卫', '三高共管六病同防', '系统配置', '社区管理', '报表', '更多菜单']
 
@@ -75,19 +114,29 @@ class GwPO():
 
         # 序列化反转
         d_menu = {v: k for k, v in d_menu.items()}
-        # print(d_menu)  # {'首页': 1, '基本公卫': 2, '三高共管六病同防': 3, '系统配置': 4, '社区管理': 5, '报表': 6, '更多菜单': 7}
+        print(d_menu)  # {'首页': 1, '基本公卫': 2, '三高共管六病同防': 3, '系统配置': 4, '社区管理': 5, '报表': 6, '更多菜单': 7}
 
-        return d_menu
+        if varMenu1 == '更多菜单':
+            Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/ul/li["+ (str(d_menu[varMenu1]))+ "]")
+        else:
+            Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/ul/li["+ (str(d_menu[varMenu1]))+ "]")
+                         # /html/body/div[1]/div/div[1]/div[2]/ul/li[2]
+                         # /html/body/div[1]/div/div[2]/div[2]/ul/li[3]
+                         # /html/body/div[1]/div/div[2]/div[2]/ul/li[4]
+            # /html/body/div[1]/div/div[2]/div[2]/ul/li[3]
+            # /html/body/div[1]/div/div[1]/div[2]/ul/li[3]
+            # /html/body/div[1]/div/div[2]/div[2]/ul/li[1]
+        # return d_menu
 
     def menu2(self, d_menu1, varMenuName):
 
         '''格式化二级菜单'''
         # ['健康档案管理', '', '', '', '', '', '儿童健康管理', '', '', '', '', '孕产妇管理', '', '', '', '', '老年人健康管理', '', '', '', '', '', '肺结核患者管理', '', '', '', '', '残疾人健康管理', '', '', '', '', '严重精神障碍健康管理', '', '', '', '', '健康教育', '', '高血压管理', '', '', '', '糖尿病管理', '', '', '', '首页', '基本公卫', '三高共管六病同防', '系统配置', '社区管理', '报表', '更多菜单', '', '', '', '', '', '', '']
 
-        Web_PO.clk('//*[@id="topmenu-container"]/li[' + str(d_menu1[varMenuName]) + ']', 2)
+        Web_PO.clkByX('//*[@id="topmenu-container"]/li[' + str(d_menu1[varMenuName]) + ']', 2)
 
         # 获取二级菜单
-        l_menu2 = Web_PO.getTexts("//li")
+        l_menu2 = Web_PO.getTextListByX("//li")
 
         # 去掉''
         l_menu2 = [i for i in l_menu2 if i != '']
@@ -217,3 +266,77 @@ class GwPO():
         Web_PO.clk('/html/body/div[5]/div/div/div[3]/div/button[1]', 1)
 
 
+    def diabetesPatientCard(self):
+
+        # 糖尿病患者管理卡
+        l_trtd = Web_PO.getTextListByX("//tr/td")
+        # print(l_trtd)
+
+        l_isRadioStatus = Web_PO.isBooleanAttrValueListByX("//div/label/span[1]", 'class',
+                                                           'el-radio__input is-disabled is-checked')
+        # print(l_isRadioStatus)  # ['False', 'True', 'False', 'False', ...
+
+        d_radio = {}
+
+        a = l_trtd[l_trtd.index('病例来源') + 1]
+        l_1 = a.split("\n")
+        # print(l_1)  # ['健康档案', '社区门诊', '流行病学调查', '其他']
+        l_bool = []
+        for i in range(len(l_1)):
+            l_bool.append(l_isRadioStatus.pop(0))
+        l_all = dict(zip(l_1, l_bool))
+        d_radio['病例来源'] = l_all
+
+        a = (l_trtd[l_trtd.index('婚姻状况') + 1])
+        l_1 = a.split("\n")
+        # print(l_1)  # ['未婚', '已婚', '初婚', '再婚', '复婚', '丧偶', '离婚', '未说明的婚姻状况']
+        l_bool = []
+        for i in range(len(l_1)):
+            l_bool.append(l_isRadioStatus.pop(0))
+        l_all = dict(zip(l_1, l_bool))
+        d_radio['婚姻状况'] = l_all
+
+        a = (l_trtd[l_trtd.index('糖尿病家族史') + 1])
+        l_1 = a.split("\n")
+        # print(l_1)  # ['否', '是', '不知道']
+        l_bool = []
+        for i in range(len(l_1)):
+            l_bool.append(l_isRadioStatus.pop(0))
+        l_all = dict(zip(l_1, l_bool))
+        d_radio['糖尿病家族史'] = l_all
+
+        a = (l_trtd[l_trtd.index('糖尿病分型') + 1])
+        l_1 = a.split("\n")
+        # print(l_1)  # ['1型糖尿病', '2型糖尿病', '妊娠糖尿病', '其他特殊类型糖尿病']
+        l_bool = []
+        for i in range(len(l_1)):
+            l_bool.append(l_isRadioStatus.pop(0))
+        l_all = dict(zip(l_1, l_bool))
+        d_radio['糖尿病分型'] = l_all
+
+        a = (l_trtd[l_trtd.index('是否终止管理') + 1])
+        l_1 = a.split("\n")
+        # print(l_1)  # ['否', '是']
+        l_bool = []
+        for i in range(len(l_1)):
+            l_bool.append(l_isRadioStatus.pop(0))
+        l_all = dict(zip(l_1, l_bool))
+        d_radio['是否终止管理'] = l_all
+
+        # print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+
+        l_fields = ['档案编号', '姓名', '性别', '出生日期', '身份证号', '居住地址', '身高(cm)', '体重(kg)', '其他特殊类型糖尿病说明', '确诊日期', '终止管理日期',
+                    '终止管理原因', '建卡时间', '建卡医生', '建卡医疗机构']
+        l_input = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
+        # 将第五-10个元素组合成列表
+        ll = []
+        for i in range(6):
+            ll.append(l_input.pop(5))
+        l_input.insert(5, ll)
+        d_other = dict(zip(l_fields, l_input))
+        # print(d_other)  # {'档案编号': '543912fd978b4634bae81a7b556b95cb', '姓名': '6月26日测试', '性别': '女', '出生日期': '1960-01-19', '身份证号': '110101196001193209', '居住地址': ['山东省', '烟台市', '招远市', '泉山街道', '魁星东社区居民委员会', '1'], '身高(cm)': '145', '体重(kg)': '67', '其他特殊类型糖尿病说明': '', '确诊日期': '2024-06-13', '终止管理日期': '1900-01-01', '终止管理原因': '', '建卡时间': '2024-06-28', '建卡医生': '卫健委', '建卡医疗机构': '招远市卫健局'}
+
+        d_other.update(d_radio)
+        # print(d_other)
+
+        return d_other

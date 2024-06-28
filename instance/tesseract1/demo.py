@@ -13,10 +13,10 @@ from PIL import Image
 
 # todo 图转文字
 
-# from PIL import Image
-# im = Image.open('merged_image.png')
-# string = pytesseract.image_to_string(im, lang='chi_sim')
-# print(string)
+from PIL import Image
+im = Image.open('merged_image.png')
+string = pytesseract.image_to_string(im, lang='chi_sim')
+print(string)
 
 
 

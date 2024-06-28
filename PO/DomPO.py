@@ -375,6 +375,7 @@ class DomPO(object):
         # 如：getTextByX(u"//input[@class='123']")
         return self.find_element(*(By.XPATH, varXpath)).text
 
+
     def getTextListByX(self, varXpaths):
         """通过Xpaths遍历获取文本列表"""
         # 如：getTextListByX("//tr")
@@ -416,7 +417,7 @@ class DomPO(object):
 
     def getAttrValueByX(self, varXpath, varAttr):
         """通过xpath获取属性值"""
-        # 如：getValueByAttr(u"//input[@class='123']","href")
+        # 如：getAttrValueByX(u"//input[@class='123']","href")
         return self.find_element(*(By.XPATH, varXpath)).get_attribute(varAttr)
 
     def getAttrValueListByX(self, varXpaths, varAttr):
@@ -724,7 +725,9 @@ class DomPO(object):
     # todo True or False
 
     def isBooleanByX(self, varPath):
-        """通过xpath判断ture或false"""
+
+        # 通过xpath判断ture或false
+
         flag = False
         try:
             self.find_element(*(By.XPATH, varPath))
@@ -733,8 +736,10 @@ class DomPO(object):
             flag = False
         return flag
 
-    def isBooleanAttr(self, varPath, varAttr):
-        """通过xpath判断属性是否存在"""
+    def isBooleanAttrByX(self, varPath, varAttr):
+
+        # 通过xpath判断属性是否存在
+
         flag = False
         try:
             element = self.find_element(*(By.XPATH, varPath))
@@ -744,9 +749,11 @@ class DomPO(object):
             flag = False
         return flag
 
-    def isBooleanAttrValue(self, varPath, varAttr, varValue):
-        """通过xpath判断属性值是否存在"""
-        # 如：isBooleanAttrValue("//tr","href","www.badu.com")
+    def isBooleanAttrValueByX(self, varPath, varAttr, varValue):
+
+        # 通过xpath判断属性值是否存在
+        # 如：isBooleanAttrValueByX("//tr","href","www.badu.com")
+
         flag = False
         try:
             for a in self.find_elements(*(By.XPATH, varPath)):
@@ -757,8 +764,25 @@ class DomPO(object):
             flag = False
         return flag
 
+    def isBooleanAttrValueListByX(self, varPath, varAttr, varValue):
+
+        """通过xpath判断属性值是否存在"""
+        # 如：isBooleanAttrValueListByX("//tr","href","www.badu.com")
+        # .isBooleanAttrValueListByX("//div/label/span[1]", 'class', 'el-radio__input is-disabled is-checked')
+        # 判断单选框是否被选中。
+
+        l1 = []
+        for a in self.find_elements(*(By.XPATH, varPath)):
+            if varValue == a.get_attribute(varAttr):
+                l1.append("True")
+            else:
+                l1.append("False")
+        return l1
+
     def isBooleanById(self, varId):
-        """通过Id判断ture或false"""
+
+        # 通过Id判断ture或false
+
         flag = False
         try:
             self.find_element(*(By.ID, varId))
@@ -768,7 +792,9 @@ class DomPO(object):
         return flag
 
     def isBooleanByName(self, varName):
-        """通过name判断ture或false"""
+
+        # 通过name判断ture或false
+
         flag = False
         try:
             self.find_element(*(By.NAME, varName))
@@ -778,7 +804,9 @@ class DomPO(object):
         return flag
 
     def isBooleanTextPartialContentByP(self, varPartText):
-        """通过超链接判断是否包含varText"""
+
+        # 通过超链接判断是否包含varText
+
         flag = False
         try:
             self.driver.find_element_by_partial_link_text(varPartText)
@@ -788,7 +816,9 @@ class DomPO(object):
         return flag
 
     def isBooleanTextByL(self, varText):
-        """通过超链接判断是否存在varText"""
+
+        # 通过超链接判断是否存在varText
+
         flag = False
         try:
             self.driver.find_element_by_link_text(varText)
@@ -798,7 +828,9 @@ class DomPO(object):
         return flag
 
     def isBooleanTextByX(self, varPath, varText):
-        """通过xpath判断文本是否存在"""
+
+        # 通过xpath判断文本是否存在
+
         flag = False
         try:
             if self.find_element(*(By.XPATH, varPath)).text == varText:
@@ -835,20 +867,28 @@ class DomPO(object):
     # todo alert(system)
 
     def alertAccept(self):
-        """点击弹框中的确认"""
+
+        # 点击弹框中的确认
+
         alert = self.driver.switch_to.alert
         alert.accept()
 
     def alertDismiss(self):
-        """点击弹框中的取消"""
+
+        # 点击弹框中的取消
+
         alert = self.driver.switch_to.alert
         alert.dismiss()
 
     def alertText(self):
-        """获取弹框中的文案"""
+
+        # 获取弹框中的文案
+
         alert = self.driver.switch_to.alert
         return alert.text
 
 
-
+    def getCount(self, varLabel):
+        c = self.find_elements(*(By.TAG_NAME, varLabel))
+        return len(c)
 

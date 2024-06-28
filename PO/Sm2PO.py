@@ -19,7 +19,7 @@ from gmssl import sm2 as SM2
 from gmssl import func as GMFunc
 from random import SystemRandom
 from base64 import b64encode, b64decode
-
+from gmssl import sm2, func
 
 class CurveFp:
     def __init__(self, A, B, P, N, Gx, Gy, name):
@@ -189,25 +189,70 @@ class SM2Util:
 if __name__ == '__main__':
 
     # from PO.Sm2PO import *
-
-    # # todo 生成私钥和公钥
-    d = SM2Util.GenKeyPair()
-    print(d) # {'private': '1d3509589095e652dd3008acef9fb36657d2dfdd0777bf2ba4b85e83b2f7767e', 'public': '04c5e5bfe650a5fbdb6dfe40cba0fca92468be18783141cc444c387e32394aea6728504f720adb50afb82163d4642c5ce717f6863b0a63c6db291d563eff8e8f47'}
-    # print(d['private'])
-    # print(d['public'])
-
-    # # todo 对数据签名与验证
-    data = '123456'
-    # sm2 = SM2Util(pri_key='124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62', pub_key='025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249')
-    sm2 = SM2Util(pri_key=d['private'], pub_key=d['public'][2:])
-    sign = sm2.Sign(data)
-    print('签名:{} 验签:{}'.format(sign, sm2.Verify(data, sign)))  # 签名:e63652b2c2c3f983a06e5c7b6fe7d37f0fc42f058ce70ee3c6f6fdaf3c7b7534a05659bd2f7ab5d4c6a15a4d7512c92bcda48d2af607cedebb5190d863d20210 验签:True
     #
+    # # # todo 生成私钥和公钥
+    # d = SM2Util.GenKeyPair()
+    # print(d) # {'private': '1d3509589095e652dd3008acef9fb36657d2dfdd0777bf2ba4b85e83b2f7767e', 'public': '04c5e5bfe650a5fbdb6dfe40cba0fca92468be18783141cc444c387e32394aea6728504f720adb50afb82163d4642c5ce717f6863b0a63c6db291d563eff8e8f47'}
+    # # print(d['private'])
+    # # print(d['public'])
     #
-    # # todo 加密与解密
-    dataEncrypt = sm2.Encrypt(data)
-    print('加密:{}'.format(dataEncrypt))  # 加密:jbm5KDRjoZSgJinaAxcsbOPakFKQ/oLiwn49LCpm7johHp9wSZud12GMqXdYGC35XA8cmOCZJ70FS7hpdAAcGWDen47AvH/htbqprHLhteR54OPWbeYSl80xgz/tBL3RwgAg6UJh
-    #
-    dataDecrypt = sm2.Decrypt(dataEncrypt)
-    print('解密:{}'.format(dataDecrypt))  # 解密:123456
+    # # # todo 对数据签名与验证
+    # data = '123456'
+    # # sm2 = SM2Util(pri_key='124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62', pub_key='025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249')
+    # sm2 = SM2Util(pri_key=d['private'], pub_key=d['public'][2:])
+    # sign = sm2.Sign(data)
+    # print('签名:{} 验签:{}'.format(sign, sm2.Verify(data, sign)))  # 签名:e63652b2c2c3f983a06e5c7b6fe7d37f0fc42f058ce70ee3c6f6fdaf3c7b7534a05659bd2f7ab5d4c6a15a4d7512c92bcda48d2af607cedebb5190d863d20210 验签:True
+    # #
+    # #
+    # # # todo 加密与解密
+    # dataEncrypt = sm2.Encrypt(data)
+    # print('加密:{}'.format(dataEncrypt))  # 加密:jbm5KDRjoZSgJinaAxcsbOPakFKQ/oLiwn49LCpm7johHp9wSZud12GMqXdYGC35XA8cmOCZJ70FS7hpdAAcGWDen47AvH/htbqprHLhteR54OPWbeYSl80xgz/tBL3RwgAg6UJh
+    # #
+    # dataDecrypt = sm2.Decrypt(dataEncrypt)
+    # print('解密:{}'.format(dataDecrypt))  # 解密:123456
 
+
+
+    # 假设你已经有了加密的数据ciphertext和对应的私钥
+    ciphertext = b'40d73255e78d004d12327ffed970f0a51f33e4cc0016512aa422fe7278d4cf38cb458af261b2314944a1f421299d27b2bc16193b918c3d570e68250e186990892c403ee267a7700f7f02fbcc19439ae6ae7209f0257555ba11a5906f52f9b00972bf8461fdb723a880a2771b8c9732ab7ec6ba97d4d50ae1ae3e070676e417c39876e15ad54a7c13383ce7e0d902e3cc69efd63b5e4d82ed5baa9f028e3e812e3a'
+    # 加密的数据
+    private_key = b'MHcCAQEEIBJMk7Uksl6Moojd4cCLeOduGI0ubmx6UULNw+s4patioAoGCCqBHM9VAYItoUQDQgAEAl2EEBqmuig1mVwucsDZ9J84Koes5+J3ClEeG76VpAooAKQLyWazpR5NNnNeK1lB3W4Q9QL2j7xCoLp87HqySQ=='  # 私钥数据，通常是PEM格式
+
+    # # 解密前需要将私钥转换为gmssl能够处理的格式
+    # private_key = func.str2key(private_key)
+    #
+    # # 创建SM2对象
+    # sm2_obj = sm2.SM2(private_key)
+    #
+    # # 进行解密
+    # plaintext = sm2_obj.decrypt(ciphertext)
+    #
+    # print(plaintext.decode('utf-8'))  # 打印解密后的文本
+
+    from gmssl import sm2, func
+
+
+    def sm2_decrypt(ciphertext, private_key):
+        sm2_crypt = sm2.CryptSM2(
+            public_key='',
+            private_key=private_key
+        )
+        plaintext = sm2_crypt.decrypt(func.bytes_to_list(ciphertext))
+        return plaintext
+
+
+    from gmssl import sm2, func
+
+    ciphertext = '40d73255e78d004d12327ffed970f0a51f33e4cc0016512aa422fe7278d4cf38cb458af261b2314944a1f421299d27b2bc16193b918c3d570e68250e186990892c403ee267a7700f7f02fbcc19439ae6ae7209f0257555ba11a5906f52f9b00972bf8461fdb723a880a2771b8c9732ab7ec6ba97d4d50ae1ae3e070676e417c39876e15ad54a7c13383ce7e0d902e3cc69efd63b5e4d82ed5baa9f028e3e812e3a'
+    private_key = 'MHcCAQEEIBJMk7Uksl6Moojd4cCLeOduGI0ubmx6UULNw+s4patioAoGCCqBHM9VAYItoUQDQgAEAl2EEBqmuig1mVwucsDZ9J84Koes5+J3ClEeG76VpAooAKQLyWazpR5NNnNeK1lB3W4Q9QL2j7xCoLp87HqySQ=='  # 私钥数据，通常是PEM格式
+    # private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
+    # 加密数据
+    # ciphertext = '2F8A4F9B01D3CE46CBC1D7F6F1AA0CC28B77F8754B3E0E4088A8B51C70D6B2A4'
+    # private_key = '00A7FFA1D3AA26A884993EE8E91E758551C7E6A5E50B0ECA1E2B61A423A6A7AEFF'
+
+
+    # 使用私钥进行解密
+    plain_text = sm2.decrypt(private_key, ciphertext)
+
+    # 输出解密结果
+    print("解密结果：", plain_text)

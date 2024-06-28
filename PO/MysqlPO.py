@@ -28,12 +28,19 @@ pandas引擎（mysqldb）  getEngine_mysqldb()
 2，搜索记录  dbRecord('*', 'money', '%34.5%')
 3，查询表创建时间  dbCreateDate()
 
-4.1，将数据库表查询结果导出excel  sql2xlsx()
-4.2，将数据库表查询结果导出csv  sql2csv()
-4.3，将数据库表查询结果导出html  sql2html()
-4.4，将数据库表结构导出excel  dbDesc2xlsx()
+4.1，数据库sql导出csv  db2csv()
+4.2，数据库sql导出excel  db2xlsx()
+4.4，数据库sql导出html  db2html()
+4.3 数据库sql导出字典  db2dict()
+4.5 数据库sql导出DataFrame db2df()
 4.5，将数据库表导出html  Mysql_PO.db2html("erp_开发计划总揽_2022-11-12", "sys_area", "d://123.html",False)
 
+5.1 excel导入数据库 xlsx2db()
+5.2 字典导入数据库  dict2db()
+5.3 列表导入数据库  list2db()
+5.4 DataFrame导入数据库  df2db()
+
+4.4，将数据库表结构导出excel  dbDesc2xlsx()
 5 获取单个表的所有字段 getTableField(self, varTable)
 
 6 expain SQL语句的执行计划
@@ -48,7 +55,9 @@ pymysql.install_as_MySQLdb()
 import MySQLdb
 import pandas as pd
 from PO.ExcelPO import *
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
+
 from bs4 import BeautifulSoup
 from PO.OpenpyxlPO import *
 from PO.NewexcelPO import *
@@ -106,10 +115,21 @@ class MysqlPO:
         """查询sql"""
 
         try:
+            self.conn.commit()
             self.cur.execute(sql)
             result = self.cur.fetchall()
-            self.conn.commit()
-            return result
+
+            d = {}
+            l1 = []
+            # 获取字段名称
+            l_fields = [i[0] for i in self.cur.description]
+            # print(l_fields)  # ['name', 'age', 'sex']
+            for i in range(len(result)):
+                # print(list(result[i]))
+                l1.append(dict(zip(list(l_fields), list(result[i]))))
+            # print(l1)
+
+            return l1
         except Exception as e:
             # print(e.args)  # ('table hh already exists',)
             # print(str(e))  # table hh already exists
@@ -600,31 +620,44 @@ class MysqlPO:
         else:
             print("[errorrrrrrr , 参数溢出！]")
 
-    def sql2xlsx(self, varSql, varXlsx, index=True):
+
+    def db2csv(self, varSql, varCSV, index=True):
 
         """
-        4.1，将数据库表查询结果导出excel
-        # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
-        """
-
-        df = pd.read_sql(sql=varSql, con=self.getEngine_pymysql())
-        df.to_excel(varXlsx, index=index)
-
-    def sql2csv(self, varSql, varCSV, index=True):
-
-        """
-        4.1，将数据库表查询结果导出excel
+        4.1，数据库sql导出csv
         # Mysql_PO.db2csv("select * from sys_menu", "d:\\111.csv")
         """
 
         df = pd.read_sql(sql=varSql, con=self.getEngine_pymysql())
         df.to_csv(varCSV, encoding="gbk", index=index)
 
-    def sql2html(self, sql, htmlFile, index=True):
+    def db2xlsx(self, varSql, varXlsx, index=True):
 
         """
-        4.3，将数据库表查询结果导出html
-                # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\index1.html")
+        4.2，数据库sql导出excel
+        # Mysql_PO.db2xlsx("select * from sys_menu", "d:\\111.xlsx")
+        """
+
+        df = pd.read_sql(sql=varSql, con=self.getEngine_pymysql())
+        df.to_excel(varXlsx, index=index)
+
+    def db2dict(self, varSql, orient='list'):
+
+        """4.3 数据库sql导出字典"""
+
+        try:
+            # df = pd.read_sql(sql=varSql, con=self.getEngine_pymysql())
+            engine = self.getEngine_pymysql()
+            df = pd.read_sql(text(varSql), con=engine.connect())
+            return df.to_dict(orient=orient)
+        except Exception as e:
+            print(e)
+
+    def db2html(self, sql, htmlFile, index=True):
+
+        """
+        4.4，数据库sql导出html
+                # Mysql_PO.db2html("select * from sys_menu", "d:\\index1.html")
                 参考：https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_html.html
                 css加载，https://blog.csdn.net/qq_38316655/article/details/104663077
                 颜色，https://www.jianshu.com/p/946481cd288a
@@ -633,6 +666,20 @@ class MysqlPO:
 
         df = pd.read_sql(sql=sql, con=self.getEngine_pymysql())
         df.to_html(htmlFile, col_space=100, na_rep="0", index=index)
+
+    def db2df(self, sql):
+
+        # 4.5 数据库sql导出DataFrame
+        # db2df("select * from a_test")
+
+        l_d_data = self.execQuery(sql)
+        # print(l_d_data)  # [{'id': 1, 'name': 'John Smith2', 'salesrep': 'John Doe3'}, {'id': 2, 'name': 'Jane Doe', 'salesrep': 'Joe Dog'},...
+        # print(l_d_data[0])
+        # print(list(l_d_data[0].keys()))
+        df = pd.DataFrame(l_d_data, columns=list(l_d_data[0].keys()))
+        # df.to_string(index=False)
+        return df
+
 
     def dbDesc2xlsx(self, varFileName):
 
@@ -778,6 +825,63 @@ class MysqlPO:
         return x
 
 
+    def xlsx2db(self, varPathFile, varDbTable, varSheetName=0):
+
+        '''
+        5.1，xlsx导入数据库
+        xlsx2db('2.xlsx', "tableName", "sheet1")
+        excel表格第一行数据对应db表中字段，建议用英文
+        '''
+
+        try:
+            df = pd.read_excel(varPathFile, sheet_name=varSheetName)
+            engine = self.getEngine_pymysql()
+            df.to_sql(varDbTable, con=engine, if_exists="replace", index=False)
+        except Exception as e:
+            print(e)
+
+    def dict2db(self, varDict, varDbTable, index="True"):
+
+        """5.2 字典导入数据库"""
+
+        try:
+            df = pd.DataFrame(varDict)
+            engine = self.getEngine_pymysql()
+            if index == "False":
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace", index=False)
+            else:
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace")
+        except Exception as e:
+            print(e)
+
+    def list2db(self, l_col, l_value, varDbTable, index="True"):
+
+        """5.3 列表导入数据库
+        l_col = 列名，如 ['id','name','age']
+        l_value= 值,如 [['1','john','44],['2','ti','4']]
+        """
+
+        try:
+            df = pd.DataFrame(l_value, columns=l_col)
+            engine = self.getEngine_pymysql()
+            if index == "False":
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace", index=False)
+            else:
+                df.to_sql(name=varDbTable, con=engine, if_exists="replace")
+        except Exception as e:
+            print(e)
+
+    def df2db(self, varDF, varDbTable):
+
+        '''5.4，dataframe导入数据库'''
+
+        try:
+            engine = self.getEngine_pymysql()
+            varDF.to_sql(varDbTable, con=engine, if_exists="replace", index=False)
+        except Exception as e:
+            print(e)
+
+
 if __name__ == "__main__":
 
 
@@ -800,10 +904,6 @@ if __name__ == "__main__":
     # # 创建haha表，如果不存在的话。
     # Mysql_PO.execute("CREATE TABLE if not exists haha(id int auto_increment primary key, name varchar(10),age int(4))")
 
-
-
-
-
     # Mysql_PO.execute("INSERT INTO haha (name, age) VALUES ('john', 12)")
 
 
@@ -818,6 +918,8 @@ if __name__ == "__main__":
 
     # # # 238 erp (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
     Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "crm", 3306)
+
+
     # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy123456", "crmtest", 3306)
     # # crm小程序清空账号权限
     # # Mysql_PO.execQuery("update user SET VX_MARK='', IMEI='', MODEL='',PLATFORM='', NOT_LOGIN=0, LIMIT_LOGIN=0 ")
@@ -825,18 +927,6 @@ if __name__ == "__main__":
     # print(l_result)  # (('测试',), ('系统管理员',))
     # print(l_result[0][0])  # 测试
 
-    # # 244 erp (预发布) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.244", "root", "ZAQ!2wsx", "crm", 3306)
-
-    # 234 epd 招远防疫 (测试) ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.231", "root", "Zy123456", "epidemic_center", 3306)  # 开发
-    # Mysql_PO = MysqlPO("192.168.0.234", "root", "123456", "epd", 3306)   # 测试
-
-    # # 211_zentao ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.211", "readonly", "benetech123", "zentaoep", 3306) # 测试
-
-    # # 195 ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    # Mysql_PO = MysqlPO("192.168.0.195", "root", "Zy123456", "bitest", 3306)  # 测试环境
 
     # *****************************************************************************************************************************
     # *****************************************************************************************************************************
@@ -867,17 +957,47 @@ if __name__ == "__main__":
     # Mysql_PO.dbCreateDate('before', "2022-10-1")  # 显示所有在2019-12-08之前创建的表
     # Mysql_PO.dbCreateDate('<', "2021-11-14")  # 显示所有在2019-12-08之前创建的表
 
-    # print("4.1，将数据库表查询结果导出excel".center(100, "-"))
-    # Mysql_PO.sql2xlsx("select * from sys_area", "d:\\sys_area.xlsx")
-    # Mysql_PO.sql2xlsx("select * from sys_area", "d:\\sys_area.xlsx", False)
 
-    # print("4.2，将数据库表查询结果导出csv".center(100, "-"))
-    # Mysql_PO.sql2csv("select * from sys_area", "d:\\sys_user_detail.csv")
-    # Mysql_PO.sql2csv("select * from sys_area", "d:\\sys_user_detail.cav", False)
 
-    # print("4.3，将数据库表查询结果导出html".center(100, "-"))
-    # Mysql_PO.sql2html("select * from sys_area", "d:\\sys_user_detail.html")
-    # Mysql_PO.sql2html("select * from sys_area", "d:\\sys_user_detail.html", False)
+    # print("4.1 数据库sql导出csv".center(100, "-"))
+    # Mysql_PO.db2csv("select * from sys_area", "d:\\sys_user_detail.csv")
+    # Mysql_PO.db2csv("select * from sys_area", "d:\\sys_user_detail.cav", False)
+
+    # print("4.2 数据库sql导出excel".center(100, "-"))
+    # Mysql_PO.db2xlsx("select * from sys_area", "d:\\sys_area.xlsx")
+    # Mysql_PO.db2xlsx("select * from sys_area", "d:\\sys_area.xlsx", False)
+
+    # print("4.3 数据库sql导出字典".center(100, "-"))
+    # d = Mysql_PO.db2dict("select * from user where UID=81")
+    # print(d)  # {'UID': [81], 'USER_ID': ['81'], 'USER_NAME': ['钮学彬'], 'USER_NAME_INDEX'...
+
+    # print("4.4 数据库sql导出html".center(100, "-"))
+    # Mysql_PO.db2html("select * from sys_area", "d:\\sys_user_detail.html")
+    # Mysql_PO.db2html("select * from sys_area", "d:\\sys_user_detail.html", False)
+
+    # print("4.5 数据库sql导出DataFrame".center(100, "-"))
+    # df = Mysql_PO.db2df("select * from test99")
+    # print(df)
+
+
+    # print("5.1 excel导入数据库".center(100, "-"))
+    # Mysql_PO.xlsx2db("hello1.xlsx", 'hello123')
+
+    # print("5.2 字典导入数据库".center(100, "-"))
+    # Mysql_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test99")  # 带index
+    # Mysql_PO.dict2db({'A': [3, 4, 8, 9], 'B': [1.2, 2.4, 4.5, 7.3], 'C': ["aa", "bb", "cc", "dd"]}, "test99", "False")  # 不带index
+
+    # print("5.3 列表导入数据库".center(100, "-"))
+    # Mysql_PO.list2db(['name','age','sex'], [['1','2','3'],['a','b','c']], "test99")  # 生成index
+    # Mysql_PO.list2db(['name','age','sex'], [['1','2','3'],['a','b','c']], "test99", "False")  # 不生成index
+
+    # print("5.4 DataFrame导入数据库".center(100, "-"))
+    # df = Mysql_PO.db2df("select * from test99")
+    # print(df)
+    # Mysql_PO.df2db(df, "a_test1")
+
+
+
 
     # print("4.4 将数据库表查询结果导出htmll".center(100, "-"))
     # Mysql_PO.dbDesc2xlsx("d:\\crmtest.xlsx")
@@ -887,6 +1007,8 @@ if __name__ == "__main__":
     # Mysql_PO.db2html("erp_开发计划总揽_2022-11-12", "sys_area", "d://123.html")
     # Mysql_PO.db2html("erp_开发计划总揽_2022-11-12", "sys_area", "d://123.html",False)
     # Mysql_PO.db2html("erp_开发计划总揽_2022-11-12", "sys_area", "d://11/123.html", False)
+
+
 
     # print("4.4 excel导入数据库表".center(100, "-"))
     # Mysql_PO.xlsx2db("data/testcase2.xlsx", "testcase2", sheet_name="case")
@@ -909,5 +1031,4 @@ if __name__ == "__main__":
 
     # print("6.2 expain SQL语句的执行计划文件".center(100, "-"))
     # Mysql_PO.explainMore("./data/i_erp_reportField_case.xlsx", "拜访分析报表", 4, 5, 2)
-
 

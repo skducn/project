@@ -31,13 +31,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/instance/bigData/GDP-China.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="/instance/bigData/pandas1/GDP-China.csv">
           <value>
             <Attribute>
@@ -59,21 +52,14 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/instance/bigData/test.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/instance/bigData/test2.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="/instance/httpRunner2/cms/data/account.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/instance/zyjk/zentao/123.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

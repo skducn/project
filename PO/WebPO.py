@@ -69,9 +69,9 @@
 
 """
 1.1 打开网站 open()
-1.2 打开标签页 openLabel("http://www.jd.com")
-1.3 切换标签页 switchLabel(1)
-1.4 关闭当前窗口 close()
+1.2 打开标签页 opnLabel("http://www.jd.com")
+1.3 切换标签页 swhLabel(1)
+1.4 关闭当前窗口 cls()
 
 2.1 获取当前浏览器宽高 getBrowserSize()
 2.2 设置浏览器分辨率 setBrowserSize()
@@ -252,24 +252,18 @@ class WebPO(DomPO):
         return self.driver.page_source
 
 
-    def opnLabel(self, varURL):
+    def opnLabel(self, varURL, t=2):
 
-        '''
-        1.2 打开标签页
-        :param varURL:
-        :return:
-        '''
+        ''' 1.2 打开标签页 '''
 
         self.driver.execute_script('window.open("' + varURL + '");')
+        sleep(t)
 
     def swhLabel(self, varSwitch, t=1):
 
         '''
         1.3 切换标签页
-        :param varSwitch: 1
-        :param t:
-        :return:
-         # self.Web_PO.switchLabel(0) # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页 , 以此类推。
+        # self.swhLabel(0) # 0 = 激活第一个标签页 ， 1 = 激活第二个标签页 , 以此类推。
         '''
 
         all_handles = self.driver.window_handles

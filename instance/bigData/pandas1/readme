@@ -1,10 +1,5 @@
-﻿学习：https://www.bilibili.com/video/BV1cS4y1K7Gt/?spm_id_from=333.337.search-card.all.click&vd_source=be21f48b876460dfe25064d745fdc372
+﻿Python大数据思路分析
+https://baijiahao.baidu.com/s?id=1778323124082865436&wfr=spider&for=pc
 
 
-安装 jupyterlab
-conda:  conda install -c conda-forge jupyterlab
-mamba:  mamba install -c conda-forge jupyterlab
-PIP:  pip install jupyterlab
-
-执行 > jupyter-lab
 
