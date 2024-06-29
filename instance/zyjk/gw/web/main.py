@@ -15,25 +15,23 @@ List_PO = ListPO()
 # 1，登录
 Gw_PO.login('http://192.168.0.203:30080/#/login', 'testwjw', 'Qa@123456')
 
-# # 获取登录后的解密数据
+# # # 获取登录后的解密数据
 # d = Gw_PO.getDecode('account', '40d73255e78d004d12327ffed970f0a51f33e4cc0016512aa422fe7278d4cf38cb458af261b2314944a1f421299d27b2bc16193b918c3d570e68250e186990892c403ee267a7700f7f02fbcc19439ae6ae7209f0257555ba11a5906f52f9b00972bf8461fdb723a880a2771b8c9732ab7ec6ba97d4d50ae1ae3e070676e417c39876e15ad54a7c13383ce7e0d902e3cc69efd63b5e4d82ed5baa9f028e3e812e3a')
 # print(d)  # {'account': {'username': 'testwjw', 'password': 'Qa@123456', 'code': '', 'uuid': ''}}
 # print(d['account']['password'])  # Qa@123456
-#
-# a = {"tt":123}
-# d.update(a)
-#
-# print(d)
 
-# 基本公卫菜单连接(登录后点击)
+
+# 2, 基本公卫菜单连接(登录后点击)
 Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/ul/li[2]", 2)
 d_menu2Url = Gw_PO.getMenu2Url()
-print(d_menu2Url)
+print('基本公卫 => ', d_menu2Url)
 
-# # # 健康档案概况
+
+# # 2.1, 健康档案概况 (基本公卫)
 # Web_PO.opnLabel(d_menu2Url['健康档案概况'])
 # Web_PO.swhLabel(1)
-# # # 请选择
+
+# # 2.1.1, 请选择
 # # Web_PO.clkByX("/html/body/div[1]/div/div[3]/section/div/div[1]/div/div/input", 2)
 # # Web_PO.clkByX("/html/body/div[2]/div[2]/div/div/div[1]/ul/li/label", 2)
 # # Web_PO.clkByX("/html/body/div[2]/div[2]/div/div[2]/div[1]/ul/li[3]/label", 2)
@@ -42,28 +40,23 @@ print(d_menu2Url)
 # Web_PO.cls()
 # Web_PO.swhLabel(0)
 
-# 个人健康档案
+
+# 2.2, 个人健康档案 (基本公卫)
 Web_PO.opnLabel(d_menu2Url['个人健康档案'])
 Web_PO.swhLabel(1)
 
+# 2.2.1, 查询（通过身份证查找唯一记录）
+Gw_PO.personalHealthRecord('110101196001193209')
 
-# 查询
-Web_PO.setTextByX("/html/body/div[1]/div/div[3]/section/div/div/div[1]/form/div[1]/div[1]/div/div/input", "6月26日测试")
-Web_PO.clkByX("/html/body/div[1]/div/div[3]/section/div/div/div[1]/div/button[1]", 2)
-l_result = Web_PO.getTextListByX("//td/div")
-l_result = [i for i in l_result if i != '']
-print(l_result)  # ['37068500200200014', '6月26日测试', '60\n高\n脂', '女',...
-# 点击姓名
-Web_PO.clkByX("/html/body/div[1]/div/div[3]/section/div/div/div[2]/div[1]/div[1]/div[3]/div/div[1]/div/table/tbody/tr/td[2]/div/span", 2)
-span = Web_PO.getTextListByX("//span")
-print(span)
+# todo 已建专项 - 高血压专项
+# 点击高血压专项
+Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/button[1]", 2)
+# 专项登记
+Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]", 2)
+# 高血压患者管理卡
+d_hypertensionPatientCard = Gw_PO.hypertensionPatientCard()
+print(d_hypertensionPatientCard)
 
-# # # 高血压专项
-# Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/button[1]", 2)
-# # Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]", 2)  # 专项登记
-# # span = Web_PO.getTextListByX("//span")
-# # print(span)
-#
 # Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]", 2)  # 随访记录
 # # 高血压随访记录
 # l_div = Web_PO.getTextListByX("//td/div")
@@ -72,14 +65,16 @@ print(span)
 # print(l_div) # ['刘斌龙卫健委', '111 mmHg', '11 mmHg', '门诊', '2024-06-26', '控制满意', '2024-09-24', '公卫随访']
 
 
-# 已建专项
-# 糖尿病专项
-Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/button[2]", 2)
-# 专项登记
-Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]", 2)
-# 糖尿病患者管理卡
-d_diabetesPatientCard = Gw_PO.diabetesPatientCard()
-print(d_diabetesPatientCard)
+# # todo 已建专项 - 糖尿病专项
+# # 点击糖尿病专项
+# Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/button[2]", 2)
+# # 点击专项登记
+# Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]", 2)
+# # 糖尿病患者管理卡
+# d_diabetesPatientCard = Gw_PO.diabetesPatientCard()
+# print(d_diabetesPatientCard)  # {'档案编号': '543912fd978b4634bae81a7b556b95cb', '姓名': '6月26日测试', '性别': '女', '出生日期': '1960-01-19', '身份证号': '110101196001193209', '居住地址': ['山东省', '烟台市', '招远市', '泉山街道', '魁星东社区居民委员会', '1'], '身高(cm)': '145', '体重(kg)': '67', '其他特殊类型糖尿病说明': '', '确诊日期': '2024-06-13', '终止管理日期': '1900-01-01', '终止管理原因': '', '建卡时间': '2024-06-28', '建卡医生': '卫健委', '建卡医疗机构': '招远市卫健局', '病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+
+
 
 # span = Web_PO.getTextListByX("//label/span")
 # print(span)

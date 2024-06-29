@@ -766,7 +766,7 @@ class DomPO(object):
 
     def isBooleanAttrValueListByX(self, varPath, varAttr, varValue):
 
-        """通过xpath判断属性值是否存在"""
+        """通过xpath判断属性等于值"""
         # 如：isBooleanAttrValueListByX("//tr","href","www.badu.com")
         # .isBooleanAttrValueListByX("//div/label/span[1]", 'class', 'el-radio__input is-disabled is-checked')
         # 判断单选框是否被选中。
@@ -774,6 +774,20 @@ class DomPO(object):
         l1 = []
         for a in self.find_elements(*(By.XPATH, varPath)):
             if varValue == a.get_attribute(varAttr):
+                l1.append("True")
+            else:
+                l1.append("False")
+        return l1
+
+    def isBooleanAttrContainValueListByX(self, varPath, varAttr, varValue):
+
+        """通过xpath判断属性包含值"""
+        # .isBooleanAttrContainValueListByX("//div/label/span[1]", 'class', 'el-radio__input is-disabled is-checked')
+        # 判断单选框是否被选中。
+
+        l1 = []
+        for a in self.find_elements(*(By.XPATH, varPath)):
+            if varValue in a.get_attribute(varAttr):
                 l1.append("True")
             else:
                 l1.append("False")

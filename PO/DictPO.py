@@ -31,7 +31,7 @@
 # import collections
 # dd = {'x': 0, 'b': 444, 'c': 555, 'a': 3}
 
-# # 按keyi排序
+# # 按key排序
 # d1 = collections.OrderedDict(sorted(dd.items(), key=lambda t:t[0]))
 # print(d1)  # OrderedDict([('a', 3), ('b', 444), ('c', 555), ('x', 0)])
 # print(d1['c'])  # 555
