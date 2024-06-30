@@ -48,15 +48,8 @@ Web_PO.swhLabel(1)
 # 2.2.1, 查询（通过身份证查找唯一记录）
 Gw_PO.personalHealthRecord('110101196001193209')
 
-# todo 已建专项 - 高血压专项
-# 点击高血压专项
-Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/button[1]", 2)
-# 专项登记
-Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]", 2)
-# 高血压患者管理卡
-d_hypertensionPatientCard = Gw_PO.hypertensionPatientCard()
-print(d_hypertensionPatientCard)
-
+# todo 已建专项
+Gw_PO.yjzx('高血压专项','专项登记')
 # Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]", 2)  # 随访记录
 # # 高血压随访记录
 # l_div = Web_PO.getTextListByX("//td/div")
@@ -64,16 +57,8 @@ print(d_hypertensionPatientCard)
 # l_div = List_PO.dels(l_div, '详情\n编辑\n删除')
 # print(l_div) # ['刘斌龙卫健委', '111 mmHg', '11 mmHg', '门诊', '2024-06-26', '控制满意', '2024-09-24', '公卫随访']
 
-
-# # todo 已建专项 - 糖尿病专项
-# # 点击糖尿病专项
-# Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/button[2]", 2)
-# # 点击专项登记
-# Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[1]", 2)
-# # 糖尿病患者管理卡
-# d_diabetesPatientCard = Gw_PO.diabetesPatientCard()
-# print(d_diabetesPatientCard)  # {'档案编号': '543912fd978b4634bae81a7b556b95cb', '姓名': '6月26日测试', '性别': '女', '出生日期': '1960-01-19', '身份证号': '110101196001193209', '居住地址': ['山东省', '烟台市', '招远市', '泉山街道', '魁星东社区居民委员会', '1'], '身高(cm)': '145', '体重(kg)': '67', '其他特殊类型糖尿病说明': '', '确诊日期': '2024-06-13', '终止管理日期': '1900-01-01', '终止管理原因': '', '建卡时间': '2024-06-28', '建卡医生': '卫健委', '建卡医疗机构': '招远市卫健局', '病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
-
+Gw_PO.yjzx('糖尿病专项','专项登记')
+# Gw_PO.yjzx('高血脂专项','专项登记')
 
 
 # span = Web_PO.getTextListByX("//label/span")
