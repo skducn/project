@@ -79,8 +79,8 @@ def _getManHour(varYear, varMonth, varProject, var_l_who):
                 "ORDER BY realname, finishedDate) as a"
 
         r = Mysql_PO.execQuery(sql)
-        if r[0][0] != None:
-            sum = sum + r[0][0]
+        if r[0]['manHour'] != None:
+            sum = sum + r[0]['manHour']
     r = Color_PO.getColor({"31": varProject}) + "=> " + str(sum) + Color_PO.getColor({"34": " (" + str((sum/8)) + "天" + ")"} )
     print(r)
     return sum
@@ -111,7 +111,10 @@ def getProject(varYear, varMonth, var_l_who):
         print("-----------------------------------")
         print(str(var_l_who[i]))
         for j in range(len(p)):
-            sum = _getManHour(varYear, varMonth, p[j][0], [var_l_who[i]])
+            # print(varYear, varMonth, [var_l_who[i]])
+            # print(p[j])
+            # print(p[j]['name'])
+            sum = _getManHour(varYear, varMonth, p[j]['name'], [var_l_who[i]])
             sum2 = sum2 + sum
         print("总工时：" + str(sum2))
         sum2 = 0
@@ -129,7 +132,7 @@ def getProject(varYear, varMonth, var_l_who):
 
 # todo 获取所有项目明细工时与总工时
 # getProject(2024, 6, ['范冰川'])
-getProject(2024, 6, ['郭浩杰', '陈晓东', '郭斐', '刘斌龙', '舒阳阳', '金浩'])
+getProject(2024, 6, ['陈晓东', '郭斐', '刘斌龙', '舒阳阳', '金浩'])
 # 3月工时(电子健康档案数据管理平台产品研发项目2.0) => 3.0['刘斌龙(3.0)'] => 0.375天
 # 3月工时(社区健康管理中心) => 52.0['刘斌龙(52.0)'] => 6.5天
 # 3月工时(区域公共卫生管理系统) => 103.0['刘斌龙(103.0)'] => 12.875天

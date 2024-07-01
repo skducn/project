@@ -7,40 +7,45 @@
 #     privateKey: 124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
 #     enabled: true
 #
-import binascii
-from gmssl.sm2 import CryptSM2
-from gmssl import sm2, func
+l_input = ['ceshi',3,4,5,'ceshi',333333,'ceshi']
 
-private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
-public_key = '025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
-data = '12345'
-
-def encrypt(self, data: str):
-    """
-    进行 SM2 加密操作
-    :param data: String 格式的原文 data
-    :return: String 格式的密文 enc_data
-    """
-    data_utf8 = data.encode("utf-8")
-    enc_data = self._SM2_Util.encrypt(data_utf8)
-    self._SM2_Util = sm2.CryptSM2(public_key=public_key, private_key=private_key)
-
-    enc_data = binascii.b2a_hex(enc_data).decode("utf-8")
-    return enc_data
+for i in range(len(l_input)):
+    if l_input[i] == 'ceshi':
+        print(i)
+        # ele_n = l_input.index(l_input[i])
+        # print(ele_n)
 
 
-def decrypt(self, enc_data: str):
-    """
-    进行 SM2 解密操作
-    :param enc_data: String 格式的密文 enc_data
-    :return: String 格式的原文 data
-    """
-    enc_data = binascii.a2b_hex(enc_data.encode("utf-8"))
-    dec_data = self._SM2_Util.decrypt(enc_data)
-    dec_data = dec_data.decode("utf-8")
-    return dec_data
-
-print(encrypt(data))
+# private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
+# public_key = '025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
+# data = '12345'
+#
+# def encrypt(self, data: str):
+#     """
+#     进行 SM2 加密操作
+#     :param data: String 格式的原文 data
+#     :return: String 格式的密文 enc_data
+#     """
+#     data_utf8 = data.encode("utf-8")
+#     enc_data = self._SM2_Util.encrypt(data_utf8)
+#     self._SM2_Util = sm2.CryptSM2(public_key=public_key, private_key=private_key)
+#
+#     enc_data = binascii.b2a_hex(enc_data).decode("utf-8")
+#     return enc_data
+#
+#
+# def decrypt(self, enc_data: str):
+#     """
+#     进行 SM2 解密操作
+#     :param enc_data: String 格式的密文 enc_data
+#     :return: String 格式的原文 data
+#     """
+#     enc_data = binascii.a2b_hex(enc_data.encode("utf-8"))
+#     dec_data = self._SM2_Util.decrypt(enc_data)
+#     dec_data = dec_data.decode("utf-8")
+#     return dec_data
+#
+# print(encrypt(data))
 
 # crypt_sm2 = CryptSM2(private_key = private_key, public_key=public_key)
 # # private_key = crypt_sm2.get_random_private_key()

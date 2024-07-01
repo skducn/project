@@ -14,7 +14,6 @@ List_PO = ListPO()
 
 # 1，登录
 Gw_PO.login('http://192.168.0.203:30080/#/login', 'testwjw', 'Qa@123456')
-
 # # # 获取登录后的解密数据
 # d = Gw_PO.getDecode('account', '40d73255e78d004d12327ffed970f0a51f33e4cc0016512aa422fe7278d4cf38cb458af261b2314944a1f421299d27b2bc16193b918c3d570e68250e186990892c403ee267a7700f7f02fbcc19439ae6ae7209f0257555ba11a5906f52f9b00972bf8461fdb723a880a2771b8c9732ab7ec6ba97d4d50ae1ae3e070676e417c39876e15ad54a7c13383ce7e0d902e3cc69efd63b5e4d82ed5baa9f028e3e812e3a')
 # print(d)  # {'account': {'username': 'testwjw', 'password': 'Qa@123456', 'code': '', 'uuid': ''}}
@@ -27,10 +26,9 @@ d_menu2Url = Gw_PO.getMenu2Url()
 print('基本公卫 => ', d_menu2Url)
 
 
-# # 2.1, 健康档案概况 (基本公卫)
+# todo 2.1, 健康档案概况 (基本公卫)
 # Web_PO.opnLabel(d_menu2Url['健康档案概况'])
 # Web_PO.swhLabel(1)
-
 # # 2.1.1, 请选择
 # # Web_PO.clkByX("/html/body/div[1]/div/div[3]/section/div/div[1]/div/div/input", 2)
 # # Web_PO.clkByX("/html/body/div[2]/div[2]/div/div/div[1]/ul/li/label", 2)
@@ -40,26 +38,28 @@ print('基本公卫 => ', d_menu2Url)
 # Web_PO.cls()
 # Web_PO.swhLabel(0)
 
+# todo 2.2, 个人健康档案 (基本公卫)
+# Web_PO.opnLabel(d_menu2Url['个人健康档案'])
+# Web_PO.swhLabel(1)
+# # 2.2.1, 查询（通过身份证查找唯一记录）
+# Gw_PO.personalHealthRecord('110101196001193209')
+# # 已建专项
+# Gw_PO.yjzx('高血压专项','专项登记')
+# # Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]", 2)  # 随访记录
+# # # 高血压随访记录
+# # l_div = Web_PO.getTextListByX("//td/div")
+# # l_div = List_PO.dels(l_div, '')
+# # l_div = List_PO.dels(l_div, '详情\n编辑\n删除')
+# # print(l_div) # ['刘斌龙卫健委', '111 mmHg', '11 mmHg', '门诊', '2024-06-26', '控制满意', '2024-09-24', '公卫随访']
+# Gw_PO.yjzx('糖尿病专项','专项登记')
+# # Gw_PO.yjzx('高血脂专项','专项登记')
 
-# 2.2, 个人健康档案 (基本公卫)
-Web_PO.opnLabel(d_menu2Url['个人健康档案'])
+
+# todo 2.3, 家庭健康档案 (基本公卫)
+Web_PO.opnLabel(d_menu2Url['家庭健康档案'])
 Web_PO.swhLabel(1)
-
-# 2.2.1, 查询（通过身份证查找唯一记录）
-Gw_PO.personalHealthRecord('110101196001193209')
-
-# todo 已建专项
-Gw_PO.yjzx('高血压专项','专项登记')
-# Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div[2]/div[2]", 2)  # 随访记录
-# # 高血压随访记录
-# l_div = Web_PO.getTextListByX("//td/div")
-# l_div = List_PO.dels(l_div, '')
-# l_div = List_PO.dels(l_div, '详情\n编辑\n删除')
-# print(l_div) # ['刘斌龙卫健委', '111 mmHg', '11 mmHg', '门诊', '2024-06-26', '控制满意', '2024-09-24', '公卫随访']
-
-Gw_PO.yjzx('糖尿病专项','专项登记')
-# Gw_PO.yjzx('高血脂专项','专项登记')
-
+Web_PO.clkByX('/html/body/div[1]/div/div[3]/section/div/div/div[1]/div/div[1]/div[1]/div[3]/div/div[1]/div/table/tbody/tr[1]/td[1]/div', 2)
+Gw_PO.residentHealthRecord()
 
 # span = Web_PO.getTextListByX("//label/span")
 # print(span)
