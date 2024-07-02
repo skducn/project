@@ -58,8 +58,13 @@ print('基本公卫 => ', d_menu2Url)
 # todo 2.3, 家庭健康档案 (基本公卫)
 Web_PO.opnLabel(d_menu2Url['家庭健康档案'])
 Web_PO.swhLabel(1)
-Web_PO.clkByX('/html/body/div[1]/div/div[3]/section/div/div/div[1]/div/div[1]/div[1]/div[3]/div/div[1]/div/table/tbody/tr[1]/td[1]/div', 2)
-Gw_PO.residentHealthRecord()
+
+# 获取列表中用户的居民健康档案
+Gw_PO.runUser('all')
+# Gw_PO.runUser('测试')
+# Gw_PO.runUser('黎明', '测试')
+
+
 
 # span = Web_PO.getTextListByX("//label/span")
 # print(span)

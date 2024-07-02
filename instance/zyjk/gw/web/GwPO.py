@@ -502,6 +502,44 @@ class GwPO():
                     d_result[k] = v
         return d_result
 
+    def runUser(self, *varUsername):
+
+        l_username = Web_PO.getTextListByX("//tr/td[1]/div")
+        # print(l_username) # ['零跑', '测试', '黎明', '李永波', '胡军', '张建民', '舒雅有', '赵爽', '陈平安']
+
+        if len(varUsername) == 1 and varUsername[0] != 'all':
+            for i in range(len(l_username)):
+                if l_username[i] == varUsername[0]:
+                    # print(l_username[i])
+                    Web_PO.clkByX('/html/body/div[1]/div/div[3]/section/div/div/div[1]/div/div[1]/div[1]/div[3]/div/div[1]/div/table/tbody/tr[' + str(i + 1) + ']/td[1]/div', 2)
+                    self.residentHealthRecord(l_username[i])
+        elif len(varUsername) > 1:
+            print(varUsername)
+            for i in range(len(l_username)):
+                for j in range(len(varUsername)):
+                    if l_username[i] == varUsername[j]:
+                        # print(l_username[i])
+                        Web_PO.clkByX('/html/body/div[1]/div/div[3]/section/div/div/div[1]/div/div[1]/div[1]/div[3]/div/div[1]/div/table/tbody/tr[' + str(i + 1) + ']/td[1]/div', 2)
+                        self.residentHealthRecord(l_username[i])
+                        # 关闭当前标签
+                        l_a = Web_PO.getAttrValueListByX("//a",'href')
+                        # print(l_a)
+                        for i in range(len(l_a)):
+                            if "http://192.168.0.203:30080/#/phs/personalAddOrUpdate/addOrUpdate" in l_a[i]:
+                                Web_PO.clkByX('/html/body/div[1]/div/div[3]/div[1]/div/div/div[1]/div/a[' + str(i + 1) + ']/span', 2)
+        elif len(varUsername) == 1 and varUsername[0] == 'all':
+            print(l_username)
+            for i in range(len(l_username)):
+                Web_PO.clkByX('/html/body/div[1]/div/div[3]/section/div/div/div[1]/div/div[1]/div[1]/div[3]/div/div[1]/div/table/tbody/tr[' + str(i + 1) + ']/td[1]/div', 2)
+                self.residentHealthRecord(l_username[i])
+                # 关闭当前标签
+                l_a = Web_PO.getAttrValueListByX("//a", 'href')
+                for i in range(len(l_a)):
+                    if "http://192.168.0.203:30080/#/phs/personalAddOrUpdate/addOrUpdate" in l_a[i]:
+                        Web_PO.clkByX(
+                            '/html/body/div[1]/div/div[3]/div[1]/div/div/div[1]/div/a[' + str(i + 1) + ']/span', 2)
+
+
     def _residentHealthRecord(self, l_div, i, varDisease, varDiseaseName, varDiseaseTime):
 
         #  _residentHealthRecord(self, l_div, '疾病\n有\n无', '既往史疾病名称', '确诊时间')
@@ -530,56 +568,52 @@ class GwPO():
                         ele_after_n = ele_n + 1
                         l_div.insert(ele_after_n, varDiseaseTime + str(j + 2))
 
-    def residentHealthRecord(self):
+    def residentHealthRecord(self, varUsername):
 
         # 居民健康档案
 
         # 1.1 获取字段
         l_div = Web_PO.getTextListByX("//div[@class='table_line']/div")
-        # print(l_div)
+        # print("1.1 原始l_div => ", l_div)
 
         # 1.2 清洗字段
+        # 删除
         l_div = [i for i in l_div if i != '']
         l_div.remove('现住址必填')
         l_div.remove('城镇职工基本医疗保险')
         l_div.remove('城镇居民基本医疗保险')
         l_div.remove('贫困救助')
         l_div.remove('关联户主')
+
+        # 修改
         for i in range(len(l_div)):
-            if l_div[i] == '遗传病史\n有\n无':
-                ele_n = l_div.index(l_div[i])
-                ele_after_n = ele_n + 1
-                l_div[ele_after_n] = '遗传病史疾病名称'
             if l_div[i] == '残疾情况\n无残疾\n视力残疾\n听力残疾\n言语残疾\n肢体残疾\n智力残疾\n精神残疾\n其他残疾\n残疾情况必填':
                 l_div[i] = '残疾情况\n无残疾\n视力残疾\n听力残疾\n言语残疾\n肢体残疾\n智力残疾\n精神残疾\n其他残疾'
-
-        for i in range(len(l_div) + 30):
-            if l_div[i] == '更新内容':
-                break
             if l_div[i] == '商业医疗保险\n全公费\n全自费\n其他':
                 l_div[i] = '医疗费用支付方式1\n城镇职工基本医疗保险'
-                ele_n = l_div.index(l_div[i])
-                ele_after_n = ele_n + 1
-                l_div.insert(ele_after_n, '职工医保卡号')
-                ele_after_n = ele_after_n + 1
-                l_div.insert(ele_after_n, '医疗费用支付方式2\n城镇居民基本医疗保险')
-                ele_after_n = ele_after_n + 1
-                l_div.insert(ele_after_n, '居民医保卡号')
-                ele_after_n = ele_after_n + 1
-                l_div.insert(ele_after_n, '医疗费用支付方式3\n贫困救助')
-                ele_after_n = ele_after_n + 1
-                l_div.insert(ele_after_n, '贫困救助卡号')
-                ele_after_n = ele_after_n + 1
-                l_div.insert(ele_after_n, '医疗费用支付方式4\n商业医疗保险\n全公费\n全自费\n其他')
-                ele_after_n = ele_after_n + 1
-                l_div.insert(ele_after_n, '其他情况说明')
 
+        # 插入
+        l_div[l_div.index('遗传病史\n有\n无') + 1] = '遗传病史疾病名称'
+        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 1, '职工医保卡号')
+        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 2, '医疗费用支付方式2\n城镇居民基本医疗保险')
+        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 3, '居民医保卡号')
+        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 4, '医疗费用支付方式3\n贫困救助')
+        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 5, '贫困救助卡号')
+        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 6, '医疗费用支付方式4\n商业医疗保险\n全公费\n全自费\n其他')
+        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 7, '医疗费用支付方式备注')
+
+        # 动态自增字段 （33是随意值，确保遍历不中断）
+        for i in range(len(l_div) + 33):
+            if l_div[i] == '更新内容':
+                break
+
+            # 既往史，动态自增字段（选择恶性肿瘤时，显示输入框）
             self._residentHealthRecord(l_div, i, '疾病\n有\n无', '既往史疾病名称', '确诊时间')
             self._residentHealthRecord(l_div, i, '手术\n有\n无', '手术名称', '手术时间')
             self._residentHealthRecord(l_div, i, '外伤\n有\n无', '外伤名称', '外伤时间')
             self._residentHealthRecord(l_div, i, '输血\n有\n无', '输血原因', '输血时间')
 
-            # 家族史，如果选择恶性肿瘤，需要输入内容
+            # 家族史，动态自增字段（选择恶性肿瘤时，显示输入框）
             if l_div[i] == '有\n无':
                 l_div[i] = '家族史\n有\n无'
                 ele_n = l_div.index(l_div[i])
@@ -600,7 +634,7 @@ class GwPO():
                         ele_after_n = ele_n + 1
                         l_div.insert(ele_after_n, "与本人关系" + str(j + 2))
 
-        # print(22, l_div)
+        # print('1.2 清洗l_div => ', l_div)
 
 
         # 2 生成checkbox字典
@@ -608,7 +642,6 @@ class GwPO():
         # print(l_isRadioStatus)  # ['False', 'True', 'False', 'False', ...
         # class="el-checkbox__input is-disabled is-checked"
         # el-radio__input is-disabled is-checked
-        # print('l_isRadioStatus', len(l_isRadioStatus))
         d_radio = {}
         d_checkbox = {}
         l_2 = []
@@ -632,24 +665,42 @@ class GwPO():
             l_4.append(v)
         d_checkbox = dict(zip(l_3, l_4))
         # print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
-        # print(66, d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+        # print('2 生成d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
 
 
         # 3 生成noCheckbox字段
-        l_fields = [i for i in l_div if "\n" not in i ]
-        # print(77, l_fields)
+        l_fields = [i for i in l_div if "\n" not in i]
         l_input = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
-        # print(3, l_input)
+
+        # 当药物过敏史中选择其他药物过敏源时，显示文本域输入框（医疗费用支付方式备注）
+        if d_checkbox['药物过敏史']['其他药物过敏源'] == 'True':
+            l_fields.insert(l_fields.index('医疗费用支付方式备注') + 1, '其他药物过敏源备注')
+            # 当药物过敏史中选择其他药物过敏源时，显示文本域输入框（医疗费用支付方式备注）
+            l_textarea = Web_PO.getAttrValueListByX("//div/div/div/textarea", 'value')
+            # 在input中23位置插入textarea值
+            l_input.insert(23, l_textarea[0])
+            print('3.3 l_textarea => ', l_textarea)
+            # 更新div
+            l_div.insert(l_div.index('医疗费用支付方式备注') + 1, '其他药物过敏源备注')
+
+        # 当残疾情况中选择其他残疾时，显示输入框（其他残疾备注）
+        if d_checkbox['残疾情况']['其他残疾'] == 'True':
+            l_fields.insert(l_fields.index('残疾证号'), '其他残疾备注')
+            # 更新div
+            l_div.insert(l_div.index('残疾证号'), '其他残疾备注')
+
+        # 如果既往史或家族史中疾病名称选择了恶性肿瘤，显示输入框（恶性肿瘤备注），插入XXX恶性肿瘤备注字段
         for i in range(len(l_input)):
             if l_input[i] == '恶性肿瘤':
-                p = l_fields[i - 5] + '恶性肿瘤信息'
+                p = l_fields[i - 5] + '恶性肿瘤备注'
                 l_fields.insert(i - 4, p)
                 # 更新div
                 for j in range(len(l_div)):
                     ele_n = l_div.index(l_fields[i - 5])
-                    l_div.insert(ele_n + 1, l_fields[i - 5] + '恶性肿瘤信息')
-        # print(456, l_div)
-        # print(0, l_fields)
+                    l_div.insert(ele_n + 1, l_fields[i - 5] + '恶性肿瘤备注')
+
+        # print('3.1 l_fields => ', l_fields)
+        # print('3.2 l_input => ', l_input)
 
         # # 将居住地址6个值（索引5）组成列表
         ll = []
@@ -659,7 +710,7 @@ class GwPO():
         d_noCheckbox = dict(zip(l_fields, l_input))
         # print(100, d_noCheckbox)  # {'管理卡号': '135', '其他情况说明': '', ...
         d_noCheckbox.update(d_checkbox)
-        print(45, d_noCheckbox)
+        # print('混合结果 =>', d_noCheckbox)
 
         # 4，按页面字段名顺序输出
         d_result = {}
@@ -670,7 +721,7 @@ class GwPO():
             for k, v in d_checkbox.items():
                 if k in l_div[i]:
                     d_result[k] = v
-        print(88, d_result)
+        print(varUsername + ' => ',  d_result)
         # return d_result
 
 
