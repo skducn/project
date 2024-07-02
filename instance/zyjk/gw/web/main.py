@@ -56,15 +56,28 @@ print('基本公卫 => ', d_menu2Url)
 
 
 # todo 2.3, 家庭健康档案 (基本公卫)
-Web_PO.opnLabel(d_menu2Url['家庭健康档案'])
-Web_PO.swhLabel(1)
-
-# 获取列表中用户的居民健康档案
-Gw_PO.runUser('all')
+# Web_PO.opnLabel(d_menu2Url['家庭健康档案'])
+# Web_PO.swhLabel(1)
+# # 获取列表中用户的居民健康档案
+# # Gw_PO.runUser('all')
 # Gw_PO.runUser('测试')
-# Gw_PO.runUser('黎明', '测试')
+# # Gw_PO.runUser('黎明', '测试')
 
 
+# Web_PO.opnLabel(d_menu2Url['死亡管理'])
+# Web_PO.swhLabel(1)
+# 死亡管理 - 孙竹华
+# Gw_PO.residentHealthRecord_update('孙竹华', 'http://192.168.0.203:30080/#/phs/personalAddOrUpdate/healthDetail?id=132')
+
+# # 肺结核专项 （基本公卫 - 家庭健康档案 - 领跑）
+# Gw_PO.phthisisVisit('零跑',"http://192.168.0.203:30080/#/phs/Tuberculosis/tuberculosisTableForm?id=148&isNav=true")
+# Gw_PO.phthisisVisit('零跑', "http://192.168.0.203:30080/#/phs/Tuberculosis/firstVisit?id=148&idCard=110117199001013970&page=1&isNav=1")  # 其他错误
+
+# 已建肺结核专项(正确)
+# Gw_PO.phthisisVisit('零跑', "http://192.168.0.203:30080/#/phs/Tuberculosis/firstVisit?id=148&idCard=110117199001013970&page=1&isNav=1")
+
+# 严重精神障碍患者个人信息补充表
+Gw_PO.hypophrenia('陈平安', "http://192.168.0.203:30080/#/phs/MentalDisorder/FollowUpRecord?ehrId=111&ehrNum=37068500100200002")
 
 # span = Web_PO.getTextListByX("//label/span")
 # print(span)
