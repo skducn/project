@@ -64,7 +64,8 @@ class GwPO():
 
         # 在线sm2解密数据
         d = {}
-        Web_PO.opnLabel("https://the-x.cn/zh-cn/cryptography/Sm2.aspx")
+        Web_PO.openURL("https://the-x.cn/zh-cn/cryptography/Sm2.aspx")
+        # Web_PO.opnLabel("https://the-x.cn/zh-cn/cryptography/Sm2.aspx")
         Web_PO.swhLabel(1)
         # 解密秘钥：124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
         Web_PO.setTextByX("/html/body/div/form/div[1]/div[1]/div[1]/textarea", "124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62")
@@ -358,7 +359,7 @@ class GwPO():
         # print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
         # print(d_radio1)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
 
-        l_fields = ['管理卡号','其他情况说明','档案编号', '姓名', '性别', '出生日期', '联系电话',
+        l_field = ['管理卡号','其他情况说明','档案编号', '姓名', '性别', '出生日期', '联系电话',
                     '身份证号码', '居住地址', '身高(cm)', '体重(kg)', '吸烟状况', '戒烟开始日期', '开始吸烟年龄',
                     '开始饮酒年龄', '职业暴露危险因素', '有危害因素的具体职业', '从事职业时长',
                     '毫米汞柱起','毫米汞柱始','确诊日期', '终止管理日期', '终止管理原因', '建卡时间', '建卡医生', '建卡医疗机构']
@@ -371,7 +372,7 @@ class GwPO():
             ll.append(l_input.pop(8))
         l_input.insert(8, ll)
 
-        d_other = dict(zip(l_fields, l_input))
+        d_other = dict(zip(l_field, l_input))
         # print(d_other)  # {'管理卡号': '135', '其他情况说明': '', ...
 
         d_other.update(d_radio1)
@@ -393,21 +394,21 @@ class GwPO():
                 ele_n = l_trtd.index(l_trtd[i])
                 ele_before_n = ele_n - 1
                 ll.append(l_trtd[ele_before_n])
-        l_noCheckboxfield = [i for i in l_trtd if "\n" not in i]
+        l_normalfield = [i for i in l_trtd if "\n" not in i]
         for i in range(len(ll)):
-            l_noCheckboxfield.remove(ll[i])
-        # print(l_noCheckboxfield)  # ['档案编号', '姓名', '性别', '出生日期', '身份证号', '职业', '居住地址', '身高(cm)', '体重(kg)', '确诊日期', '终止管理日期', '终止管理原因', '建卡时间', '建卡医生', '建卡医疗机构']
+            l_normalfield.remove(ll[i])
+        # print(l_normalfield)  # ['档案编号', '姓名', '性别', '出生日期', '身份证号', '职业', '居住地址', '身高(cm)', '体重(kg)', '确诊日期', '终止管理日期', '终止管理原因', '建卡时间', '建卡医生', '建卡医疗机构']
         # 2.2，获取非checkbox值
-        l_noCheckboxValue = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
-        # print(l_noCheckboxValue)  # ['37068500200200014', '6月26日测试', '女', '1960-01-19'
+        l_normalValue = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
+        # print(l_normalValue)  # ['37068500200200014', '6月26日测试', '女', '1960-01-19'
         # 将居住地址6个值（索引5）组成列表
         l_tmp = []
         for i in range(6):
-            l_tmp.append(l_noCheckboxValue.pop(5))
-        l_noCheckboxValue.insert(5, l_tmp)
+            l_tmp.append(l_normalValue.pop(5))
+        l_normalValue.insert(5, l_tmp)
         # 2.3，合成非checkbox字典
-        d_noCheckbox = dict(zip(l_noCheckboxfield, l_noCheckboxValue))
-        # print(d_noCheckbox)  # {'档案编号': '543912fd978b4634bae81a7b556b95cb', '姓名': '6月26日测试', '性别': '女', '出生日期': '1960-01-19', '身份证号': '110101196001193209', '居住地址': ['山东省', '烟台市', '招远市', '泉山街道', '魁星东社区居民委员会', '1'], '身高(cm)': '145', '体重(kg)': '67', '其他特殊类型糖尿病说明': '', '确诊日期': '2024-06-13', '终止管理日期': '1900-01-01', '终止管理原因': '', '建卡时间': '2024-06-28', '建卡医生': '卫健委', '建卡医疗机构': '招远市卫健局'}
+        d_normal = dict(zip(l_normalfield, l_normalValue))
+        # print(d_normal)  # {'档案编号': '543912fd978b4634bae81a7b556b95cb', '姓名': '6月26日测试', '性别': '女', '出生日期': '1960-01-19', '身份证号': '110101196001193209', '居住地址': ['山东省', '烟台市', '招远市', '泉山街道', '魁星东社区居民委员会', '1'], '身高(cm)': '145', '体重(kg)': '67', '其他特殊类型糖尿病说明': '', '确诊日期': '2024-06-13', '终止管理日期': '1900-01-01', '终止管理原因': '', '建卡时间': '2024-06-28', '建卡医生': '卫健委', '建卡医疗机构': '招远市卫健局'}
 
         # 3.1，获取checkbox值(# el-radio__input is-checked)
         l_checkbox = Web_PO.isBooleanAttrValueListByX("//div/label/span[1]", 'class',
@@ -432,7 +433,7 @@ class GwPO():
         d_result = {}
         l_trtd1 = [i for i in l_trtd if "\n" not in i and i != '']
         for i in range(len(l_trtd1)):
-            for k, v in d_noCheckbox.items():
+            for k, v in d_normal.items():
                 if l_trtd1[i] == k:
                     d_result[k] = v
             for k, v in d_checkbox.items():
@@ -456,21 +457,21 @@ class GwPO():
                 ele_n = l_trtd.index(l_trtd[i])
                 ele_before_n = ele_n - 1
                 ll.append(l_trtd[ele_before_n])
-        l_noCheckboxfield = [i for i in l_trtd if "\n" not in i]
+        l_normalfield = [i for i in l_trtd if "\n" not in i]
         for i in range(len(ll)):
-            l_noCheckboxfield.remove(ll[i])
-        # print(l_noCheckboxfield)  # ['档案编号', '姓名', '性别', '出生日期', '身份证号', '职业', '居住地址', '身高(cm)', '体重(kg)', '确诊日期', '终止管理日期', '终止管理原因', '建卡时间', '建卡医生', '建卡医疗机构']
+            l_normalfield.remove(ll[i])
+        # print(l_normalfield)  # ['档案编号', '姓名', '性别', '出生日期', '身份证号', '职业', '居住地址', '身高(cm)', '体重(kg)', '确诊日期', '终止管理日期', '终止管理原因', '建卡时间', '建卡医生', '建卡医疗机构']
         # 2.2，获取非checkbox值
-        l_noCheckboxValue = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
-        # print(l_noCheckboxValue)  # ['37068500200200014', '6月26日测试', '女', '1960-01-19'
+        l_normalValue = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
+        # print(l_normalValue)  # ['37068500200200014', '6月26日测试', '女', '1960-01-19'
         # 将居住地址6个值（索引5）组成列表
         l_tmp = []
         for i in range(6):
-            l_tmp.append(l_noCheckboxValue.pop(6))
-        l_noCheckboxValue.insert(6, l_tmp)
+            l_tmp.append(l_normalValue.pop(6))
+        l_normalValue.insert(6, l_tmp)
         # 2.3，合成非checkbox字典
-        d_noCheckbox = dict(zip(l_noCheckboxfield, l_noCheckboxValue))
-        # print(d_noCheckbox)  # {'档案编号': '543912fd978b4634bae81a7b556b95cb', '姓名': '6月26日测试', '性别': '女', '出生日期': '1960-01-19', '身份证号': '110101196001193209', '居住地址': ['山东省', '烟台市', '招远市', '泉山街道', '魁星东社区居民委员会', '1'], '身高(cm)': '145', '体重(kg)': '67', '其他特殊类型糖尿病说明': '', '确诊日期': '2024-06-13', '终止管理日期': '1900-01-01', '终止管理原因': '', '建卡时间': '2024-06-28', '建卡医生': '卫健委', '建卡医疗机构': '招远市卫健局'}
+        d_normal = dict(zip(l_normalfield, l_normalValue))
+        # print(d_normal)  # {'档案编号': '543912fd978b4634bae81a7b556b95cb', '姓名': '6月26日测试', '性别': '女', '出生日期': '1960-01-19', '身份证号': '110101196001193209', '居住地址': ['山东省', '烟台市', '招远市', '泉山街道', '魁星东社区居民委员会', '1'], '身高(cm)': '145', '体重(kg)': '67', '其他特殊类型糖尿病说明': '', '确诊日期': '2024-06-13', '终止管理日期': '1900-01-01', '终止管理原因': '', '建卡时间': '2024-06-28', '建卡医生': '卫健委', '建卡医疗机构': '招远市卫健局'}
 
         # 3.1，获取checkbox值(# el-radio__input is-checked)
         l_checkbox = Web_PO.isBooleanAttrValueListByX("//div/label/span[1]", 'class', 'el-radio__input is-checked')
@@ -494,7 +495,7 @@ class GwPO():
         d_result = {}
         l_trtd1 = [i for i in l_trtd if "\n" not in i and i != '']
         for i in range(len(l_trtd1)):
-            for k,v in d_noCheckbox.items():
+            for k,v in d_normal.items():
                 if l_trtd1[i] == k:
                     d_result[k] = v
             for k, v in d_checkbox.items():
@@ -671,13 +672,13 @@ class GwPO():
         # print('2 生成d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
 
 
-        # 3 生成noCheckbox字段
-        l_fields = [i for i in l_div if "\n" not in i]
+        # 3 生成normal字段
+        l_field = [i for i in l_div if "\n" not in i]
         l_input = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
 
         # 当药物过敏史中选择其他药物过敏源时，显示文本域输入框（医疗费用支付方式备注）
         if d_checkbox['药物过敏史']['其他药物过敏源'] == 'True':
-            l_fields.insert(l_fields.index('医疗费用支付方式备注') + 1, '其他药物过敏源备注')
+            l_field.insert(l_field.index('医疗费用支付方式备注') + 1, '其他药物过敏源备注')
             # 当药物过敏史中选择其他药物过敏源时，显示文本域输入框（医疗费用支付方式备注）
             l_textarea = Web_PO.getAttrValueListByX("//div/div/div/textarea", 'value')
             # 在input中23位置插入textarea值
@@ -688,21 +689,21 @@ class GwPO():
 
         # 当残疾情况中选择其他残疾时，显示输入框（其他残疾备注）
         if d_checkbox['残疾情况']['其他残疾'] == 'True':
-            l_fields.insert(l_fields.index('残疾证号'), '其他残疾备注')
+            l_field.insert(l_field.index('残疾证号'), '其他残疾备注')
             # 更新div
             l_div.insert(l_div.index('残疾证号'), '其他残疾备注')
 
         # 如果既往史或家族史中疾病名称选择了恶性肿瘤，显示输入框（恶性肿瘤备注），插入XXX恶性肿瘤备注字段
         for i in range(len(l_input)):
             if l_input[i] == '恶性肿瘤':
-                p = l_fields[i - 5] + '恶性肿瘤备注'
-                l_fields.insert(i - 4, p)
+                p = l_field[i - 5] + '恶性肿瘤备注'
+                l_field.insert(i - 4, p)
                 # 更新div
                 for j in range(len(l_div)):
-                    ele_n = l_div.index(l_fields[i - 5])
-                    l_div.insert(ele_n + 1, l_fields[i - 5] + '恶性肿瘤备注')
+                    ele_n = l_div.index(l_field[i - 5])
+                    l_div.insert(ele_n + 1, l_field[i - 5] + '恶性肿瘤备注')
 
-        # print('3.1 l_fields => ', l_fields)
+        # print('3.1 l_field => ', l_field)
         # print('3.2 l_input => ', l_input)
 
         # # 将居住地址6个值（索引5）组成列表
@@ -710,15 +711,15 @@ class GwPO():
         for i in range(6):
             ll.append(l_input.pop(6))
         l_input.insert(6, ll)
-        d_noCheckbox = dict(zip(l_fields, l_input))
-        # print(100, d_noCheckbox)  # {'管理卡号': '135', '其他情况说明': '', ...
-        d_noCheckbox.update(d_checkbox)
-        # print('混合结果 =>', d_noCheckbox)
+        d_normal = dict(zip(l_field, l_input))
+        # print(100, d_normal)  # {'管理卡号': '135', '其他情况说明': '', ...
+        d_normal.update(d_checkbox)
+        # print('混合结果 =>', d_normal)
 
         # 4，按页面字段名顺序输出
         d_result = {}
         for i in range(len(l_div)):
-            for k, v in d_noCheckbox.items():
+            for k, v in d_normal.items():
                 if l_div[i] == k:
                     d_result[k] = v
             for k, v in d_checkbox.items():
@@ -736,7 +737,7 @@ class GwPO():
 
         # 1.1 获取字段
         l_div = Web_PO.getTextListByX("//div[@class='table_line']/div")
-        print("1.1 原始l_div => ", l_div)
+        # print("1.1 原始l_div => ", l_div)
 
         # 1.2 清洗字段
         # 删除
@@ -754,7 +755,7 @@ class GwPO():
         for i in range(len(l_div)):
             if l_div[i] == '残疾情况\n无残疾\n视力残疾\n听力残疾\n言语残疾\n肢体残疾\n智力残疾\n精神残疾\n其他残疾\n残疾情况必填':
                 l_div[i] = '残疾情况\n无残疾\n视力残疾\n听力残疾\n言语残疾\n肢体残疾\n智力残疾\n精神残疾\n其他残疾'
-            if l_div[i] == '新型农村合作医疗\n商业医疗保险\n全公费\n全自费\n其他':
+            if l_div[i] == '商业医疗保险\n全公费\n全自费\n其他':
                 l_div[i] = '医疗费用支付方式1\n城镇职工基本医疗保险'
 
         # 插入
@@ -764,7 +765,7 @@ class GwPO():
         l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 3, '居民医保卡号')
         l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 4, '医疗费用支付方式3\n贫困救助')
         l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 5, '贫困救助卡号')
-        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 6, '医疗费用支付方式4\n新型农村合作医疗\n商业医疗保险\n全公费\n全自费\n其他')
+        l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 6, '医疗费用支付方式4\n商业医疗保险\n全公费\n全自费\n其他')
         l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 7, '医疗费用支付方式备注')
 
         # 动态自增字段 （33是随意值，确保遍历不中断）
@@ -798,24 +799,25 @@ class GwPO():
                         ele_n = l_div.index(l_div[ele_after_n + j])
                         ele_after_n = ele_n + 1
                         l_div.insert(ele_after_n, "与本人关系" + str(j + 2))
-
         # print('1.2 清洗l_div => ', l_div)
-
 
         # 2 生成checkbox字典
         l_isRadioStatus = Web_PO.isBooleanAttrContainValueListByX("//div/label/span[1]", 'class', '__input is-disabled is-checked')
-        # print(l_isRadioStatus)  # ['False', 'True', 'False', 'False', ...
+        # print(len(l_isRadioStatus), l_isRadioStatus)  # ['False', 'True', 'False', 'False', ...
         # class="el-checkbox__input is-disabled is-checked"
         # el-radio__input is-disabled is-checked
         d_radio = {}
         d_checkbox = {}
         l_2 = []
+        ee = 0
         for i in range(len(l_div)):
             if "\n" in l_div[i] :
                 ele_n = l_div.index(l_div[i])
                 l_1 = l_div[i].split("\n")
                 l_1.pop(0)
-                # print(l_1)  # ['户籍', '非户籍']
+                # print(len(l_1), l_1)  # ['户籍', '非户籍']
+                # ee = ee + len(l_1)
+                # print(ee)
                 l_bool = []
                 for i in range(len(l_1)):
                     l_bool.append(l_isRadioStatus.pop(0))
@@ -830,16 +832,15 @@ class GwPO():
             l_4.append(v)
         d_checkbox = dict(zip(l_3, l_4))
         # print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
-        # print('2 生成d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+        # print('2 d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
 
-
-        # 3 生成noCheckbox字段
-        l_fields = [i for i in l_div if "\n" not in i]
+        # 3 生成normal字段
+        l_field = [i for i in l_div if "\n" not in i]
         l_input = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
 
         # 当药物过敏史中选择其他药物过敏源时，显示文本域输入框（医疗费用支付方式备注）
         if d_checkbox['药物过敏史']['其他药物过敏源'] == 'True':
-            l_fields.insert(l_fields.index('医疗费用支付方式备注') + 1, '其他药物过敏源备注')
+            l_field.insert(l_field.index('医疗费用支付方式备注') + 1, '其他药物过敏源备注')
             # 当药物过敏史中选择其他药物过敏源时，显示文本域输入框（医疗费用支付方式备注）
             l_textarea = Web_PO.getAttrValueListByX("//div/div/div/textarea", 'value')
             # 在input中23位置插入textarea值
@@ -850,21 +851,21 @@ class GwPO():
 
         # 当残疾情况中选择其他残疾时，显示输入框（其他残疾备注）
         if d_checkbox['残疾情况']['其他残疾'] == 'True':
-            l_fields.insert(l_fields.index('残疾证号'), '其他残疾备注')
+            l_field.insert(l_field.index('残疾证号'), '其他残疾备注')
             # 更新div
             l_div.insert(l_div.index('残疾证号'), '其他残疾备注')
 
         # 如果既往史或家族史中疾病名称选择了恶性肿瘤，显示输入框（恶性肿瘤备注），插入XXX恶性肿瘤备注字段
         for i in range(len(l_input)):
             if l_input[i] == '恶性肿瘤':
-                p = l_fields[i - 5] + '恶性肿瘤备注'
-                l_fields.insert(i - 4, p)
+                p = l_field[i - 5] + '恶性肿瘤备注'
+                l_field.insert(i - 4, p)
                 # 更新div
                 for j in range(len(l_div)):
-                    ele_n = l_div.index(l_fields[i - 5])
-                    l_div.insert(ele_n + 1, l_fields[i - 5] + '恶性肿瘤备注')
+                    ele_n = l_div.index(l_field[i - 5])
+                    l_div.insert(ele_n + 1, l_field[i - 5] + '恶性肿瘤备注')
 
-        # print('3.1 l_fields => ', l_fields)
+        # print('3.1 l_field => ', l_field)
         # print('3.2 l_input => ', l_input)
 
         # # 将居住地址6个值（索引5）组成列表
@@ -872,15 +873,14 @@ class GwPO():
         for i in range(6):
             ll.append(l_input.pop(6))
         l_input.insert(6, ll)
-        d_noCheckbox = dict(zip(l_fields, l_input))
-        # print(100, d_noCheckbox)  # {'管理卡号': '135', '其他情况说明': '', ...
-        d_noCheckbox.update(d_checkbox)
-        # print('混合结果 =>', d_noCheckbox)
+        d_normal = dict(zip(l_field, l_input))
+        d_normal.update(d_checkbox)
+        # print('d_normal =>', d_normal)
 
         # 4，按页面字段名顺序输出
         d_result = {}
         for i in range(len(l_div)):
-            for k, v in d_noCheckbox.items():
+            for k, v in d_normal.items():
                 if l_div[i] == k:
                     d_result[k] = v
             for k, v in d_checkbox.items():
@@ -889,6 +889,168 @@ class GwPO():
         print(varUsername + ' => ',  d_result)
         # return d_result
 
+
+
+    def physicalExamination(self, varUsername, varTestUrl):
+
+        # 健康体检
+
+        Web_PO.opnLabel(varTestUrl)
+        Web_PO.swhLabel(1)
+
+        # 1.1 获取字段
+        l_div = Web_PO.getTextListByX("//div[@class='table_line']/div")
+        print("1.1 原始l_div => ", l_div)
+
+        # 1.2 清洗字段
+        # 删除
+        l_div = [i for i in l_div if i != '']
+        # for i in range(len(l_div)):
+        #     if l_div[i] == '现住址必填':
+        #         l_div.remove('现住址必填')
+        #     if l_div[i] == '关联户主':
+        #         l_div.remove('关联户主')
+        # l_div.remove('城镇职工基本医疗保险')
+        # l_div.remove('城镇居民基本医疗保险')
+        # l_div.remove('贫困救助')
+
+        # 修改
+        # for i in range(len(l_div)):
+        #     if l_div[i] == '残疾情况\n无残疾\n视力残疾\n听力残疾\n言语残疾\n肢体残疾\n智力残疾\n精神残疾\n其他残疾\n残疾情况必填':
+        #         l_div[i] = '残疾情况\n无残疾\n视力残疾\n听力残疾\n言语残疾\n肢体残疾\n智力残疾\n精神残疾\n其他残疾'
+        #     if l_div[i] == '商业医疗保险\n全公费\n全自费\n其他':
+        #         l_div[i] = '医疗费用支付方式1\n城镇职工基本医疗保险'
+
+        # 插入
+        # l_div[l_div.index('遗传病史\n有\n无') + 1] = '遗传病史疾病名称'
+        # l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 1, '职工医保卡号')
+        # l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 2, '医疗费用支付方式2\n城镇居民基本医疗保险')
+        # l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 3, '居民医保卡号')
+        # l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 4, '医疗费用支付方式3\n贫困救助')
+        # l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 5, '贫困救助卡号')
+        # l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 6, '医疗费用支付方式4\n商业医疗保险\n全公费\n全自费\n其他')
+        # l_div.insert(l_div.index('医疗费用支付方式1\n城镇职工基本医疗保险') + 7, '医疗费用支付方式备注')
+
+        # 动态自增字段 （33是随意值，确保遍历不中断）
+        for i in range(len(l_div) + 33):
+            if l_div[i] == '建档人':
+                break
+
+            # 既往史，动态自增字段（选择恶性肿瘤时，显示输入框）
+            self._residentHealthRecord(l_div, i, '疾病\n有\n无', '既往史疾病名称', '确诊时间')
+            self._residentHealthRecord(l_div, i, '手术\n有\n无', '手术名称', '手术时间')
+            self._residentHealthRecord(l_div, i, '外伤\n有\n无', '外伤名称', '外伤时间')
+            self._residentHealthRecord(l_div, i, '输血\n有\n无', '输血原因', '输血时间')
+
+            # 家族史，动态自增字段（选择恶性肿瘤时，显示输入框）
+            if l_div[i] == '有\n无':
+                l_div[i] = '家族史\n有\n无'
+                ele_n = l_div.index(l_div[i])
+                ele_after_n = ele_n + 1
+                if l_div[ele_after_n] == '疾病名称\n与本人关系':
+                    l_div[ele_after_n] = '家族史疾病名称'
+                    l_div.insert(ele_after_n + 1, "与本人关系")
+                else:
+                    n = int(len(l_div[ele_after_n].split("\n")) / 2)
+                    l_div[ele_after_n] = '家族史疾病名称' + "1"
+                    ele_n = l_div.index(l_div[ele_after_n])
+                    ele_after_n = ele_n + 1
+                    l_div.insert(ele_after_n, "与本人关系" + "1")
+                    ele_after_n = ele_after_n + 1
+                    for j in range(n - 1):
+                        l_div.insert(ele_after_n + j, '家族史疾病名称' + str(j + 2))
+                        ele_n = l_div.index(l_div[ele_after_n + j])
+                        ele_after_n = ele_n + 1
+                        l_div.insert(ele_after_n, "与本人关系" + str(j + 2))
+        print('1.2 清洗l_div => ', l_div)
+
+        # 2 生成checkbox字典
+        l_isRadioStatus = Web_PO.isBooleanAttrContainValueListByX("//div/label/span[1]", 'class', '__input is-disabled is-checked')
+        # print(len(l_isRadioStatus), l_isRadioStatus)  # ['False', 'True', 'False', 'False', ...
+        # class="el-checkbox__input is-disabled is-checked"
+        # el-radio__input is-disabled is-checked
+        d_radio = {}
+        d_checkbox = {}
+        l_2 = []
+        ee = 0
+        for i in range(len(l_div)):
+            if "\n" in l_div[i] :
+                ele_n = l_div.index(l_div[i])
+                l_1 = l_div[i].split("\n")
+                l_1.pop(0)
+                # print(len(l_1), l_1)  # ['户籍', '非户籍']
+                # ee = ee + len(l_1)
+                # print(ee)
+                l_bool = []
+                for i in range(len(l_1)):
+                    l_bool.append(l_isRadioStatus.pop(0))
+                d_box = dict(zip(l_1, l_bool))
+                # print(4,d_box)  # {'户籍': 'True', '非户籍': 'False'}
+                d_radio[l_div[ele_n]] = d_box
+        l_3 = []
+        l_4 = []
+        for k,v in d_radio.items():
+            a = k.split("\n")[0]
+            l_3.append(a)
+            l_4.append(v)
+        d_checkbox = dict(zip(l_3, l_4))
+        # print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+        # print('2 d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+
+        # 3 生成normal字段
+        l_field = [i for i in l_div if "\n" not in i]
+        l_input = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
+
+        # 当药物过敏史中选择其他药物过敏源时，显示文本域输入框（医疗费用支付方式备注）
+        if d_checkbox['药物过敏史']['其他药物过敏源'] == 'True':
+            l_field.insert(l_field.index('医疗费用支付方式备注') + 1, '其他药物过敏源备注')
+            # 当药物过敏史中选择其他药物过敏源时，显示文本域输入框（医疗费用支付方式备注）
+            l_textarea = Web_PO.getAttrValueListByX("//div/div/div/textarea", 'value')
+            # 在input中23位置插入textarea值
+            l_input.insert(23, l_textarea[0])
+            print('3.3 l_textarea => ', l_textarea)
+            # 更新div
+            l_div.insert(l_div.index('医疗费用支付方式备注') + 1, '其他药物过敏源备注')
+
+        # 当残疾情况中选择其他残疾时，显示输入框（其他残疾备注）
+        if d_checkbox['残疾情况']['其他残疾'] == 'True':
+            l_field.insert(l_field.index('残疾证号'), '其他残疾备注')
+            # 更新div
+            l_div.insert(l_div.index('残疾证号'), '其他残疾备注')
+
+        # 如果既往史或家族史中疾病名称选择了恶性肿瘤，显示输入框（恶性肿瘤备注），插入XXX恶性肿瘤备注字段
+        for i in range(len(l_input)):
+            if l_input[i] == '恶性肿瘤':
+                p = l_field[i - 5] + '恶性肿瘤备注'
+                l_field.insert(i - 4, p)
+                # 更新div
+                for j in range(len(l_div)):
+                    ele_n = l_div.index(l_field[i - 5])
+                    l_div.insert(ele_n + 1, l_field[i - 5] + '恶性肿瘤备注')
+
+        # print('3.1 l_field => ', l_field)
+        # print('3.2 l_input => ', l_input)
+
+        # # 将居住地址6个值（索引5）组成列表
+        ll = []
+        for i in range(6):
+            ll.append(l_input.pop(6))
+        l_input.insert(6, ll)
+        d_normal = dict(zip(l_field, l_input))
+        d_normal.update(d_checkbox)
+        # print('d_normal =>', d_normal)
+
+        # 4，按页面字段名顺序输出
+        d_result = {}
+        for i in range(len(l_div)):
+            for k, v in d_normal.items():
+                if l_div[i] == k:
+                    d_result[k] = v
+            for k, v in d_checkbox.items():
+                if k in l_div[i]:
+                    d_result[k] = v
+        print(varUsername + ' => ',  d_result)
+        # return d_result
 
     def phthisisVisit(self, varUsername, varTestUrl):
 
@@ -899,12 +1061,11 @@ class GwPO():
 
         # 1.1 获取字段
         l_div = Web_PO.getTextListByX("//form/div")
-        print("1.1 原始l_div => ", l_div)
+        # print("1.1 原始l_div => ", l_div)
 
         # # 1.2 清洗字段
         # # 删除
         l_div.remove("肺结核患者第一次入户随访记录表")
-        #
         # # 插入
         l_div.insert(l_div.index('随访日期\n随访方式\n门诊\n家庭\n电话'), '随访日期')
         # 用药
@@ -919,10 +1080,8 @@ class GwPO():
         l_div.insert(l_div.index('健康教育及培训\n取药地点、时间\n服药记录卡的填写\n掌握\n未掌握\n服药方法及药品存放\n掌握\n未掌握\n肺结核治疗疗程\n掌握\n未掌握\n不规律服药危害\n掌握\n未掌握\n服药后不良反应及处理\n掌握\n未掌握\n治疗期间复诊查痰\n掌握\n未掌握\n外出期间如何坚持服药\n掌握\n未掌握\n生活习惯及注意事项\n掌握\n未掌握\n密切接触者检查\n掌握\n未掌握'),  '取药地点')
         l_div.insert(l_div.index('健康教育及培训\n取药地点、时间\n服药记录卡的填写\n掌握\n未掌握\n服药方法及药品存放\n掌握\n未掌握\n肺结核治疗疗程\n掌握\n未掌握\n不规律服药危害\n掌握\n未掌握\n服药后不良反应及处理\n掌握\n未掌握\n治疗期间复诊查痰\n掌握\n未掌握\n外出期间如何坚持服药\n掌握\n未掌握\n生活习惯及注意事项\n掌握\n未掌握\n密切接触者检查\n掌握\n未掌握') + 1,  '取药时间')
         l_div.remove('健康教育及培训\n取药地点、时间\n服药记录卡的填写\n掌握\n未掌握\n服药方法及药品存放\n掌握\n未掌握\n肺结核治疗疗程\n掌握\n未掌握\n不规律服药危害\n掌握\n未掌握\n服药后不良反应及处理\n掌握\n未掌握\n治疗期间复诊查痰\n掌握\n未掌握\n外出期间如何坚持服药\n掌握\n未掌握\n生活习惯及注意事项\n掌握\n未掌握\n密切接触者检查\n掌握\n未掌握')
-
         # # 修改
         for i in range(len(l_div) + 33):
-
             # 随访方式
             if l_div[i] == '随访日期\n随访方式\n门诊\n家庭\n电话':
                 l_div[i] = '随访方式\n门诊\n家庭\n电话'
@@ -951,15 +1110,13 @@ class GwPO():
                 l_div.insert(l_div.index(l_div[i]) + 7, '外出期间如何坚持服药\n掌握\n未掌握')
                 l_div.insert(l_div.index(l_div[i]) + 8, '生活习惯及注意事项\n掌握\n未掌握')
                 l_div.insert(l_div.index(l_div[i]) + 9, '密切接触者检查\n掌握\n未掌握')
-
             if l_div[i] == '下次随访日期\n随访医生\n患者（家属）签字':
                 l_div.insert(l_div.index(l_div[i]), '下次随访日期')
                 l_div.insert(l_div.index(l_div[i])+1, '随访医生')
                 l_div.insert(l_div.index(l_div[i])+2, '患者（家属）签字')
                 l_div.remove('下次随访日期\n随访医生\n患者（家属）签字')
                 break
-        print('1.2 清洗l_div => ', l_div)
-
+        # print('1.2 清洗l_div => ', l_div)
 
         # 2 生成checkbox字典
         # l_isRadioStatus = Web_PO.isBooleanAttrContainValueListByX("//div/label/span[1]", 'class', '__input is-disabled is-checked')
@@ -967,7 +1124,6 @@ class GwPO():
         # print(l_isRadioStatus)  # ['False', 'True', 'False', 'False', ...
         d_radio = {}
         d_checkbox = {}
-        l_2 = []
         for i in range(len(l_div)):
             if "\n" in l_div[i] :
                 ele_n = l_div.index(l_div[i])
@@ -988,35 +1144,25 @@ class GwPO():
             l_4.append(v)
         d_checkbox = dict(zip(l_3, l_4))
         # print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
-        # print('2 生成d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+        # print('2 d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
 
-
-        # 3 生成noCheckbox字段
-        l_fields = [i for i in l_div if "\n" not in i]
+        # 3 生成normal字段
+        l_field = [i for i in l_div if "\n" not in i]
         l_input = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
-        # if d_checkbox['督导人员选择']['手机短信'] == 'True':
-        #     l_fields.insert(l_fields.index('吸烟1'), '手机短信备注')
-        #     # 更新div
-        #     l_div.insert(l_div.index('吸烟1'), '手机短信备注')
+        # 选择其他，显示输入框
         if d_checkbox['督导人员选择']['其他'] == 'True':
-            l_fields.insert(l_fields.index('吸烟1'), '督导人员选择其他备注')
-            # 更新div
-            l_div.insert(l_div.index('吸烟1'), '督导人员选择其他备注')
-
-
-        # print('3.1 l_fields => ', l_fields)
-        print('3.2 l_input => ', l_input)
-
-
-        d_noCheckbox = dict(zip(l_fields, l_input))
-        # print(100, d_noCheckbox)  # {'管理卡号': '135', '其他情况说明': '', ...
-        d_noCheckbox.update(d_checkbox)
-        print('混合结果 =>', d_noCheckbox)
+            l_field.insert(l_field.index('吸烟1'), '督导人员选择其他备注')
+            l_div.insert(l_div.index('吸烟1'), '督导人员选择其他备注')  # 更新div
+        d_normal = dict(zip(l_field, l_input))
+        d_normal.update(d_checkbox)
+        # print('3.1 l_field => ', l_field)
+        # print('3.2 l_input => ', l_input)
+        # print('3.3 d_normal => ', , d_normal)  # {'管理卡号': '135', '其他情况说明': '', ...
 
         # 4，按页面字段名顺序输出
         d_result = {}
         for i in range(len(l_div)):
-            for k, v in d_noCheckbox.items():
+            for k, v in d_normal.items():
                 if l_div[i] == k:
                     d_result[k] = v
             for k, v in d_checkbox.items():
@@ -1024,6 +1170,193 @@ class GwPO():
                     d_result[k] = v
         print(varUsername + ' => ',  d_result)
         # return d_result
+
+
+    def _checkbox(self, var_l_div, varContainClassValue):
+
+        # _checkbox(l_div, 'el-radio__input is-disabled is-checked')
+        l_tmp = []
+        l_isRadioStatus = Web_PO.isBooleanAttrContainValueListByX("//div/label/span[1]", 'class', varContainClassValue)
+        l_tmp = l_isRadioStatus[-2:]
+        print(l_tmp)  # ['False', 'True', 'False', 'False', ...
+        d_radio = {}
+        d_checkbox = {}
+        for i in range(len(var_l_div)):
+            if "\n" in var_l_div[i]:
+                ele_n = var_l_div.index(var_l_div[i])
+                l_1 = var_l_div[i].split("\n")
+                l_1.pop(0)
+                print(l_1)  # ['户籍', '非户籍']
+                l_bool = []
+                for i in range(len(l_1)):
+                    l_bool.append(l_tmp.pop(0))
+
+                d_box = dict(zip(l_1, l_bool))
+                print(4, d_box)  # {'户籍': 'True', '非户籍': 'False'}
+                d_radio[var_l_div[ele_n]] = d_box
+        l_3 = []
+        l_4 = []
+        for k, v in d_radio.items():
+            a = k.split("\n")[0]
+            l_3.append(a)
+            l_4.append(v)
+        d_checkbox = dict(zip(l_3, l_4))
+        print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+        print('d_checkbox2 => ', d_checkbox)
+
+        return d_checkbox
+
+    def pregnantWoman(self, varUsername, varTestUrl):
+
+        # 孕产妇
+
+        Web_PO.opnLabel(varTestUrl)
+        Web_PO.swhLabel(1)
+
+        # 1.1 获取字段
+        # l_div = Web_PO.getTextListByX("//form/div")
+        # print("1.1 原始l_div => ", l_div)
+
+        l_div = ['填表日期','是否高危产妇\n是\n否', '丈夫姓名', '丈夫年龄', '丈夫电话', '孕次', '阴1道分娩', '剖宫产', '末次月经\n不详', '周', '天','预产期',
+                 '既往史\n无\n心脏病\n肾脏疾病\n肝脏疾病\n高血压\n贫血\n糖尿病\n其他',
+                 '家族史\n无\n遗传性疾病史\n精神病史\n其他', '妇科手术史\n有\n无',
+                 '个人史\n无特殊\n吸烟\n饮酒\n服用药物\n接触有毒害物质\n接触放射线\n其他',
+                 '自然流产', '人工流产','死胎', '死产', '新生儿死亡', '出生缺陷儿',
+                 '身高(cm)', '体重(kg)', '体质指数(kg/m²)', '血压收缩压','血压舒张压',
+                 '听诊心脏\n未见异常\n异常','听诊肺部\n未见异常\n异常',
+                 '外阴\n未见异常\n异常', '阴道\n未见异常\n异常', '宫颈\n未见异常\n异常', '子宫\n未见异常\n异常', '附件\n未见异常\n异常',
+                 '血红蛋白值','白细胞计数值','血小板计数值','血常规其他' ,
+                 '尿蛋白','尿糖','尿酮体','尿潜血','尿常规其他',
+                 '血型\nA型\nB型\nO型\nAB型\n不详','RH血型\nRh阴性\nRh阳性\n不详','血糖',
+                 '血清谷丙转氨酶','血清谷草转氨酶','白蛋白','总胆红素','结合胆红素',
+                 '血清肌酐','血尿素',
+                 '阴道分泌物\n未见异常\n滴虫\n假丝酵母菌\n其他', '阴道清洁度\nI度\nII度\nIII度\nIV度',
+                 '乙型肝炎表面抗原','乙型肝炎表面抗体','乙型肝炎e抗原','乙型肝炎e抗体','乙型肝炎核心抗体',
+                 '梅毒血清学试验\n阴性\n阳性','HIV抗体检测\n阴性\n阳性',
+                 'B超','辅助检查其他',
+                 '总体评估\n未见异常\n异常',
+                 '保健指导\n生活方式\n心理\n营养\n避免致畸因素和疾病对胚胎的不良影响\n产前筛选宣传告知\n其他',
+                 '建册情况\n本次随访同时建册\n已在其他机构建册','建册日期','建册单位',
+                 '转诊\n有\n无',
+                 '下次访视时间','随访医生签名','居民签名']
+        # l_field.insert(l_field.index('末次月经\n不详'), '末次月经日期')
+
+        # 2 生成checkbox字典
+        # l_isRadioStatus = Web_PO.isBooleanAttrContainValueListByX("//div/label/span[1]", 'class', '__input is-disabled is-checked')
+        l_isRadioStatus = Web_PO.isBooleanAttrContainValueListByX("//div/label/span[1]", 'class', 'is-checked')
+        # print(l_isRadioStatus)  # ['False', 'True', 'False', 'False', ...
+        d_radio = {}
+        d_checkbox = {}
+        for i in range(len(l_div)):
+            if "\n" in l_div[i] :
+                ele_n = l_div.index(l_div[i])
+                l_1 = l_div[i].split("\n")
+                l_1.pop(0)
+                # print(l_1)  # ['户籍', '非户籍']
+                l_bool = []
+                for i in range(len(l_1)):
+                    l_bool.append(l_isRadioStatus.pop(0))
+                d_box = dict(zip(l_1, l_bool))
+                # print(4, d_box)  # {'户籍': 'True', '非户籍': 'False'}
+                d_radio[l_div[ele_n]] = d_box
+        l_3 = []
+        l_4 = []
+        for k,v in d_radio.items():
+            a = k.split("\n")[0]
+            l_3.append(a)
+            l_4.append(v)
+        d_checkbox = dict(zip(l_3, l_4))
+        # print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+        print('2 d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+
+        # 3 生成normal字段
+        l_field = [i for i in l_div if "\n" not in i]
+        # print(l_field)
+        l_input = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
+        if d_checkbox['末次月经']['不详'] == 'False':
+            l_field.insert(l_field.index('周'), '末次月经日期')
+            l_div.insert(l_div.index('周'), '末次月经日期')  # 更新div
+        if d_checkbox['既往史']['其他'] == 'True':
+            # l_field.insert(l_field.index('自然流产'), '既往史其他备注')
+            l_div.insert(l_div.index('既往史\n无\n心脏病\n肾脏疾病\n肝脏疾病\n高血压\n贫血\n糖尿病\n其他')+1 , '既往史其他备注')  # 更新div
+        if d_checkbox['家族史']['其他'] == 'True':
+            # l_field.insert(l_field.index('自然流产'), '家族史其他备注')
+            l_div.insert(l_div.index('家族史\n无\n遗传性疾病史\n精神病史\n其他')+1, '家族史其他备注')  # 更新div
+        if d_checkbox['妇科手术史']['有'] == 'True':
+            # l_field.insert(l_field.index('自然流产'), '妇科手术史有备注')
+            l_div.insert(l_div.index('妇科手术史\n有\n无')+1, '妇科手术史有备注')  # 更新div
+        if d_checkbox['个人史']['其他'] == 'True':
+            # l_field.insert(l_field.index('自然流产'), '个人史其他备注')
+            l_div.insert(l_div.index('个人史\n无特殊\n吸烟\n饮酒\n服用药物\n接触有毒害物质\n接触放射线\n其他')+1, '个人史其他备注')  # 更新div
+        if d_checkbox['听诊心脏']['异常'] == 'True':
+            # l_field.insert(l_field.index('血红蛋白值'), '心脏异常备注')
+            l_div.insert(l_div.index('血红蛋白值'), '心脏异常备注')  # 更新div
+        if d_checkbox['听诊肺部']['异常'] == 'True':
+            # l_field.insert(l_field.index('血红蛋白值'), '肺部异常备注')
+            l_div.insert(l_div.index('血红蛋白值'), '肺部异常备注')  # 更新div
+        if d_checkbox['外阴']['异常'] == 'True':
+            # l_field.insert(l_field.index('血红蛋白值'), '外阴异常备注')
+            l_div.insert(l_div.index('血红蛋白值'), '外阴异常备注')  # 更新div
+        if d_checkbox['阴道']['异常'] == 'True':
+            # l_field.insert(l_field.index('血红蛋白值'), '阴道异常备注')
+            l_div.insert(l_div.index('血红蛋白值'), '阴道异常备注')  # 更新div
+        if d_checkbox['宫颈']['异常'] == 'True':
+            # l_field.insert(l_field.index('血红蛋白值'), '宫颈异常备注')
+            l_div.insert(l_div.index('血红蛋白值'), '宫颈异常备注')  # 更新div
+        if d_checkbox['子宫']['异常'] == 'True':
+            # l_field.insert(l_field.index('血红蛋白值'), '子宫异常备注')
+            l_div.insert(l_div.index('血红蛋白值'), '子宫异常备注')  # 更新div
+        if d_checkbox['附件']['异常'] == 'True':
+            # l_field.insert(l_field.index('血红蛋白值'), '附件异常备注')
+            l_div.insert(l_div.index('血红蛋白值'), '附件异常备注')  # 更新div
+        if d_checkbox['阴道分泌物']['其他'] == 'True':
+            # l_field.insert(l_field.index('乙型肝炎表面抗原'), '阴道分泌物其他备注')
+            l_div.insert(l_div.index('阴道分泌物\n未见异常\n滴虫\n假丝酵母菌\n其他')+1, '阴道分泌物其他备注')  # 更新div
+        if d_checkbox['总体评估']['异常'] == 'True':
+            # l_field.insert(l_field.index('总体评估\n未见异常\n异常'), '总体评估异常备注')
+            l_div.insert(l_div.index('总体评估\n未见异常\n异常')+1, '总体评估异常备注')  # 更新div
+        if d_checkbox['保健指导']['其他'] == 'True':
+            # l_field.insert(l_field.index('建册日期'), '保健指导其他备注')
+            l_div.insert(l_div.index('保健指导\n生活方式\n心理\n营养\n避免致畸因素和疾病对胚胎的不良影响\n产前筛选宣传告知\n其他')+1, '保健指导其他备注')  # 更新div
+        if d_checkbox['转诊']['有'] == 'True':
+            # l_field.insert(l_field.index('下次访视时间'), '转诊原因')
+            l_div.insert(l_div.index('下次访视时间'), '转诊原因')  # 更新div
+            # l_field.insert(l_field.index('下次访视时间'), '转诊机构及科室')
+            l_div.insert(l_div.index('下次访视时间'), '转诊机构及科室')  # 更新div
+            # l_field.insert(l_field.index('下次访视时间'), '转诊联系人')
+            l_div.insert(l_div.index('下次访视时间'), '转诊联系人')  # 更新div
+            # l_field.insert(l_field.index('下次访视时间'), '转诊方式')
+            l_div.insert(l_div.index('下次访视时间'), '转诊方式')  # 更新div
+            # l_field.insert(l_field.index('下次访视时间'), '结果\n到位\n未到位')
+            l_div.insert(l_div.index('下次访视时间'), '结果\n到位\n未到位')  # 更新div
+            d_checkbox2 = self._checkbox(['结果\n到位\n未到位'], 'is-disabled is-checked')
+
+        if d_checkbox['建册情况']['已在其他机构建册'] == 'True':
+            # l_field.insert(l_field.index('建册日期'), '已在其他机构建册备注')
+            l_div.insert(l_div.index('建册情况\n本次随访同时建册\n已在其他机构建册'), '已在其他机构建册备注')  # 更新div
+        d_normal = dict(zip(l_field, l_input))
+        d_normal.update(d_checkbox)
+        d_normal.update(d_checkbox2)
+        # print('3.1 l_field => ', l_field)
+        # print('3.2 l_input => ', l_input)
+        print('3.3 d_normal_checkbox => ', d_normal)
+
+        # 4，按页面字段名顺序输出
+        d_result = {}
+        for i in range(len(l_div)):
+            for k, v in d_normal.items():
+                if l_div[i] == k:
+                    d_result[k] = v
+            for k, v in d_checkbox.items():
+                if k in l_div[i]:
+                    d_result[k] = v
+            # for k, v in d_checkbox2.items():
+            #     if k in l_div[i]:
+            #         d_result[k] = v
+        print(varUsername + ' => ', d_result)
+        # return d_result
+
+
     def hypophrenia(self, varUsername, varTestUrl):
 
         # 严重精神障碍患者
@@ -1033,13 +1366,12 @@ class GwPO():
 
         # 1.1 获取字段
         l_div = Web_PO.getTextListByX("//form/div")
-        print("1.1 原始l_div => ", l_div)
+        # print("1.1 原始l_div => ", l_div)
 
         # # 1.2 清洗字段
         # # 删除
         l_div = [i for i in l_div if i != '']
         l_div.remove("严重精神障碍患者个人信息补充表")
-
         # # 插入
         l_div.insert(l_div.index('档案编号\n监护人姓名\n与患者关系'), '档案编号')
         l_div.insert(l_div.index('档案编号\n监护人姓名\n与患者关系'), '监护人姓名')
@@ -1054,13 +1386,11 @@ class GwPO():
         l_div.insert(l_div.index('知情同意\n不同意参加管理\n同意参加管理\n签字\n签字日期') + 1, '签字日期')
         l_div.insert(l_div.index('知情同意\n不同意参加管理\n同意参加管理\n签字\n签字日期') + 1, '签字')
         l_div.insert(l_div.index('重性精神疾病分类\n精神分裂症\n双向障碍\n偏执性精神病\n分裂情感障碍\n癫痫所致精神障碍\n精神发育迟滞伴发精神障碍\n其他\n初次发病时间') + 1, '初次发病时间')
-
         l_div.insert(l_div.index('既往治疗情况\n门诊\n未治\n间断门诊治疗\n连续门诊治疗\n住院\n曾住精神病专科医院/综合医院精神专科\n次') + 1, '住院')
         l_div.insert(l_div.index('目前诊断情况\n诊断\n确诊医院\n确诊日期'), '诊断')
         l_div.insert(l_div.index('目前诊断情况\n诊断\n确诊医院\n确诊日期'), '确诊医院')
         l_div.insert(l_div.index('目前诊断情况\n诊断\n确诊医院\n确诊日期'), '确诊日期')
         l_div.remove('目前诊断情况\n诊断\n确诊医院\n确诊日期')
-
         l_div.insert(l_div.index('危险行为\n无\n有\n轻度滋事\n次,\n肇事\n次,\n肇祸\n次,\n其他危害行为\n次,\n自伤\n次,\n自杀未遂\n次') + 1 , '自杀未遂')
         l_div.insert(l_div.index('危险行为\n无\n有\n轻度滋事\n次,\n肇事\n次,\n肇祸\n次,\n其他危害行为\n次,\n自伤\n次,\n自杀未遂\n次') + 1 , '自伤')
         l_div.insert(l_div.index('危险行为\n无\n有\n轻度滋事\n次,\n肇事\n次,\n肇祸\n次,\n其他危害行为\n次,\n自伤\n次,\n自杀未遂\n次') + 1 , '其他危害行为')
@@ -1071,8 +1401,6 @@ class GwPO():
         l_div.insert(l_div.index('建卡日期\n登记人\n建卡医疗机构') , '登记人')
         l_div.insert(l_div.index('建卡日期\n登记人\n建卡医疗机构') , '建卡医疗机构')
         l_div.remove('建卡日期\n登记人\n建卡医疗机构')
-
-
         # # 修改
         for i in range(len(l_div) + 33):
             if l_div[i] == '知情同意\n不同意参加管理\n同意参加管理\n签字\n签字日期':
@@ -1080,14 +1408,12 @@ class GwPO():
             if l_div[i] == '重性精神疾病分类\n精神分裂症\n双向障碍\n偏执性精神病\n分裂情感障碍\n癫痫所致精神障碍\n精神发育迟滞伴发精神障碍\n其他\n初次发病时间':
                 l_div[i] = '重性精神疾病分类\n精神分裂症\n双向障碍\n偏执性精神病\n分裂情感障碍\n癫痫所致精神障碍\n精神发育迟滞伴发精神障碍\n其他'
             if l_div[i] == '既往治疗情况\n门诊\n未治\n间断门诊治疗\n连续门诊治疗\n住院\n曾住精神病专科医院/综合医院精神专科\n次':
-                l_div[i] = '既往治疗情况\n门诊\n未治\n间断门诊治疗\n连续门诊治疗'
+                l_div[i] = '既往治疗情况门诊\n未治\n间断门诊治疗\n连续门诊治疗'
             if l_div[i] == '危险行为\n无\n有\n轻度滋事\n次,\n肇事\n次,\n肇祸\n次,\n其他危害行为\n次,\n自伤\n次,\n自杀未遂\n次':
                 l_div[i] = '危险行为\n无\n有'
-
             if l_div[i] == '建卡医疗机构':
                 break
-        print('1.2 清洗l_div => ', l_div)
-
+        # print('1.2 清洗l_div => ', l_div)
 
         # 2 生成checkbox字典
         # l_isRadioStatus = Web_PO.isBooleanAttrContainValueListByX("//div/label/span[1]", 'class', '__input is-disabled is-checked')
@@ -1095,7 +1421,6 @@ class GwPO():
         # print(l_isRadioStatus)  # ['False', 'True', 'False', 'False', ...
         d_radio = {}
         d_checkbox = {}
-        l_2 = []
         for i in range(len(l_div)):
             if "\n" in l_div[i] :
                 ele_n = l_div.index(l_div[i])
@@ -1116,37 +1441,30 @@ class GwPO():
             l_4.append(v)
         d_checkbox = dict(zip(l_3, l_4))
         # print(d_radio)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
-        # print('2 生成d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
+        # print('2 d_checkbox => ', d_checkbox)  # {'病例来源': {'健康档案': 'False', '社区门诊': 'True', '流行病学调查': 'False', '其他': 'False'}, '婚姻状况': {'未婚': 'False', '已婚': 'True', '初婚': 'False', '再婚': 'False', '复婚': 'False', '丧偶': 'False', '离婚': 'False', '未说明的婚姻状况': 'False'}, '糖尿病家族史': {'否': 'False', '是': 'False', '不知道': 'True'}, '糖尿病分型': {'1型糖尿病': 'False', '2型糖尿病': 'True', '妊娠糖尿病': 'False', '其他特殊类型糖尿病': 'False'}, '是否终止管理': {'否': 'True', '是': 'False'}}
 
-
-        # 3 生成noCheckbox字段
-        l_fields = [i for i in l_div if "\n" not in i]
+        # 3 生成normal字段
+        l_field = [i for i in l_div if "\n" not in i]
         l_input = Web_PO.getAttrValueListByX("//div/div/div/input", 'value')
         if d_checkbox['既往主要症状']['其他'] == 'True':
-            l_fields.insert(l_fields.index('既往关锁情况\n无关锁\n关锁\n关锁已解除'), '既往主要症状其他备注')
-            # 更新div
-            l_div.insert(l_div.index('既往关锁情况\n无关锁\n关锁\n关锁已解除'), '既往主要症状其他备注')
-
-
-        # print('3.1 l_fields => ', l_fields)
-        print('3.2 l_input => ', l_input)
-
-
-        d_noCheckbox = dict(zip(l_fields, l_input))
-        # print(100, d_noCheckbox)  # {'管理卡号': '135', '其他情况说明': '', ...
-        d_noCheckbox.update(d_checkbox)
-        print('混合结果 =>', d_noCheckbox)
+            l_field.insert(l_field.index('住院'), '既往主要症状其他备注')
+            l_div.insert(l_div.index('住院'), '既往主要症状其他备注')  # 更新div
+        d_normal = dict(zip(l_field, l_input))
+        d_normal.update(d_checkbox)
+        # print('3.1 l_field => ', l_field)
+        # print('3.2 l_input => ', l_input)
+        # print('3.3 d_normal_checkbox => ', , d_normal)
 
         # 4，按页面字段名顺序输出
         d_result = {}
         for i in range(len(l_div)):
-            for k, v in d_noCheckbox.items():
+            for k, v in d_normal.items():
                 if l_div[i] == k:
                     d_result[k] = v
             for k, v in d_checkbox.items():
                 if k in l_div[i]:
                     d_result[k] = v
-        print(varUsername + ' => ',  d_result)
+        print(varUsername + ' => ', d_result)
         # return d_result
 
 

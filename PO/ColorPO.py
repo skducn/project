@@ -37,6 +37,8 @@ if __name__ == "__main__":
     Color_PO.consoleColor2({"31":"30red","31":"31red", "32": "32green", "33":"33yellow" ,"34":"34blue" ,"35":"35purple", "36": "36azure", "37":"37grep" ,"38":"38white", "39": "39white",
                             "40":"40redBlack", "41":"41redred", "42":"42redGreen", "43":"43redYellow", "44":"44redBlue", "45":"45redPurple", "46":"46redAzure", "47":"44redGrey"})
 
+    Color_PO.consoleColor2({"31": "30red"})
+
 
     # print("\033[1;31;41m [1], 红底红字 \033[0m")
     # print("\033[1;31;42m", "[2], 草绿底红字", "\033[0m")

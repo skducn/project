@@ -9,13 +9,17 @@
 from GwPO import *
 Gw_PO = GwPO()
 
+d = Gw_PO.getDecode('account', '6cb6e99a6bc6d4957b1a342daec02418d66dfad2f2e3bad33a4e5817cc0638e9d7cd33b84d72c349bf129fb4965d77a60d9c2e9c568905bcbe09a7fd09d7540617d29421f179b0c06cf46cb197bb65273bd0c5f14a31d4d8bd9db05dddd9c2ebaf75bb6f1c4698c2c57c41136dee5bc857794a6eb0c6eb529a1386dc75c9b9a131d928a00e83a52943d94db4d755791f545a42b53b12e5fce08c307cb9e066964166fbde92870a020a961b338e0ee25656692baf9c9ee4a9bb4aedc888961b9502ea4bb1bb44f744bafdc5a6ba25a928e65918fa7476dea5a3064bbf9310a64f2bcf31b32fc918b65baa7aa678b15356e0ae7b4b48f4b16d')
+print(d)
+sys.exit(0)
+
 from PO.ListPO import *
 List_PO = ListPO()
 
 # 1，登录
 Gw_PO.login('http://192.168.0.203:30080/#/login', 'testwjw', 'Qa@123456')
 # # # 获取登录后的解密数据
-# d = Gw_PO.getDecode('account', '40d73255e78d004d12327ffed970f0a51f33e4cc0016512aa422fe7278d4cf38cb458af261b2314944a1f421299d27b2bc16193b918c3d570e68250e186990892c403ee267a7700f7f02fbcc19439ae6ae7209f0257555ba11a5906f52f9b00972bf8461fdb723a880a2771b8c9732ab7ec6ba97d4d50ae1ae3e070676e417c39876e15ad54a7c13383ce7e0d902e3cc69efd63b5e4d82ed5baa9f028e3e812e3a')
+d = Gw_PO.getDecode('account', '40d73255e78d004d12327ffed970f0a51f33e4cc0016512aa422fe7278d4cf38cb458af261b2314944a1f421299d27b2bc16193b918c3d570e68250e186990892c403ee267a7700f7f02fbcc19439ae6ae7209f0257555ba11a5906f52f9b00972bf8461fdb723a880a2771b8c9732ab7ec6ba97d4d50ae1ae3e070676e417c39876e15ad54a7c13383ce7e0d902e3cc69efd63b5e4d82ed5baa9f028e3e812e3a')
 # print(d)  # {'account': {'username': 'testwjw', 'password': 'Qa@123456', 'code': '', 'uuid': ''}}
 # print(d['account']['password'])  # Qa@123456
 
@@ -69,19 +73,23 @@ print('基本公卫 => ', d_menu2Url)
 # 死亡管理 - 孙竹华
 # Gw_PO.residentHealthRecord_update('孙竹华', 'http://192.168.0.203:30080/#/phs/personalAddOrUpdate/healthDetail?id=132')
 
+# 孕产妇，第一次产前随访服务记录表
+Gw_PO.pregnantWoman('孕产妇', 'http://192.168.0.203:30080/phs/Snr/lnrindex#/phs/personal/detail?data=321&type=0&cardType=2&ID=1092&routeType=2')
+
+# 健康体检(未处理)
+# Gw_PO.physicalExamination('刘斌龙1', 'http://192.168.0.203:30080/phs/MentalDisorder/jsindex#/phs/examDetailsForm?RowId=202&ID=79&type=detail&pageType=record&tagType=detail')
+
 # # 肺结核专项 （基本公卫 - 家庭健康档案 - 领跑）
 # Gw_PO.phthisisVisit('零跑',"http://192.168.0.203:30080/#/phs/Tuberculosis/tuberculosisTableForm?id=148&isNav=true")
-# Gw_PO.phthisisVisit('零跑', "http://192.168.0.203:30080/#/phs/Tuberculosis/firstVisit?id=148&idCard=110117199001013970&page=1&isNav=1")  # 其他错误
-
 # 已建肺结核专项(正确)
 # Gw_PO.phthisisVisit('零跑', "http://192.168.0.203:30080/#/phs/Tuberculosis/firstVisit?id=148&idCard=110117199001013970&page=1&isNav=1")
 
-# 严重精神障碍患者个人信息补充表
-Gw_PO.hypophrenia('陈平安', "http://192.168.0.203:30080/#/phs/MentalDisorder/FollowUpRecord?ehrId=111&ehrNum=37068500100200002")
+# # 严重精神障碍健康管理，严重精神障碍患者个人信息补充表
+# Gw_PO.hypophrenia('陈平安', "http://192.168.0.203:30080/#/phs/MentalDisorder/FollowUpRecord?ehrId=111&ehrNum=37068500100200002")
+
 
 # span = Web_PO.getTextListByX("//label/span")
 # print(span)
-
 # Web_PO.cls()
 # Web_PO.swhLabel(0)
 

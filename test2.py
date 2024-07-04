@@ -7,12 +7,18 @@
 #     privateKey: 124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
 #     enabled: true
 #
-l_div = ['ceshi',3,4,5,'ceshi',333333,'ceshi']
+# l_div = ['ceshi',3,4,5,'ceshi',333333,'ceshi']
+#
+# ele_n = l_div.index(333333)
+# print(ele_n)
+# l_div.insert(ele_n, '其他残疾备注')
+# print(l_div)
 
-ele_n = l_div.index(333333)
-print(ele_n)
-l_div.insert(ele_n, '其他残疾备注')
-print(l_div)
+a= '12128'
+print(a[:-1])
+
+# print("")
+
 
 # for i in range(len(l_input)):
 #     if l_input[i] == 'ceshi':

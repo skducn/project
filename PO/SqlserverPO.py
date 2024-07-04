@@ -1055,7 +1055,7 @@ class SqlServerPO:
     def list2db(self, l_col, l_value, varDbTable, index="True"):
 
         """5.5 列表导入数据库
-        l_col = 列名，如 ['id','name','age']
+        l_col = 字段，如 ['id','name','age']
         l_value= 值,如 [['1','john','44],['2','ti','4']]
         """
 

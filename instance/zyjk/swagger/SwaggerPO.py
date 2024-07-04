@@ -332,12 +332,13 @@ class SwaggerPO():
         Web_PO = WebPO("chrome")
         Web_PO.openURL(iUrl + iDoc)
 
-        # 获取模块名
-        l_project = Web_PO.getTexts("//option")
-        # print(l_project)  # ['auth', 'oss', 'hypertension', 'ecg', 'cms', 'saascrf', 'cuser', 'saasuser']
+        # 获取菜单名
+        l_project = Web_PO.getTextListByX("//option")
+        print(l_project)  # ['auth', 'oss', 'hypertension', 'ecg', 'cms', 'saascrf', 'cuser', 'saasuser']
 
-        d_url = Web_PO.getTextsAndAttrs("//option", "data-url")
-        # print(d_url)  # {'auth': '/v2/api-docs', 'oss': '/oss//v2/api-docs', 'hypertension': '/hypertension//v2/api-docs', 'ecg': '/ecg//v2/api-docs', 'cms': '/cms//v2/api-docs', 'saascrf': '/saascrf//v2/api-docs', 'cuser': '/cuser//v2/api-docs', 'saasuser': '/saasuser//v2/api-docs'}
+        # d_url = Web_PO.getTextsAndAttrs("//option", "data-url")
+        d_url = Web_PO.getAttrValueListByX("//option", "data-url")
+        print(d_url)  # {'auth': '/v2/api-docs', 'oss': '/oss//v2/api-docs', 'hypertension': '/hypertension//v2/api-docs', 'ecg': '/ecg//v2/api-docs', 'cms': '/cms//v2/api-docs', 'saascrf': '/saascrf//v2/api-docs', 'cuser': '/cuser//v2/api-docs', 'saasuser': '/saasuser//v2/api-docs'}
 
         l_url = [iUrl + v for k, v in d_url.items()]
         # print(l_url)  # ['http://192.168.0.238:8801/v2/api-docs', 'http://192.168.0.238:8801/oss//v2/api-docs',...
