@@ -26,6 +26,9 @@ class ColorPO:
             result = result + "\033[31;" + str(k) + "m" + str(v) + " \033[0m"
         return result
 
+
+
+
 if __name__ == "__main__":
 
     Color_PO = ColorPO()

@@ -16,15 +16,17 @@ from PO.ColorPO import *
 Color_PO = ColorPO()
 
 from PO.WebPO import *
-Web_PO = WebPO("noChrome")
-Web_PO.openURL(iUrl + iDoc)
 
+from urllib.parse import quote, unquote
+# quote和unquote函数来进行URL编码和解码。
 
 class SwaggerGwPO():
 
     def _getInterfaceUrl(self, varMenu):
 
         # 获取接口页面地址
+        Web_PO = WebPO("noChrome")
+        Web_PO.openURL(iUrl + iDoc)
 
         # 1.1 获取菜单名
         l_menu = Web_PO.getTextListByX("//option")
@@ -45,7 +47,6 @@ class SwaggerGwPO():
         html.encoding = 'utf-8'
         d = json.loads(html.text)
         return d
-
     def _traversalDict(self, d, d_parametersMemo):
 
         # 遍历迭代检查是否有下级originalRef，并获取参数
@@ -68,7 +69,6 @@ class SwaggerGwPO():
                                 if 'originalRef' in v3:
                                     # print(6, k, k2, d['definitions'][v3['originalRef']]['properties'])  # {'id': {'type': 'integer', 'format': 'int32', 'description': 'ID'}, 'recordId': {'type': 'string', 'description': '编号'}, 'sfjlid': {'type': 'string', 'description': '糖尿病随访卡ID'}, 'ywcd': {'type': 'string', 'description': '药物编码'}, 'ywjl': {'type': 'string', 'description': '单次使用药物剂量'}, 'ywmc': {'type': 'string', 'description': '药物名称'}, 'ywpl': {'type': 'string', 'description': '药物使用频率'}}
                                     d1[k][k2] = d['definitions'][v3['originalRef']]['properties']
-
                 if k1 == 'items':
                     if 'originalRef' in v1:
                         # print(v1['originalRef'])  # TnbSfyyInfoResponse
@@ -76,19 +76,20 @@ class SwaggerGwPO():
                         d1[k] = d['definitions'][v1['originalRef']]['properties']
 
         # d1覆盖d_parametersMemo中已存在的key
-        d2 = {**d_parametersMemo, **d1}
-        return d2
+        d_body = {**d_parametersMemo, **d1}
+        return d_body
 
         # 将参数格式化
-        # d3 = self.formatParameters(d2)
+        # d3 = self.formatParameters(d_body)
         # sys.exit(0)
 
-
-    def getOne(self, varMenu, varSummary):
+    def getOne(self, varMenu, varTags, varSummary):
 
         # 获取一个接口的信息
 
         l_1 = []
+        varQuery = ''
+        d_body = {}
 
         # 1 获取并解析接口页面地址
         d = self._getInterfaceUrl(varMenu)
@@ -114,70 +115,97 @@ class SwaggerGwPO():
             # print(tags, summary)  # 保存第三方糖尿病随访
             # Color_PO.consoleColor2({"31": tags, "32": summary})
 
+            # 2.5 operationId
+            operationId = d['paths'][k][l_method[0]]['operationId']
+            # print(operationId)
+
             # get 或 delete 没有consumes
-            if varSummary == summary:
+            if varTags == tags and varSummary == summary:
+
+                # 编码中文
+                q_varTags = quote(varTags)  # http://192.168.0.203:38080/doc.html#/phs-server/%E6%AE%8B%E7%96%BE%E4%BA%BA%E7%AE%A1%E7%90%86-%E4%B8%93%E9%A1%B9%E7%99%BB%E8%AE%B0/findPageUsingPOST_5
+                varUrl = iUrl + iDoc + "#/" + varMenu + "/" + q_varTags + "/" + operationId
+
+                # 条件标题和链接地址
+                print(Color_PO.getColor({"32": [varMenu, varTags, varSummary]}) + "=> " + varUrl)
+
                 if l_method[0] == 'post' or l_method[0] == 'put':
-                    # 2.5 content-type内容类型
+                    # 2.6 content-type内容类型
                     consumes = d['paths'][k][l_method[0]]['consumes'][0]
                     # print(consumes)  # 'application/json'
                 else:
                     consumes = ''
 
-                # 2.6 获取body参数（通过originalRef定位）
-                l_query = []
-
+                # 2.7 获取body参数（通过originalRef定位）
                 if 'parameters' in d['paths'][k][l_method[0]]:
                     l_parameters = d['paths'][k][l_method[0]]['parameters']
-                    print(l_parameters)  # [{'in': 'body', 'name': 'body', 'description': 'body', 'required': True, 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
+                    # print(l_parameters)  # [{'in': 'body', 'name': 'body', 'description': 'body', 'required': True, 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
                     if len(l_parameters) == 1:
                         # 1个参数
                         if l_parameters[0]['in'] == 'body':
                             # todo body
                             if 'originalRef' in l_parameters[0]['schema']:
+                                # 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
                                 originalRef = l_parameters[0]['schema']['originalRef']
                                 d_parametersMemo = d['definitions'][originalRef]['properties']
-                                # print(2, d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'}, ...
+                                print('1参body =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
                             elif 'items' in l_parameters[0]['schema']:
+                                # 'schema': {'type': 'array', 'items': {'$ref': '#/definitions/PerformRequest', 'originalRef': 'PerformRequest'}
                                 if 'originalRef' in l_parameters[0]['schema']['items']:
                                     originalRef = l_parameters[0]['schema']['items']['originalRef']
                                     d_parametersMemo = d['definitions'][originalRef]['properties']
+                                    print('1参body(items) =>', d_parametersMemo)
                                 else:
-                                    # [{'in': 'body', 'name': 'req', 'description': 'req', 'required': True, 'schema': {'type': 'array', 'items': {'type': 'integer', 'format': 'int32'}}}]
+                                    # 'schema': {'type': 'array', 'items': {'type': 'integer', 'format': 'int32'}}}]
                                     if 'type' in l_parameters[0]['schema']:
                                         if l_parameters[0]['schema']['type'] == 'array':
-                                            d_parametersMemo = []
+                                            # 参数不是字典，是数组
+                                            print('1参body数组 =>', l_parameters[0])
+                                            d_parametersMemo = {}
+                            # # 遍历检查是否有下级originalRef，并获取参数
+                            d_body = self._traversalDict(d, d_parametersMemo)
+                            print('1参body遍历 =>', d_body)
                         elif l_parameters[0]['in'] == 'query' or l_parameters[0]['in'] == 'path':
                             # todo query
                             varQuery = l_parameters[0]['name'] + "={" + l_parameters[0]['type'] + "}"
-                            d2 = ''
+                            d_body = ''
                     else:
                         # 多个参数
                         s = ''
                         for i in range(len(l_parameters)):
+                            # print(l_parameters)
                             if l_parameters[i]['in'] == 'body':
                                 # todo body
                                 originalRef = l_parameters[i]['schema']['originalRef']
                                 d_parametersMemo = d['definitions'][originalRef]['properties']
+                                print('多参body =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
                                 # 遍历检查是否有下级originalRef，并获取参数
-                                d2 = self._traversalDict(d, d_parametersMemo)
-                            elif l_parameters[i]['in'] == 'query' or l_parameters[i]['in'] == 'path':
+                                d_body = self._traversalDict(d, d_parametersMemo)
+                            if l_parameters[i]['in'] == 'query' or l_parameters[i]['in'] == 'path':
                                 # todo query
                                 varQuery = l_parameters[i]['name'] + "={" + l_parameters[i]['type'] + "}"
                                 s = s + varQuery + ','
+                                if len(d_body) < 1:
+                                    d_body = ''
+                        varQuery = s[:-1]
+                        print('多参query =>', varQuery)
+                else:
+                    # 没有参数，即get
+                    d_body = ''
 
-                    if isinstance(d_parametersMemo, dict):
-                        d2 = self._traversalDict(d, d_parametersMemo)
-                    else:
-                        d2 = d_parametersMemo
-
-                # 生成列表
+                # 2.8 生成列表
                 l_1.append(tags)
                 l_1.append(summary)
                 l_1.append(paths)
                 l_1.append(l_method[0])
                 l_1.append(consumes)
-                l_1.append('')  # query
-                l_1.append(str(d2))  # body
+                l_1.append(varQuery)  # query
+                l_1.append(str(d_body))  # body
+                l_1.append(varUrl)
+
+                varQuery = ''
+                s = ''
+                d_body = {}
 
                 # print(l_1)
                 Color_PO.consoleColor2({"35": l_1})
@@ -188,9 +216,12 @@ class SwaggerGwPO():
         l_all = []
         l_1 = []
         c = 0
+        varQuery = ''
+        d_body = {}
 
         # 1 获取并解析接口页面地址
         d = self._getInterfaceUrl(varMenu)
+
 
         # 2 遍历接口
         for k, v in d['paths'].items():
@@ -211,83 +242,107 @@ class SwaggerGwPO():
             summary = d['paths'][k][l_method[0]]['summary']
             # print(summary) # 保存第三方糖尿病随访
             # print(tags, summary) # 保存第三方糖尿病随访
-            Color_PO.consoleColor2({"31": tags, "32": summary})
+            # Color_PO.consoleColor2({"31": tags, "32": summary})
+
+            # 2.5 operationId
+            operationId = d['paths'][k][l_method[0]]['operationId']
+            # print(operationId)
+
+            # 编码中文
+            q_varTags = quote(tags)  # http://192.168.0.203:38080/doc.html#/phs-server/%E6%AE%8B%E7%96%BE%E4%BA%BA%E7%AE%A1%E7%90%86-%E4%B8%93%E9%A1%B9%E7%99%BB%E8%AE%B0/findPageUsingPOST_5
+            varUrl = iUrl + iDoc + "#/" + varMenu + "/" + q_varTags + "/" + operationId
+
+            # 条件标题和链接地址
+            print(Color_PO.getColor({"32": [varMenu, tags, summary]}) + "=> " + varUrl)
 
             # get 或 delete 没有consumes
             if l_method[0] == 'post' or l_method[0] == 'put':
-                # 2.5 content-type内容类型
+                # 2.6 content-type内容类型
                 consumes = d['paths'][k][l_method[0]]['consumes'][0]
                 # print(consumes)  # 'application/json'
             else:
                 consumes = ''
 
-            # 2.6 获取body参数（通过originalRef定位）
+            # 2.7 获取body参数（通过originalRef定位）
             varQuery = ''
-
-            if 'parameters' not in d['paths'][k][l_method[0]]:
-                ...
-            else:
+            if 'parameters' in d['paths'][k][l_method[0]]:
                 l_parameters = d['paths'][k][l_method[0]]['parameters']
-                print(l_parameters)  # [{'in': 'body', 'name': 'body', 'description': 'body', 'required': True, 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
+                # print(l_parameters)  # [{'in': 'body', 'name': 'body', 'description': 'body', 'required': True, 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
                 if len(l_parameters) == 1:
                     # 1个参数
                     if l_parameters[0]['in'] == 'body':
                         # todo body
                         if 'originalRef' in l_parameters[0]['schema']:
+                            # 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
                             originalRef = l_parameters[0]['schema']['originalRef']
                             d_parametersMemo = d['definitions'][originalRef]['properties']
-                            # print(2, d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'}, 'fpg': {'type': 'number', 'format': 'double', 'description': '空腹血糖值'}, 'fyqk': {'type': 'string', 'description': '服药情况代码'}, 'idCard': {'type': 'string', 'description': '身份证号'}, 'jmqz': {'type': 'string', 'description': '居民签字'}, 'jyyy': {'type': 'array', 'description': '建议用药', 'items': {'$ref': '#/definitions/TnbSfyyInfoResponse', 'originalRef': 'TnbSfyyInfoResponse'}}, 'mbrxyl': {'type': 'integer', 'format': 'int32', 'description': '目标日吸烟量'}, 'mbryjl': {'type': 'integer', 'format': 'int32', 'description': '目标 日饮酒量 （两）'}, 'mbrzsl': {'type': 'integer', 'format': 'int32', 'description': '目标 日主食量 （g）'}, 'mbtz': {'type': 'number', 'format': 'double', 'description': '目标体重（kg）'}, 'mbtzzs': {'type': 'number', 'format': 'double', 'description': '目标体质指数'}, 'mbydpldm': {'type': 'string', 'description': '目标运动频率'}, 'mbydsc': {'type': 'integer', 'format': 'int32', 'description': '目标运动时长 （min）'}, 'rxyl': {'type': 'integer', 'format': 'int32', 'description': '日吸烟量（支）'}, 'ryjl': {'type': 'integer', 'format': 'int32', 'description': '日饮酒量（两）'}, 'rzsl': {'type': 'integer', 'format': 'int32', 'description': '日主食量（ g）'}, 'sffsdm': {'type': 'string', 'description': '随访方式代码'}, 'sfjydm': {'type': 'array', 'description': '随访建议代码', 'items': {'type': 'string'}}, 'sfjyqtbz': {'type': 'string', 'description': '随访建议其他备注'}, 'sfrq': {'type': 'string', 'format': 'date-time', 'description': '随访日期'}, 'sfysgh': {'type': 'string', 'description': '随访医生工号'}, 'sfysxm': {'type': 'string', 'description': '随访医生姓名'}, 'sfyydm': {'type': 'string', 'description': '失访原因代码'}, 'sfzyxwpjjgdm': {'type': 'string', 'description': '随访遵医行为 评价结果代码'}, 'sg': {'type': 'number', 'format': 'double', 'description': '身高(cm)'}, 'ssy': {'type': 'integer', 'format': 'int32', 'description': '收缩压'}, 'szy': {'type': 'integer', 'format': 'int32', 'description': '舒张压'}, 'tnblczz': {'type': 'array', 'description': '糖尿病临床症状代码', 'items': {'type': 'string'}}, 'tz': {'type': 'number', 'format': 'double', 'description': '体重(kg)'}, 'tzqtms': {'type': 'string', 'description': '体征其他描述'}, 'tzzs': {'type': 'number', 'format': 'double', 'description': '体质指数'}, 'xcsfrq': {'type': 'string', 'format': 'date-time', 'description': '下次随访日期'}, 'xltzpjjgdm': {'type': 'string', 'description': '心理调整评价 结果代码'}, 'xybglcs': {'type': 'string', 'description': '下一步管理措施'}, 'xybglcsdm': {'type': 'string', 'description': '下一步管理措施代码'}, 'ydpldm': {'type': 'string', 'description': '动频率代码'}, 'ydsc': {'type': 'integer', 'format': 'int32', 'description': '运动时长'}, 'yljgdm': {'type': 'string', 'description': '管理机构代码'}, 'ysqk': {'type': 'string', 'description': '饮食情况代码'}, 'ywblfy': {'type': 'string', 'description': '药物不良反应描述'}, 'ywblfybz': {'type': 'string', 'description': '药物不良反应标志'}, 'yyqk': {'type': 'array', 'description': '用药情况', 'items': {'$ref': '#/definitions/TnbSfyyInfoResponse', 'originalRef': 'TnbSfyyInfoResponse'}}, 'zbdmbddm': {'type': 'string', 'description': '\t足背动脉搏动 代码'}, 'zrjgksmc': {'type': 'string', 'description': '转入机构科室名称'}, 'zryljgmc': {'type': 'string', 'description': '转入医疗机构名称'}, 'zzbz': {'type': 'string', 'description': '转诊备注'}, 'zzjg': {'type': 'string', 'description': '转诊结果（1-到位；0-不到位）'}, 'zzlxr': {'type': 'string', 'description': '转诊联系人'}, 'zzlxrdh': {'type': 'string', 'description': '转诊联系人电话'}, 'zzqtbz': {'type': 'string', 'description': '临床症状其他备注'}, 'zzyy': {'type': 'string', 'description': '转诊原因'}}
+                            print('1参body =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
                         elif 'items' in l_parameters[0]['schema']:
+                            # 'schema': {'type': 'array', 'items': {'$ref': '#/definitions/PerformRequest', 'originalRef': 'PerformRequest'}
                             if 'originalRef' in l_parameters[0]['schema']['items']:
                                 originalRef = l_parameters[0]['schema']['items']['originalRef']
                                 d_parametersMemo = d['definitions'][originalRef]['properties']
+                                print('1参body(items) =>', d_parametersMemo)
                             else:
-                                # [{'in': 'body', 'name': 'req', 'description': 'req', 'required': True, 'schema': {'type': 'array', 'items': {'type': 'integer', 'format': 'int32'}}}]
+                                # 'schema': {'type': 'array', 'items': {'type': 'integer', 'format': 'int32'}}}]
                                 if 'type' in l_parameters[0]['schema']:
                                     if l_parameters[0]['schema']['type'] == 'array':
+                                        # 参数不是字典，是数组
+                                        print('1参body数组 =>', l_parameters[0])
                                         d_parametersMemo = {}
                         # # 遍历检查是否有下级originalRef，并获取参数
-                        # d2 = self._traversalDict(d, d_parametersMemo)
+                        d_body = self._traversalDict(d, d_parametersMemo)
+                        print('1参body遍历 =>', d_body)
                     elif l_parameters[0]['in'] == 'query' or l_parameters[0]['in'] == 'path':
                         # todo query
                         varQuery = l_parameters[0]['name'] + "={" + l_parameters[0]['type'] + "}"
-                        d2 = ''
+                        d_body = ''
                 else:
                     # 多个参数
                     s = ''
                     for i in range(len(l_parameters)):
+                        # print(l_parameters)
                         if l_parameters[i]['in'] == 'body':
                             # todo body
                             originalRef = l_parameters[i]['schema']['originalRef']
                             d_parametersMemo = d['definitions'][originalRef]['properties']
+                            print('多参body =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
                             # 遍历检查是否有下级originalRef，并获取参数
-                            d2 = self._traversalDict(d,  d_parametersMemo)
-                        elif l_parameters[i]['in'] == 'query' or l_parameters[i]['in'] == 'path':
+                            d_body = self._traversalDict(d,  d_parametersMemo)
+                        if l_parameters[i]['in'] == 'query' or l_parameters[i]['in'] == 'path':
                             # todo query
                             varQuery = l_parameters[i]['name'] + "={" + l_parameters[i]['type'] + "}"
                             s = s + varQuery + ','
+                            if len(d_body) < 1 :
+                                d_body = ''
                     varQuery = s[:-1]
-                    d2 = ''
+                    print('多参query =>', varQuery)
+            else:
+                # 没有参数，即get
+                d_body = ''
+
 
             # 生成列表
+
             l_1.append(tags)
             l_1.append(summary)
             l_1.append(paths)
             l_1.append(l_method[0])
             l_1.append(consumes)
             l_1.append(varQuery)  # query
-            l_1.append(str(d2))  # body
+            l_1.append(str(d_body))  # body
+            l_1.append(varUrl)
 
             c = c + 1
             print(c, l_1, "\n")
             varQuery = ''
             s = ''
+            d_body = {}
             l_all.append(l_1)
             l_1 = []
 
-        Color_PO.consoleColor2({"35": l_all})
+        # Color_PO.consoleColor2({"35": l_all})
         return l_all
-
 
 
 
