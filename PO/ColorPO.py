@@ -27,20 +27,26 @@ class ColorPO:
         return result
 
 
-
+    def outColor(self, l):
+        # 控制台输出各种颜色字体，多个参数颜色间隔开。
+        total = ""
+        for i in range(len(l)):
+            for k, v in l[i].items():
+                total = total + "\033[31;" + str(k) + "m" + str(v) + " \033[0m"
+        print(total)
 
 if __name__ == "__main__":
 
     Color_PO = ColorPO()
     # Color_PO.consoleColor("31", "31", "[ERROR], ", "123123123123")
-    # Color_PO.consoleColor("31", "33", "[WARNING], ", "123123123123")
-    # Color_PO.consoleColor("31", "36", "[OK], ", "123123123123")
-
-
+    # # Color_PO.consoleColor("31", "33", "[WARNING], ", "123123123123")
+    # # Color_PO.consoleColor("31", "36", "[OK], ", "123123123123")
+    #
+    #
     Color_PO.consoleColor2({"31":"30red","31":"31red", "32": "32green", "33":"33yellow" ,"34":"34blue" ,"35":"35purple", "36": "36azure", "37":"37grep" ,"38":"38white", "39": "39white",
                             "40":"40redBlack", "41":"41redred", "42":"42redGreen", "43":"43redYellow", "44":"44redBlue", "45":"45redPurple", "46":"46redAzure", "47":"44redGrey"})
 
-    Color_PO.consoleColor2({"31": "30red"})
+    Color_PO.outColor([{"31": "30red"}, {"32": "32green"}, {"33": "33yellow"}])
 
 
     # print("\033[1;31;41m [1], 红底红字 \033[0m")

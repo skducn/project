@@ -5,6 +5,9 @@
 # Description: 通过DOM来操作页面中各种元素，例如添加元素、删除元素、替换元素等
 # 重新定义 find_element, find_elements, send_keys,
 # clk, get, set, checkbox, select, iframe, js, boolean
+
+# pip install selenium-wire
+
 # ***************************************************************
 '''
 重新定义
@@ -112,12 +115,18 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from PIL import Image, ImageDraw, ImageGrab
 from pytesseract import *
+from seleniumwire import webdriver
+
+
+# chrome_options = webdriver.ChromeOptions()
+# driver = webdriver.Chrome(chrome_options=chrome_options)
 
 
 class DomPO(object):
 
     def __init__(self, driver):
         self.driver = driver
+
 
     def check_contain_chinese(self, check_str):
         # 判断字符串中是否包含中文符合

@@ -2,10 +2,11 @@
 # *********************************************************************
 # Author        : John
 # Date          : 2022-6-13
-# Description   : 获取swagger内容 另存为excel
-# http://192.168.0.238:8801/doc.html
-# http://192.168.0.238:8801/saasuser/v2/api-docs
-# http://192.168.0.238:8090/doc.html
+# Description   : swagger导入数据库
+# 区域平台 http://192.168.0.201:28801/doc.html
+# 公卫 http://192.168.0.203:38080/doc.html
+# 社区健康 http://192.168.0.202:22081/doc.html
+# https://www.sojson.com/
 # *********************************************************************
 
 from SwaggerPO import *

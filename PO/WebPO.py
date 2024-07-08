@@ -4,6 +4,10 @@
 # Created on : 2018-7-2
 # Description: Web 对象层 （selenium 4.4.3）
 # pip install opencv_python    // cv2
+
+# https://www.cnblogs.com/FBGG/p/17975814
+# selenium并不支持获取响应的数据，我们可以使用selenium-wire库，selenium-wire扩展了 Selenium 的 Python 绑定，可以访问浏览器发出的底层请求。seleniumwire只兼容Selenium 4.0.0+，
+# pip install selenium-wire
 # ***************************************************************
 # todo selenium
 # 查看版本：pip list | grep selenium 或 pip show selenium
@@ -98,10 +102,51 @@
 
 from PO.DomPO import *
 import requests, bs4, subprocess
+
 from PO.FilePO import *
 File_PO = FilePO()
 
 class WebPO(DomPO):
+
+    def delRequests(self):
+
+        # 清除浏览器的请求历史记录
+
+        del self.driver.requests
+
+
+    def requests(self, varInterFace):
+
+        # 获取页面接口请求
+
+        for request in self.driver.requests:
+            if varInterFace in request.url:
+                return str(request.url).split(varInterFace)[1]
+                # return request.url
+
+
+
+
+    def requestsExcept(self, varIgnore):
+
+        # 获取当前页面除以下之外的所有请求地址
+
+        # # 清除浏览器的请求历史记录
+        # self.driver.execute_cdp_cmd("Network.clearBrowserCookies", {})
+        # self.driver.execute_cdp_cmd("Network.clearBrowserCache", {})
+
+        for request in self.driver.requests:
+            if (request.url)[-3:] in varIgnore or (request.url)[-4:] in varIgnore:
+                ...
+            else:
+                print(request.method, request.url)
+                # print(request.method)
+                # print(request.body)
+                # print(request.headers)
+                # print(request.response.status_code)
+                # print(request.response.body.decode('utf-8'))  # 解决中文乱码
+                # return request.method, request.url
+            # return None
 
     def saveas(self):
         # 等待并接受"另存为"弹框

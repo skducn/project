@@ -40,6 +40,40 @@ class GwPO():
             p = psutil.Process(l_pid[i])
             p.terminate()
 
+    def _sm2(self, Web_PO):
+
+        # Web_PO.openURL("https://config.net.cn/tools/sm2.html")
+        Web_PO.opnLabel("https://config.net.cn/tools/sm2.html")
+        # 私钥
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[1]/textarea[1]",
+                          "124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62")
+        # 公钥
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[1]/textarea[2]",
+                          '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249')
+
+    def encrypt(self, varSource):
+
+        # 在线sm2加密
+
+        # Web_PO = WebPO("noChrome")
+        self._sm2(Web_PO)
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[2]/textarea[1]", varSource)
+        Web_PO.clkByX("/html/body/div[2]/div/div[1]/div[2]/div[1]/a[1]", 1)
+        r = Web_PO.getAttrValueByX("/html/body/div[2]/div/div[1]/div[2]/textarea[2]", "value")
+        return r
+
+    def decrypt(self, varEncrypt):
+
+        # 在线sm2解密
+
+        # Web_PO = WebPO("chrome")
+        self._sm2(Web_PO)
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[2]/textarea[2]", varEncrypt)
+        Web_PO.clkByX("/html/body/div[2]/div/div[1]/div[2]/div[2]/a[1]", 1)
+        r = Web_PO.getAttrValueByX("/html/body/div[2]/div/div[1]/div[2]/textarea[1]", "value")
+        Web_PO.cls()
+        return r
+
 
     def login(self, varUrl, varUser, varPass):
         # 登录
@@ -64,8 +98,8 @@ class GwPO():
 
         # 在线sm2解密数据
         d = {}
-        Web_PO.openURL("https://the-x.cn/zh-cn/cryptography/Sm2.aspx")
-        # Web_PO.opnLabel("https://the-x.cn/zh-cn/cryptography/Sm2.aspx")
+        # Web_PO.openURL("https://the-x.cn/zh-cn/cryptography/Sm2.aspx")
+        Web_PO.opnLabel("https://the-x.cn/zh-cn/cryptography/Sm2.aspx")
         Web_PO.swhLabel(1)
         # 解密秘钥：124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
         Web_PO.setTextByX("/html/body/div/form/div[1]/div[1]/div[1]/textarea", "124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62")

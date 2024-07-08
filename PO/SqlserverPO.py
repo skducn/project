@@ -1052,7 +1052,7 @@ class SqlServerPO:
         except Exception as e:
             print(e)
 
-    def list2db(self, l_col, l_value, varDbTable, index="True"):
+    def list2db(self, l_col, l_value, varDbTable, index="False"):
 
         """5.5 列表导入数据库
         l_col = 字段，如 ['id','name','age']

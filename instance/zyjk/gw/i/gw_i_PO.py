@@ -4,6 +4,12 @@
 # Description   : gw 公卫接口测试
 # 接口文档：http://192.168.0.203:38080/doc.html
 # web：http://192.168.0.203:30080  testwjw, Qa@123456
+
+# 在线国密SM2加密/解密 https://the-x.cn/zh-cn/cryptography/Sm2.aspx
+# 在线SM2公钥私钥对生成，加密/解密 https://config.net.cn/tools/sm2.html
+# 密钥：124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
+# 公钥：04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249
+
 # 【腾讯文档】项目信息表
 # https://docs.qq.com/sheet/DYmZMVmFTeXFWRFpQ?tab=BB08J2
 
@@ -21,22 +27,64 @@
 #   #   enabled: false    //去掉验证码
 # *****************************************************************
 
-
 import subprocess, json
+from PO.WebPO import *
+
+from PO.ColorPO import *
+Color_PO = ColorPO()
+
+from ConfigparserPO import *
+Configparser_PO = ConfigparserPO('config.ini')
+
 
 class Gw_i_PO():
 
-    def __init__(self, sm_account):
-        # # 登录(testwjw, Qa@123456)
-        # # 注意需要关闭验证码
-        # 参数：'{"password": "Qa@123456", "username": "testwjw"}'
-        # -d '4fa9de3518e897f29468be4e4e3956e53bae3cbdb8a.. 是用sm2对'{"password": "Qa@123456", "username": "testwjw"}'的加密，
-        # 非加密写法 -d '{"password": "Qa@123456", "username": "testwjw"}'
+    def __init__(self):
 
-        # todo chc-auth, 登录模块
+        # self.ipAddr = "http://192.168.0.202:38080"
+        self.ipAddr = Configparser_PO.HTTP("url")
+
+
+    def _sm2(self, Web_PO):
+
+        Web_PO.openURL("https://config.net.cn/tools/sm2.html")
+        # 私钥
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[1]/textarea[1]",
+                          "124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62")
+        # 公钥
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[1]/textarea[2]",
+                          '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249')
+
+    def encrypt(self, varSource):
+
+        # 在线sm2加密
+
+        Web_PO = WebPO("noChrome")
+        self._sm2(Web_PO)
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[2]/textarea[1]", varSource)
+        Web_PO.clkByX("/html/body/div[2]/div/div[1]/div[2]/div[1]/a[1]", 1)
+        r = Web_PO.getAttrValueByX("/html/body/div[2]/div/div[1]/div[2]/textarea[2]", "value")
+        return r
+
+    def decrypt(self, varEncrypt):
+
+        # 在线sm2解密
+
+        Web_PO = WebPO("noChrome")
+        self._sm2(Web_PO)
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[2]/textarea[2]", varEncrypt)
+        Web_PO.clkByX("/html/body/div[2]/div/div[1]/div[2]/div[2]/a[1]", 1)
+        r = Web_PO.getAttrValueByX("/html/body/div[2]/div/div[1]/div[2]/textarea[1]", "value")
+        return r
+
+
+    def curlLogin(self, encrypt_data):
+
         # 登录
-        self.ipAddr = "http://192.168.0.203:38080/"
-        command = "curl -X POST '" + self.ipAddr + "/auth/login' -d '" + sm_account + "' -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Authorization:' -H 'Content-Type:application/json'"
+        # 注意需要关闭验证码
+
+        command = "curl -X POST '" + self.ipAddr + "/auth/login' -d '" + encrypt_data + "' -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Authorization:' -H 'Content-Type:application/json'"
+        # print(command)
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
@@ -49,15 +97,30 @@ class Gw_i_PO():
             # {'code': 500, 'msg': '非法参数！'}
             self.token = d_r['code']
 
+        Color_PO.outColor([{"35": "token =>"}, {"35": self.token}])
 
-    def curl(self, varRequestMethod, varUrl):
-        command = "curl -X " + varRequestMethod + " " + self.ipAddr + varUrl + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Authorization:' -H 'Content-Type:application/json' -H 'Authorization:Bearer " + self.token + "'  -H 'token:" + self.token + "' "
+        # print("token =>", self.token)
+
+    def curl(self, varMethod, varUrl):
+
+        # 跑接口
+        # r = gw_i_PO.curl('GET', "/server/tEhrInfo/getEhrHomeInfo?0=47c8d0444e60f4ee4348b3611c62e6aa071e81981f40195294d3424177bb400732c3ce5e782259d9302a642fbc9723a20aec65bf6d7a138933a52da1dd0aa67bcf7c48b51f712248988be78445dbddc1e9c2449e4d93b64b1b4a3f26ed748ac44ccf5c871807de69e8268f986c6e")
+
+        command = "curl -X " + varMethod + ' "' + self.ipAddr + varUrl + '" ' + '-H "Request-Origion:SwaggerBootstrapUi" -H "accept:*/*" -H "Content-Type:application/json" -H "Authorization:' + self.token + '"'
         # print(command)
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
+        # print(d_r)  # {'code': 200, 'msg': None, 'data': {'manageEhrNum': 100, 。。。
+        try:
+            if d_r['code'] == 200:
+                return d_r
+        except:
+            # {'code': 500, 'msg': '非法参数！'}
+            d_r = 500
         return d_r
+
 
 
 

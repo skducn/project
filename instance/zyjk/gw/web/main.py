@@ -5,34 +5,37 @@
 # Description: 公卫
 # *****************************************************************
 
-
 from GwPO import *
 Gw_PO = GwPO()
-
-d = Gw_PO.getDecode('account', '6cb6e99a6bc6d4957b1a342daec02418d66dfad2f2e3bad33a4e5817cc0638e9d7cd33b84d72c349bf129fb4965d77a60d9c2e9c568905bcbe09a7fd09d7540617d29421f179b0c06cf46cb197bb65273bd0c5f14a31d4d8bd9db05dddd9c2ebaf75bb6f1c4698c2c57c41136dee5bc857794a6eb0c6eb529a1386dc75c9b9a131d928a00e83a52943d94db4d755791f545a42b53b12e5fce08c307cb9e066964166fbde92870a020a961b338e0ee25656692baf9c9ee4a9bb4aedc888961b9502ea4bb1bb44f744bafdc5a6ba25a928e65918fa7476dea5a3064bbf9310a64f2bcf31b32fc918b65baa7aa678b15356e0ae7b4b48f4b16d')
-print(d)
-sys.exit(0)
 
 from PO.ListPO import *
 List_PO = ListPO()
 
+
 # 1，登录
 Gw_PO.login('http://192.168.0.203:30080/#/login', 'testwjw', 'Qa@123456')
-# # # 获取登录后的解密数据
-d = Gw_PO.getDecode('account', '40d73255e78d004d12327ffed970f0a51f33e4cc0016512aa422fe7278d4cf38cb458af261b2314944a1f421299d27b2bc16193b918c3d570e68250e186990892c403ee267a7700f7f02fbcc19439ae6ae7209f0257555ba11a5906f52f9b00972bf8461fdb723a880a2771b8c9732ab7ec6ba97d4d50ae1ae3e070676e417c39876e15ad54a7c13383ce7e0d902e3cc69efd63b5e4d82ed5baa9f028e3e812e3a')
-# print(d)  # {'account': {'username': 'testwjw', 'password': 'Qa@123456', 'code': '', 'uuid': ''}}
-# print(d['account']['password'])  # Qa@123456
 
+# 2.1, 点击基本公卫一级菜单(登录后立即点击)
+Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/ul/li[2]", 2)  # 点击公卫
+# 获取基本公卫二级菜单连接
+d_menu_jbgw = Gw_PO.getMenu2Url()
+print('基本公卫 => ', d_menu_jbgw)
 
-# 2, 基本公卫菜单连接(登录后点击)
-Web_PO.clkByX("/html/body/div[1]/div/div[1]/div[2]/ul/li[2]", 2)
-d_menu2Url = Gw_PO.getMenu2Url()
-print('基本公卫 => ', d_menu2Url)
+# 删除之前请求信息
+# Web_PO.delRequests()
 
-
-# todo 2.1, 健康档案概况 (基本公卫)
-# Web_PO.opnLabel(d_menu2Url['健康档案概况'])
+# 2.2, 新建健康档案概况标签页 (基本公卫)
+# Web_PO.opnLabel(d_menu_jbgw['健康档案概况'])
 # Web_PO.swhLabel(1)
+
+# # 获取当前页面除以下之外的所有请求地址
+# Web_PO.requestsExcept(['.js','.css','.png','.ico'])
+
+# # 健康档案概况解码参数
+# encrypt_data = (Web_PO.requests('/tEhrInfo/getEhrHomeInfo?0='))
+# print('/tEhrInfo/getEhrHomeInfo?0=' + Gw_PO.decrypt(encrypt_data))  # /tEhrInfo/getEhrHomeInfo?0={"orgCode":""}
+
+
 # # 2.1.1, 请选择
 # # Web_PO.clkByX("/html/body/div[1]/div/div[3]/section/div/div[1]/div/div/input", 2)
 # # Web_PO.clkByX("/html/body/div[2]/div[2]/div/div/div[1]/ul/li/label", 2)
@@ -74,7 +77,7 @@ print('基本公卫 => ', d_menu2Url)
 # Gw_PO.residentHealthRecord_update('孙竹华', 'http://192.168.0.203:30080/#/phs/personalAddOrUpdate/healthDetail?id=132')
 
 # 孕产妇，第一次产前随访服务记录表
-Gw_PO.pregnantWoman('孕产妇', 'http://192.168.0.203:30080/phs/Snr/lnrindex#/phs/personal/detail?data=321&type=0&cardType=2&ID=1092&routeType=2')
+# Gw_PO.pregnantWoman('孕产妇', 'http://192.168.0.203:30080/phs/Snr/lnrindex#/phs/personal/detail?data=321&type=0&cardType=2&ID=1092&routeType=2')
 
 # 健康体检(未处理)
 # Gw_PO.physicalExamination('刘斌龙1', 'http://192.168.0.203:30080/phs/MentalDisorder/jsindex#/phs/examDetailsForm?RowId=202&ID=79&type=detail&pageType=record&tagType=detail')

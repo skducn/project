@@ -2,639 +2,464 @@
 # *********************************************************************
 # Author        : John
 # Date          : 2022-6-13
-# Description   : 获取swagger内容 另存为excel
-# http://192.168.0.238:8801/doc.html
-# http://192.168.0.238:8801/saasuser/v2/api-docs
-# http://192.168.0.238:8090/doc.html
+# Description   : swagger库
+# https://www.sojson.com/
 # *********************************************************************
+import json
+from urllib.parse import quote, unquote
+# quote和unquote函数来进行URL编码和解码。
 
-import requests, json, sys
-
-sys.path.append("../../../../")
-# sys.path.append("C:\Python39\Lib\site-packages")
-
-
-from bs4 import BeautifulSoup
-from PO.OpenpyxlPO import *
-from PO.NewexcelPO import *
-
-from PO.StrPO import *
-Str_PO = StrPO()
-
-from PO.ListPO import *
-List_PO = ListPO()
-
-from PO.SysPO import *
-Sys_PO = SysPO()
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
 from PO.WebPO import *
-# from PO.DomPO import *
-# Dom_PO = DomPO(driver)
 
-iUrl = 'http://192.168.0.238:8801'
-iDoc = '/doc.html'
 
 
 class SwaggerPO():
 
-    def __init__(self):
+    def __init__(self,iUrl, iDoc):
+        self.iUrl = iUrl
+        self.iDoc = iDoc
 
-        global d_all
+    def _getInterfaceUrl(self, varMenu):
 
+        # 获取接口页面地址
+        Web_PO = WebPO("noChrome")
+        Web_PO.openURL(self.iUrl + self.iDoc)
 
-    def getOne(self, iUrl, iDoc, varProject, toSave):
-
-        Web_PO = WebPO("chrome")
-        Web_PO.openURL(iUrl + iDoc)
-
-        # 获取模块名
-        l_project = Web_PO.getTexts("//option")
-        # print(l_project)  # ['auth', 'oss', 'hypertension', 'ecg', 'cms', 'saascrf', 'cuser', 'saasuser']
-
-        d_url = Web_PO.getTextsAndAttrs("//option", "data-url")
+        # 1.1 获取菜单名
+        l_menu = Web_PO.getTextListByX("//option")
+        # print(l_project)  # ['phs-auth', 'phs-job', 'phs-system', 'phs-server', 'phs-server-export', 'phs-third-api']
+        # 1.2 获取菜单与url键值对
+        d_url = Web_PO.getTextAttrValueDictByX("//option", "data-url")
         # print(d_url)  # {'auth': '/v2/api-docs', 'oss': '/oss//v2/api-docs', 'hypertension': '/hypertension//v2/api-docs', 'ecg': '/ecg//v2/api-docs', 'cms': '/cms//v2/api-docs', 'saascrf': '/saascrf//v2/api-docs', 'cuser': '/cuser//v2/api-docs', 'saasuser': '/saasuser//v2/api-docs'}
+        # 1.3 合成列表
+        l_url = [self.iUrl + v for k, v in d_url.items()]
+        # print(l_url)  # ['http://192.168.0.203:38080/auth/v2/api-docs', 'http://192.168.0.203:38080/schedule/v2/api-docs', 'http://192.168.0.203:38080/system/v2/api-docs', 'http://192.168.0.203:38080/server/v2/api-docs', 'http://192.168.0.203:38080/serverExport/v2/api-docs', 'http://192.168.0.203:38080/thirdApi/v2/api-docs']
+        # 1.4 合成字典
+        d_interfaceUrl = dict(zip(l_menu, l_url))
+        # print(d_all)  # {'phs-auth': 'http://192.168.0.203:38080/auth/v2/api-docs', 'phs-job': 'http://192.168.0.203:38080/schedule/v2/api-docs', 'phs-system': 'http://192.168.0.203:38080/system/v2/api-docs', 'phs-server': 'http://192.168.0.203:38080/server/v2/api-docs', 'phs-server-export': 'http://192.168.0.203:38080/serverExport/v2/api-docs', 'phs-third-api': 'http://192.168.0.203:38080/thirdApi/v2/api-docs'}
+        Web_PO.cls()
 
-        l_url = [iUrl + v for k, v in d_url.items()]
-        # print(l_url)  # ['http://192.168.0.238:8801/v2/api-docs', 'http://192.168.0.238:8801/oss//v2/api-docs',...
-
-        d_all = dict(zip(l_project, l_url))
-        # print(d_all)  # {'auth': 'http://192.168.0.238:8801/v2/api-docs', 'oss': 'http://192.168.0.238:8801/oss//v2/api-docs', 'hypertension': 'http://192.168.0.238:8801/hypertension//v2/api-docs', 'ecg': 'http://192.168.0.238:8801/ecg//v2/api-docs', 'cms': 'http://192.168.0.238:8801/cms//v2/api-docs', 'saascrf': 'http://192.168.0.238:8801/saascrf//v2/api-docs', 'cuser': 'http://192.168.0.238:8801/cuser//v2/api-docs', 'saasuser': 'http://192.168.0.238:8801/saasuser//v2/api-docs'}
-
-
-
-        html = requests.get(d_all[varProject])
+        print(d_interfaceUrl[varMenu])  # http://192.168.0.203:38080/thirdApi/v2/api-docs
+        html = requests.get(d_interfaceUrl[varMenu])
         html.encoding = 'utf-8'
-        # http://192.168.0.238:8801//v2/api-docs
         d = json.loads(html.text)
-        # print(d['info']['description'])
-        # print(d['basePath'])
-        # print(d['tags'])
-        # toSave = "i.xlsx"
+        return d
 
-        if os.path.isfile(toSave):
-            pass
-        else:
-            Newexcel_PO = NewexcelPO(toSave)
+    def _traversalDict(self, d, d_parametersMemo):
 
-        Openpyxl_PO = OpenpyxlPO(toSave)
-        Openpyxl_PO.addCoverSheet(varProject)
+        # 遍历迭代检查是否有下级originalRef，并获取参数
 
-        # Openpyxl_PO.setRowValue({1: ["tags", "summary", "paths", "method", "consumes", "query", "body", "parameters [参数名称，参数说明，请求类型，是否必须，数据类型，schema]"]})
-        Openpyxl_PO.insertRows({1: ["tags", "summary", "paths", "method", "consumes", "query", "body", "parameters [参数名称，参数说明，请求类型，是否必须，数据类型，schema]"]})
-        Openpyxl_PO.setRowColColor(1, "all", "ff0000")
-        Openpyxl_PO.setRowColDimensions(1, 30, ['a', 'f'], 20)  # 设置第五行行高30，f - h列宽33
-        Openpyxl_PO.setCellDimensions(1, 30, 'g', 40)
-        Openpyxl_PO.setCellDimensions(1, 30, 'h', 80)
-        Openpyxl_PO.setRowColFont(1, ["a", "h"], size=11, bold=True, italic=True)
+        d1 = {}
+        for k, v in d_parametersMemo.items():
+            for k1, v1 in v.items():
+                if k1 == 'originalRef':
+                    # print(k, d['definitions'][v1]['properties'])  # {'id': {'type': 'integer', 'format': 'int32', 'description': 'ID'}, 'recordId': {'type': 'string', 'description': '编号'}, 'sfjlid': {'type': 'string', 'description': '糖尿病随访卡ID'}, 'ywcd': {'type': 'string', 'description': '药物编码'}, 'ywjl': {'type': 'string', 'description': '单次使用药物剂量'}, 'ywmc': {'type': 'string', 'description': '药物名称'}, 'ywpl': {'type': 'string', 'description': '药物使用频率'}}
+                    d1[k] = d['definitions'][v1]['properties']
+                    # print(111,d1[k])
 
-        for i in range(len(d['tags'])):
-            Openpyxl_PO.insertRows({i+2: [d['tags'][i]['name']]})
-        Openpyxl_PO.save()
+                    # 下下级
+                    for k2, v2 in d1[k].items():
+                        for k3, v3 in v2.items():
+                            if k3 == 'originalRef':
+                                # print(k, k1, d['definitions'][v3]['properties'])  # {'id': {'type': 'integer', 'format': 'int32', 'description': 'ID'}, 'recordId': {'type': 'string', 'description': '编号'}, 'sfjlid': {'type': 'string', 'description': '糖尿病随访卡ID'}, 'ywcd': {'type': 'string', 'description': '药物编码'}, 'ywjl': {'type': 'string', 'description': '单次使用药物剂量'}, 'ywmc': {'type': 'string', 'description': '药物名称'}, 'ywpl': {'type': 'string', 'description': '药物使用频率'}}
+                                d1[k][k2] = d['definitions'][v3]['properties']
+                            if k3 == 'items':
+                                if 'originalRef' in v3:
+                                    # print(6, k, k2, d['definitions'][v3['originalRef']]['properties'])  # {'id': {'type': 'integer', 'format': 'int32', 'description': 'ID'}, 'recordId': {'type': 'string', 'description': '编号'}, 'sfjlid': {'type': 'string', 'description': '糖尿病随访卡ID'}, 'ywcd': {'type': 'string', 'description': '药物编码'}, 'ywjl': {'type': 'string', 'description': '单次使用药物剂量'}, 'ywmc': {'type': 'string', 'description': '药物名称'}, 'ywpl': {'type': 'string', 'description': '药物使用频率'}}
+                                    d1[k][k2] = d['definitions'][v3['originalRef']]['properties']
+                if k1 == 'items':
+                    if 'originalRef' in v1:
+                        # print(v1['originalRef'])  # TnbSfyyInfoResponse
+                        # print(3, k, d['definitions'][v1['originalRef']]['properties']) # {'id': {'type': 'integer', 'format': 'int32', 'description': 'ID'}, 'recordId': {'type': 'string', 'description': '编号'}, 'sfjlid': {'type': 'string', 'description': '糖尿病随访卡ID'}, 'ywcd': {'type': 'string', 'description': '药物编码'}, 'ywjl': {'type': 'string', 'description': '单次使用药物剂量'}, 'ywmc': {'type': 'string', 'description': '药物名称'}, 'ywpl': {'type': 'string', 'description': '药物使用频率'}}
+                        d1[k] = d['definitions'][v1['originalRef']]['properties']
 
+        # d1覆盖d_parametersMemo中已存在的key
+        d_body = {**d_parametersMemo, **d1}
+        return d_body
+
+        # 将参数格式化
+        # d3 = self.formatParameters(d_body)
         # sys.exit(0)
 
+    def getOne(self, varMenu, varTags, varSummary):
 
-        l_i = []
-        l_all = []
+        # 获取一个接口的信息
 
-        # 接口地址
-        for paths, v in d['paths'].items():
+        l_1 = []
+        varQuery = ''
+        d_body = {}
+
+        # 1 获取并解析接口页面地址
+        d = self._getInterfaceUrl(varMenu)
+
+        # 2 遍历接口
+        for k, v in d['paths'].items():
+
+            # 2.1 路径
+            paths = k
             # print(paths)  # /afPreoperativeCounselingInfo/addMassMessage
-            # print(d['paths'][paths])
-            for method, v in d['paths'][paths].items():
-                # print(method)  # post
-                # print(v['tags'])  # ['医患交流信息表接口']
-                # print(v['summary'])  # 群发消息-PC
 
-                # if v['summary'] == "新增系统管理用户":
-                # print(v)
-                # sys.exit(0)
-                # print(v['consumes'])  # ['application/json']
-                # print(v['parameters'])
-                # print(d['paths'][paths])
-                # print(v)
-                # sys.exit(0)
+            # 2.2 提交方式
+            l_method = list(d['paths'][k])
+            # print(l_method[0]) # POST
 
-                l_i.append(v['tags'][0])
-                l_i.append(v['summary'])
-                if varProject == "auth":
-                    l_i.append(paths)
+            # 2.3 接口标签
+            tags = d['paths'][k][l_method[0]]['tags'][0]
+            # print(tags)  # REST - 第三方模块糖尿病接口
+
+            # 2.4 接口名
+            summary = d['paths'][k][l_method[0]]['summary']
+            # print(summary) # 保存第三方糖尿病随访
+            # print(tags, summary)  # 保存第三方糖尿病随访
+            # Color_PO.consoleColor2({"31": tags, "32": summary})
+
+            # 2.5 operationId
+            operationId = d['paths'][k][l_method[0]]['operationId']
+            # print(operationId)
+
+            # get 或 delete 没有consumes
+            if varTags == tags and varSummary == summary:
+
+                # 编码中文
+                q_varTags = quote(varTags)  # http://192.168.0.203:38080/doc.html#/phs-server/%E6%AE%8B%E7%96%BE%E4%BA%BA%E7%AE%A1%E7%90%86-%E4%B8%93%E9%A1%B9%E7%99%BB%E8%AE%B0/findPageUsingPOST_5
+                varUrl = self.iUrl + self.iDoc + "#/" + varMenu + "/" + q_varTags + "/" + operationId
+
+                # 条件标题和链接地址
+                print(Color_PO.getColor({"32": [varMenu, varTags, varSummary]}) + "=> " + varUrl)
+
+                if l_method[0] == 'post' or l_method[0] == 'put':
+                    # 2.6 content-type内容类型
+                    consumes = d['paths'][k][l_method[0]]['consumes'][0]
+                    # print(consumes)  # 'application/json'
                 else:
-                    l_i.append("/" + varProject + paths)
-                l_i.append(method)
-                if 'consumes' in v:
-                    l_i.append(v['consumes'][0])
-                else:
-                    l_i.append(None)
+                    consumes = ''
 
-                # query
-                if 'parameters' in v:
-                    # print(11, v['parameters'])
-                    list1 = v['parameters']
-                    # list1 = Str_PO.str2list(str(v['parameters']))
-                    s = ""
-                    # print(22,list1)
-                    if 'in' in list1[0]:
-                        for i in range(len(list1)):
-                            # print(list1)
-                            if list1[i]['in'] == 'query' and list1[i]['required'] == True:
-                                s = s + list1[i]['name'] + "=" + "{*" + list1[i]['type'] + "}&"
-                            if list1[i]['in'] == 'query' and list1[i]['required'] == False:
-                                s = s + list1[i]['name'] + "=" + "{" + list1[i]['type'] + "}&"
-                        # print(s[:-1])  # currentPage={integer}&docId={integer}&itemId={integer}&pageSize={integer}
-                        l_i.append(str(s[:-1]))
-                        # print(str(s[:-1]))
+                # 2.7 获取body参数（通过originalRef定位）
+                if 'parameters' in d['paths'][k][l_method[0]]:
+                    l_parameters = d['paths'][k][l_method[0]]['parameters']
+                    print(l_parameters)  # [{'in': 'body', 'name': 'body', 'description': 'body', 'required': True, 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
+                    if len(l_parameters) == 1:
+                        # 1个参数
+                        if 'in' in l_parameters[0]:
+                            if l_parameters[0]['in'] == 'body':
+                                # todo body
+                                if 'originalRef' in l_parameters[0]['schema']:
+                                    # 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
+                                    originalRef = l_parameters[0]['schema']['originalRef']
+                                    d_parametersMemo = d['definitions'][originalRef]['properties']
+                                    print('1参body =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
+                                    # # 遍历检查是否有下级originalRef，并获取参数
+                                    d_body = self._traversalDict(d, d_parametersMemo)
+                                    print('1参body遍历 =>', d_body)
+                                elif '$ref' in l_parameters[0]['schema']:
+                                    ref = l_parameters[0]['schema']['$ref']
+                                    if ref == '#/definitions/List':
+                                        d_body = {l_parameters[0]['name']: []}
+                                        print('1参body列表', d_body)
+                                    else:
+                                        ref = ref.replace('#/definitions/', '')
+                                        # print(ref)
+                                        d_parametersMemo = d['definitions'][ref]['properties']
+                                        print('1参body =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
+                                        # # 遍历检查是否有下级originalRef，并获取参数
+                                        d_body = self._traversalDict(d, d_parametersMemo)
+                                        print('1参body遍历 =>', d_body)
+                                elif 'items' in l_parameters[0]['schema']:
+                                    # 'schema': {'type': 'array', 'items': {'$ref': '#/definitions/PerformRequest', 'originalRef': 'PerformRequest'}
+                                    if 'originalRef' in l_parameters[0]['schema']['items']:
+                                        originalRef = l_parameters[0]['schema']['items']['originalRef']
+                                        d_parametersMemo = d['definitions'][originalRef]['properties']
+                                        print('1参body(items) =>', d_parametersMemo)
+                                        # # 遍历检查是否有下级originalRef，并获取参数
+                                        d_body = self._traversalDict(d, d_parametersMemo)
+                                        print('1参body遍历 =>', d_body)
+                                    else:
+                                        # 'schema': {'type': 'array', 'items': {'type': 'integer', 'format': 'int32'}}}]
+                                        if 'type' in l_parameters[0]['schema']:
+                                            if l_parameters[0]['schema']['type'] == 'array':
+                                                # 参数不是字典，是数组
+                                                print('1参body数组 =>', l_parameters[0])
+                                                d_body = []
+                            elif l_parameters[0]['in'] == 'query' or l_parameters[0]['in'] == 'path':
+                                # todo query
+                                varQuery = l_parameters[0]['name'] + "={" + l_parameters[0]['type'] + "}"
+                                d_body = ''
+                        else:
+                            if 'name' in l_parameters[0] and 'schema' in l_parameters[0]:
+                                varQuery = l_parameters[0]['name'] + "={" + l_parameters[0]['schema']['type'] + "}"
+                                print('1参query =>', varQuery)
+                                d_body = ''
                     else:
-                        l_i.append(None)
-
-
-
-                # body
-                l_parameters = []
-                d_parameters = {}
-                d_parameters_sub1 = {}
-                d_parameters_sub2 = {}
-                d_parameters_sub3 = {}
-                if 'parameters' in v:
-                    # l_parameters = Str_PO.str2list(str(v['parameters']))
-                    # print(l_parameters)
-                    list2 = v['parameters']
-
-                    if "in" in list2[0] and list2[0]['in'] == 'body' :
-                        # print(d['definitions'])
-                        for k, v in d['definitions'].items():
-
-                            if "$ref" in list2[0]['schema']:
-                                # print(l_parameters[0]['schema']['$ref'].split("#/definitions/")[1])
-                                if k == list2[0]['schema']['$ref'].split("#/definitions/")[1]:  # ChatVO
-                                    for k1, v1 in d['definitions'][k].items():
-                                        # if k1 == "required":
-                                        #     print(v1)
-                                        if k1 == "properties":
-                                            # print(v1)
-                                            for k2, v2 in v1.items():
-                                                # print(v2)
-
-                                                if "type" in v2:
-                                                    if v2['type'] == "string":
-                                                        d_parameters[k2] = ""
-                                                    elif v2['type'] == "integer" or v2['type'] == "number":
-                                                        d_parameters[k2] = 0
-                                                    elif v2['type'] == "array":
-
-                                                        # print(v2["items"]["$ref"].split("#/definitions/")[1])
-                                                        # print(3, v2)
-                                                        if "items" in v2:
-                                                            for k6, v6 in d['definitions'].items():
-                                                                # print(1, "~~~~~~~~~`")
-                                                                if "$ref" in v2["items"]:
-                                                                    # print(v2["items"]["$ref"].split("#/definitions/")[1])
-                                                                    # sys.exit(0)
-                                                                    if k6 == v2["items"]["$ref"].split("#/definitions/")[1] :  # SysRoleVO对象
-                                                                        # print(d['definitions'][k6])
-
-                                                                        for k7, v8 in d['definitions'][k6].items():
-                                                                            if k7 == "properties":
-                                                                                # print(v8)
-                                                                                for k9, v9 in v8.items():
-                                                                                    # print(v9)
-                                                                                    if "type" in v9:
-                                                                                        if "string" in v9['type']:
-                                                                                            d_parameters_sub1[k9] = ""
-                                                                                        elif "integer" in v9['type'] or "number" in v9['type'] :
-                                                                                            d_parameters_sub1[k9] = 0
-                                                                                        elif v9['type'] == "array":
-                                                                                            d_parameters_sub1[k9] = []
-                                                                                            # ?
-
-
-                                                                                            if "items" in v9:
-                                                                                                for k16, v16 in d['definitions'].items():
-                                                                                                    # print(1, "~~~~~~~~~`")
-                                                                                                    if "$ref" in v9["items"]:
-                                                                                                        # print(v2["items"]["$ref"].split("#/definitions/")[1])
-                                                                                                        # sys.exit(0)
-                                                                                                        if k16 == v9["items"]["$ref"].split("#/definitions/")[1] :  # SysRoleVO对象
-                                                                                                            # print(d['definitions'][k6])
-
-                                                                                                            for k17, v18 in d['definitions'][k16].items():
-                                                                                                                if k17 == "properties":
-                                                                                                                    # print(v18)
-                                                                                                                    for k19, v19 in v18.items():
-                                                                                                                        # print(v19)
-                                                                                                                        if "type" in v19:
-                                                                                                                            if "string" in v19['type']:
-                                                                                                                                d_parameters_sub3[k19] = ""
-                                                                                                                            elif "integer" in v19['type'] or "number" in v19['type'] :
-                                                                                                                                d_parameters_sub3[k19] = 0
-                                                                                                                            elif v19['type'] == "array":
-                                                                                                                                d_parameters_sub3[k19] = []
-                                                                                                                            elif v19['type'] == "boolean":
-                                                                                                                                d_parameters_sub3[k19] = True
-                                                                                                                            else:
-                                                                                                                                d_parameters_sub3[k19] = '?'
-
-                                                                                                d_parameters_sub1[k9] = [d_parameters_sub3]
-
-                                                                                        elif v9['type'] == "boolean":
-                                                                                            d_parameters_sub1[k9] = True
-                                                                                        else:
-                                                                                            d_parameters_sub1[k9] = '?'
-                                                                # print(4, d_parameters_sub1)
-                                                                else:
-                                                                    d_parameters_sub1 = None
-                                                        if d_parameters_sub1 == None:
-                                                            d_parameters[k2] = []
-                                                        else:
-                                                            d_parameters[k2] = [d_parameters_sub1]
-
-                                                    else:
-                                                        d_parameters[k2] = '?'
-
-                                                if "$ref" in v2:   # {'description': '用户登录信息详情', '$ref': '#/definitions/SysUserVO对象'}
-                                                    # print(v2["$ref"].split("#/definitions/")[1])
-                                                    # print(v2["$ref"].split("#/definitions/")[1][:-2])
-                                                    # d_parameters[v2["$ref"].split("#/definitions/")[1][:-2]] = {}  # 增加 SysUserVO 键
-
-                                                    # print(9,d['definitions'][v2["$ref"].split("#/definitions/")[1]])
-                                                    for k77, v88 in d['definitions'][v2["$ref"].split("#/definitions/")[1]].items():
-                                                        if k77 == "properties":
-                                                            # print(v8)
-                                                            for k99, v99 in v88.items():
-                                                                # print(v9)
-                                                                if "type" in v99:
-                                                                    if "string" in v99['type']:
-                                                                        d_parameters_sub2[k99] = ""
-                                                                    elif "integer" in v99['type'] or "number" in v99['type']:
-                                                                        d_parameters_sub2[k99] = 0
-                                                                    elif v99['type'] == "array":
-                                                                        d_parameters_sub2[k99] = []
-                                                                    elif v99['type'] == "boolean":
-                                                                        d_parameters_sub2[k99] = True
-                                                                    else:
-                                                                        d_parameters_sub2[k99] = '?'
-                                                    d_parameters[v2["$ref"].split("#/definitions/")[1][:-2]] = d_parameters_sub2
-
-
-                                    # print(5, d_parameters)
-                                    # l_i.append(str(d_parameters))
-                                    l_i.append(json.dumps(d_parameters))
-
-                                    break
-                            elif "items" in list2[0]['schema']:
-                                # print(list2[0]['schema'])
-                                # print(l_parameters[0]['schema']['items']['$ref'].split("#/definitions/")[1])
-                                # if list2[0]['schema']['items']['$ref'] in list2[0]['schema']:
-                                if '$ref' in list2[0]['schema']['items']:
-                                    if k == list2[0]['schema']['items']['$ref'].split("#/definitions/")[1]:  # ChatVO
-                                        for k1, v1 in d['definitions'][k].items():
-                                            # if k1 == "required":
-                                            #     print(v1)
-                                            if k1 == "properties":
-                                                # print(v1)
-                                                for k2, v2 in v1.items():
-                                                    if v2['type'] == "string":
-                                                        d_parameters[k2] = ""
-                                                    elif v2['type'] == "integer":
-                                                        d_parameters[k2] = 0
-                                        # print(d_parameters)
-                                        # l_i.append(str(d_parameters))
-                                        l_i.append(json.dumps(d_parameters))
-
-                                        break
-                    else:
-                        l_i.append(None)
-
-
-                # parameters
-                if 'parameters' in v:
-                    l_i.append(str(v['parameters']))
+                        # 多个参数
+                        s = ''
+                        for i in range(len(l_parameters)):
+                            # print(l_parameters)
+                            if 'in' in l_parameters[i]:
+                                if l_parameters[i]['in'] == 'body':
+                                    # todo body
+                                    if 'originalRef' in l_parameters[i]['schema']:
+                                        originalRef = l_parameters[i]['schema']['originalRef']
+                                        d_parametersMemo = d['definitions'][originalRef]['properties']
+                                        print('多参body =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
+                                        # 遍历检查是否有下级originalRef，并获取参数
+                                        d_body = self._traversalDict(d, d_parametersMemo)
+                                        print('多参body遍历 =>', d_body)
+                                    elif '$ref' in l_parameters[i]['schema']:
+                                        ref = l_parameters[i]['schema']['$ref']
+                                        if ref == '#/definitions/List':
+                                            d_body = {l_parameters[0]['name']: []}
+                                            print('多参body列表', d_body)
+                                        elif ref == '#/definitions/file':
+                                            d_body = {l_parameters[0]['name']: ['file']}
+                                            print('多参body文件', d_body)
+                                        else:
+                                            ref = ref.replace('#/definitions/', '')
+                                            d_parametersMemo = d['definitions'][ref]['properties']
+                                            print('多参body($ref) =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
+                                            # # 遍历检查是否有下级$ref，并获取参数
+                                            d_body = self._traversalDict(d, d_parametersMemo)
+                                            print('多参body遍历 =>', d_body)
+                                if l_parameters[i]['in'] == 'query' or l_parameters[i]['in'] == 'path':
+                                    # todo query
+                                    varQuery = l_parameters[i]['name'] + "={" + l_parameters[i]['type'] + "}"
+                                    s = s + varQuery + ','
+                                    if len(d_body) < 1:
+                                        d_body = ''
+                            else:
+                                if 'name' in l_parameters[i]:
+                                    if 'type' in l_parameters[i]['schema']:
+                                        varQuery = l_parameters[i]['name'] + "={" + l_parameters[i]['schema']['type'] + "}"
+                                    else:
+                                        varQuery = l_parameters[i]['name'] + "={string}"
+                                    s = s + varQuery + ','
+                                    if len(d_body) < 1:
+                                        d_body = ''
+                        varQuery = s[:-1]
+                        print('多参query =>', varQuery)
                 else:
-                    l_i.append(None)
+                    # 没有参数，即get
+                    d_body = ''
 
-            l_all.append(l_i)
-            # print(l_all)
-            l_i = []
+                # 2.8 生成列表
+                l_1.append(tags)
+                l_1.append(summary)
+                l_1.append(paths)
+                l_1.append(l_method[0])
+                l_1.append(consumes)
+                l_1.append(varQuery)  # query
+                l_1.append(str(d_body))  # body
+                l_1.append(varUrl)
 
-        for i in range(len(l_all)):
-            Openpyxl_PO.setRows({i+2: l_all[i]})
-        Openpyxl_PO.setAllWordWrap()
-        Openpyxl_PO.setRowColAlignment(1, ["a", "h"], 'center', 'center')
-        Openpyxl_PO.setFreeze('A2')
+                varQuery = ''
+                s = ''
+                d_body = {}
 
-        Openpyxl_PO.save()
-        print("ok => " + toSave)
+                # print(l_1)
+                Color_PO.consoleColor2({"35": l_1})
+                break
 
-        Web_PO.cls()
+    def getAll(self, varMenu):
 
-    def getAll(self, iUrl, iDoc, toSave):
+        l_all = []
+        l_1 = []
+        c = 0
+        varQuery = ''
+        d_body = {}
 
-        Web_PO = WebPO("chrome")
-        Web_PO.openURL(iUrl + iDoc)
+        # 1 获取并解析接口页面地址
+        d = self._getInterfaceUrl(varMenu)
 
-        # 获取菜单名
-        l_project = Web_PO.getTextListByX("//option")
-        print(l_project)  # ['auth', 'oss', 'hypertension', 'ecg', 'cms', 'saascrf', 'cuser', 'saasuser']
+        # 2 遍历接口
+        for k, v in d['paths'].items():
 
-        # d_url = Web_PO.getTextsAndAttrs("//option", "data-url")
-        d_url = Web_PO.getAttrValueListByX("//option", "data-url")
-        print(d_url)  # {'auth': '/v2/api-docs', 'oss': '/oss//v2/api-docs', 'hypertension': '/hypertension//v2/api-docs', 'ecg': '/ecg//v2/api-docs', 'cms': '/cms//v2/api-docs', 'saascrf': '/saascrf//v2/api-docs', 'cuser': '/cuser//v2/api-docs', 'saasuser': '/saasuser//v2/api-docs'}
+            # 2.1 路径
+            paths = k
+            # print(paths)  # /afPreoperativeCounselingInfo/addMassMessage
 
-        l_url = [iUrl + v for k, v in d_url.items()]
-        # print(l_url)  # ['http://192.168.0.238:8801/v2/api-docs', 'http://192.168.0.238:8801/oss//v2/api-docs',...
+            # 2.2 提交方式
+            l_method = list(d['paths'][k])
+            # print(l_method[0]) # POST
 
-        d_all = dict(zip(l_project, l_url))
-        # print(d_all)  # {'auth': 'http://192.168.0.238:8801/v2/api-docs', 'oss': 'http://192.168.0.238:8801/oss//v2/api-docs', 'hypertension': 'http://192.168.0.238:8801/hypertension//v2/api-docs', 'ecg': 'http://192.168.0.238:8801/ecg//v2/api-docs', 'cms': 'http://192.168.0.238:8801/cms//v2/api-docs', 'saascrf': 'http://192.168.0.238:8801/saascrf//v2/api-docs', 'cuser': 'http://192.168.0.238:8801/cuser//v2/api-docs', 'saasuser': 'http://192.168.0.238:8801/saasuser//v2/api-docs'}
+            # 2.3 接口标签
+            tags = d['paths'][k][l_method[0]]['tags'][0]
+            # print(tags)  # REST - 第三方模块糖尿病接口
 
-        # 便利所有项
-        for p in range(len(l_project)):
+            # 2.4 接口名
+            summary = d['paths'][k][l_method[0]]['summary']
+            # print(summary) # 保存第三方糖尿病随访
+            # print(tags, summary) # 保存第三方糖尿病随访
+            # Color_PO.consoleColor2({"31": tags, "32": summary})
 
-            # http://192.168.0.238:8801//v2/api-docs
+            # 2.5 operationId
+            operationId = d['paths'][k][l_method[0]]['operationId']
+            # print(operationId)
 
-            html = requests.get(d_all[l_project[p]])
-            html.encoding = 'utf-8'
-            d = json.loads(html.text)
-            # print(d['info']['description'])
-            # print(d['basePath'])
-            # print(d['tags'])
+            # 编码中文
+            q_varTags = quote(tags)  # http://192.168.0.203:38080/doc.html#/phs-server/%E6%AE%8B%E7%96%BE%E4%BA%BA%E7%AE%A1%E7%90%86-%E4%B8%93%E9%A1%B9%E7%99%BB%E8%AE%B0/findPageUsingPOST_5
+            varUrl = self.iUrl + self.iDoc + "#/" + varMenu + "/" + q_varTags + "/" + operationId
 
-            if os.path.isfile(toSave):
-                pass
+            # 条件标题和链接地址
+            print(Color_PO.getColor({"32": [varMenu, tags, summary]}) + "=> " + varUrl)
+
+            # get 或 delete 没有consumes
+            if l_method[0] == 'post' or l_method[0] == 'put':
+                # 2.6 content-type内容类型
+                consumes = d['paths'][k][l_method[0]]['consumes'][0]
+                # print(consumes)  # 'application/json'
             else:
-                Newexcel_PO = NewexcelPO(toSave)
+                consumes = ''
 
-            Openpyxl_PO = OpenpyxlPO(toSave)
-            Openpyxl_PO.addCoverSheet(l_project[p])
-
-            # Openpyxl_PO.setRowValue({1: ["tags", "summary", "paths", "method", "consumes", "query", "body", "parameters [参数名称，参数说明，请求类型，是否必须，数据类型，schema]"]})
-            Openpyxl_PO.insertRows({1: ["tags", "summary", "paths", "method", "consumes", "query", "body", "parameters [参数名称，参数说明，请求类型，是否必须，数据类型，schema]"]})
-            Openpyxl_PO.setRowColColor(1, "all", "ff0000")
-            Openpyxl_PO.setRowColDimensions(1, 30, ['a', 'f'], 20)  # 设置第五行行高30，f - h列宽33
-            Openpyxl_PO.setCellDimensions(1, 30, 'g', 40)
-            Openpyxl_PO.setCellDimensions(1, 30, 'h', 80)
-            Openpyxl_PO.setRowColFont(1, ["a", "h"], size=14, bold=False, italic=False)
-
-            for i in range(len(d['tags'])):
-                Openpyxl_PO.insertRows({i+2: [d['tags'][i]['name']]})
-            Openpyxl_PO.save()
-
-            l_i = []
-            l_all = []
-
-            # 接口地址
-            for paths, v in d['paths'].items():
-                # print(paths)  # /afPreoperativeCounselingInfo/addMassMessage
-                # print(d['paths'][paths])
-                for method, v in d['paths'][paths].items():
-                    # print(method)  # post
-                    # print(v['tags'])  # ['医患交流信息表接口']
-                    # print(v['summary'])  # 群发消息-PC
-
-                    # if v['summary'] == "新增系统管理用户":
-                    # print(v)
-                    # sys.exit(0)
-                    # print(v['consumes'])  # ['application/json']
-                    # print(v['parameters'])
-                    # print(d['paths'][paths])
-                    # print(v)
-                    # sys.exit(0)
-
-                    l_i.append(v['tags'][0])
-                    l_i.append(v['summary'])
-                    # print(l_project[p])
-                    if l_project[p] == "auth":
-                        l_i.append(paths)
+            # 2.7 获取body参数（通过originalRef定位）
+            varQuery = ''
+            if 'parameters' in d['paths'][k][l_method[0]]:
+                l_parameters = d['paths'][k][l_method[0]]['parameters']
+                print(l_parameters)  # [{'in': 'body', 'name': 'body', 'description': 'body', 'required': True, 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
+                if len(l_parameters) == 1:
+                    # 1个参数
+                    if 'in' in l_parameters[0]:
+                        if l_parameters[0]['in'] == 'body':
+                            # todo body
+                            if 'originalRef' in l_parameters[0]['schema']:
+                                # 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
+                                originalRef = l_parameters[0]['schema']['originalRef']
+                                d_parametersMemo = d['definitions'][originalRef]['properties']
+                                print('1参body(originalRef) =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
+                                # # 遍历检查是否有下级originalRef，并获取参数
+                                d_body = self._traversalDict(d, d_parametersMemo)
+                                print('1参body遍历 =>', d_body)
+                            elif '$ref' in l_parameters[0]['schema']:
+                                ref = l_parameters[0]['schema']['$ref']
+                                if ref == '#/definitions/List':
+                                    d_body = {l_parameters[0]['name']:[]}
+                                    print('1参body列表', d_body)
+                                else:
+                                    ref = ref.replace('#/definitions/', '')
+                                    # print(ref)
+                                    d_parametersMemo = d['definitions'][ref]['properties']
+                                    print('1参body($ref) =>', d_parametersMemo)  # {'ccsffl': {'type': 'string', 'description': '随访评价结果代码'},...
+                                    # # 遍历检查是否有下级originalRef，并获取参数
+                                    d_body = self._traversalDict(d, d_parametersMemo)
+                                    print('1参body遍历 =>', d_body)
+                            elif 'items' in l_parameters[0]['schema']:
+                                # 'schema': {'type': 'array', 'items': {'$ref': '#/definitions/PerformRequest', 'originalRef': 'PerformRequest'}
+                                if 'originalRef' in l_parameters[0]['schema']['items']:
+                                    originalRef = l_parameters[0]['schema']['items']['originalRef']
+                                    d_parametersMemo = d['definitions'][originalRef]['properties']
+                                    print('1参body(items) =>', d_parametersMemo)
+                                    # # 遍历检查是否有下级originalRef，并获取参数
+                                    d_body = self._traversalDict(d, d_parametersMemo)
+                                else:
+                                    # 'schema': {'type': 'array', 'items': {'type': 'integer', 'format': 'int32'}}}]
+                                    if 'type' in l_parameters[0]['schema']:
+                                        if l_parameters[0]['schema']['type'] == 'array':
+                                            # 参数不是字典，是数组
+                                            print('1参body数组 =>', l_parameters[0])
+                                            d_body = []
+                        elif l_parameters[0]['in'] == 'query' or l_parameters[0]['in'] == 'path':
+                            # todo query
+                            if 'type' in l_parameters[0]:
+                                varQuery = l_parameters[0]['name'] + "={" + l_parameters[0]['type'] + "}"
+                            else:
+                                varQuery = l_parameters[0]['name'] + "={string}"
+                            print('1参数query =>', varQuery)
+                            d_body = ''
                     else:
-                        l_i.append("/" + l_project[p] + paths)
-                    l_i.append(method)
-                    if 'consumes' in v:
-                        l_i.append(v['consumes'][0])
-                    else:
-                        l_i.append(None)
-
-                    # query
-                    if 'parameters' in v:
-                        # print(11, v['parameters'])
-                        list1 = v['parameters']
-                        # list1 = Str_PO.str2list(str(v['parameters']))
-                        s = ""
-                        # print(22,list1)
-                        if 'in' in list1[0]:
-                            for i in range(len(list1)):
-                                # print(list1)
-                                if list1[i]['in'] == 'query' and list1[i]['required'] == True:
-                                    s = s + list1[i]['name'] + "=" + "{*" + list1[i]['type'] + "}&"
-                                if list1[i]['in'] == 'query' and list1[i]['required'] == False:
-                                    s = s + list1[i]['name'] + "=" + "{" + list1[i]['type'] + "}&"
-                            # print(s[:-1])  # currentPage={integer}&docId={integer}&itemId={integer}&pageSize={integer}
-                            l_i.append(str(s[:-1]))
-                            # print(str(s[:-1]))
+                        ...
+                        # todo query
+                        if 'type' in l_parameters[0]['schema']:
+                            varQuery = l_parameters[0]['name'] + "={" + l_parameters[0]['schema']['type'] + "}"
                         else:
-                            l_i.append(None)
+                            varQuery = l_parameters[0]['name'] + "={string}"
+                        print('1参数query =>', varQuery)
+                        d_body = ''
 
-
-
-                    # body
-                    l_parameters = []
-                    d_parameters = {}
-                    d_parameters_sub1 = {}
-                    d_parameters_sub2 = {}
-                    d_parameters_sub3 = {}
-                    if 'parameters' in v:
-                        # l_parameters = Str_PO.str2list(str(v['parameters']))
-                        # print(l_parameters)
-                        list2 = v['parameters']
-
-                        if "in" in list2[0] and list2[0]['in'] == 'body' :
-                            # print(d['definitions'])
-                            for k, v in d['definitions'].items():
-
-                                if "$ref" in list2[0]['schema']:
-                                    # print(l_parameters[0]['schema']['$ref'].split("#/definitions/")[1])
-                                    if k == list2[0]['schema']['$ref'].split("#/definitions/")[1]:  # ChatVO
-                                        for k1, v1 in d['definitions'][k].items():
-                                            # if k1 == "required":
-                                            #     print(v1)
-                                            if k1 == "properties":
-                                                # print(v1)
-                                                for k2, v2 in v1.items():
-                                                    # print(v2)
-
-                                                    if "type" in v2:
-                                                        if v2['type'] == "string":
-                                                            d_parameters[k2] = ""
-                                                        elif v2['type'] == "integer" or v2['type'] == "number":
-                                                            d_parameters[k2] = 0
-                                                        elif v2['type'] == "array":
-
-                                                            # print(v2["items"]["$ref"].split("#/definitions/")[1])
-                                                            # print(3, v2)
-                                                            if "items" in v2:
-                                                                for k6, v6 in d['definitions'].items():
-                                                                    # print(1, "~~~~~~~~~`")
-                                                                    if "$ref" in v2["items"]:
-                                                                        # print(v2["items"]["$ref"].split("#/definitions/")[1])
-                                                                        # sys.exit(0)
-                                                                        if k6 == v2["items"]["$ref"].split("#/definitions/")[1] :  # SysRoleVO对象
-                                                                            # print(d['definitions'][k6])
-
-                                                                            for k7, v8 in d['definitions'][k6].items():
-                                                                                if k7 == "properties":
-                                                                                    # print(v8)
-                                                                                    for k9, v9 in v8.items():
-                                                                                        # print(v9)
-                                                                                        if "type" in v9:
-                                                                                            if "string" in v9['type']:
-                                                                                                d_parameters_sub1[k9] = ""
-                                                                                            elif "integer" in v9['type'] or "number" in v9['type'] :
-                                                                                                d_parameters_sub1[k9] = 0
-                                                                                            elif v9['type'] == "array":
-                                                                                                d_parameters_sub1[k9] = []
-                                                                                                # ?
-
-
-                                                                                                if "items" in v9:
-                                                                                                    for k16, v16 in d['definitions'].items():
-                                                                                                        # print(1, "~~~~~~~~~`")
-                                                                                                        if "$ref" in v9["items"]:
-                                                                                                            # print(v2["items"]["$ref"].split("#/definitions/")[1])
-                                                                                                            # sys.exit(0)
-                                                                                                            if k16 == v9["items"]["$ref"].split("#/definitions/")[1] :  # SysRoleVO对象
-                                                                                                                # print(d['definitions'][k6])
-
-                                                                                                                for k17, v18 in d['definitions'][k16].items():
-                                                                                                                    if k17 == "properties":
-                                                                                                                        # print(v18)
-                                                                                                                        for k19, v19 in v18.items():
-                                                                                                                            # print(v19)
-                                                                                                                            if "type" in v19:
-                                                                                                                                if "string" in v19['type']:
-                                                                                                                                    d_parameters_sub3[k19] = ""
-                                                                                                                                elif "integer" in v19['type'] or "number" in v19['type'] :
-                                                                                                                                    d_parameters_sub3[k19] = 0
-                                                                                                                                elif v19['type'] == "array":
-                                                                                                                                    d_parameters_sub3[k19] = []
-                                                                                                                                elif v19['type'] == "boolean":
-                                                                                                                                    d_parameters_sub3[k19] = True
-                                                                                                                                else:
-                                                                                                                                    d_parameters_sub3[k19] = '?'
-
-                                                                                                    d_parameters_sub1[k9] = [d_parameters_sub3]
-
-                                                                                            elif v9['type'] == "boolean":
-                                                                                                d_parameters_sub1[k9] = True
-                                                                                            else:
-                                                                                                d_parameters_sub1[k9] = '?'
-                                                                    # print(4, d_parameters_sub1)
-                                                                    else:
-                                                                        d_parameters_sub1 = None
-                                                            if d_parameters_sub1 == None:
-                                                                d_parameters[k2] = []
-                                                            else:
-                                                                d_parameters[k2] = [d_parameters_sub1]
-
-                                                        else:
-                                                            d_parameters[k2] = '?'
-
-                                                    if "$ref" in v2:   # {'description': '用户登录信息详情', '$ref': '#/definitions/SysUserVO对象'}
-                                                        # print(v2["$ref"].split("#/definitions/")[1])
-                                                        # print(v2["$ref"].split("#/definitions/")[1][:-2])
-                                                        # d_parameters[v2["$ref"].split("#/definitions/")[1][:-2]] = {}  # 增加 SysUserVO 键
-
-                                                        # print(9,d['definitions'][v2["$ref"].split("#/definitions/")[1]])
-                                                        for k77, v88 in d['definitions'][v2["$ref"].split("#/definitions/")[1]].items():
-                                                            if k77 == "properties":
-                                                                # print(v8)
-                                                                for k99, v99 in v88.items():
-                                                                    # print(v9)
-                                                                    if "type" in v99:
-                                                                        if "string" in v99['type']:
-                                                                            d_parameters_sub2[k99] = ""
-                                                                        elif "integer" in v99['type'] or "number" in v99['type']:
-                                                                            d_parameters_sub2[k99] = 0
-                                                                        elif v99['type'] == "array":
-                                                                            d_parameters_sub2[k99] = []
-                                                                        elif v99['type'] == "boolean":
-                                                                            d_parameters_sub2[k99] = True
-                                                                        else:
-                                                                            d_parameters_sub2[k99] = '?'
-                                                        d_parameters[v2["$ref"].split("#/definitions/")[1][:-2]] = d_parameters_sub2
-
-
-                                        # print(5, d_parameters)
-                                        # l_i.append(str(d_parameters))
-                                        l_i.append(json.dumps(d_parameters))
-
-                                        break
-                                elif "items" in list2[0]['schema']:
-                                    # print(list2[0]['schema'])
-                                    # print(l_parameters[0]['schema']['items']['$ref'].split("#/definitions/")[1])
-                                    # if list2[0]['schema']['items']['$ref'] in list2[0]['schema']:
-                                    if '$ref' in list2[0]['schema']['items']:
-                                        if k == list2[0]['schema']['items']['$ref'].split("#/definitions/")[1]:  # ChatVO
-                                            for k1, v1 in d['definitions'][k].items():
-                                                # if k1 == "required":
-                                                #     print(v1)
-                                                if k1 == "properties":
-                                                    # print(v1)
-                                                    for k2, v2 in v1.items():
-                                                        if v2['type'] == "string":
-                                                            d_parameters[k2] = ""
-                                                        elif v2['type'] == "integer":
-                                                            d_parameters[k2] = 0
-                                            # print(d_parameters)
-                                            # l_i.append(str(d_parameters))
-                                            l_i.append(json.dumps(d_parameters))
-
-                                            break
+                else:
+                    # 多个参数
+                    s = ''
+                    for i in range(len(l_parameters)):
+                        # print(234, l_parameters)
+                        if 'in' in l_parameters[i]:
+                            if l_parameters[i]['in'] == 'body':
+                                # todo body
+                                if 'originalRef' in l_parameters[i]['schema']:
+                                    # 'schema': {'$ref': '#/definitions/ThridTnbSfListInfoResponse', 'originalRef': 'ThridTnbSfListInfoResponse'}}]
+                                    originalRef = l_parameters[i]['schema']['originalRef']
+                                    d_parametersMemo = d['definitions'][originalRef]['properties']
+                                    print('多参body(originalRef) =>', d_parametersMemo)
+                                    # # 遍历检查是否有下级originalRef，并获取参数
+                                    d_body = self._traversalDict(d, d_parametersMemo)
+                                    print('多参body遍历 =>', d_body)
+                                elif '$ref' in l_parameters[i]['schema']:
+                                    ref = l_parameters[i]['schema']['$ref']
+                                    if ref == '#/definitions/List':
+                                        d_body = {l_parameters[0]['name']: []}
+                                        print('多参body列表', d_body)
+                                    elif ref == '#/definitions/file':
+                                        d_body = {l_parameters[0]['name']: ['file']}
+                                        print('多参body文件', d_body)
+                                    else:
+                                        ref = ref.replace('#/definitions/', '')
+                                        d_parametersMemo = d['definitions'][ref]['properties']
+                                        print('多参body($ref) =>', d_parametersMemo)
+                                        # # 遍历检查是否有下级$ref，并获取参数
+                                        d_body = self._traversalDict(d, d_parametersMemo)
+                                        print('多参body遍历 =>', d_body)
+                            if l_parameters[i]['in'] == 'query' or l_parameters[i]['in'] == 'path':
+                                # todo query
+                                # print(l_parameters[i])
+                                if 'type' in l_parameters[i]:
+                                    varQuery = l_parameters[i]['name'] + "={" + l_parameters[i]['type'] + "}"
+                                else:
+                                    varQuery = l_parameters[i]['name'] + "={string}"
+                                s = s + varQuery + ','
+                                if len(d_body) < 1 :
+                                    d_body = ''
                         else:
-                            l_i.append(None)
+                            if 'name' in l_parameters[i]:
+                                if 'type' in l_parameters[i]['schema']:
+                                    varQuery = l_parameters[i]['name'] + "={" + l_parameters[i]['schema']['type'] + "}"
+                                else:
+                                    varQuery = l_parameters[i]['name'] + "={string}"
+                                s = s + varQuery + ','
+                                if len(d_body) < 1:
+                                    d_body = ''
+                    varQuery = s[:-1]
+                    print('多参query =>', varQuery)
+            else:
+                # 没有参数，即get
+                d_body = ''
 
 
-                    # parameters
-                    if 'parameters' in v:
-                        l_i.append(str(v['parameters']))
-                    else:
-                        l_i.append(None)
+            # 生成列表
 
-                l_all.append(l_i)
-                # print(l_all)
-                l_i = []
+            l_1.append(tags)
+            l_1.append(summary)
+            l_1.append(paths)
+            l_1.append(l_method[0])
+            l_1.append(consumes)
+            l_1.append(varQuery)  # query
+            l_1.append(str(d_body))  # body
+            l_1.append(varUrl)
 
-            for i in range(len(l_all)):
-                Openpyxl_PO.setRows({i+2: l_all[i]})
-            Openpyxl_PO.setAllWordWrap()
-            Openpyxl_PO.setRowColAlignment(1, ["a", "h"], 'center', 'center')
-            Openpyxl_PO.setFreeze('A2')
+            c = c + 1
+            print(c, l_1, "\n")
+            varQuery = ''
+            s = ''
+            d_body = {}
+            l_all.append(l_1)
+            l_1 = []
 
-            Openpyxl_PO.save()
-
-
-        Web_PO.cls()
-        print("ok => " + toSave)
-
-
-if __name__ == '__main__':
+        # Color_PO.consoleColor2({"35": l_all})
+        return l_all
 
 
-    SwaggerPO_PO = SwaggerPO()
     
-    SwaggerPO_PO.getAll('http://192.168.0.238:8801', '/doc.html','saas.xlsx')
-
-
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8801', '/doc.html', "auth", "auth.xlsx")
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8801', '/doc.html', "saasuser", "saasuser.xlsx")
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8801', '/doc.html',"cms", "cms.xlsx")
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8801', '/doc.html',"oss", "oss.xlsx")
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8801', '/doc.html',"saascrf", "saascrf.xlsx")
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8801', '/doc.html',"ecg", "ecg.xlsx")
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8801', '/doc.html',"cuser", "cuser.xlsx")
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8801', '/doc.html', "hypertension", "hypertension.xlsx")
 
 
 
-
-    # SwaggerPO_PO.getOne('http://192.168.0.238:8090', '/doc.html', "default", "erp.xlsx")
 
 
 
