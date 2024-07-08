@@ -118,10 +118,6 @@ from pytesseract import *
 from seleniumwire import webdriver
 
 
-# chrome_options = webdriver.ChromeOptions()
-# driver = webdriver.Chrome(chrome_options=chrome_options)
-
-
 class DomPO(object):
 
     def __init__(self, driver):

@@ -19,6 +19,9 @@
 # phs-gateway-sqlserver.yml
 # publicKey: 04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249
 # privateKey: 124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
+
+# publicKey: 047e2c1440d05e86f9677f710ddfd125aaea7f3a390ce0662f9ef9f5ff1fa860d5174251dfa99e922e224a51519a53cd71063d81e64345a0c352c4eb68d88b0cc9
+# privateKey: 00c68ee01f14a927dbe7f106ae63608bdb5d2355f18735f7bf1aa9f2e609672681
 # enabled: false    // 改为false无法登录，因为页面加密，用于接口测试
 # 安全配置
 # # security:
@@ -47,13 +50,13 @@ class Gw_i_PO():
 
     def _sm2(self, Web_PO):
 
+        # 在线sm2加密/解密
+
         Web_PO.openURL("https://config.net.cn/tools/sm2.html")
         # 私钥
-        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[1]/textarea[1]",
-                          "124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62")
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[1]/textarea[1]", Configparser_PO.HTTP("privateKey"))
         # 公钥
-        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[1]/textarea[2]",
-                          '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249')
+        Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[1]/textarea[2]", Configparser_PO.HTTP("publicKey"))
 
     def encrypt(self, varSource):
 
@@ -64,6 +67,7 @@ class Gw_i_PO():
         Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[2]/textarea[1]", varSource)
         Web_PO.clkByX("/html/body/div[2]/div/div[1]/div[2]/div[1]/a[1]", 1)
         r = Web_PO.getAttrValueByX("/html/body/div[2]/div/div[1]/div[2]/textarea[2]", "value")
+        Web_PO.cls()
         return r
 
     def decrypt(self, varEncrypt):
@@ -75,6 +79,7 @@ class Gw_i_PO():
         Web_PO.setTextByX("/html/body/div[2]/div/div[1]/div[2]/textarea[2]", varEncrypt)
         Web_PO.clkByX("/html/body/div[2]/div/div[1]/div[2]/div[2]/a[1]", 1)
         r = Web_PO.getAttrValueByX("/html/body/div[2]/div/div[1]/div[2]/textarea[1]", "value")
+        Web_PO.cls()
         return r
 
 

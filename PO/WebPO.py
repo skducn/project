@@ -178,7 +178,7 @@ class WebPO(DomPO):
             # todo 浏览器
             options.add_experimental_option("detach", True)  # 浏览器永不关闭
             options.add_argument("--allow-running-insecure-content") # Allow insecure content
-            options.add_argument("--unsafely-treat-insecure-origin-as-secure=http://192.168.0.243:8010/")  # Replace example.com with your site's domain (this is what worked for me)
+            # options.add_argument("--unsafely-treat-insecure-origin-as-secure=http://192.168.0.243:8010/")  # Replace example.com with your site's domain (this is what worked for me)
 
             options.add_argument("--disable-blink-features=AutomationControlled")  # 禁止浏览器出现验证滑块
             options.add_argument('--incognito')  # 无痕模式
@@ -192,7 +192,7 @@ class WebPO(DomPO):
             # options.add_argument("--lang=en")  # 指定浏览器的语言，避免出现“询问是否翻译非您所用语言的网页”
 
             # todo 系统
-            options.add_argument("disable-cache")  # 禁用缓存
+            # options.add_argument("disable-cache")  # 禁用缓存
             options.add_argument("--disable-extensions")  # 禁用所有插件和扩展（提高稳定性，有时插件可能引起稳定性问题）
             options.add_argument('--no-sandbox')  # 关闭沙盒模式（沙盒模式提一种提高安全性的技术，但可能与某系统不兼容，关闭可能会降低浏览器的安全性）
             options.add_argument('-disable-dev-shm-usage')  # 禁用/dev/shm使用（可减少内存使用，但影响性能）

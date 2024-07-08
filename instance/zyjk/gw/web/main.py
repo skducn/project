@@ -25,8 +25,8 @@ print('基本公卫 => ', d_menu_jbgw)
 # Web_PO.delRequests()
 
 # 2.2, 新建健康档案概况标签页 (基本公卫)
-# Web_PO.opnLabel(d_menu_jbgw['健康档案概况'])
-# Web_PO.swhLabel(1)
+Web_PO.opnLabel(d_menu_jbgw['健康档案概况'])
+Web_PO.swhLabel(1)
 
 # # 获取当前页面除以下之外的所有请求地址
 # Web_PO.requestsExcept(['.js','.css','.png','.ico'])
