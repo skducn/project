@@ -1,0 +1,3 @@
+2024-07-12 12:36:19,676 base.py[line:454] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2024-07-12 12:36:19,677 base.py[line:895] INFO Added job "sch_test" to job store "default"
+2024-07-12 12:36:19,677 base.py[line:181] INFO Scheduler started

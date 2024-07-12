@@ -9,11 +9,15 @@
 # *****************************************************************
 from PO.SqlserverPO import *
 
-
 # todo 公卫
-# Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "ZYCONFIG", "GBK")
 # Sqlserver_PO = SqlServerPO("192.168.180.237", "PHUR_TEST", "testPH@2023", "zyconfig_pprod", "GBK")  # 预发布，通过VPN访问
-# Sqlserver_PO.dbRecord('*', 'varchar', 'testwjw')
+# Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS", "GBK")
+Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "ZYCONFIG", "GBK")
+Sqlserver_PO.dbRecord('*', 'varchar', '空挂户')
+# Sqlserver_PO.dbDesc()  # 表名中带有UpmsUser字符的表中Birthday字段的结构
+# Sqlserver_PO.dbDesc('a_%')  # 5，查看所有tb开头的表中id字段的结构（通配符*）
+# Sqlserver_PO.dbDesc(0, ['ORG_CODE'])  # 5，查看所有tb开头的表中id字段的结构（通配符*）
+
 
 # Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "PHUSERS", "GBK")
 # # Sqlserver_PO.dbRecord('*', 'varchar', '37068500100100082')
@@ -43,15 +47,15 @@ from PO.SqlserverPO import *
 
 
 # todo 社区健康平台（标准版）
-Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "GBK")
-Sqlserver_PO.dbRecord('*', 'varchar', '140202197610156018')
+# Sqlserver_PO = SqlServerPO("192.168.0.234", "sa", "Zy_123456789", "CHC", "GBK")
+# Sqlserver_PO.dbRecord('*', 'varchar', '140202197610156018')
 # Sqlserver_PO.dbDesc()
 # Sqlserver_PO.dbDesc('HRCOVER')
 # Sqlserver_PO.dbDesc('原始治理规则')
 # Sqlserver_PO.dbDesc('HRCOVER',  ['ID', 'NAME'])
 # Sqlserver_PO.dbDesc('HRD%')
 # Sqlserver_PO.dbDesc('HRD%', ['PID', 'ID', 'NAME'])
-# Sqlserver_PO.dbDesc('%', ["ID", "PID"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
+# Sqlserver_PO.dbDesc('%', ["ID", "orgCode"])  # 表名中带有UpmsUser字符的表中Birthday字段的结构
 # Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%刘斌龙%')  # 搜索指定表符合条件的记录.
 # Sqlserver_PO.dbRecord('HRCOVER', 'varchar', '%张*%')  # 搜索指定表符合条件的记录.
 # Sqlserver_PO.dbRecord('*', 'varchar', '%刘斌龙%')  # 搜索所有表符合条件的记录.

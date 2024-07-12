@@ -1219,7 +1219,6 @@ class SqlServerPO:
                 )
         # print(b'\xd6\xf7\xbc\xfc\xd7\xd4\xd4\xf6'.decode('gbk'))
         for t in l_table_comment:
-
             if t['value'] != None:
                 d_tableComment[t['name']] = t['value'].decode("gbk")
             else:
@@ -1382,8 +1381,8 @@ class SqlServerPO:
                     print("- - " * 20)
                     Color_PO.consoleColor(
                         "31",
-                        "36",
-                        "[Result] => TableName: "
+                        "35",
+                        "[Result] => "
                         + str(k)
                         + " ("
                         + str(d_tableComment[k])
@@ -1431,10 +1430,11 @@ class SqlServerPO:
         """ 6.1 查看表结构（字段名、数据类型、大小、允许空值、字段说明）"""
         # 注意，表名区分大小写
         # Sqlserver_PO.dbDesc()  # 1，所有表结构
-        # Sqlserver_PO.dbDesc('tb_code_value')   # 2，某个表结构
-        # Sqlserver_PO.dbDesc('tb_code_value', 'code,id,value')  # 3，某表的部分字段
-        # Sqlserver_PO.dbDesc('tb*')  # 4，查看所有tb开头的表结构（通配符*）
-        # Sqlserver_PO.dbDesc('tb*', 'id,page')  # 5，查看所有b开头的表中id字段的结构（通配符*）
+        # Sqlserver_PO.dbDesc('tb_code_value')   # 2，某表结构
+        # Sqlserver_PO.dbDesc('tb_code_value', ['id', 'page'])  # 3，某表的部分字段
+        # Sqlserver_PO.dbDesc('tb%')  # 4，查看所有tb开头的表结构（通配符*）
+        # Sqlserver_PO.dbDesc('tb%', ['id', 'page'])  # 5，查看所有tb开头的表中id字段的结构（通配符*）
+        # Sqlserver_PO.dbDesc(0, ['id', 'page'])  # 6，查看所有表中包含 id 和 page字段
 
         if len(args) == 0:
             # 1，所有表结构（ok）
@@ -1446,10 +1446,10 @@ class SqlServerPO:
                 "",
             )
         elif len(args) == 1:
-            # 2，单表结构 和 3，带通配符表结构 （ok）
+            # 2，某表结构 和 4，查看所有tb开头的表结构（通配符*）
             self._dbDesc_search(args[0])
         elif len(args) == 2:
-            # 4，单表结构的可选字段 、 5，带通配符表结构的可选字段、6，所有表结构的可选字段
+            # 3，某表的部分字段  5，查看所有tb开头的表中id字段的结构（通配符*） 6，所有表结构的可选字段
             self._dbDesc_search(args[0], args[1])
 
 

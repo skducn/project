@@ -6,19 +6,42 @@
 #  privateKey: 124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62
 # *****************************************************************
 
+class Color():
+    RED = 1
+    GREEN = 2
+    BLUE = 3
+def paint(color: Color):
+    if color == Color.RED:
+        print("涂成红色")
+    elif color == Color.GREEN:
+        print("涂成绿色")
+    elif color == Color.BLUE:
+        print("涂成蓝色")
+    else:
+        print("未知颜色")
 
-from gmssl import sm2, func
+paint(2)
+paint(Color.BLUE)
 
-# private_key=func.random_hex(64)  # 生成随机64字节的16进制私钥
-# public_key = sm2.CryptSM2._kg('这里填写私钥', '这里填写基点')  # 通过私钥生成随机128字节的16进制公钥，这里要注意格式
-# public_key  = '04' + public_key   # 生成128字节的16进制公钥加上04标识符，表示未压缩
 
-public_key = '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
-private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
+def a(number: int) -> int:
+    print(123)
+    return(number)
 
-a = 'http://192.168.0.203:30080/assets/index.a5ea955a.js'
+print(a([1]))
 
-print(a[-3:])
+# from gmssl import sm2, func
+#
+# # private_key=func.random_hex(64)  # 生成随机64字节的16进制私钥
+# # public_key = sm2.CryptSM2._kg('这里填写私钥', '这里填写基点')  # 通过私钥生成随机128字节的16进制公钥，这里要注意格式
+# # public_key  = '04' + public_key   # 生成128字节的16进制公钥加上04标识符，表示未压缩
+#
+# public_key = '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
+# private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
+#
+# a = 'http://192.168.0.203:30080/assets/index.a5ea955a.js'
+#
+# print(a[-3:])
 
 
 # l_div = ['ceshi',3,4,5,'ceshi',333333,'ceshi']
