@@ -1,0 +1,7 @@
+cd /Users/linghuchong/Downloads/51/Python/project/
+git pull origin master
+git pull gitee master
+
+osascript -e "tell application \"System Events\" to keystroke \"q\" using command down"
+
+pause
