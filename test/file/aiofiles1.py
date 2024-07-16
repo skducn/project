@@ -14,18 +14,18 @@
 import asyncio, aiofiles
 
 async def wirte_demo():
-    async with aiofiles.open("1.txt","w",encoding="utf-8") as fp:
+    async with aiofiles.open("1.txt", "w", encoding="utf-8") as fp:
         await fp.write("hello world \n")
         await fp.write("test")
 
 
 async def read_demo():
-    async with aiofiles.open("1.txt","r",encoding="utf-8") as fp:
+    async with aiofiles.open("1.txt", "r", encoding="utf-8") as fp:
         content = await fp.read()
         print(content)
 
 async def read2_demo():
-    async with aiofiles.open("1.txt","r",encoding="utf-8") as fp:
+    async with aiofiles.open("1.txt", "r", encoding="utf-8") as fp:
         # 读取每行
         async for line in fp:
             print(line)

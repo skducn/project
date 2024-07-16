@@ -40,14 +40,15 @@ Char_PO = CharPO()
 
 
 
-class Chc_rule_PO():
+class ChcrulePO():
 
-    def __init__(self, sheetName):
+    def __init__(self, sheetName=''):
 
         self.TOKEN = self.getToken(Configparser_PO.USER("user"), Configparser_PO.USER("password"))
         self.dbTable = Char_PO.chinese2pinyin(sheetName)
         self.dbTable = "a_" + self.dbTable
         self.sheetName = sheetName
+        # print(self.sheetName)
 
         # 读取疾病身份证对应的表(a_jibingshenfenzheng)
         self.jbsfz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.FILE("jbsfz"))
@@ -226,11 +227,9 @@ class Chc_rule_PO():
             Sqlserver_PO.execute("INSERT INTO [dbo].[QYYH] ([CZRYBM], [CZRYXM], [JMXM], [SJHM], [SFZH], [JJDZ], [SFJD], [SIGNORGID], [ARCHIVEUNITCODE], [ARCHIVEUNITNAME], [DISTRICTORGCODE], [DISTRICTORGNAME], [TERTIARYORGCODE], [TERTIARYORGNAME], [PRESENTADDRDIVISIONCODE], [PRESENTADDRPROVCODE], [PRESENTADDRPROVVALUE], [PRESENTADDRCITYCODE], [PRESENTADDRCITYVALUE], [PRESENTADDRDISTCODE], [PRESENTADDDISTVALUE], [PRESENTADDRTOWNSHIPCODE], [PRESENTADDRTOWNSHIPVALUE], [PRESENTADDRNEIGHBORHOODCODE], [PRESENTADDRNEIGHBORHOODVALUE], [SIGNSTATUS], [SIGNDATE],[CATEGORY_CODE], [CATEGORY_NAME], [SEX_CODE], [SEX_NAME], [LAST_SERVICE_DATE], [ASSISTANT_DOC_ID], [ASSISTANT_DOC_NAME], [HEALTH_MANAGER_ID], [HEALTH_MANAGER_NAME], [ASSISTANT_DOC_PHONE], [HEALTH_MANAGER_PHONE]) VALUES ('" + str(guid) + "', N'姚皎情', N'肝癌高危', NULL, '" + str(varIdcard) + "', N'平安街道16号', NULL, NULL, '0000001', '静安精神病院', '310118000000', '青浦区', '12345', '上海人民医院', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2020-06-01', 166, '4', N'1',N'男', NULL, NULL, NULL, NULL, NULL, NULL, NULL)")
 
 
-
-
     def runRow(self, dbId):
 
-        # 按行执行
+        # 按id执行
 
         self.dbId = dbId
 
@@ -252,10 +251,12 @@ class Chc_rule_PO():
 
         self._matchRule()
 
-    def runRule(self, l_dbRule):
+    def runRule(self, t_dbRule):
 
         # 按rule规则执行
-        l_d_id = Sqlserver_PO.select("select id from %s where [rule] in %s" % (self.dbTable, l_dbRule))
+
+        l_d_id = Sqlserver_PO.select("select id from %s where [rule] in %s" % (self.dbTable, t_dbRule))
+        print(l_d_id)  # [{'id': 2}, {'id': 3}]
         for i in range(len(l_d_id)):
             self.runRow(l_d_id[i]['id'])
 

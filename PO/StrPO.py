@@ -34,38 +34,39 @@ from time import strftime
 
 
 class StrPO:
-    # def str2list(self, varStr=None, varMode="str"):
-    #
-    #     """1.1 字符串转列表"""
-    #
-    #     try:
-    #         if varMode != "digit":
-    #             return varStr.split(",")  # ['1', '2', '3']
-    #         else:
-    #             return list(eval(varStr))
-    #     except:
-    #         return None
 
-    # def str2tuple(self, varStr=None, varMode="str"):
-    #
-    #     """1.2 字符串转元组"""
-    #
-    #     try:
-    #         if varMode != "digit":
-    #             return tuple(varStr)
-    #         else:
-    #             func = lambda x: tuple(int(i) for i in x)
-    #             return tuple(func(i) for i in varStr)
-    #     except:
-    #         return None
+    def str2list(self, varStr=None, varMode="str"):
 
-    # def str2dict(self, varStr):
-    #
-    #     """1.3 字符串转字典"""
-    #     # {'a': '123', 'b': 456} , 这是字典，用单引号
-    #     # {"a": "192.168.1.1", "b": "192.168.1.2"} ， 这是字符串，用双引号
-    #
-    #     return dict(eval(varStr))
+        """1.1 字符串转列表"""
+
+        try:
+            if varMode != "digit":
+                return varStr.split(",")  # ['1', '2', '3']
+            else:
+                return list(eval(varStr))
+        except:
+            return None
+
+    def str2tuple(self, varStr=None, varMode="str"):
+
+        """1.2 字符串转元组"""
+
+        try:
+            if varMode != "digit":
+                return tuple(varStr)
+            else:
+                func = lambda x: tuple(int(i) for i in x)
+                return tuple(func(i) for i in varStr)
+        except:
+            return None
+
+    def str2dict(self, varStr):
+
+        """1.3 字符串转字典"""
+        # {'a': '123', 'b': 456} , 这是字典，用单引号
+        # {"a": "192.168.1.1", "b": "192.168.1.2"} ， 这是字符串，用双引号
+
+        return dict(eval(varStr))
 
     def str2date(self, datestr):
 

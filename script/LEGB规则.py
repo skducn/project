@@ -8,12 +8,11 @@
 # http://www.51testing.com/html/71/n-7799171.html
 # *****************************************************************
 
-
 # todo 局部作用域 Local
-# def abc():
-#     x =10
-#     print(x)
-# abc()   # 10
+def abc():
+    x =10
+    print(x)
+abc()   # 10
 
 # todo 闭包函数外的函数Enclosing
 def enclosing_scope_example():

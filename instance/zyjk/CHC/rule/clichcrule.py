@@ -22,12 +22,12 @@
 
 import sys
 sys.path.append('../../../../')
-from Chc_rule_PO import *
+from ChcrulePO import *
 import threading
 import argparse, ast
 
 # 步骤1
-r = Chc_rule_PO(sys.argv[1])
+r = ChcrulePO(sys.argv[1])
 
 # 步骤2, 默认off
 if len(sys.argv) == 3 :

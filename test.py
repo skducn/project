@@ -9,11 +9,27 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
-import pkg_resources
 
-installed_packages = pkg_resources.working_set
-for package in installed_packages:
-    print(package.key, package.version)
+def my_decorator(func):
+    def wrapper():
+        print("Something is happening before the function is called.")
+        func()
+        print("Something is happening after the function is called.")
+    return wrapper
+
+@my_decorator
+def say_hello():
+    print("Hello!")
+
+say_hello()
+
+
+# import pkg_resources
+# pkg_resources.require('pandas')
+#
+# installed_packages = pkg_resources.working_set
+# for package in installed_packages:
+#     print(package.key, package.version)
 
 
 # a= [{'in': 'body', 'name': 'loginFormVO', 'description': 'loginFormVO', 'required': True, 'schema': {'$ref': '#/definitions/LoginInputVO对象'}}]

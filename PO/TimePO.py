@@ -5,18 +5,13 @@
 # Description   : 日期时间
 # *********************************************************************
 
-"""
-求时间差，输出天时分秒 pd.to_datetime(datetime.datetime.now())
-求时间差，输出秒  time.time()
-秒转时分秒1  sec2hms1()
-秒转时分秒2  sec2hms2()
-"""
 from time import strftime, localtime, sleep
 from datetime import date, datetime, timedelta
 import calendar, datetime, time
-# from workalendar.asia import China
+from time import strftime, gmtime
 
-# cal = China()
+from workalendar.asia import China
+cal = China()
 
 import pandas as pd
 
@@ -74,6 +69,16 @@ class TimePO:
         """
         return (datetime.datetime.now() + datetime.timedelta(hours=n)).strftime("%Y-%m-%d %H:%M:%S")
 
+    def getTimeByPeriod(self, n):
+
+        """获取指定日期时间的前后时间
+        如：getDateTimeByPeriod（0）   //当前时间 2020/03/19 15:19:28
+        如：getDateTimeByPeriod（0.5）  //晚30分钟  2020-03-19 15:49:28
+        如：getDateTimeByPeriod（-1）  //早1小时  2020-03-19 14:19:28
+        """
+        return (datetime.datetime.now() + datetime.timedelta(hours=n)).strftime("%H:%M:%S")
+
+
     def getNow(self):
 
         """获取当前日期（年月日时分秒后及后6位数），如 2017-09-15 09:41:27.336765"""
@@ -113,7 +118,7 @@ class TimePO:
         """获取当前月日，如 0919"""
         return datetime.datetime.now().strftime("%m%d")
 
-    def getWeek(self, varDate):
+    def getWeek(self, varDate=''):
 
         """获取当天/某天是星期几"""
 
@@ -328,6 +333,23 @@ class TimePO:
             d2 = zero
         return d1 < d2
 
+    def getCalendar(self):
+        # from workalendar.asia import China
+        #
+        # 创建一个中国的日历对象
+        # cal = China()
+
+        # 判断2023年每一天是否是法定节假日
+        for month in range(1, 13):
+            for day in range(1, cal.monthdays2calendar(2023, month)[-1][-1] + 1):
+                date = f"2023-{month:02d}-{day:02d}"
+                if cal.is_working_day(date):
+                    print(f"{date} 是工作日")
+                else:
+                    holiday_name = cal.get_holiday_name(date)
+                    if holiday_name:
+                        print(f"{date} 是{holiday_name}")
+
     def get_weekday(self, x):
         # 获取每月工作日天数，
         from datetime import datetime
@@ -352,27 +374,22 @@ class TimePO:
         # divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。
         m, s = divmod(varSec, 60)
         h, m = divmod(m, 60)
-
         # h =  divmod(h, 60)
         # print(h)
-
         return "%02d:%02d:%02d" % (h, m, s)
 
     def sec2hms2(self, varSec):
 
         # "秒转时分秒2"
 
-        from time import strftime
-        from time import gmtime
-
-        return strftime("%H:%M:%S", gmtime(120))  # 00:02:50
+        return strftime("%H:%M:%S", gmtime(varSec))  # 00:02:50
 
 
 if __name__ == "__main__":
 
     Time_PO = TimePO()
 
-    # print(Time_PO.getDate())  # 20200319
+    print(Time_PO.getDate())  # 20200319
     # print(Time_PO.getDateByMinus())  # 2020-03-19
     # print(Time_PO.getDateByDivide())  # 2020/03/19
     # print(Time_PO.getDateTime())  # 20200319151928
