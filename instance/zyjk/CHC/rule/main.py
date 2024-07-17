@@ -20,10 +20,10 @@ from ChcrulePO import *
 
 # todo 2, 从db中执行规则用例
 # 健康评估,健康干预,中医体质辨识,疾病评估,儿童健康干预
-r = ChcrulePO("中医体质辨识")
-# r.runResult("all")  # 执行所有规则
+r = ChcrulePO("健康评估")
+
 r.runRow(1)  # # 按id执行
-# r.runRule(('r12',''))
+# r.runRule(('r6',''))  # 按rule执行
 # r.runRule(('r9', 'r2'))  # 按rule执行(按照这个格式)
 # r.runResult("error")  # # 按result执行
-
+# r.runResult("all")  # 执行所有规则

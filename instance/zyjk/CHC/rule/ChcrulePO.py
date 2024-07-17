@@ -119,7 +119,7 @@ class ChcrulePO():
         d_r = json.loads(str_r)
         sleep(2)
         if Configparser_PO.SWITCH("interface") == "on":
-            Color_PO.consoleColor("31", "33", str_r, "")
+            Color_PO.consoleColor("31", "33", d_r, "")
 
         if 'code' in d_r:
             if d_r['code'] != 200:
@@ -138,6 +138,7 @@ class ChcrulePO():
             self.log = self.log + "\n" + str_r
             # 如：{"timestamp":"2023-08-12T20:56:45.715+08:00","status":404,"error":"Not Found","path":"/qyyh/addAssess/310101202308070001"}
             return ([{'name':'重新评估', 'value': "[ERROR => 重新评估(i_rerunExecuteRule) => " + str(str_r) + "]"}])
+
     def i_startAssess(self, varIdcard):
 
         '''
@@ -277,7 +278,8 @@ class ChcrulePO():
 
 
     def _matchRule(self):
-        # todo 适配相应的测试规则
+
+        # 适配相应的测试规则
         l_d_param = Sqlserver_PO.select("select param from %s where [rule]='%s'" % (self.csgz, self.rule))
         if l_d_param[0]['param'] == 'p1':
             # 带参数1
@@ -604,6 +606,7 @@ class ChcrulePO():
         d_clipboard = {}  # 新数据
         for i in range(len(l_sql)):
             clipboard = pc.paste()  # 从剪贴板获取数据
+            # print(11,clipboard)
 
             if "{" in clipboard:
                 d_clipboard = Str_PO.str2dict(clipboard)

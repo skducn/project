@@ -51,11 +51,12 @@ def getRecord(varStartDate, varEndDate, l_varWho):
         list2 = []
         count = 1
         for i in tmpTuple:
-            list1.append(str(i[0]))
-            # list1.append(str(i[1]))
-            list1.append(str(i[2]))
-            list1.append(str(i[3]).replace("<p>","").replace("</p>","").replace("&nbsp;","").replace("<span>","").replace("</span>","").replace("<br />",""))
-            list1.append(str(i[4]).replace("<p>","").replace("</p>","").replace("&nbsp;","").replace("<span>","").replace("</span>","").replace("\n\t","  ").
+            # print(i)
+            list1.append(str(i['姓名']))
+            list1.append(str(i['项目']))
+            # list1.append(str(i['模块']))
+            list1.append(str(i['任务']).replace("<p>","").replace("</p>","").replace("&nbsp;","").replace("<span>","").replace("</span>","").replace("<br />",""))
+            list1.append(str(i['描述']).replace("<p>","").replace("</p>","").replace("&nbsp;","").replace("<span>","").replace("</span>","").replace("\n\t","  ").
                          replace("\n\n","").replace("\n","").replace("<div>"," ").replace("</div>"," ")
                          .replace("</div>", "").replace('<span style="background-color:#FFFFFF;">', "")
                          .replace('<p class="MsoNormal">', "").replace('<p class="MsoNormal" style="margin-left:0pt;text-indent:0pt;background:#FFFFFF;">', "")
@@ -71,8 +72,8 @@ def getRecord(varStartDate, varEndDate, l_varWho):
                          .replace('<p class="MsoNormal" style="text-indent:72pt;background:#FFFFFF;">', "")
                          .replace('<p style="background-color:#FFFFFF;">', "")
                          )
-            list1.append(str(i[5]))
-            list1.append(str(i[6]))
+            list1.append(str(i['工时']))
+            list1.append(str(i['完成时间']))
             list2.append(list1)
             list1 = []
             count = count + 1
@@ -121,8 +122,8 @@ def getRecord(varStartDate, varEndDate, l_varWho):
 # df = getRecord("2024-5-24", "2024-5-30", ['金浩'])
 # getRecord("2024-5-24", "2024-5-30", ['郭斐'])
 # getRecord("2024-5-24", "2024-5-30", ['陈晓东'])
-# getRecord("2024-5-24", "2024-5-30", ['舒阳阳'])
-df = getRecord("2024-5-1", "2024-5-30", ['郭斐','刘炳龙','舒阳阳'])
+# df = getRecord("2024-7-16", "2024-7-16", ['舒阳阳'])
+df = getRecord("2024-7-16", "2024-7-16", ['郭斐','刘斌龙','舒阳阳','陈晓东'])
 
 
 title = "工作日志"
