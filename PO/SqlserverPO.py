@@ -864,7 +864,6 @@ class SqlServerPO:
                 u = u.replace(",'None',", ",null,")
                 sql = "INSERT INTO " + str(varTable) + " (" + s + ") VALUES (" + u + ")"
             else:
-
                 sql = "INSERT INTO " + str(varTable) + " (" + s + ") VALUES (" + u + ")"
             self.execute(varTable, sql)
             self.conn.commit()

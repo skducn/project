@@ -22,7 +22,8 @@ import pendulum
 # print(Time_PO.getDateByDivide())  # 2020/03/19
 # print(Time_PO.getDateTime())  # 20200319151928
 # print(Time_PO.getDateTimeByDivide())  # 2020/03/19 15:19:28
-# print(time.strftime("%H:%M:%S"))  # 15:19:28
+print(time.strftime("%H:%M:%S"))  # 15:19:28
+print(time.strftime("%Y-%m-%d %H:%M:%S.000"))  # 15:19:28
 # print(Time_PO.getWeek())  # 星期一
 # print(Time_PO.getWeekByEng("", "%A"))  # Monthday
 # print(Time_PO.getWeekByEng("", "%a"))  # Mon
@@ -79,16 +80,16 @@ import pendulum
 # print(Time_PO.isDate1GTdate2("2020-4-1", "2020-1-5"))
 
 # todo 时区处理
-# 获取当前时区信息
-current_timezone = pendulum.now().timezone_name
-print(current_timezone)  # Asia/Shanghai
-
-sh = pendulum.now('Asia/Shanghai')  # 上海时间
-print(sh)
-
-print(sh.in_tz('US/Pacific'))  # # 转换时区 ,太平洋时间
-print(sh.in_tz('US/Eastern'))  # # 转换时区, 美国东部时间
-print(sh.in_tz('JP'))  # # 转换时区, 美国东部时间
+# # 获取当前时区信息
+# current_timezone = pendulum.now().timezone_name
+# print(current_timezone)  # Asia/Shanghai
+#
+# sh = pendulum.now('Asia/Shanghai')  # 上海时间
+# print(sh)
+#
+# print(sh.in_tz('US/Pacific'))  # # 转换时区 ,太平洋时间
+# print(sh.in_tz('US/Eastern'))  # # 转换时区, 美国东部时间
+# print(sh.in_tz('JP'))  # # 转换时区, 美国东部时间
 
 
 

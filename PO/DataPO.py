@@ -372,7 +372,7 @@ class DataPO:
         """2.1.3，获取身份证的性别"""
 
         # 先判断身份证是否有效
-        if Data_PO.isIdCard(varIdcard) == True:
+        if self.isIdCard(varIdcard) == True:
             if (int(varIdcard[16:17]) % 2) == 0:
                 # print("{0} 是偶数".format(IdCard[16:17]))
                 return "女"
