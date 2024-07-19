@@ -33,7 +33,7 @@ class TimePO:
     def getDateByMinus(self):
 
         """获取当天日期（年-月-日），如 2019-09-19"""
-        return str(date.today())
+        return date.today()
 
     def getDateByDivide(self):
 

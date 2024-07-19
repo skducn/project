@@ -161,6 +161,7 @@ class DyPO:
 		:param url = 'https://www.douyin.com/video/7157633339661307168'
 		:param url = "https://v.douyin.com/hbjqhuT"
 		'''
+
 		# 创建video文件夹
 		if not os.path.exists(savePath + v_folder):
 			os.makedirs(savePath + v_folder)
@@ -181,160 +182,76 @@ class DyPO:
 		return (savePath + v_folder, pathFile)
 
 
+	def save(self, varFolder, varTitle, varUrlSource, varExtension):
+		'''
+		1，下载单个抖音视频
+		:param url = 'https://www.douyin.com/video/7157633339661307168'
+		:param url = "https://v.douyin.com/hbjqhuT"
+		'''
+		# self.save(, author, filename, mp3)
+
+		savePath = '/Users/linghuchong/Downloads/video/douyin/'
+
+		# 创建文件夹
+		if not os.path.exists(savePath + varFolder):
+			os.makedirs(savePath + varFolder)
+
+		# 完整路径文件
+		varPath = savePath + varFolder
+		ff = varPath + "/" + varTitle + varExtension
+
+		# 写入文件
+		# res = requests.get(varUrlSource)
+		# with open(ff, "wb") as f:
+		# 	f.write(res.content)
+
+		res = requests.get(varUrlSource, stream=True)
+		# print(res.status_code)  # 403的下载不了
+		if res.status_code == 200:
+			with open(ff, "wb") as f:
+				for chunk in res.iter_content(chunk_size=8192):
+					if chunk:
+						f.write(chunk)
 
 
-	# def downVideo(self, url, toSave):
-	#
-	# 	'''
-	# 	1，下载单个抖音视频
-	# 	:param url = 'https://www.douyin.com/video/7157633339661307168'
-	# 	:param url = "https://v.douyin.com/hbjqhuT"
-	# 	'''
-	#
-	#
-	# 	headers = {
-	# 		"cookie":
-	# 			"s_v_web_id=verify_kwlyvfty_u4F0a4eC_HR0R_45qA_BGNr_tcfqSLkaFeIa; _"
-	# 			"tea_utm_cache_1300=undefined; __ac_nonce=061a6114700def9eb597f; __"
-	# 			"ac_signature=_02B4Z6wo00f01e59nzAAAIDAZTYE0lZHzxHuWZuAABo7n7oK78zhgb8Ol30kLigl-Pu9Q6sKyLpV-BQ3rbF1vLak-TtxN0ysQpQIX.VKlIbTkVBVA4rBt1JdylfNbrGz2NI4r4d7uQWMRa.r56; tt_scid=tbEntOkthFZL51883ve.2ORcwMNYlHUb6tegsnIzC9HSbV5u3J8ASl23x6S7wONy6e5e; "
-	# 		,
-	# 		# "user-agent": Http_PO.getUserAgent()
-	# 		'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-	#
-	# 	}
-	#
-	# 	if 'https://v.douyin.com/' in url:
-	# 		url = url.split('https://v.douyin.com/')[1].split('复制此链接')[0]
-	# 		url = 'https://v.douyin.com/' + url
-	# 		# print(url)
-	# 	if 'https://www.douyin.com/' in url:
-	# 		url = url.split('https://www.douyin.com/')[1].split('复制此链接')[0]
-	# 		url = 'https://www.douyin.com/' + url
-	# 		# print(url)
-	#
-	# 	# 解析 https://v.douyin.com/hbjqhuT 成 https://www.douyin.com/video/7157633339661307168
-	# 	if 'https://v.douyin.com/' in url or 'https://www.douyin.com/' in url:
-	#
-	# 		r = Http_PO.getHtml(url)
-	#
-	# 		aweme_id = re.findall(r'video/(\w+-\w+-\w+|\w+-\w+|\w+)', r.url)  # ['6976835684271279400']
-	# 		# # print(aweme_id)
-	# 		url2 = 'https://www.douyin.com/video/' + aweme_id[0]
-	# 		print(url2)
-	#
-	# 		# url2 = 'https://www.douyin.com/aweme/v1/web/aweme/detail/?device_platform=webapp&aid=6383&channel=channel_pc_web&aweme_id=7278475988445580596&pc_client_type=1&version_code=190500&version_name=19.5.0&cookie_enabled=true&screen_width=1920&screen_height=1080&browser_language=zh-CN&browser_platform=MacIntel&browser_name=Chrome&browser_version=115.0.0.0&browser_online=true&engine_name=Blink&engine_version=115.0.0.0&os_name=Mac+OS&os_version=10.15.7&cpu_core_num=8&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=50&webid=7224823478217967108&msToken=jEwTaPiZTXTuQjQqhzZBGBVBAiOC-GeoPnGAVdTYnH8LLNttKWbI2YaW8DAT6F1tWva59V8dQa-8OudnuyfB0Q4KfG4xhzC7wYHHd896_qHuwBPKT-OCiYg=&X-Bogus=DFSzswVOoobANry/tPRwAN7Tlqtx'
-	# 		# url2 = 'https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=' + aweme_id[0]
-	# 		r = requests.get(url=url2, headers=headers)
-	# 		# print(r.text)
-	# 		# sys.exit(0)
-	#
-	# 		info = bs4.BeautifulSoup(r.text, 'lxml')
-	# 		js = str(info.select_one("script#RENDER_DATA"))  # 定位到<script id="RENDER_DATA" type="application/json">
-	# 		s_json = parse.unquote(js)  # 将 RENDER_DATA 解码成 json 文本
-	# 		# print(s_json)
-	#
-	#
-	#
-	# 		# 转换成json格式
-	# 		s_json = s_json.replace('<script id="RENDER_DATA" type="application/json">', '').replace('</script>', '')
-	# 		# print(s_json)
-	# 		d_json = json.loads(s_json)
-	# 		# print("1111111111111")
-	# 		print(d_json)
-	#
-	# 		from jsonpath import jsonpath
-	# 		# 用户名
-	# 		nickname = jsonpath(d_json, '$[*].aweme.detail.authorInfo.nickname')
-	# 		nickname = nickname[0]
-	# 		# nickname = "123"
-	# 		# print(nickname)
-	#
-	# 		# 标题
-	# 		title = jsonpath(d_json, '$[*].aweme.detail.desc')
-	# 		title = title[0]
-	# 		title = Str_PO.delSpecialChar(str(title), "，", "。", "#", "@")  # 优化文件名中不需要的字符
-	# 		if len(title) > 254:
-	# 			title = title[:250]
-	# 		# print(title)
-	#
-	# 		# 生成目录（# 用户名作为目录）
-	# 		File_PO.newLayerFolder(toSave + "/" + nickname)
-	# 		# folder = f'{toSave}/{nickname}'
-	# 		folder = toSave + "/" + nickname
-	# 		# print(folder)
-	#
-	# 		# 下载链接
-	# 		downUrl = jsonpath(d_json, '$[*].aweme.detail.video.playApi')
-	# 		downUrl = downUrl[0]
-	# 		downUrl = downUrl.replace("//", "https://")
-	# 		# print(downUrl)
-	#
-	# 		# print("[下载中] => " + url + " => " + url2 + " => " + downUrl)
-	# 		print("[下载中] => \n" + downUrl)
-	#
-	# 		r = Http_PO.getHtml(downUrl)
-	# 		# open(f'{folder}/{title}.mp4', 'wb').write(r.content)
-	# 		open(folder + '/' + title + '.mp4', 'wb').write(r.content)
-	# 		print('[已完成] => \n' + str(folder) + "/" + str(title) + ".mp4")
-	#
-	# 		return folder
+		print("[已完成] => ", ff)
+		return varPath
 
 
-	# # 输出结果['目录'，'标题','下载地址']
-			# l_result = []
-			# l_result.append(f)
-			# # l_result.append((str(title).encode("utf-8").decode("utf-8")))
-			# l_result.append(title)
-			# l_result.append(downUrl)
-			# # print(l_result)
-			# print('[已完成] => ' + str(l_result).encode('gbk', 'ignore').decode('gbk'))
+	def getDetail(self, varExtension):
 
+		# 通过detail.json 获取视频信息
 
+		with open('/Users/linghuchong/Downloads/51/Python/project/instance/crawler/douyin/detail.json', 'r', encoding='utf-8-sig') as file:
+			data = json.load(file)
 
+		# https://www.douyin.com/video/7388545761698417920
+		# print(data)
 
-	# def downVidoeList(self, url, toSave, *param):
-	#
-	# 	'''
-	# 	2，下载多个抖音(列表页)视频
-	# 	:param url:  https://www.douyin.com/user/MS4wLjABAAAA9kW-bqa5AsYsoUGe_IJqCoqN3cJf8KSf59axEkWpafg
-	# 	:param toSave:
-	# 	:return:
-	# 	'''
-	#
-	# 	print("[待下载列表页] => " + url)
-	#
-	# 	# 使用selenium解析动态html
-	# 	# 参考：https://blog.csdn.net/weixin_44259720/article/details/127075628
-	# 	Web_PO.openURL(url)
-	# 	qty = Web_PO.pageDown('Eie04v01')
-	# 	# print(qty)
-	#
-	# 	text = Web_PO.driver.page_source
-	# 	text = bs4.BeautifulSoup(text, 'lxml')
-	# 	link = text.find(class_='EZC0YBrG').find_all('a')
-	# 	sign = 0
-	# 	for a in link:
-	# 		if len(param) == 2:
-	# 			vid = "/video/" + str(param[1])
-	# 			# 下载vid之后（即最新）
-	# 			if param[0] == 'a':
-	# 				if vid != a['href']:
-	# 					# print("https://www.douyin.com" + a['href'])
-	# 					self.downVideo("https://www.douyin.com" + a['href'], toSave)
-	# 				else:
-	# 					break
-	# 			# 下载vid之前（即最旧）
-	# 			if param[0] == 'b':
-	# 				if vid == a['href']:
-	# 					sign = 1
-	# 				if sign == 1:
-	# 					# print("https://www.douyin.com" + a['href'])
-	# 					self.downVideo("https://www.douyin.com" + a['href'], toSave)
-	#
-	# 		else:
-	# 			# 下载所有
-	# 			# print("https://www.douyin.com" + a['href'])
-	# 			self.downVideo("https://www.douyin.com" + a['href'], toSave)
+		aweme_id = data['aweme_detail']['aweme_id']  # 7388545761698417920
+		# print(aweme_id)  # 7388545761698417920
+
+		author = data['aweme_detail']['music']['author']
+		print(author)  # 英语
+
+		caption = data['aweme_detail']['caption']
+		# print(caption)  # 在洗车场的对话，关于养宠物～鹦鹉#英语口语 #练口语 #英语 #听力 #生活英语
+		filename = aweme_id + "，" + caption
+		filename = Str_PO.delSpecialChar(filename)  # 7388545761698417920，在洗车场的对话，关于养宠物～鹦鹉#英语口语#练口语#英语#听力#生活英语
+		print(filename)  # 7388545761698417920，在洗车场的对话，关于养宠物～鹦鹉#英语口语#练口语#英语#听力#生活英语
+
+		url_mp3 = data['aweme_detail']['music']['play_url']['uri']
+		print(url_mp3)  # https://sf5-hl-cdn-tos.douyinstatic.com/obj/ies-music/7388545888857180991.mp3
+
+		url_mp4 = data['aweme_detail']['video']['download_addr']['url_list'][2]
+		print(url_mp4)  # http://v3-web.douyinvod.com/e253e936b005b9e737ba7e795e08ff96/669a4e6e/video/tos/cn/tos-cn-ve-15/ooAXJUQgNrAFOEWZG49D6ifSfMDMABTI7iImoJ/?a=6383&ch=26&cr=3&dr=0&lr=all&cd=0%7C0%7C0%7C3&br=695&bt=695&cs=0&ds=2&ft=pEaFx4hZffPdOW~-N12NvAq-antLjrK8CId.RkaypSmpUjVhWL6&mime_type=video_mp4&qs=0&rc=ZDg6aTY4NDwzNjxpODtoM0BpajRpNXc5cjhwdDMzNGkzM0AwNmFgMjQyNjMxLTZiYzA1YSNnbzZeMmQ0MzFgLS1kLWFzcw%3D%3D&btag=c0000e00038000&cquery=100o_100w_100B_100x_100z&dy_q=1721376986&feature_id=aec1901414fcc21744f0443229378a3c&l=20240719161626D25776EE6FED8C064CDA
+
+		if varExtension == 'mp3':
+			varPath = self.save(author, filename, url_mp3, '.mp3')
+		elif varExtension == 'mp4':
+			varPath = self.save(author, filename, url_mp4, '.mp4')
+
+		return varPath
 
 
 if __name__ == '__main__':

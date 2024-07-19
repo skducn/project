@@ -9,6 +9,8 @@
 # Swagger http://192.168.0.243:8012/swagger-ui/index.html#/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/loginUsingPOST
 
 # todo Alfred中输入 "clichcrule 健康评估 1 "，执行以下脚本
+# todo Alfred中输入 "clichcrule 健康评估 1-10 "，执行以下脚本
+# todo Alfred中输入 "clichcrule 健康评估 error "，执行以下脚本
 # conda activate py308
 # cd /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/CHC/rule
 # python clichcrule.py -t a_jiankangpinggu -i 1 -l off
@@ -25,6 +27,9 @@ sys.path.append('../../../../')
 from ChcrulePO import *
 import threading
 import argparse, ast
+
+# print(sys.argv[2])
+# sys.exit(0)
 
 # 步骤1
 r = ChcrulePO(sys.argv[1])
@@ -52,12 +57,13 @@ try:
             end = int((sys.argv[2]).split("-")[1])
             if start < end:
                 for i in range(start, end+1):
-                    r.runRow(i)
+                    r.run(i)
             else:
                 for i in range(end, start+1):
-                    r.runRow(i)
+                    r.run(i)
         else:
-            r.runRow(sys.argv[2])
+            r.run(sys.argv[2])
+
 except:
     sys.exit(0)
 

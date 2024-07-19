@@ -10,13 +10,22 @@
 # ***************************************************************u**
 
 
-# l = ['a','']
-l = ['a']
-if len(l)  ==1:
-    l.append('')
+l =  [{'key1': 'ID', 'value1': '499948'}, {'key1': 'QTY', 'value1': '1'}, {'key1': 'Q2', 'value1': '1'}, {'key1': 'ID', 'value1': '499'}]
 
-a = tuple(l)
-print(a)
+print(len(l))
+d = {}
+for i in range(len(l)):
+    d[l[i]['key1']] = l[i]['value1']
+
+print(d)
+
+# # l = ['a','']
+# l = ['a']
+# if len(l)  ==1:
+#     l.append('')
+#
+# a = tuple(l)
+# print(a)
 
 # def my_decorator(func):
 #     def wrapper():

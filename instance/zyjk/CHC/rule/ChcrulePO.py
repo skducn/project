@@ -65,27 +65,24 @@ class ChcrulePO():
         # print(dbTable)
 
         Sqlserver_PO.execute("drop table if exists " + dbTable)
-        if dbTable == 'a_temporaryTable':
-            Sqlserver_PO.crtTable('a_temporaryTable', '''id INT IDENTITY(1,1) PRIMARY KEY, key1 VARCHAR(500), value1 VARCHAR(500)''')
-            # Sqlserver_PO.execute('set identity_insert a_temporaryTable on')
-            # Sqlserver_PO.execute("insert into a_temporaryTable(id, variable) values(1, '')")
-            # Sqlserver_PO.execute('set identity_insert a_temporaryTable off')
-        else:
-            # excel导入db
-            Sqlserver_PO.xlsx2db(Configparser_PO.FILE("case"), dbTable, sheetName)
-            if sheetName != "测试规则" and sheetName != "疾病身份证":
-                Sqlserver_PO.execute("ALTER table %s alter column result varchar(8000)" % (dbTable))  # 此列没数据，创建后是float，需转换成char
-                Sqlserver_PO.execute("ALTER TABLE %s alter column id int not null" % (dbTable))  # 设置主id不能为Null
-                Sqlserver_PO.execute("ALTER TABLE %s add PRIMARY KEY (id)" % (dbTable))  # 设置主键（条件是id不能为Null）
-                Sqlserver_PO.execute("ALTER table %s alter column updateDate char(11)" % (dbTable))  # 将float改为char类型
-                Sqlserver_PO.execute("ALTER table %s alter column updateDate DATE" % (dbTable))  # 注意sqlserver无法将float改为date，先将float改为char，再将char改为data，
-            # Sqlserver_PO.execute("ALTER TABLE %s ADD id1 INT NOT NULL IDENTITY(1,1) primary key (id1) " % ('健康评估'))  # 新增id自增主键
-            # Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(111)" % (tableName))  # 临时变量
-            if sheetName == "疾病身份证":
-                Sqlserver_PO.execute("ALTER TABLE %s alter column idcard decimal NULL" % (dbTable))  # 处理身份证导入后变成科学计数
+        # if dbTable == 'a_temporaryTable':
+        #     Sqlserver_PO.crtTable('a_temporaryTable', '''id INT IDENTITY(1,1) PRIMARY KEY, key1 VARCHAR(500), value1 VARCHAR(500)''')
+        # else:
+        # excel导入db
+        Sqlserver_PO.xlsx2db(Configparser_PO.FILE("case"), dbTable, sheetName)
+        if sheetName != "测试规则" and sheetName != "疾病身份证":
+            Sqlserver_PO.execute("ALTER table %s alter column result varchar(8000)" % (dbTable))  # 此列没数据，创建后是float，需转换成char
+            Sqlserver_PO.execute("ALTER TABLE %s alter column id int not null" % (dbTable))  # 设置主id不能为Null
+            Sqlserver_PO.execute("ALTER TABLE %s add PRIMARY KEY (id)" % (dbTable))  # 设置主键（条件是id不能为Null）
+            Sqlserver_PO.execute("ALTER table %s alter column updateDate char(11)" % (dbTable))  # 将float改为char类型
+            Sqlserver_PO.execute("ALTER table %s alter column updateDate DATE" % (dbTable))  # 注意sqlserver无法将float改为date，先将float改为char，再将char改为data，
+        # Sqlserver_PO.execute("ALTER TABLE %s ADD id1 INT NOT NULL IDENTITY(1,1) primary key (id1) " % ('健康评估'))  # 新增id自增主键
+        # Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(111)" % (tableName))  # 临时变量
+        if sheetName == "疾病身份证":
+            Sqlserver_PO.execute("ALTER TABLE %s alter column idcard decimal NULL" % (dbTable))  # 处理身份证导入后变成科学计数
         # 添加表注释
         Sqlserver_PO.execute("EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % ('(测试用例)' + sheetName, dbTable))  # sheetName=注释，dbTable=表名
-        print("[ok] 表'%s(%s)'创建成功!" % (dbTable, sheetName))
+        print("[ok] 表'%s(%s)'创建成功! " % (dbTable, sheetName))
 
 
     def initDiseaseIdcardAll(self):
@@ -272,13 +269,14 @@ class ChcrulePO():
             Sqlserver_PO.execute("INSERT INTO [dbo].[QYYH] ([CZRYBM], [CZRYXM], [JMXM], [SJHM], [SFZH], [JJDZ], [SFJD], [SIGNORGID], [ARCHIVEUNITCODE], [ARCHIVEUNITNAME], [DISTRICTORGCODE], [DISTRICTORGNAME], [TERTIARYORGCODE], [TERTIARYORGNAME], [PRESENTADDRDIVISIONCODE], [PRESENTADDRPROVCODE], [PRESENTADDRPROVVALUE], [PRESENTADDRCITYCODE], [PRESENTADDRCITYVALUE], [PRESENTADDRDISTCODE], [PRESENTADDDISTVALUE], [PRESENTADDRTOWNSHIPCODE], [PRESENTADDRTOWNSHIPVALUE], [PRESENTADDRNEIGHBORHOODCODE], [PRESENTADDRNEIGHBORHOODVALUE], [SIGNSTATUS], [SIGNDATE],[CATEGORY_CODE], [CATEGORY_NAME], [SEX_CODE], [SEX_NAME], [LAST_SERVICE_DATE], [ASSISTANT_DOC_ID], [ASSISTANT_DOC_NAME], [HEALTH_MANAGER_ID], [HEALTH_MANAGER_NAME], [ASSISTANT_DOC_PHONE], [HEALTH_MANAGER_PHONE]) VALUES ('" + str(guid) + "', N'姚皎情', N'肝癌高危', NULL, '" + str(varIdcard) + "', N'平安街道16号', NULL, NULL, '0000001', '静安精神病院', '310118000000', '青浦区', '12345', '上海人民医院', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2020-06-01', 166, '4', N'1',N'男', NULL, NULL, NULL, NULL, NULL, NULL, NULL)")
 
 
-    def _run(self, dbId):
+    def run(self, dbId):
 
         # 按id执行
 
-        if isinstance(dbId, int):
+        if isinstance(int(dbId), int):
             self.dbId = dbId
         else:
+            print(12121212)
             sys.exit(0)
         l_d_rows = Sqlserver_PO.select("select * from %s where id=%s" % (self.dbTable, self.dbId))
         # print(l_d_rows[0]) # {'id': 1, 'result': 'ok', 'updateDate': datetime.datetime(2023, 11, 7, 10, 4, 15), 'rule': 'r1', 'ruleParam': "AGE=55 .and. CATEGORY_CODE='2'", 'ruleCode': 'PG_Age001', '分类': '年龄', '规则名称': '年龄≥55岁', '评估规则详细描述': '年龄≥55岁', '评估因素判断规则': '年龄>=55', 'tester': '刘斌龙', 'var': ''}
@@ -307,7 +305,7 @@ class ChcrulePO():
 
         if isinstance(l_dbId, list):
             for i in range(len(l_dbId)):
-                self._run(l_dbId[i])
+                self.run(l_dbId[i])
 
     def runIdArea(self, l_dbId):
 
@@ -316,7 +314,7 @@ class ChcrulePO():
         if isinstance(l_dbId, list):
             if len(l_dbId) == 2:
                 for i in range(l_dbId[0], l_dbId[1]):
-                    self._run(i)
+                    self.run(i)
 
     def runRule(self, l_dbRule):
 
@@ -335,7 +333,7 @@ class ChcrulePO():
         l_d_id = Sqlserver_PO.select("select id from %s where [rule] in %s" % (self.dbTable, t_dbRule))
         print(l_d_id)  # [{'id': 2}, {'id': 3}]
         for i in range(len(l_d_id)):
-            self._run(l_d_id[i]['id'])
+            self.run(l_d_id[i]['id'])
 
     def runResult(self, varResult):
 
@@ -346,11 +344,47 @@ class ChcrulePO():
         if varResult == "all":
             l_d_id = Sqlserver_PO.select("select id from %s" % (self.dbTable))
             for i in range(len(l_d_id)):
-                self._run(l_d_id[i]['id'])
+                self.run(l_d_id[i]['id'])
         elif varResult != "ok":
             l_d_id = Sqlserver_PO.select("select id from %s where result <> 'ok'" % (self.dbTable))
             for i in range(len(l_d_id)):
-                self._run(l_d_id[i]['id'])
+                self.run(l_d_id[i]['id'])
+
+    def runDate(self, varDate=''):
+
+        # 按照时间执行
+        # 如果updateDate不是2024-07-19，就执行
+        # r.runDate("2024-07-19")
+
+        if  varDate == '':
+            varDate = Time_PO.getDateByMinus()
+        l = Sqlserver_PO.select("select id, updateDate from %s" % (self.dbTable))
+        for i in range(len(l)):
+            if str(varDate) != str(l[i]['updateDate']):
+                self.run(l[i]['id'])
+
+    def runDateAgo(self, varN):
+
+        # 执行N天以前的规则
+        beforeDate = Time_PO.getDateByMinusPeriod(varN)
+        # print(beforeDate)  # 2024-07-16
+        l = Sqlserver_PO.select("select id, updateDate from %s" % (self.dbTable))
+        for i in range(len(l)):
+            if beforeDate > l[i]['updateDate']:
+                self.run(l[i]['id'])
+
+    def runDateAgoResult(self, varN, varResult):
+
+        # r.runDateAgoResult(-3, 'error')
+        # 执行几天以前且状态是error的规则
+        beforeDate = Time_PO.getDateByMinusPeriod(varN)
+        # print(beforeDate)  # 2024-07-16
+        l = Sqlserver_PO.select("select id, result, updateDate from %s" % (self.dbTable))
+        for i in range(len(l)):
+            if beforeDate > l[i]['updateDate'] and varResult == l[i]['result']:
+                self.run(l[i]['id'])
+
+
 
     def _matchRule(self):
 
@@ -395,9 +429,9 @@ class ChcrulePO():
 
         # todo 输出第一行
         if self.tester == self.successor:
-            print("剪贴版，" + str(self.sheetName) + " => " + str(self.dbId) + "(" + self.rule + ")" + " => " + self.tester)  # [健康评估 => 9(r1)]
+            print(str(self.sheetName) + " => " + str(self.dbId) + "(" + self.rule + ")" + " => " + self.tester)  # [健康评估 => 9(r1)]
         else:
-            print("剪贴版，" + str(self.sheetName) + " => " + str(self.dbId) + "(" + self.rule + ")" + " => " + self.tester + " => " + self.successor )
+            print(str(self.sheetName) + " => " + str(self.dbId) + "(" + self.rule + ")" + " => " + self.tester + " => " + self.successor )
         # Color_PO.consoleColor("31", "33", (("[" + str(self.dbTable) + " => " + str(self.dbId) + "(" + rule + ")]").center(100, '-')), "")
 
         l_0 = Sqlserver_PO.select("select sql from %s where [rule]='%s'" %(self.csgz, self.rule))
@@ -523,6 +557,9 @@ class ChcrulePO():
             Color_PO.consoleColor("31", "31", (("[" + str(self.sheetName) + " => " + str(self.dbId) + "(" + str(self.rule) + ") => ERROR]").center(100, '-')), "")
             Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTable, self.log, self.dbId))
         Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
+        # Sqlserver_PO.execute("truncate table a_temporaryTable")
+        Sqlserver_PO.execute("drop table %s" % (self.tmp_db))
+
 
     def outResult2(self, varQty):
 
@@ -536,6 +573,10 @@ class ChcrulePO():
             Color_PO.consoleColor("31", "31", (("[" + str(self.sheetName) + " => " + str(self.dbId) + "(" + str(self.rule) + ") => ERROR]").center(100, '-')), "")
             Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTable, self.log, self.dbId))
         Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
+        # Sqlserver_PO.execute("truncate table a_temporaryTable")
+        Sqlserver_PO.execute("drop table %s" % (self.tmp_db))
+
+
 
     def outResultGW(self, d_actual):
 
@@ -566,6 +607,8 @@ class ChcrulePO():
             Sqlserver_PO.execute("update %s set result='%s' where id=%s" % (self.dbTable, self.log, self.dbId))
             Sqlserver_PO.execute("update %s set updateDate='%s' where id=%s" % (self.dbTable, Time_PO.getDateTimeByDivide(), self.dbId))
             # Sqlserver_PO.execute("update %s set var='' where id=%s" % (self.dbTable, self.dbId))
+        Sqlserver_PO.execute("drop table %s" % (self.tmp_db))
+
 
     def _getAutoIdcard(self, d):
 
@@ -674,25 +717,30 @@ class ChcrulePO():
             if '{疾病评估规则编码}' in l_sql[i]:
                 l_sql[i] = str(l_sql[i]).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
 
-        pc.copy('')  # 清空剪贴板
+        # pc.copy('')  # 清空剪贴板
+
+        # 生成动态临时数据库
+        self.tmp_db = 'a_temp' + str(Data_PO.getFigures(10))
+        # print(self.tmp_db)
+        Sqlserver_PO.crtTable(self.tmp_db, '''id INT IDENTITY(1,1) PRIMARY KEY, key1 VARCHAR(500), value1 VARCHAR(500)''')
 
         # 获取临时变量
         d_update = {}  # 更新数据
-        d_clipboard = {}  # 新数据
+        # d_clipboard = {}  # 新数据
         for i in range(len(l_sql)):
-            clipboard = pc.paste()  # 从剪贴板获取数据
-            # # ???
-            # if isinstance(clipboard, dict):
-            #     for k,v in clipboard.items():
-            #         print(k,v)
-            #     Sqlserver_PO.execute("insert into a_temporaryTable(key1,value1) values ('%s', '%s')" % str(k), str(v))
-            #     # print(type(str(clipboard)), str(clipboard))
-            #     # Sqlserver_PO.execute("update a_temporaryTable set variable= '%s' where id = 1" % str(clipboard))
+            # clipboard = pc.paste()  # 从剪贴板获取数据
 
+            # 将db转换成字典
+            l = Sqlserver_PO.select("select key1, value1 from %s" % (self.tmp_db))
+            # print(l) # [{'key1': 'ID', 'value1': '499948'}, {'key1': 'QTY', 'value1': '1'}, {'key1': 'Q2', 'value1': '1'},
+            d_update = {}
+            for p in range(len(l)):
+                d_update[l[p]['key1']] = l[p]['value1']
 
-            if "{" in clipboard:
-                d_clipboard = Str_PO.str2dict(clipboard)
-                d_update.update(d_clipboard)  # 新数据合并到更新数据中
+            # if "{" in clipboard:
+            #     d_clipboard = Str_PO.str2dict(clipboard)
+            #     d_update.update(d_clipboard)  # 新数据合并到更新数据中
+
                 if 'ID' in d_update:
                     l_sql[i] = str(l_sql[i]).replace("{ID}", str(d_update['ID']))
                 if 'IDCARD' in d_update:
@@ -715,23 +763,14 @@ class ChcrulePO():
             # todo 执行sql
             a = self.runSql(l_sql[i])
 
-
             if a != None:
                 if isinstance(a, list) and a != []:
                     if isinstance(a[0], dict):
-                        pc.copy(str(a[0]))  # 复制到剪贴板
+                        # pc.copy(str(a[0]))  # 复制到剪贴板
 
-                        # ???
-                        print(a[0], type(a[0]))
-                        # Sqlserver_PO.execute("insert into a_temporaryTable(key1) values (%s)" % str(a[0]))
-                        #     # print(type(str(clipboard)), str(clipboard))
-                        #     # Sqlserver_PO.execute("update a_temporaryTable set variable= '%s' where id = 1" % str(clipboard))
-                        if isinstance(a[0], dict):
-                            for k,v in a[0].items():
-                                print(k,v)
-                            Sqlserver_PO.execute("insert into a_temporaryTable(key1,value1) values ('%s', '%s')" % (str(k), str(v)))
-
-
+                        # 将变量存入db
+                        for k, v in a[0].items():
+                            Sqlserver_PO.execute("insert into %s (key1,value1) values ('%s', '%s')" % (self.tmp_db, str(k), str(v)))
 
                         if Configparser_PO.SWITCH("SQL") == "on":
                             Color_PO.consoleColor("31", "33", a[0], "")  # 橙色显示参数值 {'ID': 498228, 'ID_CARD': '110101193001191103'}
@@ -779,23 +818,35 @@ class ChcrulePO():
             if '{疾病评估规则编码}' in l_sql[i]:
                 l_sql[i] = str(l_sql[i]).replace("{疾病评估规则编码}", d['diseaseRuleCode'])
 
-        pc.copy('')  # 清空剪贴板
+        # pc.copy('')  # 清空剪贴板
+        # 生成动态临时数据库
+        self.tmp_db = 'a_temp' + str(Data_PO.getFigures(10))
+        # print(self.tmp_db)
+        Sqlserver_PO.crtTable(self.tmp_db, '''id INT IDENTITY(1,1) PRIMARY KEY, key1 VARCHAR(500), value1 VARCHAR(500)''')
 
         # todo 获取临时变量 - gw
         d_update = {}  # 更新数据
         d_new = {}  # 新数据
         for i in range(len(l_sql)):
-            s = pc.paste()
+            # s = pc.paste()
 
-            if "{" in s:
-                d_new = Str_PO.str2dict(s)
-                d_update.update(d_new)  # 新数据合并到更新数据中
-                if 'ID' in d_update:
-                    l_sql[i] = str(l_sql[i]).replace("{ID}", str(d_update['ID']))
-                if 'IDCARD' in d_update:
-                    l_sql[i] = str(l_sql[i]).replace("{IDCARD}", str(d_update['IDCARD']))
-                if 'GUID' in d_update:
-                    l_sql[i] = str(l_sql[i]).replace("{GUID}", str(d_update['GUID']))
+            # 将db转换成字典
+            l = Sqlserver_PO.select("select key1, value1 from %s" % (self.tmp_db))
+            # print(l) # [{'key1': 'ID', 'value1': '499948'}, {'key1': 'QTY', 'value1': '1'}, {'key1': 'Q2', 'value1': '1'},
+            d_update = {}
+            for p in range(len(l)):
+                d_update[l[p]['key1']] = l[p]['value1']
+
+            # if "{" in s:
+            #     d_new = Str_PO.str2dict(s)
+            #     d_update.update(d_new)  # 新数据合并到更新数据中
+
+            if 'ID' in d_update:
+                l_sql[i] = str(l_sql[i]).replace("{ID}", str(d_update['ID']))
+            if 'IDCARD' in d_update:
+                l_sql[i] = str(l_sql[i]).replace("{IDCARD}", str(d_update['IDCARD']))
+            if 'GUID' in d_update:
+                l_sql[i] = str(l_sql[i]).replace("{GUID}", str(d_update['GUID']))
 
             # todo 输出sql语句 - gw
             if Configparser_PO.SWITCH("SQL") == "on":
@@ -813,7 +864,12 @@ class ChcrulePO():
             if a != None:
                 if isinstance(a, list) and a != []:
                     if isinstance(a[0], dict):
-                        pc.copy(str(a[0]))
+                        # pc.copy(str(a[0]))
+
+                        # 将变量存入db
+                        for k, v in a[0].items():
+                            Sqlserver_PO.execute("insert into %s (key1,value1) values ('%s', '%s')" % (self.tmp_db, str(k), str(v)))
+
                         self.log = self.log + "\n" + str(a[0])
                         if Configparser_PO.SWITCH("SQL") == "on":
                             for k, v in a[0].items():

@@ -894,7 +894,7 @@ if __name__ == "__main__":
     #
     # print("2.5，生成uuid ".center(100, "-"))
     # print(Data_PO.getUUID("uuid1"))
-    print(Data_PO.getUUID("md5"))
+    # print(Data_PO.getUUID("md5"))
     # print(Data_PO.getUUID("random"))
     # print(Data_PO.getUUID("sh1"))
 
