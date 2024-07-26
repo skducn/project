@@ -15,12 +15,12 @@ Dy_PO = DyPO()
 
 query = sys.argv[1]
 
-if query == "mp3":
+if query == "mp3" or query == "3":
     varPath = Dy_PO.getDetail("mp3")
-elif query == "mp4":
+elif query == "mp4" or query == "4":
     varPath = Dy_PO.getDetail("mp4")
 
-os.system("cd " + varPath + "; open .")
+os.system("cd '" + varPath + "'; open .")
 
 
 

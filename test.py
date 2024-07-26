@@ -9,15 +9,21 @@
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
 
+import os
 
-l =  [{'key1': 'ID', 'value1': '499948'}, {'key1': 'QTY', 'value1': '1'}, {'key1': 'Q2', 'value1': '1'}, {'key1': 'ID', 'value1': '499'}]
+varPath = '/Users/linghuchong/Downloads/video/douyin/晨辉律师直播(洪文律所)'
+os.system("cd '" + varPath + "'; open .")
+# os.system("cd " + varPath )
 
-print(len(l))
-d = {}
-for i in range(len(l)):
-    d[l[i]['key1']] = l[i]['value1']
 
-print(d)
+# l =  [{'key1': 'ID', 'value1': '499948'}, {'key1': 'QTY', 'value1': '1'}, {'key1': 'Q2', 'value1': '1'}, {'key1': 'ID', 'value1': '499'}]
+#
+# print(len(l))
+# d = {}
+# for i in range(len(l)):
+#     d[l[i]['key1']] = l[i]['value1']
+#
+# print(d)
 
 # # l = ['a','']
 # l = ['a']
