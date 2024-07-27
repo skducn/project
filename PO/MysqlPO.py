@@ -189,7 +189,9 @@ class MysqlPO:
             'select table_name,table_comment from information_schema.`TABLES` where table_schema="%s" and table_name="%s" '
             % (self.db, varTable)
         )
-        if t_table_comment[0][0] == varTable:
+        # print(t_table_comment)
+        # print(t_table_comment[0])
+        if t_table_comment[0]['table_name'] == varTable:
             t_field_type_isnull_key_comment = self.execQuery(
                 'select column_name,column_type,is_nullable,column_key,column_comment from information_schema.`COLUMNS` where table_schema="%s" and table_name="%s" '
                 % (self.db, varTable)
@@ -199,16 +201,17 @@ class MysqlPO:
             # 字段与类型对齐
             a = b = c = d = e = 0
             for i in t_field_type_isnull_key_comment:
-                if len(i[0]) > a:
-                    a = len(i[0])
-                if len(i[1]) > b:
-                    b = len(i[1])
-                if len(i[2]) > c:
-                    c = len(i[2])
-                if len(i[3]) > d:
-                    d = len(i[3])
-                if len(i[4]) > e:
-                    e = len(i[4])
+                # print(i)
+                if len(i['column_name']) > a:
+                    a = len(i['column_name'])
+                if len(i['column_type']) > b:
+                    b = len(i['column_type'])
+                if len(i['is_nullable']) > c:
+                    c = len(i['is_nullable'])
+                if len(i['column_key']) > d:
+                    d = len(i['column_key'])
+                if len(i['column_comment']) > e:
+                    e = len(i['column_comment'])
 
             if var_l_field != 0:
                 # 可选字段
@@ -244,22 +247,24 @@ class MysqlPO:
             else:
                 # 所有字段
                 for i in t_field_type_isnull_key_comment:
-                    l_field.append(i[0] + " " * (a - len(i[0]) + 1))
-                    l_type.append(i[1] + " " * (b - len(i[1]) + 1))
-                    l_isnull.append(i[2] + " " * (c - len(i[2]) + 8))
-                    l_isKey.append(i[3] + " " * (d - len(i[3]) + 1))
-                    l_comment.append(i[4] + " " * (e - len(i[4])))
+                    # print(i)
+                    l_field.append(i['column_name'] + " " * (a - len(i['column_name']) + 1))
+                    l_type.append(i['column_type'] + " " * (b - len(i['column_type']) + 1))
+                    l_isnull.append(i['is_nullable'] + " " * (c - len(i['is_nullable']) + 8))
+                    l_isKey.append(i['column_key'] + " " * (d - len(i['column_key']) + 1))
+                    l_comment.append(i['column_comment'] + " " * (e - len(i['column_comment'])))
 
             # 只输出找到字段的表
             if len(l_field) != 0:
                 print("- - " * 50)
+                # print(t_table_comment)
                 Color_PO.consoleColor(
                     "31",
                     "36",
                     "["
-                    + t_table_comment[0][0]
+                    + t_table_comment[0]['table_name']
                     + " ("
-                    + t_table_comment[0][1]
+                    + t_table_comment[0]['table_comment']
                     + ") - "
                     + str(len(t_field_type_isnull_key_comment))
                     + "个字段]",
@@ -298,8 +303,10 @@ class MysqlPO:
                 'SELECT TABLE_NAME FROM information_schema.`TABLES` WHERE table_type = "BASE TABLE" AND table_schema = "%s"'
                 % self.db
             )
+            # print(t_tables)
             for t in range(len(t_tables)):
-                self._dbDesc_search(t_tables[t][0])
+                # print(t_tables[t])
+                self._dbDesc_search(t_tables[t]['TABLE_NAME'])
             Color_PO.consoleColor(
                 "31",
                 "31",
@@ -372,8 +379,10 @@ class MysqlPO:
 
         # mysql关键字和保留字，涉及的关键字将不处理 l_keyword = ['desc', 'limit', 'key', 'group', 'usage', 'read']
 
-        Openpyxl_PO = OpenpyxlPO(varMysqlKeywordFile)
-        l_keyword = Openpyxl_PO.getColValueByCol([1], [])
+        l_keyword = ['desc', 'limit', 'key', 'group', 'usage', 'read']
+
+        # Openpyxl_PO = OpenpyxlPO(varMysqlKeywordFile)
+        # l_keyword = Openpyxl_PO.getColValueByCol([1], [])
         l_keyword = [str(i).lower() for i in l_keyword[0]]
 
         l_field = []
@@ -395,9 +404,10 @@ class MysqlPO:
 
         # 过滤掉不符合类型的字段
         for j in t_field_type:
-            if varType in j[1]:
-                l_field.append(j[0])
-                l_fieldComment.append(j[2])
+            # print(j)
+            if varType in j['column_type']:
+                l_field.append(j['column_name'])
+                l_fieldComment.append(j['column_comment'])
         # print(l_field)  # ['userNo', 'userName', 'cardNo', 'email', 'mobile', 'shortName']
         # print(l_fieldComment)  # ['用户工号', '用户姓名', '证件号码', '邮箱', '手机号', '姓名首字母缩写（如张三：zs）']
 
@@ -415,6 +425,7 @@ class MysqlPO:
                 )
                 if len(t_record) != 0:
                     print("- - " * 30)
+                    # print(t_comment[0])
                     Color_PO.consoleColor(
                         "31",
                         "36",
@@ -422,7 +433,7 @@ class MysqlPO:
                         + "."
                         + varTable
                         + "("
-                        + str(t_comment[0][0])
+                        + str(t_comment[0]['table_comment'])
                         + ")."
                         + l_field[i]
                         + "("
@@ -483,10 +494,10 @@ class MysqlPO:
 
                 if len(t_tables) != 0:
                     for t in range(len(t_tables)):
-                        # print(t_tables[t][0])
+                        # print(t_tables[t])
                         self._dbRecord_search(
                             self.db,
-                            t_tables[t][0],
+                            t_tables[t]['TABLE_NAME'],
                             varType,
                             varValue,
                             varMysqlKeywordFile,

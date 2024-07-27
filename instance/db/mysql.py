@@ -15,7 +15,7 @@ from PO.MysqlPO import *
 # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "regional-upv", 3306)
 # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "regional-dict", 3306)
 # Mysql_PO.dbDesc()
-# Mysql_PO.dbRecord('*', 'char', u'%金浩%')
+# Mysql_PO.dbRecord('*', 'char', u'%13636690218%')
 
 # todo 招远妇幼
 # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "hfauser", 3306)
@@ -30,8 +30,9 @@ from PO.MysqlPO import *
 
 # todo 沪享瘦
 # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "saashypertensiontest", 3306)
-# Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "saasusertest", 3306)   
+Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "saasusertest", 3306)
 # Mysql_PO.dbDesc()
+Mysql_PO.dbRecord('*', 'char', '%13816109050%')
 
 # todo EPR3.0
 # Mysql_PO = MysqlPO("192.168.0.234", "root", "Zy_123456", "crmtest", 3306)
