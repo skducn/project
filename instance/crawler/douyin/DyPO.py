@@ -14,6 +14,7 @@
 #***************************************************************
 
 import requests, re, os, platform, bs4, json, sys
+import pyperclip as pc
 from urllib import parse
 # sys.path.append("../../../")
 sys.path.append("/Users/linghuchong/Downloads/51/Python/project/")
@@ -220,10 +221,14 @@ class DyPO:
 
 	def getDetail(self, varExtension):
 
-		# 通过detail.json 获取视频信息
+		# 通过剪贴板解析视频信息（打开抖音从detail中复制内容到剪贴板）
+		string = pc.paste()
+		data = json.loads(string)
 
-		with open('/Users/linghuchong/Downloads/51/Python/project/instance/crawler/douyin/detail.json', 'r', encoding='utf-8-sig') as file:
-			data = json.load(file)
+		if data == '':
+			# 通过detail.json 获取解析视频信息
+			with open('/Users/linghuchong/Downloads/51/Python/project/instance/crawler/douyin/detail.json', 'r', encoding='utf-8-sig') as file:
+				data = json.load(file)
 
 		# https://www.douyin.com/video/7388545761698417920
 		# print(data)
