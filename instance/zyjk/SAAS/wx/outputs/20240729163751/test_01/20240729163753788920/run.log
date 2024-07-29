@@ -1,0 +1,62 @@
+[I 2024-07-29 16:37:53,790 minium minitest#417 _miniSetUp] =========Current case: test_01=========
+[I 2024-07-29 16:37:53,790 minium minitest#420 _miniSetUp] package info: .Users.linghuchong.Downloads.51.Python.project.instance.zyjk.SAAS.wx.TestMain, case info: TestMain.test_01
+[I 2024-07-29 16:37:53,790 minium basenative#59 wrapper] call BaseNative.check_connection
+[I 2024-07-29 16:37:53,790 minium basenative#63 wrapper] call BaseNative.check_connection end True
+[I 2024-07-29 16:37:53,791 minium basenative#59 wrapper] call BaseNative.back_to_miniprogram
+[I 2024-07-29 16:37:53,791 minium basenative#780 back_to_miniprogram] try back_to_miniprogram 3
+[I 2024-07-29 16:37:53,792 minium basenative#63 wrapper] call BaseNative.back_to_miniprogram end 
+[I 2024-07-29 16:37:53,792 minium.App9040 app#901 relaunch] ReLaunch: /pages/login/login
+[D 2024-07-29 16:37:53,792 minium.Conn9440 connection#417 _safely_send] ASYNC_SEND > [140386816319440]{"id":"56bb9b37-2c8a-4463-9352-445116341735","method":"App.callWxMethod","params":{"method":"reLaunch","args":[{"url":"/pages/login/login"}]}}
+[D 2024-07-29 16:37:53,800 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"method":"App.bindingCalled","params":{"name":"reLaunch_before_global","args":[{"url":"/pages/login/login"}]}}
+[D 2024-07-29 16:37:54,046 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"method":"App.bindingCalled","params":{"name":"showModal_before_1722242152758","args":[{"title":"提示","showCancel":false,"content":"登录信息已过期，请重新登录!"},0.7998137051588514]}}
+[W 2024-07-29 16:37:54,047 minium.Conn9440 connection#320 notify] no observer listening event showModal_before_1722242152758
+[D 2024-07-29 16:37:54,047 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"method":"App.bindingCalled","params":{"name":"showModal_before_1722242273380","args":[{"title":"提示","showCancel":false,"content":"登录信息已过期，请重新登录!"},0.7998137051588514]}}
+[D 2024-07-29 16:37:54,048 minium.App9040 app#1273 super_before] showModal before hook result: [{'title': '提示', 'showCancel': False, 'content': '登录信息已过期，请重新登录!'}, 0.7998137051588514]
+[D 2024-07-29 16:37:54,548 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"method":"App.bindingCalled","params":{"name":"onAppRouteDone","args":[{"webviewId":6,"path":"pages/login/login","query":{},"openType":"reLaunch"},1722242274546]}}
+[D 2024-07-29 16:37:54,549 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"id":"56bb9b37-2c8a-4463-9352-445116341735","result":{"result":{"errMsg":"reLaunch:ok"}}}
+[I 2024-07-29 16:37:54,550 minium.App9040 app#1155 _on_route_changed] Route changed, {'name': 'onAppRouteDone', 'args': [{'webviewId': 6, 'path': 'pages/login/login', 'query': {}, 'openType': 'reLaunch'}, 1722242274546]}
+[I 2024-07-29 16:37:54,550 minium.Conn9440 connection#694 _handle_async_msg] received async msg: 56bb9b37-2c8a-4463-9352-445116341735
+[I 2024-07-29 16:37:54,552 minium minitest#841 capture] capture setup.png
+[D 2024-07-29 16:37:54,552 minium.Conn9440 connection#417 _safely_send] SEND > [140386816319440]{"id":"2f16c428-aaf1-4859-953c-7350271d0f46","method":"App.captureScreenshot","params":{}}
+[D 2024-07-29 16:37:54,879 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"id":"2f16c428-aaf1-4859-953c-7350271d0f46","result":{"data":"iVBORw0KGgoAAAANSUhEUgAAAYYAAANMCAIAAADXDp1JAAABHWlDQ1BTa2lhAAAokX2RP0vDQBjGf5YuioODgoNDRhH809LUVASxUYvg1Cq0DkKahvinrSFJ0dFZ/BDufg9xF5z8EE6dfWKGBEp8jrv3dw/v3b13B6VVpNISjMZx2G41jW7v0iAnx40CijUH069khM/Nf/KKND/wIlfxRz0Odbi2HIiX/ZQfE+6n/JJweN62xa/idT/H/Rw/xEEs/kjy3SBM+Fu8PxpO3KxuFr3xRUexq75Gi3s1nyEe23S44wZHZHOIRYMaJieKJkdyTPkWVSrsaL4rp6FYU0Zdjq3xWLMmVvae0RkcXAmeM6/3BG+WStnLvI0FWLmF9+vACZ0/q5xUPC2n7zyrbG32FwV3NWbuanDKGJctUVW1V6j/Am/aRL8+mWgBAAAgAElEQ
+[I 2024-07-29 16:37:54,880 minium minitest#472 _miniSetUp] =========case: test_01 start=========
+[I 2024-07-29 16:37:54,880 minium minitest#733 _callTestMethod] call test method
+[I 2024-07-29 16:37:54,881 minium page#690 _get_elements_by_css] try to get elements: input[placeholder='请输入手机号']
+[D 2024-07-29 16:37:54,881 minium.Conn9440 connection#417 _safely_send] SEND > [140386816319440]{"id":"319ee3bf-295a-4aa8-b889-a2ee5084b925","method":"Page.getElements","params":{"selector":"input[placeholder='\u8bf7\u8f93\u5165\u624b\u673a\u53f7']","pageId":6}}
+[D 2024-07-29 16:37:54,900 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"method":"App.bindingCalled","params":{"name":"showModal_before_1722242152758","args":[{"title":"提示","showCancel":false,"content":"登录信息已过期，请重新登录!"},0.05563859582406372]}}
+[W 2024-07-29 16:37:54,900 minium.Conn9440 connection#320 notify] no observer listening event showModal_before_1722242152758
+[D 2024-07-29 16:37:54,900 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"method":"App.bindingCalled","params":{"name":"showModal_before_1722242273380","args":[{"title":"提示","showCancel":false,"content":"登录信息已过期，请重新登录!"},0.05563859582406372]}}
+[D 2024-07-29 16:37:54,901 minium.App9040 app#1273 super_before] showModal before hook result: [{'title': '提示', 'showCancel': False, 'content': '登录信息已过期，请重新登录!'}, 0.05563859582406372]
+[D 2024-07-29 16:37:54,915 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"id":"319ee3bf-295a-4aa8-b889-a2ee5084b925","result":{"elements":[{"elementId":"6964f053-57ff-4789-be55-e0036d1465a0","tagName":"input"}]}}
+[I 2024-07-29 16:37:54,916 minium page#721 _get_elements_by_css] find elements success: [<minium.miniprogram.base_driver.element.FormElement object at 0x7fae5a57de20>]
+[D 2024-07-29 16:37:54,917 minium.Conn9440 connection#417 _safely_send] SEND > [140386816319440]{"id":"dc10dc29-12b3-40db-a8b2-89087313ce01","method":"Element.getDOMProperties","params":{"names":["innerText"],"elementId":"6964f053-57ff-4789-be55-e0036d1465a0","pageId":6}}
+[D 2024-07-29 16:37:54,923 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"id":"dc10dc29-12b3-40db-a8b2-89087313ce01","result":{"properties":["请输入手机号"]}}
+[E 2024-07-29 16:37:54,924 minium minitest#738 _callTestMethod] test exception
+Traceback (most recent call last):
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/minitest.py", line 734, in _callTestMethod
+    method()
+  File "/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/TestMain.py", line 17, in test_01
+    a.text("1234")
+TypeError: 'str' object is not callable
+[I 2024-07-29 16:37:54,927 minium minitest#741 _callTestMethod] end test method
+[D 2024-07-29 16:37:54,927 minium minitest#744 _miniTearDown] =========Current case Down: test_01=========
+[I 2024-07-29 16:37:54,927 minium minitest#841 capture] capture teardown.png
+[D 2024-07-29 16:37:54,927 minium.Conn9440 connection#417 _safely_send] SEND > [140386816319440]{"id":"6f812547-758a-40ea-bb36-425297a4abe8","method":"App.captureScreenshot","params":{}}
+[D 2024-07-29 16:37:54,978 minium.Conn9440 connection#650 __on_message] RECV < [140386816319440]{"id":"6f812547-758a-40ea-bb36-425297a4abe8","result":{"data":"iVBORw0KGgoAAAANSUhEUgAAAYYAAANMCAIAAADXDp1JAAABHWlDQ1BTa2lhAAAokX2RP0vDQBjGf5YuioODgoNDRhH809LUVASxUYvg1Cq0DkKahvinrSFJ0dFZ/BDufg9xF5z8EE6dfWKGBEp8jrv3dw/v3b13B6VVpNISjMZx2G41jW7v0iAnx40CijUH069khM/Nf/KKND/wIlfxRz0Odbi2HIiX/ZQfE+6n/JJweN62xa/idT/H/Rw/xEEs/kjy3SBM+Fu8PxpO3KxuFr3xRUexq75Gi3s1nyEe23S44wZHZHOIRYMaJieKJkdyTPkWVSrsaL4rp6FYU0Zdjq3xWLMmVvae0RkcXAmeM6/3BG+WStnLvI0FWLmF9+vACZ0/q5xUPC2n7zyrbG32FwV3NWbuanDKGJctUVW1V6j/Am/aRL8+mWgBAAAgAElEQ
+[I 2024-07-29 16:37:54,979 minium basenative#59 wrapper] call BaseNative.get_start_up
+[I 2024-07-29 16:37:54,979 minium basenative#63 wrapper] call BaseNative.get_start_up end 
+[E 2024-07-29 16:37:54,984 minium assertbase#372 _get_stack_info] <bound method TestMain.test_01 of <TestMain.TestMain testMethod=test_01>>
+Traceback (most recent call last):
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py", line 266, in testPartExecutor
+    yield
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py", line 351, in run
+    self._callTestMethod(testMethod)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/minitest.py", line 734, in _callTestMethod
+    method()
+  File "/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/TestMain.py", line 17, in test_01
+    a.text("1234")
+TypeError: 'str' object is not callable
+[W 2024-07-29 16:37:54,985 minium assertbase#354 _log_info_when_error] config: {'debug': False, 'base_dir': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx', 'platform': 'ide', 'app': 'wx', 'debug_mode': 'debug', 'close_ide': False, 'auto_capture': 'auto', 'check_mp_foreground': True, 'auto_relaunch': True, 'device_desire': {}, 'account_info': {}, 'report_usage': True, 'remote_connect_timeout': 180, 'request_timeout': 60, 'use_push': True, 'full_reset': False, 'outputs': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/outputs', 'enable_app_log': False, 'enable_network_panel': False, 'project_path': '/Users/linghuchong/Downloads/myGitLab/saas/doctor/test/saas-ecg-doctor-wechat', 'dev_tool_path': '/Applications/wechatwebdevtools.app/Contents/MacOS/cli', 'test_port': 9420, 'mock_native_modal': {}, 'mock_request': [], 'auto_authorize': False, 'audits': None, 'teardown_snapshot': False, 'mock_images_dir': '', 'mock_images': {}, 'need_perf': False, 'appid': None, 'enable_h5': True, 'framework_capture': True, 'error_capture': False, 'assert_capture': True, 'create_time': '20240729163751', 'case_output': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/outputs/20240729163751/test_01/20240729163753788920'}
+[W 2024-07-29 16:37:54,985 minium assertbase#355 _log_info_when_error] build info: {'version': '1.5.5', 'revision': 'dcf6f3345021813b36f0d1b3002746ebf0ec334b', 'branch': 'master', 'update_at': '2024-06-04 11:56:11'}
+[W 2024-07-29 16:37:54,985 minium minitest#973 _log_info_when_error] mini: 基础库2.19.6, 开发者工具1.06.2402030
+[W 2024-07-29 16:37:54,985 minium minitest#975 _log_info_when_error] native: <minium.native.wx_native.idenative.IdeNative object at 0x7fae5a515ee0>

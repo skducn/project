@@ -1,0 +1,65 @@
+
+<view class="body">
+  <view class="container">
+    <van-nav-bar is="miniprogram_npm/@vant/weapp/nav-bar/index">
+      <view style="height: 47px;"/>
+      <view class="van-nav-bar bar-index--van-nav-bar van-nav-bar--fixed bar-index--van-nav-bar--fixed  van-hairline--bottom bar-index--van-hairline--bottom" style="z-index:1;padding-top:47px; ">
+        <view class="van-nav-bar__content bar-index--van-nav-bar__content">
+          <view class="van-nav-bar__left bar-index--van-nav-bar__left"/>
+          <view class="van-nav-bar__title bar-index--van-nav-bar__title  van-ellipsis bar-index--van-ellipsis">登录</view>
+          <view class="van-nav-bar__right bar-index--van-nav-bar__right"/>
+        </view>
+      </view>
+    </van-nav-bar>
+    <view class="homeImage">
+      <image class="bannerImage" src="../../assets/images/bannerBg.png" role="img"/>
+    </view>
+    <view class="main">
+      <view class="main_box">
+        <view class="main_input">
+          <van-field is="miniprogram_npm/@vant/weapp/field/index">
+            <van-cell is="miniprogram_npm/@vant/weapp/cell/index">
+              <view class="field-index--van-field van-cell cell-index--van-cell" hover-class="van-cell--hover hover-class" hover-stay-time="70" style="">
+                <view class="van-cell__title cell-index--van-cell__title " style="max-width:6.2em;min-width:6.2em;margin-right: 12px;"/>
+                <view class="van-cell__value cell-index--van-cell__value ">
+                  <view class="van-field__body field-index--van-field__body van-field__body--text field-index--van-field__body--text">
+                    <view class="van-field__control field-index--van-field__control van-field__control--custom field-index--van-field__control--custom"/>
+                    <input class="van-field__control field-index--van-field__control " cursor="-1" maxlength="-1" placeholder="请输入手机号" placeholder-class="van-field__placeholder" placeholder-style="padding-left:10px" selection-end="-1" selection-start="-1" type="text" value="">请输入手机号</input>
+                    <view class="van-field__icon-container field-index--van-field__icon-container"/>
+                    <view class="van-field__button field-index--van-field__button"/>
+                  </view>
+                </view>
+              </view>
+            </van-cell>
+          </van-field>
+          <van-field is="miniprogram_npm/@vant/weapp/field/index">
+            <van-cell is="miniprogram_npm/@vant/weapp/cell/index">
+              <view class="field-index--van-field van-cell cell-index--van-cell" hover-class="van-cell--hover hover-class" hover-stay-time="70" style="">
+                <view class="van-cell__title cell-index--van-cell__title " style="max-width:6.2em;min-width:6.2em;margin-right: 12px;"/>
+                <view class="van-cell__value cell-index--van-cell__value ">
+                  <view class="van-field__body field-index--van-field__body van-field__body--password field-index--van-field__body--password">
+                    <view class="van-field__control field-index--van-field__control van-field__control--custom field-index--van-field__control--custom"/>
+                    <input class="van-field__control field-index--van-field__control " cursor="-1" maxlength="-1" placeholder="请输入密码" placeholder-class="van-field__placeholder" placeholder-style="padding-left:10px" selection-end="-1" selection-start="-1" type="password" value="" password="">请输入密码</input>
+                    <view class="van-field__icon-container field-index--van-field__icon-container"/>
+                    <view class="van-field__button field-index--van-field__button"/>
+                  </view>
+                </view>
+              </view>
+            </van-cell>
+          </van-field>
+        </view>
+        <van-button is="miniprogram_npm/@vant/weapp/button/index">
+          <button app-parameter="" business-id="" class=" van-button button-index--van-button van-button--info button-index--van-button--info van-button--normal button-index--van-button--normal van-button--round button-index--van-button--round" data-detail="null" form-type="" hover-class="van-button--active hover-class" lang="" open-type="" send-message-img="" send-message-path="" send-message-title="" session-from="" style="color:#fff;background:#8A9FE3;border-color:#8A9FE3" role="button" aria-disabled="false">
+            <view class="van-button__text button-index--van-button__text">登录</view>
+          </button>
+        </van-button>
+      </view>
+    </view>
+    <view class="footer">
+      <image class="pc_logo" src="../../assets/images/logo_bg.png" role="img"/>
+    </view>
+    <van-toast is="miniprogram_npm/@vant/weapp/toast/index" id="van-toast">
+      <van-transition is="miniprogram_npm/@vant/weapp/transition/index"/>
+    </van-toast>
+  </view>
+</view>

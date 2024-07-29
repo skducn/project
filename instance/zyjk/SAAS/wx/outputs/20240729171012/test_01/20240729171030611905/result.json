@@ -1,0 +1,116 @@
+{
+    "case_name": "test_01",
+    "run_time": "20240729 17:10:30",
+    "test_type": "TestMain",
+    "case_doc": null,
+    "success": false,
+    "failures": "",
+    "errors": "Traceback (most recent call last):\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py\", line 266, in testPartExecutor\n    yield\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py\", line 351, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/minitest.py\", line 734, in _callTestMethod\n    method()\n  File \"/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/TestMain.py\", line 21, in test_01\n    a = self.page.get_element(\"text#iconfont icon-yuanquan1\")\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/app.py\", line 260, in wrapper\n    return func(*args, **kwargs)\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/minium_log.py\", line 226, in wrapper\n    result = func(*args, **kwargs)\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/page/page.py\", line 371, in get_element\n    raise MiniElementNotFoundError(_selector)\nminium.framework.exception.MiniElementNotFoundError: element[text#iconfont icon-yuanquan1] not found\n",
+    "start_timestamp": 1722244231.688185,
+    "is_failure": false,
+    "is_error": true,
+    "module": ".Users.linghuchong.Downloads.51.Python.project.instance.zyjk.SAAS.wx.TestMain",
+    "package": "TestMain",
+    "failed_line_num": 21,
+    "device": {
+        "system_info": {
+            "batteryLevel": 87,
+            "benchmarkLevel": -1,
+            "brand": "devtools",
+            "memorySize": 2048,
+            "model": "iPhone 5",
+            "system": "iOS 10.0.1",
+            "platform": "devtools",
+            "pixelRatio": 2,
+            "safeArea": {
+                "top": 20,
+                "left": 0,
+                "right": 320,
+                "bottom": 568,
+                "width": 320,
+                "height": 548
+            },
+            "screenWidth": 320,
+            "screenHeight": 568,
+            "screenTop": 0,
+            "windowWidth": 320,
+            "windowHeight": 568,
+            "statusBarHeight": 20,
+            "version": "8.0.5",
+            "language": "zh_CN",
+            "SDKVersion": "2.32.0",
+            "enableDebug": false,
+            "fontSizeScaleFactor": 1,
+            "fontSizeSetting": 16,
+            "mode": "default",
+            "host": {
+                "env": "WeChat"
+            },
+            "bluetoothEnabled": true,
+            "locationEnabled": true,
+            "wifiEnabled": true,
+            "locationReducedAccuracy": true,
+            "albumAuthorized": true,
+            "bluetoothAuthorized": true,
+            "cameraAuthorized": true,
+            "locationAuthorized": true,
+            "microphoneAuthorized": true,
+            "notificationAuthorized": true,
+            "notificationAlertAuthorized": true,
+            "notificationBadgeAuthorized": true,
+            "notificationSoundAuthorized": true,
+            "phoneCalendarAuthorized": true,
+            "deviceOrientation": "portrait",
+            "devicePixelRatio": 2
+        }
+    },
+    "log_filename": "run.log",
+    "error_type": "MiniElementNotFoundError",
+    "error_value": "element[text#iconfont icon-yuanquan1] not found",
+    "error_extra_info": "",
+    "error_stages": [
+        "testMethod"
+    ],
+    "screen_info": [
+        {
+            "name": "setup",
+            "url": "/pages/login/index",
+            "path": "images/setup.png",
+            "ts": 1722244231,
+            "datetime": "2024-07-29 17:10:31",
+            "use_region": false
+        },
+        {
+            "name": "teardown",
+            "url": "/pages/login/index",
+            "path": "images/teardown.png",
+            "ts": 1722244232,
+            "datetime": "2024-07-29 17:10:32",
+            "use_region": false
+        }
+    ],
+    "step_info": [],
+    "check_list": [],
+    "assert_list": [],
+    "page_wxml": "29171032.wxml",
+    "perf_data": "{\"startup\": 0, \"avg_cpu\": 0, \"max_cpu\": 0, \"cpu_data_list\": [], \"avg_mem\": 0, \"max_mem\": 0, \"mem_data_list\": [], \"avg_fps\": 0, \"min_fps_rt\": 0, \"fps_data_list\": [], \"fps_time_series_list\": [], \"cpu_time_series_list\": [], \"mem_time_series_list\": []}",
+    "weapp_log_path": "weapp.log",
+    "request_log_path": "request.log",
+    "stop_timestamp": 1722244232.152891,
+    "appId": "",
+    "appName": "",
+    "source": {
+        "code": [
+            "    def test_01(self):\n",
+            "        a = self.page.get_element(\"text#iconfont icon-yuanquan1\")\n",
+            "        a.click()\n",
+            "        # a = self.page.get_element(\"input[placeholder='\u8bf7\u8f93\u5165\u624b\u673a\u53f7']\")\n",
+            "        # a.text(\"1234\")\n",
+            "        # self.page.get_element(\"input[placeholder='\u8bf7\u8f93\u5165\u5bc6\u7801']\")\n",
+            "        # a = self.page.get_element(\"view#custom-class van-icon van-icon-success\")\n",
+            "        # a.click()\n"
+        ],
+        "start": 20
+    },
+    "filename": "result.json"
+}

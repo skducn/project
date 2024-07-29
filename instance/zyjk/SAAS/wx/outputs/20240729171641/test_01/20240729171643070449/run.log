@@ -1,0 +1,73 @@
+[I 2024-07-29 17:16:43,072 minium minitest#417 _miniSetUp] =========Current case: test_01=========
+[I 2024-07-29 17:16:43,072 minium minitest#420 _miniSetUp] package info: .Users.linghuchong.Downloads.51.Python.project.instance.zyjk.SAAS.wx.TestMain, case info: TestMain.test_01
+[I 2024-07-29 17:16:43,072 minium basenative#59 wrapper] call BaseNative.check_connection
+[I 2024-07-29 17:16:43,073 minium basenative#63 wrapper] call BaseNative.check_connection end True
+[I 2024-07-29 17:16:43,073 minium basenative#59 wrapper] call BaseNative.back_to_miniprogram
+[I 2024-07-29 17:16:43,073 minium basenative#780 back_to_miniprogram] try back_to_miniprogram 3
+[I 2024-07-29 17:16:43,073 minium basenative#63 wrapper] call BaseNative.back_to_miniprogram end 
+[I 2024-07-29 17:16:43,074 minium.App5424 app#901 relaunch] ReLaunch: /pages/login/index
+[D 2024-07-29 17:16:43,074 minium.Conn2992 connection#417 _safely_send] ASYNC_SEND > [140444641012992]{"id":"b5683b5b-f95d-4611-bbea-6aafed00b0cb","method":"App.callWxMethod","params":{"method":"reLaunch","args":[{"url":"/pages/login/index"}]}}
+[D 2024-07-29 17:16:43,079 minium.Conn2992 connection#650 __on_message] RECV < [140444641012992]{"method":"App.bindingCalled","params":{"name":"reLaunch_before_global","args":[{"url":"/pages/login/index"}]}}
+[D 2024-07-29 17:16:43,601 minium.Conn2992 connection#650 __on_message] RECV < [140444641012992]{"method":"App.bindingCalled","params":{"name":"onAppRouteDone","args":[{"webviewId":6,"path":"pages/login/index","query":{},"openType":"reLaunch","__ts__":1722244603597,"renderer":"webview"},1722244603598]}}
+[I 2024-07-29 17:16:43,602 minium.App5424 app#1155 _on_route_changed] Route changed, {'name': 'onAppRouteDone', 'args': [{'webviewId': 6, 'path': 'pages/login/index', 'query': {}, 'openType': 'reLaunch', '__ts__': 1722244603597, 'renderer': 'webview'}, 1722244603598]}
+[D 2024-07-29 17:16:43,603 minium.Conn2992 connection#650 __on_message] RECV < [140444641012992]{"id":"b5683b5b-f95d-4611-bbea-6aafed00b0cb","result":{"result":{"errMsg":"reLaunch:ok"}}}
+[I 2024-07-29 17:16:43,603 minium.Conn2992 connection#694 _handle_async_msg] received async msg: b5683b5b-f95d-4611-bbea-6aafed00b0cb
+[I 2024-07-29 17:16:43,604 minium minitest#841 capture] capture setup.png
+[D 2024-07-29 17:16:43,604 minium.Conn2992 connection#417 _safely_send] SEND > [140444641012992]{"id":"dbed7b98-acf2-4c8b-b510-1fd3c39e98b7","method":"App.captureScreenshot","params":{}}
+[D 2024-07-29 17:16:48,542 minium.Conn2992 connection#650 __on_message] RECV < [140444641012992]{"id":"dbed7b98-acf2-4c8b-b510-1fd3c39e98b7","result":{"data":"iVBORw0KGgoAAAANSUhEUgAAAoAAAARwCAIAAAD17XJXAAABKmlDQ1BTa2lhAAAokX2RPUvDUBSGH6uL6CB+oINDcHLws9UYwcUWWwWnVqF1S9MQxLaGNEV3R/0HLro6OLq5OwqCk6u7IDj73nZIQeIJ597nvPdNcu69kJlDkZmAVjuOyqW8Va2dWAyE63VC0mMIft7NCG/L//jSYrThdzzNX8o40s/1yYZ4OujzpeF6n28MR0flgvhOvBgMcH2AL+IwFr8YvxdGhj/EO61m10v6ZtxvH1c0V5XzlDjXE9DEZ5UKZ5ziijYp4ii3WOuNuxRU2+yxIcWkLY9xFcmSU+1obVtVTrWdnOftExxe67RrieZEcL8EU6+JtvAIk/vwPBy6kduTRswl+Xn4nlHbD/J/wtiV1FmznLyb3EXKXq0/e7U4oI3Hiiir7texfwENR
+[I 2024-07-29 17:16:48,550 minium minitest#472 _miniSetUp] =========case: test_01 start=========
+[I 2024-07-29 17:16:48,550 minium minitest#733 _callTestMethod] call test method
+[I 2024-07-29 17:16:48,551 minium page#690 _get_elements_by_css] try to get elements: text[class='iconfont icon-yuanquan']
+[D 2024-07-29 17:16:48,551 minium.Conn2992 connection#417 _safely_send] SEND > [140444641012992]{"id":"d0b0c605-bf39-4770-a27f-a1be4b59cade","method":"Page.getElements","params":{"selector":"text[class='iconfont icon-yuanquan']","pageId":6}}
+[D 2024-07-29 17:16:48,559 minium.Conn2992 connection#650 __on_message] RECV < [140444641012992]{"id":"d0b0c605-bf39-4770-a27f-a1be4b59cade","result":{"elements":[]}}
+[W 2024-07-29 17:16:48,559 minium page#719 _get_elements_by_css] Could not found any element 'text[class='iconfont icon-yuanquan']' you need
+[E 2024-07-29 17:16:48,560 minium minitest#738 _callTestMethod] test exception
+Traceback (most recent call last):
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/minitest.py", line 734, in _callTestMethod
+    method()
+  File "/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/TestMain.py", line 22, in test_01
+    a = self.page.get_element("text[class='iconfont icon-yuanquan']")
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/app.py", line 260, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/minium_log.py", line 226, in wrapper
+    result = func(*args, **kwargs)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/page/page.py", line 371, in get_element
+    raise MiniElementNotFoundError(_selector)
+minium.framework.exception.MiniElementNotFoundError: element[text[class='iconfont icon-yuanquan']] not found
+[I 2024-07-29 17:16:48,566 minium minitest#741 _callTestMethod] end test method
+[D 2024-07-29 17:16:48,567 minium minitest#744 _miniTearDown] =========Current case Down: test_01=========
+[I 2024-07-29 17:16:48,568 minium minitest#841 capture] capture teardown.png
+[D 2024-07-29 17:16:48,568 minium.Conn2992 connection#417 _safely_send] SEND > [140444641012992]{"id":"1323c995-2cba-46b6-9c3d-eb7b8b205cd3","method":"App.captureScreenshot","params":{}}
+[D 2024-07-29 17:16:49,010 minium.Conn2992 connection#650 __on_message] RECV < [140444641012992]{"id":"1323c995-2cba-46b6-9c3d-eb7b8b205cd3","result":{"data":"iVBORw0KGgoAAAANSUhEUgAAAoAAAARwCAIAAAD17XJXAAABKmlDQ1BTa2lhAAAokX2RPUvDUBSGH6uL6CB+oINDcHLws9UYwcUWWwWnVqF1S9MQxLaGNEV3R/0HLro6OLq5OwqCk6u7IDj73nZIQeIJ597nvPdNcu69kJlDkZmAVjuOyqW8Va2dWAyE63VC0mMIft7NCG/L//jSYrThdzzNX8o40s/1yYZ4OujzpeF6n28MR0flgvhOvBgMcH2AL+IwFr8YvxdGhj/EO61m10v6ZtxvH1c0V5XzlDjXE9DEZ5UKZ5ziijYp4ii3WOuNuxRU2+yxIcWkLY9xFcmSU+1obVtVTrWdnOftExxe67RrieZEcL8EU6+JtvAIk/vwPBy6kduTRswl+Xn4nlHbD/J/wtiV1FmznLyb3EXKXq0/e7U4oI3Hiiir7texfwENR
+[I 2024-07-29 17:16:49,019 minium page#690 _get_elements_by_css] try to get elements: page
+[D 2024-07-29 17:16:49,020 minium.Conn2992 connection#417 _safely_send] SEND > [140444641012992]{"id":"05278480-c591-492f-b105-afdfb513b7d4","method":"Page.getElements","params":{"selector":"page","pageId":6}}
+[D 2024-07-29 17:16:49,026 minium.Conn2992 connection#650 __on_message] RECV < [140444641012992]{"id":"05278480-c591-492f-b105-afdfb513b7d4","result":{"elements":[{"elementId":"026d2d5d-8471-4518-8362-bd9f4be31975","tagName":"body","nodeId":"87b59d08"}]}}
+[I 2024-07-29 17:16:49,026 minium page#721 _get_elements_by_css] find elements success: [<minium.miniprogram.base_driver.element.CustomElement object at 0x7fbbd2d89310>]
+[D 2024-07-29 17:16:49,026 minium.Conn2992 connection#417 _safely_send] SEND > [140444641012992]{"id":"2088a126-1ce3-4818-ab9a-694e499d99f6","method":"Element.getWXML","params":{"type":"inner","elementId":"026d2d5d-8471-4518-8362-bd9f4be31975","pageId":6,"nodeId":"87b59d08"}}
+[D 2024-07-29 17:16:49,037 minium.Conn2992 connection#650 __on_message] RECV < [140444641012992]{"id":"2088a126-1ce3-4818-ab9a-694e499d99f6","result":{"wxml":"<hw-image is=\"components/huaweiImage/index\" class=\"background-image\"><image mode=\"aspectFill\" src=\"https://saas-oss.obs.cn-east-3.myhuaweicloud.com/hxs/patient/login.png\" role=\"img\"></image></hw-image><my-component is=\"components/customComponent/customComponent\"><custom-component><view class=\"customComponent--flex customComponent--commonHead\" style=\"color:#000;background-color:;height:66px;\"><view class=\"customComponent--commonH
+[D 2024-07-29 17:16:49,039 minium page#242 pretty_wxml] pretty wxml error
+[I 2024-07-29 17:16:49,040 minium basenative#59 wrapper] call BaseNative.get_start_up
+[I 2024-07-29 17:16:49,040 minium basenative#63 wrapper] call BaseNative.get_start_up end 
+[W 2024-07-29 17:16:49,045 minium findwxml#766 search] 没有找到任何[text[class='iconfont icon-yuanquan']]对应的元素
+[W 2024-07-29 17:16:49,045 minium findwxml#881 log_search_result] 未查找任何符合的元素
+[E 2024-07-29 17:16:49,050 minium assertbase#372 _get_stack_info] <bound method TestMain.test_01 of <TestMain.TestMain testMethod=test_01>>
+Traceback (most recent call last):
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py", line 266, in testPartExecutor
+    yield
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py", line 351, in run
+    self._callTestMethod(testMethod)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/minitest.py", line 734, in _callTestMethod
+    method()
+  File "/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/TestMain.py", line 22, in test_01
+    a = self.page.get_element("text[class='iconfont icon-yuanquan']")
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/app.py", line 260, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/minium_log.py", line 226, in wrapper
+    result = func(*args, **kwargs)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/page/page.py", line 371, in get_element
+    raise MiniElementNotFoundError(_selector)
+minium.framework.exception.MiniElementNotFoundError: element[text[class='iconfont icon-yuanquan']] not found
+[W 2024-07-29 17:16:49,051 minium assertbase#354 _log_info_when_error] config: {'debug': False, 'base_dir': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx', 'platform': 'ide', 'app': 'wx', 'debug_mode': 'debug', 'close_ide': False, 'auto_capture': 'auto', 'check_mp_foreground': True, 'auto_relaunch': True, 'device_desire': {}, 'account_info': {}, 'report_usage': True, 'remote_connect_timeout': 180, 'request_timeout': 60, 'use_push': True, 'full_reset': False, 'outputs': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/outputs', 'enable_app_log': False, 'enable_network_panel': False, 'project_path': '/Users/linghuchong/Downloads/myGitLab/SHthin/patient/test/saas-shthin-patient-wechat', 'dev_tool_path': '/Applications/wechatwebdevtools.app/Contents/MacOS/cli', 'test_port': 9420, 'mock_native_modal': {}, 'mock_request': [], 'auto_authorize': False, 'audits': None, 'teardown_snapshot': False, 'mock_images_dir': '', 'mock_images': {}, 'need_perf': False, 'appid': None, 'enable_h5': True, 'framework_capture': True, 'error_capture': False, 'assert_capture': True, 'create_time': '20240729171641', 'case_output': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/outputs/20240729171641/test_01/20240729171643070449'}
+[W 2024-07-29 17:16:49,051 minium assertbase#355 _log_info_when_error] build info: {'version': '1.5.5', 'revision': 'dcf6f3345021813b36f0d1b3002746ebf0ec334b', 'branch': 'master', 'update_at': '2024-06-04 11:56:11'}
+[W 2024-07-29 17:16:49,051 minium minitest#973 _log_info_when_error] mini: 基础库2.32.0, 开发者工具1.06.2402030
+[W 2024-07-29 17:16:49,051 minium minitest#975 _log_info_when_error] native: <minium.native.wx_native.idenative.IdeNative object at 0x7fbbd2d16fd0>

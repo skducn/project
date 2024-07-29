@@ -1,0 +1,111 @@
+{
+    "case_name": "test_01",
+    "run_time": "20240729 16:32:31",
+    "test_type": "TestMain",
+    "case_doc": null,
+    "success": false,
+    "failures": "",
+    "errors": "Traceback (most recent call last):\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py\", line 266, in testPartExecutor\n    yield\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py\", line 351, in run\n    self._callTestMethod(testMethod)\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/minitest.py\", line 734, in _callTestMethod\n    method()\n  File \"/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/TestMain.py\", line 15, in test_01\n    a = self.page.get_element(\"view#custom-class van-icon van-icon-success\")\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/app.py\", line 260, in wrapper\n    return func(*args, **kwargs)\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/minium_log.py\", line 226, in wrapper\n    result = func(*args, **kwargs)\n  File \"/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/page/page.py\", line 371, in get_element\n    raise MiniElementNotFoundError(_selector)\nminium.framework.exception.MiniElementNotFoundError: element[view#custom-class van-icon van-icon-success] not found\n",
+    "start_timestamp": 1722241951.971888,
+    "is_failure": false,
+    "is_error": true,
+    "module": ".Users.linghuchong.Downloads.51.Python.project.instance.zyjk.SAAS.wx.TestMain",
+    "package": "TestMain",
+    "failed_line_num": 15,
+    "device": {
+        "system_info": {
+            "batteryLevel": 69,
+            "benchmarkLevel": -1,
+            "brand": "devtools",
+            "memorySize": 2048,
+            "model": "iPhone 12/13 (Pro)",
+            "system": "iOS 10.0.1",
+            "platform": "devtools",
+            "pixelRatio": 3,
+            "safeArea": {
+                "top": 47,
+                "left": 0,
+                "right": 390,
+                "bottom": 810,
+                "width": 390,
+                "height": 763
+            },
+            "screenWidth": 390,
+            "screenHeight": 844,
+            "screenTop": 0,
+            "windowWidth": 390,
+            "windowHeight": 844,
+            "statusBarHeight": 47,
+            "version": "8.0.5",
+            "language": "zh_CN",
+            "SDKVersion": "2.19.6",
+            "enableDebug": false,
+            "fontSizeScaleFactor": 1,
+            "fontSizeSetting": 16,
+            "mode": "default",
+            "host": {
+                "env": "WeChat"
+            },
+            "bluetoothEnabled": true,
+            "locationEnabled": true,
+            "wifiEnabled": true,
+            "locationReducedAccuracy": true,
+            "albumAuthorized": true,
+            "bluetoothAuthorized": true,
+            "cameraAuthorized": true,
+            "locationAuthorized": true,
+            "microphoneAuthorized": true,
+            "notificationAuthorized": true,
+            "notificationAlertAuthorized": true,
+            "notificationBadgeAuthorized": true,
+            "notificationSoundAuthorized": true,
+            "phoneCalendarAuthorized": true,
+            "deviceOrientation": "portrait",
+            "devicePixelRatio": 3
+        }
+    },
+    "log_filename": "run.log",
+    "error_type": "MiniElementNotFoundError",
+    "error_value": "element[view#custom-class van-icon van-icon-success] not found",
+    "error_extra_info": "",
+    "error_stages": [
+        "testMethod"
+    ],
+    "screen_info": [
+        {
+            "name": "setup",
+            "url": "/pages/login/login",
+            "path": "images/setup.png",
+            "ts": 1722241951,
+            "datetime": "2024-07-29 16:32:31",
+            "use_region": false
+        },
+        {
+            "name": "teardown",
+            "url": "/pages/login/login",
+            "path": "images/teardown.png",
+            "ts": 1722241952,
+            "datetime": "2024-07-29 16:32:32",
+            "use_region": false
+        }
+    ],
+    "step_info": [],
+    "check_list": [],
+    "assert_list": [],
+    "page_wxml": "29163232.wxml",
+    "perf_data": "{\"startup\": 0, \"avg_cpu\": 0, \"max_cpu\": 0, \"cpu_data_list\": [], \"avg_mem\": 0, \"max_mem\": 0, \"mem_data_list\": [], \"avg_fps\": 0, \"min_fps_rt\": 0, \"fps_data_list\": [], \"fps_time_series_list\": [], \"cpu_time_series_list\": [], \"mem_time_series_list\": []}",
+    "weapp_log_path": "weapp.log",
+    "request_log_path": "request.log",
+    "stop_timestamp": 1722241952.157227,
+    "appId": "",
+    "appName": "",
+    "source": {
+        "code": [
+            "    def test_01(self):\n",
+            "        a = self.page.get_element(\"view#custom-class van-icon van-icon-success\")\n",
+            "        a.click()\n"
+        ],
+        "start": 14
+    },
+    "filename": "result.json"
+}

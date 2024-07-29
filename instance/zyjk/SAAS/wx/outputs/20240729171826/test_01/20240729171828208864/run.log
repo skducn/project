@@ -1,0 +1,81 @@
+[I 2024-07-29 17:18:28,209 minium minitest#417 _miniSetUp] =========Current case: test_01=========
+[I 2024-07-29 17:18:28,210 minium minitest#420 _miniSetUp] package info: .Users.linghuchong.Downloads.51.Python.project.instance.zyjk.SAAS.wx.TestMain, case info: TestMain.test_01
+[I 2024-07-29 17:18:28,210 minium basenative#59 wrapper] call BaseNative.check_connection
+[I 2024-07-29 17:18:28,210 minium basenative#63 wrapper] call BaseNative.check_connection end True
+[I 2024-07-29 17:18:28,210 minium basenative#59 wrapper] call BaseNative.back_to_miniprogram
+[I 2024-07-29 17:18:28,211 minium basenative#780 back_to_miniprogram] try back_to_miniprogram 3
+[I 2024-07-29 17:18:28,211 minium basenative#63 wrapper] call BaseNative.back_to_miniprogram end 
+[I 2024-07-29 17:18:28,211 minium.App0736 app#901 relaunch] ReLaunch: /pages/login/index
+[D 2024-07-29 17:18:28,212 minium.Conn4048 connection#417 _safely_send] ASYNC_SEND > [140168972574048]{"id":"8bc9dadd-3170-4b1f-938c-b8ed97130fdd","method":"App.callWxMethod","params":{"method":"reLaunch","args":[{"url":"/pages/login/index"}]}}
+[D 2024-07-29 17:18:28,225 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"method":"App.bindingCalled","params":{"name":"reLaunch_before_global","args":[{"url":"/pages/login/index"}]}}
+[D 2024-07-29 17:18:29,097 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"method":"App.bindingCalled","params":{"name":"onAppRouteDone","args":[{"webviewId":12,"path":"pages/login/index","query":{},"openType":"reLaunch","__ts__":1722244709092,"renderer":"webview"},1722244709093]}}
+[I 2024-07-29 17:18:29,098 minium.App0736 app#1155 _on_route_changed] Route changed, {'name': 'onAppRouteDone', 'args': [{'webviewId': 12, 'path': 'pages/login/index', 'query': {}, 'openType': 'reLaunch', '__ts__': 1722244709092, 'renderer': 'webview'}, 1722244709093]}
+[D 2024-07-29 17:18:29,100 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"8bc9dadd-3170-4b1f-938c-b8ed97130fdd","result":{"result":{"errMsg":"reLaunch:ok"}}}
+[I 2024-07-29 17:18:29,100 minium.Conn4048 connection#694 _handle_async_msg] received async msg: 8bc9dadd-3170-4b1f-938c-b8ed97130fdd
+[I 2024-07-29 17:18:29,102 minium minitest#841 capture] capture setup.png
+[D 2024-07-29 17:18:29,102 minium.Conn4048 connection#417 _safely_send] SEND > [140168972574048]{"id":"387659ba-da58-4025-a978-4cf4f40c95d1","method":"App.captureScreenshot","params":{}}
+[D 2024-07-29 17:18:29,225 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"387659ba-da58-4025-a978-4cf4f40c95d1","result":{"data":"iVBORw0KGgoAAAANSUhEUgAAAoAAAARwCAIAAAD17XJXAAABKmlDQ1BTa2lhAAAokX2RPUvDUBSGH6uL6CB+oINDcHLws9UYwcUWWwWnVqF1S9MQxLaGNEV3R/0HLro6OLq5OwqCk6u7IDj73nZIQeIJ597nvPdNcu69kJlDkZmAVjuOyqW8Va2dWAyE63VC0mMIft7NCG/L//jSYrThdzzNX8o40s/1yYZ4OujzpeF6n28MR0flgvhOvBgMcH2AL+IwFr8YvxdGhj/EO61m10v6ZtxvH1c0V5XzlDjXE9DEZ5UKZ5ziijYp4ii3WOuNuxRU2+yxIcWkLY9xFcmSU+1obVtVTrWdnOftExxe67RrieZEcL8EU6+JtvAIk/vwPBy6kduTRswl+Xn4nlHbD/J/wtiV1FmznLyb3EXKXq0/e7U4oI3Hiiir7texfwENR
+[I 2024-07-29 17:18:29,226 minium minitest#472 _miniSetUp] =========case: test_01 start=========
+[I 2024-07-29 17:18:29,227 minium minitest#733 _callTestMethod] call test method
+[I 2024-07-29 17:18:29,227 minium page#690 _get_elements_by_css] try to get elements: text[class='iconfont icon-yuanquan1']
+[D 2024-07-29 17:18:29,227 minium.Conn4048 connection#417 _safely_send] SEND > [140168972574048]{"id":"8e4466c7-314f-4497-af8c-ffed70b7fd97","method":"Page.getElements","params":{"selector":"text[class='iconfont icon-yuanquan1']","pageId":12}}
+[D 2024-07-29 17:18:29,395 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"8e4466c7-314f-4497-af8c-ffed70b7fd97","result":{"elements":[{"elementId":"a47559ad-2628-426d-9891-c7f0fd99ac1b","tagName":"text"}]}}
+[I 2024-07-29 17:18:29,396 minium page#721 _get_elements_by_css] find elements success: [<minium.miniprogram.base_driver.element.BaseElement object at 0x7f7ba4d8a730>]
+[D 2024-07-29 17:18:29,397 minium.Conn4048 connection#417 _safely_send] SEND > [140168972574048]{"id":"6add5198-d6e6-436d-87c0-fb0eac8f26eb","method":"Element.getStyles","params":{"names":["pointer-events"],"elementId":"a47559ad-2628-426d-9891-c7f0fd99ac1b","pageId":12}}
+[D 2024-07-29 17:18:29,407 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"6add5198-d6e6-436d-87c0-fb0eac8f26eb","result":{"styles":["auto"]}}
+[D 2024-07-29 17:18:29,409 minium.Conn4048 connection#417 _safely_send] SEND > [140168972574048]{"id":"2dee79d3-d100-494d-a677-7c7e69b4e0ed","method":"Element.tap","params":{"elementId":"a47559ad-2628-426d-9891-c7f0fd99ac1b","pageId":12}}
+[D 2024-07-29 17:18:29,433 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"2dee79d3-d100-494d-a677-7c7e69b4e0ed","result":{}}
+[I 2024-07-29 17:18:30,438 minium page#690 _get_elements_by_css] try to get elements: button[bindtap='bindGetUserInfo']
+[D 2024-07-29 17:18:30,438 minium.Conn4048 connection#417 _safely_send] SEND > [140168972574048]{"id":"b8ba0101-0a55-46d3-b3d4-9647bd4c9096","method":"Page.getElements","params":{"selector":"button[bindtap='bindGetUserInfo']","pageId":12}}
+[D 2024-07-29 17:18:30,444 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"b8ba0101-0a55-46d3-b3d4-9647bd4c9096","result":{"elements":[]}}
+[W 2024-07-29 17:18:30,444 minium page#719 _get_elements_by_css] Could not found any element 'button[bindtap='bindGetUserInfo']' you need
+[E 2024-07-29 17:18:30,445 minium minitest#738 _callTestMethod] test exception
+Traceback (most recent call last):
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/minitest.py", line 734, in _callTestMethod
+    method()
+  File "/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/TestMain.py", line 23, in test_01
+    a = self.page.get_element("button[bindtap='bindGetUserInfo']")
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/app.py", line 260, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/minium_log.py", line 226, in wrapper
+    result = func(*args, **kwargs)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/page/page.py", line 371, in get_element
+    raise MiniElementNotFoundError(_selector)
+minium.framework.exception.MiniElementNotFoundError: element[button[bindtap='bindGetUserInfo']] not found
+[I 2024-07-29 17:18:30,453 minium minitest#741 _callTestMethod] end test method
+[D 2024-07-29 17:18:30,454 minium minitest#744 _miniTearDown] =========Current case Down: test_01=========
+[I 2024-07-29 17:18:30,454 minium minitest#841 capture] capture teardown.png
+[D 2024-07-29 17:18:30,454 minium.Conn4048 connection#417 _safely_send] SEND > [140168972574048]{"id":"e7f6b034-89df-425f-b84a-5eb4745471d9","method":"App.captureScreenshot","params":{}}
+[D 2024-07-29 17:18:30,830 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"e7f6b034-89df-425f-b84a-5eb4745471d9","result":{"data":"iVBORw0KGgoAAAANSUhEUgAAAoAAAARwCAIAAAD17XJXAAABKmlDQ1BTa2lhAAAokX2RPUvDUBSGH6uL6CB+oINDcHLws9UYwcUWWwWnVqF1S9MQxLaGNEV3R/0HLro6OLq5OwqCk6u7IDj73nZIQeIJ597nvPdNcu69kJlDkZmAVjuOyqW8Va2dWAyE63VC0mMIft7NCG/L//jSYrThdzzNX8o40s/1yYZ4OujzpeF6n28MR0flgvhOvBgMcH2AL+IwFr8YvxdGhj/EO61m10v6ZtxvH1c0V5XzlDjXE9DEZ5UKZ5ziijYp4ii3WOuNuxRU2+yxIcWkLY9xFcmSU+1obVtVTrWdnOftExxe67RrieZEcL8EU6+JtvAIk/vwPBy6kduTRswl+Xn4nlHbD/J/wtiV1FmznLyb3EXKXq0/e7U4oI3Hiiir7texfwENR
+[I 2024-07-29 17:18:30,837 minium page#690 _get_elements_by_css] try to get elements: page
+[D 2024-07-29 17:18:30,837 minium.Conn4048 connection#417 _safely_send] SEND > [140168972574048]{"id":"df83f828-0afd-401d-be19-e81a932138e4","method":"Page.getElements","params":{"selector":"page","pageId":12}}
+[D 2024-07-29 17:18:30,841 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"df83f828-0afd-401d-be19-e81a932138e4","result":{"elements":[{"elementId":"3acff62d-db32-4002-b2d7-67e3b4df6511","tagName":"body","nodeId":"bf56e2fc"}]}}
+[I 2024-07-29 17:18:30,841 minium page#721 _get_elements_by_css] find elements success: [<minium.miniprogram.base_driver.element.CustomElement object at 0x7f7ba4da6220>]
+[D 2024-07-29 17:18:30,841 minium.Conn4048 connection#417 _safely_send] SEND > [140168972574048]{"id":"06daef28-8099-492e-a2bd-20e0104d62b1","method":"Element.getWXML","params":{"type":"inner","elementId":"3acff62d-db32-4002-b2d7-67e3b4df6511","pageId":12,"nodeId":"bf56e2fc"}}
+[D 2024-07-29 17:18:30,847 minium.Conn4048 connection#650 __on_message] RECV < [140168972574048]{"id":"06daef28-8099-492e-a2bd-20e0104d62b1","result":{"wxml":"<hw-image is=\"components/huaweiImage/index\" class=\"background-image\"><image mode=\"aspectFill\" src=\"https://saas-oss.obs.cn-east-3.myhuaweicloud.com/hxs/patient/login.png\" role=\"img\"></image></hw-image><my-component is=\"components/customComponent/customComponent\"><custom-component><view class=\"customComponent--flex customComponent--commonHead\" style=\"color:#000;background-color:;height:66px;\"><view class=\"customComponent--commonH
+[D 2024-07-29 17:18:30,849 minium page#242 pretty_wxml] pretty wxml error
+[I 2024-07-29 17:18:30,850 minium basenative#59 wrapper] call BaseNative.get_start_up
+[I 2024-07-29 17:18:30,850 minium basenative#63 wrapper] call BaseNative.get_start_up end 
+[W 2024-07-29 17:18:30,852 minium findwxml#766 search] 没有找到任何[button[bindtap='bindGetUserInfo']]对应的元素
+[W 2024-07-29 17:18:30,853 minium findwxml#881 log_search_result] 未查找任何符合的元素
+[E 2024-07-29 17:18:30,859 minium assertbase#372 _get_stack_info] <bound method TestMain.test_01 of <TestMain.TestMain testMethod=test_01>>
+Traceback (most recent call last):
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py", line 266, in testPartExecutor
+    yield
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/libs/unittest/case.py", line 351, in run
+    self._callTestMethod(testMethod)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/framework/minitest.py", line 734, in _callTestMethod
+    method()
+  File "/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/TestMain.py", line 23, in test_01
+    a = self.page.get_element("button[bindtap='bindGetUserInfo']")
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/app.py", line 260, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/minium_log.py", line 226, in wrapper
+    result = func(*args, **kwargs)
+  File "/Users/linghuchong/miniconda3/envs/py308/lib/python3.8/site-packages/minium/miniprogram/base_driver/page/page.py", line 371, in get_element
+    raise MiniElementNotFoundError(_selector)
+minium.framework.exception.MiniElementNotFoundError: element[button[bindtap='bindGetUserInfo']] not found
+[W 2024-07-29 17:18:30,859 minium assertbase#354 _log_info_when_error] config: {'debug': False, 'base_dir': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx', 'platform': 'ide', 'app': 'wx', 'debug_mode': 'debug', 'close_ide': False, 'auto_capture': 'auto', 'check_mp_foreground': True, 'auto_relaunch': True, 'device_desire': {}, 'account_info': {}, 'report_usage': True, 'remote_connect_timeout': 180, 'request_timeout': 60, 'use_push': True, 'full_reset': False, 'outputs': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/outputs', 'enable_app_log': False, 'enable_network_panel': False, 'project_path': '/Users/linghuchong/Downloads/myGitLab/SHthin/patient/test/saas-shthin-patient-wechat', 'dev_tool_path': '/Applications/wechatwebdevtools.app/Contents/MacOS/cli', 'test_port': 9420, 'mock_native_modal': {}, 'mock_request': [], 'auto_authorize': False, 'audits': None, 'teardown_snapshot': False, 'mock_images_dir': '', 'mock_images': {}, 'need_perf': False, 'appid': None, 'enable_h5': True, 'framework_capture': True, 'error_capture': False, 'assert_capture': True, 'create_time': '20240729171826', 'case_output': '/Users/linghuchong/Downloads/51/Python/project/instance/zyjk/SAAS/wx/outputs/20240729171826/test_01/20240729171828208864'}
+[W 2024-07-29 17:18:30,859 minium assertbase#355 _log_info_when_error] build info: {'version': '1.5.5', 'revision': 'dcf6f3345021813b36f0d1b3002746ebf0ec334b', 'branch': 'master', 'update_at': '2024-06-04 11:56:11'}
+[W 2024-07-29 17:18:30,860 minium minitest#973 _log_info_when_error] mini: 基础库2.32.0, 开发者工具1.06.2402030
+[W 2024-07-29 17:18:30,860 minium minitest#975 _log_info_when_error] native: <minium.native.wx_native.idenative.IdeNative object at 0x7f7ba1d19cd0>

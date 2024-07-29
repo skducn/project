@@ -1,0 +1,38 @@
+[I 2024-07-29 16:35:53,476 minium minitest#417 _miniSetUp] =========Current case: test_01=========
+[I 2024-07-29 16:35:53,476 minium minitest#420 _miniSetUp] package info: .Users.linghuchong.Downloads.51.Python.project.instance.zyjk.SAAS.wx.TestMain, case info: TestMain.test_01
+[I 2024-07-29 16:35:53,477 minium basenative#59 wrapper] call BaseNative.check_connection
+[I 2024-07-29 16:35:53,477 minium basenative#63 wrapper] call BaseNative.check_connection end True
+[I 2024-07-29 16:35:53,477 minium basenative#59 wrapper] call BaseNative.back_to_miniprogram
+[I 2024-07-29 16:35:53,478 minium basenative#780 back_to_miniprogram] try back_to_miniprogram 3
+[I 2024-07-29 16:35:53,478 minium basenative#63 wrapper] call BaseNative.back_to_miniprogram end 
+[I 2024-07-29 16:35:53,478 minium.App4512 app#901 relaunch] ReLaunch: /pages/login/login
+[D 2024-07-29 16:35:53,479 minium.Conn7344 connection#417 _safely_send] ASYNC_SEND > [140401345447344]{"id":"3346e5dc-4d18-4528-a766-16974b589196","method":"App.callWxMethod","params":{"method":"reLaunch","args":[{"url":"/pages/login/login"}]}}
+[D 2024-07-29 16:35:53,487 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"method":"App.bindingCalled","params":{"name":"showModal_before_1722242152758","args":[{"title":"提示","showCancel":false,"content":"登录信息已过期，请重新登录!"},0.005061575852873146]}}
+[D 2024-07-29 16:35:53,493 minium.App4512 app#1273 super_before] showModal before hook result: [{'title': '提示', 'showCancel': False, 'content': '登录信息已过期，请重新登录!'}, 0.005061575852873146]
+[D 2024-07-29 16:35:53,497 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"method":"App.bindingCalled","params":{"name":"reLaunch_before_global","args":[{"url":"/pages/login/login"}]}}
+[D 2024-07-29 16:35:54,002 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"method":"App.bindingCalled","params":{"name":"onAppRouteDone","args":[{"webviewId":4,"path":"pages/login/login","query":{},"openType":"reLaunch"},1722242153994]}}
+[D 2024-07-29 16:35:54,003 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"id":"3346e5dc-4d18-4528-a766-16974b589196","result":{"result":{"errMsg":"reLaunch:ok"}}}
+[I 2024-07-29 16:35:54,003 minium.Conn7344 connection#694 _handle_async_msg] received async msg: 3346e5dc-4d18-4528-a766-16974b589196
+[I 2024-07-29 16:35:54,006 minium.App4512 app#1155 _on_route_changed] Route changed, {'name': 'onAppRouteDone', 'args': [{'webviewId': 4, 'path': 'pages/login/login', 'query': {}, 'openType': 'reLaunch'}, 1722242153994]}
+[I 2024-07-29 16:35:54,010 minium minitest#841 capture] capture setup.png
+[D 2024-07-29 16:35:54,011 minium.Conn7344 connection#417 _safely_send] SEND > [140401345447344]{"id":"b7dc80d6-a727-4bda-bbb0-298bb3c2b621","method":"App.captureScreenshot","params":{}}
+[D 2024-07-29 16:35:54,256 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"method":"App.bindingCalled","params":{"name":"showModal_before_1722242152758","args":[{"title":"提示","showCancel":false,"content":"登录信息已过期，请重新登录!"},0.2427345214665111]}}
+[D 2024-07-29 16:35:54,258 minium.App4512 app#1273 super_before] showModal before hook result: [{'title': '提示', 'showCancel': False, 'content': '登录信息已过期，请重新登录!'}, 0.2427345214665111]
+[D 2024-07-29 16:35:54,280 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"id":"b7dc80d6-a727-4bda-bbb0-298bb3c2b621","result":{"data":"iVBORw0KGgoAAAANSUhEUgAAAYYAAANMCAIAAADXDp1JAAABHWlDQ1BTa2lhAAAokX2RP0vDQBjGf5YuioODgoNDRhH809LUVASxUYvg1Cq0DkKahvinrSFJ0dFZ/BDufg9xF5z8EE6dfWKGBEp8jrv3dw/v3b13B6VVpNISjMZx2G41jW7v0iAnx40CijUH069khM/Nf/KKND/wIlfxRz0Odbi2HIiX/ZQfE+6n/JJweN62xa/idT/H/Rw/xEEs/kjy3SBM+Fu8PxpO3KxuFr3xRUexq75Gi3s1nyEe23S44wZHZHOIRYMaJieKJkdyTPkWVSrsaL4rp6FYU0Zdjq3xWLMmVvae0RkcXAmeM6/3BG+WStnLvI0FWLmF9+vACZ0/q5xUPC2n7zyrbG32FwV3NWbuanDKGJctUVW1V6j/Am/aRL8+mWgBAAAgAElEQ
+[I 2024-07-29 16:35:54,282 minium minitest#472 _miniSetUp] =========case: test_01 start=========
+[I 2024-07-29 16:35:54,282 minium minitest#733 _callTestMethod] call test method
+[I 2024-07-29 16:35:54,282 minium page#690 _get_elements_by_css] try to get elements: input[placeholder='请输入手机号']
+[D 2024-07-29 16:35:54,283 minium.Conn7344 connection#417 _safely_send] SEND > [140401345447344]{"id":"83acd2a8-c5c7-4400-b117-f9f21addbbfa","method":"Page.getElements","params":{"selector":"input[placeholder='\u8bf7\u8f93\u5165\u624b\u673a\u53f7']","pageId":4}}
+[D 2024-07-29 16:35:54,292 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"id":"83acd2a8-c5c7-4400-b117-f9f21addbbfa","result":{"elements":[{"elementId":"5702d42b-9f7e-4126-ae76-6384d8c609ae","tagName":"input"}]}}
+[I 2024-07-29 16:35:54,293 minium page#721 _get_elements_by_css] find elements success: [<minium.miniprogram.base_driver.element.FormElement object at 0x7fb1bc51b040>]
+[I 2024-07-29 16:35:54,294 minium page#690 _get_elements_by_css] try to get elements: input[placeholder='请输入密码']
+[D 2024-07-29 16:35:54,295 minium.Conn7344 connection#417 _safely_send] SEND > [140401345447344]{"id":"8f6a39d1-b150-46b9-982d-3eabbc41c530","method":"Page.getElements","params":{"selector":"input[placeholder='\u8bf7\u8f93\u5165\u5bc6\u7801']","pageId":4}}
+[D 2024-07-29 16:35:54,300 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"id":"8f6a39d1-b150-46b9-982d-3eabbc41c530","result":{"elements":[{"elementId":"b3a63e10-038e-4c60-b9ac-7c8fe88c8660","tagName":"input"}]}}
+[I 2024-07-29 16:35:54,300 minium page#721 _get_elements_by_css] find elements success: [<minium.miniprogram.base_driver.element.FormElement object at 0x7fb1bc57cbe0>]
+[I 2024-07-29 16:35:54,300 minium minitest#741 _callTestMethod] end test method
+[D 2024-07-29 16:35:54,301 minium minitest#744 _miniTearDown] =========Current case Down: test_01=========
+[I 2024-07-29 16:35:54,301 minium minitest#841 capture] capture teardown.png
+[D 2024-07-29 16:35:54,301 minium.Conn7344 connection#417 _safely_send] SEND > [140401345447344]{"id":"8acb0e33-1df4-4e67-ad01-7c7ea87716f3","method":"App.captureScreenshot","params":{}}
+[D 2024-07-29 16:35:54,385 minium.Conn7344 connection#650 __on_message] RECV < [140401345447344]{"id":"8acb0e33-1df4-4e67-ad01-7c7ea87716f3","result":{"data":"iVBORw0KGgoAAAANSUhEUgAAAYYAAANMCAIAAADXDp1JAAABHWlDQ1BTa2lhAAAokX2RP0vDQBjGf5YuioODgoNDRhH809LUVASxUYvg1Cq0DkKahvinrSFJ0dFZ/BDufg9xF5z8EE6dfWKGBEp8jrv3dw/v3b13B6VVpNISjMZx2G41jW7v0iAnx40CijUH069khM/Nf/KKND/wIlfxRz0Odbi2HIiX/ZQfE+6n/JJweN62xa/idT/H/Rw/xEEs/kjy3SBM+Fu8PxpO3KxuFr3xRUexq75Gi3s1nyEe23S44wZHZHOIRYMaJieKJkdyTPkWVSrsaL4rp6FYU0Zdjq3xWLMmVvae0RkcXAmeM6/3BG+WStnLvI0FWLmF9+vACZ0/q5xUPC2n7zyrbG32FwV3NWbuanDKGJctUVW1V6j/Am/aRL8+mWgBAAAgAElEQ
+[I 2024-07-29 16:35:54,386 minium basenative#59 wrapper] call BaseNative.get_start_up
+[I 2024-07-29 16:35:54,386 minium basenative#63 wrapper] call BaseNative.get_start_up end 

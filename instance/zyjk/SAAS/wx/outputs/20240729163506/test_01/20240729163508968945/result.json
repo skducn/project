@@ -1,0 +1,110 @@
+{
+    "case_name": "test_01",
+    "run_time": "20240729 16:35:08",
+    "test_type": "TestMain",
+    "case_doc": null,
+    "success": true,
+    "failures": "",
+    "errors": "",
+    "start_timestamp": 1722242109.792145,
+    "is_failure": false,
+    "is_error": false,
+    "module": ".Users.linghuchong.Downloads.51.Python.project.instance.zyjk.SAAS.wx.TestMain",
+    "package": "TestMain",
+    "failed_line_num": -1,
+    "device": {
+        "system_info": {
+            "batteryLevel": 71,
+            "benchmarkLevel": -1,
+            "brand": "devtools",
+            "memorySize": 2048,
+            "model": "iPhone 12/13 (Pro)",
+            "system": "iOS 10.0.1",
+            "platform": "devtools",
+            "pixelRatio": 3,
+            "safeArea": {
+                "top": 47,
+                "left": 0,
+                "right": 390,
+                "bottom": 810,
+                "width": 390,
+                "height": 763
+            },
+            "screenWidth": 390,
+            "screenHeight": 844,
+            "screenTop": 0,
+            "windowWidth": 390,
+            "windowHeight": 844,
+            "statusBarHeight": 47,
+            "version": "8.0.5",
+            "language": "zh_CN",
+            "SDKVersion": "2.19.6",
+            "enableDebug": false,
+            "fontSizeScaleFactor": 1,
+            "fontSizeSetting": 16,
+            "mode": "default",
+            "host": {
+                "env": "WeChat"
+            },
+            "bluetoothEnabled": true,
+            "locationEnabled": true,
+            "wifiEnabled": true,
+            "locationReducedAccuracy": true,
+            "albumAuthorized": true,
+            "bluetoothAuthorized": true,
+            "cameraAuthorized": true,
+            "locationAuthorized": true,
+            "microphoneAuthorized": true,
+            "notificationAuthorized": true,
+            "notificationAlertAuthorized": true,
+            "notificationBadgeAuthorized": true,
+            "notificationSoundAuthorized": true,
+            "phoneCalendarAuthorized": true,
+            "deviceOrientation": "portrait",
+            "devicePixelRatio": 3
+        }
+    },
+    "log_filename": "run.log",
+    "error_type": "",
+    "error_value": "",
+    "error_extra_info": "",
+    "error_stages": [],
+    "screen_info": [
+        {
+            "name": "setup",
+            "url": "/pages/login/login",
+            "path": "images/setup.png",
+            "ts": 1722242109,
+            "datetime": "2024-07-29 16:35:09",
+            "use_region": false
+        },
+        {
+            "name": "teardown",
+            "url": "/pages/login/login",
+            "path": "images/teardown.png",
+            "ts": 1722242110,
+            "datetime": "2024-07-29 16:35:10",
+            "use_region": false
+        }
+    ],
+    "step_info": [],
+    "check_list": [],
+    "assert_list": [],
+    "perf_data": "{\"startup\": 0, \"avg_cpu\": 0, \"max_cpu\": 0, \"cpu_data_list\": [], \"avg_mem\": 0, \"max_mem\": 0, \"mem_data_list\": [], \"avg_fps\": 0, \"min_fps_rt\": 0, \"fps_data_list\": [], \"fps_time_series_list\": [], \"cpu_time_series_list\": [], \"mem_time_series_list\": []}",
+    "weapp_log_path": "weapp.log",
+    "request_log_path": "request.log",
+    "stop_timestamp": 1722242110.052774,
+    "appId": "",
+    "appName": "",
+    "source": {
+        "code": [
+            "    def test_01(self):\n",
+            "        self.page.get_element(\"input[placeholder='\u8bf7\u8f93\u5165\u624b\u673a\u53f7']\")\n",
+            "        self.page.get_element(\"input[placeholder='\u8bf7\u8f93\u5165\u5bc6\u7801']\")\n",
+            "        # a = self.page.get_element(\"view#custom-class van-icon van-icon-success\")\n",
+            "        # a.click()\n"
+        ],
+        "start": 15
+    },
+    "filename": "result.json"
+}
