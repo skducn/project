@@ -111,21 +111,15 @@ class WebPO(DomPO):
     def delRequests(self):
 
         # 清除浏览器的请求历史记录
-
         del self.driver.requests
-
 
     def requests(self, varInterFace):
 
         # 获取页面接口请求
-
         for request in self.driver.requests:
             if varInterFace in request.url:
                 return str(request.url).split(varInterFace)[1]
                 # return request.url
-
-
-
 
     def requestsExcept(self, varIgnore):
 
@@ -149,6 +143,7 @@ class WebPO(DomPO):
             # return None
 
     def saveas(self):
+
         # 等待并接受"另存为"弹框
         try:
             save_as = WebDriverWait(self.driver, 10).until(
@@ -158,6 +153,67 @@ class WebPO(DomPO):
             # save_as.send_keys("/Users/linghuchong/Downloads/123.xlsx") # 手动指定保存位置和文件名
         except Exception as e:
             print(f"未找到'另存为'弹框: {e}")
+
+    def updateChromedriver(self, options):
+
+        # 获取浏览器版本及主版本（前三位如果相同，则为同一版本）
+        if os.name == "nt":
+            # for win
+            chromeVer = subprocess.check_output(
+                "powershell -command \"&{(Get-Item 'C:\Program Files\Google\Chrome\Application\chrome.exe').VersionInfo.ProductVersion}\"",
+                shell=True)
+            chromeVer = bytes.decode(chromeVer).replace("\n", '')
+            chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')  # 120.0.6099.
+            defaultPath = "C:\\Users\\jh\\.wdm\\drivers\\chromedriver\\win64\\"
+            s = Service(defaultPath + chromeVer3 + "\\chromedriver-win32\\chromedriver.exe")
+        elif os.name == "posix":
+            # for mac
+            chromeVer = subprocess.check_output(
+                "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
+            chromeVer = bytes.decode(chromeVer).replace("\n", '')
+            chromeVer = chromeVer.split('Google Chrome ')[1].strip()
+            # print("chromeVer:", chromeVer)  # 120.0.6099.129
+            chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')
+            # print("chromeVer3 => ", chromeVer3)  # 120.0.6099.
+            defaultPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
+            currPath = defaultPath + chromeVer3
+            # print(currPath)  # /Users/linghuchong/.wdm/drivers/chromedriver/mac64/127.0.6533.
+
+            # 3 检查chromedriver主版本是否存在
+            if os.path.isdir(currPath) == False:
+                # 自动下载chrome驱动并修改成主板本
+                print("chromedriver downloading ...")
+                s = Service(ChromeDriverManager().install())
+                l_folder = os.listdir(defaultPath)
+                # print(l_folder)  # ['.DS_Store', '127.0.6533.88', '126.0.6478.']
+                for i in range(len(l_folder)):
+                    if chromeVer3 in l_folder[i]:
+                        os.rename(defaultPath + l_folder[i], defaultPath + chromeVer3)
+                        break
+                os.chdir("/Users/linghuchong/.wdm/drivers/chromedriver/mac64/" + chromeVer3 + "/chromedriver-mac-x64")
+                os.system("chmod 775 chromedriver")
+                # os.system("chmod 775 THIRD_PARTY_NOTICES.chromedriver")
+
+            s = Service(currPath + "/chromedriver-mac-x64/chromedriver")
+            self.driver = webdriver.Chrome(service=s, options=options)
+            # print("chromeVer:", self.driver.capabilities['browserVersion'])  # 115.0.5790.170  //获取浏览器版本
+            # print("chromedriver:", self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # 115.0.5790.170 //获取chrome驱动版本
+
+
+            # try:
+            #     self.driver = webdriver.Chrome(service=s, options=options)
+            # except:
+            #     # 下载失败通过网站下载文件
+            #     print("chromedriver updated failed!")
+            #     print("download from https://googlechromelabs.github.io/chrome-for-testing/#stable")
+            #     sys.exit(0)
+            #     # shutil.rmtree("/Users/linghuchong/.wdm/drivers/chromedriver/mac64/" + chromeVer3)
+            #     # os.mkdir("/Users/linghuchong/.wdm/drivers/chromedriver/mac64/" + chromeVer3)
+            #     # os.chdir("/Users/linghuchong/.wdm/drivers/chromedriver/mac64/" + chromeVer3)
+            #     # print(os.getcwd())
+            #     # os.system("curl -o chromedriver-mac-x64.zip https://storage.googleapis.com/chrome-for-testing-public/127.0.6533.88/mac-x64/chromedriver-mac-x64.zip")
+            #     # shutil.unpack_archive('./chromedriver-mac-x64.zip', './', 'zip')
+            #     # # sys.exit(0)
 
     def _openURL(self, varURL):
 
@@ -202,41 +258,8 @@ class WebPO(DomPO):
             # options.add_argument('--disable-javascript')  # 禁用JavaScript（有时可以用来测试JavaScript相关的问题）
             # options.add_argument(r"--user-data-dir=c:\selenium_user_data")  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
 
-            # 2 获取不同系统的浏览器版本及执行路径
-            if os.name == "nt":
-                # for win
-                chromeVer = subprocess.check_output("powershell -command \"&{(Get-Item 'C:\Program Files\Google\Chrome\Application\chrome.exe').VersionInfo.ProductVersion}\"", shell=True)
-                chromeVer = bytes.decode(chromeVer).replace("\n", '')
-                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')  # 120.0.6099.
-                autoPath = "C:\\Users\\jh\\.wdm\\drivers\\chromedriver\\win64\\"
-                s = Service(autoPath + chromeVer3 + "\\chromedriver-win32\\chromedriver.exe")
-            elif os.name == "posix":
-                # for mac
-                # 获取浏览器版本及主版本（前三位如果相同，则为同一版本）
-                chromeVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
-                chromeVer = bytes.decode(chromeVer).replace("\n", '')
-                chromeVer = chromeVer.split('Google Chrome ')[1].strip()  # 120.0.6099.129
-                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')  # # 120.0.6099.
-                autoPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
-                s = Service(autoPath + chromeVer3 + "/chromedriver-mac-x64/chromedriver")
-
-            # 3 检查chromedriver主版本是否存在
-            if (os.path.isdir(autoPath + chromeVer3)):
-                # 启动带有自定义设置的Chrome浏览器
-                self.driver = webdriver.Chrome(service=s, options=options)
-                # print("Googe Chrome Ver => ", self.driver.capabilities['browserVersion'])  # 115.0.5790.170  //获取浏览器版本
-                # print("chromedriverVer => ", self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # 115.0.5790.170 //获取chrome驱动版本
-
-            else:
-                # 自动下载chrome驱动并修改成主板本
-                print("chromedriver 下载中...")
-                s = Service(ChromeDriverManager().install())
-                self.driver = webdriver.Chrome(service=s, options=options)
-                l_folder = os.listdir(autoPath)
-                for folder in l_folder:
-                    if chromeVer3 in folder:
-                        os.rename(autoPath + folder, autoPath + chromeVer3)
-                        break
+            # 更新下载chromedriver
+            self.updateChromedriver(options)
 
             # # 绕过检测（滑动验证码）
             # self.driver.execute_cdp_cmd("Page.addScriptToEvaluteOnNewDocument", {"source": """Object.defineProperty(navigator,'webdriver', {get: () => undefined})"""})
@@ -244,57 +267,25 @@ class WebPO(DomPO):
             self.driver.get(varURL)
             return self.driver
 
-        if self.driver == "noChrome":
+        elif self.driver == "noChrome":
 
             # 1 配置项
             options = Options()
             options.headless = True  # 无界面模式
 
             # todo 系统
-            options.add_argument("disable-cache")  # 禁用缓存
-            options.add_argument("--disable-extensions")  # 禁用所有插件和扩展（提高稳定性，有时插件可能引起稳定性问题）
+            # options.add_argument("disable-cache")  # 禁用缓存
+            # options.add_argument("--disable-extensions")  # 禁用所有插件和扩展（提高稳定性，有时插件可能引起稳定性问题）
             options.add_argument('--no-sandbox')  # 关闭沙盒模式（沙盒模式提一种提高安全性的技术，但可能与某系统不兼容，关闭可能会降低浏览器的安全性）
             options.add_argument('-disable-dev-shm-usage')  # 禁用/dev/shm使用（可减少内存使用，但影响性能）
-            options.add_argument('--disable-gpu')  # 禁用GPU加速（虽然GPU加速可以提高性能，但有些情况下会导致崩溃）
+            # options.add_argument('--disable-gpu')  # 禁用GPU加速（虽然GPU加速可以提高性能，但有些情况下会导致崩溃）
             # options.add_experimental_option('excludeSwitches', ['enable-logging'])  # 禁止打印日志
-            options.add_argument('--disable-logging')  # 禁用日志记录（减少日志记录的资源消耗）
+            # options.add_argument('--disable-logging')  # 禁用日志记录（减少日志记录的资源消耗）
             # options.add_argument('--disable-javascript')  # 禁用JavaScript（有时可以用来测试JavaScript相关的问题）
             # options.add_argument(r"--user-data-dir=c:\selenium_user_data")  # 设置用户文件夹，可存储登录信息，解决每次要求登录问题
 
-            # 2 获取不同系统的浏览器版本及执行路径
-            if os.name == "nt":
-                # for win
-                chromeVer = subprocess.check_output("powershell -command \"&{(Get-Item 'C:\Program Files\Google\Chrome\Application\chrome.exe').VersionInfo.ProductVersion}\"", shell=True)
-                chromeVer = bytes.decode(chromeVer).replace("\n", '')
-                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')  # 120.0.6099.
-                autoPath = "C:\\Users\\jh\\.wdm\\drivers\\chromedriver\\win64\\"
-                s = Service(autoPath + chromeVer3 + "\\chromedriver-win32\\chromedriver.exe")
-            elif os.name == "posix":
-                # for mac
-                # 获取浏览器版本及主版本（前三位如果相同，则为同一版本）
-                chromeVer = subprocess.check_output("/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version", shell=True)
-                chromeVer = bytes.decode(chromeVer).replace("\n", '')
-                chromeVer = chromeVer.split('Google Chrome ')[1].strip()  # 120.0.6099.129
-                chromeVer3 = chromeVer.replace(chromeVer.split(".")[3], '')  # # 120.0.6099.
-                autoPath = "/Users/linghuchong/.wdm/drivers/chromedriver/mac64/"
-                s = Service(autoPath + chromeVer3 + "/chromedriver-mac-x64/chromedriver")
-
-            # 3 检查chromedriver主版本是否存在
-            if (os.path.isdir(autoPath + chromeVer3)):
-                # 启动带有自定义设置的Chrome浏览器
-                self.driver = webdriver.Chrome(service=s, options=options)
-                # print("Googe Chrome Ver => ", self.driver.capabilities['browserVersion'])  # 115.0.5790.170  //获取浏览器版本
-                # print("chromedriverVer => ", self.driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0])  # 115.0.5790.170 //获取chrome驱动版本
-            else:
-                # 自动下载chrome驱动并修改成主板本
-                print("chromedriver 下载中...")
-                s = Service(ChromeDriverManager().install())
-                self.driver = webdriver.Chrome(service=s, options=options)
-                l_folder = os.listdir(autoPath)
-                for folder in l_folder:
-                    if chromeVer3 in folder:
-                        os.rename(autoPath + folder, autoPath + chromeVer3)
-                        break
+            # 更新下载chromedriver
+            self.updateChromedriver(options)
 
             # # 绕过检测（滑动验证码）
             # self.driver.execute_cdp_cmd("Page.addScriptToEvaluteOnNewDocument", {"source": """Object.defineProperty(navigator,'webdriver', {get: () => undefined})"""})
@@ -657,7 +648,8 @@ class WebPO(DomPO):
 if __name__ == "__main__":
 
     # todo main
-    Web_PO = WebPO("chrome")
+    # Web_PO = WebPO("chrome")
+    Web_PO = WebPO("noChrome")
     # Web_PO = WebPO("firefox")
 
     # # print("1.1 打开网站".center(100, "-"))

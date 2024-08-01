@@ -52,6 +52,11 @@
 3.2，获取字符串中字符重复的次数 getRepeatCount()
 3.3，获取文档里单词数量  getWordQty(pathfile,word)
 
+# 从给定列表中随机选择一个数字
+import random
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+num = random.choice(numbers)
+print(num)
 """
 
 import sys, random, json, jsonpath, hashlib, socket, struct, re, uuid, requests, datetime, os
