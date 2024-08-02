@@ -285,16 +285,16 @@ class GwIndexPO():
                 Color_PO.outColor([{"31": '[error]，二级机构之和不等于一级机构'}])
                 return "error"
 
-    def runSql(self, varSql):
+    def runSql(self, varSql, varContent):
 
         # 执行sql
         # DELETE from T_EHR_INFO where IDCARD ='370827198908215970';
 
-        varPrefix = varSql.split(" ")[0]
+        varPrefix = varContent.split(" ")[0]
         varPrefix = varPrefix.lower()
         if varPrefix == 'select':
-            print(varSql)
-            command = 'Sqlserver_PO.select("' + varSql + '")'
+            print(varSql, varContent)
+            command = 'Sqlserver_PO.select("' + varContent + '")'
             a = eval(command)
             # sleep(1)
             # 将临时变量存入db
@@ -305,7 +305,8 @@ class GwIndexPO():
             # 将db转换成字典
             l = Sqlserver_PO.select("select key1, value1 from %s" % (self.tmp_db))
             if l != []:
-                Color_PO.outColor([{"35": l}])
+                # 输出临时变量
+                Color_PO.outColor([{"35": self.tmp_db}, {"35": "=>"}, {"35": l}])
                 # print(l) # [{'key1': 'ID', 'value1': '499948'}, {'key1': 'QTY', 'value1': '1'}, {'key1': 'Q2', 'value1': '1'},
 
             d_update = {}
@@ -313,10 +314,10 @@ class GwIndexPO():
                 d_update[l[p]['key1']] = l[p]['value1']
             # 这里加入变量替换语句
             if 'id' in d_update:
-                varSql = str(varSql).replace("{id}", str(d_update['id']))
+                varContent = str(varContent).replace("{id}", str(d_update['id']))
 
-            print(varSql)
-            command = 'Sqlserver_PO.execute("' + varSql + '")'
+            print(varSql, varContent)
+            command = 'Sqlserver_PO.execute("' + varContent + '")'
             a = eval(command)
             sleep(1)
             # return a
@@ -399,12 +400,11 @@ class GwIndexPO():
         # 2, 生成动态临时数据库
         self.tmp_db = 'a_temp' + str(Data_PO.getFigures(10))
         Sqlserver_PO.crtTable(self.tmp_db, '''id INT IDENTITY(1,1) PRIMARY KEY, key1 VARCHAR(500), value1 VARCHAR(500)''')
-        # print("new =>", self.tmp_db)
+        # print("new =>", self.tmp_db)  # new => a_temp3945770091
         Color_PO.outColor([{"35": "new =>"}, {"35": self.tmp_db}])
 
-
         # 3, 获取并执行sql语句
-        l_d = Sqlserver_PO.select("select content from %s where [index]='%s' and type='%s' and sql<>'param'" % (self.dbTable, d_index_type['index'], d_index_type['type']))
+        l_d = Sqlserver_PO.select("select sql,content from %s where [index]='%s' and type='%s' and sql<>'param'" % (self.dbTable, d_index_type['index'], d_index_type['type']))
         # print("sql =>", l_d)  # sql => [{'content': "DELETE from T_EHR_INFO where IDCARD ='370827198908215970';"}, {'content': "DELETE fr...
 
         # 数据源
@@ -413,28 +413,40 @@ class GwIndexPO():
         # print(idCard)  # 441427196909022802
         # 随机获取 道头卫生院下的三级卫生院 code和name
         l_tmp = Sqlserver_PO.select("select org_sub_code, org_sub_name from ZYCONFIG.dbo.SYS_SUB_HOSPITAL where org_code='370685009' ")
-        # print(l_tmp)
-        org3 = random.choice(l_tmp)
+        # print(l_tmp)  # [{"org_sub_code": "370685009001", "org_sub_name": "雀头孙家村卫生室"}, {"org_sub_code": "370685009002", "org_sub_name": "招远市齐山镇北寨子村卫生室"}]
+
+        if 'org_code' in d_index_type:
+            for i in range(len(l_tmp)):
+                if l_tmp[i]['org_sub_code'] == d_index_type['org_code']:
+                    org3_name = l_tmp[i]['org_sub_name']
+                    org3_code = l_tmp[i]['org_sub_code']
+                    break
+        else:
+            # 随机获取三级机构名和编码
+            org3 = random.choice(l_tmp)
+            org3_name = org3['org_sub_name']
+            org3_code = org3['org_sub_code']
+
         # print(org3)
-        Color_PO.outColor([{"35": org3['org_sub_name']}, {"35": org3['org_sub_code']}, {"35": idCard}])
+        Color_PO.outColor([{"35": 'param =>'}, {"35": org3_name}, {"35": org3_code}, {"35": idCard}])
         # 招远市齐山镇北寨子村卫生室 370685009014 310101199609298755
 
         for i in range(len(l_d)):
-            varSql = l_d[i]['content']
-            varSql = varSql.replace("{name}", Data_PO.getChineseName())
-            varSql = varSql.replace("{idCard}", idCard)
-            varSql = varSql.replace("{org_sub_code}", org3['org_sub_code'])
-            varSql = varSql.replace("{org_sub_name}", org3['org_sub_name'])
+            varContent = l_d[i]['content']
+            varContent = varContent.replace("{name}", Data_PO.getChineseName())
+            varContent = varContent.replace("{idCard}", idCard)
+            varContent = varContent.replace("{org_sub_code}", org3_code)
+            varContent = varContent.replace("{org_sub_name}", org3_name)
 
             if os.name == "posix":
-                r = self.runSql(varSql)
+                r = self.runSql(l_d[i]['sql'], varContent)
             else:
-                r = self.runSql(varSql.encode('latin1').decode('GB2312'))
+                r = self.runSql(l_d[i]['sql'].encode('latin1').decode('GB2312'), varContent.encode('latin1').decode('GB2312'))
                 # 未写
 
         Sqlserver_PO.execute("drop table %s" % (self.tmp_db))
         # print("drop => ", self.tmp_db)
-        Color_PO.outColor([{"33": "drop =>"}, {"33": self.tmp_db}])
+        Color_PO.outColor([{"35": "drop =>"}, {"35": self.tmp_db}])
         print("\n")
 
 

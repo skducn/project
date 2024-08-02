@@ -3,6 +3,9 @@
 # Author     : John
 # Created on : 2024-7-30
 # Description: 公卫报表主程序
+# http://192.168.0.203:30080/#/report/Statistics/report7
+# sj,12345678 （三级管理员）
+# 统计报表 - 严重精神障碍患者健康管理报表
 #***************************************************************
 from GwIndexPO import *
 
@@ -28,13 +31,16 @@ from GwIndexPO import *
 GwIndex_PO = GwIndexPO()
 GwIndex_PO.createTable('7精神障碍')
 
-
+# sys.exit(0)
 # todo 3, 从db中执行用例
 GwIndex_PO = GwIndexPO("7精神障碍")
 
 # 批量创建数据
-for i in range(1):
-    GwIndex_PO.gen({"index":1, "type":"level3"})
+# for i in range(3):
+#     GwIndex_PO.gen({"index":1, "type":"level3"})
+
+GwIndex_PO.gen({"index":1, "type":"level3", 'org_code': '370685009014'})
+
 
 # 执行index1的type为param的content
 # GwIndex_PO.run({"index":1, "type":"level3"})
