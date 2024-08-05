@@ -7,6 +7,7 @@
 # python是一门解释型语言，因此对于反射机制支持很好。
 # 在python中支持反射机制的函数有 eval()、exec()、hasattr()、getattr()、setattr()、delattr()、__import__，这些函数都可以执行字符串。
 # python反射机制: http://www.imooc.com/article/details/id/287771
+# Python 反射与元编程 http://www.51testing.com/?action-viewnews-itemid-7802037
 #****************************************************************
 
 '''
@@ -148,24 +149,4 @@ print(reflectTest.sayHello)  # <function sayHello at 0x000001BC6705A670>
 print(reflectTest.__name__)  # reflect2
 
 
-print("8，动态函数名".center(100, "-"))
-for i in range(5):
-    func = 'test' + str(i)
-    param = 'hello'
-
-    a = '''def ''' + str(func) + '''(''' + str(param) + '''):
-        name = '张三'
-        print("I'm ''' + str(func) + ''', ''' + param + '''")'''
-    exec(a)
-    exec(func + "('" + param + "')")
-# # 相当于函数
-# def test1(param):
-#     name = '张三'
-#     print("I'm test1, hello")
-
-# I'm test0, hello
-# I'm test1, hello
-# I'm test2, hello
-# I'm test3, hello
-# I'm test4, hello
 

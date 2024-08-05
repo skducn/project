@@ -1,0 +1,10 @@
+﻿# Todo performance 性能测试工具
+参考：http://www.51testing.com/html/79/n-7801879.html
+lighthouse 可以评估网页的多个方面，包括性能、可访问性、渐进式Web应用、SEO等。
+在Chrome DevTools中：打开需要测试的网页，打开Chrome DevTools（F12或右键“检查”），找到“Lighthouse”标签页，选择需要运行的审计类型，点击“生成报告”。
+
+在终端安装Lighthouse运行: npm install -g lighthouse
+命令: lighthouse <URL>来对特定网页进行测试。  如 lighthouse https://www.baidu.com --view
+
+根据反馈进行优化
+Lighthouse 报告中的每项建议都是提升网页性能的机会。例如，如果报告指出图片未经优化，可以通过减小图片大小或使用更高效的图片格式来解决。如果指出脚本阻塞了首次绘制，可以考虑异步加载JavaScript文件或使用<link rel="preload">优先加载关键资源。
