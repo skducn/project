@@ -8,12 +8,50 @@
 # 学习：https://www.cnblogs.com/wj5633/p/6931187.html
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
+#
+# from DrissionPage import SessionPage
+#
+# page = SessionPage()
+# page.get('https://gitee.com/explore/all')
+#
+# items = page.eles('t:h3')
+#
+# # 遍历元素
+# for item in items[:-1]:
+#     # 获取当前<h3>元素下的<a>元素
+#     lnk = item('tag:a')
+#     # 打印<a>元素文本和href属性
+#     print(lnk.text, lnk.link)
 
-import os
+#
+# from DrissionPage import SessionPage
+#
+# page = SessionPage()
+# page.get('https://gitee.com/explore')
+#
+# # 获取包含“全部推荐项目”文本的 ul 元素
+# ul_ele = page.ele('tag:ul@text():全部推荐项目')
+#
+# # 获取该 ul 元素下所有 a 元素
+# titles = ul_ele.eles('tag:a')
+#
+# # 遍历列表，打印每个 a 元素的文本
+# for i in titles:
+#     print(i.text)
 
-varPath = '/Users/linghuchong/Downloads/video/douyin/晨辉律师直播(洪文律所)'
-os.system("cd '" + varPath + "'; open .")
-# os.system("cd " + varPath )
+from DrissionPage import WebPage, ChromiumOptions, SessionOptions
+
+co = ChromiumOptions()
+so = SessionOptions()
+
+page = WebPage(chromium_options=co, session_or_options=so)
+# page.
+page.get('https://gitee.com/explore')
+# import os
+#
+# varPath = '/Users/linghuchong/Downloads/video/douyin/晨辉律师直播(洪文律所)'
+# os.system("cd '" + varPath + "'; open .")
+# # os.system("cd " + varPath )
 
 
 # l =  [{'key1': 'ID', 'value1': '499948'}, {'key1': 'QTY', 'value1': '1'}, {'key1': 'Q2', 'value1': '1'}, {'key1': 'ID', 'value1': '499'}]

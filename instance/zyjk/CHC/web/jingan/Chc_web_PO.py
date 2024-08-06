@@ -7,7 +7,8 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 from PO.WebPO import *
-Web_PO = WebPO("chrome")
+# Web_PO = WebPO("chrome")
+Web_PO = WebPO("noChrome")
 
 from PO.CaptchaPO import *
 Captcha_PO = CaptchaPO()

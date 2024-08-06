@@ -4,6 +4,7 @@
 # Created on : 2023-7-25
 # Description: 社区健康管理中心
 # 测试环境 # http://192.168.0.243:8010/#/login
+# 'cs', '12345678'
 #***************************************************************
 
 from PIL import Image
@@ -45,24 +46,27 @@ varUrl = 'http://192.168.0.243:8010/#/'
 # Chc_web_PO.login(varUrl + 'login', 'admin', 'Zy@123456')
 Chc_web_PO.login(varUrl + 'login', 'cs', '12345678')
 
-# 2, 获取首页源码，点击菜单
-html_source = Web_PO.getSource()
-# print(html_source)
+a = Web_PO.getTextListByX("//span")
+print(a)
 
-# 获取首页上指标名称与值
-print("1，获取首页信息")
-Chc_web_PO.getTechnicalTarget()
-
-# 首页
-# Chc_web_PO.clkMenu(html_source, '首页')
-
-# # 居民健康服务
-print("2,点击健康服务")
-Chc_web_PO.clkMenu(html_source, '健康服务')
-Chc_web_PO.clkMenu(html_source, '健康评估及干预')
-# 健康评估及干预 - 查询
-# Chc_web_PO.healthEvaluateIntervene_search({'姓名': '儿童', '身份证': '310101', '人群分类': '老年人', '家庭医生': '测试', '签约日期范围start': '2024-05-01', '签约日期范围end': '2024-05-02', '年度评估状态': '未评估', '管理人群': '高血压', '最近一次评估日期start': '2024-05-03', '最近一次评估日期end': '2024-05-05', '最近一次确认日期start': '2024-05-06', '最近一次确认日期end': '2024-05-07'})
-# Chc_web_PO.healthEvaluateIntervene_search({'姓名': '儿童', '家庭医生': '测试', '年度评估状态': '预评估'})
+# # 2, 获取首页源码，点击菜单
+# html_source = Web_PO.getSource()
+# # print(html_source)
+#
+# # 获取首页上指标名称与值
+# print("1，获取首页信息")
+# Chc_web_PO.getTechnicalTarget()
+#
+# # 首页
+# # Chc_web_PO.clkMenu(html_source, '首页')
+#
+# # # 居民健康服务
+# print("2,点击健康服务")
+# Chc_web_PO.clkMenu(html_source, '健康服务')
+# Chc_web_PO.clkMenu(html_source, '健康评估及干预')
+# # 健康评估及干预 - 查询
+# # Chc_web_PO.healthEvaluateIntervene_search({'姓名': '儿童', '身份证': '310101', '人群分类': '老年人', '家庭医生': '测试', '签约日期范围start': '2024-05-01', '签约日期范围end': '2024-05-02', '年度评估状态': '未评估', '管理人群': '高血压', '最近一次评估日期start': '2024-05-03', '最近一次评估日期end': '2024-05-05', '最近一次确认日期start': '2024-05-06', '最近一次确认日期end': '2024-05-07'})
+# # Chc_web_PO.healthEvaluateIntervene_search({'姓名': '儿童', '家庭医生': '测试', '年度评估状态': '预评估'})
 
 
 

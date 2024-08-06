@@ -15,4 +15,4 @@ def add_attribute(attr_name, attr_value):
 class MyClass:
     pass
 
-print(MyClass.my_attr)
+print(MyClass.my_attr)  # My Value

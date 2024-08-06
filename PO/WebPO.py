@@ -653,8 +653,14 @@ if __name__ == "__main__":
     # Web_PO = WebPO("firefox")
 
     # # print("1.1 打开网站".center(100, "-"))
-    # Web_PO.openURL("https://baijiahao.baidu.com/s?id=1753450036624046728&wfr=spider&for=pc")
-    Web_PO.openURL("https://kyfw.12306.cn/otn/resources/login.html")
+    Web_PO.openURL("https://gitee.com/explore")
+    Web_PO.setTextByX("/html/body/div[2]/div[2]/div[2]/div/div[2]/form/div/div/input", "drissionpage")
+    Web_PO.clkByX("/html/body/div[2]/div[2]/div[2]/div/div[2]/form/div/div/button", 2)
+    a = Web_PO.getAttrValueListByX("//div[@class='card-body']/h4/a", "href")
+    print(a)
+    b= Web_PO.getTextListByX("//div[@class='card-body']/h4/a")
+    print(b)
+    # Web_PO.openURL("https://kyfw.12306.cn/otn/resources/login.html")
     # Web_PO.openURL("https://www.xvideos.com/video76932809/_")
     # Xvideos_PO.getInfo("https://www.xvideos.com/video76932809/_")
 
