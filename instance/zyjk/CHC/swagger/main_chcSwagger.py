@@ -34,6 +34,6 @@ def importDb(d_varMenu_varDbTable):
 # importDb({"chc-job": "a_chc_job"})
 # importDb({"chc-system": "a_chc_system"})
 # importDb({"chc-server": "a_chc_server"})
-importDb({"chc-rlues": "a_chc_rlues"})
+# importDb({"chc-rlues": "a_chc_rlues"})
 
 

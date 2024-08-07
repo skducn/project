@@ -31,7 +31,8 @@ private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
 
 import subprocess, requests, json
 from PO.WebPO import *
-
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
 class ChcIquanquPO():
 
@@ -42,14 +43,32 @@ class ChcIquanquPO():
         self.token = self.curlLogin(self.encrypt(account))
 
 
-    def curl(self, varMethod, varInterface, varParam):
+    def curl(self, varName, varMethod, varInterface, varParam=''):
 
-        command = "curl -X " + varMethod + " " + self.ipPort + varInterface + self.encrypt(varParam) + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
-        # print(command)
+        if varMethod == "GET":
+            if varParam == '':
+                command = "curl -X GET " + self.ipPort + varInterface + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
+            else:
+                command = "curl -X GET " + self.ipPort + varInterface + self.encrypt(varParam) + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
+            # print(command)
+        elif varMethod == "POST":
+            if varParam == '':
+                command = "curl -X POST " + self.ipPort + varInterface + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
+            else:
+                command = "curl -X POST " + self.ipPort + varInterface + " -d " + self.encrypt(varParam) + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
+            # print(command)
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
+
+        # 输出结果
+        if d_r['code'] == 500:
+            Color_PO.outColor([{"35": varName}, {"35": "=>"}, {"35": d_r}, {"35": "=>"}, {"34": command}])
+        else:
+            Color_PO.outColor([{"36": varName}, {"36": "=>"}, {"38": d_r}])
+            # print(varName + " =>", d_r)
+
         return d_r
 
     def _sm2(self, Web_PO):
@@ -103,5 +122,4 @@ class ChcIquanquPO():
             # {'code': 500, 'msg': '非法参数！'}
             self.token = d_r['code']
         return self.token
-
 

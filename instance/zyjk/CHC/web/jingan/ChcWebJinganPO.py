@@ -7,8 +7,8 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 from PO.WebPO import *
-# Web_PO = WebPO("chrome")
-Web_PO = WebPO("noChrome")
+Web_PO = WebPO("chrome")
+# Web_PO = WebPO("noChrome")
 
 from PO.CaptchaPO import *
 Captcha_PO = CaptchaPO()
@@ -25,7 +25,7 @@ from PO.HttpPO import *
 Http_PO = HttpPO()
 import ddddocr
 
-class Chc_web_PO():
+class ChcWebJinganPO():
 
     def clsApp(self, varApp):
 

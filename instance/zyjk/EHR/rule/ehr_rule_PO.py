@@ -12,7 +12,7 @@ import sys
 import warnings
 warnings.simplefilter("ignore")
 # *****************************************************************
-# 要切换到 $ cd /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/EHR/rule 下执行 python main.py
+# 要切换到 $ cd /Users/linghuchong/Downloads/51/Python/project/instance/zyjk/EHR/rule 下执行 python main_chcWebQuanqu.py
 sys.path.append("../../../../")
 # sys.path.append("/Users/linghuchong/Downloads/51/Python/project")
 

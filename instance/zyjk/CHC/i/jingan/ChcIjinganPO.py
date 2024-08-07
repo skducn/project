@@ -4,6 +4,8 @@
 # Date          : 2024-3-6
 # Description   : CHC 社区健康（静安）包，加密接口测试
 # 接口文档：http://192.168.0.202:22081/doc.html
+public_key = '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
+private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
 
 # todo nacos
 # http://192.168.0.223:8848/nacos/	nacos,Zy123456
@@ -23,7 +25,8 @@
 
 import subprocess, requests, json
 from PO.WebPO import *
-
+from PO.ColorPO import *
+Color_PO = ColorPO()
 
 class ChcIjinganPO():
 
@@ -33,15 +36,32 @@ class ChcIjinganPO():
         self.ipPort = "http://192.168.0.202:22081"
         self.token = self.curlLogin(self.encrypt(account))
 
-    def curl(self, varMethod, varInterface, varParam):
+    def curl(self, varName, varMethod, varInterface, varParam=''):
 
-        command = "curl -X " + varMethod + " " + self.ipPort + varInterface + self.encrypt(
-            varParam) + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
-        # print(command)
+        if varMethod == "GET":
+            if varParam == '':
+                command = "curl -X GET " + self.ipPort + varInterface + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
+            else:
+                command = "curl -X GET " + self.ipPort + varInterface + self.encrypt(varParam) + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
+            # print(command)
+        elif varMethod == "POST":
+            if varParam == '':
+                command = "curl -X POST " + self.ipPort + varInterface + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
+            else:
+                command = "curl -X POST " + self.ipPort + varInterface + " -d " + self.encrypt(varParam) + " -H 'Request-Origion:SwaggerBootstrapUi' -H 'accept:*/*' -H 'Content-Type:application/json' -H 'Authorization:" + self.token + "'"
+            # print(command)
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
         d_r = json.loads(str_r)
+
+        # 输出结果
+        if d_r['code'] == 500:
+            Color_PO.outColor([{"33": varName}, {"33": "=>"}, {"35": d_r}, {"35": "=>"}, {"34": command}])
+        else:
+            Color_PO.outColor([{"35": varName}, {"35": "=>"}, {"38": d_r}])
+            # print(varName + " =>", d_r)
+
         return d_r
 
     def _sm2(self, Web_PO):
