@@ -8,12 +8,108 @@
 # 学习：https://www.cnblogs.com/wj5633/p/6931187.html
 # 学习：https://blog.csdn.net/zwbzwbzwbzwbzwbzwb/article/details/52824154
 # ***************************************************************u**
+
+# coding = utf-8
+import numpy as np
+from IPython import embed
+# xy 输入，可支持浮点数操作 速度很快哦
+# return xy 去重后结果
+def duplicate_removal(xy):
+  if xy.shape[0] < 2:
+    return xy
+  _tmp = (xy*4000).astype('i4')          # 转换成 i4 处理
+  _tmp = _tmp[:,0] + _tmp[:,1]*1j         # 转换成复数处理
+  keep = np.unique(_tmp, return_index=True)[1]  # 去重 得到索引
+  return xy[keep]                 # 得到数据并返回
+# _tmp[:,0] 切片操作，因为时二维数组，_tmp[a:b, c:d]为通用表达式，
+# 表示取第一维的索引 a 到索引 b，和第二维的索引 c 到索引 d
+# 当取所有时可以直接省略，但要加':'冒号 、当 a == b 时可只写 a ,同时不用':'冒号
+if __name__ == '__main__':
+  if 1: # test
+    xy = np.array([[1.0, 1.0, 1.], [2.0, 2.0, 2.0], [3.0, 0.0, 0.0], [1.0, 1.0, 1.00]])
+    print(xy)
+    new_xy = duplicate_removal(xy)
+    print(new_xy)
+  # embed()
+
+
+# from flask import (
+#     Flask, render_template, request, redirect, globals
+# )
+# import test1
 #
-# from DrissionPage import SessionPage
+# app = Flask(__name__)
 #
+#
+# @app.route("/", methods=['GET', 'POST'])
+# def index():
+#     return '<form action = "http://localhost:5000/b" method = "post"></form><a href="/test" rel="external nofollow"  rel="external nofollow"  rel="external nofollow" ><button onclick="">进入测试</button></a><a href="/test1" rel="external nofollow" >'
+#
+# @app.route("/test", methods=['GET', 'POST'])
+# def test():
+#     test1.run()
+#     return '<form action = "http://localhost:5000/b" method = "post"></form><a href="/test" rel="external nofollow"  rel="external nofollow"  rel="external nofollow" ><button onclick="">进入测试</button></a>'
+#
+#
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+
+
+
+
+
+# from tqdm import tqdm
+# import time
+# total = 50
+# for i in tqdm(range(total), desc="Processing => "):
+#     time.sleep(0.1)  # 模拟耗时操作
+
+# from tqdm import tqdm
+# import time
+# total = 50
+# for i in tqdm(range(total), desc="Processing", bar_format="{desc}: {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}{postfix}]"):
+#     time.sleep(0.1)  # 模拟耗时操作#
+
+# from tqdm import tqdm
+# import time
+# total = 50
+# for i in tqdm(range(total), desc="Processing", mininterval=0.5):
+#     time.sleep(0.1)  # 模拟耗时操作
+
+# from tqdm import tqdm
+# import time
+# total = 50
+# with tqdm(total=total, desc="Starting") as pbar:
+#     for i in range(total):
+#         time.sleep(0.1)  # 模拟耗时操作
+#         pbar.set_description(f"Processing {i+1}")
+#         pbar.update(1)
+
+
+# from tqdm import tqdm
+# import time
+# def update_progress(progress):
+#     print(f"Progress: {progress}% completed.", end="\r")
+# total = 50
+# for i in range(total):
+#     time.sleep(0.1)  # 模拟耗时操作
+#     update_progress(int((i + 1) / total * 100))
+# print()  # 打印换行
+
+
+
+
 # page = SessionPage()
+
+# from DrissionPage import SessionPage
+
+
+
 # page.get('https://gitee.com/explore/all')
-#
+
+
+
 # items = page.eles('t:h3')
 #
 # # 遍历元素
@@ -38,15 +134,15 @@
 # # 遍历列表，打印每个 a 元素的文本
 # for i in titles:
 #     print(i.text)
-
-from DrissionPage import WebPage, ChromiumOptions, SessionOptions
-
-co = ChromiumOptions()
-so = SessionOptions()
-
-page = WebPage(chromium_options=co, session_or_options=so)
-# page.
-page.get('https://gitee.com/explore')
+#
+# from DrissionPage import WebPage, ChromiumOptions, SessionOptions
+#
+# co = ChromiumOptions()
+# so = SessionOptions()
+#
+# page = WebPage(chromium_options=co, session_or_options=so)
+# # page.
+# page.get('https://gitee.com/explore')
 # import os
 #
 # varPath = '/Users/linghuchong/Downloads/video/douyin/晨辉律师直播(洪文律所)'

@@ -45,10 +45,10 @@ class ChromedriverPO(DomPO):
         # Net_PO.dnldFile("https://www.7-zip.org/a/7z1900-x64.exe", "d:/1")
 
         def reporthook(a, b, c):
-            print("\r下载进度 => %2f%%" % int(a * b * 100 / c), end="")
+            print("\r下载进度 => %.0f%%" % int(a * b * 100 / c), end="")
 
         filename = os.path.basename(varUrlFile)
-        File_PO.newLayerFolder(toSave)  # 新增文件夹
+        # File_PO.newLayerFolder(toSave)  # 新增文件夹
         print("下载 => {}".format(varUrlFile))
         # print("保存路径：{}".format(toSave))
         urlretrieve(varUrlFile, os.path.join(toSave, filename), reporthook=reporthook)
@@ -90,7 +90,12 @@ class ChromedriverPO(DomPO):
 
 if __name__ == "__main__":
 
-    Chromedriver_PO = ChromedriverPO()
+    from PO.WebPO import *
+    Web_PO = WebPO("chrome")
+    Chromedriver_PO = ChromedriverPO(Web_PO)
+    Chromedriver_PO.dnldFile("https://www.7-zip.org/a/7z1900-x64.exe", "/Users/linghuchong/Downloads")
+
+
     # Chromedriver_PO.dnldChromedriver("114.0.5735.198", "mac")
     # Chromedriver_PO.dnldChromedriver("114.0.5735.198", "win")
     # Chromedriver_PO.dnldChromedriver("120.0.6099.129 ", "win")

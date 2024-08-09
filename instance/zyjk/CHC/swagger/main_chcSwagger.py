@@ -25,7 +25,7 @@ def importDb(d_varMenu_varDbTable):
 # todo 获取全部接口
 # Swagger_PO.getAll("chc-auth")
 # Swagger_PO.getAll("chc-job")
-# Swagger_PO.getAll("chc-system")
+Swagger_PO.getAll("chc-system")
 # Swagger_PO.getAll("chc-server")
 # Swagger_PO.getAll("chc-rlues")
 

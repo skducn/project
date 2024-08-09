@@ -40,7 +40,7 @@ Char_PO = CharPO()
 
 
 
-class ChcrulePO():
+class ChcRulePO():
 
     def __init__(self, sheetName=''):
 
@@ -50,87 +50,20 @@ class ChcrulePO():
         self.sheetName = sheetName
         # print(self.sheetName)
 
-        # 读取疾病身份证对应的表(a_jibingshenfenzheng)
+        # # 读取疾病身份证对应的表(a_jibingshenfenzheng)
         self.jbsfz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.FILE("jbsfz"))
         # print(self.jbsfz)
         # 读取测试规则对应的表(a_ceshiguize)
         self.csgz = "a_" + Char_PO.chinese2pinyin(Configparser_PO.FILE("csgz"))
         # print(self.csgz)
 
-    def createTable(self, sheetName):
-
-        # 中文转拼音
-        dbTable = Char_PO.chinese2pinyin(sheetName)
-        dbTable = "a_" + dbTable
-        # print(dbTable)
-
-        Sqlserver_PO.execute("drop table if exists " + dbTable)
-        # if dbTable == 'a_temporaryTable':
-        #     Sqlserver_PO.crtTable('a_temporaryTable', '''id INT IDENTITY(1,1) PRIMARY KEY, key1 VARCHAR(500), value1 VARCHAR(500)''')
-        # else:
-        # excel导入db
-        Sqlserver_PO.xlsx2db(Configparser_PO.FILE("case"), dbTable, sheetName)
-        if sheetName != "测试规则" and sheetName != "疾病身份证":
-            Sqlserver_PO.execute("ALTER table %s alter column result varchar(8000)" % (dbTable))  # 此列没数据，创建后是float，需转换成char
-            Sqlserver_PO.execute("ALTER TABLE %s alter column id int not null" % (dbTable))  # 设置主id不能为Null
-            Sqlserver_PO.execute("ALTER TABLE %s add PRIMARY KEY (id)" % (dbTable))  # 设置主键（条件是id不能为Null）
-            Sqlserver_PO.execute("ALTER table %s alter column updateDate char(11)" % (dbTable))  # 将float改为char类型
-            Sqlserver_PO.execute("ALTER table %s alter column updateDate DATE" % (dbTable))  # 注意sqlserver无法将float改为date，先将float改为char，再将char改为data，
-        # Sqlserver_PO.execute("ALTER TABLE %s ADD id1 INT NOT NULL IDENTITY(1,1) primary key (id1) " % ('健康评估'))  # 新增id自增主键
-        # Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(111)" % (tableName))  # 临时变量
-        if sheetName == "疾病身份证":
-            Sqlserver_PO.execute("ALTER TABLE %s alter column idcard decimal NULL" % (dbTable))  # 处理身份证导入后变成科学计数
-        # 添加表注释
-        Sqlserver_PO.execute("EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % ('(测试用例)' + sheetName, dbTable))  # sheetName=注释，dbTable=表名
-        print("[ok] 表'%s(%s)'创建成功! " % (dbTable, sheetName))
-
-
-    def initDiseaseIdcardAll(self):
-
-        # 初始化全部疾病身份证
-
-        l_d_param = Sqlserver_PO.select("select idcard from %s " % (self.jbsfz))
-        for i in range(len(l_d_param)):
-            self.initDiseaseIdcard(l_d_param[i]['idcard'])
-
-    def initDiseaseIdcard(self, varIdcard):
-
-        # 初始化单个疾病身份证
-
-        l_d_param = Sqlserver_PO.select("select diseaseRuleCode, diseaseName, sql1,sql2,sql3,sql4,sql5,sql6 from %s where [idcard]='%s'" % (self.jbsfz, str(varIdcard)))
-        # print(l_d_param)
-
-        # # 删除基本信息表
-        Sqlserver_PO.execute("delete from HRPERSONBASICINFO where ARCHIVENUM = '%s'" % (varIdcard))
-        # 插入基本信息表
-        Sqlserver_PO.execute('set identity_insert HRPERSONBASICINFO on')
-        r = Sqlserver_PO.select('select max(ID) as qty from HRPERSONBASICINFO')
-        a = r[0]['qty'] + 1
-        Sqlserver_PO.execute("insert into HRPERSONBASICINFO(ARCHIVENUM,NAME,sex,IDCARD,CREATETIME,ID,ISGOVERNANCE) values ('%s', '%s', '1', '%s','%s', %s, '0')" % (varIdcard, Data_PO.getChineseName(), varIdcard, time.strftime("%Y-%m-%d %H:%M:%S.000"), str(a)))
-        Sqlserver_PO.execute('set identity_insert HRPERSONBASICINFO off')
-
-
-        # # 删除签约信息表
-        Sqlserver_PO.execute("delete from QYYH where SFZH = '%s'" % (varIdcard))
-        # 插入签约信息表
-        Sqlserver_PO.execute('set identity_insert QYYH on')
-        r = Sqlserver_PO.select('select max(ID) as qty from QYYH')
-        a = r[0]['qty'] + 1
-        Sqlserver_PO.execute("insert into QYYH(CZRYBM, CZRYXM, JMXM, SJHM, SFZH, JJDZ, ARCHIVEUNITCODE, ARCHIVEUNITNAME, DISTRICTORGCODE, DISTRICTORGNAME, TERTIARYORGCODE, TERTIARYORGNAME, SIGNSTATUS, SIGNDATE, ID, CATEGORY_CODE, CATEGORY_NAME, SEX_CODE, SEX_NAME) values ('%s', '%s','%s', '13817261777', '%s', '上海浦东100号', '0000001', '彭浦新村街道社区健康管理中心', '310118000000', '青浦区', '12345', '上海人民医院', 1, '2020-03-23', %s, '4', N'老年人', '2', N'女')" % (l_d_param[0]['diseaseRuleCode'], l_d_param[0]['diseaseName'], Data_PO.getChineseName(), varIdcard, a))
-        Sqlserver_PO.execute('set identity_insert QYYH off')
-
-        # 删除患者主索引表
-        Sqlserver_PO.execute("delete from TB_EMPI_INDEX_ROOT where IDCARDNO = '%s'" % (varIdcard))
-        # 插入患者主索引表
-        Sqlserver_PO.execute("insert into TB_EMPI_INDEX_ROOT(GUID, NAME, IDCARDNO) values('%s', '%s', '%s')" % (l_d_param[0]['diseaseRuleCode'], Data_PO.getChineseName(), varIdcard))
-
-        print("[OK] ", varIdcard)
-
     def getToken(self, varUser, varPass):
 
         # 获取登录用户的token
 
-        command = "curl -X POST \"" + Configparser_PO.HTTP("url") + ":8012/login\" -H \"accept: */*\" -H \"Content-Type: application/json\" -d \"{ \\\"password\\\": \\\"" + str(varPass) + "\\\", \\\"username\\\": \\\"" + str(varUser) + "\\\"}\""
+        command = "curl -X POST \"" + Configparser_PO.HTTP(
+            "url") + ":8012/login\" -H \"accept: */*\" -H \"Content-Type: application/json\" -d \"{ \\\"password\\\": \\\"" + str(
+            varPass) + "\\\", \\\"username\\\": \\\"" + str(varUser) + "\\\"}\""
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         str_r = bytes.decode(out)
@@ -138,6 +71,88 @@ class ChcrulePO():
         if Configparser_PO.SWITCH("token") == "on":
             print(d_r['data']['access_token'])
         return d_r['data']['access_token']
+
+
+
+    def importDB(self, sheetName):
+
+        # 中文转拼音
+        dbTable = Char_PO.chinese2pinyin(sheetName)
+        dbTable = "a_" + dbTable
+        # print(dbTable)
+
+        # 初始化表
+        Sqlserver_PO.execute("drop table if exists " + dbTable)
+
+        # 通过pd导入db
+        Sqlserver_PO.xlsx2dbByConverters(Configparser_PO.FILE("case"), dbTable, {"idcard": str}, sheetName)
+
+        # 修改其他规则表的字段类型
+        if sheetName != "测试规则" and sheetName != "疾病身份证" and sheetName != "评估疾病表":
+            Sqlserver_PO.execute("ALTER table %s alter column result varchar(8000)" % (dbTable))  # 此列没数据，创建后是float，需转换成char
+            Sqlserver_PO.execute("ALTER TABLE %s alter column id int not null" % (dbTable))  # 设置主id不能为Null
+            Sqlserver_PO.execute("ALTER TABLE %s add PRIMARY KEY (id)" % (dbTable))  # 设置主键（条件是id不能为Null）
+            Sqlserver_PO.execute("ALTER table %s alter column updateDate char(11)" % (dbTable))  # 将float改为char类型
+            Sqlserver_PO.execute("ALTER table %s alter column updateDate DATE" % (dbTable))  # 注意sqlserver无法将float改为date，先将float改为char，再将char改为data，
+        # Sqlserver_PO.execute("ALTER TABLE %s ADD id1 INT NOT NULL IDENTITY(1,1) primary key (id1) " % ('健康评估'))  # 新增id自增主键
+        # Sqlserver_PO.execute("ALTER TABLE %s ADD var varchar(111)" % (tableName))  # 临时变量
+
+        # 添加表注释
+        Sqlserver_PO.execute("EXECUTE sp_addextendedproperty N'MS_Description', N'%s', N'user', N'dbo', N'table', N'%s', NULL, NULL" % ('(测试用例)' + sheetName, dbTable))  # sheetName=注释，dbTable=表名
+
+        # print("[ok] 表'%s(%s)'创建成功! " % (dbTable, sheetName))
+        Color_PO.outColor([{"36": "[OK] => " + sheetName + "（" + dbTable + "）创建成功。"}, ])
+
+    def initDiseaseIdcardAll(self, varTable):
+
+        # 初始化全部疾病身份证
+
+        # 读取疾病身份证对应的表(a_jibingshenfenzheng)
+        varTable = "a_" + Char_PO.chinese2pinyin(varTable)
+        # print(varTable)
+
+        l_d_param = Sqlserver_PO.select("select idcard from %s " % (varTable))
+        for i in range(len(l_d_param)):
+            self._initDiseaseIdcard(varTable, str(l_d_param[i]['idcard']))
+
+    def _initDiseaseIdcard(self, varTable, varIdcard):
+
+        # 初始化单个疾病身份证
+        # 对三张表进行先删除后插入操作
+
+        l_d_param = Sqlserver_PO.select("select diseaseName,diseaseRuleCode from %s where [idcard]='%s'" % (varTable, str(varIdcard)))
+        # print(l_d_param) # [{'diseaseName': '慢性支气管炎', 'diseaseRuleCode': 'JB020', 'sql1': "DELETE from [dbo].[HRPERSONBASICINFO] WHERE [ARCHIVENUM] ='310101202308070020';...
+        # print(l_d_param[0]['diseaseName'])  # 慢性支气管炎
+
+        # 1.1 删除基本信息表
+        Sqlserver_PO.execute("delete from HRPERSONBASICINFO where ARCHIVENUM = '%s'" % (varIdcard))
+        # 1.2 插入基本信息表
+        Sqlserver_PO.execute('set identity_insert HRPERSONBASICINFO on')
+        r = Sqlserver_PO.select('select max(ID) as qty from HRPERSONBASICINFO')
+        a = r[0]['qty'] + 1
+        Sqlserver_PO.execute("insert into HRPERSONBASICINFO(ARCHIVENUM,NAME,sex,IDCARD,CREATETIME,ID,ISGOVERNANCE) values ('%s', '%s', '1', '%s','%s', %s, '0')" % (varIdcard, Data_PO.getChineseName(), varIdcard, time.strftime("%Y-%m-%d %H:%M:%S.000"), str(a)))
+        Sqlserver_PO.execute('set identity_insert HRPERSONBASICINFO off')
+        Color_PO.outColor([{"35": "基本信息表 => select * from HRPERSONBASICINFO where ARCHIVENUM = '" + str(varIdcard) + "'"}])
+
+        # 2.1 删除签约信息表
+        Sqlserver_PO.execute("delete from QYYH where SFZH = '%s'" % (varIdcard))
+        # 2.2 插入签约信息表
+        Sqlserver_PO.execute('set identity_insert QYYH on')
+        r = Sqlserver_PO.select('select max(ID) as qty from QYYH')
+        a = r[0]['qty'] + 1
+        Sqlserver_PO.execute("insert into QYYH(CZRYBM, CZRYXM, JMXM, SJHM, SFZH, JJDZ, ARCHIVEUNITCODE, ARCHIVEUNITNAME, DISTRICTORGCODE, DISTRICTORGNAME, TERTIARYORGCODE, TERTIARYORGNAME, SIGNSTATUS, SIGNDATE, ID, CATEGORY_CODE, CATEGORY_NAME, SEX_CODE, SEX_NAME) values ('%s', '%s','%s', '13817261777', '%s', '上海浦东100号', '0000001', '彭浦新村街道社区健康管理中心', '310118000000', '青浦区', '12345', '上海人民医院', 1, '2020-03-23', %s, '4', N'老年人', '2', N'女')" % (l_d_param[0]['diseaseRuleCode'], l_d_param[0]['diseaseName'], Data_PO.getChineseName(), varIdcard, a))
+        Sqlserver_PO.execute('set identity_insert QYYH off')
+        Color_PO.outColor([{"35": "签约信息表 => select * from QYYH where SFZH = '" + str(varIdcard) + "'"}])
+
+        # 3.1 删除患者主索引表
+        Sqlserver_PO.execute("delete from TB_EMPI_INDEX_ROOT where IDCARDNO = '%s'" % (varIdcard))
+        # 3.2 插入患者主索引表
+        Sqlserver_PO.execute("insert into TB_EMPI_INDEX_ROOT(GUID, NAME, IDCARDNO) values('%s', '%s', '%s')" % (l_d_param[0]['diseaseRuleCode'], Data_PO.getChineseName(), varIdcard))
+        Color_PO.outColor([{"35": "患者主索引表 => select * from TB_EMPI_INDEX_ROOT where IDCARDNO = '" + str(varIdcard) + "'"}])
+
+        Color_PO.outColor([{"36": "[OK] => " + l_d_param[0]['diseaseName'] + "（" + varIdcard + "）创建成功。"}])
+
+
 
     def getDiseaseIdcard(self):
 

@@ -183,7 +183,7 @@ class WebPO(DomPO):
             if os.path.isdir(currPath) == False:
                 # 自动下载chrome驱动并修改成主板本
                 print("chromedriver downloading ...")
-                s = Service(ChromeDriverManager().install())
+                Service(ChromeDriverManager().install())
                 l_folder = os.listdir(defaultPath)
                 # print(l_folder)  # ['.DS_Store', '127.0.6533.88', '126.0.6478.']
                 for i in range(len(l_folder)):
@@ -648,18 +648,18 @@ class WebPO(DomPO):
 if __name__ == "__main__":
 
     # todo main
-    # Web_PO = WebPO("chrome")
-    Web_PO = WebPO("noChrome")
+    Web_PO = WebPO("chrome")
+    # Web_PO = WebPO("noChrome")
     # Web_PO = WebPO("firefox")
 
     # # print("1.1 打开网站".center(100, "-"))
     Web_PO.openURL("https://gitee.com/explore")
-    Web_PO.setTextByX("/html/body/div[2]/div[2]/div[2]/div/div[2]/form/div/div/input", "drissionpage")
-    Web_PO.clkByX("/html/body/div[2]/div[2]/div[2]/div/div[2]/form/div/div/button", 2)
-    a = Web_PO.getAttrValueListByX("//div[@class='card-body']/h4/a", "href")
-    print(a)
-    b= Web_PO.getTextListByX("//div[@class='card-body']/h4/a")
-    print(b)
+    # Web_PO.setTextByX("/html/body/div[2]/div[2]/div[2]/div/div[2]/form/div/div/input", "drissionpage")
+    # Web_PO.clkByX("/html/body/div[2]/div[2]/div[2]/div/div[2]/form/div/div/button", 2)
+    # a = Web_PO.getAttrValueListByX("//div[@class='card-body']/h4/a", "href")
+    # print(a)
+    # b= Web_PO.getTextListByX("//div[@class='card-body']/h4/a")
+    # print(b)
     # Web_PO.openURL("https://kyfw.12306.cn/otn/resources/login.html")
     # Web_PO.openURL("https://www.xvideos.com/video76932809/_")
     # Xvideos_PO.getInfo("https://www.xvideos.com/video76932809/_")

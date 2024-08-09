@@ -5,215 +5,217 @@
 # Description: ChainMap
 # ********************************************************************************************************************
 
-
+def run():
+    print("hello jinhao")
+run()
 
 # -*- coding: utf-8 -*-
 
-import binascii
-import re
-import requests
-import logging
-
-from gmssl import sm2, func
-
-class Sm2Tools:
-    """
-    通用sm2算法类
-    """
-    class KeyStore:
-        """
-        SM2 密钥对类，包含密钥对生成、获取方法
-        """
-        _PRIVATE_KEY = ""
-        _PUBLIC_KEY = ""
-
-        def __init__(self) -> None:
-            pass
-
-        def setKey(self, priKey: str, pubKey: str) -> bool:
-            """
-            简单判断密钥对格式
-            :param priKey: 私钥
-            :param pubKey: 公钥
-            :return: bool
-            """
-            result = re.match(r"^[a-fA-F\d]{64}$", priKey)
-            if result is None:
-                logging.error("KeyStore.setKey() -> priKey is invalid.")
-                return False
-            result = re.match(r"^[a-fA-F\d]{128}$", pubKey)
-            if result is None:
-                logging.error("KeyStore.setKey() -> pubKey is invalid.")
-                return False
-            self._PRIVATE_KEY = priKey
-            self._PUBLIC_KEY = pubKey
-            return True
-
-        def createLocal(self) -> bool:
-            """
-            本地创建密钥对
-            :return: bool
-            """
-
-            class _Generate_SM2_Key(sm2.CryptSM2):
-
-                #初始化
-                def __init__(self, private_key=None, public_key=None, ecc_table=sm2.default_ecc_table):
-                    super().__init__(private_key, public_key, ecc_table)
-
-                #获取私钥
-                def get_private_key(self):
-                    if self.private_key is None:
-                        self.private_key = func.random_hex(self.para_len)  # d∈[1, n-2]
-                    private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
-                    return private_key
-                    # return self.private_key
-
-                # private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
-                # public_key = '025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
-
-                #获取共钥
-                def get_public_key(self):
-                    if self.public_key is None:
-                        self.public_key = self._kg(int(self.get_private_key(), 16), self.ecc_table['g'])  # P=[d]G
-                    # return self.public_key
-                    public_key = '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
-                    return public_key
-            try:
-                # _sm2Generator = _Generate_SM2_Key()
-                # self._PRIVATE_KEY = _sm2Generator.get_private_key()
-                self._PRIVATE_KEY = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
-                # self._PUBLIC_KEY = _sm2Generator.get_public_key()
-                self._PUBLIC_KEY = '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
-                return True
-            except:
-                logging.error("KeyStore.createLocal() can't create the correct keys. ",
-                              "Please call the Lib's Designer. ")
-                return False
-
-        def getSelf(self) -> dict:
-            """
-            获取创建的密钥对
-            :return: dict: keyStore 格式：
-            {
-                "PRIVATE_KEY": "",
-                "PUBLIC_KEY": ""
-            }
-            """
-            return {
-                "PRIVATE_KEY": self._PRIVATE_KEY,
-                "PUBLIC_KEY": self._PUBLIC_KEY
-            }
-
-        def getPrivateKey(self) -> str:
-            """
-            返回公钥
-            :return: str
-            """
-            return self._PRIVATE_KEY
-
-        def getPublicKey(self) -> str:
-            """
-            返回私钥
-            :return: str
-            """
-            return self._PUBLIC_KEY
-
-    class SM2_Util(Exception):
-        """
-        SM2 加解密类
-        """
-
-        _SM2_Util = None
-
-        def __init__(self, exception="") -> None:
-            """
-            构造函数
-            :param exception: 默认参数，用于自定义异常
-            """
-
-            self._EXCPTION = None
-            self._INIT_FLAG = False
-
-        def setKey(self, keyStore: dict) -> bool:
-            """
-            初始化密钥对
-            :param keyStore: dict: keyStore 格式：
-                {
-                    "PRIVATE_KEY": "",
-                    "PUBLIC_KEY": ""
-                }
-            :return: bool
-            """
-            try:
-                # 判断是否为全为英文和数字，且是 16 个字符的字符串
-                # 不是，则抛出异常
-                if re.match(r"^[a-fA-F\d]{64}$", keyStore["PRIVATE_KEY"]) is None:
-                    raise Sm2Tools.SM2_Util(exception="SM2_Util.setKey() -> PRIVATE_KEY is invalid.")
-                if re.match(r"^[a-fA-F\d]{128}$", keyStore["PUBLIC_KEY"]) is None:
-                    raise Sm2Tools.SM2_Util(exception="SM2_Util.setKey() -> PUBLIC_KEY is invalid.")
-            except Sm2Tools.SM2_Util as e:
-                logging.error(e._EXCPTION)
-                return False
-            self._SM2_Util = sm2.CryptSM2(public_key=keyStore["PUBLIC_KEY"], private_key=keyStore["PRIVATE_KEY"])
-            self._INIT_FLAG = True
-            return True
-
-        def getSelf(self) -> sm2.CryptSM2:
-            """
-            获取加解密类对象
-            :return: sm2.CryptSM2 类实例
-            """
-            return self._SM2_Util
-
-        def encrypt(self, data: str):
-            """
-            进行 SM2 加密操作
-            :param data: String 格式的原文 data
-            :return: String 格式的密文 enc_data
-            """
-            data_utf8 = data.encode("utf-8")
-            enc_data = self._SM2_Util.encrypt(data_utf8)
-            enc_data = binascii.b2a_hex(enc_data).decode("utf-8")
-            return enc_data
-
-        def decrypt(self, enc_data: str):
-            """
-            进行 SM2 解密操作
-            :param enc_data: String 格式的密文 enc_data
-            :return: String 格式的原文 data
-            """
-            enc_data = binascii.a2b_hex(enc_data.encode("utf-8"))
-            dec_data = self._SM2_Util.decrypt(enc_data)
-            dec_data = dec_data.decode("utf-8")
-            return dec_data
-
-def test_sm2():
-    # """
-    # SM2 test
-    # """
-    keyStore = Sm2Tools.KeyStore()
-    SM2_Util = Sm2Tools.SM2_Util()
-    if keyStore.createLocal():
-        keysDict = keyStore.getSelf()
-        SM2_Util.setKey(keysDict)
-        data = "哈哈，我的国密算法改造，已完成了！！！"
-        print("data: " + data)
-        enc_data = SM2_Util.encrypt(data)
-        print("encode_data: " + enc_data)
-        dec_data = SM2_Util.decrypt(enc_data)
-        print("decode_data: " + dec_data)
-        if data == dec_data:
-            print("data == decode_data: True")
-    else:
-        print("create fail")
-
-# main
-if __name__ == '__main__':
-    print("main begin");
-    test_sm2();
-    print("main end");
-
+# import binascii
+# import re
+# import requests
+# import logging
+#
+# from gmssl import sm2, func
+#
+# class Sm2Tools:
+#     """
+#     通用sm2算法类
+#     """
+#     class KeyStore:
+#         """
+#         SM2 密钥对类，包含密钥对生成、获取方法
+#         """
+#         _PRIVATE_KEY = ""
+#         _PUBLIC_KEY = ""
+#
+#         def __init__(self) -> None:
+#             pass
+#
+#         def setKey(self, priKey: str, pubKey: str) -> bool:
+#             """
+#             简单判断密钥对格式
+#             :param priKey: 私钥
+#             :param pubKey: 公钥
+#             :return: bool
+#             """
+#             result = re.match(r"^[a-fA-F\d]{64}$", priKey)
+#             if result is None:
+#                 logging.error("KeyStore.setKey() -> priKey is invalid.")
+#                 return False
+#             result = re.match(r"^[a-fA-F\d]{128}$", pubKey)
+#             if result is None:
+#                 logging.error("KeyStore.setKey() -> pubKey is invalid.")
+#                 return False
+#             self._PRIVATE_KEY = priKey
+#             self._PUBLIC_KEY = pubKey
+#             return True
+#
+#         def createLocal(self) -> bool:
+#             """
+#             本地创建密钥对
+#             :return: bool
+#             """
+#
+#             class _Generate_SM2_Key(sm2.CryptSM2):
+#
+#                 #初始化
+#                 def __init__(self, private_key=None, public_key=None, ecc_table=sm2.default_ecc_table):
+#                     super().__init__(private_key, public_key, ecc_table)
+#
+#                 #获取私钥
+#                 def get_private_key(self):
+#                     if self.private_key is None:
+#                         self.private_key = func.random_hex(self.para_len)  # d∈[1, n-2]
+#                     private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
+#                     return private_key
+#                     # return self.private_key
+#
+#                 # private_key = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
+#                 # public_key = '025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
+#
+#                 #获取共钥
+#                 def get_public_key(self):
+#                     if self.public_key is None:
+#                         self.public_key = self._kg(int(self.get_private_key(), 16), self.ecc_table['g'])  # P=[d]G
+#                     # return self.public_key
+#                     public_key = '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
+#                     return public_key
+#             try:
+#                 # _sm2Generator = _Generate_SM2_Key()
+#                 # self._PRIVATE_KEY = _sm2Generator.get_private_key()
+#                 self._PRIVATE_KEY = '124c93b524b25e8ca288dde1c08b78e76e188d2e6e6c7a5142cdc3eb38a5ab62'
+#                 # self._PUBLIC_KEY = _sm2Generator.get_public_key()
+#                 self._PUBLIC_KEY = '04025d84101aa6ba2835995c2e72c0d9f49f382a87ace7e2770a511e1bbe95a40a2800a40bc966b3a51e4d36735e2b5941dd6e10f502f68fbc42a0ba7cec7ab249'
+#                 return True
+#             except:
+#                 logging.error("KeyStore.createLocal() can't create the correct keys. ",
+#                               "Please call the Lib's Designer. ")
+#                 return False
+#
+#         def getSelf(self) -> dict:
+#             """
+#             获取创建的密钥对
+#             :return: dict: keyStore 格式：
+#             {
+#                 "PRIVATE_KEY": "",
+#                 "PUBLIC_KEY": ""
+#             }
+#             """
+#             return {
+#                 "PRIVATE_KEY": self._PRIVATE_KEY,
+#                 "PUBLIC_KEY": self._PUBLIC_KEY
+#             }
+#
+#         def getPrivateKey(self) -> str:
+#             """
+#             返回公钥
+#             :return: str
+#             """
+#             return self._PRIVATE_KEY
+#
+#         def getPublicKey(self) -> str:
+#             """
+#             返回私钥
+#             :return: str
+#             """
+#             return self._PUBLIC_KEY
+#
+#     class SM2_Util(Exception):
+#         """
+#         SM2 加解密类
+#         """
+#
+#         _SM2_Util = None
+#
+#         def __init__(self, exception="") -> None:
+#             """
+#             构造函数
+#             :param exception: 默认参数，用于自定义异常
+#             """
+#
+#             self._EXCPTION = None
+#             self._INIT_FLAG = False
+#
+#         def setKey(self, keyStore: dict) -> bool:
+#             """
+#             初始化密钥对
+#             :param keyStore: dict: keyStore 格式：
+#                 {
+#                     "PRIVATE_KEY": "",
+#                     "PUBLIC_KEY": ""
+#                 }
+#             :return: bool
+#             """
+#             try:
+#                 # 判断是否为全为英文和数字，且是 16 个字符的字符串
+#                 # 不是，则抛出异常
+#                 if re.match(r"^[a-fA-F\d]{64}$", keyStore["PRIVATE_KEY"]) is None:
+#                     raise Sm2Tools.SM2_Util(exception="SM2_Util.setKey() -> PRIVATE_KEY is invalid.")
+#                 if re.match(r"^[a-fA-F\d]{128}$", keyStore["PUBLIC_KEY"]) is None:
+#                     raise Sm2Tools.SM2_Util(exception="SM2_Util.setKey() -> PUBLIC_KEY is invalid.")
+#             except Sm2Tools.SM2_Util as e:
+#                 logging.error(e._EXCPTION)
+#                 return False
+#             self._SM2_Util = sm2.CryptSM2(public_key=keyStore["PUBLIC_KEY"], private_key=keyStore["PRIVATE_KEY"])
+#             self._INIT_FLAG = True
+#             return True
+#
+#         def getSelf(self) -> sm2.CryptSM2:
+#             """
+#             获取加解密类对象
+#             :return: sm2.CryptSM2 类实例
+#             """
+#             return self._SM2_Util
+#
+#         def encrypt(self, data: str):
+#             """
+#             进行 SM2 加密操作
+#             :param data: String 格式的原文 data
+#             :return: String 格式的密文 enc_data
+#             """
+#             data_utf8 = data.encode("utf-8")
+#             enc_data = self._SM2_Util.encrypt(data_utf8)
+#             enc_data = binascii.b2a_hex(enc_data).decode("utf-8")
+#             return enc_data
+#
+#         def decrypt(self, enc_data: str):
+#             """
+#             进行 SM2 解密操作
+#             :param enc_data: String 格式的密文 enc_data
+#             :return: String 格式的原文 data
+#             """
+#             enc_data = binascii.a2b_hex(enc_data.encode("utf-8"))
+#             dec_data = self._SM2_Util.decrypt(enc_data)
+#             dec_data = dec_data.decode("utf-8")
+#             return dec_data
+#
+# def test_sm2():
+#     # """
+#     # SM2 test
+#     # """
+#     keyStore = Sm2Tools.KeyStore()
+#     SM2_Util = Sm2Tools.SM2_Util()
+#     if keyStore.createLocal():
+#         keysDict = keyStore.getSelf()
+#         SM2_Util.setKey(keysDict)
+#         data = "哈哈，我的国密算法改造，已完成了！！！"
+#         print("data: " + data)
+#         enc_data = SM2_Util.encrypt(data)
+#         print("encode_data: " + enc_data)
+#         dec_data = SM2_Util.decrypt(enc_data)
+#         print("decode_data: " + dec_data)
+#         if data == dec_data:
+#             print("data == decode_data: True")
+#     else:
+#         print("create fail")
+#
+# # main
+# if __name__ == '__main__':
+#     print("main begin");
+#     test_sm2();
+#     print("main end");
+#
 
 
 # numbers = [1, 2, 2, 3, 2, 3, 3]

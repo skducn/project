@@ -1030,6 +1030,22 @@ class SqlServerPO:
 
         try:
             df = pd.read_excel(varPathFile, sheet_name=varSheetName)
+            # df = pd.read_excel(varPathFile, converters={"idcard": str}, sheet_name=varSheetName) # 将idcard列数据转换为字符串类型
+            engine = self.getEngine_pymssql()
+            df.to_sql(varDbTable, con=engine, if_exists="replace", index=False)
+            # pd.read
+        except Exception as e:
+            print(e)
+
+    def xlsx2dbByConverters(self, varPathFile, varDbTable, var_d, varSheetName=0):
+
+        '''
+        5.3.2，xlsx导入数据库
+        xlsx2dbByConverters('2.xlsx', "tableName", {"idcard": str}, "sheet1")
+        '''
+
+        try:
+            df = pd.read_excel(varPathFile, converters=var_d, sheet_name=varSheetName) # 将idcard列数据转换为字符串类型
             engine = self.getEngine_pymssql()
             df.to_sql(varDbTable, con=engine, if_exists="replace", index=False)
             # pd.read

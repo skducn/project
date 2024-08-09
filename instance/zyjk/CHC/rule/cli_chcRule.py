@@ -24,7 +24,7 @@
 
 import sys
 sys.path.append('../../../../')
-from ChcrulePO import *
+from ChcRulePO import *
 import threading
 import argparse, ast
 
@@ -32,7 +32,7 @@ import argparse, ast
 # sys.exit(0)
 
 # 步骤1
-r = ChcrulePO(sys.argv[1])
+r = ChcRulePO(sys.argv[1])
 
 # 步骤2, 默认off
 if len(sys.argv) == 3 :
